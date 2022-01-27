@@ -1,0 +1,330 @@
+<!-- <h1 class="annex annex1 display-none" id="sec:bridging-and-queuing">Annex A: Bridging and Queuing<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h1> -->
+
+<h2 class="annex2" id="sec:queuing-and-bridging-model">A.1 Queuing and Bridging Model<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:queuing-and-bridging-model" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p><a href='07-index-bridging-and-queuing.html#fig:queuing-model-of-a-device' title='' class="figure">Figure 15</a> shows the queuing and bridging model for a device. This model relates to the QoS object as well as the Bridging and Routing objects. The elements of this model are described in the following sections.</p>
+
+<div class="note">
+<p>The queuing model described in this Annex is meant strictly as a model to clarify the intended behavior of the related data objects. There is no implication intended that an implementation has to be structured to conform to this model.</p></div>
+
+<figure>
+<img src="images/queuing-model-of-a-device.png" id="fig:queuing-model-of-a-device" alt=""/>
+<figcaption>Figure 15: Queuing Model of a Device<a class="headerlink" href="07-index-bridging-and-queuing.html#fig:queuing-model-of-a-device" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h3 class="annex3" id="sec:packet-classification">A.1.1 Packet Classification<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:packet-classification" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The Classification table within the QoS object specifies the assignment of each packet arriving at an ingress interface to a specific internal class. This classification can be based on a number of matching criteria, such as destination and source IP address, destination and source port, and protocol.</p>
+
+<p>Each entry in the Classification table includes a series of parameters, each indicated to be a Classification Criterion. Each classification criterion can be set to a specified value, or can be set to a value that indicates that criterion is not to be used. A packet is defined to match the classification criteria for that table entry only if the packet matches all of the specified criteria. That is, a logical AND operation is applied across all classification criteria within a given Classification table entry.</p>
+
+<div class="note">
+<p>To apply a logical OR to sets of classification criteria, multiple entries in the Classification table can be created that specify the same resulting queuing behavior.</p></div>
+
+<p>For each classification criterion, the Classification table also includes a corresponding &ldquo;exclude&rdquo; flag. This flag can be used to invert the sense of the associated classification criterion. That is, if this flag is <em>false</em> for a given criterion, the classifier is to include only packets that meet the specified criterion (as well as all others). If this flag is <em>true</em> for a given criterion, the classifier is to include all packets except those that meet the associated criterion (in addition to meeting all other criteria).</p>
+
+<p>For a given entry in the Classification table, the classification is to apply only to the interface specified by the Interface parameter. This parameter can specify a particular ingress interface or all sources. Depending on the particular interface, not all classification criteria will be applicable. For example, Ethernet layer classification criteria would not apply to packets arriving on a non-bridged ATM VC.</p>
+
+<p>Packet classification is modeled to include all ingress packets regardless of whether they ultimately will be bridged or routed through the device.</p>
+
+<h4 class="annex4" id="sec:classification-order">A.1.1.1 Classification Order<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:classification-order" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h4>
+
+<p>The class assigned to a given packet corresponds to the first entry in the Classification table (given the specified order of the entries in the table) whose matching criteria match the packet. If there is no entry that matches the packet, the packet is assigned to a default class.</p>
+
+<p>Classification rules are sensitive to the order in which they are applied because certain traffic might meet the criteria of more than one Classification table entry. The Order parameter is responsible for identifying the order in which the Classification entries are to be applied.</p>
+
+<p>The following rules apply to the use and setting of the Order parameter:</p>
+
+<ul>
+<li><p>Order goes in order from 1 to n, where n is equal to the number of entries in the Classification table. 1 is the highest precedence, and n the lowest. For example, if entries with Order of 4 and 7 both have rules that match some particular traffic, the traffic will be classified according to the entry with the 4.</p></li>
+<li><p>The CPE is responsible for ensuring that all Order values are unique and sequential.</p>
+
+<ul>
+<li><p>If an entry is added (number of entries becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.</p></li>
+<li><p>If an entry is added (number of entries becomes n+1), and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing entries with Order equal to or greater than the specified value.</p></li>
+<li><p>If an entry is deleted, the CPE will decrement the Order value of all remaining entries with Order greater than the value of the deleted entry.</p></li>
+<li><p>If the Order value of an entry is changed, then the value will also be changed for other entries greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of &lt;new value&gt;-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new entry with the new value, followed by a Delete of the entry with the old value.</p></li>
+</ul></li>
+</ul>
+
+<h4 class="annex4" id="sec:dynamic-application-specific-classification">A.1.1.2 Dynamic Application Specific Classification<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:dynamic-application-specific-classification" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h4>
+
+<p>In some situations, traffic to be classified cannot be identified by a static set of classification criteria. Instead, identification of traffic flows might require explicit application awareness. The model accommodates such situations via the App and Flow tables in the QoS object.</p>
+
+<p>Each entry in the App table is associated with an application-specific protocol handler, identified by the ProtocolIdentifier, which contains a URN. For a particular CPE, the AvailableAppList parameter indicates which protocol handlers that CPE is capable of supporting, if any. A list of standard protocol handlers and their associated URNs is specified in <em><a href='07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables' title='' class="heading">URN Definitions for App and Flow Tables</a></em>, though a CPE can also support vendor-specific protocol handlers as well. Multiple App table entries can refer to the same ProtocolIdentifier.</p>
+
+<p>The role of the protocol handler is to identify and classify flows based on application awareness. For example, a SIP protocol handler might identify a call-control flow, an audio flow, and a video flow. The App and Flow tables are used to specify the classification outcome associated with each such flow.</p>
+
+<p>For each App table entry there can be one or more associated Flow table entries. Each flow table entry identifies a type of flow associated with the protocol handler. The Type parameter is used to identify the specific type of flow associated with each entry. For example, a Flow table entry for a SIP protocol handler might refer only to the audio flows associated with that protocol handler. A list of standard flow type values is given in <em><a href='07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables' title='' class="heading">URN Definitions for App and Flow Tables</a></em>, though a CPE can also support vendor-specific flow types.</p>
+
+<p>A protocol handler can be defined as being fed from the output of a Classification table entry. That is, a Classification entry can be used to single out control traffic to be passed to the protocol handler, which then subsequently identifies associated flows. Doing so allows more than one instance of a protocol handler associated with distinct traffic. For example, one could define two App table entries associated with SIP protocol handlers. If the classifier distinguished control traffic to feed into each handler based on the destination IP address of the SIP server, this could be used to separately classify traffic for different SIP service providers. In this case, each instance of the protocol handler would identify only those flows associated with a given service. Note that the Classification table entry that feeds each protocol handler wouldn’t encompass all of the flows; only the traffic needed by the protocol handler to determine the flows—typically only the control traffic.</p>
+
+<h4 class="annex4" id="sec:classification-outcome">A.1.1.3 Classification Outcome<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:classification-outcome" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h4>
+
+<p>Each Classification entry specifies a tuple composed of either:</p>
+
+<ul>
+<li>A TrafficClass and (optionally) a Policer, or</li>
+<li>An App table entry</li>
+</ul>
+
+<p>Each entry also specifies:</p>
+
+<ul>
+<li>Outgoing DiffServ and Ethernet priority marking behavior</li>
+<li>A ForwardingPolicy tag that can be referenced in the Routing table to affect packet routing (note that the ForwardingPolicy tag affects only routed traffic)</li>
+</ul>
+
+<p>Note that the information associated with the classification outcome is modeled as being carried along with each packet as it flows through the system.</p>
+
+<p>If a packet does not match any Classification table entry, the DefaultTrafficClass, DefaultPolicer, default markings, and default ForwardingPolicy are used.</p>
+
+<p>If a TrafficClass/Policer tuple is specified, classification is complete. If, however, an App is specified, the packet is passed to the protocol handler specified by the ProtocolIdentifier in the specified App table entry for additional classification (see <em><a href='07-index-bridging-and-queuing.html#sec:dynamic-application-specific-classification' title='' class="heading">Dynamic Application Specific Classification</a></em>). If any of the identified flows match the Type specified in any Flow table entry corresponding to the given App table entry (this correspondence is indicated by the App identifier), the specified tuple and markings for that Flow table entry is used for packets in that flow. Other flows associated with the application, but not explicitly identified, use the default tuple and markings specified for that App table entry.</p>
+
+<h3 class="annex3" id="sec:policing">A.1.2 Policing<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:policing" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The Policer table defines the policing parameters for ingress packets identified by either a Classification table entry (or the default classification) or a dynamic flow identified by a protocol handler identified in the App table.</p>
+
+<p>Each Policer table entry specifies the packet handling characteristics, including the rate requirements and behavior when these requirements are exceeded.</p>
+
+<h3 class="annex3" id="sec:queuing-and-scheduling">A.1.3 Queuing and Scheduling<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:queuing-and-scheduling" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The Queue table specifies the number and types of queues, queue parameters, shaping behavior, and scheduling algorithm to use. Each Queue table entry specifies the TrafficClasses with which it is associated, and a set of egress interfaces for which a queue with the corresponding characteristics needs to exist.</p>
+
+<div class="note">
+<p>If the CPE can determine that among the interfaces specified for a queue to exist, packets classified into that queue cannot egress to a subset of those interfaces (from knowledge of the current routing and bridging configuration), the CPE can choose not to instantiate the queue on those interfaces.</p></div>
+
+<div class="note">
+<p>Packets classified into a queue that exit through an interface for which the queue is not specified to exist, will instead use the default queuing behavior. The default queue itself will exist on all egress interfaces.</p></div>
+
+<p>The model defined here is not intended to restrict where the queuing is implemented in an actual implementation. In particular, it is up to the particular implementation to determine at what protocol layer it is most appropriate to implement the queuing behavior (IP layer, Ethernet MAC layer, ATM layer, etc.). In some cases, however, the QoS configuration would restrict the choice of layer where queuing can be implemented. For example, if a queue is specified to carry traffic that is bridged, then it could not be implemented as an IP-layer queue.</p>
+
+<div class="note">
+<p>Care needs to be taken to avoid having multiple priority queues multiplexed onto a single connection that is rate shaped. In such cases, the possibility exists that high priority traffic can be held back due to rate limits of the overall connection exceeded by lower priority traffic. Where possible, each priority queue will be shaped independently using the shaping parameters in the Queue and Shaping table.</p></div>
+
+<p>The scheduling parameters defined in the Queue table apply to the first level of what might be a more general scheduling hierarchy. This specification does not specify the rules that an implementation needs to apply to determine the most appropriate scheduling hierarchy given the scheduling parameters defined in the Queue table.</p>
+
+<p>As an example, take a situation where the output of four distinct queues is to be multiplexed into a single connection, and two entries share one set of scheduling parameters while the other two entries share a different set of scheduling parameters. In this case, it might be appropriate to implement this as a scheduling hierarchy with the first two queues multiplexed with a scheduler defined by the first pair, and the second two queues being multiplexed with a scheduler defined by the second pair. The lower layers of this scheduling hierarchy cannot be directly determined from the content of the Queue table.</p>
+
+<h3 class="annex3" id="sec:bridging">A.1.4 Bridging<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:bridging" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<div class="note">
+<p>From the point of view of a bridge, packets arriving into the bridge from the local router (either upstream or downstream) are treated as ingress packets, even though the same packets, which just left the router, are treated as egress from the point of view of the router. For example, a Filter table entry might admit packets on ingress to the bridge from a particular IP interface, which means that it admits packets on their way out of the router over this layer 3 connection.</p></div>
+
+<p>For each interface, the output of the classifier is modeled to feed a set of 802.1D <span class="cite" data-citation-ids="802.1D-2004"><a href='03-index-references-and-terminology.html#ref-802.1D-2004' title=''>[10]</a></span> or 802.1Q <span class="cite" data-citation-ids="802.1Q-2011"><a href='03-index-references-and-terminology.html#ref-802.1Q-2011' title=''>[11]</a></span> layer 2 bridges as specified by the Bridging object. Each bridge specifies layer 2 connectivity between one or more layer 2 downstream and/or upstream interfaces, and optionally one or more layer 3 connections to the local router.</p>
+
+<p>Each bridge corresponds to a single entry in the Bridge table of the Bridging object. The Bridge table contains the following sub-tables:</p>
+
+<ul>
+<li><p>Port table: models the Bridge ports, which are either management ports (modeling layer 3 connections to the local router) or non-management ports (modeling connections to layer 2 interfaces). Bridge ports are <a href='05-index-architecture.html#sec:interface-objects' title='' class="heading">stackable interface objects</a>.</p></li>
+<li><p>VLAN table: models the Bridge VLANs (relevant only to 802.1Q bridges).</p></li>
+<li><p>VLANPort table: for each VLAN, defines the ports that comprise its member set (relevant only to 802.1Q bridges).</p></li>
+</ul>
+
+<h4 class="annex4" id="sec:filtering">A.1.4.1 Filtering<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:filtering" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h4>
+
+<p>Traffic from a given interface (or set of interfaces) can be selectively admitted to a given Bridge, rather than bridging all traffic from that interface. Each entry in the Filter table includes a series of classification criteria. Each classification criterion can be set to a specified value, or can be set to a value that indicates that criterion is not to be used. A packet is admitted to the Bridge only if the packet matches all of the specified criteria. That is, a logical AND operation is applied across all classification criteria within a given Filter table entry.</p>
+
+<div class="note">
+<p>To apply a logical OR to sets of classification criteria, multiple entries in the Filter table can be created that refer to the same interfaces and the same Bridge table entry.</p></div>
+
+<div class="note">
+<p>A consequence of the above rule is that, if a packet does not match the criteria of any of the enabled Filter table entries, then it will not be admitted to any bridges, i.e., it will be dropped. As a specific example of this, if none of the enabled Filter table entries reference a given interface, then all packets arriving on that interface will be dropped.</p></div>
+
+<p>For each classification criterion, the Filter table also includes a corresponding &ldquo;exclude&rdquo; flag. This flag can be used to invert the sense of the associated classification criterion. That is, if this flag is false for a given criterion, the Bridge will admit only packets that meet the specified criterion (as well as all other criteria). If this flag is true for a given criterion, the Bridge will admit all packets except those that meet the associated criterion (in addition to meeting all other criteria).</p>
+
+<p>Note that because the classification criteria are based on layer 2 packet information, if the selected port for a given Filter table entry is a layer 3 connection from the local router, the layer 2 classification criteria do not apply.</p>
+
+<h4 class="annex4" id="sec:filter-order">A.1.4.2 Filter Order<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:filter-order" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h4>
+
+<p>Any packet that matches the filter criteria of one or more filters is admitted to the Bridge associated with the first entry in the Filter table (relative to the specified Order).</p>
+
+<p>The following rules apply to the use and setting of the Order parameter:</p>
+
+<ul>
+<li><p>The Order goes in order from 1 to n, where n is equal to the number of filters. 1 is the highest precedence, and n the lowest.</p></li>
+<li><p>The CPE is responsible for ensuring that all Order values among filters are unique and sequential.</p></li>
+<li><p>If a filter is added (number of filters becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.</p></li>
+<li><p>If a filter is added (number of entries becomes n+1, and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing filters with Order equal to or greater than the specified value.</p></li>
+<li><p>If a filter is deleted, the CPE will decrement the Order value of all remaining filters with Order greater than the value of the deleted entry.</p></li>
+<li><p>If the Order value of a filter is changed, then the value will also be changed for other filters greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of &lt;new value&gt;-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new filter with the new value, followed by a Delete of the filter with the old value.</p></li>
+</ul>
+
+<h2 class="annex2" id="sec:default-layer-23-qos-mapping">A.2 Default Layer 2/3 QoS Mapping<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:default-layer-23-qos-mapping" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p><a href='07-index-bridging-and-queuing.html#tbl:default-layer-23-qos-mapping' title='' class="table">Table 3</a> presents a &ldquo;default&rdquo; mapping between layer 2 and layer 3 QoS. In practice, it is a guideline for automatic marking of DSCP (layer 3) based upon Ethernet Priority (layer 2) and the other way around. Please refer to the QoS Classification table’s DSCPMark and EthernetPriorityMark parameters (and related parameters) for configuration of a default automatic DSCP / Ethernet Priority mapping.</p>
+
+<p>Automatic marking of DSCP or Ethernet Priority is likely only in the following cases:</p>
+
+<ul>
+<li>WAN → LAN: to map DSCP (layer 3) to Ethernet Priority (layer 2)</li>
+<li>LAN → WAN: to map Ethernet Priority (layer 2) to DSCP (layer 3)</li>
+</ul>
+
+<p>Automatic marking in the LAN → LAN case is unlikely, since LAN QoS is likely to be supported only at layer 2, and LAN DSCP values, if used, will probably be a direct representation of Ethernet Priority, e.g., Ethernet Priority shifted left by three bits.</p>
+
+<p>In the table, grayed and bolded items are added to allow two-way mapping between layer 2 and layer 3 QoS (where the mapping is ambiguous, the grayed values SHOULD be ignored and the bolded values SHOULD be used). If, when mapping from layer 3 to layer 2 QoS, the DSCP value is not present in the table, the mapping SHOULD be based only on the first three bits of the DSCP value, i.e., on DSCP &amp; 111000.</p>
+
+<div id="tbl:default-layer-23-qos-mapping">
+<table>
+<caption>Table 3: Default Layer 2/3 QoS Mapping<a class="headerlink" href="07-index-bridging-and-queuing.html#tbl:default-layer-23-qos-mapping" title="Permalink to this table"> <img src='permalink.png' title='' width="0.8em"/></a></caption>
+<col width="26%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<tr class="header">
+<th align="left">Layer 2 Ethernet Priority</th>
+<th align="left">Layer 2 Designation</th>
+<th align="left">Layer 3 DSCP</th>
+<th align="left">Layer 3 Per Hop Behavior</th>
+</tr>
+<tr class="odd">
+<td align="left">001 (1)</td>
+<td align="left">BK</td>
+<td align="left"><span class="gray">000000 (0x00)</span></td>
+<td align="left"><span class="gray">Default</span></td>
+</tr>
+<tr class="even">
+<td align="left">010 (2)</td>
+<td align="left">spare</td>
+<td align="left"><span class="gray">000000 (0x00)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">000 (0)</td>
+<td align="left">BE</td>
+<td align="left">000000 (0x00)<br/><strong>000000 (0x00)</strong></td>
+<td align="left">Default<br/>CS0</td>
+</tr>
+<tr class="even">
+<td align="left">011 (3)</td>
+<td align="left">EE</td>
+<td align="left">001110 (0x0e)<br/>001100 (0x0c)<br/>001010 (0x0a)<br/><strong>001000 (0x08)</strong></td>
+<td align="left">AF13<br/>AF12<br/>AF11<br/>CS1</td>
+</tr>
+<tr class="odd">
+<td align="left">100 (4)</td>
+<td align="left">CL</td>
+<td align="left">010110 (0x16)<br/>010100 (0x14)<br/>010010 (0x12)<br/><strong>010000 (0x10)</strong></td>
+<td align="left">AF23<br/>AF22<br/>AF21<br/>CS2</td>
+</tr>
+<tr class="even">
+<td align="left">101 (5)</td>
+<td align="left">VI</td>
+<td align="left">011110 (0x1e)<br/>011100 (0x1c)<br/>011010 (0x1a)<br/><strong>011000 (0x18)</strong></td>
+<td align="left">AF33<br/>AF32<br/>AF31<br/>CS3</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="gray">110 (6)</span></td>
+<td align="left"><span class="gray">VO</span></td>
+<td align="left">100110 (0x26)<br/>100100 (0x24)<br/>100010 (0x22)<br/><strong>100000 (0x20)</strong></td>
+<td align="left">AF43<br/>AF42<br/>AF41<br/>CS4</td>
+</tr>
+<tr class="even">
+<td align="left">110 (6)</td>
+<td align="left">VO</td>
+<td align="left">101110 (0x2e)<br/><strong>101000 (0x28)</strong></td>
+<td align="left">EF<br/>CS5</td>
+</tr>
+<tr class="odd">
+<td align="left">111 (7)</td>
+<td align="left">NC</td>
+<td align="left">110000 (0x30)<br/><strong>111000 (0x38)</strong></td>
+<td align="left">CS6<br/>CS7</td>
+</tr>
+</table></div>
+
+<h2 class="annex2" id="sec:urn-definitions-for-app-and-flow-tables">A.3 URN Definitions for App and Flow Tables<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<h3 class="annex3" id="sec:app-protocolidentifier">A.3.1 App ProtocolIdentifier<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:app-protocolidentifier" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p><a href='07-index-bridging-and-queuing.html#tbl:protocolidentifer-urns' title='' class="table">Table 4</a> lists the URNs defined for the QoS App table’s ProtocolIdentifier parameter. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.</p>
+
+<div id="tbl:protocolidentifer-urns">
+<table>
+<caption>Table 4: ProtocolIdentifer URNs<a class="headerlink" href="07-index-bridging-and-queuing.html#tbl:protocolidentifer-urns" title="Permalink to this table"> <img src='permalink.png' title='' width="0.8em"/></a></caption>
+<col width="26%" />
+<col width="74%" />
+<tr class="header">
+<th align="left">URN</th>
+<th align="left">Description</th>
+</tr>
+<tr class="odd">
+<td align="left">urn:dslforum-org:sip</td>
+<td align="left">Session Initiation Protocol (SIP) as defined by RFC 3261 <span class="cite" data-citation-ids="RFC3261"><a href='03-index-references-and-terminology.html#ref-RFC3261' title=''>[22]</a></span></td>
+</tr>
+<tr class="even">
+<td align="left">urn:dslforum-org:h.323</td>
+<td align="left">ITU-T Recommendation H.323</td>
+</tr>
+<tr class="odd">
+<td align="left">urn:dslforum-org:h.248</td>
+<td align="left">ITU-T Recommendation H.248 (MEGACO)</td>
+</tr>
+<tr class="even">
+<td align="left">urn:dslforum-org:mgcp</td>
+<td align="left">Media Gateway Control Protocol (MGCP) as defined by RFC 3435 <span class="cite" data-citation-ids="RFC3435"><a href='03-index-references-and-terminology.html#ref-RFC3435' title=''>[24]</a></span></td>
+</tr>
+<tr class="odd">
+<td align="left">urn:dslforum-org:pppoe</td>
+<td align="left">Bridged sessions of PPPoE</td>
+</tr>
+</table></div>
+
+<h3 class="annex3" id="sec:flow-type">A.3.2 Flow Type<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:flow-type" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>A syntax for forming URNs for the QoS Flow table’s Type parameter is defined for the Session Description Protocol (SDP) as defined by RFC 4566 <span class="cite" data-citation-ids="RFC4566"><a href='03-index-references-and-terminology.html#ref-RFC4566' title=''>[35]</a></span>. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.</p>
+
+<p>A URN to specify an SDP flow is formed as follows:</p>
+
+<ul>
+<li>urn:dslforum-org:sdp-[MediaType]-[Transport]</li>
+</ul>
+
+<p>[MediaType] corresponds to the &ldquo;media&rdquo; sub-field of the &ldquo;m&rdquo; field of an SDP session description.<br/>[Transport] corresponds to the &ldquo;transport&rdquo; sub-field of the &ldquo;m&rdquo; field of an SDP session description.</p>
+
+<p>Non-alphanumeric characters in either field are removed (e.g., &ldquo;rtp/avp&rdquo; becomes &ldquo;rtpavp&rdquo;).</p>
+
+<p>For example, the following would be valid URNs referring to SDP flows:</p>
+
+<ul>
+<li>urn:dslforum-org:sdp-audio-rtpavp</li>
+<li>urn:dslforum-org:sdp-video-rtpavp</li>
+<li>urn:dslforum-org:sdp-data-udp</li>
+</ul>
+
+<p>For flow type URNs following this convention, there is no defined use for TypeParameters, which SHOULD be left empty.</p>
+
+<p>For the ProtocolIdentifier urn:dslforum-org:pppoe, a single flow type is defined referring to the entire PPPoE session. The URL for this flow type is:</p>
+
+<ul>
+<li>urn:dslforum-org:pppoe</li>
+</ul>
+
+<h3 class="annex3" id="sec:flow-typeparameters">A.3.3 Flow TypeParameters<a class="headerlink" href="07-index-bridging-and-queuing.html#sec:flow-typeparameters" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>For the flow type urn:dslforum-org:pppoe, <a href='07-index-bridging-and-queuing.html#tbl:flow-typeparameters-values-for-flow-type-urndslforum-orgpppoe' title='' class="table">Table 5</a> specifies the defined TypeParameter values.</p>
+
+<div id="tbl:flow-typeparameters-values-for-flow-type-urndslforum-orgpppoe">
+<table>
+<caption>Table 5: Flow TypeParameters values for flow type urn:dslforum-org:pppoe<a class="headerlink" href="07-index-bridging-and-queuing.html#tbl:flow-typeparameters-values-for-flow-type-urndslforum-orgpppoe" title="Permalink to this table"> <img src='permalink.png' title='' width="0.8em"/></a></caption>
+<col width="16%" />
+<col width="84%" />
+<tr class="header">
+<th align="left">Name</th>
+<th align="left">Description of Value</th>
+</tr>
+<tr class="odd">
+<td align="left">ServiceName</td>
+<td align="left">The PPPoE service name.<br/>If specified, only bridged PPPoE sessions designated for the named service would be considered part of this flow.<br/>If this parameter is not specified, or is empty, bridged PPPoE associated with any service considered part of this flow.</td>
+</tr>
+<tr class="even">
+<td align="left">ACName</td>
+<td align="left">The PPPoE access concentrator name.<br/>If specified, only bridged PPPoE sessions designated for the named access concentrator would be considered part of this flow.<br/>If this parameter is not specified, or is empty, bridged PPPoE associated with any access concentrator considered part of this flow.</td>
+</tr>
+<tr class="odd">
+<td align="left">PPPDomain</td>
+<td align="left">The domain part of the PPP username.<br/>If specified, only bridged PPPoE sessions in which the domain portion of the PPP username matches this value are considered part of this flow.<br/>If this parameter is not specified, or is empty, all bridged PPPoE sessions are considered part of this flow.</td>
+</tr>
+</table></div>
+

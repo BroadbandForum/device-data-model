@@ -1,0 +1,435 @@
+<!-- <h1 class="new-page display-none" id="sec:architecture">4 Architecture<a class="headerlink" href="05-index-architecture.html#sec:architecture" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h1> -->
+
+<h2 id="sec:interface-layers">4.1 Interface Layers<a class="headerlink" href="05-index-architecture.html#sec:interface-layers" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>This Technical Report models network interfaces and protocol layers as independent data objects, generally referred to as interface objects (or interfaces). Interface objects can be stacked, one on top of the other, using path references in order to dynamically define the relationships between interfaces.</p>
+
+<p>The interface object and interface stack are concepts inspired by RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href='03-index-references-and-terminology.html#ref-RFC2863' title=''>[19]</a></span>.</p>
+
+<p>Within the Device:2 data model, interface objects are arbitrarily restricted to definitions that operate at or below the IP network layer (i.e., layers 1 through 3 of the OSI model <span class="cite" data-citation-ids="X.200"><a href='03-index-references-and-terminology.html#ref-X.200' title=''>[69]</a></span>). However, vendor-specific interface objects MAY be defined which fall outside this restricted scope.</p>
+
+<p><a href='05-index-architecture.html#fig:osi-layers-and-interface-objects' title='' class="figure">Figure 10</a> lists the interface objects defined in the Device:2 data model.
+The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP.</p>
+
+<div class="note">
+<p>Throughout this Technical Report, object names are often abbreviated in order to improve readability. For example, Device.Ethernet.VLANTermination.{i}. is the full name of a Device:2 object, but might casually be referred to as Ethernet.VLANTermination.{i} or VLANTermination.{i} or VLANTermination, just so long as the abbreviation is unambiguous (with respect to similarly named objects defined elsewhere within the data model).</p></div>
+
+<div class="note">
+<p>The Bridge.{i}.Port.{i} object models both management (upwards facing) Bridge Ports and non-management (downwards facing) Bridge Ports, where each instance is configured as one or the other. Management Bridge Ports are stacked above non-management Bridge Ports.</p></div>
+
+<div class="note">
+<p>New minor versions of the Device:2 data model can be defined without re-publishing this document, so the figure is not necessarily up-to-date.</p></div>
+
+<figure>
+<img src="images/osi-layers-and-interface-objects.png" id="fig:osi-layers-and-interface-objects" alt=""/>
+<figcaption>Figure 10: OSI Layers and Interface Objects<a class="headerlink" href="05-index-architecture.html#fig:osi-layers-and-interface-objects" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h2 id="sec:interface-objects">4.2 Interface objects<a class="headerlink" href="05-index-architecture.html#sec:interface-objects" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>An interface object is a type of network interface or protocol layer. Each type of interface is modeled by a Device:2 data model table, with a row per interface instance (e.g., IP.Interface.{i} for IP Interfaces).</p>
+
+<p>Each interface object contains a core set of parameters and objects, which serves as the template for defining interface objects within the data model. Interface objects can also contain other parameters and sub-objects specific to the type of interface.</p>
+
+<p>The core set of parameters consists of:</p>
+
+<div class="borderless">
+<table>
+<col width="28%" />
+<col width="72%" />
+<tr class="odd">
+<td align="left">Enable</td>
+<td align="left">The administrative state of the interface (i.e., boolean indicating enabled or disabled)</td>
+</tr>
+<tr class="even">
+<td align="left">Status</td>
+<td align="left">The operational state of the interface (i.e., Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, Error)</td>
+</tr>
+<tr class="odd">
+<td align="left">Alias</td>
+<td align="left">An alternate name used to identify the interface, which is assigned an initial value by the CPE but can later be chosen by the Controller</td>
+</tr>
+<tr class="even">
+<td align="left">Name</td>
+<td align="left">The textual name used to identify the interface, which is chosen by the CPE</td>
+</tr>
+<tr class="odd">
+<td align="left">LastChange</td>
+<td align="left">The accumulated time in seconds since the interface entered its current operational state</td>
+</tr>
+<tr class="even">
+<td align="left">LowerLayers</td>
+<td align="left">A list of path references to interface objects that are stacked immediately below the interface</td>
+</tr>
+</table></div>
+
+<p>Also, a core set of statistics parameters is contained within a Stats sub-object. The definition of these parameters MAY be customized for each interface type. The core set of parameters within the Stats sub-object consists of:</p>
+
+<div class="borderless">
+<table>
+<col width="28%" />
+<col width="72%" />
+<tr class="odd">
+<td align="left">BytesSent</td>
+<td align="left">The total number of bytes transmitted out of the interface, including framing characters.</td>
+</tr>
+<tr class="even">
+<td align="left">BytesReceived</td>
+<td align="left">The total number of bytes received on the interface, including framing characters.</td>
+</tr>
+<tr class="odd">
+<td align="left">PacketsSent</td>
+<td align="left">The total number of packets transmitted out of the interface.</td>
+</tr>
+<tr class="even">
+<td align="left">PacketsReceived</td>
+<td align="left">The total number of packets received on the interface.</td>
+</tr>
+<tr class="odd">
+<td align="left">ErrorsSent</td>
+<td align="left">The total number of outbound packets that could not be transmitted because of errors.</td>
+</tr>
+<tr class="even">
+<td align="left">ErrorsReceived</td>
+<td align="left">The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.</td>
+</tr>
+<tr class="odd">
+<td align="left">UnicastPacketsSent</td>
+<td align="left">The total number of packets requested for transmission, which were not addressed to a multicast or broadcast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even">
+<td align="left">UnicastPacketsReceived</td>
+<td align="left">The total number of received packets, delivered by this layer to a higher layer, which were not addressed to a multicast or broadcast address at this layer.</td>
+</tr>
+<tr class="odd">
+<td align="left">DiscardPacketsSent</td>
+<td align="left">The total number of outbound packets, which were chosen to be discarded even though no errors had been detected to prevent their being transmitted.</td>
+</tr>
+<tr class="even">
+<td align="left">DiscardPacketsReceived</td>
+<td align="left">The total number of inbound packets, which were chosen to be discarded even though no errors had been detected to prevent their being delivered.</td>
+</tr>
+<tr class="odd">
+<td align="left">MulticastPacketsSent</td>
+<td align="left">The total number of packets that higher-layer protocols requested for transmission and which were addressed to a multicast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even">
+<td align="left">MulticastPacketsReceived</td>
+<td align="left">The total number of received packets, delivered by this layer to a higher layer, which were addressed to a multicast address at this layer.</td>
+</tr>
+<tr class="odd">
+<td align="left">BroadcastPacketsSent</td>
+<td align="left">The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even">
+<td align="left">BroadcastPacketsReceived</td>
+<td align="left">The total number of received packets, delivered by this layer to a higher layer, which were addressed to a broadcast address at this layer.</td>
+</tr>
+<tr class="odd">
+<td align="left">UnknownProtoPacketsReceived</td>
+<td align="left">The total number of packets received via the interface, which were discarded because of an unknown or unsupported protocol.</td>
+</tr>
+</table></div>
+
+<div class="note">
+<p>The CPE MUST reset an interface’s Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface’s Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface’s Enable parameter transitions from false to true). Administrative and operational status are discussed in <em><a href='05-index-architecture.html#sec:administrative-and-operational-status' title='' class="heading">Administrative and Operational Status</a></em>.</p></div>
+
+<h3 id="sec:lower-layers">4.2.1 Lower Layers<a class="headerlink" href="05-index-architecture.html#sec:lower-layers" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>Each interface object can be stacked on top of zero or more other interface objects, which MUST be specified using its LowerLayers parameter. By having each interface object, in turn, reference the interface objects in its lower layer; a logical hierarchy of all interface relationships is built up.</p>
+
+<p>The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the CPE MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).</p>
+
+<p>These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the CPE.</p>
+
+<p>A CPE MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the CPE MUST indicate this, using the appropriate protocol response.</p>
+
+<p>The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the CPE.</p>
+
+<p><a href='05-index-architecture.html#fig:interface-lowerlayers' title='' class="figure">Figure 11</a> illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A’s LowerLayers parameter references interfaces B and C. Interface B’s LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A’s LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).</p>
+
+<figure>
+<img src="images/interface-lowerlayers.png" id="fig:interface-lowerlayers" alt=""/>
+<figcaption>Figure 11: Interface LowerLayers<a class="headerlink" href="05-index-architecture.html#fig:interface-lowerlayers" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h3 id="sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status<a class="headerlink" href="05-index-architecture.html#sec:administrative-and-operational-status" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<div class="note">
+<p>Many of the requirements outlined in this section were derived from Section 3.1.13/RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href='03-index-references-and-terminology.html#ref-RFC2863' title=''>[19]</a></span>.</p></div>
+
+<p>An interface object’s Enable and Status parameters specify the current administrative and operational status of the interface, respectively. Valid values for the Status parameter are: Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, and Error.</p>
+
+<p>The CPE MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior – it is simply the timing of how long these state transitions take that is implementation specific.</p>
+
+<p>When the Enable parameter is <em>false</em> the Status parameter SHOULD normally be <em>Down</em> (or <em>NotPresent</em> or <em>Error</em> if there is a fault condition on the interface). Note that when the Enable parameter transitions to <em>false</em>, it is possible that the Status parameter’s transition to <em>Down</em> might occur after a small time lag if the CPE needs to first complete certain operations (e.g., finish transmitting a packet).</p>
+
+<p>When the Enable parameter is changed to <em>true</em>, the Status SHOULD do one of the following:</p>
+
+<ul>
+<li>Change to <em>Up</em> if and only if the interface is able to transmit and receive network traffic.</li>
+<li>Change to <em>Dormant</em> if and only if the interface is operable, but is waiting for external actions before it can transmit and receive network traffic.</li>
+<li>Change to <em>LowerLayerDown</em> if and only if the interface is prevented from entering the <em>Up</em> state because one or more of the interfaces beneath it is down.</li>
+<li>Remain in the <em>Error</em> state if there is an error or other fault condition detected on the interface.</li>
+<li>Remain in the <em>NotPresent</em> state if the interface has missing (typically hardware) components.</li>
+<li>Change to <em>Unknown</em> if the state of the interface cannot be determined for some reason.</li>
+</ul>
+
+<p>The <em>Dormant</em> state indicates that the interface is operable, but it is waiting for external events to occur before it can transmit/receive traffic. When such events occur, and the interface is then able to transmit/receive traffic, the Status SHOULD change to the <em>Up</em> state. Note that both the <em>Up</em> and <em>Dormant</em> states are considered healthy states.</p>
+
+<p>The <em>Down</em>, <em>NotPresent</em>, <em>LowerLayerDown,</em> and <em>Error</em> states all indicate that the interface is down. The <em>NotPresent</em> state indicates that the interface is down specifically because of a missing (typically hardware) component. The <em>LowerLayerDown</em> state indicates that the interface is stacked on top of one or more other interfaces, and that this interface is down specifically because one or more of these lower-layer interfaces is down.</p>
+
+<p>The <em>Error</em> state indicates that the interface is down because an error or other fault condition was detected on the interface.</p>
+
+<h3 id="sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status<a class="headerlink" href="05-index-architecture.html#sec:stacking-and-operational-status" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<div class="note">
+<p>The requirements outlined in this section were derived from Section 3.1.14/RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href='03-index-references-and-terminology.html#ref-RFC2863' title=''>[19]</a></span>.</p></div>
+
+<p>When an interface object is stacked on top of lower-layer interfaces (i.e., is not a bottommost layer in the stack), then:</p>
+
+<ul>
+<li>The interface SHOULD be <em>Up</em> if it is able to transmit/receive traffic due to one or more interfaces lower down in the stack being <em>Up</em>, irrespective of whether other interfaces below it are in a non-<em>Up</em> state (i.e., the interface is functioning in conjunction with at least some of its lower-layered interfaces).</li>
+<li>The interface MAY be <em>Up</em> or <em>Dormant</em> if one or more interfaces lower down in the stack are <em>Dormant</em> and all other interfaces below it are in a non-<em>Up</em> state.</li>
+<li>The interface is expected to be <em>LowerLayerDown</em> while all interfaces lower down in the stack are either <em>Down</em>, <em>NotPresent</em>, <em>LowerLayerDown,</em> or <em>Error</em>.</li>
+</ul>
+
+<h3 id="sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects<a class="headerlink" href="05-index-architecture.html#sec:vendor-specific-interface-objects" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>Vendor-specific interface objects MAY be defined and used. If such objects are specified by vendors, they MUST be preceded by *X_&lt;VENDOR&gt;_* and follow the syntax for vendor extensions used for parameter names (as defined in Section 3.3/TR-106 <span class="cite" data-citation-ids="TR-106"><a href='03-index-references-and-terminology.html#ref-TR-106' title=''>[60]</a></span>).</p>
+
+<p>If the Controller encounters an unknown vendor-specific interface object within a CPE’s interface stack, rather than responding with a fault, the Controller MUST proceed as if this object’s upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the <a href='05-index-architecture.html#sec:interfacestack-table' title='' class="heading">InterfaceStack table</a> or via an interface object’s LowerLayers parameter.</p>
+
+<p><a href='05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack' title='' class="figure">Figure 12</a> illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.</p>
+
+<figure>
+<img src="images/ignoring-a-vendor-specific-interface-object-in-the-stack.png" id="fig:ignoring-a-vendor-specific-interface-object-in-the-stack" alt=""/>
+<figcaption>Figure 12: Ignoring a Vendor-specific Interface Object in the Stack<a class="headerlink" href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<p><a href='05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects' title='' class="figure">Figure 13</a> illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there are multiple objects below the vendor-specific object.</p>
+
+<figure>
+<img src="images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png" id="fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects" alt=""/>
+<figcaption>Figure 13: Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)<a class="headerlink" href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h2 id="sec:interfacestack-table">4.3 InterfaceStack Table<a class="headerlink" href="05-index-architecture.html#sec:interfacestack-table" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>Although the interface stack can be traversed via <a href='05-index-architecture.html#sec:lower-layers' title='' class="heading">LowerLayers parameters</a>, an alternate mechanism is provided to aid in visualizing the overall stacking relationships and to quickly access objects within the stack.</p>
+
+<p>The InterfaceStack table is a Device:2 data model object, namely <em>Device.InterfaceStack.{i}</em>. This is a read-only table whose rows are auto-generated by the CPE based on the current relationships that are configured between interface objects (via each interface instance’s LowerLayers parameter). Each table row represents a &ldquo;link&rdquo; between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row’s HigherLayer and LowerLayer parameters will always both be non-null.</p>
+
+<div class="note">
+<p>As a consequence, interface instances that have been stranded will not be represented within the InterfaceStack table. It is also likely that multiple, disjoint groups of stacked interface objects will coexist within the table (for example, each IP interface will be the root of a disjoint group; unused &ldquo;fragments&rdquo;, e.g., a secondary DSL channel with a configured ATM PVC that isn’t attached to anything above, will linger if they remain interconnected; and finally, partially configured &ldquo;fragments&rdquo; can be present when an interface stack is being set up).</p></div>
+
+<div class="note">
+<p>An interface instance is considered stranded when it has no lower layer references to or from other interface instances. Stranded interface instances will be omitted from the InterfaceStack table until such time as they are stacked, above or below another interface instance, via a LowerLayers parameter reference.</p></div>
+
+<p>A CPE MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:</p>
+
+<ul>
+<li>An interface’s LowerLayers parameter was updated to remove a reference to another interface (i.e., a &ldquo;link&rdquo; is being removed from the stack).</li>
+<li>An interface’s LowerLayers parameter was updated to add a reference to another interface (i.e., a &ldquo;link&rdquo; is being added to the stack).</li>
+<li>An interface was deleted that had referenced, or been referenced by, one other interface (i.e., a &ldquo;link&rdquo; is being removed from the stack).</li>
+<li>An interface was deleted that had referenced, or been referenced by, multiple interfaces (i.e., multiple &ldquo;links&rdquo; are being removed from the stack).</li>
+</ul>
+
+<p>Once the CPE issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the CPE.</p>
+
+<p>As an example, <a href='05-index-architecture.html#tbl:simple-router-example-interfacestack-table' title='' class="table">Table 1</a> lists an InterfaceStack table configuration imagined for a fictitious, simple router. Each row in this table corresponds to a row in the InterfaceStack table. The specified objects and instance numbers are manufactured for the sake of this example; real world configurations will likely differ.</p>
+
+<div id="tbl:simple-router-example-interfacestack-table">
+<table>
+<caption>Table 1: Simple Router Example (InterfaceStack table)<a class="headerlink" href="05-index-architecture.html#tbl:simple-router-example-interfacestack-table" title="Permalink to this table"> <img src='permalink.png' title='' width="0.8em"/></a></caption>
+<tr class="header">
+<th align="left">Row/Instance</th>
+<th align="left">Higher Layer Interface</th>
+<th align="left">Lower Layer Interface</th>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Device.IP.Interface.1</td>
+<td align="left">Device.PPP.Interface.1</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Device.PPP.Interface.1</td>
+<td align="left">Device.Ethernet.Link.1</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">Device.Ethernet.Link.1</td>
+<td align="left">Device.ATM.Link.1</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">Device.ATM.Link.1</td>
+<td align="left">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">Device.DSL.Channel.1</td>
+<td align="left">Device.DSL.Line.1</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">Device.IP.Interface.2</td>
+<td align="left">Device.Ethernet.Link.2</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">Device.Ethernet.Link.2</td>
+<td align="left">Device.ATM.Link.2</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">Device.ATM.Link.2</td>
+<td align="left">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="left">Device.IP.Interface.3</td>
+<td align="left">Device.Ethernet.Link.3</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">Device.Ethernet.Link.3</td>
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+<td align="left">Device.Bridging.Bridge.1.Port.2</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="left">Device.Bridging.Bridge.1.Port.2</td>
+<td align="left">Device.Ethernet.Interface.1</td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+<td align="left">Device.Bridging.Bridge.1.Port.3</td>
+</tr>
+<tr class="even">
+<td align="left">14</td>
+<td align="left">Device.Bridging.Bridge.1.Port.3</td>
+<td align="left">Device.Ethernet.Interface.2</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+<td align="left">Device.Bridging.Bridge.1.Port.4</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Device.Bridging.Bridge.1.Port.4</td>
+<td align="left">Device.WiFi.SSID.1</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="left">Device.WiFi.SSID.1</td>
+<td align="left">Device.WiFi.Radio.1</td>
+</tr>
+</table></div>
+
+<p>By looking at the rows from the example InterfaceStack table as a whole, we can visualize the overall stack configuration. <a href='05-index-architecture.html#fig:simple-router-example-interfaces-visualized' title='' class="figure">Figure 14</a> shows how this information can be pictured. Interface instances are represented by colored boxes, while InterfaceStack instances are represented by numbered circles.</p>
+
+<figure>
+<img src="images/simple-router-example-interfaces-visualized.png" id="fig:simple-router-example-interfaces-visualized" alt=""/>
+<figcaption>Figure 14: Simple Router Example (Interfaces Visualized)<a class="headerlink" href="05-index-architecture.html#fig:simple-router-example-interfaces-visualized" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<div class="note">
+<p>&ldquo;Device.&rdquo; should be considered prepended to each parameter name in <a href='05-index-architecture.html#fig:simple-router-example-interfaces-visualized' title='' class="figure">Figure 14</a>. It is left off to make the figure more legible.</p></div>
+
+<p>Finally, <a href='05-index-architecture.html#tbl:simple-router-example-interface-lowerlayers' title='' class="table">Table 2</a> completes the example by listing each interface instance and its corresponding LowerLayers parameter value.</p>
+
+<div id="tbl:simple-router-example-interface-lowerlayers">
+<table>
+<caption>Table 2: Simple Router Example (Interface LowerLayers)<a class="headerlink" href="05-index-architecture.html#tbl:simple-router-example-interface-lowerlayers" title="Permalink to this table"> <img src='permalink.png' title='' width="0.8em"/></a></caption>
+<col width="33%" />
+<col width="67%" />
+<tr class="header">
+<th align="left">Interface</th>
+<th align="left">LowerLayers value</th>
+</tr>
+<tr class="odd">
+<td align="left">Device.IP.Interface.1</td>
+<td align="left">Device.PPP.Interface.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.IP.Interface.2</td>
+<td align="left">Device.Ethernet.Link.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.IP.Interface.3</td>
+<td align="left">Device.Ethernet.Link.3</td>
+</tr>
+<tr class="even">
+<td align="left">Device.PPP.Interface.1</td>
+<td align="left">Device.Ethernet.Link.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.Ethernet.Link.1</td>
+<td align="left">Device.ATM.Link.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.Ethernet.Link.2</td>
+<td align="left">Device.ATM.Link.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.Ethernet.Link.3</td>
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.Bridging.Bridge.1.Port.1</td>
+<td align="left">Device.Bridging.Bridge.1.Port.2, Device.Bridging.Bridge.1.Port.3, Device.Bridging.Bridge.1.Port.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.Bridging.Bridge.1.Port.2</td>
+<td align="left">Device.Ethernet.Interface.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.Bridging.Bridge.1.Port.3</td>
+<td align="left">Device.Ethernet.Interface.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.Bridging.Bridge.1.Port.4</td>
+<td align="left">Device.WiFi.SSID.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.ATM.Link.1</td>
+<td align="left">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.ATM.Link.2</td>
+<td align="left">Device.DSL.Channel.1</td>
+</tr>
+<tr class="even">
+<td align="left">Device.DSL.Channel.1</td>
+<td align="left">Device.DSL.Line.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.DSL.Line.1</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Device.Ethernet.Interface.1</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Device.Ethernet.Interface.2</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Device.WiFi.SSID.1</td>
+<td align="left">Device.WiFi.Radio.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Device.WiFi.Radio.1</td>
+<td align="left"></td>
+</tr>
+</table></div>
+

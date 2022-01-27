@@ -1,0 +1,73 @@
+<!-- <h1 class="new-page display-none" id="sec:purpose-and-scope">1 Purpose and Scope<a class="headerlink" href="02-index-purpose-and-scope.html#sec:purpose-and-scope" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h1> -->
+
+<h2 id="sec:purpose">1.1 Purpose<a class="headerlink" href="02-index-purpose-and-scope.html#sec:purpose" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>This Technical Report defines version 2 of the Device data model (Device:2). The Device:2 data model applies to all types of TR-069 or USP enabled devices, including End Devices, Residential Gateways, and other Network Infrastructure Devices.</p>
+
+<h2 id="sec:scope">1.2 Scope<a class="headerlink" href="02-index-purpose-and-scope.html#sec:scope" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>The Device:2 data model defined in this Technical Report consists of a set of data objects covering things like basic device information, time-of-day configuration, network interface and protocol stack configuration, routing and bridging management, throughput statistics, and diagnostic tests. It also defines a baseline profile that specifies a minimum level of data model support.</p>
+
+<p>The cornerstone of the Device:2 data model is the interface stacking mechanism. Network interfaces and protocol layers are modeled as independent data objects (a.k.a. interface objects) that can be stacked, one on top of the other, into whatever configuration a device might support.</p>
+
+<p>Because the Device:2 data model can be used with either the USP or the CWMP (TR-069) protocol, it contains some objects and parameters which only apply if the specific protocol is used.</p>
+
+<p><a href='02-index-purpose-and-scope.html#fig:cwmp-specific-device2-data-model-structure--overview' title='' class="figure">Figure 1</a> illustrates the top-level Device:2 data model structure for CWMP, <a href='02-index-purpose-and-scope.html#fig:usp-specific-device2-data-model-structure--overview' title='' class="figure">Figure 2</a> the top-level Device:2 data model structure for USP.</p>
+
+<figure>
+<img src="images/tr-181-2-cwmp-overview.png" id="fig:cwmp-specific-device2-data-model-structure--overview" alt=""/>
+<figcaption>Figure 1: CWMP-specific Device:2 Data Model Structure – Overview<a class="headerlink" href="02-index-purpose-and-scope.html#fig:cwmp-specific-device2-data-model-structure--overview" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<figure>
+<img src="images/tr-181-2-usp-overview.png" id="fig:usp-specific-device2-data-model-structure--overview" alt=""/>
+<figcaption>Figure 2: USP-specific Device:2 Data Model Structure – Overview<a class="headerlink" href="02-index-purpose-and-scope.html#fig:usp-specific-device2-data-model-structure--overview" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h3 class="new-page" id="sec:detailed-structure-for-common-elements">1.2.1 Detailed structure for common elements<a class="headerlink" href="02-index-purpose-and-scope.html#sec:detailed-structure-for-common-elements" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The next figures illustrate the data model structure of the common parts in greater detail. This structure applies equally for USP and CWMP. See <em><a href='06-index-parameter-definitions.html#sec:parameter-definitions' title='' class="heading">Parameter Definitions</a></em> for the complete list of objects.</p>
+
+<figure>
+<img src="images/tr-181-2-usp-device.png" id="fig:device2-data-model-structure--device-level" alt=""/>
+<figcaption>Figure 3: Device:2 Data Model Structure – Device Level<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--device-level" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<figure>
+<img src="images/tr-181-2-usp-ifstack.png" id="fig:device2-data-model-structure--common-interface-stack-and-networking-technologies" alt=""/>
+<figcaption>Figure 4: Device:2 Data Model Structure – Common Interface Stack and Networking Technologies<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--common-interface-stack-and-networking-technologies" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<figure>
+<img src="images/tr-181-2-usp-protocols.png" id="fig:device2-data-model-structure--common-applications-and-protocols" alt=""/>
+<figcaption>Figure 5: Device:2 Data Model Structure – Common Applications and Protocols<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--common-applications-and-protocols" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h3 id="sec:detailed-structure-for-cwmp-specific-elements">1.2.2 Detailed structure for CWMP specific elements<a class="headerlink" href="02-index-purpose-and-scope.html#sec:detailed-structure-for-cwmp-specific-elements" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The next figures illustrate the data model structure of the CWMP specific parts in greater detail. See <em><a href='06-index-parameter-definitions.html#sec:parameter-definitions' title='' class="heading">Parameter Definitions</a></em> for the complete list of objects.</p>
+
+<figure>
+<img src="images/tr-181-2-cwmp-cwmp-management.png" id="fig:device2-data-model-structure--cwmp-management" alt=""/>
+<figcaption>Figure 6: Device:2 Data Model Structure – CWMP Management<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--cwmp-management" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<figure>
+<img src="images/tr-181-2-cwmp-cwmp-protocols.png" id="fig:device2-data-model-structure--cwmp-specific-applications-and-protocols" alt=""/>
+<figcaption>Figure 7: Device:2 Data Model Structure – CWMP-specific applications and protocols<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--cwmp-specific-applications-and-protocols" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<h3 class="new-page" id="sec:detailed-structure-for-usp-specific-elements">1.2.3 Detailed structure for USP specific elements<a class="headerlink" href="02-index-purpose-and-scope.html#sec:detailed-structure-for-usp-specific-elements" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+<p>The next figures illustrate the data model structure of the USP specific parts in greater detail. See <em><a href='06-index-parameter-definitions.html#sec:parameter-definitions' title='' class="heading">Parameter Definitions</a></em> for the complete list of objects.</p>
+
+<figure>
+<img src="images/tr-181-2-usp-usp-management.png" id="fig:device2-data-model-structure--usp-management" alt=""/>
+<figcaption>Figure 8: Device:2 Data Model Structure – USP Management<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--usp-management" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+
+<figure>
+<img src="images/tr-181-2-usp-usp-protocols.png" id="fig:device2-data-model-structure--usp-specific-applications-and-protocols" alt=""/>
+<figcaption>Figure 9: Device:2 Data Model Structure – USP-specific applications and protocols<a class="headerlink" href="02-index-purpose-and-scope.html#fig:device2-data-model-structure--usp-specific-applications-and-protocols" title="Permalink to this figure"> <img src='permalink.png' title='' width="0.8em"/></a></figcaption>
+</figure>
+

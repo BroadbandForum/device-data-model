@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<!-- BBF GitHub Pages pandoc template; modified from default.html template -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="generator" content="pandoc"/>
+  <meta name="description" content="TR-181 – Device Data Model for CWMP Endpoints and USP Agents: TR-181 Documentation and Theory of Operations"/>
+  <meta name="theme-color" content="#157878"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <title>BBF – TR-181 – Device Data Model for CWMP Endpoints and USP Agents</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="github.css"/>
+  <link rel="stylesheet" href="extra.css"/>
+  <link rel="stylesheet" href="toc.css"/>
+  <link rel="stylesheet" href="release.css"/>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <!-- XXX header includes are included just before the ToC (below) -->
+</head>
+
+<body>
+  <section class="page-header">
+    <h1 class="project-name">
+      <a href="index.html" style="text-decoration: none; color: white;">
+        <img src="bbflogo-bw.png"/><br>
+        Device Data Model for CWMP Endpoints and USP Agents
+      </a>
+    </h1>
+    <h2 class="project-tagline">TR-181 Documentation and Theory of Operations</h2>
+    <p>TR-181 Issue 2 Amendment 15</p>
+    <p></p>
+    <div class="project-buttons">
+      <a class="btn" href="index.htm" title="TR-181 Single-file HTML">HTML</a>
+      <a class="btn" href="index.pdf" title="TR-181 PDF">PDF</a>
+      <a class="btn" href="https://cwmp-data-models.broadband-forum.org">CWMP Data Models</a>
+      <a class="btn" href="https://usp-data-models.broadband-forum.org">USP Data Models</a>
+      <a class="btn" href="https://data-model-template.broadband-forum.org" title="TR-106">Data Model Template</a>
+    </div>
+  </section>
+
+  <section class="main-content">
+<nav>
+<p>
+   <a href="00-index-contents.html#contents">Cover Page</a>
+ | <a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a>
+ | <a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a>
+ | <a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a>
+ | <a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a>
+ | <a href="05-index-architecture.html#sec:architecture">4 Architecture</a>
+ | <a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a>
+ | <a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a>
+ | <a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a>
+ | <a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a>
+ | <a href="10-index-appendices.html#sec:appendices">Appendices</a>
+</p>
+</nav>
+
+<nav id="TOCFULL">
+<ul>
+  <li><a href="00-index-contents.html#contents">Cover Page</a></li>
+  <li><a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a></li>
+  <li><a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a></li>
+  <ul>
+    <li><a href="02-index-purpose-and-scope.html#sec:purpose">1.1 Purpose</a></li>
+    <li><a href="02-index-purpose-and-scope.html#sec:scope">1.2 Scope</a></li>
+    <ul>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-common-elements">1.2.1 Detailed structure for common elements</a></li>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-cwmp-specific-elements">1.2.2 Detailed structure for CWMP specific elements</a></li>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-usp-specific-elements">1.2.3 Detailed structure for USP specific elements</a></li>
+    </ul>
+  </ul>
+  <li><a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a></li>
+  <ul>
+    <li><a href="03-index-references-and-terminology.html#sec:conventions">2.1 Conventions</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:references">2.2 References</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:definitions">2.3 Definitions</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:abbreviations">2.4 Abbreviations</a></li>
+  </ul>
+  <li><a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a></li>
+  <ul>
+    <li><a href="04-index-bbftype-impact.html#sec:energy-efficiency">3.1 Energy Efficiency</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:ipv6">3.2 IPv6</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:security">3.3 Security</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:privacy">3.4 Privacy</a></li>
+  </ul>
+  <li><a href="05-index-architecture.html#sec:architecture">4 Architecture</a></li>
+  <ul>
+    <li><a href="05-index-architecture.html#sec:interface-layers">4.1 Interface Layers</a></li>
+    <li><a href="05-index-architecture.html#sec:interface-objects">4.2 Interface objects</a></li>
+    <ul>
+      <li><a href="05-index-architecture.html#sec:lower-layers">4.2.1 Lower Layers</a></li>
+      <li><a href="05-index-architecture.html#sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status</a></li>
+      <li><a href="05-index-architecture.html#sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status</a></li>
+      <li><a href="05-index-architecture.html#sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects</a></li>
+    </ul>
+    <li><a href="05-index-architecture.html#sec:interfacestack-table">4.3 InterfaceStack Table</a></li>
+  </ul>
+  <li><a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a></li>
+  <li><a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a></li>
+  <ul>
+    <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-bridging-model">A.1 Queuing and Bridging Model</a></li>
+    <ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:packet-classification">A.1.1 Packet Classification</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:policing">A.1.2 Policing</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-scheduling">A.1.3 Queuing and Scheduling</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:bridging">A.1.4 Bridging</a></li>
+    </ul>
+    <li><a href="07-index-bridging-and-queuing.html#sec:default-layer-23-qos-mapping">A.2 Default Layer 2/3 QoS Mapping</a></li>
+    <li><a href="07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables">A.3 URN Definitions for App and Flow Tables</a></li>
+    <ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:app-protocolidentifier">A.3.1 App ProtocolIdentifier</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:flow-type">A.3.2 Flow Type</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:flow-typeparameters">A.3.3 Flow TypeParameters</a></li>
+    </ul>
+  </ul>
+  <li><a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a></li>
+  <ul>
+    <li><a href="08-index-tunneling.html#sec:overview">B.1 Overview</a></li>
+    <li><a href="08-index-tunneling.html#sec:tunneling-details">B.2 Details</a></li>
+  </ul>
+  <li><a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a></li>
+  <ul>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:overview-1">C.1 Overview</a></li>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:uuid-generation-requirements">C.2 UUID Generation Requirements</a></li>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:agent-requirements">C.3 Agent Requirements</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:example-rg-queuing-architecture">Appendix I: Example RG Queuing Architecture</a></li>
+  <li><a href="10-index-appendices.html#sec:use-of-bridging-objects-for-vlan-tagging">Appendix II: Use of Bridging Objects for VLAN Tagging</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-vlan-bridging">II.1 Tagged LAN to Tagged WAN Traffic (VLAN Bridging)</a></li>
+    <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-special-case-with-vlan-id-translation">II.2 Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID Translation)</a></li>
+    <li><a href="10-index-appendices.html#sec:untagged-lan-to-tagged-wan-traffic">II.3 Untagged LAN to Tagged WAN Traffic</a></li>
+    <li><a href="10-index-appendices.html#sec:internally-generated-to-tagged-wan-traffic">II.4 Internally Generated to Tagged WAN Traffic</a></li>
+    <li><a href="10-index-appendices.html#sec:other-issues">II.5 Other Issues</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:more-than-one-downstream-interface-in-a-bridge">II.5.1 More than one Downstream Interface in a Bridge</a></li>
+      <li><a href="10-index-appendices.html#sec:802.1d-re-marking">II.5.2 802.1D (Re)-marking</a></li>
+      <li><a href="10-index-appendices.html#sec:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface">II.5.3 More than one VLAN ID Tag Admitted on the Same Downstream Interface</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:wi-fi-theory-of-operation">Appendix III: Wi-Fi Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:multi-radio-and-multi-band-wi-fi-radio-devices">III.1 Multi-radio and Multi-band Wi-Fi Radio Devices</a></li>
+    <li><a href="10-index-appendices.html#sec:definitions-1">III.2 Definitions</a></li>
+    <li><a href="10-index-appendices.html#sec:number-of-instances-of-wifi.radio-object">III.3 Number of Instances of WiFi.Radio Object</a></li>
+    <li><a href="10-index-appendices.html#sec:supportedfrequencybands-and-operatingfrequencyband">III.4 SupportedFrequencyBands and OperatingFrequencyBand</a></li>
+    <li><a href="10-index-appendices.html#sec:behavior-of-dual-band-radios-when-operatingfrequencyband-changed">III.5 Behavior of Dual-band Radios when OperatingFrequencyBand Changed</a></li>
+    <li><a href="10-index-appendices.html#sec:supportedstandards-and-operatingstandards">III.6 SupportedStandards and OperatingStandards</a></li>
+    <li><a href="10-index-appendices.html#sec:different-types-of-wifi-errors">III.7 Different Types of WiFi Errors</a></li>
+    <li><a href="10-index-appendices.html#sec:wi-fi-data-elements">III.8 Wi-Fi Data Elements</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:use-cases">Appendix IV: Use Cases</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:create-a-wan-connection">IV.1 Create a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:modify-a-wan-connection">IV.2 Modify a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:delete-a-wan-connection">IV.3 Delete a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:discover-whether-the-device-is-a-gateway">IV.4 Discover whether the Device is a Gateway</a></li>
+    <li><a href="10-index-appendices.html#sec:provide-extended-home-networking-topology-view">IV.5 Provide Extended Home Networking Topology View</a></li>
+    <li><a href="10-index-appendices.html#sec:determine-current-interfaces-configuration">IV.6 Determine Current Interfaces Configuration</a></li>
+    <li><a href="10-index-appendices.html#sec:create-a-wlan-connection">IV.7 Create a WLAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:delete-a-wlan-connection">IV.8 Delete a WLAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:configure-a-dhcp-client-and-server">IV.9 Configure a DHCP Client and Server</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:dhcp-client-configuration-acme-devices">IV.9.1 DHCP Client Configuration (ACME devices)</a></li>
+      <li><a href="10-index-appendices.html#sec:dhcp-server-configuration-gateway">IV.9.2 DHCP Server Configuration (gateway)</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:reconfigure-an-existing-interface">IV.10 Reconfigure an Existing Interface</a></li>
+    <li><a href="10-index-appendices.html#sec:backup-restore-using-vendor-configuration-files">IV.11 Backup / Restore Using Vendor Configuration Files</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:ipv6-data-modeling-theory-of-operation">Appendix V: IPv6 Data Modeling Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:ipv6-overview">V.1 IPv6 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:data-model-overview">V.2 Data Model Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:enabling-ipv6">V.3 Enabling IPv6</a></li>
+    <li><a href="10-index-appendices.html#sec:configuring-upstream-ip-interfaces">V.4 Configuring Upstream IP Interfaces</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:configuration-messages-sent-out-the-upstream-ip-interface">V.4.1 Configuration Messages Sent Out the Upstream IP Interface</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-prefixes">V.4.2 IPv6 Prefixes</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-addresses">V.4.3 IPv6 Addresses</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:configuring-downstream-ip-interfaces">V.5 Configuring Downstream IP Interfaces</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:ipv6-prefixes-1">V.5.1 IPv6 Prefixes</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-addresses-1">V.5.2 IPv6 Addresses</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:device-interactions">V.6 Device Interactions</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:active-configuration">V.6.1 Active Configuration</a></li>
+      <li><a href="10-index-appendices.html#sec:monitoring">V.6.2 Monitoring</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:configuring-ipv6-routing-and-forwarding">V.7 Configuring IPv6 Routing and Forwarding</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:rd-theory-of-operation">Appendix VI: 6rd Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:rfc-5969-configuration-parameters">VI.1 RFC 5969 Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-configuration-parameters">VI.2 Internal Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:ipv4-address-source">VI.3 IPv4 Address Source</a></li>
+    <li><a href="10-index-appendices.html#sec:sending-all-traffic-to-the-border-relay-server">VI.4 Sending All Traffic to the Border Relay Server</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv6-packets">VI.5 Internal Treatment of IPv6 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:dual-stack-lite-theory-of-operation">Appendix VII: Dual-Stack Lite Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets">VII.1 Internal Treatment of IPv4 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:advanced-firewall-example-configuration">Appendix VIII: Advanced Firewall Example Configuration</a></li>
+  <li><a href="10-index-appendices.html#sec:ipsec-theory-of-operation">Appendix IX: IPsec Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:ipsec">IX.1 IPsec</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.filter">IX.2 IPsec.Filter</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.profile">IX.3 IPsec.Profile</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.tunnel">IX.4 IPsec.Tunnel</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa">IX.5 IPsec.IKEv2SA</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa.childsa">IX.6 IPsec.IKEv2SA.ChildSA</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:etsi-m2m-remote-entity-management-theory-of-operation">Appendix X: ETSI M2M Remote Entity Management Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:etsi-m2m-area-networks">X.1 ETSI M2M Area Networks</a></li>
+    <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem">X.2 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tr-069-functionality-for-etsi-m2m-rem">X.2.1 TR-069 Functionality for ETSI M2M REM</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem-1">X.3 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:m2m-service-scl-execution-environment">X.3.1 M2M Service SCL Execution Environment</a></li>
+      <li><a href="10-index-appendices.html#sec:etsim2m-object">X.3.2 ETSIM2M Object</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:provider-bridge-theory-of-operation">Appendix XI: Provider Bridge Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:residential-domain-scenario">XI.1 Residential Domain Scenario</a></li>
+    <li><a href="10-index-appendices.html#sec:device-traffic-scenario">XI.2 Device Traffic Scenario</a></li>
+    <li><a href="10-index-appendices.html#sec:public-and-roaming-domain-scenarios">XI.3 Public and Roaming Domain Scenarios</a></li>
+    <li><a href="10-index-appendices.html#sec:provisioning-provider-bridges">XI.4 Provisioning Provider Bridges</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:associating-customer-edge-ports-with-customer-network-ports">XI.4.1 Associating Customer Edge Ports with Customer Network Ports</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:zigbee-theory-of-operation">Appendix XII: ZigBee Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:cwmp-management-using-the-zigbee-data-model">XII.1 CWMP management using the ZigBee data model</a></li>
+    <li><a href="10-index-appendices.html#sec:cwmp-proxying-mechanisms-and-the-zigbee-data-model">XII.2 CWMP proxying mechanisms and the ZigBee data model</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:port-control-protocol-theory-of-operation">Appendix XIII: Port Control Protocol Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:configuration-and-monitoring-of-the-pcp-server">XIII.1 Configuration and monitoring of the PCP Server</a></li>
+    <li><a href="10-index-appendices.html#sec:monitoring-and-setting-rules-set-by-the-pcp-client">XIII.2 Monitoring and setting rules set by the PCP client</a></li>
+    <li><a href="10-index-appendices.html#sec:rapid-recovery">XIII.3 Rapid recovery</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:gre-tunnel-theory-of-operation">Appendix XIV: GRE Tunnel Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:l2-payload-over-gre">XIV.1 L2 Payload over GRE</a></li>
+    <li><a href="10-index-appendices.html#sec:l3-payload-over-gre">XIV.2 L3 Payload over GRE</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:map-theory-of-operation">Appendix XV: MAP Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:map-configuration-parameters">XV.1 MAP Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets-1">XV.2 Internal Treatment of IPv4 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:g.fast-theory-of-operation">Appendix XVI: G.fast Theory of Operation</a></li>
+  <li><a href="10-index-appendices.html#sec:usb-host-theory-of-operation">Appendix XVII: USB Host Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-2">XVII.1 Overview</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:location-management">Appendix XVIII: Location Management</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-3">XVIII.1 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:multiple-instances-of-location-data">XVIII.2 Multiple Instances of Location Data</a></li>
+    <li><a href="10-index-appendices.html#sec:cwmp-usp-manual-gps-and-agps-configured-location">XVIII.3 CWMP, USP, Manual, GPS, and AGPS Configured Location</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:example-manual-gps-agps-and-externalcwmp-rootobject.location.i.dataobject.-format">XVIII.3.1 Example: Manual, GPS, AGPS, and External:CWMP &lt;rootObject&gt;.Location.{i}.DataObject. Format</a></li>
+      <li><a href="10-index-appendices.html#sec:rfc-5491-and-rfc-5139-location-element-definitions">XVIII.3.2 RFC 5491 and RFC 5139 Location Element Definitions</a></li>
+      <li><a href="10-index-appendices.html#sec:use-of-rfc-5491-and-rfc-5139-location-xml-elements-in-cwmp-or-usp">XVIII.3.3 Use of RFC 5491 and RFC 5139 Location XML Elements in CWMP or USP</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:fault-management">Appendix XIX: Fault Management</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-4">XIX.1 Overview</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:basapm-and-lmap-theory-of-operation">Appendix XX: BASAPM and LMAP Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:tr-069-family-of-specifications-in-the-context-of-tr-304">XX.1 TR-069 Family of Specifications in the Context of TR-304</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tr-304-and-ietf-lmap-frameworks">XX.1.1 TR-304 and IETF LMAP Frameworks</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-for-pre-configuration">XX.1.2 CWMP for Pre-configuration</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-for-control-and-pre-configuration-ipdr-for-reporting">XX.1.3 CWMP for Control and Pre-configuration, IPDR for Reporting</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-as-a-proxier-ipdr-for-reporting">XX.1.4 CWMP as a Proxier, IPDR for Reporting</a></li>
+      <li><a href="10-index-appendices.html#sec:multi-acs-deployment">XX.1.5 Multi-ACS Deployment</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:derivation-of-data-model-elements">XX.2 Derivation of Data Model Elements</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:device.basapm">XX.2.1 Device.BASAPM</a></li>
+      <li><a href="10-index-appendices.html#sec:device.lmap.measurementagent">XX.2.2 Device.LMAP.MeasurementAgent</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:bulk-data-collection-in-the-context-of-lmap">XX.3 Bulk Data Collection in the Context of LMAP</a></li>
+    <li><a href="10-index-appendices.html#sec:tr-143-diagnostics-in-lmap">XX.4 TR-143 Diagnostics in LMAP</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:g-theory-of-operation">Appendix XXI: 5G Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-5">XXI.1 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:architecture-1">XXI.2 Architecture</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:network-functions">XXI.2.1 Network Functions</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:concepts">XXI.3 Concepts</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:control-user-plane-separation-cups">XXI.3.1 Control User Plane Separation (CUPS)</a></li>
+      <li><a href="10-index-appendices.html#sec:policy">XXI.3.2 Policy</a></li>
+      <li><a href="10-index-appendices.html#sec:multiple-pdu-sessions">XXI.3.3 Multiple PDU sessions</a></li>
+      <li><a href="10-index-appendices.html#sec:g-qos">XXI.3.4 5G QoS</a></li>
+      <li><a href="10-index-appendices.html#sec:data-network-name-dnn">XXI.3.5 Data Network Name (DNN)</a></li>
+      <li><a href="10-index-appendices.html#sec:multiple-access-networks">XXI.3.6 Multiple Access Networks</a></li>
+      <li><a href="10-index-appendices.html#sec:network-slicing">XXI.3.7 Network Slicing</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:data-model-elements">XXI.4 Data Model Elements</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:interface-stack">XXI.4.1 Interface Stack</a></li>
+      <li><a href="10-index-appendices.html#sec:data-model">XXI.4.2 Data Model</a></li>
+      <li><a href="10-index-appendices.html#sec:examples">XXI.4.3 Examples</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:data-elements-theory-of-operations">Appendix XXII: Data Elements Theory of Operations</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:data-sources">XXII.1 Data Sources</a></li>
+    <li><a href="10-index-appendices.html#sec:mapping-new-data-elements-objects-and-parameters">XXII.2 Mapping new Data Elements objects and parameters</a></li>
+  </ul>
+</ul>
+</nav>
+
+    <header id="title-block-header">
+      <h1 class="title" id="contents">TR-181 – Device Data Model<a href="#contents" class="headerlink" title="Permalink to this header"> <img src="permalink.png" style="width: 0.8em"/></a></h1>
+      <p class="subtitle">Issue: 2 Amendment 15 <span class="release"></span></p>
+      <p class="date">Issue Date: January 2022</p>
+    </header>
+  <h3 class="unnumbered unlisted" id="table-of-contents">Table of Contents<a class="headerlink" href="10-index-appendices.html#table-of-contents" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <nav>
+  <ul>
+    <li><a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a></li>
+    <li><a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a></li>
+    <ul>
+      <li><a href="02-index-purpose-and-scope.html#sec:purpose">1.1 Purpose</a></li>
+      <li><a href="02-index-purpose-and-scope.html#sec:scope">1.2 Scope</a></li>
+      <ul>
+        <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-common-elements">1.2.1 Detailed structure for common elements</a></li>
+        <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-cwmp-specific-elements">1.2.2 Detailed structure for CWMP specific elements</a></li>
+        <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-usp-specific-elements">1.2.3 Detailed structure for USP specific elements</a></li>
+      </ul>
+    </ul>
+    <li><a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a></li>
+    <ul>
+      <li><a href="03-index-references-and-terminology.html#sec:conventions">2.1 Conventions</a></li>
+      <li><a href="03-index-references-and-terminology.html#sec:references">2.2 References</a></li>
+      <li><a href="03-index-references-and-terminology.html#sec:definitions">2.3 Definitions</a></li>
+      <li><a href="03-index-references-and-terminology.html#sec:abbreviations">2.4 Abbreviations</a></li>
+    </ul>
+    <li><a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a></li>
+    <ul>
+      <li><a href="04-index-bbftype-impact.html#sec:energy-efficiency">3.1 Energy Efficiency</a></li>
+      <li><a href="04-index-bbftype-impact.html#sec:ipv6">3.2 IPv6</a></li>
+      <li><a href="04-index-bbftype-impact.html#sec:security">3.3 Security</a></li>
+      <li><a href="04-index-bbftype-impact.html#sec:privacy">3.4 Privacy</a></li>
+    </ul>
+    <li><a href="05-index-architecture.html#sec:architecture">4 Architecture</a></li>
+    <ul>
+      <li><a href="05-index-architecture.html#sec:interface-layers">4.1 Interface Layers</a></li>
+      <li><a href="05-index-architecture.html#sec:interface-objects">4.2 Interface objects</a></li>
+      <ul>
+        <li><a href="05-index-architecture.html#sec:lower-layers">4.2.1 Lower Layers</a></li>
+        <li><a href="05-index-architecture.html#sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status</a></li>
+        <li><a href="05-index-architecture.html#sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status</a></li>
+        <li><a href="05-index-architecture.html#sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects</a></li>
+      </ul>
+      <li><a href="05-index-architecture.html#sec:interfacestack-table">4.3 InterfaceStack Table</a></li>
+    </ul>
+    <li><a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a></li>
+    <li><a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a></li>
+    <ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-bridging-model">A.1 Queuing and Bridging Model</a></li>
+      <ul>
+        <li><a href="07-index-bridging-and-queuing.html#sec:packet-classification">A.1.1 Packet Classification</a></li>
+        <li><a href="07-index-bridging-and-queuing.html#sec:policing">A.1.2 Policing</a></li>
+        <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-scheduling">A.1.3 Queuing and Scheduling</a></li>
+        <li><a href="07-index-bridging-and-queuing.html#sec:bridging">A.1.4 Bridging</a></li>
+      </ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:default-layer-23-qos-mapping">A.2 Default Layer 2/3 QoS Mapping</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables">A.3 URN Definitions for App and Flow Tables</a></li>
+      <ul>
+        <li><a href="07-index-bridging-and-queuing.html#sec:app-protocolidentifier">A.3.1 App ProtocolIdentifier</a></li>
+        <li><a href="07-index-bridging-and-queuing.html#sec:flow-type">A.3.2 Flow Type</a></li>
+        <li><a href="07-index-bridging-and-queuing.html#sec:flow-typeparameters">A.3.3 Flow TypeParameters</a></li>
+      </ul>
+    </ul>
+    <li><a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a></li>
+    <ul>
+      <li><a href="08-index-tunneling.html#sec:overview">B.1 Overview</a></li>
+      <li><a href="08-index-tunneling.html#sec:tunneling-details">B.2 Details</a></li>
+    </ul>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a></li>
+    <ul>
+      <li><a href="09-index-software-module-management-uuid-usage.html#sec:overview-1">C.1 Overview</a></li>
+      <li><a href="09-index-software-module-management-uuid-usage.html#sec:uuid-generation-requirements">C.2 UUID Generation Requirements</a></li>
+      <li><a href="09-index-software-module-management-uuid-usage.html#sec:agent-requirements">C.3 Agent Requirements</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:example-rg-queuing-architecture">Appendix I: Example RG Queuing Architecture</a></li>
+    <li><a href="10-index-appendices.html#sec:use-of-bridging-objects-for-vlan-tagging">Appendix II: Use of Bridging Objects for VLAN Tagging</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-vlan-bridging">II.1 Tagged LAN to Tagged WAN Traffic (VLAN Bridging)</a></li>
+      <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-special-case-with-vlan-id-translation">II.2 Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID Translation)</a></li>
+      <li><a href="10-index-appendices.html#sec:untagged-lan-to-tagged-wan-traffic">II.3 Untagged LAN to Tagged WAN Traffic</a></li>
+      <li><a href="10-index-appendices.html#sec:internally-generated-to-tagged-wan-traffic">II.4 Internally Generated to Tagged WAN Traffic</a></li>
+      <li><a href="10-index-appendices.html#sec:other-issues">II.5 Other Issues</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:more-than-one-downstream-interface-in-a-bridge">II.5.1 More than one Downstream Interface in a Bridge</a></li>
+        <li><a href="10-index-appendices.html#sec:802.1d-re-marking">II.5.2 802.1D (Re)-marking</a></li>
+        <li><a href="10-index-appendices.html#sec:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface">II.5.3 More than one VLAN ID Tag Admitted on the Same Downstream Interface</a></li>
+      </ul>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:wi-fi-theory-of-operation">Appendix III: Wi-Fi Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:multi-radio-and-multi-band-wi-fi-radio-devices">III.1 Multi-radio and Multi-band Wi-Fi Radio Devices</a></li>
+      <li><a href="10-index-appendices.html#sec:definitions-1">III.2 Definitions</a></li>
+      <li><a href="10-index-appendices.html#sec:number-of-instances-of-wifi.radio-object">III.3 Number of Instances of WiFi.Radio Object</a></li>
+      <li><a href="10-index-appendices.html#sec:supportedfrequencybands-and-operatingfrequencyband">III.4 SupportedFrequencyBands and OperatingFrequencyBand</a></li>
+      <li><a href="10-index-appendices.html#sec:behavior-of-dual-band-radios-when-operatingfrequencyband-changed">III.5 Behavior of Dual-band Radios when OperatingFrequencyBand Changed</a></li>
+      <li><a href="10-index-appendices.html#sec:supportedstandards-and-operatingstandards">III.6 SupportedStandards and OperatingStandards</a></li>
+      <li><a href="10-index-appendices.html#sec:different-types-of-wifi-errors">III.7 Different Types of WiFi Errors</a></li>
+      <li><a href="10-index-appendices.html#sec:wi-fi-data-elements">III.8 Wi-Fi Data Elements</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:use-cases">Appendix IV: Use Cases</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:create-a-wan-connection">IV.1 Create a WAN Connection</a></li>
+      <li><a href="10-index-appendices.html#sec:modify-a-wan-connection">IV.2 Modify a WAN Connection</a></li>
+      <li><a href="10-index-appendices.html#sec:delete-a-wan-connection">IV.3 Delete a WAN Connection</a></li>
+      <li><a href="10-index-appendices.html#sec:discover-whether-the-device-is-a-gateway">IV.4 Discover whether the Device is a Gateway</a></li>
+      <li><a href="10-index-appendices.html#sec:provide-extended-home-networking-topology-view">IV.5 Provide Extended Home Networking Topology View</a></li>
+      <li><a href="10-index-appendices.html#sec:determine-current-interfaces-configuration">IV.6 Determine Current Interfaces Configuration</a></li>
+      <li><a href="10-index-appendices.html#sec:create-a-wlan-connection">IV.7 Create a WLAN Connection</a></li>
+      <li><a href="10-index-appendices.html#sec:delete-a-wlan-connection">IV.8 Delete a WLAN Connection</a></li>
+      <li><a href="10-index-appendices.html#sec:configure-a-dhcp-client-and-server">IV.9 Configure a DHCP Client and Server</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:dhcp-client-configuration-acme-devices">IV.9.1 DHCP Client Configuration (ACME devices)</a></li>
+        <li><a href="10-index-appendices.html#sec:dhcp-server-configuration-gateway">IV.9.2 DHCP Server Configuration (gateway)</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:reconfigure-an-existing-interface">IV.10 Reconfigure an Existing Interface</a></li>
+      <li><a href="10-index-appendices.html#sec:backup-restore-using-vendor-configuration-files">IV.11 Backup / Restore Using Vendor Configuration Files</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:ipv6-data-modeling-theory-of-operation">Appendix V: IPv6 Data Modeling Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:ipv6-overview">V.1 IPv6 Overview</a></li>
+      <li><a href="10-index-appendices.html#sec:data-model-overview">V.2 Data Model Overview</a></li>
+      <li><a href="10-index-appendices.html#sec:enabling-ipv6">V.3 Enabling IPv6</a></li>
+      <li><a href="10-index-appendices.html#sec:configuring-upstream-ip-interfaces">V.4 Configuring Upstream IP Interfaces</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:configuration-messages-sent-out-the-upstream-ip-interface">V.4.1 Configuration Messages Sent Out the Upstream IP Interface</a></li>
+        <li><a href="10-index-appendices.html#sec:ipv6-prefixes">V.4.2 IPv6 Prefixes</a></li>
+        <li><a href="10-index-appendices.html#sec:ipv6-addresses">V.4.3 IPv6 Addresses</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:configuring-downstream-ip-interfaces">V.5 Configuring Downstream IP Interfaces</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:ipv6-prefixes-1">V.5.1 IPv6 Prefixes</a></li>
+        <li><a href="10-index-appendices.html#sec:ipv6-addresses-1">V.5.2 IPv6 Addresses</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:device-interactions">V.6 Device Interactions</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:active-configuration">V.6.1 Active Configuration</a></li>
+        <li><a href="10-index-appendices.html#sec:monitoring">V.6.2 Monitoring</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:configuring-ipv6-routing-and-forwarding">V.7 Configuring IPv6 Routing and Forwarding</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:rd-theory-of-operation">Appendix VI: 6rd Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:rfc-5969-configuration-parameters">VI.1 RFC 5969 Configuration Parameters</a></li>
+      <li><a href="10-index-appendices.html#sec:internal-configuration-parameters">VI.2 Internal Configuration Parameters</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv4-address-source">VI.3 IPv4 Address Source</a></li>
+      <li><a href="10-index-appendices.html#sec:sending-all-traffic-to-the-border-relay-server">VI.4 Sending All Traffic to the Border Relay Server</a></li>
+      <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv6-packets">VI.5 Internal Treatment of IPv6 Packets</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:dual-stack-lite-theory-of-operation">Appendix VII: Dual-Stack Lite Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets">VII.1 Internal Treatment of IPv4 Packets</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:advanced-firewall-example-configuration">Appendix VIII: Advanced Firewall Example Configuration</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec-theory-of-operation">Appendix IX: IPsec Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:ipsec">IX.1 IPsec</a></li>
+      <li><a href="10-index-appendices.html#sec:ipsec.filter">IX.2 IPsec.Filter</a></li>
+      <li><a href="10-index-appendices.html#sec:ipsec.profile">IX.3 IPsec.Profile</a></li>
+      <li><a href="10-index-appendices.html#sec:ipsec.tunnel">IX.4 IPsec.Tunnel</a></li>
+      <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa">IX.5 IPsec.IKEv2SA</a></li>
+      <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa.childsa">IX.6 IPsec.IKEv2SA.ChildSA</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:etsi-m2m-remote-entity-management-theory-of-operation">Appendix X: ETSI M2M Remote Entity Management Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:etsi-m2m-area-networks">X.1 ETSI M2M Area Networks</a></li>
+      <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem">X.2 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:tr-069-functionality-for-etsi-m2m-rem">X.2.1 TR-069 Functionality for ETSI M2M REM</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem-1">X.3 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:m2m-service-scl-execution-environment">X.3.1 M2M Service SCL Execution Environment</a></li>
+        <li><a href="10-index-appendices.html#sec:etsim2m-object">X.3.2 ETSIM2M Object</a></li>
+      </ul>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:provider-bridge-theory-of-operation">Appendix XI: Provider Bridge Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:residential-domain-scenario">XI.1 Residential Domain Scenario</a></li>
+      <li><a href="10-index-appendices.html#sec:device-traffic-scenario">XI.2 Device Traffic Scenario</a></li>
+      <li><a href="10-index-appendices.html#sec:public-and-roaming-domain-scenarios">XI.3 Public and Roaming Domain Scenarios</a></li>
+      <li><a href="10-index-appendices.html#sec:provisioning-provider-bridges">XI.4 Provisioning Provider Bridges</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:associating-customer-edge-ports-with-customer-network-ports">XI.4.1 Associating Customer Edge Ports with Customer Network Ports</a></li>
+      </ul>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:zigbee-theory-of-operation">Appendix XII: ZigBee Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:cwmp-management-using-the-zigbee-data-model">XII.1 CWMP management using the ZigBee data model</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-proxying-mechanisms-and-the-zigbee-data-model">XII.2 CWMP proxying mechanisms and the ZigBee data model</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:port-control-protocol-theory-of-operation">Appendix XIII: Port Control Protocol Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:configuration-and-monitoring-of-the-pcp-server">XIII.1 Configuration and monitoring of the PCP Server</a></li>
+      <li><a href="10-index-appendices.html#sec:monitoring-and-setting-rules-set-by-the-pcp-client">XIII.2 Monitoring and setting rules set by the PCP client</a></li>
+      <li><a href="10-index-appendices.html#sec:rapid-recovery">XIII.3 Rapid recovery</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:gre-tunnel-theory-of-operation">Appendix XIV: GRE Tunnel Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:l2-payload-over-gre">XIV.1 L2 Payload over GRE</a></li>
+      <li><a href="10-index-appendices.html#sec:l3-payload-over-gre">XIV.2 L3 Payload over GRE</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:map-theory-of-operation">Appendix XV: MAP Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:map-configuration-parameters">XV.1 MAP Configuration Parameters</a></li>
+      <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets-1">XV.2 Internal Treatment of IPv4 Packets</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:g.fast-theory-of-operation">Appendix XVI: G.fast Theory of Operation</a></li>
+    <li><a href="10-index-appendices.html#sec:usb-host-theory-of-operation">Appendix XVII: USB Host Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:overview-2">XVII.1 Overview</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:location-management">Appendix XVIII: Location Management</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:overview-3">XVIII.1 Overview</a></li>
+      <li><a href="10-index-appendices.html#sec:multiple-instances-of-location-data">XVIII.2 Multiple Instances of Location Data</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-usp-manual-gps-and-agps-configured-location">XVIII.3 CWMP, USP, Manual, GPS, and AGPS Configured Location</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:example-manual-gps-agps-and-externalcwmp-rootobject.location.i.dataobject.-format">XVIII.3.1 Example: Manual, GPS, AGPS, and External:CWMP &lt;rootObject&gt;.Location.{i}.DataObject. Format</a></li>
+        <li><a href="10-index-appendices.html#sec:rfc-5491-and-rfc-5139-location-element-definitions">XVIII.3.2 RFC 5491 and RFC 5139 Location Element Definitions</a></li>
+        <li><a href="10-index-appendices.html#sec:use-of-rfc-5491-and-rfc-5139-location-xml-elements-in-cwmp-or-usp">XVIII.3.3 Use of RFC 5491 and RFC 5139 Location XML Elements in CWMP or USP</a></li>
+      </ul>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:fault-management">Appendix XIX: Fault Management</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:overview-4">XIX.1 Overview</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:basapm-and-lmap-theory-of-operation">Appendix XX: BASAPM and LMAP Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tr-069-family-of-specifications-in-the-context-of-tr-304">XX.1 TR-069 Family of Specifications in the Context of TR-304</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:tr-304-and-ietf-lmap-frameworks">XX.1.1 TR-304 and IETF LMAP Frameworks</a></li>
+        <li><a href="10-index-appendices.html#sec:cwmp-for-pre-configuration">XX.1.2 CWMP for Pre-configuration</a></li>
+        <li><a href="10-index-appendices.html#sec:cwmp-for-control-and-pre-configuration-ipdr-for-reporting">XX.1.3 CWMP for Control and Pre-configuration, IPDR for Reporting</a></li>
+        <li><a href="10-index-appendices.html#sec:cwmp-as-a-proxier-ipdr-for-reporting">XX.1.4 CWMP as a Proxier, IPDR for Reporting</a></li>
+        <li><a href="10-index-appendices.html#sec:multi-acs-deployment">XX.1.5 Multi-ACS Deployment</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:derivation-of-data-model-elements">XX.2 Derivation of Data Model Elements</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:device.basapm">XX.2.1 Device.BASAPM</a></li>
+        <li><a href="10-index-appendices.html#sec:device.lmap.measurementagent">XX.2.2 Device.LMAP.MeasurementAgent</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:bulk-data-collection-in-the-context-of-lmap">XX.3 Bulk Data Collection in the Context of LMAP</a></li>
+      <li><a href="10-index-appendices.html#sec:tr-143-diagnostics-in-lmap">XX.4 TR-143 Diagnostics in LMAP</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:g-theory-of-operation">Appendix XXI: 5G Theory of Operation</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:overview-5">XXI.1 Overview</a></li>
+      <li><a href="10-index-appendices.html#sec:architecture-1">XXI.2 Architecture</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:network-functions">XXI.2.1 Network Functions</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:concepts">XXI.3 Concepts</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:control-user-plane-separation-cups">XXI.3.1 Control User Plane Separation (CUPS)</a></li>
+        <li><a href="10-index-appendices.html#sec:policy">XXI.3.2 Policy</a></li>
+        <li><a href="10-index-appendices.html#sec:multiple-pdu-sessions">XXI.3.3 Multiple PDU sessions</a></li>
+        <li><a href="10-index-appendices.html#sec:g-qos">XXI.3.4 5G QoS</a></li>
+        <li><a href="10-index-appendices.html#sec:data-network-name-dnn">XXI.3.5 Data Network Name (DNN)</a></li>
+        <li><a href="10-index-appendices.html#sec:multiple-access-networks">XXI.3.6 Multiple Access Networks</a></li>
+        <li><a href="10-index-appendices.html#sec:network-slicing">XXI.3.7 Network Slicing</a></li>
+      </ul>
+      <li><a href="10-index-appendices.html#sec:data-model-elements">XXI.4 Data Model Elements</a></li>
+      <ul>
+        <li><a href="10-index-appendices.html#sec:interface-stack">XXI.4.1 Interface Stack</a></li>
+        <li><a href="10-index-appendices.html#sec:data-model">XXI.4.2 Data Model</a></li>
+        <li><a href="10-index-appendices.html#sec:examples">XXI.4.3 Examples</a></li>
+      </ul>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:data-elements-theory-of-operations">Appendix XXII: Data Elements Theory of Operations</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:data-sources">XXII.1 Data Sources</a></li>
+      <li><a href="10-index-appendices.html#sec:mapping-new-data-elements-objects-and-parameters">XXII.2 Mapping new Data Elements objects and parameters</a></li>
+    </ul>
+  </ul>
+  </nav>
+
+  <h3 class="unnumbered unlisted" id="list-of-figures">List of Figures<a class="headerlink" href="10-index-appendices.html#list-of-figures" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <ol>
+  <li><a href='02-index-purpose-and-scope.html#fig:cwmp-specific-device2-data-model-structure--overview' title=''>CWMP-specific Device:2 Data Model Structure – Overview</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:usp-specific-device2-data-model-structure--overview' title=''>USP-specific Device:2 Data Model Structure – Overview</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--device-level' title=''>Device:2 Data Model Structure – Device Level</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--common-interface-stack-and-networking-technologies' title=''>Device:2 Data Model Structure – Common Interface Stack and Networking Technologies</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--common-applications-and-protocols' title=''>Device:2 Data Model Structure – Common Applications and Protocols</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--cwmp-management' title=''>Device:2 Data Model Structure – CWMP Management</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--cwmp-specific-applications-and-protocols' title=''>Device:2 Data Model Structure – CWMP-specific applications and protocols</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--usp-management' title=''>Device:2 Data Model Structure – USP Management</a></li>
+  <li><a href='02-index-purpose-and-scope.html#fig:device2-data-model-structure--usp-specific-applications-and-protocols' title=''>Device:2 Data Model Structure – USP-specific applications and protocols</a></li>
+  <li><a href='05-index-architecture.html#fig:osi-layers-and-interface-objects' title=''>OSI Layers and Interface Objects</a></li>
+  <li><a href='05-index-architecture.html#fig:interface-lowerlayers' title=''>Interface LowerLayers</a></li>
+  <li><a href='05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack' title=''>Ignoring a Vendor-specific Interface Object in the Stack</a></li>
+  <li><a href='05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects' title=''>Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)</a></li>
+  <li><a href='05-index-architecture.html#fig:simple-router-example-interfaces-visualized' title=''>Simple Router Example (Interfaces Visualized)</a></li>
+  <li><a href='07-index-bridging-and-queuing.html#fig:queuing-model-of-a-device' title=''>Queuing Model of a Device</a></li>
+  <li><a href='08-index-tunneling.html#fig:tunneling-overview' title=''>Tunneling Overview</a></li>
+  <li><a href='08-index-tunneling.html#fig:tunneling-overview-showing-forwarding-decisions' title=''>Tunneling Overview (Showing Forwarding Decisions)</a></li>
+  <li><a href='08-index-tunneling.html#fig:sample-flow-of-upstream-tunneled-traffic-through-the-device' title=''>Sample Flow of Upstream Tunneled Traffic through the Device</a></li>
+  <li><a href='08-index-tunneling.html#fig:sample-flow-of-downstream-tunneled-traffic-through-the-device' title=''>Sample Flow of Downstream Tunneled Traffic through the Device</a></li>
+  <li><a href='08-index-tunneling.html#fig:general-layer-3-tunneling-interface-stack' title=''>General Layer 3 Tunneling Interface Stack</a></li>
+  <li><a href='08-index-tunneling.html#fig:general-layer-3-tunneling-from-tunneling-overview' title=''>General Layer 3 Tunneling (from Tunneling Overview)</a></li>
+  <li><a href='08-index-tunneling.html#fig:l2tp-interface-stack-example' title=''>L2TP Interface Stack Example</a></li>
+  <li><a href='08-index-tunneling.html#fig:general-layer-2-tunneling-interface-stack' title=''>General Layer 2 Tunneling Interface Stack</a></li>
+  <li><a href='10-index-appendices.html#fig:queuing-and-scheduling-example-for-rg' title=''>Queuing and Scheduling Example for RG</a></li>
+  <li><a href='10-index-appendices.html#fig:examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects' title=''>Examples of VLAN configuration based on Bridging and VLAN Termination objects</a></li>
+  <li><a href='10-index-appendices.html#fig:bridge-1-model' title=''>Bridge 1 model</a></li>
+  <li><a href='10-index-appendices.html#fig:bridge-2-model' title=''>Bridge 2 model</a></li>
+  <li><a href='10-index-appendices.html#fig:bridge-3-model' title=''>Bridge 3 model</a></li>
+  <li><a href='10-index-appendices.html#fig:vlan-termination-model' title=''>VLAN Termination model</a></li>
+  <li><a href='10-index-appendices.html#fig:bridge-1-model-additional-ethernet-interfaces' title=''>Bridge 1 model (additional Ethernet interfaces)</a></li>
+  <li><a href='10-index-appendices.html#fig:example-of-vlan-configuration-in-a-2-box-scenario' title=''>Example of VLAN configuration in a 2 box scenario</a></li>
+  <li><a href='10-index-appendices.html#fig:bridge-123-model' title=''>Bridge 1,2,3 model</a></li>
+  <li><a href='10-index-appendices.html#fig:wifi-functions-within-layers' title=''>WiFi functions within layers</a></li>
+  <li><a href='10-index-appendices.html#fig:device-user-configuration-backup' title=''>Device User Configuration Backup</a></li>
+  <li><a href='10-index-appendices.html#fig:device-user-configuration-restore' title=''>Device User Configuration Restore</a></li>
+  <li><a href='10-index-appendices.html#fig:relationship-of-protocols-to-data-model' title=''>Relationship of Protocols to Data Model</a></li>
+  <li><a href='10-index-appendices.html#fig:internal-relationships-of-ipv6-addresses-and-prefixes' title=''>Internal Relationships of IPv6 Addresses and Prefixes</a></li>
+  <li><a href='10-index-appendices.html#fig:example-ipv6-rg-configuration' title=''>Example IPv6 RG Configuration</a></li>
+  <li><a href='10-index-appendices.html#fig:sample-6rd-routing-and-forwarding' title=''>Sample 6rd Routing and Forwarding</a></li>
+  <li><a href='10-index-appendices.html#fig:sample-ds-lite-routing-and-forwarding' title=''>Sample DS-Lite Routing and Forwarding</a></li>
+  <li><a href='10-index-appendices.html#fig:ipsec-data-model-objects' title=''>IPsec Data Model Objects</a></li>
+  <li><a href='10-index-appendices.html#fig:etsi-high-level-functional-architecture' title=''>ETSI High Level Functional Architecture</a></li>
+  <li><a href='10-index-appendices.html#fig:m2m-scl-functional-architecture-framework' title=''>M2M SCL Functional Architecture Framework</a></li>
+  <li><a href='10-index-appendices.html#fig:m2m-rem-service-capability' title=''>M2M REM Service Capability</a></li>
+  <li><a href='10-index-appendices.html#fig:etsi-m2m-devices-and-gateways' title=''>ETSI M2M Devices and Gateways</a></li>
+  <li><a href='10-index-appendices.html#fig:example-m2m-network' title=''>Example M2M Network</a></li>
+  <li><a href='10-index-appendices.html#fig:m2m-device-discovery-for-proxy-management' title=''>M2M Device Discovery for Proxy Management</a></li>
+  <li><a href='10-index-appendices.html#fig:etsi-m2m-data-model-structure' title=''>ETSI M2M Data Model Structure</a></li>
+  <li><a href='10-index-appendices.html#fig:provider-bridge-scenarios' title=''>Provider Bridge Scenarios</a></li>
+  <li><a href='10-index-appendices.html#fig:provider-bridge-components' title=''>Provider Bridge Components</a></li>
+  <li><a href='10-index-appendices.html#fig:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069' title=''>Usage of the data model to manage ZigBee devices with TR-069</a></li>
+  <li><a href='10-index-appendices.html#fig:example-sequence-diagram-of-zigbee-management-with-tr-069' title=''>Example sequence diagram of ZigBee management with TR-069</a></li>
+  <li><a href='10-index-appendices.html#fig:example-of-a-pcp-client-embedded-in-the-rg-using-cwmp' title=''>Example of a PCP Client embedded in the RG using CWMP</a></li>
+  <li><a href='10-index-appendices.html#fig:example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg' title=''>Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG</a></li>
+  <li><a href='10-index-appendices.html#fig:vlan-traffic-over-gre' title=''>VLAN Traffic over GRE</a></li>
+  <li><a href='10-index-appendices.html#fig:l2-over-gre-tunnel' title=''>L2 over GRE Tunnel</a></li>
+  <li><a href='10-index-appendices.html#fig:ip-over-ip-gre-encapsulation' title=''>IP over IP GRE Encapsulation</a></li>
+  <li><a href='10-index-appendices.html#fig:l3-over-gre-tunnel' title=''>L3 over GRE Tunnel</a></li>
+  <li><a href='10-index-appendices.html#fig:map-t-architecture' title=''>MAP-T Architecture</a></li>
+  <li><a href='10-index-appendices.html#fig:sample-map-routing-and-forwarding' title=''>Sample MAP Routing and Forwarding</a></li>
+  <li><a href='10-index-appendices.html#fig:sample-map-routing-and-forwarding-interface-stack' title=''>Sample MAP Routing and Forwarding (Interface Stack)</a></li>
+  <li><a href='10-index-appendices.html#fig:ptm-link-for-dsl-mode-line' title=''>PTM Link for DSL mode Line</a></li>
+  <li><a href='10-index-appendices.html#fig:ptm-link-for-fast-mode-line' title=''>PTM Link for FAST mode Line</a></li>
+  <li><a href='10-index-appendices.html#fig:ptm-link-bonding-groups-for-fast-mode-lines' title=''>PTM Link Bonding Groups for FAST mode Lines</a></li>
+  <li><a href='10-index-appendices.html#fig:ptm-link-bonding-groups-for-dsl-mode-lines' title=''>PTM Link Bonding Groups for DSL mode Lines</a></li>
+  <li><a href='10-index-appendices.html#fig:example-usb-host-connections' title=''>Example USB Host Connections</a></li>
+  <li><a href='10-index-appendices.html#fig:tr-304-framework' title=''>TR-304 Framework</a></li>
+  <li><a href='10-index-appendices.html#fig:lmap-framework' title=''>LMAP Framework</a></li>
+  <li><a href='10-index-appendices.html#fig:cwmp-for-pre-configuration' title=''>CWMP for Pre-configuration</a></li>
+  <li><a href='10-index-appendices.html#fig:cwmp-for-control-and-pre-configuration-ipdr-for-reporting' title=''>CWMP for Control and Pre-configuration, IPDR for Reporting</a></li>
+  <li><a href='10-index-appendices.html#fig:cwmp-proxy-device-deployment' title=''>CWMP Proxy Device Deployment</a></li>
+  <li><a href='10-index-appendices.html#fig:cwmp-multi-acs-deployment' title=''>CWMP Multi-ACS Deployment</a></li>
+  <li><a href='10-index-appendices.html#fig:integration-of-bulk-data-profiles-with-lmap' title=''>Integration of Bulk Data Profiles with LMAP</a></li>
+  <li><a href='10-index-appendices.html#fig:5g-converged-core-network' title=''>5G Converged Core Network</a></li>
+  <li><a href='10-index-appendices.html#fig:5g-architecture' title=''>5G Architecture</a></li>
+  <li><a href='10-index-appendices.html#fig:fixed-access-only-example' title=''>Fixed access only example</a></li>
+  <li><a href='10-index-appendices.html#fig:cellular-access-only-example' title=''>Cellular access only example</a></li>
+  <li><a href='10-index-appendices.html#fig:hybrid-access-example' title=''>Hybrid access example</a></li>
+  <li><a href='10-index-appendices.html#fig:device.wwc-objects' title=''>Device.WWC objects</a></li>
+  <li><a href='10-index-appendices.html#fig:device.pdu-objects' title=''>Device.PDU objects</a></li>
+  <li><a href='10-index-appendices.html#fig:device.fwe-objects' title=''>Device.FWE objects</a></li>
+  </ol>
+
+  <h3 class="unnumbered unlisted" id="list-of-tables">List of Tables<a class="headerlink" href="10-index-appendices.html#list-of-tables" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <ol>
+  <li><a href='05-index-architecture.html#tbl:simple-router-example-interfacestack-table' title=''>Simple Router Example (InterfaceStack table)</a></li>
+  <li><a href='05-index-architecture.html#tbl:simple-router-example-interface-lowerlayers' title=''>Simple Router Example (Interface LowerLayers)</a></li>
+  <li><a href='07-index-bridging-and-queuing.html#tbl:default-layer-23-qos-mapping' title=''>Default Layer 2/3 QoS Mapping</a></li>
+  <li><a href='07-index-bridging-and-queuing.html#tbl:protocolidentifer-urns' title=''>ProtocolIdentifer URNs</a></li>
+  <li><a href='07-index-bridging-and-queuing.html#tbl:flow-typeparameters-values-for-flow-type-urndslforum-orgpppoe' title=''>Flow TypeParameters values for flow type urn:dslforum-org:pppoe</a></li>
+  <li><a href='10-index-appendices.html#tbl:tagged-lan-to-tagged-wan-configuration' title=''>Tagged LAN to tagged WAN configuration</a></li>
+  <li><a href='10-index-appendices.html#tbl:tagged-lan-to-tagged-wan-configuration-vlan-id-translation' title=''>Tagged LAN to tagged WAN configuration (VLAN ID translation)</a></li>
+  <li><a href='10-index-appendices.html#tbl:untagged-lan-to-tagged-wan-configuration' title=''>Untagged LAN to tagged WAN configuration</a></li>
+  <li><a href='10-index-appendices.html#tbl:internally-generated-to-tagged-wan-configuration' title=''>Internally generated to tagged WAN configuration</a></li>
+  <li><a href='10-index-appendices.html#tbl:configuration-to-be-added-to-tagged-lan-to-tagged-wan-configuration-table' title=''>Configuration to be added to “Tagged LAN to tagged WAN configuration” table</a></li>
+  <li><a href='10-index-appendices.html#tbl:802.1d-re-marking' title=''>802.1D (re-)marking</a></li>
+  <li><a href='10-index-appendices.html#tbl:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface' title=''>More than one VLAN ID tag admitted on the same Downstream interface</a></li>
+  <li><a href='10-index-appendices.html#tbl:rfc-5969-configuration-parameter-mapping' title=''>RFC 5969 Configuration Parameter Mapping</a></li>
+  <li><a href='10-index-appendices.html#tbl:fm-object-definition' title=''>FM Object Definition</a></li>
+  <li><a href='10-index-appendices.html#tbl:mapping-lmap-information-model-parameters-to-data-model-parameters' title=''>Mapping LMAP Information Model Parameters to Data Model Parameters</a></li>
+  <li><a href='10-index-appendices.html#tbl:device.wwc-objects' title=''>Device.WWC objects</a></li>
+  <li><a href='10-index-appendices.html#tbl:device.pdu-objects' title=''>Device.PDU objects</a></li>
+  <li><a href='10-index-appendices.html#tbl:device.fwe-objects' title=''>Device.FWE objects</a></li>
+  </ol>
+
+  <h3 class="unnumbered unlisted new-page" id="sec:notice">Notice<a class="headerlink" href="00-index-contents.html#sec:notice" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <p>The Broadband Forum is a non-profit corporation organized to create guidelines
+  for broadband network system development and deployment. This Technical Report
+  has been approved by members of the Forum. This Technical Report is subject to
+  change. This Technical Report is owned and copyrighted by the Broadband Forum,
+  and all rights are reserved. Portions of this Technical Report may be owned
+  and/or copyrighted by Broadband Forum members.</p>
+
+  <h3 class="unnumbered unlisted" id="sec:intellectual-property">Intellectual Property<a class="headerlink" href="00-index-contents.html#sec:intellectual-property" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <p>Recipients of this Technical Report are requested to submit, with their
+  comments, notification of any relevant patent claims or other intellectual
+  property rights of which they may be aware that might be infringed by any
+  implementation of this Technical Report, or use of any software code
+  normatively referenced in this Technical Report, and to provide supporting
+  documentation.</p>
+
+  <h3 class="unnumbered unlisted" id="sec:terms-of-use">Terms of Use<a class="headerlink" href="00-index-contents.html#sec:terms-of-use" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <p><strong>1. License</strong></p>
+
+  <p>Broadband Forum hereby grants you the right, without charge, on a perpetual,
+  non-exclusive and worldwide basis, to utilize the Technical Report for the
+  purpose of developing, making, having made, using, marketing, importing,
+  offering to sell or license, and selling or licensing, and to otherwise
+  distribute, products complying with the Technical Report, in all cases subject
+  to the conditions set forth in this notice and any relevant patent and other
+  intellectual property rights of third parties (which may include members of
+  Broadband Forum). This license grant does not include the right to sublicense,
+  modify or create derivative works based upon the Technical Report except to the
+  extent this Technical Report includes text implementable in computer code, in
+  which case your right under this License to create and modify derivative works
+  is limited to modifying and creating derivative works of such code. For the
+  avoidance of doubt, except as qualified by the preceding sentence, products
+  implementing this Technical Report are not deemed to be derivative works of the
+  Technical Report.</p>
+
+  <p><strong>2. NO WARRANTIES</strong></p>
+
+  <p>THIS TECHNICAL REPORT IS BEING OFFERED WITHOUT ANY WARRANTY WHATSOEVER, AND IN
+  PARTICULAR, ANY WARRANTY OF NONINFRINGEMENT AND ANY IMPLIED WARRANTIES ARE
+  EXPRESSLY DISCLAIMED. ANY USE OF THIS TECHNICAL REPORT SHALL BE MADE ENTIRELY
+  AT THE USER’S OR IMPLEMENTER’S OWN RISK, AND NEITHER THE BROADBAND FORUM, NOR
+  ANY OF ITS MEMBERS OR SUBMITTERS, SHALL HAVE ANY LIABILITY WHATSOEVER TO ANY
+  USER, IMPLEMENTER, OR THIRD PARTY FOR ANY DAMAGES OF ANY NATURE WHATSOEVER,
+  DIRECTLY OR INDIRECTLY, ARISING FROM THE USE OF THIS TECHNICAL REPORT,
+  INCLUDING BUT NOT LIMITED TO, ANY CONSEQUENTIAL, SPECIAL, PUNITIVE, INCIDENTAL,
+  AND INDIRECT DAMAGES.</p>
+
+  <p><strong>3. THIRD PARTY RIGHTS</strong></p>
+
+  <p>Without limiting the generality of Section 2 above, BROADBAND FORUM ASSUMES NO
+  RESPONSIBILITY TO COMPILE, CONFIRM, UPDATE OR MAKE PUBLIC ANY THIRD PARTY
+  ASSERTIONS OF PATENT OR OTHER INTELLECTUAL PROPERTY RIGHTS THAT MIGHT NOW OR IN
+  THE FUTURE BE INFRINGED BY AN IMPLEMENTATION OF THE TECHNICAL REPORT IN ITS
+  CURRENT, OR IN ANY FUTURE FORM. IF ANY SUCH RIGHTS ARE DESCRIBED ON THE
+  TECHNICAL REPORT, BROADBAND FORUM TAKES NO POSITION AS TO THE VALIDITY OR
+  INVALIDITY OF SUCH ASSERTIONS, OR THAT ALL SUCH ASSERTIONS THAT HAVE OR MAY BE
+  MADE ARE SO LISTED.</p>
+
+  <p>All copies of this Technical Report (or any portion hereof) must include the
+  notices, legends, and other provisions set forth on this page.</p>
+
+  <h3 class="unnumbered unlisted new-page" id="sec:bbfissue-history">Issue History<a class="headerlink" href="00-index-contents.html#sec:bbfissue-history" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <div bbfTable="bbfRevisionHistory">
+  <table>
+  <col width="12%" />
+  <col width="14%" />
+  <col width="14%" />
+  <col width="14%" />
+  <col width="46%" />
+  <tr class="header">
+  <th align="left">Issue Number</th>
+  <th align="left">Approval Date</th>
+  <th align="left">Publication Date</th>
+  <th align="left">Issue Editor</th>
+  <th align="left">Changes</th>
+  </tr>
+  <tr class="odd">
+  <td align="left">Issue 2</td>
+  <td align="left">May 2010</td>
+  <td align="left"></td>
+  <td align="left">Paul Sigurdson, Broadband Forum<br/>William Lupton, 2Wire</td>
+  <td align="left">Original. Defines version 2.0 of the TR-069 Device data model
+  (Device:2.0).</td>
+  </tr>
+  <tr class="even">
+  <td align="left">Issue 2 Amendment 1</td>
+  <td align="left">November 2010</td>
+  <td align="left"></td>
+  <td align="left">Paul Sigurdson, Broadband Forum<br/>William Lupton, 2Wire</td>
+  <td align="left"><p><strong><em>This update to TR-181 did not update this document; only the XML
+  data model was updated.</em></strong></p>
+
+  <p>Added support for Software Module Management in the data model.</p>
+
+  <p>Defines version 2.1 of the TR-069 Device data model (Device:2.1).</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf' title=''>Issue 2 Amendment 2</a></td>
+  <td align="left">February 2011</td>
+  <td align="left"></td>
+  <td align="left">Paul Sigurdson, Broadband Forum<br/>William Lupton, Pace</td>
+  <td align="left"><p>Added support for IPv6 and Firewall in the data model (added IPv6 and
+  Firewall Appendices to this document).</p>
+
+  <p>Defines version 2.2 of the TR-069 Device data model (Device:2.2).</p></td>
+  </tr>
+  <tr class="even">
+  <td align="left">Issue 2 Amendment 3</td>
+  <td align="left">July 2011</td>
+  <td align="left"></td>
+  <td align="left"></td>
+  <td align="left"><p><strong><em>This update to TR-181 did not update this document; only the XML
+  data model was updated.</em></strong></p>
+
+  <p>Added support for proxy management and alias-based addressing.</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left">Issue 2 Amendment 4</td>
+  <td align="left">November 2011</td>
+  <td align="left"></td>
+  <td align="left">William Lupton, Pace</td>
+  <td align="left"><p><strong><em>This update to TR-181 did not update this document; only the XML
+  data model was updated.</em></strong></p>
+
+  <p>Added support for G.hn and Optical interfaces in the data model, and
+  additional WiFi parameters (updated interface stack figures).</p>
+
+  <p>Defines version 2.4 of the TR-069 Device data model (Device:2.4).</p></td>
+  </tr>
+  <tr class="even">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf' title=''>Issue 2 Amendment 5</a></td>
+  <td align="left">May 2012</td>
+  <td align="left"></td>
+  <td align="left">William Lupton, Pace</td>
+  <td align="left"><p>Added support for IPsec and bulk data collection in the data model
+  (added Tunneling Annex and IPsec Appendix to this document).</p>
+
+  <p>Defines version 2.5 of the TR-069 Device data model (Device:2.5).</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf' title=''>Issue 2 Amendment 6</a></td>
+  <td align="left">November 2012</td>
+  <td align="left">18 January 2013</td>
+  <td align="left">Tim Carey, Alcatel-Lucent</td>
+  <td align="left"><p>Added support M2M SCL Administration as an Appendix.</p>
+
+  <p>Defines version 2.6 of the TR-069 Device data model (Device: 2.6).</p></td>
+  </tr>
+  <tr class="even">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf' title=''>Issue 2 Amendment 7</a></td>
+  <td align="left">11 November 2013</td>
+  <td align="left">17 January 2014</td>
+  <td align="left">Apostolos Papageorgiou, NEC<br/>William Lupton, Cisco</td>
+  <td align="left"><p>Added ZigBee and Provider Bridge data models (including theory of
+  operation); also added additional WiFi statistics, and other minor
+  changes; added backup/restore theory of operation.</p>
+
+  <p>Defines version 2.7 of the TR-069 Device data model (Device: 2.7).</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf' title=''>Issue 2 Amendment 8</a></td>
+  <td align="left">8 September 2014</td>
+  <td align="left">15 September 2014</td>
+  <td align="left">William Lupton, Cisco</td>
+  <td align="left"><p>Added LLDP and HTIP home network topology discovery parameters,
+  G.997.1-2012 DSL parameters, various WiFi parameters (associated
+  device statistics, retry limits, reports, QoS), IPv6-related IP
+  diagnostics parameters, and other minor changes; updated G.hn data
+  model to align with G.9962; updated Annex B on tunneling, and added
+  GRE and MAP data models (including theory of operation); added PCP
+  data model (including theory of operation); added Cellular interface
+  data model.</p>
+
+  <p>Defines version 2.8 of the TR-069 Device data model (Device: 2.8).</p></td>
+  </tr>
+  <tr class="even">
+  <td align="left">Issue 2 Amendment 9</td>
+  <td align="left">1 December 2014</td>
+  <td align="left">11 February 2015</td>
+  <td align="left">Douglas Knisely, Qualcomm, Inc</td>
+  <td align="left"><p><strong><em>This update to TR-181 did not update this document; only the XML
+  data model was updated.</em></strong></p>
+
+  <p>Added support forWiFi MAC Address Filtering, fixes for Traceroute,
+  IEEE 1905 data model and incorporated new components from TR-143
+  Amendment 1</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf' title=''>Issue 2 Amendment 10</a></td>
+  <td align="left">9 November 2015</td>
+  <td align="left">13 November 2015</td>
+  <td align="left">Klaus Wich, Axiros</td>
+  <td align="left"><p>Added data model updates:</p>
+
+  <ul>
+  <li>MQTT model</li>
+  <li>Bulk data over HTTP</li>
+  <li>DNS Server updates</li>
+  <li>new diagnostics state</li>
+  </ul></td>
+  </tr>
+  <tr class="even">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf' title=''>Issue 2 Amendment 11</a></td>
+  <td align="left">18 July 2016</td>
+  <td align="left">12 August 2016</td>
+  <td align="left">Klaus Wich, Axiros<br/>Mark Tabry, Google</td>
+  <td align="left"><p>Added G.fast data model (including theory of operation).</p>
+
+  <p>Data model additions:</p>
+
+  <ul>
+  <li>LED status model</li>
+  <li>Layer 2 tunnel support for IP diagnostics model</li>
+  <li>DSL G.fast model</li>
+  <li>Management Frame Protection support for WiFi model</li>
+  <li>WPS 2.0 support for WiFi model</li>
+  <li>User interface toggle</li>
+  <li>User interface messaging model</li>
+  <li>ConnectionRequest HTTP service toggle</li>
+  <li>DNS fallback support for XMPP connections</li>
+  </ul></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-12.pdf' title=''>Issue 2 Amendment 12</a></td>
+  <td align="left">16 March 2018</td>
+  <td align="left">9 May 2018</td>
+  <td align="left">Steve Nicolai, Arris</td>
+  <td align="left"><p>Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII and
+  XIX.</p>
+
+  <p>Added Appendix XX BASAPM and LMAP Theory of Operations</p>
+
+  <p>Added Annex H from TR-069a5 as Annex C.</p>
+
+  <p>Data model additions:</p>
+
+  <ul>
+  <li>Ethernet Link Aggregation</li>
+  </ul></td>
+  </tr>
+  <tr class="even">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-13.pdf' title=''>Issue 2 Amendment 13</a></td>
+  <td align="left">13 September 2019</td>
+  <td align="left">13 September 2019</td>
+  <td align="left">Klaus Wich, Huawei</td>
+  <td align="left"><p>Unified text for CWMP and USP support, updated references.</p>
+
+  <p>Data model additions:</p>
+
+  <ul>
+  <li>IoT data model parameters</li>
+  <li>WFA Data Elements and Multi AP parameters</li>
+  <li>WPA3 and 802.11ax support parameters</li>
+  <li>Support for MQTT5.0, package capture diagnostics.</li>
+  </ul>
+
+  <p>Defines version 2.13 of the Device data model (Device: 2.13).</p></td>
+  </tr>
+  <tr class="odd">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf' title=''>Issue 2 Amendment 14</a></td>
+  <td align="left">5 November 2020</td>
+  <td align="left">5 November 2020</td>
+  <td align="left">David Woolley, Telstra</td>
+  <td align="left"><p>Added Appendix XXI 5G – Wireline Wireless Convergence and Appendix XXII
+  Data Elements.</p>
+
+  <p>Data model additions:</p>
+
+  <ul>
+  <li>Wireline Wireless Convergence support using WWC, PDU and FWE objects</li>
+  <li>TR-471 Maximum IP-Layer Capacity Metric, Related Metrics, and
+  Measurements support</li>
+  <li>Improved Wi-Fi statistics</li>
+  <li>Access control objects for Hosts</li>
+  </ul>
+
+  <p>Defines version 2.14 of the Device data model (Device: 2.14).</p></td>
+  </tr>
+  <tr class="even">
+  <td align="left"><a href='https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf' title=''>Issue 2 Amendment 15</a></td>
+  <td align="left">27 January 2022</td>
+  <td align="left">27 January 2022</td>
+  <td align="left">William Lupton, Broadband Forum</td>
+  <td align="left"><p>Converted the document to markdown and extended the Wi-Fi Theory of
+  Operation.</p>
+
+  <p>Data Model additions:</p>
+
+  <ul>
+  <li>Converted the document to markdown and extended the Wi-Fi Theory of
+  Operation</li>
+  <li>Split the XML into multiple smaller files (this is just housekeeping;
+  it doesn’t affect how the model is used)</li>
+  <li>Added Device.USPAgent to the CWMP model to allow a CWMP ACS to
+  configure a device for USP communications</li>
+  <li>Allowed USP to access the EnableCWMP parameter (so a USP Controller
+  can enable/disable CWMP access)</li>
+  <li>Added Device.Routing.Babel for the RFC 8966 Babel routing protocol</li>
+  <li>Added Device.DOCSIS for modeling DOCSIS 3.0 and 3.1 interfaces</li>
+  <li>Added Device.Users.Group, Device.Users.Role and
+  Device.Users.SupportedShell tables for modeling system users</li>
+  <li>Improved the Wi-Fi data model by adding Data Elements R2 parameters,
+  commands and events, moving MultiAP parameters and commands into the
+  Data Elements structure, and by deprecating AIFSN, ECWMin, ECWMax and
+  TxOpMax</li>
+  <li>Clarified the LockoutPeriod and Retries ControllerTrust parameters
+  that impact how the RequestChallenge() and ChallengeResponse() data
+  model commands handle failed attempts</li>
+  <li>Clarified bulk data profile, threshold and periodic statistics USP
+  Controller permissions: only the USP Controller that created the
+  profile will receive the corresponding events</li>
+  <li>Added a bulk data profile ForceCollection() command</li>
+  <li>Added support for a new bulk data collection mechanism that utilizes
+  MQTT as the transport protocol</li>
+  <li>Removed old bulk data collection protocols (Streaming and File) from
+  the USP data model (they don’t apply to USP)</li>
+  <li>Updated the IPLayerCapacity() test to support TR-472 Issue 2</li>
+  <li>Added an enumeration to indicate when a Boot! event was due to a
+  factory reset</li>
+  <li>Added an enumeration to distinguish encrypted and unencrypted USP
+  MQTT WebSocket connections</li>
+  <li>Added an Order parameter to provide guidance to USP Agents on which
+  MTP to use when communicating with a Controller</li>
+  <li>Clarified that Device.Optical is intended for generic optical
+  interfaces and is not intended to model anything specific to IEEE or
+  ITU-T PON technologies (objects specific to such technologies may be
+  added in future versions of the data model)</li>
+  <li>Clarified the meaning and usage of the Device.Ethernet.Interface and
+  Device.Ethernet.Link objects (also allowed the Ethernet Link
+  MACAddress parameter to be written)</li>
+  <li>Improved (and made more consistent) the marking of (and explanation
+  of) deprecated items, and how such items should progress from being
+  deprecated to obsoleted to deleted</li>
+  <li>Added a Baseline:4 profile that doesn’t include
+  Device.LANConfigSecurity (it relates to the now-deprecated TR-064
+  LAN management protocol)</li>
+  <li>Many minor improvements to object, parameter, command and event
+  descriptions</li>
+  <li>Replaced the non-standard dmr:version attribute with the version
+  attribute (which supports three levels of version)</li>
+  <li>Switched to DMR (data model report) schema v1.0, which supports
+  multi-line paragraphs, and wrapped all lines to 80 characters maximum</li>
+  </ul>
+
+  <p>Defines version 2.15 of the Device data model (Device: 2.15).</p></td>
+  </tr>
+  </table></div>
+
+  <p>Comments or questions about this Broadband Forum Technical Report should be
+  directed to <a href='mailto:info@broadband-forum.org' title='' class="email">info@broadband-forum.org</a>.</p>
+
+  <div bbfTable="uspRevisionHistory">
+  </div>
+
+  <h3 class="unnumbered unlisted" id="sec:editors">Editors<a class="headerlink" href="00-index-contents.html#sec:editors" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <div bbfList="bbfEditors">
+  <p>William Lupton, Broadband Forum</p></div>
+
+  <div bbfTable="uspEditors">
+  </div>
+
+  <h3 class="unnumbered unlisted" id="sec:bbfworkarea-work-area-directors"> Work Area Director(s)<a class="headerlink" href="00-index-contents.html#sec:bbfworkarea-work-area-directors" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <div bbfList="bbfWADs">
+  <p>Jason Walls, QA Cafe<br/>John Blackford, CommScope</p></div>
+
+  <div bbfTable="uspWADs">
+  </div>
+
+  <h3 class="unnumbered unlisted" id="sec:bbfprojectstream-project-stream-leaders"> Project Stream Leader(s)<a class="headerlink" href="00-index-contents.html#sec:bbfprojectstream-project-stream-leaders" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h3>
+
+  <div bbfList="bbfPSLs">
+  <p>Daniel Egger, Axiros<br/>William Lupton, Broadband Forum</p></div>
+
+  <div bbfTable="uspPSLs">
+  </div>
+
+  <div bbfTable="uspAcknowledgments">
+  </div>
+
+
+    <div style="clear: both;"/>
+    <footer class="site-footer">
+<nav>
+<p>
+   <a href="00-index-contents.html#contents">Cover Page</a>
+ | <a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a>
+ | <a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a>
+ | <a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a>
+ | <a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a>
+ | <a href="05-index-architecture.html#sec:architecture">4 Architecture</a>
+ | <a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a>
+ | <a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a>
+ | <a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a>
+ | <a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a>
+ | <a href="10-index-appendices.html#sec:appendices">Appendices</a>
+</p>
+</nav>
+
+      <span class="site-footer-owner">
+        TR-181 is developed and maintained
+        by <a href="https://www.broadband-forum.org">The Broadband Forum</a>.
+        &copy; The Broadband Forum 2022</a>. All Rights Reserved.
+      </span>
+      <span class="site-footer-credits">
+        This page was generated by <a href="https://pandoc.org">pandoc</a>
+        and <a href="https://pages.github.com">GitHub Pages</a>.
+        View the <a href="https://github.com/BroadbandForum/device-data-model">specification source on GitHub</a>.
+        <span class="release"/>
+      </span>
+    </footer>
+  </section>
+</body>
+</html>

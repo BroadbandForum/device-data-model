@@ -1,0 +1,638 @@
+<!-- <h1 class="new-page display-none" id="sec:references-and-terminology">2 References and Terminology<a class="headerlink" href="03-index-references-and-terminology.html#sec:references-and-terminology" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h1> -->
+
+<h2 id="sec:conventions">2.1 Conventions<a class="headerlink" href="03-index-references-and-terminology.html#sec:conventions" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>In this Technical Report, several words are used to signify the requirements of the specification. These words are always capitalized. More information can be found in RFC 2119 <span class="cite" data-citation-ids="RFC2119"><a href='03-index-references-and-terminology.html#ref-RFC2119' title=''>[13]</a></span>.</p>
+
+<div class="borderless">
+<table>
+<col width="17%" />
+<col width="83%" />
+<tr class="odd">
+<td align="left"><strong>MUST</strong></td>
+<td align="left">This word, or the term &ldquo;REQUIRED&rdquo;, means that the definition is an absolute requirement of the specification.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>MUST NOT</strong></td>
+<td align="left">This phrase means that the definition is an absolute prohibition of the specification.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SHOULD</strong></td>
+<td align="left">This word, or the term &ldquo;RECOMMENDED&rdquo;, means that there could exist valid reasons in particular circumstances to ignore this item, but the full implications need to be understood and carefully weighed before choosing a different course.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SHOULD NOT</strong></td>
+<td align="left">This phrase, or the phrase &ldquo;NOT RECOMMENDED&rdquo; means that there could exist valid reasons in particular circumstances when the particular behavior is acceptable or even useful, but the full implications need to be understood and the case carefully weighed before implementing any behavior described with this label.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>MAY</strong></td>
+<td align="left">This word, or the term &ldquo;OPTIONAL&rdquo;, means that this item is one of an allowed set of alternatives. An implementation that does not include this option MUST be prepared to inter-operate with another implementation that does include the option.</td>
+</tr>
+</table></div>
+
+<p>The key words &ldquo;DEPRECATED&rdquo; and &ldquo;OBSOLETED&rdquo; in this Technical Report are to be interpreted as defined in TR-106 <span class="cite" data-citation-ids="TR-106"><a href='03-index-references-and-terminology.html#ref-TR-106' title=''>[60]</a></span>.</p>
+
+<h2 id="sec:references">2.2 References<a class="headerlink" href="03-index-references-and-terminology.html#sec:references" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>The following references are of relevance to this Technical Report. At the time of publication, the editions indicated were valid. All references are subject to revision; users of this Technical Report are therefore encouraged to investigate the possibility of applying the most recent edition of the references listed below.</p>
+
+<p>A list of currently valid Broadband Forum Technical Reports is published at <a href='https://www.broadband-forum.org' title='' class="uri">https://www.broadband-forum.org</a>.</p>
+
+<div class="references csl-bib-body" id="refs">
+<div class="csl-entry" id="ref-3GPP-TS.23.501">
+<p><span class="csl-left-margin">[1] </span><span class="csl-right-inline"><a href='https://www.3gpp.org/ftp/Specs/html-info/23501.htm' title=''>3GPP TS 23.501</a>, <em>System architecture for the 5G System (5GS); Stage 2</em>, 3GPP SA WG2</span></p></div>
+
+<div class="csl-entry" id="ref-3GPP-TS.23.503">
+<p><span class="csl-left-margin">[2] </span><span class="csl-right-inline"><a href='https://www.3gpp.org/ftp/Specs/html-info/23503.htm' title=''>3GPP TS 23.503</a>, <em>Policy and charging control framework for the 5G System (5GS); Stage 2</em>, 3GPP CT WG4, 2019</span></p></div>
+
+<div class="csl-entry" id="ref-DataElements">
+<p><span class="csl-left-margin">[3] </span><span class="csl-right-inline"><a href='https://www.wi-fi.org/discover-wi-fi/specifications' title=''>Data Elements Specification</a>, <em>Data Elements Specification Version 1.0</em>, 2019</span></p></div>
+
+<div class="csl-entry" id="ref-draft-boucadair-pcp-flow-examples">
+<p><span class="csl-left-margin">[4] </span><span class="csl-right-inline"><u>draft-boucadair-pcp-flow-examples</u>, <em>Port Control Protocol (PCP) Flow Examples</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-ETSIM2MFA">
+<p><span class="csl-left-margin">[5] </span><span class="csl-right-inline"><a href='https://docbox.etsi.org/M2M/Open/Latest_Drafts/00002ed121v116.pdf' title=''>ETSI TS 102 690 v1.1.6</a>, <em>Machine-to-Machine Communications (M2M Functional Architecture)</em>, ETSI, 2012</span></p></div>
+
+<div class="csl-entry" id="ref-ETSIM2MInterfaces">
+<p><span class="csl-left-margin">[6] </span><span class="csl-right-inline"><a href='https://docbox.etsi.org/M2M/Open/Latest_Drafts/00010ed121v116.pdf' title=''>ETSI TS 102 921 v1.1.6</a>, <em>M2M mIa, dIa and mId Interfaces</em>, ETSI, 2012</span></p></div>
+
+<div class="csl-entry" id="ref-IANA-Method-Tokens">
+<p><span class="csl-left-margin">[7] </span><span class="csl-right-inline"><a href='https://www.iana.org/assignments/method-tokens/method-tokens.xhtml' title=''>IANA Method Tokens Registry</a>, <em>Method Tokens</em>, IANA, 2008</span></p></div>
+
+<div class="csl-entry" id="ref-ICSA-Baseline">
+<p><span class="csl-left-margin">[8] </span><span class="csl-right-inline"><a href='https://www.icsalabs.com/sites/default/files/baseline.pdf' title=''>ICSA Baseline Modular Firewall Certification Criteria</a>, <em>Baseline module - version 4.1</em>, ICSA Labs, 2008</span></p></div>
+
+<div class="csl-entry" id="ref-ICSA-Residential">
+<p><span class="csl-left-margin">[9] </span><span class="csl-right-inline"><a href='https://www.icsalabs.com/sites/default/files/residential.pdf' title=''>ICSA Residential Modular Firewall Certification Criteria</a>, <em>Required Services Security Policy - Residential Category module -
+version 4.1</em>, ICSA Labs, 2008</span></p></div>
+
+<div class="csl-entry" id="ref-802.1D-2004">
+<p><span class="csl-left-margin">[10] </span><span class="csl-right-inline"><a href='https://standards.ieee.org/getieee802/download/802.1D-2004.pdf' title=''>IEEE Std 802.1D-2004</a>, <em>Media Access Control (MAC) Bridges</em>, IEEE, 2004</span></p></div>
+
+<div class="csl-entry" id="ref-802.1Q-2011">
+<p><span class="csl-left-margin">[11] </span><span class="csl-right-inline"><a href='https://standards.ieee.org/getieee802/download/802.1Q-2011.pdf' title=''>IEEE Std 802.1Q-2011</a>, <em>MAC Bridges and Virtual Bridge Local Area Networks</em>, IEEE, 2011</span></p></div>
+
+<div class="csl-entry" id="ref-REC-xmlschema-0-20041028">
+<p><span class="csl-left-margin">[12] </span><span class="csl-right-inline"><a href='https://www.w3.org/TR/2004/REC-xmlschema-0-20041028/' title=''>REC-xmlschema-0-20041028</a>, <em>XML Schema Part 0: Primer Second Edition</em>, W3C, 2004</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2119">
+<p><span class="csl-left-margin">[13] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2119.html' title=''>RFC 2119</a>, <em>Key words for use in RFCs to Indicate Requirement Levels</em>, IETF, 1997</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2460">
+<p><span class="csl-left-margin">[14] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2460.html' title=''>RFC 2460</a>, <em>Internet Protocol, Version 6 (IPv6) Specification</em>, IETF, 1998</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2464">
+<p><span class="csl-left-margin">[15] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2464.html' title=''>RFC 2464</a>, <em>Transmission of IPv6 Packets over Ethernet Networks</em>, IETF, 1998</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2597">
+<p><span class="csl-left-margin">[16] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2597.html' title=''>RFC 2597</a>, <em>Assured Forwarding PHB Group</em>, IETF, 1999</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2661">
+<p><span class="csl-left-margin">[17] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2661.html' title=''>RFC 2661</a>, <em>Layer Two Tunneling Protocol <span>‘L2TP’</span></em>, IETF, 1999</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2784">
+<p><span class="csl-left-margin">[18] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2784.html' title=''>RFC 2784</a>, <em>Generic Routing Encapsulation (GRE)</em>, IETF, 2000</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2863">
+<p><span class="csl-left-margin">[19] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2863.html' title=''>RFC 2863</a>, <em>The Interfaces Group MIB</em>, IETF, 2000</span></p></div>
+
+<div class="csl-entry" id="ref-RFC2890">
+<p><span class="csl-left-margin">[20] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc2890.html' title=''>RFC 2890</a>, <em>Key and Sequence Number Extensions to GRE</em>, IETF, 2000</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3246">
+<p><span class="csl-left-margin">[21] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3246.html' title=''>RFC 3246</a>, <em>An Expedited Forwarding PHB (Per-Hop Behavior)</em>, IETF, 2002</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3261">
+<p><span class="csl-left-margin">[22] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3261.html' title=''>RFC 3261</a>, <em>SIP: Session Initiation Protocol</em>, IETF, 2002</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3315">
+<p><span class="csl-left-margin">[23] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3315.html' title=''>RFC 3315</a>, <em>Dynamic Host Configuration Protocol for IPv6 (DHCPv6)</em>, IETF, 2003</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3435">
+<p><span class="csl-left-margin">[24] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3435.html' title=''>RFC 3435</a>, <em>Media Gateway Control Protocol (MGCP) Version 1.0</em>, IETF</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3633">
+<p><span class="csl-left-margin">[25] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3633.html' title=''>RFC 3633</a>, <em>IPv6 Prefix Options for Dynamic Host Configuration Protocol (DHCP)
+version 6</em>, IETF, 2003</span></p></div>
+
+<div class="csl-entry" id="ref-RFC3986">
+<p><span class="csl-left-margin">[26] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc3986.html' title=''>RFC 3986</a>, <em>Uniform Resource Identifier (URI): Generic Syntax</em>, IETF</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4119">
+<p><span class="csl-left-margin">[27] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4119.html' title=''>RFC 4119</a>, <em>A Presence-based GEOPRIV Location Object Format</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4122">
+<p><span class="csl-left-margin">[28] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4122.html' title=''>RFC 4122</a>, <em>A Universally Unique IDentifier (UUID) URN Namespace</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4191">
+<p><span class="csl-left-margin">[29] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4191.html' title=''>RFC 4191</a>, <em>Default Router Preferences and More-Specific Routes</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4193">
+<p><span class="csl-left-margin">[30] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4193.html' title=''>RFC 4193</a>, <em>Unique Local IPv6 Unicast Addresses</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4301">
+<p><span class="csl-left-margin">[31] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4301.html' title=''>RFC 4301</a>, <em>Security Architecture for the Internet Protocol</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4302">
+<p><span class="csl-left-margin">[32] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4302.html' title=''>RFC 4302</a>, <em>IP Authentication Header</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4303">
+<p><span class="csl-left-margin">[33] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4303.html' title=''>RFC 4303</a>, <em>IP Encapsulating Security Payload (ESP)</em>, IETF, 2005</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4479">
+<p><span class="csl-left-margin">[34] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4479.html' title=''>RFC 4479</a>, <em>A Data Model for Presence</em>, IETF, 2006</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4566">
+<p><span class="csl-left-margin">[35] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4566.html' title=''>RFC 4566</a>, <em>SDP: Session Description Protocol</em>, IETF, 2006</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4861">
+<p><span class="csl-left-margin">[36] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4861.html' title=''>RFC 4861</a>, <em>Neighbor Discovery for IP version 6 (IPv6)</em>, IETF, 2007</span></p></div>
+
+<div class="csl-entry" id="ref-RFC4862">
+<p><span class="csl-left-margin">[37] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc4862.html' title=''>RFC 4862</a>, <em>IPv6 Stateless Address Autoconfiguration</em>, IETF, 2007</span></p></div>
+
+<div class="csl-entry" id="ref-RFC5072">
+<p><span class="csl-left-margin">[38] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc5072.html' title=''>RFC 5072</a>, <em>IP Version 6 over PPP</em>, IETF, 2007</span></p></div>
+
+<div class="csl-entry" id="ref-RFC5139">
+<p><span class="csl-left-margin">[39] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc5139.html' title=''>RFC 5139</a>, <em>Revised Civic Location Format For Presence Information Data Format
+Location Object (PIDF-LO)</em>, IETF, 2008</span></p></div>
+
+<div class="csl-entry" id="ref-RFC5491">
+<p><span class="csl-left-margin">[40] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc5491.html' title=''>RFC 5491</a>, <em>GEOPRIV Presence Information Data Format Location Object (PIDF-LO)
+Usage Clarification, Considerations, and Recommendations</em>, IETF, 2009</span></p></div>
+
+<div class="csl-entry" id="ref-RFC5969">
+<p><span class="csl-left-margin">[41] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc5969.html' title=''>RFC 5969</a>, <em>IPv6 Rapid Deployment on IPv4 Infrastructures (6rd) - Protocol
+Specification</em>, IETF, 2010</span></p></div>
+
+<div class="csl-entry" id="ref-RFC5996">
+<p><span class="csl-left-margin">[42] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc5996.html' title=''>RFC 5996</a>, <em>Internet Key Exchange Protocol Version 2 (IKEv2)</em>, IETF, 2010</span></p></div>
+
+<div class="csl-entry" id="ref-RFC6106">
+<p><span class="csl-left-margin">[43] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc6106.html' title=''>RFC 6106</a>, <em>IPv6 Router Advertisement Option for DNS Configuration</em>, IETF, 2010</span></p></div>
+
+<div class="csl-entry" id="ref-RFC6333">
+<p><span class="csl-left-margin">[44] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc6333.html' title=''>RFC 6333</a>, <em>Dual-Stack Lite Broadband Deployments Following IPv4 Exhaustion</em>, IETF, 2011</span></p></div>
+
+<div class="csl-entry" id="ref-RFC6334">
+<p><span class="csl-left-margin">[45] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc6334.html' title=''>RFC 6334</a>, <em>Dynamic Host Configuration Protocol for IPv6 (DHCPv6) Option for Dual-Stack Lite</em>, IETF, 2011</span></p></div>
+
+<div class="csl-entry" id="ref-RFC6887">
+<p><span class="csl-left-margin">[46] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc6887.html' title=''>RFC 6887</a>, <em>Port Control Protocol (PCP)</em>, IETF, 2013</span></p></div>
+
+<div class="csl-entry" id="ref-RFC6970">
+<p><span class="csl-left-margin">[47] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc6970.html' title=''>RFC 6970</a>, <em>Universal Plug and Play (UPnP) Internet Gateway Device (IGD) - Port
+Control Protocol (PCP) Interworking Function</em>, IETF, 2013</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7291">
+<p><span class="csl-left-margin">[48] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7291.html' title=''>RFC 7291</a>, <em>DHCP Options for the Port Control Protocol (PCP)</em>, IETF, 2014</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7488">
+<p><span class="csl-left-margin">[49] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7488.html' title=''>RFC 7488</a>, <em>Port Control Protocol (PCP) Server Selection</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7594">
+<p><span class="csl-left-margin">[50] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7594.html' title=''>RFC 7594</a>, <em>A Framework for Large-Scale Measurement of Broadband Performance (LMAP)</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7597">
+<p><span class="csl-left-margin">[51] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7597.html' title=''>RFC 7597</a>, <em>Mapping of Address and Port with Encapsulation (MAP)</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7598">
+<p><span class="csl-left-margin">[52] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7598.html' title=''>RFC 7598</a>, <em>DHCPv6 Options for configuration of Softwire Address and Port Mapped
+Clients</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7599">
+<p><span class="csl-left-margin">[53] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7599.html' title=''>RFC 7599</a>, <em>Mapping of Address and Port using Translation (MAP-T)</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC7648">
+<p><span class="csl-left-margin">[54] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc7648.html' title=''>RFC 7648</a>, <em>Port Control Protocol (PCP) Proxy Function</em>, IETF, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-RFC8193">
+<p><span class="csl-left-margin">[55] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc8193.html' title=''>RFC 8193</a>, <em>Information Model for Large-Scale Measurement Platforms (LMAPs)</em>, IETF, 2017</span></p></div>
+
+<div class="csl-entry" id="ref-RFC8822">
+<p><span class="csl-left-margin">[56] </span><span class="csl-right-inline"><a href='https://www.rfc-editor.org/rfc/rfc8822.html' title=''>RFC 8822</a>, <em>5G Wireless Wireline Convergence User Plane Encapsulation (5WE)</em>, IETF, 2021</span></p></div>
+
+<div class="csl-entry" id="ref-TR-059">
+<p><span class="csl-left-margin">[57] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-059.pdf' title=''>TR-059</a>, <em>DSL Evolution - Architecture Requirements for the Support of QoS-Enabled IP Services</em>, Broadband Forum, 2003</span></p></div>
+
+<div class="csl-entry" id="ref-TR-069">
+<p><span class="csl-left-margin">[58] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-069.pdf' title=''>TR-069 Amendment 6</a>, <em>CPE WAN Management Protocol</em>, Broadband Forum, 2018</span></p></div>
+
+<div class="csl-entry" id="ref-TR-101">
+<p><span class="csl-left-margin">[59] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-101.pdf' title=''>TR-101 Issue 2</a>, <em>Migration to Ethernet Based DSL Aggregation</em>, Broadband Forum, 2011</span></p></div>
+
+<div class="csl-entry" id="ref-TR-106">
+<p><span class="csl-left-margin">[60] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-106.pdf' title=''>TR-106 Amendment 8</a>, <em>Data Model Template for CWMP Endpoints and USP Agents</em>, Broadband Forum, 2018</span></p></div>
+
+<div class="csl-entry" id="ref-TR-124">
+<p><span class="csl-left-margin">[61] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-124.pdf' title=''>TR-124 Issue 5</a>, <em>Functional Requirements for Broadband Residential Gateway Devices</em>, Broadband Forum, 2016</span></p></div>
+
+<div class="csl-entry" id="ref-TR-143">
+<p><span class="csl-left-margin">[62] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-143.pdf' title=''>TR-143 Amendment 3</a>, <em>Enabling Network Throughput Performance Tests and Statistical
+Monitoring</em>, Broadband Forum, 2017</span></p></div>
+
+<div class="csl-entry" id="ref-TR-177">
+<p><span class="csl-left-margin">[63] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-177.pdf' title=''>TR-177 Corrigendum 1</a>, <em>IPv6 in the context of TR-101</em>, Broadband Forum, 2017</span></p></div>
+
+<div class="csl-entry" id="ref-TR-187">
+<p><span class="csl-left-margin">[64] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-187.pdf' title=''>TR-187 Issue 2</a>, <em>IPv6 for PPP Broadband Access</em>, Broadband Forum, 2013</span></p></div>
+
+<div class="csl-entry" id="ref-TR-232">
+<p><span class="csl-left-margin">[65] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-232.pdf' title=''>TR-232</a>, <em>Bulk Data Collection</em>, Broadband Forum, 2012</span></p></div>
+
+<div class="csl-entry" id="ref-TR-304">
+<p><span class="csl-left-margin">[66] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-304.pdf' title=''>TR-304</a>, <em>Broadband Access Service Attributes and Performance Metrics</em>, Broadband Forum, 2015</span></p></div>
+
+<div class="csl-entry" id="ref-TR-369">
+<p><span class="csl-left-margin">[67] </span><span class="csl-right-inline"><a href='https://usp.technology/specification' title=''>TR-369 Issue 1 Corrigendum 2</a>, <em>User Services Platform</em>, Broadband Forum, 2018</span></p></div>
+
+<div class="csl-entry" id="ref-TR-470">
+<p><span class="csl-left-margin">[68] </span><span class="csl-right-inline"><a href='https://www.broadband-forum.org/technical/download/TR-470.pdf' title=''>TR-470</a>, <em>5G Wireless Wireline Convergence Architecture</em>, Broadband Forum, 2020</span></p></div>
+
+<div class="csl-entry" id="ref-X.200">
+<p><span class="csl-left-margin">[69] </span><span class="csl-right-inline"><a href='https://www.itu.int/rec/T-REC-X.200-199407-I/en' title=''>X.200</a>, <em>Information technology - Open Systems Interconnection - Basic Reference Model:
+The basic model</em>, ITU-T, 1994</span></p></div>
+
+<div class="csl-entry" id="ref-ZigBee2007">
+<p><span class="csl-left-margin">[70] </span><span class="csl-right-inline"><a href='https://www.zigbee.org/Specifications/ZigBee/download.aspx' title=''>ZigBee 2007 Specification</a>, <em>ZigBee 2007 Specification</em>, ZigBee Alliance, 2007</span></p></div></div>
+
+<h2 id="sec:definitions">2.3 Definitions<a class="headerlink" href="03-index-references-and-terminology.html#sec:definitions" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>The following terminology is used throughout this Technical Report.</p>
+
+<div class="borderless">
+<table>
+<col width="25%" />
+<col width="75%" />
+<tr class="odd">
+<td align="left"><strong>5G Residential Gateway</strong></td>
+<td align="left">A CPE that uses native 5G control plane N1 signaling.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>ACS</strong></td>
+<td align="left">Auto-Configuration Server. This is a component in the broadband network responsible for <em>CWMP</em> auto-configuration of the <em>CPE</em> for advanced services.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Agent</strong></td>
+<td align="left">A generic term that refers (as appropriate) to either a CWMP Endpoint or to a USP Agent.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>AGF</strong></td>
+<td align="left">A function connecting wireline access networks to the 5GC. AGF-CP is the control plane while AGF-UP is the user plane of the AGF.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>AMF</strong></td>
+<td align="left">The AMF is a 5G control plane function that terminates N1 and N2. It is responsible for mobility and access related functions.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CPE</strong></td>
+<td align="left">Customer Premises Equipment; refers (as appropriate) to any <em>CWMP</em>-enabled <span class="cite" data-citation-ids="TR-069"><a href='03-index-references-and-terminology.html#ref-TR-069' title=''>[58]</a></span> or <em>USP</em>-enabled <span class="cite" data-citation-ids="TR-369"><a href='03-index-references-and-terminology.html#ref-TR-369' title=''>[67]</a></span> device and therefore covers both Internet Gateway devices and LAN-side end devices.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Command</strong></td>
+<td align="left">A named element allowing a USP Controller to execute an operation on a USP Agent. This concept does not apply to CWMP, which uses Objects and/or Parameters to simulate operations.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Component</strong></td>
+<td align="left">A named collection of <em>Objects</em> and/or <em>Parameters</em> and/or Profiles that can be included anywhere within a <em>Data Model</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Controller</strong></td>
+<td align="left">A generic term that refers (as appropriate) to either a CWMP ACS or a USP Controller.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CWMP</strong></td>
+<td align="left"><em>CPE</em> WAN Management Protocol. Defined in TR-069 <span class="cite" data-citation-ids="TR-069"><a href='03-index-references-and-terminology.html#ref-TR-069' title=''>[58]</a></span>, CWMP is a communication protocol between an <em>ACS</em> and a CWMP-enabled <em>CPE</em> that defines a mechanism for secure auto-configuration of a <em>CPE</em> and other <em>CPE</em> management functions in a common framework.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CWMP Endpoint</strong></td>
+<td align="left">A CWMP termination point used by a CWMP-enabled CPE for communication with the ACS<em>.</em></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Data Model</strong></td>
+<td align="left">A hierarchical set of <em>Objects,</em> <em>Parameters, Commands and/or Events</em> that define the managed objects accessible via a particular <em>Agent</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Device</strong></td>
+<td align="left">Used here as a synonym for <em>CPE</em>.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>DM Instance</strong></td>
+<td align="left">Data Model Schema instance document. This is an XML document that conforms to the <em>DM Schema</em> and to any additional rules specified in or referenced by the <em>DM Schema</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DM Schema</strong></td>
+<td align="left">Data Model Schema. This is the XML Schema <span class="cite" data-citation-ids="REC-xmlschema-0-20041028"><a href='03-index-references-and-terminology.html#ref-REC-xmlschema-0-20041028' title=''>[12]</a></span> that is used for defining data models for use with <em>CWMP and USP</em>.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Downstream Interface</strong></td>
+<td align="left">A physical interface object whose Upstream parameter is set to <em>false</em>, or an interface that is associated with such a physical interface via the InterfaceStack. For example, a downstream IP Interface is an IP.Interface object that is associated with an Upstream=false physical layer interface.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Event</strong></td>
+<td align="left">An indication that something of interest has happened that requires the Agent to notify the Controller.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Fixed Network Residential Gateway</strong></td>
+<td align="left">A CPE connecting a home LAN to the WAN, which does not exchange N1 signaling with the 5GC.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Interface Object</strong></td>
+<td align="left">A type of <em>Object</em> that models a network interface or protocol layer. Commonly referred to as an interface. They can be stacked, one on top of the other, using <em>Path References</em> in order to dynamically define the relationships between interfaces.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>N1</strong></td>
+<td align="left">Reference point between the 5G-RG and the AMF and between the AGF and AMF in case of FN-RG.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>N2</strong></td>
+<td align="left">Reference point between W-5GAN and AMF. On the W-5GAN side, the termination point is the AGF-CP.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>N3</strong></td>
+<td align="left">Reference point between W-5GAN and UPF. On the W-5GAN side, the termination point is the AGF-UP.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Object</strong></td>
+<td align="left">An internal node in the name hierarchy, i.e., a node that can have Object, Parameter, Command and/or Event children. An Object name is a Path Name.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Parameter</strong></td>
+<td align="left">A name-value pair that represents part of a CPE or USP Agent’s configuration or status. A Parameter name is a Path Name.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Path Name</strong></td>
+<td align="left">A name that has a hierarchical structure similar to files in a directory, with each level separated by a &ldquo;.&rdquo; (dot). References an Object, Parameter, Command or Event.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Path Reference</strong></td>
+<td align="left">Describes how a parameter can reference another parameter or object via its path name (A.2.3.4/TR-106 <span class="cite" data-citation-ids="TR-106"><a href='03-index-references-and-terminology.html#ref-TR-106' title=''>[60]</a></span>). Such a reference can be weak or strong (Section A.2.3.6/TR-106 <span class="cite" data-citation-ids="TR-106"><a href='03-index-references-and-terminology.html#ref-TR-106' title=''>[60]</a></span>).</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Upstream Interface</strong></td>
+<td align="left">A physical interface object whose Upstream parameter is set to <em>true</em>, or an interface that is associated with such a physical interface via the InterfaceStack. For example, an upstream IP Interface is an IP.Interface object that is associated with an Upstream=true physical layer interface.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>USP</strong></td>
+<td align="left">User Services Platform. Defined in TR-369 <span class="cite" data-citation-ids="TR-369"><a href='03-index-references-and-terminology.html#ref-TR-369' title=''>[67]</a></span>, USP is an evolution of CWMP that allows applications to manipulate Service Elements in a network of Controllers and Agents.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>USP Agent</strong></td>
+<td align="left">A USP Agent is a USP Endpoint that exposes Service Elements to one or more USP Controllers.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>USP Controller</strong></td>
+<td align="left">A USP Controller is a USP Endpoint that manipulates Service Elements through one or more USP Agents.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>USP Endpoint</strong></td>
+<td align="left">A USP Endpoint is a termination point for a USP message.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Wireline 5G Access Network</strong></td>
+<td align="left">This is a wireline AN that can connect to a 5G core via the AGF. The egress interfaces of a W-5GAN form the border between access and core. The interfaces are N2 for the control plane and N3 for the user plane.</td>
+</tr>
+</table></div>
+
+<h2 id="sec:abbreviations">2.4 Abbreviations<a class="headerlink" href="03-index-references-and-terminology.html#sec:abbreviations" title="Permalink to this header"> <img src='permalink.png' title='' width="0.8em"/></a></h2>
+
+<p>This Technical Report uses the following abbreviations:</p>
+
+<div class="borderless">
+<table>
+<tr class="odd">
+<td align="left">3GPP</td>
+<td align="left">Third Generation Partnership Project</td>
+</tr>
+<tr class="even">
+<td align="left">5G-RG</td>
+<td align="left">5G Residential Gateway</td>
+</tr>
+<tr class="odd">
+<td align="left">5QI</td>
+<td align="left">5G QoS Indicator</td>
+</tr>
+<tr class="even">
+<td align="left">5WE</td>
+<td align="left">5G Wireline Encapsulation</td>
+</tr>
+<tr class="odd">
+<td align="left">AAA</td>
+<td align="left">Authentication, Authorization and Accounting</td>
+</tr>
+<tr class="even">
+<td align="left">AGF</td>
+<td align="left">Access Gateway Function</td>
+</tr>
+<tr class="odd">
+<td align="left">ARP</td>
+<td align="left">Allocation and Retention Priority</td>
+</tr>
+<tr class="even">
+<td align="left">ATM</td>
+<td align="left">Asynchronous Transfer Mode</td>
+</tr>
+<tr class="odd">
+<td align="left">ATSSS</td>
+<td align="left">Access Traffic Steering Switching and Splitting</td>
+</tr>
+<tr class="even">
+<td align="left">BNG</td>
+<td align="left">Broadband Network Gateway</td>
+</tr>
+<tr class="odd">
+<td align="left">CGN</td>
+<td align="left">Carrier Grade NAT</td>
+</tr>
+<tr class="even">
+<td align="left">CUPS</td>
+<td align="left">Control User Plane Separation</td>
+</tr>
+<tr class="odd">
+<td align="left">DHCP</td>
+<td align="left">Dynamic Host Configuration Protocol</td>
+</tr>
+<tr class="even">
+<td align="left">DHCPv6</td>
+<td align="left">Dynamic Host Configuration Protocol for IPv6</td>
+</tr>
+<tr class="odd">
+<td align="left">DNN</td>
+<td align="left">Data Network Name</td>
+</tr>
+<tr class="even">
+<td align="left">DSCP</td>
+<td align="left">Differentiated Services Code Point</td>
+</tr>
+<tr class="odd">
+<td align="left">DSL</td>
+<td align="left">Digital Subscriber Line</td>
+</tr>
+<tr class="even">
+<td align="left">FMIF</td>
+<td align="left">Fixed Mobile Interworking Function</td>
+</tr>
+<tr class="odd">
+<td align="left">FN-RG</td>
+<td align="left">Fixed Network Residential Gateway</td>
+</tr>
+<tr class="even">
+<td align="left">GBR</td>
+<td align="left">Guaranteed Bit Rate</td>
+</tr>
+<tr class="odd">
+<td align="left">IoT</td>
+<td align="left">Internet of Things</td>
+</tr>
+<tr class="even">
+<td align="left">IP</td>
+<td align="left">Internet Protocol</td>
+</tr>
+<tr class="odd">
+<td align="left">IPsec</td>
+<td align="left">Internet Protocol Security</td>
+</tr>
+<tr class="even">
+<td align="left">LCP</td>
+<td align="left">Link Control Protocol</td>
+</tr>
+<tr class="odd">
+<td align="left">M2M</td>
+<td align="left">Machine to Machine</td>
+</tr>
+<tr class="even">
+<td align="left">NAS</td>
+<td align="left">Non Access Stratum</td>
+</tr>
+<tr class="odd">
+<td align="left">NAT</td>
+<td align="left">Network Address Translation</td>
+</tr>
+<tr class="even">
+<td align="left">NSCL</td>
+<td align="left">Network Service Capability Layer</td>
+</tr>
+<tr class="odd">
+<td align="left">OSI</td>
+<td align="left">Open Systems Interconnection</td>
+</tr>
+<tr class="even">
+<td align="left">PCF</td>
+<td align="left">Policy Control Function</td>
+</tr>
+<tr class="odd">
+<td align="left">PCO</td>
+<td align="left">Protocol Configuration Options</td>
+</tr>
+<tr class="even">
+<td align="left">PCP</td>
+<td align="left">Port Control Protocol</td>
+</tr>
+<tr class="odd">
+<td align="left">PDU</td>
+<td align="left">Protocol Data Unit</td>
+</tr>
+<tr class="even">
+<td align="left">PPP</td>
+<td align="left">Point-to-Point Protocol</td>
+</tr>
+<tr class="odd">
+<td align="left">PPPoE</td>
+<td align="left">Point-to-Point Protocol over Ethernet</td>
+</tr>
+<tr class="even">
+<td align="left">PTM</td>
+<td align="left">Packet Transfer Mode</td>
+</tr>
+<tr class="odd">
+<td align="left">QFI</td>
+<td align="left">QoS Flow Indicator</td>
+</tr>
+<tr class="even">
+<td align="left">QoS</td>
+<td align="left">Quality of Service</td>
+</tr>
+<tr class="odd">
+<td align="left">REM</td>
+<td align="left">Remote Entity Management</td>
+</tr>
+<tr class="even">
+<td align="left">RG</td>
+<td align="left">Residential Gateway</td>
+</tr>
+<tr class="odd">
+<td align="left">RPC</td>
+<td align="left">Remote Procedure Call</td>
+</tr>
+<tr class="even">
+<td align="left">RQI</td>
+<td align="left">Reflective QoS Indicator</td>
+</tr>
+<tr class="odd">
+<td align="left">SCL</td>
+<td align="left">Service Capability Layer</td>
+</tr>
+<tr class="even">
+<td align="left">S-NSSAI</td>
+<td align="left">Single Network Slice Selection Assistance Information</td>
+</tr>
+<tr class="odd">
+<td align="left">SSID</td>
+<td align="left">Service Set Identifier</td>
+</tr>
+<tr class="even">
+<td align="left">TR</td>
+<td align="left">Technical Report</td>
+</tr>
+<tr class="odd">
+<td align="left">UPF</td>
+<td align="left">User Plane Function</td>
+</tr>
+<tr class="even">
+<td align="left">URI</td>
+<td align="left">Uniform Resource Identifier <span class="cite" data-citation-ids="RFC3986"><a href='03-index-references-and-terminology.html#ref-RFC3986' title=''>[26]</a></span></td>
+</tr>
+<tr class="odd">
+<td align="left">URL</td>
+<td align="left">Uniform Resource Locator <span class="cite" data-citation-ids="RFC3986"><a href='03-index-references-and-terminology.html#ref-RFC3986' title=''>[26]</a></span></td>
+</tr>
+<tr class="even">
+<td align="left">URSP</td>
+<td align="left">User equipment Route Selection Policy</td>
+</tr>
+<tr class="odd">
+<td align="left">USB</td>
+<td align="left">Universal Serial Bus</td>
+</tr>
+<tr class="even">
+<td align="left">UUID</td>
+<td align="left">Universally Unique IDentifier</td>
+</tr>
+<tr class="odd">
+<td align="left">VLAN</td>
+<td align="left">Virtual Local Area Network</td>
+</tr>
+<tr class="even">
+<td align="left">W-5GAN</td>
+<td align="left">Wireline 5G Access Network</td>
+</tr>
+<tr class="odd">
+<td align="left">WFA</td>
+<td align="left">Wi-Fi Alliance</td>
+</tr>
+<tr class="even">
+<td align="left">WWC</td>
+<td align="left">Wireline Wireless Convergence</td>
+</tr>
+<tr class="odd">
+<td align="left">xREM</td>
+<td align="left">x (Device or Gateway) Remote Entity Management</td>
+</tr>
+<tr class="even">
+<td align="left">ZDO</td>
+<td align="left">ZigBee Device Object</td>
+</tr>
+</table></div>
+

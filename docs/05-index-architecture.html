@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<!-- BBF GitHub Pages pandoc template; modified from default.html template -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="generator" content="pandoc"/>
+  <meta name="description" content="TR-181 – Device Data Model for CWMP Endpoints and USP Agents: TR-181 Documentation and Theory of Operations"/>
+  <meta name="theme-color" content="#157878"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <title>BBF – 4 Architecture</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="github.css"/>
+  <link rel="stylesheet" href="extra.css"/>
+  <link rel="stylesheet" href="toc.css"/>
+  <link rel="stylesheet" href="release.css"/>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <!-- XXX header includes are included just before the ToC (below) -->
+</head>
+
+<body>
+  <section class="page-header">
+    <h1 class="project-name">
+      <a href="index.html" style="text-decoration: none; color: white;">
+        <img src="bbflogo-bw.png"/><br>
+        Device Data Model for CWMP Endpoints and USP Agents
+      </a>
+    </h1>
+    <h2 class="project-tagline">TR-181 Documentation and Theory of Operations</h2>
+    <p>TR-181 Issue 2 Amendment 15</p>
+    <p></p>
+    <div class="project-buttons">
+      <a class="btn" href="index.htm" title="TR-181 Single-file HTML">HTML</a>
+      <a class="btn" href="index.pdf" title="TR-181 PDF">PDF</a>
+      <a class="btn" href="https://cwmp-data-models.broadband-forum.org">CWMP Data Models</a>
+      <a class="btn" href="https://usp-data-models.broadband-forum.org">USP Data Models</a>
+      <a class="btn" href="https://data-model-template.broadband-forum.org" title="TR-106">Data Model Template</a>
+    </div>
+  </section>
+
+  <section class="main-content">
+<nav>
+<p>
+   <a href="00-index-contents.html#contents">Cover Page</a>
+ | <a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a>
+ | <a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a>
+ | <a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a>
+ | <a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a>
+ | <a href="05-index-architecture.html#sec:architecture">4 Architecture</a>
+ | <a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a>
+ | <a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a>
+ | <a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a>
+ | <a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a>
+ | <a href="10-index-appendices.html#sec:appendices">Appendices</a>
+</p>
+</nav>
+
+<nav id="TOCFULL">
+<ul>
+  <li><a href="00-index-contents.html#contents">Cover Page</a></li>
+  <li><a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a></li>
+  <li><a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a></li>
+  <ul>
+    <li><a href="02-index-purpose-and-scope.html#sec:purpose">1.1 Purpose</a></li>
+    <li><a href="02-index-purpose-and-scope.html#sec:scope">1.2 Scope</a></li>
+    <ul>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-common-elements">1.2.1 Detailed structure for common elements</a></li>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-cwmp-specific-elements">1.2.2 Detailed structure for CWMP specific elements</a></li>
+      <li><a href="02-index-purpose-and-scope.html#sec:detailed-structure-for-usp-specific-elements">1.2.3 Detailed structure for USP specific elements</a></li>
+    </ul>
+  </ul>
+  <li><a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a></li>
+  <ul>
+    <li><a href="03-index-references-and-terminology.html#sec:conventions">2.1 Conventions</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:references">2.2 References</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:definitions">2.3 Definitions</a></li>
+    <li><a href="03-index-references-and-terminology.html#sec:abbreviations">2.4 Abbreviations</a></li>
+  </ul>
+  <li><a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a></li>
+  <ul>
+    <li><a href="04-index-bbftype-impact.html#sec:energy-efficiency">3.1 Energy Efficiency</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:ipv6">3.2 IPv6</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:security">3.3 Security</a></li>
+    <li><a href="04-index-bbftype-impact.html#sec:privacy">3.4 Privacy</a></li>
+  </ul>
+  <li><a href="05-index-architecture.html#sec:architecture">4 Architecture</a></li>
+  <ul>
+    <li><a href="05-index-architecture.html#sec:interface-layers">4.1 Interface Layers</a></li>
+    <li><a href="05-index-architecture.html#sec:interface-objects">4.2 Interface objects</a></li>
+    <ul>
+      <li><a href="05-index-architecture.html#sec:lower-layers">4.2.1 Lower Layers</a></li>
+      <li><a href="05-index-architecture.html#sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status</a></li>
+      <li><a href="05-index-architecture.html#sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status</a></li>
+      <li><a href="05-index-architecture.html#sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects</a></li>
+    </ul>
+    <li><a href="05-index-architecture.html#sec:interfacestack-table">4.3 InterfaceStack Table</a></li>
+  </ul>
+  <li><a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a></li>
+  <li><a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a></li>
+  <ul>
+    <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-bridging-model">A.1 Queuing and Bridging Model</a></li>
+    <ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:packet-classification">A.1.1 Packet Classification</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:policing">A.1.2 Policing</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:queuing-and-scheduling">A.1.3 Queuing and Scheduling</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:bridging">A.1.4 Bridging</a></li>
+    </ul>
+    <li><a href="07-index-bridging-and-queuing.html#sec:default-layer-23-qos-mapping">A.2 Default Layer 2/3 QoS Mapping</a></li>
+    <li><a href="07-index-bridging-and-queuing.html#sec:urn-definitions-for-app-and-flow-tables">A.3 URN Definitions for App and Flow Tables</a></li>
+    <ul>
+      <li><a href="07-index-bridging-and-queuing.html#sec:app-protocolidentifier">A.3.1 App ProtocolIdentifier</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:flow-type">A.3.2 Flow Type</a></li>
+      <li><a href="07-index-bridging-and-queuing.html#sec:flow-typeparameters">A.3.3 Flow TypeParameters</a></li>
+    </ul>
+  </ul>
+  <li><a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a></li>
+  <ul>
+    <li><a href="08-index-tunneling.html#sec:overview">B.1 Overview</a></li>
+    <li><a href="08-index-tunneling.html#sec:tunneling-details">B.2 Details</a></li>
+  </ul>
+  <li><a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a></li>
+  <ul>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:overview-1">C.1 Overview</a></li>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:uuid-generation-requirements">C.2 UUID Generation Requirements</a></li>
+    <li><a href="09-index-software-module-management-uuid-usage.html#sec:agent-requirements">C.3 Agent Requirements</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:example-rg-queuing-architecture">Appendix I: Example RG Queuing Architecture</a></li>
+  <li><a href="10-index-appendices.html#sec:use-of-bridging-objects-for-vlan-tagging">Appendix II: Use of Bridging Objects for VLAN Tagging</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-vlan-bridging">II.1 Tagged LAN to Tagged WAN Traffic (VLAN Bridging)</a></li>
+    <li><a href="10-index-appendices.html#sec:tagged-lan-to-tagged-wan-traffic-special-case-with-vlan-id-translation">II.2 Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID Translation)</a></li>
+    <li><a href="10-index-appendices.html#sec:untagged-lan-to-tagged-wan-traffic">II.3 Untagged LAN to Tagged WAN Traffic</a></li>
+    <li><a href="10-index-appendices.html#sec:internally-generated-to-tagged-wan-traffic">II.4 Internally Generated to Tagged WAN Traffic</a></li>
+    <li><a href="10-index-appendices.html#sec:other-issues">II.5 Other Issues</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:more-than-one-downstream-interface-in-a-bridge">II.5.1 More than one Downstream Interface in a Bridge</a></li>
+      <li><a href="10-index-appendices.html#sec:802.1d-re-marking">II.5.2 802.1D (Re)-marking</a></li>
+      <li><a href="10-index-appendices.html#sec:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface">II.5.3 More than one VLAN ID Tag Admitted on the Same Downstream Interface</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:wi-fi-theory-of-operation">Appendix III: Wi-Fi Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:multi-radio-and-multi-band-wi-fi-radio-devices">III.1 Multi-radio and Multi-band Wi-Fi Radio Devices</a></li>
+    <li><a href="10-index-appendices.html#sec:definitions-1">III.2 Definitions</a></li>
+    <li><a href="10-index-appendices.html#sec:number-of-instances-of-wifi.radio-object">III.3 Number of Instances of WiFi.Radio Object</a></li>
+    <li><a href="10-index-appendices.html#sec:supportedfrequencybands-and-operatingfrequencyband">III.4 SupportedFrequencyBands and OperatingFrequencyBand</a></li>
+    <li><a href="10-index-appendices.html#sec:behavior-of-dual-band-radios-when-operatingfrequencyband-changed">III.5 Behavior of Dual-band Radios when OperatingFrequencyBand Changed</a></li>
+    <li><a href="10-index-appendices.html#sec:supportedstandards-and-operatingstandards">III.6 SupportedStandards and OperatingStandards</a></li>
+    <li><a href="10-index-appendices.html#sec:different-types-of-wifi-errors">III.7 Different Types of WiFi Errors</a></li>
+    <li><a href="10-index-appendices.html#sec:wi-fi-data-elements">III.8 Wi-Fi Data Elements</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:use-cases">Appendix IV: Use Cases</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:create-a-wan-connection">IV.1 Create a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:modify-a-wan-connection">IV.2 Modify a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:delete-a-wan-connection">IV.3 Delete a WAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:discover-whether-the-device-is-a-gateway">IV.4 Discover whether the Device is a Gateway</a></li>
+    <li><a href="10-index-appendices.html#sec:provide-extended-home-networking-topology-view">IV.5 Provide Extended Home Networking Topology View</a></li>
+    <li><a href="10-index-appendices.html#sec:determine-current-interfaces-configuration">IV.6 Determine Current Interfaces Configuration</a></li>
+    <li><a href="10-index-appendices.html#sec:create-a-wlan-connection">IV.7 Create a WLAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:delete-a-wlan-connection">IV.8 Delete a WLAN Connection</a></li>
+    <li><a href="10-index-appendices.html#sec:configure-a-dhcp-client-and-server">IV.9 Configure a DHCP Client and Server</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:dhcp-client-configuration-acme-devices">IV.9.1 DHCP Client Configuration (ACME devices)</a></li>
+      <li><a href="10-index-appendices.html#sec:dhcp-server-configuration-gateway">IV.9.2 DHCP Server Configuration (gateway)</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:reconfigure-an-existing-interface">IV.10 Reconfigure an Existing Interface</a></li>
+    <li><a href="10-index-appendices.html#sec:backup-restore-using-vendor-configuration-files">IV.11 Backup / Restore Using Vendor Configuration Files</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:ipv6-data-modeling-theory-of-operation">Appendix V: IPv6 Data Modeling Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:ipv6-overview">V.1 IPv6 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:data-model-overview">V.2 Data Model Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:enabling-ipv6">V.3 Enabling IPv6</a></li>
+    <li><a href="10-index-appendices.html#sec:configuring-upstream-ip-interfaces">V.4 Configuring Upstream IP Interfaces</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:configuration-messages-sent-out-the-upstream-ip-interface">V.4.1 Configuration Messages Sent Out the Upstream IP Interface</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-prefixes">V.4.2 IPv6 Prefixes</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-addresses">V.4.3 IPv6 Addresses</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:configuring-downstream-ip-interfaces">V.5 Configuring Downstream IP Interfaces</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:ipv6-prefixes-1">V.5.1 IPv6 Prefixes</a></li>
+      <li><a href="10-index-appendices.html#sec:ipv6-addresses-1">V.5.2 IPv6 Addresses</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:device-interactions">V.6 Device Interactions</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:active-configuration">V.6.1 Active Configuration</a></li>
+      <li><a href="10-index-appendices.html#sec:monitoring">V.6.2 Monitoring</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:configuring-ipv6-routing-and-forwarding">V.7 Configuring IPv6 Routing and Forwarding</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:rd-theory-of-operation">Appendix VI: 6rd Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:rfc-5969-configuration-parameters">VI.1 RFC 5969 Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-configuration-parameters">VI.2 Internal Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:ipv4-address-source">VI.3 IPv4 Address Source</a></li>
+    <li><a href="10-index-appendices.html#sec:sending-all-traffic-to-the-border-relay-server">VI.4 Sending All Traffic to the Border Relay Server</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv6-packets">VI.5 Internal Treatment of IPv6 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:dual-stack-lite-theory-of-operation">Appendix VII: Dual-Stack Lite Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets">VII.1 Internal Treatment of IPv4 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:advanced-firewall-example-configuration">Appendix VIII: Advanced Firewall Example Configuration</a></li>
+  <li><a href="10-index-appendices.html#sec:ipsec-theory-of-operation">Appendix IX: IPsec Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:ipsec">IX.1 IPsec</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.filter">IX.2 IPsec.Filter</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.profile">IX.3 IPsec.Profile</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.tunnel">IX.4 IPsec.Tunnel</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa">IX.5 IPsec.IKEv2SA</a></li>
+    <li><a href="10-index-appendices.html#sec:ipsec.ikev2sa.childsa">IX.6 IPsec.IKEv2SA.ChildSA</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:etsi-m2m-remote-entity-management-theory-of-operation">Appendix X: ETSI M2M Remote Entity Management Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:etsi-m2m-area-networks">X.1 ETSI M2M Area Networks</a></li>
+    <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem">X.2 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tr-069-functionality-for-etsi-m2m-rem">X.2.1 TR-069 Functionality for ETSI M2M REM</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:device2-data-model-and-functionality-for-etsi-m2m-rem-1">X.3 Device:2 Data Model and Functionality for ETSI M2M REM</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:m2m-service-scl-execution-environment">X.3.1 M2M Service SCL Execution Environment</a></li>
+      <li><a href="10-index-appendices.html#sec:etsim2m-object">X.3.2 ETSIM2M Object</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:provider-bridge-theory-of-operation">Appendix XI: Provider Bridge Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:residential-domain-scenario">XI.1 Residential Domain Scenario</a></li>
+    <li><a href="10-index-appendices.html#sec:device-traffic-scenario">XI.2 Device Traffic Scenario</a></li>
+    <li><a href="10-index-appendices.html#sec:public-and-roaming-domain-scenarios">XI.3 Public and Roaming Domain Scenarios</a></li>
+    <li><a href="10-index-appendices.html#sec:provisioning-provider-bridges">XI.4 Provisioning Provider Bridges</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:associating-customer-edge-ports-with-customer-network-ports">XI.4.1 Associating Customer Edge Ports with Customer Network Ports</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:zigbee-theory-of-operation">Appendix XII: ZigBee Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:cwmp-management-using-the-zigbee-data-model">XII.1 CWMP management using the ZigBee data model</a></li>
+    <li><a href="10-index-appendices.html#sec:cwmp-proxying-mechanisms-and-the-zigbee-data-model">XII.2 CWMP proxying mechanisms and the ZigBee data model</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:port-control-protocol-theory-of-operation">Appendix XIII: Port Control Protocol Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:configuration-and-monitoring-of-the-pcp-server">XIII.1 Configuration and monitoring of the PCP Server</a></li>
+    <li><a href="10-index-appendices.html#sec:monitoring-and-setting-rules-set-by-the-pcp-client">XIII.2 Monitoring and setting rules set by the PCP client</a></li>
+    <li><a href="10-index-appendices.html#sec:rapid-recovery">XIII.3 Rapid recovery</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:gre-tunnel-theory-of-operation">Appendix XIV: GRE Tunnel Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:l2-payload-over-gre">XIV.1 L2 Payload over GRE</a></li>
+    <li><a href="10-index-appendices.html#sec:l3-payload-over-gre">XIV.2 L3 Payload over GRE</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:map-theory-of-operation">Appendix XV: MAP Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:map-configuration-parameters">XV.1 MAP Configuration Parameters</a></li>
+    <li><a href="10-index-appendices.html#sec:internal-treatment-of-ipv4-packets-1">XV.2 Internal Treatment of IPv4 Packets</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:g.fast-theory-of-operation">Appendix XVI: G.fast Theory of Operation</a></li>
+  <li><a href="10-index-appendices.html#sec:usb-host-theory-of-operation">Appendix XVII: USB Host Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-2">XVII.1 Overview</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:location-management">Appendix XVIII: Location Management</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-3">XVIII.1 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:multiple-instances-of-location-data">XVIII.2 Multiple Instances of Location Data</a></li>
+    <li><a href="10-index-appendices.html#sec:cwmp-usp-manual-gps-and-agps-configured-location">XVIII.3 CWMP, USP, Manual, GPS, and AGPS Configured Location</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:example-manual-gps-agps-and-externalcwmp-rootobject.location.i.dataobject.-format">XVIII.3.1 Example: Manual, GPS, AGPS, and External:CWMP &lt;rootObject&gt;.Location.{i}.DataObject. Format</a></li>
+      <li><a href="10-index-appendices.html#sec:rfc-5491-and-rfc-5139-location-element-definitions">XVIII.3.2 RFC 5491 and RFC 5139 Location Element Definitions</a></li>
+      <li><a href="10-index-appendices.html#sec:use-of-rfc-5491-and-rfc-5139-location-xml-elements-in-cwmp-or-usp">XVIII.3.3 Use of RFC 5491 and RFC 5139 Location XML Elements in CWMP or USP</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:fault-management">Appendix XIX: Fault Management</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-4">XIX.1 Overview</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:basapm-and-lmap-theory-of-operation">Appendix XX: BASAPM and LMAP Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:tr-069-family-of-specifications-in-the-context-of-tr-304">XX.1 TR-069 Family of Specifications in the Context of TR-304</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:tr-304-and-ietf-lmap-frameworks">XX.1.1 TR-304 and IETF LMAP Frameworks</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-for-pre-configuration">XX.1.2 CWMP for Pre-configuration</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-for-control-and-pre-configuration-ipdr-for-reporting">XX.1.3 CWMP for Control and Pre-configuration, IPDR for Reporting</a></li>
+      <li><a href="10-index-appendices.html#sec:cwmp-as-a-proxier-ipdr-for-reporting">XX.1.4 CWMP as a Proxier, IPDR for Reporting</a></li>
+      <li><a href="10-index-appendices.html#sec:multi-acs-deployment">XX.1.5 Multi-ACS Deployment</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:derivation-of-data-model-elements">XX.2 Derivation of Data Model Elements</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:device.basapm">XX.2.1 Device.BASAPM</a></li>
+      <li><a href="10-index-appendices.html#sec:device.lmap.measurementagent">XX.2.2 Device.LMAP.MeasurementAgent</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:bulk-data-collection-in-the-context-of-lmap">XX.3 Bulk Data Collection in the Context of LMAP</a></li>
+    <li><a href="10-index-appendices.html#sec:tr-143-diagnostics-in-lmap">XX.4 TR-143 Diagnostics in LMAP</a></li>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:g-theory-of-operation">Appendix XXI: 5G Theory of Operation</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:overview-5">XXI.1 Overview</a></li>
+    <li><a href="10-index-appendices.html#sec:architecture-1">XXI.2 Architecture</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:network-functions">XXI.2.1 Network Functions</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:concepts">XXI.3 Concepts</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:control-user-plane-separation-cups">XXI.3.1 Control User Plane Separation (CUPS)</a></li>
+      <li><a href="10-index-appendices.html#sec:policy">XXI.3.2 Policy</a></li>
+      <li><a href="10-index-appendices.html#sec:multiple-pdu-sessions">XXI.3.3 Multiple PDU sessions</a></li>
+      <li><a href="10-index-appendices.html#sec:g-qos">XXI.3.4 5G QoS</a></li>
+      <li><a href="10-index-appendices.html#sec:data-network-name-dnn">XXI.3.5 Data Network Name (DNN)</a></li>
+      <li><a href="10-index-appendices.html#sec:multiple-access-networks">XXI.3.6 Multiple Access Networks</a></li>
+      <li><a href="10-index-appendices.html#sec:network-slicing">XXI.3.7 Network Slicing</a></li>
+    </ul>
+    <li><a href="10-index-appendices.html#sec:data-model-elements">XXI.4 Data Model Elements</a></li>
+    <ul>
+      <li><a href="10-index-appendices.html#sec:interface-stack">XXI.4.1 Interface Stack</a></li>
+      <li><a href="10-index-appendices.html#sec:data-model">XXI.4.2 Data Model</a></li>
+      <li><a href="10-index-appendices.html#sec:examples">XXI.4.3 Examples</a></li>
+    </ul>
+  </ul>
+  <li><a href="10-index-appendices.html#sec:data-elements-theory-of-operations">Appendix XXII: Data Elements Theory of Operations</a></li>
+  <ul>
+    <li><a href="10-index-appendices.html#sec:data-sources">XXII.1 Data Sources</a></li>
+    <li><a href="10-index-appendices.html#sec:mapping-new-data-elements-objects-and-parameters">XXII.2 Mapping new Data Elements objects and parameters</a></li>
+  </ul>
+</ul>
+</nav>
+
+    <header id="title-block-header">
+      <h1 class="title" id="sec:architecture">4 Architecture<a href="#sec:architecture" class="headerlink" title="Permalink to this header"> <img src="permalink.png" style="width: 0.8em"/></a></h1>
+    </header>
+    <nav id="_TOC" role="doc-toc">
+<ul>
+<li><a href="#sec:interface-layers">4.1 Interface Layers <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+<li><a href="#sec:interface-objects">4.2 Interface objects <span><img src="permalink.png" style="width:0.8em" /></span></a>
+<ul>
+<li><a href="#sec:lower-layers">4.2.1 Lower Layers <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+<li><a href="#sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+<li><a href="#sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+<li><a href="#sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+</ul></li>
+<li><a href="#sec:interfacestack-table">4.3 InterfaceStack Table <span><img src="permalink.png" style="width:0.8em" /></span></a></li>
+</ul>
+    </nav>
+<h2 id="sec:interface-layers">4.1 Interface Layers <a href="05-index-architecture.html#sec:interface-layers" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h2>
+<p>This Technical Report models network interfaces and protocol layers as independent data objects, generally referred to as interface objects (or interfaces). Interface objects can be stacked, one on top of the other, using path references in order to dynamically define the relationships between interfaces.</p>
+<p>The interface object and interface stack are concepts inspired by RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href="03-index-references-and-terminology.html#ref-RFC2863">[19]</a></span>.</p>
+<p>Within the Device:2 data model, interface objects are arbitrarily restricted to definitions that operate at or below the IP network layer (i.e., layers 1 through 3 of the OSI model <span class="cite" data-citation-ids="X.200"><a href="03-index-references-and-terminology.html#ref-X.200">[69]</a></span>). However, vendor-specific interface objects MAY be defined which fall outside this restricted scope.</p>
+<p><a href="05-index-architecture.html#fig:osi-layers-and-interface-objects" class="figure">Figure 10</a> lists the interface objects defined in the Device:2 data model. The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP.</p>
+<div class="note">
+<p>Throughout this Technical Report, object names are often abbreviated in order to improve readability. For example, Device.Ethernet.VLANTermination.{i}. is the full name of a Device:2 object, but might casually be referred to as Ethernet.VLANTermination.{i} or VLANTermination.{i} or VLANTermination, just so long as the abbreviation is unambiguous (with respect to similarly named objects defined elsewhere within the data model).</p>
+</div>
+<div class="note">
+<p>The Bridge.{i}.Port.{i} object models both management (upwards facing) Bridge Ports and non-management (downwards facing) Bridge Ports, where each instance is configured as one or the other. Management Bridge Ports are stacked above non-management Bridge Ports.</p>
+</div>
+<div class="note">
+<p>New minor versions of the Device:2 data model can be defined without re-publishing this document, so the figure is not necessarily up-to-date.</p>
+</div>
+<figure>
+<img src="images/osi-layers-and-interface-objects.png" id="fig:osi-layers-and-interface-objects" alt="Figure 10: OSI Layers and Interface Objects " /><figcaption aria-hidden="true">Figure 10: OSI Layers and Interface Objects <a href="05-index-architecture.html#fig:osi-layers-and-interface-objects" class="headerlink" title="Permalink to this figure"><img src="permalink.png" style="width:0.8em" /></a></figcaption>
+</figure>
+<h2 id="sec:interface-objects">4.2 Interface objects <a href="05-index-architecture.html#sec:interface-objects" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h2>
+<p>An interface object is a type of network interface or protocol layer. Each type of interface is modeled by a Device:2 data model table, with a row per interface instance (e.g., IP.Interface.{i} for IP Interfaces).</p>
+<p>Each interface object contains a core set of parameters and objects, which serves as the template for defining interface objects within the data model. Interface objects can also contain other parameters and sub-objects specific to the type of interface.</p>
+<p>The core set of parameters consists of:</p>
+<div class="borderless">
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<tbody>
+<tr class="odd odd">
+<td style="text-align: left;">Enable</td>
+<td style="text-align: left;">The administrative state of the interface (i.e., boolean indicating enabled or disabled)</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Status</td>
+<td style="text-align: left;">The operational state of the interface (i.e., Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, Error)</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Alias</td>
+<td style="text-align: left;">An alternate name used to identify the interface, which is assigned an initial value by the CPE but can later be chosen by the Controller</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">The textual name used to identify the interface, which is chosen by the CPE</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">LastChange</td>
+<td style="text-align: left;">The accumulated time in seconds since the interface entered its current operational state</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">LowerLayers</td>
+<td style="text-align: left;">A list of path references to interface objects that are stacked immediately below the interface</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Also, a core set of statistics parameters is contained within a Stats sub-object. The definition of these parameters MAY be customized for each interface type. The core set of parameters within the Stats sub-object consists of:</p>
+<div class="borderless">
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<tbody>
+<tr class="odd odd">
+<td style="text-align: left;">BytesSent</td>
+<td style="text-align: left;">The total number of bytes transmitted out of the interface, including framing characters.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">BytesReceived</td>
+<td style="text-align: left;">The total number of bytes received on the interface, including framing characters.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">PacketsSent</td>
+<td style="text-align: left;">The total number of packets transmitted out of the interface.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">PacketsReceived</td>
+<td style="text-align: left;">The total number of packets received on the interface.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">ErrorsSent</td>
+<td style="text-align: left;">The total number of outbound packets that could not be transmitted because of errors.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">ErrorsReceived</td>
+<td style="text-align: left;">The total number of inbound packets that contained errors preventing them from being delivered to a higher-layer protocol.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">UnicastPacketsSent</td>
+<td style="text-align: left;">The total number of packets requested for transmission, which were not addressed to a multicast or broadcast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">UnicastPacketsReceived</td>
+<td style="text-align: left;">The total number of received packets, delivered by this layer to a higher layer, which were not addressed to a multicast or broadcast address at this layer.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">DiscardPacketsSent</td>
+<td style="text-align: left;">The total number of outbound packets, which were chosen to be discarded even though no errors had been detected to prevent their being transmitted.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">DiscardPacketsReceived</td>
+<td style="text-align: left;">The total number of inbound packets, which were chosen to be discarded even though no errors had been detected to prevent their being delivered.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">MulticastPacketsSent</td>
+<td style="text-align: left;">The total number of packets that higher-layer protocols requested for transmission and which were addressed to a multicast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">MulticastPacketsReceived</td>
+<td style="text-align: left;">The total number of received packets, delivered by this layer to a higher layer, which were addressed to a multicast address at this layer.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">BroadcastPacketsSent</td>
+<td style="text-align: left;">The total number of packets that higher-level protocols requested for transmission and which were addressed to a broadcast address at this layer, including those that were discarded or not sent.</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">BroadcastPacketsReceived</td>
+<td style="text-align: left;">The total number of received packets, delivered by this layer to a higher layer, which were addressed to a broadcast address at this layer.</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">UnknownProtoPacketsReceived</td>
+<td style="text-align: left;">The total number of packets received via the interface, which were discarded because of an unknown or unsupported protocol.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+<p>The CPE MUST reset an interface’s Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface’s Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface’s Enable parameter transitions from false to true). Administrative and operational status are discussed in <em><a href="05-index-architecture.html#sec:administrative-and-operational-status" class="heading">Administrative and Operational Status</a></em>.</p>
+</div>
+<h3 id="sec:lower-layers">4.2.1 Lower Layers <a href="05-index-architecture.html#sec:lower-layers" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h3>
+<p>Each interface object can be stacked on top of zero or more other interface objects, which MUST be specified using its LowerLayers parameter. By having each interface object, in turn, reference the interface objects in its lower layer; a logical hierarchy of all interface relationships is built up.</p>
+<p>The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the CPE MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).</p>
+<p>These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the CPE.</p>
+<p>A CPE MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the CPE MUST indicate this, using the appropriate protocol response.</p>
+<p>The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the CPE.</p>
+<p><a href="05-index-architecture.html#fig:interface-lowerlayers" class="figure">Figure 11</a> illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A’s LowerLayers parameter references interfaces B and C. Interface B’s LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A’s LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).</p>
+<figure>
+<img src="images/interface-lowerlayers.png" id="fig:interface-lowerlayers" alt="Figure 11: Interface LowerLayers " /><figcaption aria-hidden="true">Figure 11: Interface LowerLayers <a href="05-index-architecture.html#fig:interface-lowerlayers" class="headerlink" title="Permalink to this figure"><img src="permalink.png" style="width:0.8em" /></a></figcaption>
+</figure>
+<h3 id="sec:administrative-and-operational-status">4.2.2 Administrative and Operational Status <a href="05-index-architecture.html#sec:administrative-and-operational-status" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h3>
+<div class="note">
+<p>Many of the requirements outlined in this section were derived from Section 3.1.13/RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href="03-index-references-and-terminology.html#ref-RFC2863">[19]</a></span>.</p>
+</div>
+<p>An interface object’s Enable and Status parameters specify the current administrative and operational status of the interface, respectively. Valid values for the Status parameter are: Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, and Error.</p>
+<p>The CPE MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior – it is simply the timing of how long these state transitions take that is implementation specific.</p>
+<p>When the Enable parameter is <em>false</em> the Status parameter SHOULD normally be <em>Down</em> (or <em>NotPresent</em> or <em>Error</em> if there is a fault condition on the interface). Note that when the Enable parameter transitions to <em>false</em>, it is possible that the Status parameter’s transition to <em>Down</em> might occur after a small time lag if the CPE needs to first complete certain operations (e.g., finish transmitting a packet).</p>
+<p>When the Enable parameter is changed to <em>true</em>, the Status SHOULD do one of the following:</p>
+<ul>
+<li>Change to <em>Up</em> if and only if the interface is able to transmit and receive network traffic.</li>
+<li>Change to <em>Dormant</em> if and only if the interface is operable, but is waiting for external actions before it can transmit and receive network traffic.</li>
+<li>Change to <em>LowerLayerDown</em> if and only if the interface is prevented from entering the <em>Up</em> state because one or more of the interfaces beneath it is down.</li>
+<li>Remain in the <em>Error</em> state if there is an error or other fault condition detected on the interface.</li>
+<li>Remain in the <em>NotPresent</em> state if the interface has missing (typically hardware) components.</li>
+<li>Change to <em>Unknown</em> if the state of the interface cannot be determined for some reason.</li>
+</ul>
+<p>The <em>Dormant</em> state indicates that the interface is operable, but it is waiting for external events to occur before it can transmit/receive traffic. When such events occur, and the interface is then able to transmit/receive traffic, the Status SHOULD change to the <em>Up</em> state. Note that both the <em>Up</em> and <em>Dormant</em> states are considered healthy states.</p>
+<p>The <em>Down</em>, <em>NotPresent</em>, <em>LowerLayerDown,</em> and <em>Error</em> states all indicate that the interface is down. The <em>NotPresent</em> state indicates that the interface is down specifically because of a missing (typically hardware) component. The <em>LowerLayerDown</em> state indicates that the interface is stacked on top of one or more other interfaces, and that this interface is down specifically because one or more of these lower-layer interfaces is down.</p>
+<p>The <em>Error</em> state indicates that the interface is down because an error or other fault condition was detected on the interface.</p>
+<h3 id="sec:stacking-and-operational-status">4.2.3 Stacking and Operational Status <a href="05-index-architecture.html#sec:stacking-and-operational-status" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h3>
+<div class="note">
+<p>The requirements outlined in this section were derived from Section 3.1.14/RFC 2863 <span class="cite" data-citation-ids="RFC2863"><a href="03-index-references-and-terminology.html#ref-RFC2863">[19]</a></span>.</p>
+</div>
+<p>When an interface object is stacked on top of lower-layer interfaces (i.e., is not a bottommost layer in the stack), then:</p>
+<ul>
+<li>The interface SHOULD be <em>Up</em> if it is able to transmit/receive traffic due to one or more interfaces lower down in the stack being <em>Up</em>, irrespective of whether other interfaces below it are in a non-<em>Up</em> state (i.e., the interface is functioning in conjunction with at least some of its lower-layered interfaces).</li>
+<li>The interface MAY be <em>Up</em> or <em>Dormant</em> if one or more interfaces lower down in the stack are <em>Dormant</em> and all other interfaces below it are in a non-<em>Up</em> state.</li>
+<li>The interface is expected to be <em>LowerLayerDown</em> while all interfaces lower down in the stack are either <em>Down</em>, <em>NotPresent</em>, <em>LowerLayerDown,</em> or <em>Error</em>.</li>
+</ul>
+<h3 id="sec:vendor-specific-interface-objects">4.2.4 Vendor-specific Interface Objects <a href="05-index-architecture.html#sec:vendor-specific-interface-objects" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h3>
+<p>Vendor-specific interface objects MAY be defined and used. If such objects are specified by vendors, they MUST be preceded by *X_&lt;VENDOR&gt;_* and follow the syntax for vendor extensions used for parameter names (as defined in Section 3.3/TR-106 <span class="cite" data-citation-ids="TR-106"><a href="03-index-references-and-terminology.html#ref-TR-106">[60]</a></span>).</p>
+<p>If the Controller encounters an unknown vendor-specific interface object within a CPE’s interface stack, rather than responding with a fault, the Controller MUST proceed as if this object’s upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the <a href="05-index-architecture.html#sec:interfacestack-table" class="heading">InterfaceStack table</a> or via an interface object’s LowerLayers parameter.</p>
+<p><a href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack" class="figure">Figure 12</a> illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.</p>
+<figure>
+<img src="images/ignoring-a-vendor-specific-interface-object-in-the-stack.png" id="fig:ignoring-a-vendor-specific-interface-object-in-the-stack" alt="Figure 12: Ignoring a Vendor-specific Interface Object in the Stack " /><figcaption aria-hidden="true">Figure 12: Ignoring a Vendor-specific Interface Object in the Stack <a href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack" class="headerlink" title="Permalink to this figure"><img src="permalink.png" style="width:0.8em" /></a></figcaption>
+</figure>
+<p><a href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects" class="figure">Figure 13</a> illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there are multiple objects below the vendor-specific object.</p>
+<figure>
+<img src="images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png" id="fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects" alt="Figure 13: Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects) " /><figcaption aria-hidden="true">Figure 13: Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects) <a href="05-index-architecture.html#fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects" class="headerlink" title="Permalink to this figure"><img src="permalink.png" style="width:0.8em" /></a></figcaption>
+</figure>
+<h2 id="sec:interfacestack-table">4.3 InterfaceStack Table <a href="05-index-architecture.html#sec:interfacestack-table" class="headerlink" title="Permalink to this header"><img src="permalink.png" style="width:0.8em" /></a></h2>
+<p>Although the interface stack can be traversed via <a href="05-index-architecture.html#sec:lower-layers" class="heading">LowerLayers parameters</a>, an alternate mechanism is provided to aid in visualizing the overall stacking relationships and to quickly access objects within the stack.</p>
+<p>The InterfaceStack table is a Device:2 data model object, namely <em>Device.InterfaceStack.{i}</em>. This is a read-only table whose rows are auto-generated by the CPE based on the current relationships that are configured between interface objects (via each interface instance’s LowerLayers parameter). Each table row represents a “link” between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row’s HigherLayer and LowerLayer parameters will always both be non-null.</p>
+<div class="note">
+<p>As a consequence, interface instances that have been stranded will not be represented within the InterfaceStack table. It is also likely that multiple, disjoint groups of stacked interface objects will coexist within the table (for example, each IP interface will be the root of a disjoint group; unused “fragments”, e.g., a secondary DSL channel with a configured ATM PVC that isn’t attached to anything above, will linger if they remain interconnected; and finally, partially configured “fragments” can be present when an interface stack is being set up).</p>
+</div>
+<div class="note">
+<p>An interface instance is considered stranded when it has no lower layer references to or from other interface instances. Stranded interface instances will be omitted from the InterfaceStack table until such time as they are stacked, above or below another interface instance, via a LowerLayers parameter reference.</p>
+</div>
+<p>A CPE MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:</p>
+<ul>
+<li>An interface’s LowerLayers parameter was updated to remove a reference to another interface (i.e., a “link” is being removed from the stack).</li>
+<li>An interface’s LowerLayers parameter was updated to add a reference to another interface (i.e., a “link” is being added to the stack).</li>
+<li>An interface was deleted that had referenced, or been referenced by, one other interface (i.e., a “link” is being removed from the stack).</li>
+<li>An interface was deleted that had referenced, or been referenced by, multiple interfaces (i.e., multiple “links” are being removed from the stack).</li>
+</ul>
+<p>Once the CPE issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the CPE.</p>
+<p>As an example, <a href="05-index-architecture.html#tbl:simple-router-example-interfacestack-table" class="table">Table 1</a> lists an InterfaceStack table configuration imagined for a fictitious, simple router. Each row in this table corresponds to a row in the InterfaceStack table. The specified objects and instance numbers are manufactured for the sake of this example; real world configurations will likely differ.</p>
+<div id="tbl:simple-router-example-interfacestack-table">
+<table>
+<caption>Table 1: Simple Router Example (InterfaceStack table) <a href="05-index-architecture.html#tbl:simple-router-example-interfacestack-table" class="headerlink" title="Permalink to this table"><img src="permalink.png" style="width:0.8em" /></a></caption>
+<thead>
+<tr class="header header">
+<th style="text-align: left;">Row/Instance</th>
+<th style="text-align: left;">Higher Layer Interface</th>
+<th style="text-align: left;">Lower Layer Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Device.IP.Interface.1</td>
+<td style="text-align: left;">Device.PPP.Interface.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Device.PPP.Interface.1</td>
+<td style="text-align: left;">Device.Ethernet.Link.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Device.Ethernet.Link.1</td>
+<td style="text-align: left;">Device.ATM.Link.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Device.ATM.Link.1</td>
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+<td style="text-align: left;">Device.DSL.Line.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Device.IP.Interface.2</td>
+<td style="text-align: left;">Device.Ethernet.Link.2</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Device.Ethernet.Link.2</td>
+<td style="text-align: left;">Device.ATM.Link.2</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Device.ATM.Link.2</td>
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Device.IP.Interface.3</td>
+<td style="text-align: left;">Device.Ethernet.Link.3</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Device.Ethernet.Link.3</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.2</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.2</td>
+<td style="text-align: left;">Device.Ethernet.Interface.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.3</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.3</td>
+<td style="text-align: left;">Device.Ethernet.Interface.2</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.4</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.4</td>
+<td style="text-align: left;">Device.WiFi.SSID.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">17</td>
+<td style="text-align: left;">Device.WiFi.SSID.1</td>
+<td style="text-align: left;">Device.WiFi.Radio.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>By looking at the rows from the example InterfaceStack table as a whole, we can visualize the overall stack configuration. <a href="05-index-architecture.html#fig:simple-router-example-interfaces-visualized" class="figure">Figure 14</a> shows how this information can be pictured. Interface instances are represented by colored boxes, while InterfaceStack instances are represented by numbered circles.</p>
+<figure>
+<img src="images/simple-router-example-interfaces-visualized.png" id="fig:simple-router-example-interfaces-visualized" alt="Figure 14: Simple Router Example (Interfaces Visualized) " /><figcaption aria-hidden="true">Figure 14: Simple Router Example (Interfaces Visualized) <a href="05-index-architecture.html#fig:simple-router-example-interfaces-visualized" class="headerlink" title="Permalink to this figure"><img src="permalink.png" style="width:0.8em" /></a></figcaption>
+</figure>
+<div class="note">
+<p>“Device.” should be considered prepended to each parameter name in <a href="05-index-architecture.html#fig:simple-router-example-interfaces-visualized" class="figure">Figure 14</a>. It is left off to make the figure more legible.</p>
+</div>
+<p>Finally, <a href="05-index-architecture.html#tbl:simple-router-example-interface-lowerlayers" class="table">Table 2</a> completes the example by listing each interface instance and its corresponding LowerLayers parameter value.</p>
+<div id="tbl:simple-router-example-interface-lowerlayers">
+<table>
+<caption>Table 2: Simple Router Example (Interface LowerLayers) <a href="05-index-architecture.html#tbl:simple-router-example-interface-lowerlayers" class="headerlink" title="Permalink to this table"><img src="permalink.png" style="width:0.8em" /></a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="header header">
+<th style="text-align: left;">Interface</th>
+<th style="text-align: left;">LowerLayers value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd odd">
+<td style="text-align: left;">Device.IP.Interface.1</td>
+<td style="text-align: left;">Device.PPP.Interface.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.IP.Interface.2</td>
+<td style="text-align: left;">Device.Ethernet.Link.2</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.IP.Interface.3</td>
+<td style="text-align: left;">Device.Ethernet.Link.3</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.PPP.Interface.1</td>
+<td style="text-align: left;">Device.Ethernet.Link.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.Ethernet.Link.1</td>
+<td style="text-align: left;">Device.ATM.Link.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.Ethernet.Link.2</td>
+<td style="text-align: left;">Device.ATM.Link.2</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.Ethernet.Link.3</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.1</td>
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.2, Device.Bridging.Bridge.1.Port.3, Device.Bridging.Bridge.1.Port.4</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.2</td>
+<td style="text-align: left;">Device.Ethernet.Interface.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.3</td>
+<td style="text-align: left;">Device.Ethernet.Interface.2</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.Bridging.Bridge.1.Port.4</td>
+<td style="text-align: left;">Device.WiFi.SSID.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.ATM.Link.1</td>
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.ATM.Link.2</td>
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.DSL.Channel.1</td>
+<td style="text-align: left;">Device.DSL.Line.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.DSL.Line.1</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.Ethernet.Interface.1</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.Ethernet.Interface.2</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even even">
+<td style="text-align: left;">Device.WiFi.SSID.1</td>
+<td style="text-align: left;">Device.WiFi.Radio.1</td>
+</tr>
+<tr class="odd odd">
+<td style="text-align: left;">Device.WiFi.Radio.1</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+    <div style="clear: both;"/>
+    <footer class="site-footer">
+<nav>
+<p>
+   <a href="00-index-contents.html#contents">Cover Page</a>
+ | <a href="01-index-executive-summary.html#sec:executive-summary">Executive Summary</a>
+ | <a href="02-index-purpose-and-scope.html#sec:purpose-and-scope">1 Purpose and Scope</a>
+ | <a href="03-index-references-and-terminology.html#sec:references-and-terminology">2 References and Terminology</a>
+ | <a href="04-index-bbftype-impact.html#sec:bbftype-impact">3 Technical Report Impact</a>
+ | <a href="05-index-architecture.html#sec:architecture">4 Architecture</a>
+ | <a href="06-index-parameter-definitions.html#sec:parameter-definitions">5 Parameter Definitions</a>
+ | <a href="07-index-bridging-and-queuing.html#sec:bridging-and-queuing">Annex A: Bridging and Queuing</a>
+ | <a href="08-index-tunneling.html#sec:tunneling">Annex B: Tunneling</a>
+ | <a href="09-index-software-module-management-uuid-usage.html#sec:software-module-management-uuid-usage">Annex C: Software Module Management UUID Usage</a>
+ | <a href="10-index-appendices.html#sec:appendices">Appendices</a>
+</p>
+</nav>
+
+      <span class="site-footer-owner">
+        TR-181 is developed and maintained
+        by <a href="https://www.broadband-forum.org">The Broadband Forum</a>.
+        &copy; The Broadband Forum 2022</a>. All Rights Reserved.
+      </span>
+      <span class="site-footer-credits">
+        This page was generated by <a href="https://pandoc.org">pandoc</a>
+        and <a href="https://pages.github.com">GitHub Pages</a>.
+        View the <a href="https://github.com/BroadbandForum/device-data-model">specification source on GitHub</a>.
+        <span class="release"/>
+      </span>
+    </footer>
+  </section>
+</body>
+</html>

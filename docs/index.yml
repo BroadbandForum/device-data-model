@@ -1,0 +1,305 @@
+PYTHONDIR: '../../../install/python/'
+analyticstag: ''
+author: []
+autoSectionLabels: true
+bbfCertProductType: '<strong>&lt;type of product&gt;</strong>'
+bbfCertProgram: '<strong>&lt;BBF.NNN&gt;</strong>'
+bbfContrib: ''
+bbfEditors: 'William Lupton, Broadband Forum'
+bbfEditorsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="editors">Editors<a class="headerlink" href="#editors" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  optional: true
+bbfIssue: Issue
+bbfMonth: January
+bbfNumber: 'TR-181'
+bbfPSLs: 
+  - 'Daniel Egger, Axiros'
+  - 'William Lupton, Broadband Forum'
+bbfPSLsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="bbfprojectstream-project-stream-leaders"> Project Stream Leader(s)<a class="headerlink" href="#bbfprojectstream-project-stream-leaders" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  optional: true
+bbfProjectStream: ''
+bbfRevisionHistory: 
+  - approval: 'May 2010'
+    changes: '<p>Original. Defines version 2.0 of the TR-069 Device data model (Device:2.0).</p>'
+    editors: '<p>Paul Sigurdson, Broadband Forum<br/>William Lupton, 2Wire</p>'
+    number: 'Issue 2'
+  - approval: 'November 2010'
+    changes: '<p><strong><em>This update to TR-181 did not update this document; only the XML data model was updated.</em></strong></p>  <p>Added support for Software Module Management in the data model.</p>  <p>Defines version 2.1 of the TR-069 Device data model (Device:2.1).</p>'
+    editors: '<p>Paul Sigurdson, Broadband Forum<br/>William Lupton, 2Wire</p>'
+    number: 'Issue 2 Amendment 1'
+  - approval: 'February 2011'
+    changes: '<p>Added support for IPv6 and Firewall in the data model (added IPv6 and Firewall Appendices to this document).</p>  <p>Defines version 2.2 of the TR-069 Device data model (Device:2.2).</p>'
+    editors: '<p>Paul Sigurdson, Broadband Forum<br/>William Lupton, Pace</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf'' title=''''>Issue 2 Amendment 2</a>'
+  - approval: 'July 2011'
+    changes: '<p><strong><em>This update to TR-181 did not update this document; only the XML data model was updated.</em></strong></p>  <p>Added support for proxy management and alias-based addressing.</p>'
+    number: 'Issue 2 Amendment 3'
+  - approval: 'November 2011'
+    changes: '<p><strong><em>This update to TR-181 did not update this document; only the XML data model was updated.</em></strong></p>  <p>Added support for G.hn and Optical interfaces in the data model, and additional WiFi parameters (updated interface stack figures).</p>  <p>Defines version 2.4 of the TR-069 Device data model (Device:2.4).</p>'
+    editors: '<p>William Lupton, Pace</p>'
+    number: 'Issue 2 Amendment 4'
+  - approval: 'May 2012'
+    changes: '<p>Added support for IPsec and bulk data collection in the data model (added Tunneling Annex and IPsec Appendix to this document).</p>  <p>Defines version 2.5 of the TR-069 Device data model (Device:2.5).</p>'
+    editors: '<p>William Lupton, Pace</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf'' title=''''>Issue 2 Amendment 5</a>'
+  - approval: 'November 2012'
+    changes: '<p>Added support M2M SCL Administration as an Appendix.</p>  <p>Defines version 2.6 of the TR-069 Device data model (Device: 2.6).</p>'
+    editors: '<p>Tim Carey, Alcatel-Lucent</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf'' title=''''>Issue 2 Amendment 6</a>'
+    publication: '18 January 2013'
+  - approval: '11 November 2013'
+    changes: '<p>Added ZigBee and Provider Bridge data models (including theory of operation); also added additional WiFi statistics, and other minor changes; added backup/restore theory of operation.</p>  <p>Defines version 2.7 of the TR-069 Device data model (Device: 2.7).</p>'
+    editors: '<p>Apostolos Papageorgiou, NEC<br/>William Lupton, Cisco</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf'' title=''''>Issue 2 Amendment 7</a>'
+    publication: '17 January 2014'
+  - approval: '8 September 2014'
+    changes: '<p>Added LLDP and HTIP home network topology discovery parameters, G.997.1-2012 DSL parameters, various WiFi parameters (associated device statistics, retry limits, reports, QoS), IPv6-related IP diagnostics parameters, and other minor changes; updated G.hn data model to align with G.9962; updated Annex B on tunneling, and added GRE and MAP data models (including theory of operation); added PCP data model (including theory of operation); added Cellular interface data model.</p>  <p>Defines version 2.8 of the TR-069 Device data model (Device: 2.8).</p>'
+    editors: '<p>William Lupton, Cisco</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf'' title=''''>Issue 2 Amendment 8</a>'
+    publication: '15 September 2014'
+  - approval: '1 December 2014'
+    changes: '<p><strong><em>This update to TR-181 did not update this document; only the XML data model was updated.</em></strong></p>  <p>Added support forWiFi MAC Address Filtering, fixes for Traceroute, IEEE 1905 data model and incorporated new components from TR-143 Amendment 1</p>'
+    editors: '<p>Douglas Knisely, Qualcomm, Inc</p>'
+    number: 'Issue 2 Amendment 9'
+    publication: '11 February 2015'
+  - approval: '9 November 2015'
+    changes: '<p>Added data model updates:</p>  <ul> <li>MQTT model</li> <li>Bulk data over HTTP</li> <li>DNS Server updates</li> <li>new diagnostics state</li> </ul>'
+    editors: '<p>Klaus Wich, Axiros</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf'' title=''''>Issue 2 Amendment 10</a>'
+    publication: '13 November 2015'
+  - approval: '18 July 2016'
+    changes: '<p>Added G.fast data model (including theory of operation).</p>  <p>Data model additions:</p>  <ul> <li>LED status model</li> <li>Layer 2 tunnel support for IP diagnostics model</li> <li>DSL G.fast model</li> <li>Management Frame Protection support for WiFi model</li> <li>WPS 2.0 support for WiFi model</li> <li>User interface toggle</li> <li>User interface messaging model</li> <li>ConnectionRequest HTTP service toggle</li> <li>DNS fallback support for XMPP connections</li> </ul>'
+    editors: '<p>Klaus Wich, Axiros<br/>Mark Tabry, Google</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf'' title=''''>Issue 2 Amendment 11</a>'
+    publication: '12 August 2016'
+  - approval: '16 March 2018'
+    changes: '<p>Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII and XIX.</p>  <p>Added Appendix XX BASAPM and LMAP Theory of Operations</p>  <p>Added Annex H from TR-069a5 as Annex C.</p>  <p>Data model additions:</p>  <ul> <li>Ethernet Link Aggregation</li> </ul>'
+    editors: '<p>Steve Nicolai, Arris</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-12.pdf'' title=''''>Issue 2 Amendment 12</a>'
+    publication: '9 May 2018'
+  - approval: '13 September 2019'
+    changes: '<p>Unified text for CWMP and USP support, updated references.</p>  <p>Data model additions:</p>  <ul> <li>IoT data model parameters</li> <li>WFA Data Elements and Multi AP parameters</li> <li>WPA3 and 802.11ax support parameters</li> <li>Support for MQTT5.0, package capture diagnostics.</li> </ul>  <p>Defines version 2.13 of the Device data model (Device: 2.13).</p>'
+    editors: '<p>Klaus Wich, Huawei</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-13.pdf'' title=''''>Issue 2 Amendment 13</a>'
+    publication: '13 September 2019'
+  - approval: '5 November 2020'
+    changes: '<p>Added Appendix XXI 5G – Wireline Wireless Convergence and Appendix XXII Data Elements.</p>  <p>Data model additions:</p>  <ul> <li>Wireline Wireless Convergence support using WWC, PDU and FWE objects</li> <li>TR-471 Maximum IP-Layer Capacity Metric, Related Metrics, and Measurements support</li> <li>Improved Wi-Fi statistics</li> <li>Access control objects for Hosts</li> </ul>  <p>Defines version 2.14 of the Device data model (Device: 2.14).</p>'
+    editors: '<p>David Woolley, Telstra</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf'' title=''''>Issue 2 Amendment 14</a>'
+    publication: '5 November 2020'
+  - approval: '27 January 2022'
+    changes: '<p>Converted the document to markdown and extended the Wi-Fi Theory of Operation.</p>  <p>Data Model additions:</p>  <ul> <li>Converted the document to markdown and extended the Wi-Fi Theory of Operation</li> <li>Split the XML into multiple smaller files (this is just housekeeping; it doesn’t affect how the model is used)</li> <li>Added Device.USPAgent to the CWMP model to allow a CWMP ACS to configure a device for USP communications</li> <li>Allowed USP to access the EnableCWMP parameter (so a USP Controller can enable/disable CWMP access)</li> <li>Added Device.Routing.Babel for the RFC 8966 Babel routing protocol</li> <li>Added Device.DOCSIS for modeling DOCSIS 3.0 and 3.1 interfaces</li> <li>Added Device.Users.Group, Device.Users.Role and Device.Users.SupportedShell tables for modeling system users</li> <li>Improved the Wi-Fi data model by adding Data Elements R2 parameters, commands and events, moving MultiAP parameters and commands into the Data Elements structure, and by deprecating AIFSN, ECWMin, ECWMax and TxOpMax</li> <li>Clarified the LockoutPeriod and Retries ControllerTrust parameters that impact how the RequestChallenge() and ChallengeResponse() data model commands handle failed attempts</li> <li>Clarified bulk data profile, threshold and periodic statistics USP Controller permissions: only the USP Controller that created the profile will receive the corresponding events</li> <li>Added a bulk data profile ForceCollection() command</li> <li>Added support for a new bulk data collection mechanism that utilizes MQTT as the transport protocol</li> <li>Removed old bulk data collection protocols (Streaming and File) from the USP data model (they don’t apply to USP)</li> <li>Updated the IPLayerCapacity() test to support TR-472 Issue 2</li> <li>Added an enumeration to indicate when a Boot! event was due to a factory reset</li> <li>Added an enumeration to distinguish encrypted and unencrypted USP MQTT WebSocket connections</li> <li>Added an Order parameter to provide guidance to USP Agents on which MTP to use when communicating with a Controller</li> <li>Clarified that Device.Optical is intended for generic optical interfaces and is not intended to model anything specific to IEEE or ITU-T PON technologies (objects specific to such technologies may be added in future versions of the data model)</li> <li>Clarified the meaning and usage of the Device.Ethernet.Interface and Device.Ethernet.Link objects (also allowed the Ethernet Link MACAddress parameter to be written)</li> <li>Improved (and made more consistent) the marking of (and explanation of) deprecated items, and how such items should progress from being deprecated to obsoleted to deleted</li> <li>Added a Baseline:4 profile that doesn’t include Device.LANConfigSecurity (it relates to the now-deprecated TR-064 LAN management protocol)</li> <li>Many minor improvements to object, parameter, command and event descriptions</li> <li>Replaced the non-standard dmr:version attribute with the version attribute (which supports three levels of version)</li> <li>Switched to DMR (data model report) schema v1.0, which supports multi-line paragraphs, and wrapped all lines to 80 characters maximum</li> </ul>  <p>Defines version 2.15 of the Device data model (Device: 2.15).</p>'
+    editors: '<p>William Lupton, Broadband Forum</p>'
+    number: '<a href=''https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf'' title=''''>Issue 2 Amendment 15</a>'
+    publication: '27 January 2022'
+bbfRevisionHistorySpec: 
+  after: '<p>Comments or questions about this Broadband Forum Technical Report should be directed to <a href=''mailto:info@broadband-forum.org'' title='''' class="email">info@broadband-forum.org</a>.</p>'
+  before: '<h3 class="unnumbered unlisted new-page" id="bbfissue-history">Issue History<a class="headerlink" href="#bbfissue-history" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  headers: 
+    - 'Issue Number!!!'
+    - 'Approval Date!!!!'
+    - 'Publication Date!'
+    - 'Issue Editor!!!!!'
+    - 'Changes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  labels: 
+    - number
+    - approval
+    - publication
+    - editors
+    - changes
+  optional: true
+bbfStatus: ''
+bbfTitle: 'Device Data Model'
+bbfType: 'Technical Report'
+bbfVersion: '2 Amendment 15'
+bbfWADs: 
+  - 'Jason Walls, QA Cafe'
+  - 'John Blackford, CommScope'
+bbfWADsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="bbfworkarea-work-area-directors"> Work Area Director(s)<a class="headerlink" href="#bbfworkarea-work-area-directors" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  optional: true
+bbfWorkArea: ''
+bbfYear: 2022
+bibliography: 
+  - 'tr-069-biblio-csl.json'
+  - 'extra-ietf-biblio-csl.json'
+  - 'extra-w3c-biblio-csl.json'
+  - 'extra-misc-biblio-csl.json'
+bridge123ModelTable: 
+  config: '<p>The configuration is the sum of <em>[Tagged LAN to Tagged WAN Traffic VLAN Bridging]</em> and <em>[Tagged LAN to Tagged WAN Traffic Special Case with VLAN ID Translation]</em>, but on the downstream side the lower layer to be configured for each Bridge Port is always: Ethernet.Interface.2</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.3.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">LowerLayers</td> <td align="left"><em>Ethernet.Interface.2</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.Port.3.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">LowerLayers</td> <td align="left"><em>Ethernet.Interface.2</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.Port.3.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">LowerLayers</td> <td align="left"><em>Ethernet.Interface.2</em></td> </tr> </table>'
+  descr: '<p>More than one VLAN ID tag admitted on the same downstream interface</p>'
+bridge123ModelTableSpec: 
+  caption: 'More than one VLAN ID tag admitted on the same Downstream interface'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge1ModelPlusTable: 
+  config: '<p>[Define Ingress Port4-5 – Create an entry for the other downstream ports]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.4</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>x</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port4</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.5</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>x</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port5</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <p>[Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.VLANPort.3</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANx</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port4</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.VLANPort.4</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANx</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port5</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>'
+  descr: '<p>Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=<em>x</em> <em>(Configuration to be added to <a href=''#tbl:tagged-lan-to-tagged-wan-configuration'' title=''''>Table 6</a>)</em></p>'
+bridge1ModelPlusTableSpec: 
+  caption: 'Configuration to be added to &ldquo;Tagged LAN to tagged WAN configuration&rdquo; table'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge1ModelTable: 
+  config: '<p>[Define VLANx]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.VLAN.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Name</td> <td align="left"><em>VLANx</em></td> </tr> <tr class="even"> <td align="left">VLANID</td> <td align="left"><em>X</em></td> </tr> </table>  <p>[Define Ingress Port2-3 – Create an entry for the upstream and downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>x</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.3</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>x</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port3</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <p>[Associate Egress Port2-3 to VLANx – Create an entry for the upstream and downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.VLANPort.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANx</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.VLANPort.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANx</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port3</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>'
+  descr: '<p>Bridge between WAN and LAN 1 interfaces with VLANID=<em>x</em></p>'
+bridge1ModelTableSpec: 
+  caption: 'Tagged LAN to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge2ModelTable: 
+  config: '<p>[Define VLANy and VLANz]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.VLAN.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Name</td> <td align="left"><em>VLANy</em></td> </tr> <tr class="even"> <td align="left">VLANID</td> <td align="left"><em>y</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.VLAN.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Name</td> <td align="left"><em>VLANz</em></td> </tr> <tr class="even"> <td align="left">VLANID</td> <td align="left"><em>z</em></td> </tr> </table>  <p>[Define Ingress Port2 – Create an entry for upstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.Port.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>Z</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <p>[Define Ingress Port3 – Create an entry for the downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.Port.3</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>y</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port3</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <p>[Associate Egress Port2 to VLANz - Create an entry for upstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.VLANPort.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANz</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>  <p>[Associate Egress Port3 to VLANy - Create an entry for each downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.2.VLANPort.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANy</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port3</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>  <p>[Define filter on upstream: ingress from Port 2 is associated with VLANy]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Filter.1.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Bridge</td> <td align="left"><em>VLANy</em></td> </tr> <tr class="even"> <td align="left">Interface</td> <td align="left"><em>Port2</em></td> </tr> </table>  <p>[Define filter on downstream: ingress from Port 3 is associated with VLANz]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Filter.2.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Bridge</td> <td align="left"><em>VLANz</em></td> </tr> <tr class="even"> <td align="left">Interface</td> <td align="left"><em>Port3</em></td> </tr> </table>'
+  descr: '<p>Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)</p>  <p>upstream VLAN-ID=z</p>  <p>downstream VLAN-ID=y</p>'
+bridge2ModelTableSpec: 
+  caption: 'Tagged LAN to tagged WAN configuration (VLAN ID translation)'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge3ModelTable: 
+  config: '<p>[Define VLANk]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.VLAN.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Name</td> <td align="left"><em>VLANk</em></td> </tr> <tr class="even"> <td align="left">VLANID</td> <td align="left"><em>k</em></td> </tr> </table>  <p>[Define Ingress Port2 – Create an entry for upstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.Port.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PVID</td> <td align="left"><em>k</em></td> </tr> <tr class="even"> <td align="left">Name</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitOnlyVLANTagged</td> </tr> </table>  <p>[Define Ingress Port3 – Create an entry for the downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.Port.3</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">Name</td> <td align="left"><em>Port3</em></td> </tr> <tr class="even"> <td align="left">AcceptableFrameTypes</td> <td align="left">AdmitAll</td> </tr> </table>  <p>[Associate Egress Port2 to VLANk - Create an entry for upstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.VLANPort.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANk</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port2</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>false</em></td> </tr> </table>  <p>[Associate Egress Port3 to VLANk - Create an entry for each downstream port]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.3.VLANPort.2</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLAN</td> <td align="left"><em>VLANk</em></td> </tr> <tr class="even"> <td align="left">Port</td> <td align="left"><em>Port3</em></td> </tr> <tr class="odd"> <td align="left">Untagged</td> <td align="left"><em>true</em></td> </tr> </table>'
+  descr: '<p>Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic</p>'
+bridge3ModelTableSpec: 
+  caption: 'Untagged LAN to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridgeRemarkingTable: 
+  config: '<p>[Mark the ingress frames with Default user Priority, in this case <em>0</em>]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.2.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">DefaultUserPriority</td> <td align="left"><em>0</em></td> </tr> </table>  <p>[Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority regeneration string, in this case <em>(0,0,0,0,4,4,4,4)</em>]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.2.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PriorityRegeneration</td> <td align="left"><em>0,0,0,0,4,4,4,4</em></td> </tr> </table>  <p>[In case of ingress untagged frames, for more complex classification, QoS object are referred. In this case remark with <em>0</em>]</p>  <table> <tr class="header"> <th align="left">Device.Bridging.Bridge.1.Port.2.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">PriorityTagging</td> <td align="left"><em>true</em></td> </tr> </table>  <table> <tr class="header"> <th align="left">Device.QoS.Classification.{i}.</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">EthernetPriorityMark</td> <td align="left"><em>0</em></td> </tr> </table>'
+  descr: '<p>802.1D (re-)marking</p>  <p>Remark all WAN egress traffic</p>'
+bridgeRemarkingTableSpec: 
+  caption: '802.1D (re-)marking'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+buttons: 
+  - label: HTML
+    title: 'TR-181 Single-file HTML'
+    url: 'index.htm'
+  - label: PDF
+    title: 'TR-181 PDF'
+    url: 'index.pdf'
+  - label: 'CWMP Data Models'
+    url: 'https://cwmp-data-models.broadband-forum.org'
+  - label: 'USP Data Models'
+    url: 'https://usp-data-models.broadband-forum.org'
+  - label: 'Data Model Template'
+    title: 'TR-106'
+    url: 'https://data-model-template.broadband-forum.org'
+citation-style: '../../../install/pandoc/csl/bbf.csl'
+comment: 'this terminates the bulleted list (otherwise the example would be formatted as another list item paragraph'
+copydate: 2022
+date: 'Issue Date: January 2022'
+description: 'TR-181 – Device Data Model for CWMP Endpoints and USP Agents: TR-181 Documentation and Theory of Operations'
+doctitle: 'TR-181 – Device Data Model'
+figPrefix: 
+  - Figure
+  - Figures
+ignore: true
+lastDelim: ' and '
+link-citations: true
+linkReferences: true
+lofTitle: '<h3 class="unnumbered unlisted" id="list-of-figures">List of Figures<a class="headerlink" href="#list-of-figures" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+lolTitle: '<h3 class="unnumbered unlisted" id="list-of-listings">List of Listings<a class="headerlink" href="#list-of-listings" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+lotTitle: '<h3 class="unnumbered unlisted" id="list-of-tables">List of Tables<a class="headerlink" href="#list-of-tables" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+myBaseURL: 'https://www.broadband-forum.org/download'
+nameInLink: true
+numberSections: true
+pairDelim: ' and '
+permalinkicon: '<img src=''permalink.png'' title='''' width="0.8em"/>'
+permalinkicon-url: 'permalink.png'
+permalinkicon-width: '0.8em'
+project: 'Device Data Model for CWMP Endpoints and USP Agents'
+reference-section-title: References
+references: ''
+repodesc: 'specification source'
+reponame: 'device-data-model'
+secPrefix: 
+  - Section
+  - Sections
+sectionsDepth: '-1'
+shortname: 'TR-181'
+siteurl: 'index.html'
+status: ''
+subtitle: 'Issue: 2 Amendment 15  <span class="release"></span>'
+tagline: 'TR-181 Documentation and Theory of Operations'
+tblPrefix: 
+  - Table
+  - Tables
+theme-color: '#157878'
+title: 'TR-181 – Device Data Model for CWMP Endpoints and USP Agents'
+title-prefix: BBF
+tocTitle: '<h3 class="unnumbered unlisted" id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+uspAcknowledgmentsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="acknowledgments">Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>  <p>The following individuals are being acknowledged for their efforts in the testing and development of this specification.</p>'
+  headers: 
+    - 'Name!!!!!!!!!!!!!!!!!!'
+    - 'Company!!!!'
+    - 'Email!!!!!!!!!!'
+  optional: true
+uspEditorsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="editors-1">Editors<a class="headerlink" href="#editors-1" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+uspPSLsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="bbfprojectstream-project-stream-leaders-1"> Project Stream Leaders<a class="headerlink" href="#bbfprojectstream-project-stream-leaders-1" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+uspRevisionHistorySpec: 
+  after: '<p>Comments or questions about this Broadband Forum Technical Report should be directed to <a href=''mailto:info@broadband-forum.org'' title='''' class="email">info@broadband-forum.org</a>.</p>'
+  before: '<h3 class="unnumbered unlisted new-page" id="bbfissue-history-1">Issue History<a class="headerlink" href="#bbfissue-history-1" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  headers: 
+    - 'Issue Number'
+    - 'Changes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  labels: 
+    - number
+    - changes
+  optional: true
+uspWADsSpec: 
+  before: '<h3 class="unnumbered unlisted" id="bbfworkarea-work-area-directors-1"> Work Area Directors<a class="headerlink" href="#bbfworkarea-work-area-directors-1" title="Permalink to this header"> <img src=''permalink.png'' title='''' width="0.8em"/></a></h3>'
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+version: 'TR-181 Issue 2 Amendment 15'
+vlanTerminationModelTable: 
+  config: '<p>[DefineVLAN Termination on top of Ethernet Link]</p>  <table> <tr class="header"> <th align="left">Device.Ethernet.VLANTermination.1</th> <th align="left"></th> </tr> <tr class="odd"> <td align="left">VLANID</td> <td align="left"><em>j</em></td> </tr> <tr class="even"> <td align="left">LowerLayers</td> <td align="left">Ethernet.Link.1</td> </tr> </table>'
+  descr: '<p>Internal to tagged WAN (VLAN-ID=j) traffic</p>'
+vlanTerminationModelTableSpec: 
+  caption: 'Internally generated to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config

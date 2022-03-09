@@ -4,9 +4,10 @@ yq eval ../../../install/pandoc/defaults/bbf-defaults.yaml
 make[1]: Leaving directory '/root/bamboo-agent-home/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
 make[1]: Entering directory '/root/bamboo-agent-home/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
 'CNAME' -> '../docs/CNAME'
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.15-51)"; }|' <../../../install/pandoc/css/release.css >../docs/release.css
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.15-52)"; }|' <../../../install/pandoc/css/release.css >../docs/release.css
 '../../../install/pandoc/css/bbf.css' -> '../docs/bbf.css'
 '../../../install/pandoc/css/bbflogo-bw.png' -> '../docs/bbflogo-bw.png'
+'../../../install/pandoc/css/bbflogo-reverse-dark.png' -> '../docs/bbflogo-reverse-dark.png'
 '../../../install/pandoc/css/broadband-forum-logo.png' -> '../docs/broadband-forum-logo.png'
 '../../../install/pandoc/css/extra.css' -> '../docs/extra.css'
 '../../../install/pandoc/css/github.css' -> '../docs/github.css'

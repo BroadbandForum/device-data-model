@@ -1,0 +1,26 @@
+# do not edit! this file was created from PROJECT.yaml by project-parser.py
+
+# BBF-specific metadata; cf. Word properties
+bbfNumber: TR-143
+bbfTitle: Enabling Network Throughput Performance Tests and Statistical Monitoring
+bbfIssue: Issue
+bbfVersion: 1 Amendment 1 Corrigendum 2
+bbfMonth: February
+bbfYear: 2023
+bbfType: Technical Report
+bbfStatus: ''
+bbfContrib: ''
+bbfMajor: 1
+bbfMinor: 1
+bbfPatch: 2
+bbfDraft: ''
+bbfBuild: ''
+
+# other top-level variables
+notice: tr
+reponame: ''
+"tagline": ""
+"summary": ""
+"description": ""
+bbfWorkArea: ''
+bbfProjectStream: ''

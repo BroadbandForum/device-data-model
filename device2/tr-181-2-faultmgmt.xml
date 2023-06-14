@@ -47,23 +47,23 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-faultmgmt"
-    file="tr-181-2-14-0-faultmgmt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-faultmgmt"
+    file="tr-181-2-16-0-faultmgmt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106"/>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -86,8 +86,8 @@
 
       <parameter name="MaxCurrentAlarmEntries" access="readOnly">
         <description>
-          The maximum number of entries allowed in the
-          {{object|.FaultMgmt.CurrentAlarm.{i}.}} table.
+          The maximum number of entries allowed in the {{object|CurrentAlarm}}
+          table.
         </description>
         <syntax>
           <unsignedInt/>
@@ -140,7 +140,7 @@
         The instance numbers for this table SHOULD be maintained across
         firmware upgrades of the device.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="EventType"/>
         <parameter ref="ProbableCause"/>
         <parameter ref="SpecificProblem"/>
@@ -224,21 +224,20 @@
             <enumeration value="0 Expedited">
               <description>
                 The device inserts the alarm into the
-                {{object|.FaultMgmt.ExpeditedEvent.{i}.}} table and the
-                {{object|.FaultMgmt.ExpeditedEvent.{i}.}} table.
+                {{object|#.ExpeditedEvent}} table and the
+                {{object|#.ExpeditedEvent}} table.
               </description>
             </enumeration>
             <enumeration value="1 Queued">
               <description>
-                The device inserts the alarm into the
-                {{object|.FaultMgmt.QueuedEvent.{i}.}} table and the
-                {{object|.FaultMgmt.QueuedEvent.{i}.}} table.
+                The device inserts the alarm into the {{object|#.QueuedEvent}}
+                table and the {{object|#.QueuedEvent}} table.
               </description>
             </enumeration>
             <enumeration value="2 Logged">
               <description>
-                The device inserts the alarm into the
-                {{object|.FaultMgmt.HistoryEvent.{i}.}} table.
+                The device inserts the alarm into the {{object|#.HistoryEvent}}
+                table.
               </description>
             </enumeration>
             <enumeration value="3 Disabled">
@@ -254,27 +253,27 @@
         maxEntries="unbounded" version="2.4">
       <description>
         Contains all currently active alarms (whose
-        {{param|.FaultMgmt.SupportedAlarm.{i}.PerceivedSeverity}} is not
-        {{enum|Cleared|.FaultMgmt.SupportedAlarm.{i}.PerceivedSeverity}}).
+        {{param|#.SupportedAlarm.{i}.PerceivedSeverity}} is not
+        {{enum|Cleared|#.SupportedAlarm.{i}.PerceivedSeverity}}).
 
         Newly raised alarms result in a new entry in this table being added,
         any changes to the alarm as a result of an update event are updated in
         the existing table entry, and a clear event raised against an alarm
         results in the alarm being removed from this table.
 
-        If maximum entries as indicated by
-        {{param|.FaultMgmt.MaxCurrentAlarmEntries}} is reached, the next event
-        overrides the object with the oldest {{param|AlarmChangedTime}}.
+        If maximum entries as indicated by {{param|#.MaxCurrentAlarmEntries}}
+        is reached, the next event overrides the object with the oldest
+        {{param|AlarmChangedTime}}.
 
         When a new alarm replaces an existing alarm, then all parameter values
         for that instance are considered as changed for the purposes of value
         change notifications to the Controller (even if their new values are
         identical to those of the prior alarm).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="AlarmIdentifier"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="EventType"/>
         <parameter ref="ProbableCause"/>
         <parameter ref="SpecificProblem"/>
@@ -412,23 +411,22 @@
         numEntriesParameter="HistoryEventNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.4">
       <description>
-        Alarm events added or updated in
-        {{object|.FaultMgmt.CurrentAlarm.{i}.}} are simultaneously entered into
-        the this table. This table also contains alarm clearing events.
+        Alarm events added or updated in {{object|#.CurrentAlarm}} are
+        simultaneously entered into the this table. This table also contains
+        alarm clearing events.
 
         Active alarms at the time of a power failure or reboot might not get an
         alarm clearing event.
 
         This object has a fixed number of entries with instance numbers from 1
-        to {{param|.FaultMgmt.HistoryEventNumberOfEntries}}.
+        to {{param|#.HistoryEventNumberOfEntries}}.
 
-        If maximum instance number
-        {{param|.FaultMgmt.HistoryEventNumberOfEntries}} is reached, the next
-        event overrides the object with instance number 1. Subsequent entries
-        override objects at sequentially increasing instance numbers. This
-        logic provides for automatic "rolling" of records.
+        If maximum instance number {{param|#.HistoryEventNumberOfEntries}} is
+        reached, the next event overrides the object with instance number 1.
+        Subsequent entries override objects at sequentially increasing instance
+        numbers. This logic provides for automatic "rolling" of records.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="EventTime"/>
         <parameter ref="AlarmIdentifier"/>
       </uniqueKey>
@@ -569,33 +567,31 @@
         numEntriesParameter="ExpeditedEventNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.4">
       <description>
-        Alarm events added or updated in
-        {{object|.FaultMgmt.CurrentAlarm.{i}.}} are simultaneously entered into
-        the this table if their corresponding entry in
-        {{object|.FaultMgmt.SupportedAlarm.{i}.}} has
-        {{param|.FaultMgmt.SupportedAlarm.{i}.ReportingMechanism}} set to
-        {{enum|0 Expedited|.FaultMgmt.SupportedAlarm.{i}.ReportingMechanism}}.
-        This table also contains alarm clearing events.
+        Alarm events added or updated in {{object|#.CurrentAlarm}} are
+        simultaneously entered into the this table if their corresponding entry
+        in {{object|#.SupportedAlarm}} has
+        {{param|#.SupportedAlarm.{i}.ReportingMechanism}} set to {{enum|0
+        Expedited|#.SupportedAlarm.{i}.ReportingMechanism}}. This table also
+        contains alarm clearing events.
 
         This object has a fixed number of entries with instance numbers from 1
-        to {{param|.FaultMgmt.ExpeditedEventNumberOfEntries}}.
+        to {{param|#.ExpeditedEventNumberOfEntries}}.
 
         Initially the table starts with all instances having
         {{param|EventTime}} set to the Unknown Time value, as defined in
         {{bibref|TR-106}}.
 
-        If maximum instance number
-        {{param|.FaultMgmt.ExpeditedEventNumberOfEntries}} is reached, the next
-        event overrides the object with instance number 1. Subsequent entries
-        override objects at sequentially increasing instance numbers. This
-        logic provides for automatic "rolling" of records.
+        If maximum instance number {{param|#.ExpeditedEventNumberOfEntries}} is
+        reached, the next event overrides the object with instance number 1.
+        Subsequent entries override objects at sequentially increasing instance
+        numbers. This logic provides for automatic "rolling" of records.
 
         When a new alarm replaces an existing alarm, then all parameter values
         for that instance are considered as changed for the purposes of value
         change notifications to the Controller (even if their new values are
         identical to those of the prior alarm).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="AlarmIdentifier"/>
       </uniqueKey>
 
@@ -740,33 +736,31 @@
         numEntriesParameter="QueuedEventNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.4">
       <description>
-        Alarm events added or updated in
-        {{object|.FaultMgmt.CurrentAlarm.{i}.}} are simultaneously entered into
-        the this table if their corresponding entry in
-        {{object|.FaultMgmt.SupportedAlarm.{i}.}} has
-        {{param|.FaultMgmt.SupportedAlarm.{i}.ReportingMechanism}} set to
-        {{enum|1 Queued|.FaultMgmt.SupportedAlarm.{i}.ReportingMechanism}}.
-        This table also contains alarm clearing events.
+        Alarm events added or updated in {{object|#.CurrentAlarm}} are
+        simultaneously entered into the this table if their corresponding entry
+        in {{object|#.SupportedAlarm}} has
+        {{param|#.SupportedAlarm.{i}.ReportingMechanism}} set to {{enum|1
+        Queued|#.SupportedAlarm.{i}.ReportingMechanism}}. This table also
+        contains alarm clearing events.
 
         This object has a fixed number of entries with instance numbers from 1
-        to {{param|.FaultMgmt.QueuedEventNumberOfEntries}}.
+        to {{param|#.QueuedEventNumberOfEntries}}.
 
         Initially the table starts with all instances having
         {{param|EventTime}} set to the Unknown Time value, as defined in
         {{bibref|TR-106}}.
 
-        If maximum instance number
-        {{param|.FaultMgmt.QueuedEventNumberOfEntries}} is reached, the next
-        event overrides the object with instance number 1. Subsequent entries
-        override objects at sequentially increasing instance numbers. This
-        logic provides for automatic "rolling" of records.
+        If maximum instance number {{param|#.QueuedEventNumberOfEntries}} is
+        reached, the next event overrides the object with instance number 1.
+        Subsequent entries override objects at sequentially increasing instance
+        numbers. This logic provides for automatic "rolling" of records.
 
         When a new alarm replaces an existing alarm, then all parameter values
         for that instance are considered as changed for the purposes of value
         change notifications to the Controller (even if their new values are
         identical to those of the prior alarm).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="AlarmIdentifier"/>
       </uniqueKey>
 
@@ -977,7 +971,7 @@
     </profile>
   </component>
 
-  <model name="FaultMgmt:2.14">
+  <model name="FaultMgmt:2.16">
     <component ref="Root"/>
     <component ref="FaultMgmt"/>
   </model>

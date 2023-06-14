@@ -51,28 +51,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-9"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-9
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-9.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-cwmp"
-    file="tr-181-2-15-0-cwmp.xml">
-  <description>
-    {{docname|Device Data Model}}
-
-    {{appdate|January 2022}}
-
-    {{trname|TR-181i2a15}}
-
-    * Converted document to markdown
-
-    * Extended Wi-Fi Theory of Operation
-  </description>
-
+    spec="urn:broadband-forum-org:tr-181-2-16-0-cwmp"
+    file="tr-181-2-16-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -85,7 +73,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-15-common">
+      spec="urn:broadband-forum-org:tr-181-2-16-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -145,8 +133,6 @@
     <component name="PacketCaptureDiagnosticsInput"/>
     <component name="PacketCaptureDiagnosticsOutputNumberOfEntries"/>
     <component name="PacketCaptureDiagnosticsOutput"/>
-    <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
-    <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
     <component name="RemoteMeasurementRequestInput"/>
     <component name="RemoteMeasurementRequestOutput"/>
     <component name="CCAMeasurementInput"/>
@@ -155,8 +141,15 @@
     <component name="USPLocalAgent"/>
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
-    <model name="_Device:2.15" ref="Device:2.15"/>
+    <component name="SoftwareModules"/>
+    <model name="_Device:2.16" ref="Device:2.16"/>
   </import>
+
+  <import file="tr-181-2-wifi-cwmp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-16-wifi-cwmp">
+    <component name="WiFiCWMP"/>
+  </import>
+
   <!-- Templates used in object and/or parameter descriptions -->
 
   <template id="Reset">
@@ -203,6 +196,10 @@
     {{param|Device.PeriodicStatistics.SampleSet.{i}.ForceSample}}
   </template>
 
+  <template id="PERIODICSTATISTICS-FAILURES">
+    {{param|Device.PeriodicStatistics.SampleSet.{i}.Parameter.{i}.Failures}}
+  </template>
+
   <template id="USP-REQUEST-CHALLENGE">
     USP RequestChallenge()
   </template>
@@ -219,8 +216,21 @@
     , as described in {{bibref|TR-069|Appendix III}}
   </template>
 
-  <model name="Device:2.15" base="_Device:2.15">
+  <template id="VENDORCONFIGFILE-DESC">
+    Whenever the CPE successfully downloads a configuration file as a result of
+    the Download RPC with the FileType argument of ''3 Vendor Configuration
+    File'', the CPE MUST update this table.
+  </template>
 
+  <template id="VENDORCONFIGFILE-NAME">
+    Otherwise, the value of this parameter MUST be set to the value of the
+    TargetFileName argument of the Download RPC used to download this
+    configuration file.
+  </template>
+
+  <template id="IP-DIAGNOSTICS-PARENT"/>
+
+  <model name="Device:2.16" base="_Device:2.16">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -256,7 +266,7 @@
 
     <object name="Device.DeviceInfo.SupportedDataModel.{i}." access="readOnly"
         numEntriesParameter="SupportedDataModelNumberOfEntries" minEntries="0"
-        maxEntries="unbounded">
+        maxEntries="unbounded" version="2.0">
       <description>
         This table contains details of the device's Current Supported Data
         Model.
@@ -272,18 +282,17 @@
         Considering that every device has some form of a data model, this table
         MUST NOT be empty.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="URL"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="UUID"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny"
-          version="2.3">
+      <parameter name="Alias" access="readWrite" version="2.3">
         <description>
           {{datatype|expand}}
         </description>
@@ -458,7 +467,7 @@
     </object>
 
     <object name="Device.GatewayInfo." access="readOnly" minEntries="1"
-        maxEntries="1">
+        maxEntries="1" version="2.0">
       <description>
         This object contains information associated with a connected Internet
         Gateway Device.
@@ -514,7 +523,7 @@
     </object>
 
     <object name="Device.ManagementServer." access="readOnly" minEntries="1"
-        maxEntries="1" dmr:previousObject="Device.DeviceInfo.">
+        maxEntries="1" version="2.0" dmr:previousObject="Device.DeviceInfo.">
       <description>
         This object contains parameters relating to the CPE's association with
         an ACS.
@@ -1167,12 +1176,12 @@
 
       <parameter name="ConnReqXMPPConnection" access="readWrite" version="2.7">
         <description>
-          {{reference|the {{object|.XMPP.Connection}} instance that is used for
-          connection requests to this {{object}}}}
+          {{reference|the {{object|#.XMPP.Connection}} instance that is used
+          for connection requests to this {{object}}}}
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".XMPP.Connection."
+            <pathRef refType="strong" targetParent="#.XMPP.Connection."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1232,21 +1241,21 @@
           activeNotify="forceDefaultEnabled" version="2.7">
         <description>
           The value MUST be the value of the
-          {{param|.XMPP.Connection.{i}.JabberID}} contained in the
-          {{object|.XMPP.Connection}} instance referenced by the
+          {{param|#.XMPP.Connection.{i}.JabberID}} contained in the
+          {{object|#.XMPP.Connection}} instance referenced by the
           {{param|ConnReqXMPPConnection}} parameter.
 
           If the {{param|ConnReqXMPPConnection}} parameter is empty or the
-          {{object|.XMPP.Connection}} instance being reference is disabled,
+          {{object|#.XMPP.Connection}} instance being reference is disabled,
           then this value will be empty.
 
-          If the {{object|.XMPP.Connection}} instance being referenced by the
+          If the {{object|#.XMPP.Connection}} instance being referenced by the
           {{param|ConnReqXMPPConnection}} parameter is lost
-          ({{param|.XMPP.Connection.{i}.Status}} parameter changes from Enabled
-          to some other value), then the value of this parameter MUST remain
-          unchanged until the connection can be reestablished and a new
-          {{param|.XMPP.Connection.{i}.JabberID}} can be established. If the
-          new {{param|.XMPP.Connection.{i}.JabberID}} is identical to the
+          ({{param|#.XMPP.Connection.{i}.Status}} parameter changes from
+          Enabled to some other value), then the value of this parameter MUST
+          remain unchanged until the connection can be reestablished and a new
+          {{param|#.XMPP.Connection.{i}.JabberID}} can be established. If the
+          new {{param|#.XMPP.Connection.{i}.JabberID}} is identical to the
           existing value, then the value of this parameter MUST NOT be altered
           and a VALUE CHANGE event MUST NOT be generated.
         </description>
@@ -1460,14 +1469,14 @@
 
     <object name="Device.ManagementServer.ManageableDevice.{i}."
         access="readOnly" numEntriesParameter="ManageableDeviceNumberOfEntries"
-        minEntries="0" maxEntries="unbounded">
+        minEntries="0" maxEntries="unbounded" version="2.0">
       <description>
         Each entry in this table corresponds to a distinct LAN Device that
         supports Device-Gateway Association according to {{bibref|TR-069|Annex
         F}} as indicated by the presence of the DHCP option specified in that
         Annex.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ManufacturerOUI"/>
         <parameter ref="SerialNumber"/>
         <parameter ref="ProductClass"/>
@@ -1539,7 +1548,7 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} {{reference}} References all the {{object|.Hosts.Host}}
+          {{list}} {{reference}} References all the {{object|##.Hosts.Host}}
           table entries, whether active or inactive, that correspond to this
           physical LAN device. There can be multiple such entries if the device
           has more than one network interface.
@@ -1551,7 +1560,7 @@
             <size maxLength="1024"/>
           </list>
           <string>
-            <pathRef refType="strong" targetParent=".Hosts.Host."
+            <pathRef refType="strong" targetParent="##.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1559,7 +1568,7 @@
     </object>
 
     <object name="Device.ManagementServer.AutonomousTransferCompletePolicy."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object allows configuration of CPE policy for notification of
         AUTONOMOUS TRANSFER COMPLETE events, defined in {{bibref|TR-069}}.
@@ -1687,7 +1696,7 @@
     </object>
 
     <object name="Device.ManagementServer.DownloadAvailability."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object contains multicast announcement and query parameters used
         for the purpose of downloading files.
@@ -1695,7 +1704,7 @@
     </object>
 
     <object name="Device.ManagementServer.DownloadAvailability.Announcement."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object contains multicast announcement parameters used to download
         files.
@@ -1742,19 +1751,19 @@
     <object
         name="Device.ManagementServer.DownloadAvailability.Announcement.Group.{i}."
         access="readWrite" numEntriesParameter="GroupNumberOfEntries"
-        enableParameter="Enable" minEntries="0" maxEntries="unbounded">
+        enableParameter="Enable" minEntries="0" maxEntries="unbounded"
+        version="2.0">
       <description>
         Multicast groups to which the CPE SHOULD listen for announcements.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="URL"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny"
-          version="2.3">
+      <parameter name="Alias" access="readWrite" version="2.3">
         <description>
           {{datatype|expand}}
         </description>
@@ -1816,7 +1825,7 @@
     </object>
 
     <object name="Device.ManagementServer.DownloadAvailability.Query."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object contains multicast query parameters used to download files.
       </description>
@@ -1986,7 +1995,7 @@
         utilizes the Embedded Object Mechanism {{bibref|TR-069|Annex J.3}} for
         proxying devices.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ControllerID"/>
         <parameter ref="ProxiedDeviceID"/>
       </uniqueKey>
@@ -2053,22 +2062,23 @@
           <list/>
           <string>
             <pathRef refType="strong"
-                targetParent=".DeviceInfo.SupportedDataModel." targetType="row"/>
+                targetParent="##.DeviceInfo.SupportedDataModel."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
 
       <parameter name="Host" access="readOnly">
         <description>
-          References the {{object|.Hosts.Host}} table entry(s), whether active
-          or inactive, that corresponds to this proxied LAN device.
+          References the {{object|##.Hosts.Host}} table entry(s), whether
+          active or inactive, that corresponds to this proxied LAN device.
         </description>
         <syntax>
           <list maxItems="32">
             <size/>
           </list>
           <string>
-            <pathRef refType="strong" targetParent=".Hosts.Host."
+            <pathRef refType="strong" targetParent="##.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -2146,17 +2156,17 @@
           version="2.6">
         <description>
           {{list}} {{reference|an object discovered using one or more protocols
-          listed in {{param|DiscoveryProtocol}}|ignore}}
+          listed in {{param|DiscoveryProtocol}}}}
 
           For objects discovered by the UPnP discovery protocol, the {{param}}
           would contain items that are references to instances of the
           following:
 
-          * {{object|.UPnP.Discovery.RootDevice}}
+          * {{object|##.UPnP.Discovery.RootDevice}}
 
-          * {{object|.UPnP.Discovery.Device}}
+          * {{object|##.UPnP.Discovery.Device}}
 
-          * {{object|.UPnP.Discovery.Service}}
+          * {{object|##.UPnP.Discovery.Service}}
 
           For objects discovered by the ETSI-M2M discovery protocol, the
           {{param}} would contain items that are references to instances of
@@ -2221,7 +2231,7 @@
         utilizes the Virtual CWMP Device Mechanism {{bibref|TR-069|Annex J.2}}
         for proxying devices.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ManufacturerOUI"/>
         <parameter ref="ProductClass"/>
         <parameter ref="SerialNumber"/>
@@ -2268,7 +2278,7 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} {{reference}} References all the {{object|.Hosts.Host}}
+          {{list}} {{reference}} References all the {{object|##.Hosts.Host}}
           table entries, whether active or inactive, that correspond to this
           proxied LAN device. There can be multiple such entries if the Proxied
           Device has more than one network interface.
@@ -2278,7 +2288,7 @@
             <size/>
           </list>
           <string>
-            <pathRef refType="strong" targetParent=".Hosts.Host."
+            <pathRef refType="strong" targetParent="##.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -2356,17 +2366,17 @@
           version="2.6">
         <description>
           {{list}} {{reference|an object discovered using one or more protocols
-          listed in {{param|DiscoveryProtocol}}|ignore}}
+          listed in {{param|DiscoveryProtocol}}}}
 
           For objects discovered by the UPnP discovery protocol, the {{param}}
           would contain items that are references to instances of the
           following:
 
-          * {{object|.UPnP.Discovery.RootDevice}}
+          * {{object|##.UPnP.Discovery.RootDevice}}
 
-          * {{object|.UPnP.Discovery.Device}}
+          * {{object|##.UPnP.Discovery.Device}}
 
-          * {{object|.UPnP.Discovery.Service}}
+          * {{object|##.UPnP.Discovery.Service}}
 
           For objects discovered by the ETSI-M2M discovery protocol, the
           {{param}} would contain items that are references to instances of
@@ -2521,7 +2531,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ParameterName"/>
       </uniqueKey>
 
@@ -2654,7 +2664,7 @@
     <object base="Device.BulkData." access="readOnly" minEntries="1"
         maxEntries="1">
 
-      <parameter base="Protocols" access="readOnly" version="2.5">
+      <parameter base="Protocols" access="readOnly">
         <syntax>
           <list/>
           <string>
@@ -2674,7 +2684,7 @@
         </syntax>
       </parameter>
 
-      <parameter base="EncodingTypes" access="readOnly" version="2.5">
+      <parameter base="EncodingTypes" access="readOnly">
         <syntax>
           <list/>
           <string>
@@ -2699,7 +2709,7 @@
 
     <object base="Device.BulkData.Profile.{i}." access="readWrite"
         numEntriesParameter="ProfileNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" version="2.5">
+        minEntries="0" maxEntries="unbounded">
       <parameter name="StreamingHost" access="readWrite">
         <description>
           This is the host name or IP Address of the IPDR Collector to be used
@@ -2834,66 +2844,10 @@
       </parameter>
     </object>
 
-    <object name="Device.SoftwareModules." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.1">
-      <description>
-        Top level object for dynamically managed software applications.
-      </description>
-
-      <parameter name="ExecEnvNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DeploymentUnitNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecutionUnitNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.SoftwareModules.ExecEnv.{i}." access="readOnly"
-        numEntriesParameter="ExecEnvNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.1">
-      <description>
-        The Execution Environments that are available on the device, along with
-        their properties and configurable settings.
-      </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Indicates whether or not this {{object}} is enabled.
-
-          Disabling an enabled Execution Environment stops it, while enabling a
-          disabled Execution Environment starts it.
-
-          When an Execution Environment is disabled, Deployment Units installed
-          to that Execution Environment will be unaffected, but any Execution
-          Units currently running on that Execution Environment will
-          automatically transition to {{enum|Idle|#.ExecutionUnit.{i}.Status}}.
-
+    <object base="Device.SoftwareModules.ExecEnv.{i}." access="readOnly"
+        minEntries="0" maxEntries="unbounded">
+      <parameter base="Enable" access="readWrite">
+        <description action="append">
           If a ChangeDUState is attempted on a {{object|#.DeploymentUnit}} that
           is to be applied against a disabled {{object}}, that ChangeDUState
           operation fails and the associated DUStateChangeComplete RPC will
@@ -2909,25 +2863,10 @@
           modeled as an {{object}} and the ACS disabled it, the CWMP management
           agent might be terminated leaving the device unmanageable.
         </description>
-        <syntax>
-          <boolean/>
-        </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly">
-        <description>
-          Indicates the status of this {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Error" optional="true"/>
-            <enumeration value="Disabled"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Reset" access="readWrite">
+      <parameter name="Reset" access="readWrite"
+          dmr:previousParameter="Status">
         <description>
           Setting this parameter to {{true}} causes this {{object}} to revert
           back to the state it was in when the device last issued a "0
@@ -2961,61 +2900,8 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          A Name provided by the CPE that adequately distinguishes this
-          {{object}} from all other {{object}} instances.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="32"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Type" access="readOnly">
-        <description>
-          Indicates the complete type and specification version of this
-          {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="InitialRunLevel" access="readWrite">
-        <description>
-          The run level that this {{object}} will be in upon startup (whether
-          that is caused by a CPE Boot or the Execution Environment starting).
-
-          Run levels dictate which Execution Units will be started. Execution
-          Units will be started if {{param|CurrentRunLevel}} is greater than or
-          equal to {{param|#.ExecutionUnit.{i}.RunLevel}} and
-          {{param|#.ExecutionUnit.{i}.AutoStart}} is {{true}}.
-
-          If the value of {{param|CurrentRunLevel}} is -1, then the value of
-          this parameter is irrelevant when read and setting its value has no
-          impact on the Run Level of this {{object}}.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range maxInclusive="65535"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="RequestedRunLevel" access="readWrite">
+      <parameter name="RequestedRunLevel" access="readWrite"
+          dmr:previousParameter="InitialRunLevel">
         <description>
           Provides a mechanism to remotely manipulate the run level of this
           {{object}}, meaning that altering this parameter's value will change
@@ -3036,8 +2922,8 @@
         </syntax>
       </parameter>
 
-      <parameter name="CurrentRunLevel" access="readOnly">
-        <description>
+      <parameter base="CurrentRunLevel" access="readOnly">
+        <description action="replace">
           The run level that this {{object}} is currently operating in. This
           value is altered by changing the {{param|RequestedRunLevel}}
           parameter.
@@ -3057,534 +2943,23 @@
           {{param|RequestedRunLevel}} will not impact the Run Level of this
           {{object}}.
         </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="65535"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="InitialExecutionUnitRunLevel" access="readWrite"
-          version="2.4">
-        <description>
-          Indicates the initial value on creation for
-          {{param|#.ExecutionUnit.{i}.RunLevel}} for all Execution Unit
-          instances associated with this {{object}}.
-
-          If the value of {{param|CurrentRunLevel}} is -1, then the value of
-          this parameter is irrelevant when read and setting its value has no
-          impact on the Run Level of any Execution Unit.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="65535"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="Vendor" access="readOnly">
-        <description>
-          The vendor that produced this {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="128"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Version" access="readOnly">
-        <description>
-          The Version of this {{object}} as specified by the Vendor that
-          implemented this {{object}}, not the version of the specification.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="32"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ParentExecEnv" access="readOnly">
-        <description>
-          Represents the parent {{object}} of this {{object}}.
-
-          If this value is {{empty}} then this is the Primary Execution
-          Environment.
-        </description>
-        <syntax>
-          <string>
-            <pathRef refType="strong" targetParent="#.ExecEnv."
-                targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="AllocatedDiskSpace" access="readOnly">
-        <description>
-          The amount of disk space measured in {{units}} allocated to this
-          {{object}}. A value of -1 MUST be used for {{object}} instances where
-          this parameter is not applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="AvailableDiskSpace" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The amount of disk space measured in {{units}} currently available to
-          this {{object}}. This value changes as the {{object|#.ExecutionUnit}}
-          instances associated with this {{object}} consumes disk space. A
-          value of -1 MUST be used for {{object}} instances where this
-          parameter is not applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="AllocatedMemory" access="readOnly">
-        <description>
-          The amount of physical RAM measured in {{units}} allocated to this
-          {{object}}. A value of -1 MUST be used for {{object}} instances where
-          this parameter is not applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="AvailableMemory" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The amount of physical RAM measured in {{units}} currently available
-          to this {{object}}. This value changes as the
-          {{object|#.ExecutionUnit}} instances associated with this {{object}}
-          are started/stopped and consume the physical RAM. A value of -1 MUST
-          be used for {{object}} instances where this parameter is not
-          applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="ActiveExecutionUnits" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          Represents the {{object|#.ExecutionUnit}} instances currently running
-          on this {{object}}. This parameter only contains
-          {{object|#.ExecutionUnit}} instances that currently have a
-          {{param|#.ExecutionUnit.{i}.Status}} of
-          {{enum|Active|#.ExecutionUnit.{i}.Status}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong" targetParent="#.ExecutionUnit."
-                targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ProcessorRefList" access="readOnly">
-        <description>
-          Represents the processors that this {{object}} has available to it.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong" targetParent=".DeviceInfo.Processor."
-                targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
     </object>
 
-    <object name="Device.SoftwareModules.DeploymentUnit.{i}."
-        access="readOnly" numEntriesParameter="DeploymentUnitNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" version="2.1">
-      <description>
-        This table serves as the Deployment Unit inventory and contains status
-        information about each Deployment Unit.
-
-        A new instance of this table gets created during the installation of a
-        Software Module.
-      </description>
-      <uniqueKey>
-        <parameter ref="UUID"/>
-        <parameter ref="Version"/>
-        <parameter ref="ExecutionEnvRef"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-
-      <parameter name="UUID" access="readOnly">
-        <description>
-          A Universally Unique Identifier either provided by the ACS, or
-          generated by the CPE, at the time of Deployment Unit Installation.
-          The format of this value is defined by {{bibref|RFC4122}} Version 3
-          (Name-Based) and {{bibref|TR-181i2|Annex C}}.
-
-          This value MUST NOT be altered when the {{object}} is updated.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="36"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="DUID" access="readOnly">
-        <description>
-          Deployment Unit Identifier chosen by the targeted
-          {{object|#.ExecEnv}}. The format of this value is Execution
-          Environment specific.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          Indicates the Name of this {{object}}, which is chosen by the author
-          of the Deployment Unit.
-
-          The value of this parameter is used in the generation of the
-          {{param|UUID}} based on the rules defined in {{bibref|TR-181i2|Annex
-          C}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly" activeNotify="canDeny">
-        <description>
-          Indicates the status of this {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Installing">
-              <description>
-                This instance is in the process of being Installed and SHOULD
-                transition to the {{enum|Installed}} state.
-              </description>
-            </enumeration>
-            <enumeration value="Installed">
-              <description>
-                This instance has been successfully Installed. The
-                {{param|Resolved}} flag SHOULD also be referenced for
-                dependency resolution.
-              </description>
-            </enumeration>
-            <enumeration value="Updating">
-              <description>
-                This instance is in the process of being Updated and SHOULD
-                transition to the {{enum|Installed}} state.
-              </description>
-            </enumeration>
-            <enumeration value="Uninstalling">
-              <description>
-                This instance is in the process of being Uninstalled and SHOULD
-                transition to the {{enum|Uninstalled}} state.
-              </description>
-            </enumeration>
-            <enumeration value="Uninstalled">
-              <description>
-                This instance has been successfully Uninstalled. This status
-                will typically not be seen within a {{object}} instance.
-              </description>
-            </enumeration>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Resolved" access="readOnly">
-        <description>
-          Indicates whether or not this {{object}} has resolved all of its
-          dependencies.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="URL" access="readOnly">
-        <description>
+    <object base="Device.SoftwareModules.DeploymentUnit.{i}."
+        access="readOnly" minEntries="0" maxEntries="unbounded">
+      <parameter base="URL" access="readOnly">
+        <description action="replace">
           Contains the {{datatype}} used by the most recent ChangeDUState RPC
           to either Install or Update this {{object}}.
         </description>
-        <syntax>
-          <dataType ref="URL"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Description" access="readOnly">
-        <description>
-          Textual description of this {{object}}. The format of this value is
-          Execution Environment specific.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="256"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Vendor" access="readOnly">
-        <description>
-          The author of this {{object}} formatted as a domain name.
-
-          The value of this parameter is used in the generation of the
-          {{param|UUID}} based on the rules defined in {{bibref|TR-181i2|Annex
-          C}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="128"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Version" access="readOnly">
-        <description>
-          Version of this {{object}}. The format of this value is Execution
-          Environment specific.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="32"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="VendorLogList" access="readOnly">
-        <description>
-          Represents the vendor log files that have come into existence because
-          of this {{object}}. This does not include any vendor log files that
-          have come into existence because of {{object|#.ExecutionUnit}}
-          instances that are contained within this {{object}}.
-
-          When this {{object}} is uninstalled the vendor log files referenced
-          here SHOULD be removed from the CPE.
-
-          Not all {{object}} instances will actually have a corresponding
-          vendor log file, in which case the value of this parameter will be
-          {{empty}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong"
-                targetParent=".DeviceInfo.VendorLogFile." targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="VendorConfigList" access="readOnly">
-        <description>
-          Represents the vendor config files that have come into existence
-          because of this {{object}}. This does not include any vendor config
-          files that have come into existence because of
-          {{object|#.ExecutionUnit}} instances that are contained within this
-          {{object}}.
-
-          When this {{object}} is uninstalled the vendor config files
-          referenced here SHOULD be removed from the CPE.
-
-          Not all {{object}} instances will actually have a corresponding
-          vendor config file, in which case the value of this parameter will be
-          {{empty}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong"
-                targetParent=".DeviceInfo.VendorConfigFile." targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecutionUnitList" access="readOnly">
-        <description>
-          Represents the {{object|#.ExecutionUnit}} instances that are
-          associated with this {{object}} instance.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong" targetParent="#.ExecutionUnit."
-                targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecutionEnvRef" access="readOnly">
-        <description>
-          Represents the {{object|#.ExecEnv}} instance where this {{object}}
-          instance is installed.
-        </description>
-        <syntax>
-          <string>
-            <pathRef refType="strong" targetParent="#.ExecEnv."
-                targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
     </object>
 
-    <object name="Device.SoftwareModules.ExecutionUnit.{i}." access="readOnly"
-        numEntriesParameter="ExecutionUnitNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.1">
-      <description>
-        This table serves as the Execution Unit inventory and contains both
-        status information about each Execution Unit as well as configurable
-        parameters for each Execution Unit.
-
-        Each {{object|#.DeploymentUnit}} that is installed can have zero or
-        more Execution Units.
-
-        Once a Deployment Unit is installed it populates this table with its
-        contained Execution Units.
-
-        When the Deployment Unit (that caused this {{object}} to come into
-        existence) is updated, this instance MAY be removed and new instances
-        MAY come into existence. While the Deployment Unit (that caused this
-        {{object}} to come into existence) is being updated, all {{object}}
-        instances associated with the Deployment Unit will be stopped until the
-        update is complete at which time they will be restored to the state
-        that they were in before the update started.
-
-        When the Deployment Unit (that caused this {{object}} to come into
-        existence) is uninstalled, this instance is removed.
-
-        Each {{object}} MAY also contain a set of vendor specific parameters
-        displaying status and maintaining configuration that reside under the
-        {{object|Extensions}} object.
-      </description>
-      <uniqueKey>
-        <parameter ref="EUID"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-
-      <parameter name="EUID" access="readOnly">
-        <description>
-          Execution Unit Identifier chosen by the {{object|#.ExecEnv}} during
-          installation of the associated {{object|#.DeploymentUnit}}.
-
-          The format of this value is Execution Environment specific, but it
-          MUST be unique across {{object|#.ExecEnv}} instances. Thus, it is
-          recommended that this be a combination of the
-          {{param|#.ExecEnv.{i}.Name}} and an Execution Environment local
-          unique value.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The name of this {{object}} as it pertains to its associated
-          {{object|#.DeploymentUnit}}, which SHOULD be unique across all
-          {{object}} instances contained within its associated
-          {{object|#.DeploymentUnit}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="32"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecEnvLabel" access="readOnly">
-        <description>
-          The name of this {{object}} as provided by the {{object|#.ExecEnv}},
-          which SHOULD be unique across all {{object}} instances contained
-          within a specific {{object|#.ExecEnv}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly"
-          activeNotify="forceDefaultEnabled">
-        <description>
-          Indicates the status of this {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Idle">
-              <description>
-                This instance is in an Idle state and not running.
-              </description>
-            </enumeration>
-            <enumeration value="Starting">
-              <description>
-                This instance is in the process of Starting and SHOULD
-                transition to the {{enum|Active}} state.
-              </description>
-            </enumeration>
-            <enumeration value="Active">
-              <description>This instance is currently running.</description>
-            </enumeration>
-            <enumeration value="Stopping">
-              <description>
-                This instance is in the process of Stopping and SHOULD
-                transition to the {{enum|Idle}} state.
-              </description>
-            </enumeration>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="RequestedState" access="readWrite">
+    <object base="Device.SoftwareModules.ExecutionUnit.{i}." access="readOnly"
+        minEntries="0" maxEntries="unbounded">
+      <parameter name="RequestedState" access="readWrite"
+          dmr:previousParameter="Status">
         <description>
           Indicates the state transition that the ACS is requesting for this
           {{object}}. {{enum}}
@@ -3614,231 +2989,20 @@
         </syntax>
       </parameter>
 
-      <parameter name="ExecutionFaultCode" access="readOnly">
-        <description>
-          If while running or transitioning between states this {{object}}
-          identifies a fault this parameter embodies the problem. The value of
-          {{enum|NoFault}} MUST be used when everything is working as intended.
-          {{enum}}
-
-          For fault codes not included in this list, the vendor MAY include
-          vendor-specific values, which MUST use the format defined in
-          {{bibref|TR-106|Section 3.3}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="NoFault"/>
-            <enumeration value="FailureOnStart"/>
-            <enumeration value="FailureOnAutoStart"/>
-            <enumeration value="FailureOnStop"/>
-            <enumeration value="FailureWhileActive"/>
-            <enumeration value="DependencyFailure"/>
-            <enumeration value="UnStartable"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecutionFaultMessage" access="readOnly">
-        <description>
-          If while running or transitioning between states this {{object}}
-          identifies a fault this parameter provides a more detailed
-          explanation of the problem.
-
-          If {{param|ExecutionFaultCode}} has the value of
-          {{enum|NoFault|ExecutionFaultCode}} then the value of this parameter
-          MUST be {{empty}} and ignored by the ACS.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="256"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="AutoStart" access="readWrite">
-        <description>
-          If {{true}} and the {{param|RunLevel}} verification is also met, then
-          this {{object}} will be automatically started by the device after its
-          {{object|#.ExecEnv}} is either rebooted or restarted.
-
-          If {{false}} this {{object}} will not be started after its
-          {{object|#.ExecEnv}} is either rebooted or restarted until it is
-          explicitly commanded to do so by either the ACS or another Execution
-          Unit.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="RunLevel" access="readWrite">
-        <description>
-          Determines when this {{object}} will be started.
-
-          If {{param|AutoStart}} is {{true}} and
-          {{param|#.ExecEnv.{i}.CurrentRunLevel}} is greater than or equal to
-          {{param}}, then this {{object}} will be started.
-
-          If the value of {{param|#.ExecEnv.{i}.CurrentRunLevel}} is -1, then
-          the associated {{object|#.ExecEnv.}} doesn't support Run Levels, thus
-          the value of this parameter is irrelevant when read and setting its
-          value has no impact to the Run Level of this {{object}}.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range maxInclusive="65535"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="Vendor" access="readOnly">
-        <description>
-          Vendor of this {{object}}.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="128"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Version" access="readOnly">
-        <description>
-          Version of the {{object}}. The format of this value is Execution
-          Environment specific.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="32"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Description" access="readOnly">
-        <description>
-          Textual description of this {{object}}. The format of this value is
-          Execution Environment specific.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="256"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiskSpaceInUse" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The amount of disk space measured in {{units}} currently being used
-          by this {{object}}. A value of -1 MUST be used for {{object}}
-          instances where this parameter is not applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="MemoryInUse" access="readOnly" activeNotify="canDeny">
-        <description>
-          The amount of physical RAM measured in {{units}} currently being used
-          by this {{object}}. A value of -1 MUST be used for {{object}}
-          instances where this parameter is not applicable.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="KiB"/>
-          </int>
-        </syntax>
-      </parameter>
-
-      <parameter name="References" access="readOnly">
-        <description>
-          Represents the instances of multi-instanced objects that are directly
-          controlled by, and have come into existence because of, this
-          {{object}}. See {{bibref|TR-069|Appendix VI.3.2}} for more
-          description and some examples.
+      <parameter base="References" access="readOnly">
+        <description action="append">
+          See {{bibref|TR-069|Appendix VI.3.2}} for more description and some
+          examples.
 
           NOTE: All other objects and parameters (i.e. not multi-instanced
           objects) that this {{object}} has caused to come into existence can
-          be discovered via the {{object|.DeviceInfo.SupportedDataModel.{i}.}}
+          be discovered via the {{object|##.DeviceInfo.SupportedDataModel}}
           table.
         </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
 
-      <parameter name="AssociatedProcessList" access="readOnly">
-        <description>
-          Represents the system processes that are active in the system because
-          of this {{object}}.
-
-          If {{param|Status}} is not {{enum|Active|Status}} it is expected that
-          this list will be {{empty}}. Some {{object}} instances MIGHT NOT have
-          any system processes irrespective of the value of {{param|Status}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong"
-                targetParent=".DeviceInfo.ProcessStatus.Process."
-                targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="VendorLogList" access="readOnly">
-        <description>
-          Represents the vendor log files that have come into existence because
-          of this {{object}}.
-
-          When the {{object|#.DeploymentUnit}} (that caused this {{object}} to
-          come into existence) is uninstalled the vendor log files referenced
-          here SHOULD be removed from the CPE.
-
-          Not all {{object}} instances will actually have a corresponding
-          vendor log file, in which case the value of this parameter will be
-          {{empty}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong"
-                targetParent=".DeviceInfo.VendorLogFile." targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="VendorConfigList" access="readOnly">
-        <description>
-          Represents the vendor config files that have come into existence
-          because of this {{object}}.
-
-          When the {{object|#.DeploymentUnit}} (that caused this {{object}} to
-          come into existence) is uninstalled the vendor config files
-          referenced here SHOULD be removed from the CPE.
-
-          Not all {{object}} instances will actually have a corresponding
-          vendor config file, in which case the value of this parameter will be
-          {{empty}}.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <pathRef refType="strong"
-                targetParent=".DeviceInfo.VendorConfigFile." targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="SupportedDataModelList" access="readOnly">
+      <parameter name="SupportedDataModelList" access="readOnly"
+          dmr:previousParameter="VendorConfigList">
         <description>
           Represents the CWMP-DT schema instances that have been introduced to
           this device because of the existence of this {{object}}.
@@ -3847,34 +3011,16 @@
           <list/>
           <string>
             <pathRef refType="strong"
-                targetParent=".DeviceInfo.SupportedDataModel." targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExecutionEnvRef" access="readOnly">
-        <description>
-          Represents the {{object|#.ExecEnv}} that this {{object}} is
-          associated with.
-        </description>
-        <syntax>
-          <string>
-            <pathRef refType="strong" targetParent="#.ExecEnv."
+                targetParent="##.DeviceInfo.SupportedDataModel."
                 targetType="row"/>
           </string>
         </syntax>
       </parameter>
     </object>
 
-    <object name="Device.SoftwareModules.ExecutionUnit.{i}.Extensions."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.1">
-      <description>
-        This object proposes a general location for vendor extensions specific
-        to this Execution Unit, which allows multiple Execution Units to expose
-        parameters without the concern of conflicting parameter names. These
-        vendor extensions are related to displaying status and maintaining
-        configuration for this Execution Unit.
-
+    <object base="Device.SoftwareModules.ExecutionUnit.{i}.Extensions."
+        access="readOnly" minEntries="1" maxEntries="1">
+      <description action="append">
         It is also possible for the Execution Unit to expose status and
         configuration parameters within Service objects or as embedded objects
         and parameters directly within the root data model, in which case the
@@ -3888,7 +3034,7 @@
     </object>
 
     <object name="Device.DSL.Diagnostics.ADSLLineTest." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object is to provide diagnostic information for a CPE with an
         ADSL2 or ADSL2+ modem WAN interface, but MAY also be used for ADSL.
@@ -4038,7 +3184,7 @@
     </object>
 
     <object name="Device.ATM.Diagnostics.F5Loopback." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object provides access to an ATM-layer F5 OAM loopback test.
       </description>
@@ -4064,7 +3210,7 @@
     </object>
 
     <object name="Device.HPNA.Diagnostics.PHYThroughput." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.0">
       <description>
         HPNA PHY throughput diagnostics configuration and results.
 
@@ -4103,7 +3249,7 @@
     </object>
 
     <object name="Device.HPNA.Diagnostics.PerformanceMonitoring."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         HPNA performance monitoring configuration and results.
 
@@ -4192,7 +3338,7 @@
     </object>
 
     <object name="Device.UPA.Diagnostics.InterfaceMeasurement."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object provides access to either a Signal-to-Noise-Ratio (SNR)
         Port Measurement test or a Channel Frequency Response (CFR) Port
@@ -4220,91 +3366,6 @@
       </parameter>
       <component ref="UPAInterfaceMeasurementDiagnosticsInput"/>
       <component ref="UPAInterfaceMeasurementDiagnosticsOutput"/>
-    </object>
-
-    <object name="Device.WiFi.NeighboringWiFiDiagnostic." access="readOnly"
-        minEntries="1" maxEntries="1"
-        dmr:previousObject="Device.WiFi.Radio.{i}." version="2.7">
-      <description>
-        This object defines access to other WiFi SSIDs that this device is able
-        to receive.
-      </description>
-
-      <parameter name="DiagnosticsState" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="DiagnosticsState">
-            <enumeration value="None" access="readOnly"/>
-            <enumeration value="Requested"/>
-            <enumeration value="Canceled" optional="true"/>
-            <enumeration value="Complete" access="readOnly"/>
-            <enumeration value="Error" access="readOnly" optional="true"/>
-            <enumeration value="Completed" access="readOnly"
-                status="deprecated">
-              <description>
-                {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
-              </description>
-            </enumeration>
-          </dataType>
-        </syntax>
-      </parameter>
-      <component ref="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
-      <component ref="WiFiNeighboringWiFiDiagnosticsOutput"/>
-    </object>
-
-    <object name="Device.WiFi.RemoteMeasurementDiagnostic." access="readOnly"
-        minEntries="1" maxEntries="1"
-        dmr:previousObject="Device.WiFi.Radio.{i}." version="2.15">
-      <description>
-        This object is to provide diagnostic information on a Remote
-        Measurement of a Wi-Fi BSS.
-      </description>
-
-      <parameter name="DiagnosticsState" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="DiagnosticsState">
-            <enumeration value="None" access="readOnly"/>
-            <enumeration value="Requested"/>
-            <enumeration value="Canceled" optional="true"/>
-            <enumeration value="Complete" access="readOnly"/>
-            <enumeration value="Error" access="readOnly" optional="true"/>
-          </dataType>
-        </syntax>
-      </parameter>
-      <component ref="RemoteMeasurementRequestInput"/>
-      <component ref="RemoteMeasurementRequestOutput"/>
-    </object>
-
-    <object name="Device.WiFi.CCAMeasurementDiagnostic." access="readOnly"
-        minEntries="1" maxEntries="1"
-        dmr:previousObject="Device.WiFi.Radio.{i}." version="2.15">
-      <description>
-        This object is to provide diagnostic information on a Clear Channel
-        Assessment (CCA) measurement scan on this radio on the given channel
-        using a specific {{param|DwellTime}}.
-      </description>
-
-      <parameter name="DiagnosticsState" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="DiagnosticsState">
-            <enumeration value="None" access="readOnly"/>
-            <enumeration value="Requested"/>
-            <enumeration value="Canceled" optional="true"/>
-            <enumeration value="Complete" access="readOnly"/>
-            <enumeration value="Error" access="readOnly" optional="true"/>
-          </dataType>
-        </syntax>
-      </parameter>
-      <component ref="CCAMeasurementInput"/>
-      <component ref="CCAMeasurementOutput"/>
     </object>
 
     <object name="Device.Users.CheckCredentialsDiagnostics." access="readOnly"
@@ -4343,7 +3404,7 @@
     </object>
 
     <object name="Device.IP.Diagnostics.IPPing." access="readOnly"
-        minEntries="1" maxEntries="1"
+        minEntries="1" maxEntries="1" version="2.0"
         dmr:previousObject="Device.IP.Diagnostics.">
       <description>
         This object provides access to an IP-layer ping test.
@@ -4376,7 +3437,7 @@
     </object>
 
     <object name="Device.IP.Diagnostics.TraceRoute." access="readOnly"
-        minEntries="1" maxEntries="1"
+        minEntries="1" maxEntries="1" version="2.0"
         dmr:previousObject="Device.IP.Diagnostics.IPPing.">
       <description>
         This object defines access to an IP-layer trace-route test for the
@@ -4412,7 +3473,7 @@
     </object>
 
     <object name="Device.IP.Diagnostics.DownloadDiagnostics."
-        access="readOnly" minEntries="1" maxEntries="1"
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0"
         dmr:previousObject="Device.IP.Diagnostics.TraceRoute.">
       <description>
         This object defines the diagnostics configuration for a HTTP and FTP
@@ -4433,9 +3494,11 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="deprecated">
+                status="obsoleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
+
+                {{obsoleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -4465,7 +3528,7 @@
     </object>
 
     <object name="Device.IP.Diagnostics.UploadDiagnostics." access="readOnly"
-        minEntries="1" maxEntries="1"
+        minEntries="1" maxEntries="1" version="2.0"
         dmr:previousObject="Device.IP.Diagnostics.DownloadDiagnostics.">
       <description>
         This object defines the diagnostics configuration for a HTTP or FTP
@@ -4486,9 +3549,11 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="deprecated">
+                status="obsoleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
+
+                {{obsoleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -4538,9 +3603,11 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="deprecated">
+                status="obsoleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
+
+                {{obsoleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -4625,9 +3692,11 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="deprecated">
+                status="obsoleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
+
+                {{obsoleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -4641,7 +3710,7 @@
     </object>
 
     <object name="Device.DNS.Diagnostics.NSLookupDiagnostics."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
       <description>
         This object defines access to an IP-layer NS Lookup test for the
         specified IP interface.
@@ -4682,7 +3751,8 @@
     </object>
 
     <object name="Device.SelfTestDiagnostics." access="readOnly"
-        minEntries="1" maxEntries="1" dmr:previousObject="Device.DLNA.">
+        minEntries="1" maxEntries="1" version="2.0"
+        dmr:previousObject="Device.DLNA.">
       <description>
         This diagnostics test is vendor-specific and MAY include testing
         hardware, software, and/or firmware.
@@ -4707,31 +3777,6 @@
       <component ref="SelfTestDiagnosticsOutput"/>
     </object>
     <!-- TR-069 command parameters -->
-
-    <object base="Device.WiFi.AccessPoint.{i}.Security." access="readOnly"
-        minEntries="1" maxEntries="1">
-
-      <parameter name="Reset" access="readWrite" version="2.4">
-        <description>
-          When set to {{true}}, this {{object|#}} instance's WiFi security
-          settings are reset to their factory default values. The affected
-          settings include {{param|ModeEnabled}}, {{param|WEPKey}},
-          {{param|PreSharedKey}}, {{param|KeyPassphrase}},
-          {{param|SAEPassphrase}}, and {{param|#.WPS.PIN}} (if applicable).
-
-          If the parameter cannot be set, the CPE MUST reject the request as an
-          invalid parameter value. Possible failure reasons include a lack of
-          default values or if {{param|ModeEnabled}} is an Enterprise type,
-          i.e. {{enum|WPA-Enterprise|ModesSupported}},
-          {{enum|WPA2-Enterprise|ModesSupported}},
-          {{enum|WPA3-Enterprise|ModesSupported}}, or
-          {{enum|WPA-WPA2-Enterprise|ModesSupported}}.
-        </description>
-        <syntax command="true">
-          <boolean/>
-        </syntax>
-      </parameter>
-    </object>
 
     <object base="Device.DHCPv6.Client.{i}." access="readWrite" minEntries="1"
         maxEntries="unbounded">
@@ -4789,7 +3834,7 @@
           Present only if the CPE provides a password-protected LAN-side user
           interface and supports LAN-side Auto-Configuration.
 
-          When set to true, resets {{param|.LANConfigSecurity.ConfigPassword}}
+          When set to true, resets {{param|#.LANConfigSecurity.ConfigPassword}}
           to its factory value.
         </description>
         <syntax command="true">
@@ -4800,14 +3845,14 @@
       <parameter base="AutoUpdateServer" access="readWrite">
         <description action="append">
           This MUST NOT be used by the CPE if the
-          {{param|.ManagementServer.UpgradesManaged}} parameter is {{true}}.
+          {{param|#.ManagementServer.UpgradesManaged}} parameter is {{true}}.
         </description>
       </parameter>
 
       <parameter base="UserUpdateServer" access="readWrite">
         <description action="append">
           This MUST NOT be used by the CPE if the
-          {{param|.ManagementServer.UpgradesManaged}} parameter is {{true}}.
+          {{param|#.ManagementServer.UpgradesManaged}} parameter is {{true}}.
         </description>
       </parameter>
     </object>
@@ -4944,6 +3989,123 @@
     <object base="Device.PeriodicStatistics.SampleSet.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded">
 
+      <parameter name="Status" access="readOnly">
+        <description>
+          Indicates availability of Sample statistics. {{enum}}
+
+          The {{enum|Trigger}} value is only used for triggering the ACS to
+          fetch the collected data and can only be used when
+          {{param|FetchSamples}} is in the range [1:{{param|ReportSamples}}].
+
+          The transition from {{enum|Enabled}} to {{enum|Trigger}} to
+          {{enum|Enabled}} MUST be instantaneous and so will result in only a
+          single value change for notification purposes.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>Collection is disabled.</description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>Collection is enabled.</description>
+            </enumeration>
+            <enumeration value="Trigger">
+              <description>
+                Collection is enabled and the ACS SHOULD now fetch the
+                collected data.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeReference" access="readWrite">
+        <description>
+          An absolute time reference in UTC to determine when sample intervals
+          will complete. Each sample interval MUST complete at this reference
+          time plus or minus an integer multiple of {{param|SampleInterval}}.
+
+          {{param}} is used only to set the "phase" of the sample and fetch
+          intervals. The actual value of {{param}} can be arbitrarily far into
+          the past or future.
+
+          This time reference also determines when the {{param|Status}}
+          {{enum|Enabled|Status}} to {{enum|Trigger|Status}} to
+          {{enum|Enabled|Status}} transitions that are controlled by
+          {{param|FetchSamples}} will occur. If collection of periodic
+          statistics is enabled and {{param|FetchSamples}} is in the range
+          [1:{{param|ReportSamples}}] then each such {{param|Status}}
+          transition MUST occur at this reference time plus or minus an integer
+          multiple of {{param|FetchSamples}} * {{param|SampleInterval}} (the
+          fetch interval).
+
+          If {{param}} is changed while collection of periodic statistics is
+          enabled, any stored samples are discarded, and the first sample
+          interval begins immediately.
+
+          The Unknown Time value defined in {{bibref|TR-106}} indicates that no
+          particular time reference is specified. That is, the CPE MAY locally
+          choose the time reference, and is required only to adhere to the
+          specified sample and fetch intervals.
+
+          If absolute time is not available to the CPE, its sample and fetch
+          interval behavior MUST be the same as if the {{param}} parameter was
+          set to the Unknown Time value.
+
+          For example, if {{param|SampleInterval}} is 3600 (an hour) and if
+          {{param}} is set to UTC midnight on some day (in the past, present,
+          or future) then sample intervals will complete on each UTC hour
+          (00:00, 01:00, 02:00 etc).
+
+          If, in addition, {{param|FetchSamples}} is 24, then the fetch
+          interval is 86400 (a day) and {{param|Status}}
+          {{enum|Enabled|Status}} to {{enum|Trigger|Status}} to
+          {{enum|Enabled|Status}} transitions will occur every day at UTC
+          midnight.
+
+          Note that, if {{param}} is set to a time other than the Unknown Time,
+          the first sample interval (which has to begin immediately) will
+          almost certainly be shorter than {{param|SampleInterval}}). This is
+          why {{param}} is defined in terms of when sample intervals complete
+          rather than start.
+        </description>
+        <syntax>
+          <dateTime/>
+          <default type="object" value="0001-01-01T00:00:00Z"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FetchSamples" access="readWrite">
+        <description>
+          The number of sample intervals to be collected before transitioning
+          {{param|Status}} from {{enum|Enabled|Status}} to
+          {{enum|Trigger|Status}} to {{enum|Enabled|Status}}.
+
+          If this SampleSet is enabled and {{param}} is in the range
+          [1:{{param|ReportSamples}}] then {{param|Status}} MUST transition
+          from {{enum|Enabled|Status}} to {{enum|Trigger|Status}} to
+          {{enum|Enabled|Status}} on completion of every {{param}} sample
+          intervals. Otherwise, the transition MUST NOT occur.
+
+          For example, if {{param|ReportSamples}} is 25 and {{param}} is 24,
+          then the CPE will store 25 values for each monitored parameter and
+          the above {{param|Status}} transition will occur as the CPE stores
+          each 24th of 25 sample intervals, which means that the ACS could
+          delay for up to two sample intervals before reading the stored values
+          and would still not miss any samples (see also
+          {{template|PERIODICSTATISTICS-FORCESAMPLE}}).
+
+          To disable this trigger mechanism and still collect sampled
+          statistics, {{param}} can be set to either 0 or a value greater than
+          {{param|ReportSamples}}.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
       <parameter name="ForceSample" access="readWrite"
           dmr:previousParameter="FetchSamples">
         <description>
@@ -5028,22 +4190,8 @@
       </parameter>
     </object>
 
-    <object base="Device.WiFi." access="readOnly" minEntries="1"
-        maxEntries="1">
-
-      <parameter name="Reset" access="readWrite" version="2.12">
-        <description>
-          This parameter represents a request to reset or reboot the WiFi
-          sub-system without resetting or rebooting the device.
-        </description>
-        <syntax command="true">
-          <boolean/>
-        </syntax>
-      </parameter>
-    </object>
-
     <object base="Device.Ethernet.WoL." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.13">
+        maxEntries="1">
 
       <parameter name="SendMagicPacket" access="readWrite">
         <description>
@@ -5058,12 +4206,12 @@
     </object>
 
     <object base="Device.Routing.Babel." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.15">
+        maxEntries="1">
       <parameter name="StatsReset" access="readWrite" version="2.15">
         <description>
           When set to {{true}}, all Babel statistics counters are reset to
           zero. Statistics are provided in
-          {{object|#.InterfaceSetting.{i}.Stats.}}.
+          {{object|InterfaceSetting.{i}.Stats.}}.
         </description>
         <syntax command="true">
           <boolean/>
@@ -5071,7 +4219,7 @@
       </parameter>
     </object>
     <object base="Device.Routing.Babel.MACKeySet.{i}.MACKey.{i}."
-        access="readWrite" minEntries="0" maxEntries="unbounded" version="2.15">
+        access="readWrite" minEntries="0" maxEntries="unbounded">
       <parameter name="MACTestState" access="readWrite" version="2.15">
         <description>
           This parameter allows the MAC key and MAC algorithm to be tested to
@@ -5128,7 +4276,7 @@
       <description>
         This object contains general information about the USP Agent itself.
         For information related to the Device that hosts the Agent, please
-        reference the {{object|.DeviceInfo}} object.
+        reference the {{object|#.DeviceInfo}} object.
       </description>
 
       <component ref="USPLocalAgent" version="2.15"/>
@@ -5136,22 +4284,22 @@
       <parameter name="AddCertificate" access="readWrite">
         <description>
           Provides a mechanism to allow an ACS to add a new certificate to
-          {{object|#.Certificate.{i}}}. This does not automatically produce a
+          {{object|Certificate.{i}}}. This does not automatically produce a
           trust relationship with the host identified by the Certificate. To
           produce a trust relationship, an entry is required to exist in
-          {{param|#.Controller.{i}.Credential}} or
-          {{param|#.ControllerTrust.Credential.{i}.Credential}} that references
-          the new {{object|#.Certificate.{i}}} entry. The Agent will use the
+          {{param|Controller.{i}.Credential}} or
+          {{param|ControllerTrust.Credential.{i}.Credential}} that references
+          the new {{object|Certificate.{i}}} entry. The Agent will use the
           Serial Number and Issuer fields from the content provided in this
-          parameter to populate the {{param|#.Certificate.{i}.SerialNumber}}
-          and {{param|#.Certificate.{i}.Issuer}} parameters. If
-          {{object|#.Certificate}} already has an instance with the same
-          {{param|#.Certificate.{i}.SerialNumber}} and
-          {{param|#.Certificate.{i}.Issuer}} parameters, this command will
-          fail. To replace an instance with the same
-          {{param|#.Certificate.{i}.SerialNumber}} and
-          {{param|#.Certificate.{i}.Issuer}}, the existing instance must first
-          be deleted.
+          parameter to populate the {{param|Certificate.{i}.SerialNumber}} and
+          {{param|Certificate.{i}.Issuer}} parameters. If
+          {{object|Certificate}} already has an instance with the same
+          {{param|Certificate.{i}.SerialNumber}} and
+          {{param|Certificate.{i}.Issuer}} parameters, this command will fail.
+          To replace an instance with the same
+          {{param|Certificate.{i}.SerialNumber}} and
+          {{param|Certificate.{i}.Issuer}}, the existing instance must first be
+          deleted.
 
           The value of this parameter is the X.509 certificate in
           Privacy-enhanced Electronic Mail (PEM) {{bibref|RFC7468}} format.
@@ -5180,6 +4328,8 @@
       </parameter>
     </object>
 
+    <component ref="WiFiCWMP"/>
+
     <component ref="ETSIM2M"/>
 
     <component ref="STOMP" version="2.15"/>
@@ -5198,7 +4348,7 @@
       </object>
     </profile>
 
-    <profile name="Download:1" dmr:previousProfile="">
+    <profile name="Download:1" version="2.0" dmr:previousProfile="">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPv4DownloadDiagnosticsSupported"
             requirement="readOnly"/>
@@ -5221,7 +4371,7 @@
       </object>
     </profile>
 
-    <profile name="DownloadTCP:1">
+    <profile name="DownloadTCP:1" version="2.0">
       <object ref="Device.IP.Diagnostics.DownloadDiagnostics."
           requirement="present">
         <parameter ref="TCPOpenRequestTime" requirement="readOnly"/>
@@ -5229,7 +4379,7 @@
       </object>
     </profile>
 
-    <profile name="Upload:1">
+    <profile name="Upload:1" version="2.0">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPv4UploadDiagnosticsSupported" requirement="readOnly"/>
         <parameter ref="IPv6UploadDiagnosticsSupported" requirement="readOnly"/>
@@ -5250,7 +4400,7 @@
       </object>
     </profile>
 
-    <profile name="UploadTCP:1">
+    <profile name="UploadTCP:1" version="2.0">
       <object ref="Device.IP.Diagnostics.UploadDiagnostics."
           requirement="present">
         <parameter ref="TCPOpenRequestTime" requirement="readOnly"/>
@@ -5258,14 +4408,15 @@
       </object>
     </profile>
 
-    <profile name="SelfTestDiag:1" dmr:previousProfile="UPnPDiscAdv:2">
+    <profile name="SelfTestDiag:1" version="2.0"
+        dmr:previousProfile="UPnPDiscAdv:2">
       <object ref="Device.SelfTestDiagnostics." requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
         <parameter ref="Results" requirement="readOnly"/>
       </object>
     </profile>
 
-    <profile name="NSLookupDiag:1">
+    <profile name="NSLookupDiag:1" version="2.0">
       <object ref="Device.DNS.Diagnostics.NSLookupDiagnostics."
           requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
@@ -5395,7 +4546,7 @@
       </object>
     </profile>
 
-    <profile name="AutonXferComplPolicy:1"
+    <profile name="AutonXferComplPolicy:1" version="2.0"
         dmr:previousProfile="TempStatusAdv:2">
       <object ref="Device.ManagementServer.AutonomousTransferCompletePolicy."
           requirement="present">
@@ -5405,7 +4556,7 @@
       </object>
     </profile>
 
-    <profile name="DownloadAnnounce:1"
+    <profile name="DownloadAnnounce:1" version="2.0"
         dmr:previousProfile="PeriodicStatsAdv:1">
       <object ref="Device.ManagementServer.DownloadAvailability."
           requirement="present"/>
@@ -5424,7 +4575,7 @@
       </object>
     </profile>
 
-    <profile name="DownloadQuery:1">
+    <profile name="DownloadQuery:1" version="2.0">
       <object ref="Device.ManagementServer.DownloadAvailability."
           requirement="present"/>
       <object ref="Device.ManagementServer.DownloadAvailability.Query."
@@ -5435,7 +4586,8 @@
       </object>
     </profile>
 
-    <profile name="Baseline:1" extends="_Baseline:1" status="deleted">
+    <profile name="Baseline:1" extends="_Baseline:1" status="deleted"
+        version="2.0">
       <object ref="Device.ManagementServer." requirement="present">
         <parameter ref="URL" requirement="readWrite"/>
         <parameter ref="Username" requirement="readWrite"/>
@@ -5474,7 +4626,8 @@
       </object>
     </profile>
 
-    <profile name="DeviceAssociation:1" dmr:previousProfile="GatewayInfo:1">
+    <profile name="DeviceAssociation:1" version="2.0"
+        dmr:previousProfile="GatewayInfo:1">
       <description>
         This profile implies support for all of the Gateway requirements
         defined in {{bibref|TR-069|Annex F}}.
@@ -5510,7 +4663,7 @@
       </object>
     </profile>
 
-    <profile name="IPPing:1">
+    <profile name="IPPing:1" version="2.0">
       <object ref="Device.IP.Diagnostics.IPPing." requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
         <parameter ref="Interface" requirement="readWrite"/>
@@ -5527,7 +4680,7 @@
       </object>
     </profile>
 
-    <profile name="TraceRoute:1">
+    <profile name="TraceRoute:1" version="2.0">
       <object ref="Device.IP.Diagnostics.TraceRoute." requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
         <parameter ref="Interface" requirement="readWrite"/>
@@ -5549,7 +4702,7 @@
       </object>
     </profile>
 
-    <profile name="ATMLoopback:1">
+    <profile name="ATMLoopback:1" version="2.0">
       <object ref="Device.ATM.Diagnostics.F5Loopback." requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
         <parameter ref="Interface" requirement="readWrite"/>
@@ -5563,7 +4716,7 @@
       </object>
     </profile>
 
-    <profile name="DSLDiagnostics:1">
+    <profile name="DSLDiagnostics:1" version="2.0">
       <description>
         Note: This profile is valid for G.992.1 modems.
       </description>
@@ -5582,7 +4735,7 @@
       </object>
     </profile>
 
-    <profile name="ADSL2Diagnostics:1">
+    <profile name="ADSL2Diagnostics:1" version="2.0">
       <description>
         Note: This profile is valid for G.992.3 and G.992.5 modems.
       </description>
@@ -5616,7 +4769,7 @@
       </object>
     </profile>
 
-    <profile name="VDSL2Diagnostics:1">
+    <profile name="VDSL2Diagnostics:1" version="2.0">
       <description>
         Note: This profile is valid for G.993.2 modems.
       </description>
@@ -5675,7 +4828,8 @@
       </object>
     </profile>
 
-    <profile name="HPNADiagnostics:1" dmr:previousProfile="HPNA:1">
+    <profile name="HPNADiagnostics:1" version="2.0"
+        dmr:previousProfile="HPNA:1">
       <object ref="Device.HPNA.Diagnostics.PerformanceMonitoring."
           requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
@@ -5752,7 +4906,7 @@
       </object>
     </profile>
 
-    <profile name="UPADiagnostics:1" dmr:previousProfile="UPA:1">
+    <profile name="UPADiagnostics:1" version="2.0" dmr:previousProfile="UPA:1">
       <object ref="Device.UPA.Diagnostics.InterfaceMeasurement."
           requirement="present">
         <parameter ref="DiagnosticsState" requirement="readWrite"/>
@@ -5764,7 +4918,8 @@
       </object>
     </profile>
 
-    <profile name="UDPConnReq:1" dmr:previousProfile="DeviceAssociation:1">
+    <profile name="UDPConnReq:1" version="2.0"
+        dmr:previousProfile="DeviceAssociation:1">
       <description>
         This profile only applies to Internet Gateway Devices that are acting
         as CPE behind a NAT gateway as described in {{bibref|TR-069|Annex G}},
@@ -5883,7 +5038,7 @@
       </object>
     </profile>
 
-    <profile name="GatewayInfo:1">
+    <profile name="GatewayInfo:1" version="2.0">
       <object ref="Device.GatewayInfo." requirement="present">
         <parameter ref="ManufacturerOUI" requirement="readOnly"/>
         <parameter ref="ProductClass" requirement="readOnly"/>
@@ -5891,7 +5046,8 @@
       </object>
     </profile>
 
-    <profile name="SupportedDataModel:1" dmr:previousProfile="UDPEchoPlus:1">
+    <profile name="SupportedDataModel:1" version="2.0"
+        dmr:previousProfile="UDPEchoPlus:1">
       <object ref="Device.DeviceInfo." requirement="present">
         <parameter ref="SupportedDataModelNumberOfEntries"
             requirement="readOnly"/>
@@ -5911,6 +5067,7 @@
         <parameter ref="UUID" requirement="readOnly"/>
       </object>
     </profile>
+
 
     <profile name="SM_ExecEnvs:1" version="2.1">
       <object ref="Device.SoftwareModules." requirement="present">
@@ -6023,7 +5180,7 @@
 
     <!-- Profiles with command parameter impacts -->
 
-    <profile name="TempStatusAdv:1" extends="TempStatus:1"
+    <profile name="TempStatusAdv:1" extends="TempStatus:1" version="2.0"
         dmr:previousProfile="TempStatus:1">
       <object ref="Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}."
           requirement="present">
@@ -6043,7 +5200,7 @@
       </object>
     </profile>
 
-    <profile name="USBHostsAdv:1" extends="USBHostsBasic:1"
+    <profile name="USBHostsAdv:1" extends="USBHostsBasic:1" version="2.0"
         dmr:previousProfile="USBHostsBasic:1">
       <object ref="Device.USB.USBHosts.Host.{i}." requirement="present">
         <parameter ref="Reset" requirement="readWrite"/>
@@ -6071,7 +5228,7 @@
     </profile>
 
     <profile name="PeriodicStatsAdv:1" extends="PeriodicStatsBase:1"
-        dmr:previousProfile="PeriodicStatsBase:1">
+        version="2.0" dmr:previousProfile="PeriodicStatsBase:1">
       <object ref="Device.PeriodicStatistics.SampleSet.{i}."
           requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
@@ -6087,11 +5244,25 @@
         <parameter ref="CalculationMode" requirement="readWrite"/>
         <parameter ref="LowThreshold" requirement="readWrite"/>
         <parameter ref="HighThreshold" requirement="readWrite"/>
+        <parameter ref="SampleSeconds" requirement="readOnly"/>
+        <parameter ref="SuspectData" requirement="readOnly"/>
+        <parameter ref="Values" requirement="readOnly"/>
         <parameter ref="Failures" requirement="readOnly"/>
       </object>
     </profile>
 
-    <profile name="IPInterface:1" dmr:previousProfile="IPv6Routing:1">
+    <profile name="PeriodicStatsAdv:2" base="PeriodicStatsAdv:1"
+        version="2.16">
+      <object ref="Device.PeriodicStatistics.SampleSet.{i}."
+          requirement="createDelete">
+        <parameter ref="Status" requirement="readOnly"/>
+        <parameter ref="TimeReference" requirement="readWrite"/>
+        <parameter ref="FetchSamples" requirement="readWrite"/>
+      </object>
+   </profile>
+    
+    <profile name="IPInterface:1" version="2.0"
+        dmr:previousProfile="IPv6Routing:1">
       <object ref="Device.IP." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -6175,7 +5346,8 @@
       </object>
     </profile>
 
-    <profile name="PPPInterface:1" dmr:previousProfile="IPv6Interface:1">
+    <profile name="PPPInterface:1" version="2.0"
+        dmr:previousProfile="IPv6Interface:1">
       <object ref="Device.PPP." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -6236,7 +5408,7 @@
       </object>
     </profile>
 
-    <profile name="DHCPv4Client:1"
+    <profile name="DHCPv4Client:1" version="2.0"
         dmr:previousProfile="IEEE8021xAuthentication:2">
       <object ref="Device.DHCPv4." requirement="present">
         <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
@@ -6360,7 +5532,7 @@
       </object>
     </profile>
 
-    <profile name="HPNAQoS:1" dmr:previousProfile="HPNA:1">
+    <profile name="HPNAQoS:1" version="2.0" dmr:previousProfile="HPNA:1">
       <object ref="Device.HPNA.Interface.{i}.QoS." requirement="present">
         <parameter ref="FlowSpecNumberOfEntries" requirement="readOnly"/>
       </object>

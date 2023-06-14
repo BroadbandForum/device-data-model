@@ -1,0 +1,88 @@
+<!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
+
+### Issue History {.unnumbered .unlisted .new-page}
+
+::: {.list-table .bbf-revision-history aligns=l,l,l,l widths=14,14,14,65}
+
+* - Issue Number
+  - Approval Date
+  - Issue Editor
+  - Changes
+
+* - [Issue 1][TR-181 Issue 1]
+  - February 2010
+  - * William Lupton, 2Wire
+    * Paul Sigurdson, Broadband Forum
+  - * Original
+
+* - Amendment 1
+  - July 2011
+  -
+  - * Document not updated
+
+* - Amendment 2
+  - November 2011
+  -
+  - * Document not updated
+
+* - Amendment 3
+  - May 2012
+  -
+  - * Document not updated
+
+* - Amendment 4
+  - November 2012
+  -
+  - * Document not updated
+
+* - Amendment 5
+  - November 2013
+  -
+  - * Document not updated
+
+* - Amendment 6
+  - September 2014
+  -
+  - * Document not updated
+
+* - Amendment 7
+  - November 2015
+  -
+  - * Document not updated
+
+:::
+
+### %bbfWorkArea% Work Area Directors {.unnumbered .unlisted}
+
+* Jason Walls, QA Cafe
+* John Blackford, CommScope
+
+### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
+
+* Daniel Egger, Axiros
+* William Lupton, Broadband Forum
+
+### Acknowledgments {.unnumbered .unlisted}
+
+* Al Morton, AT&T
+* Alexandre Abdo, Sagemcom
+* André-Jean Côté, Snom
+* Barbara Stark, AT&T
+* Charles Foster, BT
+* Chen Li, AT&T
+* Chris Gray, Orange
+* Daniel Egger, Axiros
+* David Cluytens, Orange
+* Jason Walls, QA Cafe
+* Johan Jacobs, Orange
+* John Blackford, Commscope
+* Ken Kerpez, DZS
+* Laurent Alarcon, Sagemcom
+* Matthieu Anne, Orange
+* Patrick Rogier, Orange
+* Ramesh Rajasekaran, Nokia
+* Richard Holme, Commscope
+* Tim Spets, Nokia
+* William Lupton, BBF
+
+[TR-181 Issue 1]: https://www.broadband-forum.org/download/TR-181_Issue-1.pdf

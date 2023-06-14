@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-atm"
-    file="tr-181-2-14-0-atm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-atm"
+    file="tr-181-2-16-0-atm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -165,8 +165,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="MaximumResponseTime" access="readOnly"
-        activeNotify="canDeny" version="2.0">
+    <parameter name="MaximumResponseTime" access="readOnly" version="2.0">
       <description>
         Result parameter indicating the maximum response time in {{units}} over
         all repetitions with successful responses of the most recent ping test.
@@ -207,12 +206,12 @@
         ATM link-layer table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Models an ATM PVC virtual circuit and
         the ATM Adaption Layer (AAL). An ATM Link entry is typically stacked on
-        top of either a {{object|.DSL.Channel.}} or a
-        {{object|.DSL.BondingGroup.}} object.
+        top of either a {{object|##.DSL.Channel}} or a
+        {{object|##.DSL.BondingGroup}} object.
 
         When an ''ATM Link'' interface is used, a lower-layer
-        {{object|.DSL.Channel}} interface MUST be configured with ATM
-        encapsulation (see {{param|.DSL.Channel.{i}.LinkEncapsulationUsed}}).
+        {{object|##.DSL.Channel}} interface MUST be configured with ATM
+        encapsulation (see {{param|##.DSL.Channel.{i}.LinkEncapsulationUsed}}).
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -274,7 +273,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -772,7 +771,7 @@
     </profile>
   </component>
 
-  <model name="ATM:2.14">
+  <model name="ATM:2.16">
     <component ref="Root"/>
     <component ref="ATM"/>
   </model>

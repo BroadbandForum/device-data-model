@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-pcp"
-    file="tr-181-2-14-0-pcp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-pcp"
+    file="tr-181-2-16-0-pcp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -80,6 +80,17 @@
         See the PCP Theory of Operation {{bibref|TR-181i2|Appendix XIV}} for a
         description of the working of this PCP data model.
       </description>
+
+      <parameter name="Enable" access="readWrite" version="2.16">
+        <description>
+          Enables or disables the PCP stack. If the stack is disabled then the
+          status of any enabled {{object|Client}} entries will change to
+          {{enum|StackDisabled|Client.{i}.Status}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
 
       <parameter name="SupportedVersions" access="readOnly">
         <description>
@@ -145,7 +156,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="WANInterface"/>
       </uniqueKey>
 
@@ -158,7 +169,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -170,11 +181,11 @@
       <parameter name="WANInterface" access="readOnly">
         <description>
           {{reference|the interface stack instance representing the WAN
-          interface this client operates on}} See {{object|.InterfaceStack.}}
+          interface this client operates on}} See {{object|##.InterfaceStack}}
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -191,6 +202,7 @@
           <string>
             <enumeration value="Disabled"/>
             <enumeration value="Enabled"/>
+            <enumeration value="StackDisabled" version="2.16"/>
             <enumeration value="Error" optional="true"/>
           </string>
         </syntax>
@@ -368,7 +380,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ServerNameOrAddress"/>
       </uniqueKey>
 
@@ -405,7 +417,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -616,7 +628,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InternalPort"/>
         <parameter ref="ProtocolNumber"/>
         <parameter ref="ThirdPartyAddress"/>
@@ -666,7 +678,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -912,7 +924,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1002,7 +1014,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InternalPort"/>
         <parameter ref="ProtocolNumber"/>
         <parameter ref="ThirdPartyAddress"/>
@@ -1054,7 +1066,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1245,7 +1257,7 @@
     </object>
   </component>
 
-  <model name="PCP:2.14">
+  <model name="PCP:2.16">
     <component ref="Root"/>
     <component ref="PCP"/>
   </model>

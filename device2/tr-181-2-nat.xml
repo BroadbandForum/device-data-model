@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-nat"
-    file="tr-181-2-14-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-nat"
+    file="tr-181-2-16-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -89,6 +89,16 @@
       </parameter>
 
       <parameter name="PortMappingNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PortTriggerNumberOfEntries" access="readOnly"
+          version="2.16">
         <description>
           {{numentries}}
         </description>
@@ -120,7 +130,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -171,7 +181,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -182,14 +192,40 @@
 
       <parameter name="Interface" access="readWrite">
         <description>
-          {{reference}} The associated IP interface on which NAT is to be
-          enabled.
+          {{reference}} The associated outgoing IP interface on which NAT is to
+          be enabled.
         </description>
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceNetwork" access="readWrite" version="2.16">
+        <description>
+          Each list item MUST be the Path name of a
+          {{object|.IP.Interface.{i}.IPv4Address.}} table or of one of its
+          rows. If the referenced object is deleted, the corresponding item
+          MUST be removed from the list.
+
+          Specifies the source IPv4 network(s) that MUST be translated for all
+          outgoing traffic associated with the {{param|Interface}} (e.g.
+          ''Device.IP.Interface.2.IPv4Address.'' (table) or
+          ''Device.IP.Interface.2.IPv4Address.1.'' (row)).
+
+          The {{param|.IP.Interface.{i}.IPv4Address.{i}.IPAddress}} and
+          {{param|.IP.Interface.{i}.IPv4Address.{i}.SubnetMask}} are used to
+          construct an additional filter rule that specifies which address
+          range needs to be translated.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -256,7 +292,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="RemoteHost"/>
         <parameter ref="ExternalPort"/>
         <parameter ref="Protocol"/>
@@ -294,7 +330,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -315,7 +351,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -367,7 +403,7 @@
 
           When {{param}} is {{empty}}, all traffic sent to the
           {{param|ExternalPort}} on the WAN interface of the gateway is
-          forwarded to the {{object|.IP.Interface}} associated with the
+          forwarded to the {{object|##.IP.Interface}} associated with the
           {{param|InternalClient}} on the {{param|InternalPort}}.
 
           When {{param}} is specified as one external IP address, the NAT will
@@ -406,7 +442,7 @@
           The external port (or the first port of a range of external ports)
           that the NAT gateway would listen on for traffic to a corresponding
           {{param|InternalPort}}. Inbound packets to this external port on the
-          WAN interface SHOULD be forwarded to the {{object|.IP.Interface}}
+          WAN interface SHOULD be forwarded to the {{object|##.IP.Interface}}
           associated with the {{param|InternalClient}} on the
           {{param|InternalPort}}.
 
@@ -505,7 +541,7 @@
           be accomplished, for example, by assigning the DNS host name via use
           of DHCP option 12 (Host Name) or option 81 (FQDN). Note that the
           Controller can learn the host name associated with a given LAN device
-          via the {{object|.Hosts.Host.}} table.
+          via the {{object|##.Hosts.Host}} table.
 
           Read access to this parameter MUST always return the exact value that
           was last set by the Controller. For example, if the internal client
@@ -537,6 +573,271 @@
       </parameter>
     </object>
 
+    <object name="Device.NAT.PortTrigger.{i}." access="readWrite"
+        numEntriesParameter="PortTriggerNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.16">
+      <description>
+        Firewall PortTrigger table.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the Port Trigger
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this {{object}} entry.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                Indicates that the PortTrigger entry is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>
+                Indicates that the PortTrigger entry is enabled.
+              </description>
+            </enumeration>
+            <enumeration value="Error_Misconfigured">
+              <description>
+                Indicates that a necessary configuration value is undefined or
+                invalid.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                MAY be used to define an error condition.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Origin" access="readWrite">
+        <description>
+          Indicates the owner of the {{object}} instance.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="User">
+              <description>
+                Used for indicating that the PortTrigger entry was created by
+                the end-user. For example through the web-ui.
+              </description>
+            </enumeration>
+            <enumeration value="System">
+              <description>
+                Used for indicating that the PortTrigger entry was created by
+                the system itself.
+              </description>
+            </enumeration>
+            <enumeration value="Controller">
+              <description>
+                Used for indicating that the PortTrigger entry was created by a
+                Controller.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Controller"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          Human-readable description associated with this {{object}} entry.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          Specifies the incoming L3 interface to which this port trigger
+          applies. Typically this will be the LAN interface.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readWrite">
+        <description>
+          Trigger Port, the port number which is used to start the port trigger
+          rule.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PortEndRange" access="readWrite">
+        <description>
+          Indicates the last port of the port range that starts with
+          {{param|Port}} which is used to start the port trigger rule.
+
+          A value of zero (0) indicates that no port range is specified, i.e.
+          that the range consists only of {{param|Port}}.
+
+          If {{param|Port}} is zero, the value of this parameter MUST be
+          ignored.
+
+          If specified, the value of this parameter MUST be greater than or
+          equal to the value of {{param|Port}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AutoDisableDuration" access="readWrite">
+        <description>
+          Number of {{units}} the port trigger MUST be active. When the
+          {{param}} is expired new connections are no longer allowed, active
+          connections SHOULD not be terminated.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActivationDate" access="readWrite">
+        <description>
+          Indicates when the port trigger was enabled. When the port trigger is
+          no longer active.
+        </description>
+        <syntax>
+            <dateTime/>
+          <default type="object" value="0001-01-01T00:00:00Z"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readWrite">
+        <description>
+          The protocol of the trigger port.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="TCP"/>
+            <enumeration value="UDP"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="RuleNumberOfEntries" access="readOnly" version="2.16">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.NAT.PortTrigger.{i}.Rule.{i}." access="readWrite"
+        numEntriesParameter="RuleNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.16">
+      <description>
+        Firewall PortTrigger Rule table.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readWrite">
+        <description>
+          Port (or the first port of a range of ports) which needs to be opened
+          when the Trigger conditions are met.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PortEndRange" access="readWrite">
+        <description>
+          Indicates the last port of the port range that starts with
+          {{param|Port}} which needs to be opened when the Trigger conditions
+          are met.
+
+          A value of zero (0) indicates that no port range is specified, i.e.
+          that the range consists only of {{param|Port}}.
+
+          If {{param|Port}} is zero, the value of this parameter MUST be
+          ignored.
+
+          If specified, the value of this parameter MUST be greater than or
+          equal to the value of {{param|Port}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readWrite">
+        <description>
+          The protocol of the to be forwarded port.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="TCP"/>
+            <enumeration value="UDP"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="NAT:1" version="2.0">
       <object ref="Device.NAT." requirement="present">
         <parameter ref="InterfaceSettingNumberOfEntries"
@@ -564,7 +865,7 @@
     </profile>
   </component>
 
-  <model name="NAT:2.14">
+  <model name="NAT:2.16">
     <component ref="Root"/>
     <component ref="NAT"/>
   </model>

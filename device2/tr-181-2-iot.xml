@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-iot"
-    file="tr-181-2-15-0-iot.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-iot"
+    file="tr-181-2-16-0-iot.xml">
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <dataType name="Alias" ref="_AliasUSP"/>
@@ -488,8 +488,7 @@
 
     <object name="IoTCapability.{i}." access="readOnly" minEntries="0"
         maxEntries="unbounded"
-        numEntriesParameter="IoTCapabilityNumberOfEntries"
-        mountType="mountable" version="2.13">
+        numEntriesParameter="IoTCapabilityNumberOfEntries" version="2.13">
       <description>
         This list of IoT capability objects.
       </description>
@@ -544,7 +543,8 @@
     </object>
 
     <object name="IoTCapability.{i}.BinaryControl." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         This capability provides a boolean function that is mapped to the type
         of function it represents.
@@ -595,7 +595,8 @@
     </object>
 
     <object name="IoTCapability.{i}.LevelControl." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         LevelController is used to model a control with a range of continuous
         states.
@@ -693,7 +694,8 @@
     </object>
 
     <object name="IoTCapability.{i}.EnumControl." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         The EnumControl reflects the Enumerated level Control functionality.
 
@@ -760,7 +762,8 @@
     </object>
 
     <object name="IoTCapability.{i}.BinarySensor." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         BinarySensor is used to reflect the functionality of a sensor that
         reports a {{param|Value}}. The {{param|Sensitivity}} configures the
@@ -863,7 +866,8 @@
     </object>
 
     <object name="IoTCapability.{i}.LevelSensor." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         LevelSensor is used to reflect the functionality of a sensor that
         reports a {{param|Value}} in {{param|Unit}}.
@@ -963,7 +967,8 @@
     </object>
 
     <object name="IoTCapability.{i}.MultiLevelSensor." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         MultiLevelSensor is used to reflect the functionality of a sensor that
         reports multiple {{param|Values}} with the same {{param|Unit}}.
@@ -1053,7 +1058,8 @@
     </object>
 
     <object name="IoTCapability.{i}.EnumSensor." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.13">
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.13">
       <description>
         EnumSensor is used to reflect the functionality of a sensor that
         reports explicit non-continuous values.

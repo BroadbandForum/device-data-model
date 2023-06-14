@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-qos"
-    file="tr-181-2-14-0-qos.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-qos"
+    file="tr-181-2-16-0-qos.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,7 +68,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -80,8 +80,7 @@
         Queue management configuration object.
       </description>
 
-      <parameter name="MaxClassificationEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxClassificationEntries" access="readOnly">
         <description>
           The maximum number of entries available in the Classification table.
         </description>
@@ -99,7 +98,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxAppEntries" access="readOnly" activeNotify="canDeny">
+      <parameter name="MaxAppEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|App}} table.
         </description>
@@ -117,8 +116,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxFlowEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxFlowEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Flow}} table.
         </description>
@@ -136,8 +134,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxPolicerEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxPolicerEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Policer}}
           table.
@@ -156,8 +153,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxQueueEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxQueueEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Queue}}
           table.
@@ -185,8 +181,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxShaperEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxShaperEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Shaper}}
           table.
@@ -197,6 +192,26 @@
       </parameter>
 
       <parameter name="ShaperNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxSchedulerEntries" access="readOnly" version="2.16">
+        <description>
+          The maximum number of entries available in the {{object|Scheduler}}
+          table.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SchedulerNumberOfEntries" access="readOnly"
+          version="2.16">
         <description>
           {{numentries}}
         </description>
@@ -408,7 +423,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -449,7 +464,7 @@
           instances in order to classify upstream packets that have just been
           encapsulated (such packets are conceptually similar to
           locally-generated traffic). For example, this parameter might
-          reference a {{object|.GRE.Tunnel}} or a {{object|.MAP.Domain}}
+          reference a {{object|##.GRE.Tunnel}} or a {{object|##.MAP.Domain}}
           instance.
         </description>
         <syntax>
@@ -471,6 +486,27 @@
         <syntax>
           <boolean/>
           <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPVersion" access="readWrite" version="2.16">
+        <description>
+          Classification criterion.
+
+          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
+          For example:
+
+          * ''4'' (IPv4)
+
+          * ''6'' (IPv6)
+
+          A value of ''-1'' indicates this criterion is not used for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="15"/>
+          </int>
+          <default type="object" value="-1"/>
         </syntax>
       </parameter>
 
@@ -1844,7 +1880,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -2018,7 +2054,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -2043,12 +2079,13 @@
 
       <parameter name="TypeParameters" access="readWrite">
         <description>
-          List of name-value pairs representing additional criteria to identify
-          the flow type. The use and interpretation is specific to the
+          Each entry is a name-value pair representing additional criteria to
+          identify the flow type. The use and interpretation is specific to the
           particular FlowType URN.Encoded using the "x-www-form-urlencoded"
           content type defined in {{bibref|HTML4.01}}.
         </description>
         <syntax>
+          <list/>
           <string>
             <size maxLength="256"/>
           </string>
@@ -2215,7 +2252,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -2308,8 +2345,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PossibleMeterTypes" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="PossibleMeterTypes" access="readOnly">
         <description>
           {{list}} Indicates supported meter types.
         </description>
@@ -2597,12 +2633,27 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
         <syntax>
           <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Children" access="readWrite" version="2.16">
+        <description>
+          {{list}} Each reference can be associated with another
+          {{object|##.QoS.Queue.{i}}}, {{object|##.QoS.Shaper.{i}}},
+          {{object|##.QoS.Scheduler.{i}}} instance object. The references in
+          this parameter are used to build a hierarchy.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -2827,6 +2878,54 @@
         </syntax>
       </parameter>
 
+      <parameter name="CurrentShapingRate" access="readOnly" version="2.16">
+        <description>
+          If the Queue is active, the CurrentShapingRate must reflect the
+          actual configured ShapingRate, in {{units}} per second. -1 means no
+          rate due to do Queue not active.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+            <units value="bits per second"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AssuredRate" access="readWrite" version="2.16">
+        <description>
+          Minimum rate to shape this queue's traffic to.
+
+          If &lt;= 100, in percent of the rate of the highest rate-constrained
+          layer over which the packet will travel on egress.
+
+          If &gt; 100, in bits per second.
+
+          A value of -1 indicates no shaping.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentAssuredRate" access="readOnly" version="2.16">
+        <description>
+          If the Queue is active, the CurrentAssuredRate must reflect the
+          actual configured AssuredRate, in bits per second. -1 means no rate
+          due to do Queue not active.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
       <parameter name="ShapingBurstSize" access="readWrite">
         <description>
           Burst size in bytes. For both leaky bucket (constant rate shaping)
@@ -2858,7 +2957,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Queue"/>
         <parameter ref="Interface"/>
       </uniqueKey>
@@ -2893,7 +2992,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -3027,7 +3126,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -3062,12 +3161,27 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
         <syntax>
           <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Children" access="readWrite" version="2.16">
+        <description>
+          {{list}} Each reference can be associated with another
+          {{object|##.QoS.Queue.{i}}}, {{object|##.QoS.Shaper.{i}}},
+          {{object|##.QoS.Scheduler.{i}}} instance object. The references in
+          this parameter are used to build a hierarchy.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -3122,6 +3236,162 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.QoS.Scheduler.{i}." access="readWrite"
+        numEntriesParameter="SchedulerNumberOfEntries" enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.16">
+      <description>
+        Scheduler table. Each entry is used to model a scheduler object.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this scheduler.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this scheduler. {{enum}}
+
+          The {{enum|Error_Misconfigured}} value indicates that a necessary
+          configuration value is undefined or invalid.
+
+          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          defined error condition.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured"/>
+            <enumeration value="Error" optional="true"/>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Children" access="readWrite" version="2.16">
+        <description>
+          {{list}} Each reference can be associated with another
+          {{object|##.QoS.Queue.{i}}}, {{object|##.QoS.Shaper.{i}}},
+          {{object|##.QoS.Scheduler.{i}}} instance object. The references in
+          this parameter are used to build a hierarchy.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          {{reference}} Specifies the egress interface for which the specified
+          queue MUST exist.
+
+          This MAY be a layer 1, 2 or 3 interface, however, the types of
+          interfaces for which ''Queues'' can be instantiated is a local matter
+          to the CPE.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SchedulerAlgorithm" access="readWrite">
+        <description>
+          Scheduling Algorithm used by scheduler.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="WFQ">
+              <description>Weighted Fair Queueing</description>
+            </enumeration>
+            <enumeration value="WRR">
+              <description>Weighted Round Robin</description>
+            </enumeration>
+            <enumeration value="SP">
+              <description>Strict Priority</description>
+            </enumeration>
+          </string>
+          <default type="object" value="SP"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ShapingRate" access="readWrite">
+        <description>
+          Rate to shape this scheduler's traffic to. For leaky bucket (constant
+          rate shaping), this is the constant rate. For token bucket (variable
+          rate shaping), this is the average rate.
+
+          If &lt;= 100, in percent of the rate of the highest rate-constrained
+          layer over which the packet will travel on egress.
+
+          If &gt; 100, in bits per second.
+
+          A value of -1 indicates no shaping.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AssuredRate" access="readWrite">
+        <description>
+          Minimum guaranteed rate to shape this scheduler's traffic to.
+
+          Must be &gt; 0 and &lt; ShapingRate, for a valid rate.
+
+          A value of -1 indicates the ShapingRate's value is not used.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DefaultQueue" access="readWrite">
+        <description>
+          The value MUST be the Path Name for a {{object|##.QoS.Queue.{i}}}
+          instance. If the referenced object is deleted, the parameter value
+          MUST be set to an empty string.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
+          <default type="object" value=""/>
         </syntax>
       </parameter>
     </object>
@@ -3315,7 +3585,7 @@
     </profile>
   </component>
 
-  <model name="QoS:2.14">
+  <model name="QoS:2.16">
     <component ref="Root"/>
     <component ref="QoS"/>
   </model>

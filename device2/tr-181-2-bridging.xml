@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-bridging"
-    file="tr-181-2-14-0-bridging.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-bridging"
+    file="tr-181-2-16-0-bridging.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -93,8 +93,8 @@
 
       <parameter name="MaxBridgeEntries" access="readOnly">
         <description>
-          The maximum number of entries available in the
-          {{object|.Bridging.Bridge}} table.
+          The maximum number of entries available in the {{object|Bridge}}
+          table.
         </description>
         <syntax>
           <unsignedInt/>
@@ -104,8 +104,8 @@
       <parameter name="MaxDBridgeEntries" access="readOnly">
         <description>
           The maximum number of 802.1D {{bibref|802.1D-2004}} entries available
-          in the {{object|.Bridging.Bridge}} table. A positive value for this
-          parameter implies support for 802.1D.
+          in the {{object|Bridge}} table. A positive value for this parameter
+          implies support for 802.1D.
 
           There is no guarantee that this many 802.1D Bridges can be
           configured. For example, the CPE might not be able simultaneously to
@@ -119,8 +119,8 @@
       <parameter name="MaxQBridgeEntries" access="readOnly">
         <description>
           The maximum number of 802.1Q {{bibref|802.1Q-2011}} entries available
-          in the {{object|.Bridging.Bridge}} table. A non-zero value for this
-          parameter implies support for 802.1Q.
+          in the {{object|Bridge}} table. A non-zero value for this parameter
+          implies support for 802.1Q.
 
           There is no guarantee that this many 802.1Q Bridges can be
           configured. For example, the CPE might not be able simultaneously to
@@ -134,7 +134,7 @@
       <parameter name="MaxVLANEntries" access="readOnly">
         <description>
           The maximum number of 802.1Q {{bibref|802.1Q-2011}} VLANs supported
-          per {{object|.Bridging.Bridge}} table entry.
+          per {{object|Bridge}} table entry.
         </description>
         <syntax>
           <unsignedInt/>
@@ -145,8 +145,8 @@
           version="2.7">
         <description>
           The maximum number of entries available in the
-          {{object|.Bridging.ProviderBridge}} table. A non-zero value for this
-          parameter implies support for 802.1Q Provider Bridges.
+          {{object|ProviderBridge}} table. A non-zero value for this parameter
+          implies support for 802.1Q Provider Bridges.
         </description>
         <syntax>
           <unsignedInt/>
@@ -163,8 +163,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxFilterEntries" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="MaxFilterEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Filter}}
           table.
@@ -230,12 +229,23 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
         <syntax>
           <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readOnly" version="2.16">
+        <description>
+          The textual name of the bridge as assigned by the device.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -259,6 +269,24 @@
               </description>
             </enumeration>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AgingTime" access="readWrite" version="2.16">
+        <description>
+          The timeout period in {{units}} for aging out dynamically-learned
+          forwarding information as described in {{bibref|802.1Q-2011|Section
+          7.9.2}}.
+
+          The Dynamic Filtering Entries are not modeled. They are part of the
+          bridge's internal Forwarding Database.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+            <range minInclusive="10" maxInclusive="1000000"/>
+          </unsignedInt>
+          <default type="object" value="300"/>
         </syntax>
       </parameter>
 
@@ -288,6 +316,117 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+    </object>
+
+    <object name="Device.Bridging.Bridge.{i}.STP." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.16">
+      <description>
+        STP (Spanning Tree Algorithm and Protocol) / RSTP (Rapid Spanning Tree
+        Algorithm and Protocol) bridge configuration as defined in
+        {{bibref|802.1D-2004}} and {{bibref|802.1Q-2011}}.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables STP on this bridge
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of the STP for this Bridge.
+
+          The {{enum|Error_Misconfigured}} value indicates that a necessary
+          configuration value is undefined or invalid.
+
+          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          defined error condition.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured"/>
+            <enumeration value="Error" optional="true"/>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readWrite">
+        <description>
+          Protocol to use.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="STP"/>
+            <enumeration value="RSTP"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="BridgePriority" access="readWrite">
+        <description>
+          Value of the priority part of the Bridge Identifier as described in
+          {{bibref|802.1D-2004|Section 17.18.3 Bridge priority}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="61440" step="4096"/>
+          </unsignedInt>
+          <default type="object" value="32768"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HelloTime" access="readWrite">
+        <description>
+          The interval in {{units}} between periodic transmissions of
+          Configuration Messages by Designated Ports as described in
+          {{bibref|802.1D-2004|Section 17.13.6}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="centiseconds"/>
+            <range minInclusive="100" maxInclusive="1000"/>
+          </unsignedInt>
+          <default type="object" value="200"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxAge" access="readWrite">
+        <description>
+          The maximum age in {{units}} of the information transmitted by the
+          Bridge when it is the Root Bridge as described in
+          {{bibref|802.1D-2004|Section 17.13.8}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="centiseconds"/>
+            <range minInclusive="600" maxInclusive="4000"/>
+          </unsignedInt>
+          <default type="object" value="2000"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ForwardingDelay" access="readWrite">
+        <description>
+          The minimum delay in {{units}} a port should be listening before
+          entering Forwarding PortState as defined in
+          {{bibref|802.1D-2004|Section 17.29.2}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+            <range minInclusive="4" maxInclusive="30"/>
+          </unsignedInt>
+          <default type="object" value="15"/>
+        </syntax>
+      </parameter>
+
     </object>
 
     <object name="Device.Bridging.Bridge.{i}.Port.{i}." access="readWrite"
@@ -365,7 +504,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -644,7 +783,7 @@
           When {{true}}, egress frames leaving this interface will be priority
           tagged with the frame's associated priority value, which will either
           be derived directly from the ingress frame or else set via
-          {{param|.QoS.Classification.{i}.EthernetPriorityMark}}.
+          {{param|###.QoS.Classification.{i}.EthernetPriorityMark}}.
 
           When {{false}}, egress frames leaving this interface will be
           untagged.
@@ -659,6 +798,39 @@
           <default type="object" value="false"/>
         </syntax>
       </parameter>
+
+      <parameter name="PathCost" access="readWrite" version="2.16">
+        <description>
+          The Port’s contribution, when it is the Root Port, to the Root Path
+          Cost for the Bridge as described in {{bibref|802.1D-2004|Section
+          17.13.11}}.
+
+          This parameter apply only when
+          {{param|###.Bridging.Bridge.{i}.STP.Enable}} is {{true}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Priority" access="readWrite" version="2.16">
+        <description>
+          The first four components of the Port’s port priority vector value as
+          described in {{bibref|802.1D-2004|Section 17.19.21}}.
+
+          This parameter apply only when
+          {{param|###.Bridging.Bridge.{i}.STP.Enable}} is {{true}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="240" step="16"/>
+          </unsignedInt>
+          <default type="object" value="128"/>
+        </syntax>
+      </parameter>
+
     </object>
 
     <object name="Device.Bridging.Bridge.{i}.Port.{i}.Stats."
@@ -983,7 +1155,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="VLANID"/>
       </uniqueKey>
 
@@ -997,7 +1169,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1048,7 +1220,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="VLAN"/>
         <parameter ref="Port"/>
       </uniqueKey>
@@ -1063,7 +1235,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1150,7 +1322,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1190,10 +1362,10 @@
 
       <parameter name="Bridge" access="readWrite">
         <description>
-          {{reference|a {{object|.Bridging.Bridge}} object in case of a 802.1D
-          bridge or a {{object|.Bridging.Bridge.{i}.VLAN}} object in case of a
-          802.1Q bridge}} Note: either way, this identifies the bridge (because
-          each bridge has a VLAN table).
+          {{reference|a {{object|#.Bridge}} object in case of a 802.1D bridge
+          or a {{object|#.Bridge.{i}.VLAN}} object in case of a 802.1Q bridge}}
+          Note: either way, this identifies the bridge (because each bridge has
+          a VLAN table).
 
           Defines the Bridge or Bridge VLAN to which ingress frames will be
           classified based upon matches of the classification criteria.
@@ -2428,7 +2600,7 @@
     </profile>
   </component>
 
-  <model name="Bridging:2.14">
+  <model name="Bridging:2.16">
     <component ref="Root"/>
     <component ref="Bridging"/>
   </model>

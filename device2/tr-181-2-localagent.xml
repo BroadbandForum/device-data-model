@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [LocalAgent]
 
-  Copyright (c) 2021, Broadband Forum
+  Copyright (c) 2021-2022, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -51,16 +51,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-localagent"
-    file="tr-181-2-15-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-localagent"
+    file="tr-181-2-16-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -124,8 +124,10 @@
         <string>
           <enumeration value="CoAP" status="deprecated">
             <description>
-              See {{bibref|RFC7252}}. {{deprecated|2.15|because the CoAP MTP
-              was deprecated in USP 1.2}}
+              See {{bibref|RFC7252}}.
+
+              {{deprecated|2.15|because the CoAP MTP was deprecated in USP
+              1.2}}
             </description>
           </enumeration>
           <enumeration value="WebSocket">
@@ -138,6 +140,9 @@
             <description>
               See {{bibref|MQTT311}} and {{bibref|MQTT50}}
             </description>
+          </enumeration>
+          <enumeration value="UDS" version="2.16">
+            <description>See {{bibref|TR-369}}</description>
           </enumeration>
         </string>
       </syntax>
@@ -230,7 +235,7 @@
 
     <object name="MTP.{i}." access="readWrite" minEntries="0"
         maxEntries="unbounded" numEntriesParameter="MTPNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents a MTP used by the local Agent.
       </description>
@@ -292,7 +297,6 @@
           <string>
             <enumerationRef targetParam="#.SupportedProtocols"/>
           </string>
-          <default type="object" value="WebSocket"/>
         </syntax>
       </parameter>
 
@@ -322,7 +326,8 @@
     </object>
 
     <object name="MTP.{i}.CoAP." access="readOnly" minEntries="0"
-        maxEntries="1" discriminatorParameter="Protocol" status="deprecated">
+        maxEntries="1" discriminatorParameter="Protocol" status="deprecated"
+        version="2.12">
       <description>
         If the USP Endpoint uses the CoAP Message Transport Protocol (MTP),
         then this object contains CoAP specific configuration parameters.
@@ -368,7 +373,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IsEncrypted" status="deprecated" access="readOnly">
+      <parameter name="IsEncrypted" status="obsoleted" access="readOnly">
         <description>
           This parameter represents whether or not communications that utilize
           this {{object}} object instance are encrypted.
@@ -376,6 +381,8 @@
           {{deprecated|2.14|because the {{param|EnableEncryption}} parameter
           will dictate whether all connections to this CoAP server instance are
           or are not encrypted}}
+
+          {{obsoleted|2.16}}
         </description>
         <syntax>
           <boolean/>
@@ -394,7 +401,7 @@
     </object>
 
     <object name="MTP.{i}.STOMP." access="readOnly" minEntries="0"
-        maxEntries="1" discriminatorParameter="Protocol">
+        maxEntries="1" discriminatorParameter="Protocol" version="2.12">
       <description>
         If the USP Endpoint uses the STOMP Message Transport Protocol (MTP),
         then this object contains STOMP Client specific configuration
@@ -448,7 +455,7 @@
     </object>
 
     <object name="MTP.{i}.WebSocket." access="readOnly" minEntries="0"
-        maxEntries="1" discriminatorParameter="Protocol">
+        maxEntries="1" discriminatorParameter="Protocol" version="2.12">
       <description>
         If the USP Endpoint uses the WebSocket Message Transport Protocol (MTP)
         as a WebSocket server, then this object contains WebSocket specific
@@ -516,6 +523,7 @@
             <range minInclusive="1"/>
             <units value="seconds"/>
           </unsignedInt>
+          <default type="object" value="60"/>
         </syntax>
       </parameter>
     </object>
@@ -599,9 +607,34 @@
       </parameter>
     </object>
 
+    <object name="MTP.{i}.UDS." access="readOnly" minEntries="0"
+        maxEntries="1" discriminatorParameter="Protocol" version="2.16">
+      <description>
+        If the USP Endpoint uses the Unix Domain Socket (UDS) Message Transfer
+        Protocol (MTP), then this object contains UDS Client specific
+        configuration parameters related to how the Agent communicates with the
+        UDS Server.
+      </description>
+
+      <parameter name="UnixDomainSocketRef" access="readWrite">
+        <description>
+          A reference to the Unix Domain Socket used by this Agent when
+          communicating via the UDS MTP.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                targetParent=".UnixDomainSockets.UnixDomainSocket."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Controller.{i}." access="readWrite" minEntries="0"
         maxEntries="unbounded" numEntriesParameter="ControllerNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents a USP Controller that has access
         to this USP Agent.
@@ -727,13 +760,14 @@
 
       <parameter name="Credential" access="readWrite">
         <description>
-          {{nolist}}
+          {{nolist}}{{noreference}}
 
           Comma-separated list of strings, the set of certificates from
           {{object|#.Certificate.{i}}} that a Controller can present for use in
           authenticating the identity of this {{object}} instance.
         </description>
         <syntax>
+          <list/>
           <string>
             <pathRef refType="strong" targetParent="#.Certificate."
                 targetType="row"/>
@@ -852,7 +886,7 @@
 
     <object name="Controller.{i}.MTP.{i}." access="readWrite" minEntries="0"
         maxEntries="unbounded" numEntriesParameter="MTPNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents a MTP used by this Controller.
       </description>
@@ -895,7 +929,6 @@
           <string>
             <enumerationRef targetParam="##.SupportedProtocols"/>
           </string>
-          <default type="object" value="WebSocket"/>
         </syntax>
       </parameter>
 
@@ -925,7 +958,7 @@
 
     <object name="Controller.{i}.MTP.{i}.CoAP." access="readOnly"
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
-        status="deprecated">
+        status="deprecated" version="2.12">
       <description>
         If the USP Endpoint uses the CoAP Message Transport Protocol (MTP),
         then this object contains CoAP specific configuration parameters.
@@ -979,7 +1012,8 @@
     </object>
 
     <object name="Controller.{i}.MTP.{i}.STOMP." access="readOnly"
-        minEntries="0" maxEntries="1" discriminatorParameter="Protocol">
+        minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
+        version="2.12">
       <description>
         If the USP Endpoint uses the STOMP Message Transport Protocol (MTP),
         then this object contains STOMP Client specific configuration
@@ -1011,10 +1045,24 @@
           <default type="object" value=""/>
         </syntax>
       </parameter>
+      <parameter name="USPServiceRef" access="readOnly" version="2.16">
+        <description>
+          A reference to the USP Service associated with this Agent when
+          communicating via the STOMP MTP.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+              targetParent=".USPServices.USPService." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Controller.{i}.MTP.{i}.WebSocket." access="readOnly"
-        minEntries="0" maxEntries="1" discriminatorParameter="Protocol">
+        minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
+        version="2.12">
       <description>
         If the USP Endpoint uses the WebSocket Message Transport Protocol (MTP)
         as a WebSocket client, then this object contains WebSocket specific
@@ -1055,13 +1103,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="IsEncrypted" status="deprecated" access="readOnly">
+      <parameter name="IsEncrypted" status="obsoleted" access="readOnly">
         <description>
           This parameter represents whether or not communications that utilize
           this {{object}} object instance are encrypted.
 
           {{deprecated|2.14|because the {{param|EnableEncryption}} parameter
           will dictate whether this {{object}} is or is not encrypted}}
+
+          {{obsoleted|2.16}}
         </description>
         <syntax>
           <boolean/>
@@ -1142,6 +1192,19 @@
           <default type="object" value="2000"/>
         </syntax>
       </parameter>
+      <parameter name="USPServiceRef" access="readOnly" version="2.16">
+        <description>
+          A reference to the USP Service associated with this Agent when
+          communicating via the WebSocket MTP.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+              targetParent=".USPServices.USPService." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Controller.{i}.MTP.{i}.MQTT." access="readOnly"
@@ -1153,10 +1216,12 @@
         related to how this Controller communicates with the MQTT broker.
       </description>
 
-      <parameter name="Reference" access="readWrite">
+      <parameter name="Reference" access="readWrite" status="deprecated">
         <description>
           A reference to the MQTT Client used by this Controller when
           communicating via the MQTT MTP.
+
+          {{deprecated|2.16|because {{param|AgentMTPReference}} was added}}
         </description>
         <syntax>
           <string>
@@ -1204,10 +1269,79 @@
           <default type="object" value="false"/>
         </syntax>
       </parameter>
+
+      <parameter name="AgentMTPReference" access="readWrite" version="2.16">
+        <description>
+          {{reference|the {{object|###.MTP.}} object instance containing the
+          Response Topic used by this Controller when communicating via the
+          MQTT MTP}}
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="###.MTP." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="USPServiceRef" access="readOnly" version="2.16">
+        <description>
+          A reference to the USP Service associated with this Agent when
+          communicating via the MQTT MTP.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+              targetParent=".USPServices.USPService." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Controller.{i}.MTP.{i}.UDS." access="readOnly"
+        minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
+        version="2.16">
+        <description>
+          If the USP Endpoint uses the Unix Domain Socket (UDS) Message Transport
+          Protocol (MTP), then this object contains UDS Client specific
+          configuration parameters related to how the Controller communicates
+          with the UDS Server.
+        </description>
+
+        <parameter name="UnixDomainSocketRef" access="readWrite">
+          <description>
+            A reference to the Unix Domain Socket used by this Agent when
+            communicating via the UDS MTP.
+          </description>
+          <syntax>
+            <string>
+              <pathRef refType="strong"
+                targetParent=".UnixDomainSockets.UnixDomainSocket."
+                targetType="row"/>
+            </string>
+            <default type="object" value=""/>
+          </syntax>
+        </parameter>
+
+        <parameter name="USPServiceRef" access="readOnly">
+          <description>
+            A reference to the USP Service associated with this Agent when
+            communicating via the UDS MTP.
+          </description>
+          <syntax>
+            <string>
+              <pathRef refType="strong"
+                targetParent=".USPServices.USPService." targetType="row"/>
+            </string>
+            <default type="object" value=""/>
+          </syntax>
+        </parameter>
     </object>
 
     <object name="Certificate.{i}." access="readOnly" minEntries="0"
-        maxEntries="unbounded" numEntriesParameter="CertificateNumberOfEntries">
+        maxEntries="unbounded" numEntriesParameter="CertificateNumberOfEntries"
+        version="2.12">
       <description>
         Each instance of this table represents information related to a X.509
         certificate (see {{bibref|RFC5280}}) of a Controller or Certificate
@@ -1268,7 +1402,7 @@
     </object>
 
     <object name="ControllerTrust." access="readOnly" minEntries="1"
-        maxEntries="1">
+        maxEntries="1" version="2.12">
       <description>
         This object contains information that an Agent applies when
         establishing a trust relationship with a Controller.
@@ -1307,6 +1441,26 @@
           messages to, any Controller that has this Role.
         </description>
         <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="Role." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecuredRoles" access="readWrite" version="2.16">
+        <description>
+          {{list|each entry is a Role that is associated with Controllers to
+          indicate their access to secured parameters (e.g.
+          {{param|.WiFi.AccessPoint.{i}.Security.WEPKey}}). The value of the
+          {{param}} parameter is appended to the
+          {{param|#.Controller.{i}.AssignedRole}} parameter}}
+
+          Only Controllers with a secured role assigned (and the appropriate
+          permissions set) MUST be able to have access to secured parameters
+          content.
+        </description>
+        <syntax>
+          <list/>
           <string>
             <pathRef refType="strong" targetParent="Role." targetType="row"/>
           </string>
@@ -1373,7 +1527,7 @@
 
     <object name="ControllerTrust.Role.{i}." access="readWrite" minEntries="0"
         maxEntries="unbounded" numEntriesParameter="RoleNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents a Role that can be assigned to
         or inherited by a Controller via the Controller Trust mechanism. The
@@ -1433,7 +1587,7 @@
     <object name="ControllerTrust.Role.{i}.Permission.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded"
         numEntriesParameter="PermissionNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents the permissions that are
         extended to a set of Targets for a specified Role.
@@ -1529,8 +1683,8 @@
 
           # Execute: Grants no capabilities; Parameters can not be executed.
 
-          # Notify: Grants the capability to use this Parameter in the
-            ReferenceList of a ValueChange Subscription.
+          # Notify: Grants the capability to receive Notify Messages of type
+            ValueChange for this Parameter.
         </description>
         <syntax>
           <string>
@@ -1563,9 +1717,8 @@
           # Execute: Grants no capabilities; Objects are not executable and
             Commands are controlled by the CommandEventPermissions.
 
-          # Notify: Grants the capability to use this Object in the
-            ReferenceList of an ObjectCreation (for multi-instance objects
-            only) Subscription.
+          # Notify: Grants the capability to receive Notify Messages of type
+            ObjectCreation for this Object (multi-instance objects only).
         </description>
         <syntax>
           <string>
@@ -1602,8 +1755,8 @@
             executable and Commands are controlled by the
             CommandEventPermissions.
 
-          # Notify: Grants the capability to use this Instantiated Object in
-            the ReferenceList of an ObjectDeletion Subscription.
+          # Notify: Grants the capability to receive Notify Messages of type
+            ObjectDeletion for this Instantiated Object.
         </description>
         <syntax>
           <string>
@@ -1636,8 +1789,8 @@
           # Execute: Grants the capability to execute the Command via Operate,
             but grants no capabilities to an Event.
 
-          # Notify: Grants the capability to use this Event or Command in the
-            ReferenceList of an Event or OperationComplete Subscription.
+          # Notify: Grants the capability to receive Notify Messages of type
+            OperationComplete for this Event or Command.
         </description>
         <syntax>
           <string>
@@ -1651,7 +1804,7 @@
     <object name="ControllerTrust.Credential.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded"
         numEntriesParameter="CredentialNumberOfEntries"
-        enableParameter="Enable">
+        enableParameter="Enable" version="2.12">
       <description>
         Each instance of this table represents a trusted credential. The
         credential can be that of a certificate authority (CA) for a Controller
@@ -1765,7 +1918,8 @@
 
     <object name="ControllerTrust.Challenge.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded"
-        numEntriesParameter="ChallengeNumberOfEntries" enableParameter="Enable">
+        numEntriesParameter="ChallengeNumberOfEntries" enableParameter="Enable"
+        version="2.12">
       <description>
         Each instance of this table represents information that is used to
         challenge a Controller in order to assign a Role to the Controller or
@@ -1863,7 +2017,7 @@
         <description>
           The value of the challenge that is specific to the type of challenge.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <base64/>
         </syntax>
       </parameter>
@@ -1959,7 +2113,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.15">
+  <model name="LocalAgent:2.16">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

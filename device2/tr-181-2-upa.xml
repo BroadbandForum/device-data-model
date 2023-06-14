@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-upa"
-    file="tr-181-2-14-0-upa.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-upa"
+    file="tr-181-2-16-0-upa.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -236,7 +236,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -313,7 +313,7 @@
 
           Note: This is not necessarily the same as the Ethernet header source
           or destination MAC address, which is associated with the IP interface
-          and is modeled via the {{param|.Ethernet.Link.{i}.MACAddress}}
+          and is modeled via the {{param|##.Ethernet.Link.{i}.MACAddress}}
           parameter.
         </description>
         <syntax>
@@ -395,7 +395,7 @@
           32-126, which includes SPACE but excludes TAB, LF and CR). For
           example: bvjPekZiYUf9kjNKJASkgJ09adfoP01Fjvgd
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="36"/>
           </string>
@@ -667,7 +667,7 @@
         This table contains information about PLC connections running between
         this UPA interface and other UPA devices.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
@@ -833,7 +833,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -895,11 +895,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -988,7 +988,7 @@
     </profile>
   </component>
 
-  <model name="UPA:2.14">
+  <model name="UPA:2.16">
     <component ref="Root"/>
     <component ref="UPA"/>
   </model>

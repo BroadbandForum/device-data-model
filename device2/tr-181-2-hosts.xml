@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Hosts]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2022, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-hosts"
-    file="tr-181-2-15-0-hosts.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-hosts"
+    file="tr-181-2-16-0-hosts.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -111,7 +111,7 @@
       <description>
         Host table.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="PhysAddress"/>
       </uniqueKey>
 
@@ -193,8 +193,8 @@
             <pathRef
                 refType="strong"
                 targetParent="
-                  .DHCPv4.Server.Pool.{i}.Client.
-                  .DHCPv6.Server.Pool.{i}.Client."
+                  ##.DHCPv4.Server.Pool.{i}.Client.
+                  ##.DHCPv6.Server.Pool.{i}.Client."
                 targetType="row"/>
           </string>
         </syntax>
@@ -265,7 +265,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -346,7 +346,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="UserClassID" access="readOnly" status="obsoleted">
+      <parameter name="UserClassID" access="readOnly" status="deleted">
         <description>
           A hexbinary string, User Class Identifier DHCP option (Option 77) of
           the host.
@@ -362,6 +362,8 @@
           via the {{param|DHCPClient}} reference}}
 
           {{obsoleted|2.15}}
+
+          {{deleted|2.16}}
         </description>
         <syntax>
           <hexBinary>
@@ -449,7 +451,7 @@
         via DHCP, which can also be accessed via the {{param|#.DHCPClient}}
         reference.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
       </uniqueKey>
 
@@ -471,7 +473,7 @@
         via DHCP, which can also be accessed via the {{param|#.DHCPClient}}
         reference.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
       </uniqueKey>
 
@@ -584,11 +586,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="PhysAddress"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -672,7 +674,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -804,7 +806,7 @@
         <parameter ref="Active" requirement="readOnly"/>
         <parameter ref="Layer1Interface" requirement="readOnly"/>
         <parameter ref="Layer3Interface" requirement="readOnly"/>
-      
+
         <parameter ref="DHCPClient" requirement="readOnly"/>
         <parameter ref="AssociatedDevice" requirement="readOnly"/>
         <parameter ref="IPv4AddressNumberOfEntries" requirement="readOnly">
@@ -818,7 +820,7 @@
           </description>
         </parameter>
       </object>
-      
+
       <object ref="Device.Hosts.Host.{i}.IPv4Address.{i}."
           requirement="present">
         <description>
@@ -856,7 +858,7 @@
     </profile>
   </component>
 
-  <model name="Hosts:2.15">
+  <model name="Hosts:2.16">
     <component ref="Root"/>
     <component ref="Hosts"/>
   </model>

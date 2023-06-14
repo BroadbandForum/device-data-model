@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-dynamicdns"
-    file="tr-181-2-14-0-dynamicdns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-dynamicdns"
+    file="tr-181-2-16-0-dynamicdns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -122,7 +122,7 @@
         then the table entry is inoperable and the CPE MUST set the
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Server"/>
         <parameter ref="Username"/>
       </uniqueKey>
@@ -178,7 +178,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -216,7 +216,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent="Device.DynamicDNS.Server."
+            <pathRef refType="strong" targetParent="#.Server."
                 targetType="row"/>
           </string>
         </syntax>
@@ -226,15 +226,14 @@
         <description>
           The IP interface over which update queries to the server are sent.
 
-          {{reference}}
+          {{template|INTERFACE-ROUTING}}
 
-          If an empty string is specified, the CPE MUST use its routing policy
-          (Forwarding table entries), to determine the appropriate interface.
+          {{reference}}
         </description>
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent="Device.IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -257,7 +256,7 @@
           Password used by this Dynamic DNS Client to authenticate with the
           Server.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="256"/>
           </string>
@@ -282,7 +281,7 @@
         Each table entry represents a fully qualified domain name updated by
         this Dynamic DNS Client.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
 
@@ -360,7 +359,7 @@
       <description>
         Table of Dynamic DNS servers available for this CPE.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -370,11 +369,11 @@
       <parameter name="Enable" access="readWrite">
         <description>
           Enables or disables Dynamic DNS Server.
+
+          Note: This parameter was previously wrongly defined as a string.
         </description>
         <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
+          <boolean/>
         </syntax>
       </parameter>
 
@@ -389,7 +388,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -507,7 +506,7 @@
     </object>
   </component>
 
-  <model name="DynamicDNS:2.14">
+  <model name="DynamicDNS:2.16">
     <component ref="Root"/>
     <component ref="DynamicDNS"/>
   </model>

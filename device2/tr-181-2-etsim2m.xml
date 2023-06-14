@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-etsim2m"
-    file="tr-181-2-15-0-etsim2m.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-etsim2m"
+    file="tr-181-2-16-0-etsim2m.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -99,9 +99,9 @@
         The {{object}} MAY be maintained by the ACS or by the CPE.
 
         When the {{object}} provides the administration of an SCL that is
-        represented as a {{object|.SoftwareModules.ExecutionUnit}} the
+        represented as a {{object|##.SoftwareModules.ExecutionUnit}} the
         {{object}} is maintained in the
-        {{param|.SoftwareModules.ExecutionUnit.{i}.References}} parameter.
+        {{param|##.SoftwareModules.ExecutionUnit.{i}.References}} parameter.
 
         Section 5.1.2 of the M2M Functional Architecture {{bibref|ETSIM2MFA}}
         describes the high level event flows for SCL registration.
@@ -455,7 +455,7 @@
 
         {{keys}}
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ANName"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -528,7 +528,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="FailedAttempts"/>
       </uniqueKey>
 
@@ -591,7 +591,7 @@
         defining when it is appropriate to use the access network for
         processing requests.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="RCAT"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -849,7 +849,7 @@
         defined in section 10.3.1.2.2.1 of the M2M mIa, dIa and mId Interfaces
         {{bibref|ETSIM2MInterfaces}} document.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="RCAT"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -976,7 +976,7 @@
         Section 5.3.5 of the M2M Functional Architecture {{bibref|ETSIM2MFA}}
         describes the REM functionality expected of a SCL for an M2M Device.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ID"/>
       </uniqueKey>
 
@@ -1077,15 +1077,15 @@
 
         While discovery and identification of devices by the M2M Gateway or
         Device (CPE) is implementation specific, each device is represented by
-        an instance of the {{object|.Hosts.Host}} table.
+        an instance of the {{object|###.Hosts.Host}} table.
 
         When the M2M Device is managed by the CWMP endpoint of the CPE, the
         {{object}} is expected to be referenced by an instance of one of the
         following tables:
 
-        *{{object|.ManagementServer.EmbeddedDevice}}
+        *{{object|###.ManagementServer.EmbeddedDevice}}
 
-        *{{object|.ManagementServer.VirtualDevice}}
+        *{{object|###.ManagementServer.VirtualDevice}}
 
         Section 5.3.5 of the M2M Functional Architecture {{bibref|ETSIM2MFA}}
         describes the REM functionality expected of a SCL to a M2M Device.
@@ -1120,13 +1120,13 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} {{reference|the {{object|.Hosts.Host}} table entry that
+          {{list}} {{reference|the {{object|###.Hosts.Host}} table entry that
           represents an active or inactive M2M Device}}
         </description>
         <syntax>
           <list/>
           <string>
-            <pathRef refType="strong" targetParent=".Hosts.Host."
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1134,14 +1134,14 @@
 
       <parameter name="ListOfDeviceNeighbors" access="readOnly">
         <description>
-          {{list}} {{reference}} References all the {{object|.Hosts.Host}}
+          {{list}} {{reference}} References all the {{object|###.Hosts.Host}}
           table entries, whether active or inactive, that represent the
           reachable neighbors of this M2M Device (D' or d).
         </description>
         <syntax>
           <list/>
           <string>
-            <pathRef refType="strong" targetParent=".Hosts.Host."
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1373,7 +1373,7 @@
     </profile>
   </component>
 
-  <model name="ETSIM2M:2.15">
+  <model name="ETSIM2M:2.16">
     <component ref="Root"/>
     <component ref="ETSIM2M"/>
   </model>

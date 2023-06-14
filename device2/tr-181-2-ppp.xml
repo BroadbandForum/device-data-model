@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-ppp"
-    file="tr-181-2-15-0-ppp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ppp"
+    file="tr-181-2-16-0-ppp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -188,7 +188,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -342,7 +342,7 @@
         <description>
           Password to be used for authentication.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="64"/>
           </string>
@@ -403,8 +403,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="CurrentMRUSize" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="CurrentMRUSize" access="readOnly">
         <description>
           The current MRU in use over this connection.
         </description>
@@ -454,9 +453,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="LCPEcho" access="readOnly">
+      <parameter name="LCPEcho" access="readWrite">
         <description>
-          PPP LCP Echo period in {{units}}.
+          A PPP LCP Echo Request is sent every {{param}} {{units}}. A value 0
+          means that no LCP Echo Requests are sent. {{bibref|RFC1661|5.8
+          Echo-Request and Echo-Reply}} describes the relevant LCP Echo frames.
         </description>
         <syntax>
           <unsignedInt>
@@ -465,12 +466,26 @@
         </syntax>
       </parameter>
 
-      <parameter name="LCPEchoRetry" access="readOnly">
+      <parameter name="LCPEchoRetry" access="readWrite">
         <description>
-          Number of PPP LCP Echo retries within an echo period.
+          Applicable only when {{param|LCPEcho}} is greater than 0. When number
+          of consecutive {{param}} LCP Echo Replies have been missed. The
+          remote peer will be assumed dead and the connection will be
+          terminated.
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LCPEchoAdaptive" access="readWrite" version="2.16">
+        <description>
+          When traffic is received during the {{param|LCPEcho}} interval, no
+          LCP Echo-Request is sent until the next {{param|LCPEcho}} interval.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
         </syntax>
       </parameter>
 
@@ -608,7 +623,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".DHCPv4.Server.Pool."
+            <pathRef refType="strong" targetParent="###.DHCPv4.Server.Pool."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -855,7 +870,7 @@
     </object>
   </component>
 
-  <model name="PPP:2.15">
+  <model name="PPP:2.16">
     <component ref="Root"/>
     <component ref="PPP"/>
   </model>

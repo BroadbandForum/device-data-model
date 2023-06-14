@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-ipv6rd"
-    file="tr-181-2-14-0-ipv6rd.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ipv6rd"
+    file="tr-181-2-16-0-ipv6rd.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -153,7 +153,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -235,7 +235,8 @@
           <string>
             <size maxLength="256"/>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv4Address." targetType="row"/>
+                targetParent="##.IP.Interface.{i}.IPv4Address."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -243,7 +244,7 @@
       <parameter name="TunnelInterface" access="readOnly">
         <description>
           {{reference}} This is an IP interface of ''Type''
-          {{enum|Tunnel|.IP.Interface.{i}.Type}} that is logically the tunnel
+          {{enum|Tunnel|##.IP.Interface.{i}.Type}} that is logically the tunnel
           entry point for upstream IPv6 traffic and is also logically the
           tunnel exit point for downstream IPv6 traffic (i.e. the entry point
           for non-tunneled upstream IPv6 traffic to enter a tunnel and become
@@ -256,7 +257,7 @@
           {{param}}. {{param}} is a logical interface that can allow for
           classification, marking (of IPv6 headers), and policing of IPv6
           traffic that will be going over a 6rd tunnel. These functions are
-          modeled in the {{object|.QoS.}} object.
+          modeled in the {{object|##.QoS}} object.
 
           {{param}} can be used also to represent the 6rd virtual interface
           defined in {{bibref|RFC5969}}.
@@ -269,7 +270,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -278,7 +279,7 @@
       <parameter name="TunneledInterface" access="readOnly">
         <description>
           {{reference}} This is an IP interface of ''Type''
-          {{enum|Tunneled|.IP.Interface.{i}.Type}} that provides information
+          {{enum|Tunneled|##.IP.Interface.{i}.Type}} that provides information
           about the IPv4 headers used to encapsulate the IPv6 packets.
 
           Encapsulated IPv6 traffic that enters {{param}} from the WAN is
@@ -288,7 +289,7 @@
           interface that can allow for classification, marking (of IPv4 headers
           and VLAN tags), and policing of IPv4 packets that encapsulate IPv6
           packets in 6rd traffic. These functions are modeled in the
-          {{object|.QoS.}} object.
+          {{object|##.QoS}} object.
 
           Note: In 6rd, {{param}} traffic originating from the LAN logically
           feeds into a WAN-side IPv4 capable IP interface that the "IPv6 6rd
@@ -298,7 +299,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -325,7 +326,7 @@
     </profile>
   </component>
 
-  <model name="IPv6rd:2.14">
+  <model name="IPv6rd:2.16">
     <component ref="Root"/>
     <component ref="IPv6rd"/>
   </model>

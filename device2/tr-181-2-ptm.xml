@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-ptm"
-    file="tr-181-2-14-0-ptm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ptm"
+    file="tr-181-2-16-0-ptm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -96,12 +96,12 @@
         PTM link-layer table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Models a layer 2 variable-sized
         packet interface. A PTM Link entry is typically stacked on top of
-        either a {{object|.FAST.Line.}}, {{object|.DSL.Channel.}}, or a
-        {{object|.DSL.BondingGroup.}} object.
+        either a {{object|##.FAST.Line}}, {{object|##.DSL.Channel}}, or a
+        {{object|##.DSL.BondingGroup}} object.
 
         When a ''PTM Link'' interface is used, a lower-layer
-        {{object|.DSL.Channel}} interface MUST be configured with PTM
-        encapsulation (see {{param|.DSL.Channel.{i}.LinkEncapsulationUsed}}).
+        {{object|##.DSL.Channel}} interface MUST be configured with PTM
+        encapsulation (see {{param|##.DSL.Channel.{i}.LinkEncapsulationUsed}}).
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -163,7 +163,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -217,7 +217,7 @@
 
           Note: This is not necessarily the same as the Ethernet header source
           or destination MAC address, which is associated with the IP interface
-          and is modeled via the {{param|.Ethernet.Link.{i}.MACAddress}}
+          and is modeled via the {{param|##.Ethernet.Link.{i}.MACAddress}}
           parameter.
         </description>
         <syntax>
@@ -445,7 +445,7 @@
     </profile>
   </component>
 
-  <model name="PTM:2.14">
+  <model name="PTM:2.16">
     <component ref="Root"/>
     <component ref="PTM"/>
   </model>

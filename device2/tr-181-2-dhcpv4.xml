@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-dhcpv4"
-    file="tr-181-2-15-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-dhcpv4"
+    file="tr-181-2-16-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -114,7 +114,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -128,7 +128,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -144,7 +144,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -339,7 +339,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -353,7 +353,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -397,7 +397,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -432,7 +432,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -517,7 +517,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Order"/>
       </uniqueKey>
 
@@ -552,7 +552,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -593,7 +593,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -788,7 +788,7 @@
                 {{object|StaticAddress.{i}.}} table (parameter
                 {{param|StaticAddress.{i}.Chaddr}}) are served.
 
-                The parameter {{param|#.Chaddr}} is not used, if this value is
+                The parameter {{param|Chaddr}} is not used, if this value is
                 set.
               </description>
             </enumeration>
@@ -813,7 +813,7 @@
           The parameter value can be overwritten by dynamic values retrieved
           via a DHCP client with {{param|##.Client.{i}.PassthroughEnable}} or a
           PPP interface with
-          {{param|.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
+          {{param|###.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
           {{true}}.
         </description>
         <syntax>
@@ -829,7 +829,7 @@
           The parameter value can be overwritten by dynamic values retrieved
           via a DHCP client with {{param|##.Client.{i}.PassthroughEnable}} or a
           PPP interface with
-          {{param|.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
+          {{param|###.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
           {{true}}.
         </description>
         <syntax>
@@ -858,7 +858,7 @@
           The parameter value can be overwritten by dynamic values retrieved
           via a DHCP client with {{param|##.Client.{i}.PassthroughEnable}} or a
           PPP interface with
-          {{param|.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
+          {{param|###.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
           {{true}}.
         </description>
         <syntax>
@@ -874,7 +874,7 @@
           The parameter value can be overwritten by dynamic values retrieved
           via a DHCP client with {{param|##.Client.{i}.PassthroughEnable}} or a
           PPP interface with
-          {{param|.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
+          {{param|###.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
           {{true}}.
         </description>
         <syntax>
@@ -905,7 +905,7 @@
           The parameter value can be overwritten by dynamic values retrieved
           via a DHCP client with {{param|##.Client.{i}.PassthroughEnable}} or a
           PPP interface with
-          {{param|.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
+          {{param|###.PPP.Interface.{i}.IPCP.PassthroughEnable}} equal to
           {{true}}.
         </description>
         <syntax>
@@ -982,7 +982,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Chaddr"/>
       </uniqueKey>
 
@@ -998,7 +998,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1041,7 +1041,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -1055,7 +1055,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1100,11 +1100,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Chaddr"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -1167,7 +1167,7 @@
       <description>
         IPv4 addresses assigned to this client.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
       </uniqueKey>
 
@@ -1311,7 +1311,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1353,7 +1353,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -1640,7 +1640,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.14">
+  <model name="DHCPv4:2.16">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-deviceinfo"
-    file="tr-181-2-15-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-deviceinfo"
+    file="tr-181-2-16-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -126,7 +126,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="ModelName" access="readOnly" activeNotify="canDeny">
+      <parameter name="ModelName" access="readOnly">
         <description>
           Model name of the CPE (human readable string).
         </description>
@@ -154,7 +154,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Description" access="readOnly" activeNotify="canDeny">
+      <parameter name="Description" access="readOnly">
         <description>
           A full description of the CPE device (human readable string).
         </description>
@@ -323,7 +323,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="FirstUseDate" access="readOnly" activeNotify="canDeny">
+      <parameter name="FirstUseDate" access="readOnly">
         <description>
           Date and time in UTC that the CPE first both successfully established
           an IP-layer network connection and acquired an absolute time
@@ -335,6 +335,20 @@
         </description>
         <syntax>
           <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HostName" access="readWrite" version="2.16">
+        <description>
+          The hostname of the device {{bibref|RFC1123|Section 2 General
+          issues}}. This can be either a Fully Qualified Domain Name (FQDN) or
+          just the first component of an FQDN. For example, myhgw, myhgw.home,
+          myhgw.home.arpa, myhgw.isp.net.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="255"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -408,18 +422,16 @@
         This table of Vendor Configuration Files is for information only and
         does not allow the Controller to operate on these files in any way.
 
-        Whenever the CPE successfully downloads a configuration file as a
-        result of the Download RPC with the FileType argument of ''3 Vendor
-        Configuration File'', the CPE MUST update this table.
+        {{template|VENDORCONFIGFILE-DESC}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -440,9 +452,7 @@
           download the configuration file, then the value of this parameter
           MUST be set to that name.
 
-          Otherwise, the value of this parameter MUST be set to the value of
-          the TargetFileName argument of the Download RPC used to download this
-          configuration file.
+          {{template|VENDORCONFIGFILE-NAME}}
         </description>
         <syntax>
           <string>
@@ -602,7 +612,7 @@
       <description>
         List of all processes running on the device.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="PID"/>
       </uniqueKey>
 
@@ -701,15 +711,14 @@
         This object represents information that the device has obtained via
         sampling an internal temperature sensor.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny"
-          version="2.3">
+      <parameter name="Alias" access="readWrite" version="2.3">
         <description>
           {{datatype|expand}}
         </description>
@@ -1026,8 +1035,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny"
-          version="2.3">
+      <parameter name="Alias" access="readWrite" version="2.3">
         <description>
           {{datatype|expand}}
         </description>
@@ -1086,7 +1094,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1143,7 +1151,7 @@
       <description>
         This object contains Location information.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Source"/>
         <parameter ref="ExternalSource"/>
       </uniqueKey>
@@ -1261,14 +1269,14 @@
       <description>
         This object describes an image of the device.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Location"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1349,8 +1357,8 @@
           A string identifying the version of the firmware image represented by
           this {{object}}. Whenever this firmware image is active (ie, the
           device has booted this firmware image), the value of the
-          {{param|.DeviceInfo.SoftwareVersion}} parameter MUST be the same as
-          the value contained in this parameter.
+          {{param|#.SoftwareVersion}} parameter MUST be the same as the value
+          contained in this parameter.
 
           To allow version comparisons, this element SHOULD be in the form of
           dot-delimited integers, where each successive integer represents a
@@ -1557,7 +1565,7 @@
     </profile>
   </component>
 
-  <model name="DeviceInfo:2.14">
+  <model name="DeviceInfo:2.16">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

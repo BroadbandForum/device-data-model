@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-ieee1905"
-    file="tr-181-2-15-0-ieee1905.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ieee1905"
+    file="tr-181-2-16-0-ieee1905.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -229,7 +229,7 @@
         The 1905 interface table (described in {{bibref|IEEE1905.1a|sub-clause
         5 Abstraction Layer Management}}).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InterfaceId"/>
       </uniqueKey>
 
@@ -519,7 +519,7 @@
       <description>
         This object defines the 1905 neighbors and link properties.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InterfaceId"/>
         <parameter ref="IEEE1905Id"/>
       </uniqueKey>
@@ -1150,7 +1150,7 @@
         network (received Topology discovery message as defined in
         {{bibref|IEEE1905.1a|Clause 6.3.1}}).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IEEE1905Id"/>
       </uniqueKey>
 
@@ -1260,8 +1260,8 @@
             <pathRef
                 refType="strong"
                 targetParent="
-                  .WiFi.MultiAP.APDevice.
-                  .WiFi.DataElements.Network.Device."
+                  ####.WiFi.MultiAP.APDevice.
+                  ####.WiFi.DataElements.Network.Device."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1350,7 +1350,7 @@
         IEEE1905Device as defined in {{bibref|IEEE1905.1a|Table 6-32: IPv4 type
         TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
         <parameter ref="IPv4Address"/>
       </uniqueKey>
@@ -1408,7 +1408,7 @@
         IEEE1905Device as defined in {{bibref|IEEE1905.1a|Table 6-34: IPv6 type
         TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
         <parameter ref="IPv6Address"/>
       </uniqueKey>
@@ -1515,7 +1515,7 @@
         This object represents an instance of an interface for the
         {{object|##.IEEE1905Device}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InterfaceId"/>
       </uniqueKey>
 
@@ -1727,7 +1727,7 @@
         response message as defined in {{bibref|IEEE1905.1a|Table 6-14:
         Non-1905 neighbor device TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="LocalInterface"/>
         <parameter ref="NeighborInterfaceId"/>
       </uniqueKey>
@@ -1766,7 +1766,7 @@
         response message as defined in {{bibref|IEEE1905.1a|Table 6-41: L2
         neighbor device TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="LocalInterface"/>
         <parameter ref="NeighborInterfaceId"/>
       </uniqueKey>
@@ -1817,7 +1817,7 @@
         response message as defined in {{bibref|IEEE1905.1a|Table 6-15: 1905
         neighbor device TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="LocalInterface"/>
         <parameter ref="NeighborDeviceId"/>
       </uniqueKey>
@@ -1866,7 +1866,7 @@
         address of an interface in the receiving 1905 AL as defined in
         {{bibref|IEEE1905.1a|Table 6-17: 1905 transmitter link metric TLV}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="NeighborMACAddress"/>
       </uniqueKey>
 
@@ -2059,7 +2059,7 @@
         <description>
           1905 network passphrase for generating security keys.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string/>
         </syntax>
       </parameter>
@@ -2396,7 +2396,7 @@
     </profile>
   </component>
 
-  <model name="IEEE1905:2.15">
+  <model name="IEEE1905:2.16">
     <component ref="Root"/>
     <component ref="IEEE1905"/>
   </model>

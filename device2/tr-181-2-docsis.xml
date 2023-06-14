@@ -52,16 +52,16 @@
 
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-9"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-9
-        http://www.broadband-forum.org/cwmp/cwmp-datamodel-1-9.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        http://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-docsis"
-    file="tr-181-2-15-0-docsis.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-docsis"
+    file="tr-181-2-16-0-docsis.xml">
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <dataType name="Alias" ref="_AliasCommon"/>
@@ -71,7 +71,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -500,7 +500,7 @@
   <component name="DOCSISLayer1">
     <object name="Device.DOCSIS.Downstream.{i}." access="readOnly"
         numEntriesParameter="DownstreamNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true">
+        maxEntries="unbounded" version="2.15" dmr:fixedObject="true">
       <description>
         DOCSIS Downstream interface table (a stackable interface object as
         described in {{bibref|TR-181i2|Section 4.2}}). This table models the
@@ -561,7 +561,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -664,14 +664,14 @@
             <size maxLength="1024"/>
           </list>
           <string>
-            <pathRef refType="strong"
-                targetParent=".DOCSIS.DownstreamChannel." targetType="row"/>
+            <pathRef refType="strong" targetParent="#.DownstreamChannel."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
     </object>
     <object name="Device.DOCSIS.Downstream.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.15">
       <description>
         Throughput statistics for this interface.
 
@@ -843,7 +843,7 @@
 
     <object name="Device.DOCSIS.Upstream.{i}." access="readOnly"
         numEntriesParameter="UpstreamNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true">
+        maxEntries="unbounded" version="2.15" dmr:fixedObject="true">
       <description>
         DOCSIS Upstream interface table (a stackable interface object as
         described in {{bibref|TR-181i2|Section 4.2}}). This table models the
@@ -904,7 +904,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1007,14 +1007,14 @@
             <size maxLength="1024"/>
           </list>
           <string>
-            <pathRef refType="strong" targetParent=".DOCSIS.UpstreamChannel."
+            <pathRef refType="strong" targetParent="#.UpstreamChannel."
                 targetType="row"/>
           </string>
         </syntax>
       </parameter>
     </object>
     <object name="Device.DOCSIS.Upstream.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.15">
       <description>
         Throughput statistics for this interface.
 
@@ -1188,7 +1188,7 @@
         id="docsIfDownstreamChannelTable/1.3.6.1.2.1.10.127.1.1.1.1"
         access="readOnly"
         numEntriesParameter="DownstreamChannelNumberOfEntries" minEntries="0"
-        maxEntries="unbounded">
+        maxEntries="unbounded" version="2.15">
       <description>
         This table describes the attributes of downstream channels (frequency
         bands).
@@ -1200,7 +1200,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1228,7 +1228,8 @@
           access="readOnly">
         <description>
           The center of the downstream frequency associated with this channel.
-          This object will return the current tuner frequency.
+          This object will return the current tuner frequency, measured in
+          {{units}}.
 
           See {{bibref|CM-SP-RFIv2.0|Section 6.3.3}}.
         </description>
@@ -1243,9 +1244,9 @@
           id="docsIfDownChannelWidth/1.3.6.1.2.1.10.127.1.1.1.1.3"
           access="readOnly">
         <description>
-          The bandwidth of this downstream channel. Most implementations are
-          expected to support a channel width of 6 MHz (North America) and/or 8
-          MHz (Europe).
+          The bandwidth in {{units}} of this downstream channel. Most
+          implementations are expected to support a channel width of 6 MHz
+          (North America) and/or 8 MHz (Europe).
 
           See {{bibref|CM-SP-RFIv2.0|Table 6-17}}.
         </description>
@@ -1384,7 +1385,7 @@
     </object>
     <object name="Device.DOCSIS.DownstreamChannel.{i}.SignalQuality."
         id="docsIfSignalQualityTable/1.3.6.1.2.1.10.127.1.1.4.1"
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15">
       <description>
         Describes the PHY signal quality of downstream channels.
       </description>
@@ -1393,7 +1394,7 @@
           access="readOnly">
         <description>
           Signal/Noise ratio as perceived for this channel. Describes the
-          Signal/Noise of the downstream channel.
+          Signal/Noise of the downstream channel, measured in {{units}}.
 
           See {{bibref|CM-SP-RFIv2.0|Tables 4-1 and 4-2}}.
         </description>
@@ -1408,10 +1409,11 @@
           access="readOnly">
         <description>
           Microreflections, including in-channel response as perceived on this
-          interface, measured in dBc below the signal level. This object is not
-          assumed to return an absolutely accurate value, but it gives a rough
-          indication of microreflections received on this interface. It is up
-          to the implementer to provide information as accurately as possible.
+          interface, measured in {{units}} (i.e., dBc below the signal level).
+          This object is not assumed to return an absolutely accurate value,
+          but it gives a rough indication of microreflections received on this
+          interface. It is up to the implementer to provide information as
+          accurately as possible.
 
           See {{bibref|CM-SP-RFIv2.0|Tables 4-1 and 4-2}}.
         </description>
@@ -1489,7 +1491,7 @@
     </object>
     <object name="Device.DOCSIS.DownstreamChannel.{i}.SignalQualityExt."
         id="docsIf3SignalQualityExtTable/1.3.6.1.4.1.4491.2.1.20.1.24.1"
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15">
       <description>
         Describes the received modulation error ratio of each downstream
         channel.
@@ -1499,9 +1501,10 @@
           access="readOnly">
         <description>
           {{param}} provides an in-channel received Modulation Error Ratio
-          (MER). {{param}} is defined as an estimate, provided by the
-          demodulator, of the ratio: (average constellation energy with equally
-          likely symbols) / (average squared magnitude of error vector)
+          (MER), measured in {{units}}. {{param}} is defined as an estimate,
+          provided by the demodulator, of the ratio: (average constellation
+          energy with equally likely symbols) / (average squared magnitude of
+          error vector)
 
           {{param}} is measured just prior to FEC (trellis/Reed-Solomon)
           decoding. {{param}} includes the effects of the HFC channel as well
@@ -1551,7 +1554,7 @@
     <object name="Device.DOCSIS.UpstreamChannel.{i}."
         id="docsIfUpstreamChannelTable/1.3.6.1.2.1.10.127.1.1.2.1"
         access="readWrite" numEntriesParameter="UpstreamChannelNumberOfEntries"
-        minEntries="0" maxEntries="unbounded">
+        minEntries="0" maxEntries="unbounded" version="2.15">
       <description>
         This table describes the attributes of attached upstream channels.
       </description>
@@ -1560,7 +1563,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1585,8 +1588,8 @@
         <description>
           The center of the frequency band associated with this upstream
           interface. This object returns 0 if the frequency is undefined or
-          unknown. Minimum permitted upstream frequency is 5,000,000 Hz for
-          current technology.
+          unknown. Minimum permitted upstream frequency is 5,000,000 {{units}}
+          for current technology.
 
           See {{bibref|CM-SP-RFIv2.0|Table 4-2}}.
         </description>
@@ -1601,9 +1604,9 @@
           id="docsIfUpChannelWidth/1.3.6.1.2.1.10.127.1.1.2.1.3"
           access="readOnly">
         <description>
-          The bandwidth of this upstream interface. This object returns 0 if
-          the interface width is undefined or unknown. Minimum permitted
-          interface width is currently 200,000 Hz.
+          The bandwidth in {{units}} of this upstream interface. This object
+          returns 0 if the interface width is undefined or unknown. Minimum
+          permitted interface width is currently 200,000 {{units}}.
 
           See {{bibref|CM-SP-RFIv2.0|Table 6-5}}.
         </description>
@@ -1618,15 +1621,15 @@
           id="docsIfUpChannelSlotSize/1.3.6.1.2.1.10.127.1.1.2.1.5"
           access="readOnly">
         <description>
-          Applicable to TDMA and ATDMA channel types only. The number of 6.25
-          microsecond ticks in each upstream mini-slot. Returns zero if the
-          value is undefined or unknown or in case of an SCDMA channel.
+          Applicable to TDMA and ATDMA channel types only. The number of
+          {{units}} ticks in each upstream mini-slot. Returns zero if the value
+          is undefined or unknown or in case of an SCDMA channel.
 
           See {{bibref|CM-SP-RFIv2.0|Section 8.1.2.4}}.
         </description>
         <syntax>
           <unsignedInt>
-            <units value="ticks"/>
+            <units value="6.25 microsecond"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -1713,7 +1716,7 @@
     </object>
     <object name="Device.DOCSIS.UpstreamChannel.{i}.Status."
         id="docsIf3CmStatusUsTable/1.3.6.1.4.1.4491.2.1.20.1.2.1"
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15">
       <description>
         This object provides Upstream channel information previously available
         in the SNMP table docsIfCmStatusTable.
@@ -1723,12 +1726,12 @@
           access="readOnly">
         <description>
           This attribute represents the operational CM transmit power for this
-          SC-QAM upstream channel. In order for this attribute to provide
-          consistent information under all circumstances, a 3.1 CM will report
-          the average total power for the SC-QAM channel the same as was done
-          for DOCSIS 3.0, regardless of whether it is operating with a 3.1 or a
-          3.0 CMTS. The value that is reported was referred to as Pr in the
-          DOCSIS 3.0 PHY Spec.
+          SC-QAM upstream channel, in {{units}}. In order for this attribute to
+          provide consistent information under all circumstances, a 3.1 CM will
+          report the average total power for the SC-QAM channel the same as was
+          done for DOCSIS 3.0, regardless of whether it is operating with a 3.1
+          or a 3.0 CMTS. The value that is reported was referred to as Pr in
+          the DOCSIS 3.0 PHY Spec.
         </description>
         <syntax>
           <dataType base="TenthdBmV">
@@ -1852,7 +1855,7 @@
   <component name="DOCSISLayer2">
     <object name="Device.DOCSIS.Interface.{i}." access="readOnly"
         numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true">
+        maxEntries="unbounded" version="2.15" dmr:fixedObject="true">
       <description>
         DOCSIS Layer 2 (MAC) interface table (a stackable interface object as
         described in {{bibref|TR-181i2|Section 4.2}}). This table models the
@@ -1913,7 +1916,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -2064,7 +2067,7 @@
       </parameter>
     </object>
     <object name="Device.DOCSIS.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.15">
       <description>
         Throughput statistics for this interface.
 
@@ -2235,7 +2238,7 @@
     </object>
     <object name="Device.DOCSIS.Interface.{i}.ConnectivityStatus."
         id="docsIf3CmStatusTable/1.3.6.1.4.1.4491.2.1.20.1.1.1"
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15">
       <description>
         This object defines attributes of the CM connectivity status. This
         object provides CM connectivity status information of the CM previously
@@ -2410,7 +2413,8 @@
     </object>
 
     <object name="Device.DOCSIS.SpectrumAnalysis." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.15">
+      <description/>
       <parameter name="Enable"
           id="docsIf3CmSpectrumAnalysisCtrlCmdEnable/1.3.6.1.4.1.4491.2.1.20.1.34.1"
           access="readWrite">
@@ -2440,10 +2444,10 @@
           id="docsIf3CmSpectrumAnalysisCtrlCmdInactivityTimeout/1.3.6.1.4.1.4491.2.1.20.1.34.2"
           access="readWrite">
         <description>
-          This attribute controls the length of time after the last spectrum
-          analysis measurement before the feature is automatically disabled. If
-          set to a value of 0, the feature will remain enabled until it is
-          explicitly disabled.
+          This attribute controls the length of time (in {{units}}) after the
+          last spectrum analysis measurement before the feature is
+          automatically disabled. If set to a value of 0, the feature will
+          remain enabled until it is explicitly disabled.
 
           See {{bibref|CM-SP-CM-OSSIv3.1}}, Proactive Network Maintenance
           Information Model.
@@ -2460,10 +2464,10 @@
           id="docsIf3CmSpectrumAnalysisCtrlCmdFirstSegmentCenterFrequency/1.3.6.1.4.1.4491.2.1.20.1.34.3"
           access="readWrite">
         <description>
-          This attribute controls the center frequency of the first segment for
-          the spectrum analysis measurement. The frequency bins for this
-          segment lie symmetrically to the left and right of this center
-          frequency.
+          This attribute controls the center frequency (in {{units}}) of the
+          first segment for the spectrum analysis measurement. The frequency
+          bins for this segment lie symmetrically to the left and right of this
+          center frequency.
 
           If the number of bins in a segment is odd, the segment center
           frequency lies directly on the center bin.
@@ -2490,8 +2494,8 @@
           id="docsIf3CmSpectrumAnalysisCtrlCmdLastSegmentCenterFrequency/1.3.6.1.4.1.4491.2.1.20.1.34.4"
           access="readWrite">
         <description>
-          This attribute controls the center frequency of the last segment of
-          the spectrum analysis measurement.
+          This attribute controls the center frequency (in {{units}}) of the
+          last segment of the spectrum analysis measurement.
 
           The frequency bins for this segment lie symmetrically to the left and
           right of this center frequency. If the number of bins in a segment is
@@ -2524,8 +2528,8 @@
           id="docsIf3CmSpectrumAnalysisCtrlCmdSegmentFrequencySpan/1.3.6.1.4.1.4491.2.1.20.1.34.5"
           access="readWrite">
         <description>
-          This attribute controls the frequency span of each segment (instance)
-          of the {{object|Result.{i}}} table.
+          This attribute controls the frequency span (in {{units}}) of each
+          segment (instance) of the {{object|Result.{i}}} table.
 
           If set to a value of 0, then a default span will be chosen based on
           the hardware capabilities of the device. Segments are contiguous from
@@ -2585,10 +2589,10 @@
           access="readWrite">
         <description>
           This parameter allows the user to request an equivalent noise
-          bandwidth for the resolution bandwidth filter used in the spectrum
-          analysis. This corresponds to the spectral width of the window
-          function used when performing a discrete Fourier transform for the
-          analysis.
+          bandwidth (measured in {{units}}) for the resolution bandwidth filter
+          used in the spectrum analysis. This corresponds to the spectral width
+          of the window function used when performing a discrete Fourier
+          transform for the analysis.
 
           The window function which corresponds to a value written to this
           parameter may be obtained by reading the value of
@@ -2681,7 +2685,7 @@
     <object name="Device.DOCSIS.SpectrumAnalysis.Result.{i}."
         id="docsIf3CmSpectrumAnalysisMeasTable/1.3.6.1.4.1.4491.2.1.20.1.35.1"
         access="readOnly" minEntries="0" maxEntries="unbounded"
-        numEntriesParameter="ResultNumberOfEntries">
+        numEntriesParameter="ResultNumberOfEntries" version="2.15">
       <description>
         {{section|table}}This table provides a list of spectral analysis
         measurements as performed across a range of center frequencies. The
@@ -2690,7 +2694,7 @@
         {{section|row}}Each {{object}} instance represents the spectral
         analysis around a single center frequency point in the spectrum.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Frequency"/>
       </uniqueKey>
 
@@ -2698,8 +2702,8 @@
           id="docsIf3CmSpectrumAnalysisMeasFrequency/1.3.6.1.4.1.4491.2.1.20.1.35.1.1"
           access="readOnly">
         <description>
-          The center frequency of the spectral analysis span which is
-          represented by this instance.
+          The center frequency (in {{units}}) of the spectral analysis span
+          which is represented by this instance.
         </description>
         <syntax>
           <int>
@@ -2750,7 +2754,7 @@
     <component ref="DOCSISLayer2"/>
   </component>
 
-  <model name="DOCSIS:2.15">
+  <model name="DOCSIS:2.16">
     <component ref="Root"/>
     <component ref="DOCSIS"/>
   </model>

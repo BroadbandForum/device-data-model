@@ -47,23 +47,23 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-security"
-    file="tr-181-2-14-0-security.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-security"
+    file="tr-181-2-16-0-security.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106"/>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -93,7 +93,7 @@
         This table provides information about all types of public key-based
         credentials, such as X.509 certificates, see {{bibref|RFC5280}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="SerialNumber"/>
         <parameter ref="Issuer"/>
       </uniqueKey>
@@ -203,7 +203,7 @@
     </object>
   </component>
 
-  <model name="Security:2.14">
+  <model name="Security:2.16">
     <component ref="Root"/>
     <component ref="Security"/>
   </model>

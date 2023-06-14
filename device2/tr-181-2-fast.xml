@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-fast"
-    file="tr-181-2-14-0-fast.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-fast"
+    file="tr-181-2-16-0-fast.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -155,7 +155,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -400,13 +400,13 @@
 
       <parameter name="UPBOKLE" access="readOnly">
         <description>
-          This parameter reports the electrical length that would have been
-          sent from the FTU-O to the FTU-R if the electrical length was not
-          forced by the DPU-MIB. If the electrical length is not forced by the
-          DPU-MIB, then this object reports the final electrical length, as
-          determined by the FTU-O (see clause 7.3.1.4.2.1/{{bibref|G.9701}})
-          and conveyed in the O-UPDATE initialization message (see clause
-          12.3.3.2.4/{{bibref|G.9701}}).
+          This parameter reports the electrical length expressed in {{units}},
+          that would have been sent from the FTU-O to the FTU-R if the
+          electrical length was not forced by the DPU-MIB. If the electrical
+          length is not forced by the DPU-MIB, then this object reports the
+          final electrical length, as determined by the FTU-O (see clause
+          7.3.1.4.2.1/{{bibref|G.9701}}) and conveyed in the O-UPDATE
+          initialization message (see clause 12.3.3.2.4/{{bibref|G.9701}}).
 
           Note: See clause 7.10.4.1 in ITU-T Recommendation {{bibref|G.997.2}}.
         </description>
@@ -430,8 +430,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="UpstreamMaxBitRate" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="UpstreamMaxBitRate" access="readOnly">
         <description>
           This parameter reports the attainable net data rate expressed in
           {{units}} as defined in clause 11.4.1.1.2/{{bibref|G.9701}}.
@@ -446,8 +445,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="DownstreamMaxBitRate" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="DownstreamMaxBitRate" access="readOnly">
         <description>
           This parameter reports the attainable net data rate expressed in
           {{units}} as defined in clause 11.4.1.1.2/{{bibref|G.9701}}.
@@ -1920,7 +1918,7 @@
     </profile>
   </component>
 
-  <model name="FAST:2.14">
+  <model name="FAST:2.16">
     <component ref="Root"/>
     <component ref="FAST"/>
   </model>

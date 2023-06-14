@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-mqtt"
-    file="tr-181-2-15-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-mqtt"
+    file="tr-181-2-16-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -229,7 +229,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -305,6 +305,22 @@
             <enumeration value="Error_BrokerUnreachable"/>
             <enumeration value="Error" optional="true"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite" version="2.16">
+        <description>
+          The IP Interface associated with the {{object}} entry.
+
+          {{template|INTERFACE-ROUTING}}
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
         </syntax>
       </parameter>
 
@@ -754,7 +770,7 @@
           This password is only sent in the MQTT CONNECT packet if
           {{param|Username}} is not {{empty}}.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="256"/>
           </string>
@@ -912,11 +928,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Topic"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1015,11 +1031,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1273,7 +1289,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1342,7 +1358,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1369,7 +1385,7 @@
 
           This password is only used if {{param|Username}} is not {{empty}}.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="256"/>
           </string>
@@ -1401,7 +1417,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1616,7 +1632,7 @@
           This password is only sent in the MQTT CONNECT packet if
           {{param|Username}} is not {{empty}}.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="256"/>
           </string>
@@ -1745,7 +1761,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Address"/>
         <parameter ref="Port"/>
       </uniqueKey>
@@ -1851,12 +1867,12 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Topic"/>
         <parameter ref="Direction"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -2328,7 +2344,7 @@
     </profile>
   </component>
 
-  <model name="MQTT:2.15">
+  <model name="MQTT:2.16">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

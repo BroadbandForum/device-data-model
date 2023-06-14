@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-hpna"
-    file="tr-181-2-15-0-hpna.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-hpna"
+    file="tr-181-2-16-0-hpna.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -198,7 +198,7 @@
         PHY diagnostics-enabled nodes (so there are two such objects for each
         such pair).
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="SrcMACAddress"/>
         <parameter ref="DestMACAddress"/>
       </uniqueKey>
@@ -404,7 +404,7 @@
         Note: Packet counters indicate the number of packets received between
         {{param|#.CurrentStart}} and {{param|#.CurrentEnd}}.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
@@ -689,7 +689,7 @@
       <description>
         Per-channel HPNA performance monitoring results.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="HostSrcMACAddress"/>
         <parameter ref="HostDestMACAddress"/>
       </uniqueKey>
@@ -901,7 +901,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -978,7 +978,7 @@
 
           Note: This is not necessarily the same as the Ethernet header source
           or destination MAC address, which is associated with the IP interface
-          and is modeled via the {{param|.Ethernet.Link.{i}.MACAddress}}
+          and is modeled via the {{param|##.Ethernet.Link.{i}.MACAddress}}
           parameter.
         </description>
         <syntax>
@@ -1436,12 +1436,12 @@
       <description>
         Flow specification table.
 
-        The {{object|.QoS.Classification}} table is used to classify ingress
-        traffic, where {{param|.QoS.Classification.{i}.TrafficClass}} is one of
-        the classification result outputs. This ''TrafficClass'' value can be
-        used to look up the appropriate {{object}} entry (i.e. the {{object}}
-        entry whose {{param|TrafficClasses}} list contains a matching traffic
-        class).
+        The {{object|####.QoS.Classification}} table is used to classify
+        ingress traffic, where
+        {{param|####.QoS.Classification.{i}.TrafficClass}} is one of the
+        classification result outputs. This ''TrafficClass'' value can be used
+        to look up the appropriate {{object}} entry (i.e. the {{object}} entry
+        whose {{param|TrafficClasses}} list contains a matching traffic class).
 
         For enabled table entries, if {{param|TrafficClasses}} is {{empty}}
         then the table entry is inoperable and the CPE MUST set
@@ -1482,7 +1482,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1657,7 +1657,7 @@
         This table provides information about other HPNA devices that are
         directly accessible via this HPNA interface.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
@@ -1801,7 +1801,7 @@
     </profile>
   </component>
 
-  <model name="HPNA:2.14">
+  <model name="HPNA:2.16">
     <component ref="Root"/>
     <component ref="HPNA"/>
   </model>

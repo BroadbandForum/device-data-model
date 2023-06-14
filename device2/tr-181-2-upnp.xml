@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-upnp"
-    file="tr-181-2-14-0-upnp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-upnp"
+    file="tr-181-2-16-0-upnp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -379,7 +379,7 @@
         UPnP root device table. This table contains an entry for each UPnP root
         device that has been discovered via SSDP.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="UUID"/>
       </uniqueKey>
 
@@ -497,18 +497,15 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} Indicates the full path names of all Host table entries,
-          whether active or inactive, that correspond to this UPnP root device.
-
-          As such entries are added to or removed from the Host tables, the
-          value of this parameter MUST be updated accordingly.
+          Indicates the full path names of all Host table entries, whether
+          active or inactive, that correspond to this UPnP root device.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
+          <list/>
           <string>
             <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -531,7 +528,7 @@
         UPnP embedded device table. This table contains an entry for each UPnP
         embedded device that has been discovered via SSDP.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="UUID"/>
       </uniqueKey>
 
@@ -648,19 +645,15 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} Indicates the full path names of all Host table entries,
-          whether active or inactive, that correspond to this UPnP embedded
-          device.
-
-          As such entries are added to or removed from the Host tables, the
-          value of this parameter MUST be updated accordingly.
+          Indicates the full path names of all Host table entries, whether
+          active or inactive, that correspond to this UPnP embedded device.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
+          <list maxItems="1024"/>
           <string>
             <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -683,7 +676,7 @@
         UPnP embedded service table. This table contains an entry for each UPnP
         embedded service that has been discovered via SSDP.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="USN"/>
       </uniqueKey>
 
@@ -772,19 +765,15 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} Indicates the full path names of all Host table entries,
-          whether active or inactive, that correspond to this UPnP embedded
-          service.
-
-          As such entries are added to or removed from the Host tables, the
-          value of this parameter MUST be updated accordingly.
+          Indicates the full path names of all Host table entries, whether
+          active or inactive, that correspond to this UPnP embedded service.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
+          <list maxItems="1024"/>
           <string>
             <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -871,7 +860,7 @@
         instances from the tables in UPnP.Discovery., the reference to such
         instances MUST be set to the empty string.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="URLBase"/>
       </uniqueKey>
 
@@ -911,20 +900,14 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} {{reference|the Host table entries associated with the root
-          device from which the device description was retrieved|ignore}}
+          Includes the Host table entries associated with the root device from
+          which the device description was retrieved.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
+          <list maxItems="1024"/>
           <string>
             <size maxLength="256"/>
-            <pathRef
-                refType="strong"
-                targetParent="
-                  .LANDevice.{i}.Hosts.Host.
-                  .Hosts.Host."
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -938,7 +921,7 @@
         This table contains the information from Device Description Document
         retrieved for a discovered UPnP root or embedded device.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="UDN"/>
       </uniqueKey>
 
@@ -1189,7 +1172,7 @@
         This table contains the information from Device Description Document
         retrieved for a discovered UPnP service.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="ParentDevice"/>
         <parameter ref="ServiceId"/>
       </uniqueKey>
@@ -1377,7 +1360,7 @@
     </profile>
   </component>
 
-  <model name="UPnP:2.14">
+  <model name="UPnP:2.16">
     <component ref="Root"/>
     <component ref="UPnP"/>
   </model>

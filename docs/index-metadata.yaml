@@ -1,0 +1,3579 @@
+PYTHONDIR: '../../../install/pandoc//../python'
+analyticstag: ''
+author: []
+autoSectionLabels: true
+bbfBuild: ''
+bbfCertProductType: '<type of product>'
+bbfCertProgram: '<BBF.NNN>'
+bbfContrib: ''
+bbfDraft: ''
+bbfEditorsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: editors
+    content: Editors
+    level: 3
+  optional: true
+bbfIssue: Issue
+bbfMajor: 2
+bbfMinor: 16
+bbfMonth: June
+bbfNumber: 'TR-181'
+bbfPSLsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: 'bbfprojectstream-project-stream-leaders'
+    content: ' Project Stream Leader(s)'
+    level: 3
+  optional: true
+bbfPatch: 0
+bbfProjectStream: ''
+bbfRevisionHistorySpec: 
+  after: 
+    content: 'Comments or questions about this Broadband Forum Technical Report should be directed to info@broadband-forum.org.'
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+        - 'new-page'
+      identifier: 'bbfissue-history'
+    content: 'Issue History'
+    level: 3
+  headers: 
+    - 'Issue Number!!!'
+    - 'Approval Date!!!!'
+    - 'Issue Editor!!!!!'
+    - 'Changes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  labels: 
+    - number
+    - approval
+    - editors
+    - changes
+  optional: true
+bbfStatus: ''
+bbfTitle: 'Device Data Model for CWMP Endpoints and USP Agents'
+bbfType: 'Technical Report'
+bbfVersion: '2 Amendment 16'
+bbfWADsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: 'bbfworkarea-work-area-directors'
+    content: ' Work Area Director(s)'
+    level: 3
+  optional: true
+bbfWorkArea: ''
+bbfYear: 2023
+bibliography: 
+  - 'tr-069-biblio-csl.json'
+  - 'ansi-biblio-csl.json'
+  - 'iso-biblio-csl.json'
+  - 'w3c-biblio-csl.json'
+  - '3gpp-biblio-csl.json'
+  - 'ieee-biblio-csl.json'
+  - 'ietf-biblio-csl.json'
+  - 'itu-biblio-csl.json'
+bridge123ModelTable: 
+  config: 
+    - content: 'The configuration is the sum of [Tagged LAN to Tagged WAN Traffic VLAN Bridging] and [Tagged LAN to Tagged WAN Traffic Special Case with VLAN ID Translation], but on the downstream side the lower layer to be configured for each Bridge Port is always: Ethernet.Interface.2'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: LowerLayers
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Ethernet.Interface.2'
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.3.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: LowerLayers
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Ethernet.Interface.2'
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.Port.3.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: LowerLayers
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Ethernet.Interface.2'
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.Port.3.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    content: 'More than one VLAN ID tag admitted on the same downstream interface'
+bridge123ModelTableSpec: 
+  caption: 'More than one VLAN ID tag admitted on the same Downstream interface'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge1ModelPlusTable: 
+  config: 
+    - content: '[Define Ingress Port4-5 – Create an entry for the other downstream ports]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: x
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port4
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.4'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: x
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port5
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.5'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANx
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port4
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.VLANPort.3'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANx
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port5
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.VLANPort.4'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    content: 'Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=x (Configuration to be added to Table 6)'
+bridge1ModelPlusTableSpec: 
+  caption: 'Configuration to be added to “Tagged LAN to tagged WAN configuration” table'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge1ModelTable: 
+  config: 
+    - content: '[Define VLANx]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANx
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: X
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.51388888888889
+        - 
+          - AlignDefault
+          - 0.48611111111111
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.VLAN.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define Ingress Port2-3 – Create an entry for the upstream and downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: x
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: x
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.3'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port2-3 to VLANx – Create an entry for the upstream and downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANx
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.VLANPort.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANx
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.VLANPort.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    content: 'Bridge between WAN and LAN 1 interfaces with VLANID=x'
+bridge1ModelTableSpec: 
+  caption: 'Tagged LAN to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge2ModelTable: 
+  config: 
+    - content: '[Define VLANy and VLANz]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANy
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: y
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.VLAN.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANz
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: z
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.VLAN.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define Ingress Port2 – Create an entry for upstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Z
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.Port.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define Ingress Port3 – Create an entry for the downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: y
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.Port.3'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port2 to VLANz - Create an entry for upstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANz
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.VLANPort.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port3 to VLANy - Create an entry for each downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANy
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.2.VLANPort.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define filter on upstream: ingress from Port 2 is associated with VLANy]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Bridge
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANy
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Interface
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Filter.1.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define filter on downstream: ingress from Port 3 is associated with VLANz]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Bridge
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANz
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Interface
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Filter.2.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    - content: 'Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)'
+    - content: 'upstream VLAN-ID=z'
+    - content: 'downstream VLAN-ID=y'
+bridge2ModelTableSpec: 
+  caption: 'Tagged LAN to tagged WAN configuration (VLAN ID translation)'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridge3ModelTable: 
+  config: 
+    - content: '[Define VLANk]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANk
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: k
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.VLAN.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define Ingress Port2 – Create an entry for upstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: PVID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: k
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitOnlyVLANTagged
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.Port.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Define Ingress Port3 – Create an entry for the downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Name
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AcceptableFrameTypes
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: AdmitAll
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.Port.3'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port2 to VLANk - Create an entry for upstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANk
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port2
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: false
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.VLANPort.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Associate Egress Port3 to VLANk - Create an entry for each downstream port]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLAN
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANk
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Port3
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: Untagged
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: true
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.50684931506849
+        - 
+          - AlignDefault
+          - 0.49315068493151
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.3.VLANPort.2'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    content: 'Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic'
+bridge3ModelTableSpec: 
+  caption: 'Untagged LAN to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+bridgeRemarkingTable: 
+  config: 
+    - content: '[Mark the ingress frames with Default user Priority, in this case 0]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: DefaultUserPriority
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 0
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.2.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority regeneration string, in this case (0,0,0,0,4,4,4,4)]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: PriorityRegeneration
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: '0,0,0,0,4,4,4,4'
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.2.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - content: '[In case of ingress untagged frames, for more complex classification, QoS object are referred. In this case remark with 0]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: PriorityTagging
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: true
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Bridging.Bridge.1.Port.2.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: EthernetPriorityMark
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 0
+              row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.QoS.Classification.{i}.'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    - content: '802.1D (re-)marking'
+    - content: 'Remark all WAN egress traffic'
+bridgeRemarkingTableSpec: 
+  caption: '802.1D (re-)marking'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config
+buttons: 
+  - label: HTML
+    title: 'TR-181 Single-file HTML'
+    url: 'index.htm'
+  - label: PDF
+    title: 'TR-181 PDF'
+    url: 'index.pdf'
+  - label: 'CWMP Data Models'
+    url: 'https://cwmp-data-models.broadband-forum.org'
+  - label: 'USP Data Models'
+    url: 'https://usp-data-models.broadband-forum.org'
+  - label: 'Data Model Template'
+    title: 'TR-106'
+    url: 'https://data-model-template.broadband-forum.org'
+citation-style: 'bbf.csl'
+copydate: 2023
+date: 'Issue Date: June 2023'
+description: 
+  - content: 'TR-181 Issue 2 defines version 2 of the Device data model (Device:2). The Device:2 data model applies to all types of TR-069 or USP enabled devices, including End Devices, Residential Gateways, and other Network Infrastructure Devices.'
+  - content: 'The Device:2 data model defined in this Technical Report consists of a set of data objects covering things like basic device information, time-of-day configuration, network interface and protocol stack configuration, routing and bridging management, throughput statistics, and diagnostic tests. It also defines a baseline profile that specifies a minimum level of data model support.'
+  - content: 'The cornerstone of the Device:2 data model is the interface stacking mechanism. Network interfaces and protocol layers are modeled as independent data objects that can be stacked, one on top of the other, into whatever configuration a device might support.'
+description-meta: 'TR-181 – Device Data Model for CWMP Endpoints and USP Agents: TR-181 Documentation and Theory of Operations'
+doctitle: 'TR-181 – Device Data Model for CWMP Endpoints and USP Agents'
+figPrefix: 
+  - Figure
+  - Figures
+lastDelim: ' and '
+link-citations: true
+linkReferences: true
+lofTitle: 
+  attr: 
+    attributes: []
+    classes: 
+      - unnumbered
+      - unlisted
+    identifier: 'list-of-figures'
+  content: 'List of Figures'
+  level: 3
+lolTitle: 
+  attr: 
+    attributes: []
+    classes: 
+      - unnumbered
+      - unlisted
+    identifier: 'list-of-listings'
+  content: 'List of Listings'
+  level: 3
+lotTitle: 
+  attr: 
+    attributes: []
+    classes: 
+      - unnumbered
+      - unlisted
+    identifier: 'list-of-tables'
+  content: 'List of Tables'
+  level: 3
+nameInLink: true
+notice: tr
+numberSections: true
+pairDelim: ' and '
+project: 'Device Data Model for CWMP Endpoints and USP Agents'
+reference-section-title: References
+references: ''
+repodesc: 'specification source'
+reponame: 'device-data-model'
+secPrefix: 
+  - Section
+  - Sections
+sectionsDepth: '-1'
+shortname: 'TR-181'
+siteurl: 'index.html'
+status: ''
+subtitle: 'Issue: 2 Amendment 16  '
+summary: 
+  content: 'See https://device-data-model.broadband-forum.org for the current TR-181 specification.'
+tagline: 'TR-181 Documentation and Theory of Operations'
+tblPrefix: 
+  - Table
+  - Tables
+theme-color: '#157878'
+title: 'TR-181 – Device Data Model for CWMP Endpoints and USP Agents'
+title-prefix: BBF
+titleid: title
+uspAcknowledgmentsSpec: 
+  before: 
+    - attr: 
+        attributes: []
+        classes: 
+          - unnumbered
+          - unlisted
+        identifier: acknowledgments
+      content: Acknowledgments
+      level: 3
+    - content: 'The following individuals are being acknowledged for their efforts in the testing and development of this specification.'
+  headers: 
+    - 'Name!!!!!!!!!!!!!!!!!!'
+    - 'Company!!!!'
+    - 'Email!!!!!!!!!!'
+  optional: true
+uspEditorsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: 'editors-1'
+    content: Editors
+    level: 3
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+uspPSLsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: 'bbfprojectstream-project-stream-leaders-1'
+    content: ' Project Stream Leaders'
+    level: 3
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+uspRevisionHistorySpec: 
+  after: 
+    content: 'Comments or questions about this Broadband Forum Technical Report should be directed to info@broadband-forum.org.'
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+        - 'new-page'
+      identifier: 'bbfissue-history-1'
+    content: 'Issue History'
+    level: 3
+  headers: 
+    - 'Issue Number'
+    - 'Changes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  labels: 
+    - number
+    - changes
+  optional: true
+uspWADsSpec: 
+  before: 
+    attr: 
+      attributes: []
+      classes: 
+        - unnumbered
+        - unlisted
+      identifier: 'bbfworkarea-work-area-directors-1'
+    content: ' Work Area Directors'
+    level: 3
+  headers: 
+    - 'Name!!!!!!!!'
+    - 'Company!!'
+    - 'Email!!!!!!!!!'
+    - 'Role!!!!!!!!!!!!!!!'
+  optional: true
+version: 'TR-181 Issue 2 Amendment 16'
+vlanTerminationModelTable: 
+  config: 
+    - content: '[DefineVLAN Termination on top of Ethernet Link]'
+    - attr: 
+        attributes: []
+        classes: []
+        identifier: ''
+      bodies: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        body: 
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: VLANID
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: j
+                row_span: 1
+          - attr: 
+              attributes: []
+              classes: []
+              identifier: ''
+            cells: 
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: LowerLayers
+                row_span: 1
+              - alignment: AlignDefault
+                attr: 
+                  attributes: []
+                  classes: []
+                  identifier: ''
+                col_span: 1
+                contents: 
+                  content: 'Ethernet.Link.1'
+                row_span: 1
+        head: []
+        row_head_columns: 0
+      caption: 
+        long: []
+      colspecs: 
+        - 
+          - AlignDefault
+          - 0.49315068493151
+        - 
+          - AlignDefault
+          - 0.50684931506849
+      foot: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: []
+      head: 
+        attr: 
+          attributes: []
+          classes: []
+          identifier: ''
+        rows: 
+          attr: 
+            attributes: []
+            classes: []
+            identifier: ''
+          cells: 
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: 
+                content: 'Device.Ethernet.VLANTermination.1'
+              row_span: 1
+            - alignment: AlignDefault
+              attr: 
+                attributes: []
+                classes: []
+                identifier: ''
+              col_span: 1
+              contents: []
+              row_span: 1
+  descr: 
+    content: 'Internal to tagged WAN (VLAN-ID=j) traffic'
+vlanTerminationModelTableSpec: 
+  caption: 'Internally generated to tagged WAN configuration'
+  headers: 
+    - Description
+    - 'Bridging Configuration!!!!!!!!'
+  labels: 
+    - descr
+    - config

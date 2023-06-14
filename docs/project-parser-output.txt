@@ -1,0 +1,38 @@
+make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
+rm -f   
+rm -f ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk  ./docs/PROJECT.yaml.outputs
+rm -f -r  ./docs/PROJECT
+make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
+make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
+PYTHONPATH=./../../install/python/ ./../../install/bin/project-parser.py --outdir=./docs --loglevel=1 PROJECT.yaml 2>&1 >docs/PROJECT.yaml.outputs || true
+INFO:project-parser:created WT-181 project (valid)
+INFO:project-parser:find_file WT-106 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
+INFO:project-parser:  (1/5) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-106/PROJECT.yaml
+INFO:project-parser:  (2/5) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-106/bbf/PROJECT.yaml
+INFO:project-parser:created WT-106 project (depth 1)
+INFO:project-parser:find_file WT-157 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
+INFO:project-parser:  (1/6) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
+INFO:project-parser:created WT-157 project (depth 1)
+INFO:project-parser:validated projects
+INFO:project-parser:wrote ./docs/README.md
+INFO:project-parser:wrote ./docs/CHANGELOG.md
+INFO:project-parser:wrote ./docs/METADATA-1.yaml
+INFO:project-parser:wrote ./docs/METADATA-2.yaml
+INFO:project-parser:wrote ./docs/METADATA-1.md
+INFO:project-parser:wrote ./docs/METADATA-2.md
+INFO:project-parser:wrote ./docs/METADATA-1.mk
+INFO:project-parser:wrote ./docs/METADATA-2.mk
+cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
+cp -p ./docs/README.md docs/PROJECT/README.md.txt
+pandoc --data-dir=./../../install/pandoc/ ./docs/README.md --output=docs/PROJECT/README.html
+cp -p ./docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
+pandoc --data-dir=./../../install/pandoc/ ./docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+cp -p ./docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
+cp -p ./docs/METADATA-2.yaml docs/PROJECT/METADATA-2.yaml.txt
+cp -p ./docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
+pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+cp -p ./docs/METADATA-2.md docs/PROJECT/METADATA-2.md.txt
+pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-2.md --output=docs/PROJECT/METADATA-2.html
+cp -p ./docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
+cp -p ./docs/METADATA-2.mk docs/PROJECT/METADATA-2.mk.txt
+make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'

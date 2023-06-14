@@ -1,0 +1,26 @@
+# do not edit! this file was created from PROJECT.yaml by project-parser.py
+
+# BBF-specific metadata; cf. Word properties
+bbfNumber: TR-157
+bbfTitle: Component Objects for CWMP
+bbfIssue: Issue
+bbfVersion: 1 Amendment 10 Corrigendum 1
+bbfMonth: November
+bbfYear: 2022
+bbfType: Technical Report
+bbfStatus: ''
+bbfContrib: ''
+bbfMajor: 1
+bbfMinor: 10
+bbfPatch: 1
+bbfDraft: ''
+bbfBuild: ''
+
+# other top-level variables
+notice: tr
+reponame: ''
+"tagline": ""
+"summary": ""
+"description": ""
+bbfWorkArea: ''
+bbfProjectStream: ''

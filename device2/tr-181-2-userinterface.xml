@@ -1,71 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Device:2 Root Data Model: Common Object definitions [UserInterface]
+Device:2 Root Data Model: Common Object definitions [UserInterface]
 
-  Copyright (c) 2010-2020, Broadband Forum
+Copyright (c) 2010-2020, Broadband Forum
 
-  Redistribution and use in source and binary forms, with or
-  without modification, are permitted provided that the following
-  conditions are met:
+Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the following
+conditions are met:
 
-  1. Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
 
-  2. Redistributions in binary form must reproduce the above
-     copyright notice, this list of conditions and the following
-     disclaimer in the documentation and/or other materials
-     provided with the distribution.
+2. Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials
+provided with the distribution.
 
-  3. Neither the name of the copyright holder nor the names of its
-     contributors may be used to endorse or promote products
-     derived from this software without specific prior written
-     permission.
+3. Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products
+derived from this software without specific prior written
+permission.
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
-  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-  The above license is used as a license under copyright only.
-  Please reference the Forum IPR Policy for patent licensing terms
-  <https://www.broadband-forum.org/ipr-policy>.
+The above license is used as a license under copyright only.
+Please reference the Forum IPR Policy for patent licensing terms
+<https://www.broadband-forum.org/ipr-policy>.
 
-  Any moral rights which are necessary to exercise under the above
-  license grant are also deemed granted under this license.
+Any moral rights which are necessary to exercise under the above
+license grant are also deemed granted under this license.
 
-  Comments or questions about this Broadband Forum data model should be
-  directed to <info@broadband-forum.org>.
+Comments or questions about this Broadband Forum data model should be
+directed to <info@broadband-forum.org>.
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-userinterface"
-    file="tr-181-2-14-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-userinterface"
+    file="tr-181-2-16-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
+    <dataType name="Alias" ref="_AliasCommon"/>
+    <dataType name="IPAddress"/>
     <dataType name="URL"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -109,9 +111,9 @@
 
           Indicates whether or not a password to protect the local user
           interface of the CPE MAY be selected by the user directly (i.e.
-          {{param|.Users.User.{i}.Password}}), or MUST be equal to the password
-          used by the LAN-side Auto-Configuration protocol (i.e.
-          {{param|.LANConfigSecurity.ConfigPassword}}).
+          {{param|#.Users.User.{i}.Password}}), or MUST be equal to the
+          password used by the LAN-side Auto-Configuration protocol (i.e.
+          {{param|#.LANConfigSecurity.ConfigPassword}}).
         </description>
         <syntax>
           <boolean/>
@@ -322,10 +324,407 @@
           </string>
         </syntax>
       </parameter>
+
+
+      <parameter name="HTTPAccessSupportedProtocols" access="readOnly"
+          version="2.16">
+        <description>
+          Indicates the protocols that are supported by the CPE for the purpose
+          of remotely accessing the user interface.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="HTTP">
+              <description>As defined in {{bibref|RFC9110}}.</description>
+            </enumeration>
+            <enumeration value="HTTPS">
+              <description>As defined in {{bibref|RFC9110}}.</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="HTTPAccessNumberOfEntries" access="readOnly"
+          version="2.16">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.UserInterface.HTTPAccess.{i}." access="readWrite"
+        enableParameter="Enable"
+        numEntriesParameter="HTTPAccessNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.16">
+      <description>
+        HTTPAccess is used for modeling the different web interfaces that may
+        be either localy or remotely available in the device. For example with
+        Software Modules it is possible to install multiple services that embed
+        a web interface like a ''Video service'' or ''Photo service''.
+
+        An instance of the {{object}} can model a web interface that is
+        embedded in the device firmware or installed through a Software Modules
+        management system.
+
+        Access to the web interface MAY require user authentication. To have
+        access authentication the device MUST support a {{object|.Users.User.}}
+        object with at least one instance and an assigned relevant role in
+        {{param|.Users.User.{i}.RoleParticipation}}.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables/disables web interface.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Order" access="readWrite">
+        <description>
+          Position of the {{object}} entry in the order of precedence. A value
+          of ''1'' indicates the first entry considered (highest precedence).
+          For each incoming connection, the highest ordered entry that matches
+          the Host: HTTP header and path prefix is applied. All lower {{param}}
+          entries are ignored. When this value is set, if the value matches
+          that of an existing entry, the {{param}} value for the existing entry
+          and all lower {{param}} entries is incremented (lowered in
+          precedence) to ensure uniqueness of this value.
+
+          A deletion causes {{param}} values to be compacted. When a value is
+          changed, incrementing occurs before compaction.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          Status of web interface.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Up">
+              <description>
+                Indicates that the web interface is enabled and working.
+              </description>
+            </enumeration>
+            <enumeration value="Down">
+              <description>
+                Indicates that the web interface is disabled and thus not
+                working.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                MAY be used by the web interface to indicate a locally defined
+                error condition.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AccessType" access="readWrite">
+        <description>
+          This parameter describes the possible access types.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="RemoteAccess">
+              <description>
+                Indicates that the web interface should be used for remote
+                access. Remote access is defined as any entity not on a local
+                subnet attempting to connect to the device.
+              </description>
+            </enumeration>
+            <enumeration value="LocalAccess">
+              <description>
+                Indicates that the web interface should be used for local
+                access.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="LocalAccess"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedRoles" access="readWrite">
+        <description>
+          Only allow users, defined in {{object|.Users.User.}}, to access the
+          web instance represented by this {{object}} instance that have the
+          following roles assigned that are defined in {{object|.Users.Role.}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".Users.Role."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Certificate" access="readWrite">
+        <description>
+          Points to the server certificate to be presented by the web
+          interface. Only required when {{param|Protocol}} is set to ''HTTPS''.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent=".Security.Certificate."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CACertificate" access="readWrite">
+        <description>
+          Points to the CA certificate that must be used by the web interface.
+          The {{param}} is used to validate the web client certificate.
+          {{param|Protocol}} MUST be set to ''HTTPS''.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent=".Security.Certificate."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          The IP or Logical Interface associated with the {{object}} entry.
+          Example:
+
+          * ''Device.IP.Interface.1''.
+
+          * ''Device.Logical.Interface.1''.
+
+          {{template|INTERFACE-ROUTING}}
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readWrite">
+        <description>
+          Listen port number.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="443"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readOnly">
+        <description>
+          Protocol being used.
+        </description>
+        <syntax>
+          <string>
+            <enumerationRef targetParam="#.HTTPAccessSupportedProtocols"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedHosts" access="readWrite">
+        <description>
+          Specifies which hostnames are permitted to be served by the web
+          interface.
+
+          This could be done by comparing the Host: HTTP header in an incoming
+          request which will result in the request being routed to this
+          instance, in the case that the device supports Virtual Hosting.
+
+          If this string is empty then this instance acts as a "default" host,
+          i.e. it will handle requests for which the Host header does not match
+          any other instance.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedPathPrefixes" access="readWrite">
+        <description>
+          Each string must be a partial path which will result in an incoming
+          request being routed to this instance.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+          <default type="object" value="/"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AutoDisableDuration" access="readWrite">
+        <description>
+          Indicates in {{units}} when the web interface will be automatically
+          disabled. When ''0'' is specified, the web interface will not be
+          automatically disabled.
+
+          For example if the web interface is to be active for only 30 minutes,
+          then this parameter would be set to 1800 {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeLeft" access="readOnly" activeNotify="canDeny">
+        <description>
+          The number of {{units}} remaining before the web interface will be
+          disabled. ''0'' means that the web interface is disabled or no
+          {{param|AutoDisableDuration}} was specified.
+
+          Example: The {{param|AutoDisableDuration}} parameter has been set to
+          1800 seconds and the web interface was enabled 600 seconds ago. This
+          means that the {{param}} will return 1200 seconds, which is the
+          remaining time before the web interface will be disabled.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActivationDate" access="readOnly">
+        <description>
+          Indicates when the web interface was enabled.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SessionNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.UserInterface.HTTPAccess.{i}.Session.{i}."
+        access="readWrite" numEntriesParameter="SessionNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.16">
+      <description>
+        Web server session list.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="SessionID"/>
+      </uniqueKey>
+
+      <parameter name="SessionID" access="readOnly">
+        <description>
+          Session identifier.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="4096"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="User" access="readWrite">
+        <description>
+          The user to whom the session belongs. When the user is unknown
+          {{empty}} string SHOULD be used.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".Users.User."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPAddress" access="readOnly">
+        <description>
+          The IP address of the remote web client, connected to the web
+          interface.
+        </description>
+        <syntax>
+          <dataType ref="IPAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readOnly">
+        <description>
+          Port number of the remote web client, connected to the web interface.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readOnly">
+        <description>
+          Protocol being used.
+        </description>
+        <syntax>
+          <string>
+            <enumerationRef targetParam="##.HTTPAccessSupportedProtocols"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="StartDate" access="readOnly">
+        <description>
+          Indicates when the session was created.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.UserInterface.RemoteAccess." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
+        minEntries="1" maxEntries="1" version="2.0" status="deprecated">
       <description>
         This object contains parameters relating to remotely accessing the
         CPE's user interface.
@@ -336,6 +735,8 @@
         Remote access requires user authentication. To provide remote access
         authentication the CPE MUST support a "User" table with at least one
         instance that has "RemoteAccessCapable" set to {{true}}.
+
+        {{deprecated|2.16|due to the introduction of {{object|#.HTTPAccess}}}}
       </description>
 
       <parameter name="Enable" access="readWrite">
@@ -415,7 +816,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PosX" access="readWrite" activeNotify="canDeny">
+      <parameter name="PosX" access="readWrite">
         <description>
           The horizontal position of the User Interface's top left corner
           within the local CPE's display measured from the top left corner,
@@ -428,7 +829,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PosY" access="readWrite" activeNotify="canDeny">
+      <parameter name="PosY" access="readWrite">
         <description>
           The vertical position of the User Interface's top left corner within
           the local CPE's display measured from the top left corner, expressed
@@ -441,7 +842,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Width" access="readWrite" activeNotify="canDeny">
+      <parameter name="Width" access="readWrite">
         <description>
           The width of the user interface within the local CPE's display,
           expressed in {{units}}.
@@ -453,7 +854,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Height" access="readWrite" activeNotify="canDeny">
+      <parameter name="Height" access="readWrite">
         <description>
           The height of the user interface within the local CPE's display,
           expressed in {{units}}.
@@ -642,7 +1043,7 @@
     </profile>
   </component>
 
-  <model name="UserInterface:2.14">
+  <model name="UserInterface:2.16">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

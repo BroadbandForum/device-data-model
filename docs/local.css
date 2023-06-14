@@ -1,0 +1,15 @@
+.command, .object {
+    opacity: 0.8;
+}
+
+.command {
+    background: #66cdaa;
+}
+
+.object {
+    background: #ffff99;
+}
+
+table.vertical-align-bottom td {
+      vertical-align: bottom;
+}

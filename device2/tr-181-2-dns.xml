@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-dns"
-    file="tr-181-2-15-0-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-dns"
+    file="tr-181-2-16-0-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -74,13 +74,10 @@
 
     <parameter name="Interface" access="readWrite" version="2.0">
       <description>
-        {{reference}} The layer 2 or layer 3 interface over which the test is
-        to be performed. Example: ''Device.IP.Interface.1'',
-        ''Device.Bridge.1.Port.2''
+        {{reference}} The layer 3 interface over which the test is to be
+        performed. Example: ''Device.IP.Interface.1''.
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its bridging or routing policy (''Forwarding'' table entries) to
-        determine the appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -225,8 +222,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="HostNameReturned" access="readOnly"
-          activeNotify="canDeny">
+      <parameter name="HostNameReturned" access="readOnly">
         <description>
           Result parameter to represent the fully qualified name for the Host
           Name in the calling parameter (e.g. HostName.DomainName); if no
@@ -360,7 +356,7 @@
         received DNS server information, or are statically configured by the
         Controller.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="DNSServer"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -394,7 +390,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -422,9 +418,7 @@
           {{reference}} This parameter specifies the IP interface over which
           the DNS query is sent.
 
-          If {{empty}} is specified, the CPE MUST use its routing policy
-          (Forwarding table entries), if necessary, to determine the
-          appropriate interface.
+          {{template|INTERFACE-ROUTING}}
 
           Note: {{param}} is only writable when {{param|Type}} is
           {{enum|Static|Type}}; otherwise, {{param}} is automatically
@@ -434,7 +428,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -453,10 +447,12 @@
         </description>
         <syntax>
           <string>
-            <enumeration value="DHCP" status="obsoleted">
+            <enumeration value="DHCP" status="deleted">
               <description>
                 {{obsoleted|2.14|because it's been replaced by
                 {{enum|DHCPv4}}}}
+
+                {{deleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="DHCPv4"/>
@@ -526,7 +522,7 @@
         Note: Management of re-directing queries to the device embedded DNS
         server is not defined in this version of the specification.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="DNSServer"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -560,7 +556,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -588,9 +584,7 @@
           {{reference}} Specifies the IP interface over which the DNS query is
           sent.
 
-          If {{empty}} is specified, the CPE MUST use its routing policy (IP
-          Forwarding table entries), if necessary, to determine the appropriate
-          interface.
+          {{template|INTERFACE-ROUTING}}
 
           Note: {{param}} is only writable when {{param|Type}} is
           {{enum|Static|Type}}; otherwise, {{param}} is automatically
@@ -600,7 +594,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -619,10 +613,12 @@
         </description>
         <syntax>
           <string>
-            <enumeration value="DHCP" status="obsoleted">
+            <enumeration value="DHCP" status="deleted">
               <description>
                 {{obsoleted|2.14|because it's been replaced by
                 {{enum|DHCPv4}}}}
+
+                {{deleted|2.16}}
               </description>
             </enumeration>
             <enumeration value="DHCPv4"/>
@@ -729,7 +725,7 @@
 
         *{{param|Target}} = "ssh.example.com."
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InstanceName"/>
         <parameter ref="ApplicationProtocol"/>
         <parameter ref="TransportProtocol"/>
@@ -863,22 +859,14 @@
 
       <parameter name="Host" access="readOnly">
         <description>
-          {{list}} {{reference|all Host table entries, active or inactive, that
-          correspond to this discovered DNS.SD service. As such, when entries
-          are added or removed from the Host tables the value of this parameter
-          MUST be updated accordingly|ignore}}
+          Includes all Host table entries, active or inactive, that correspond
+          to this discovered DNS.SD service.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
+          <list/>
           <string>
             <size maxLength="256"/>
-            <pathRef
-                refType="strong"
-                targetParent="
-                  .LANDevice.{i}.Hosts.Host.
-                  .Hosts.Host."
+            <pathRef refType="strong" targetParent="###.Hosts.Host."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1011,7 +999,7 @@
     </profile>
   </component>
 
-  <model name="DNS:2.14">
+  <model name="DNS:2.16">
     <component ref="Root"/>
     <component ref="DNS"/>
   </model>

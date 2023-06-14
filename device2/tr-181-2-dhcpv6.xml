@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-dhcpv6"
-    file="tr-181-2-14-0-dhcpv6.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-dhcpv6"
+    file="tr-181-2-16-0-dhcpv6.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -114,7 +114,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -128,7 +128,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -146,7 +146,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -338,7 +338,7 @@
         automatically created to correspond with these servers. However, it is
         a local matter to the CPE when to delete old table entries.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="SourceAddress"/>
       </uniqueKey>
 
@@ -398,7 +398,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -412,7 +412,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -546,7 +546,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Order"/>
       </uniqueKey>
 
@@ -581,7 +581,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -622,7 +622,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -787,13 +787,14 @@
 
           Manually-configured prefixes from which IA_NA addresses will be
           assigned. Each referenced prefix MUST have a
-          {{param|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} of
-          {{enum|Static|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
-          {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}. All
+          {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} of
+          {{enum|Static|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
+          {{enum|Child|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}. All
           clients that request IA_NA and match filter criteria on this
           {{param|Interface}} MUST be offered IA_NA addresses from all of the
-          ''Valid'' ({{param|.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}}
-          is infinite or in the future) /64 prefixes in this list.
+          ''Valid''
+          ({{param|###.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}} is
+          infinite or in the future) /64 prefixes in this list.
 
           Prefixes MUST be associated with the interface instance referenced by
           {{param|Interface}}.
@@ -804,7 +805,8 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="###.IP.Interface.{i}.IPv6Prefix."
+                targetType="row"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -820,9 +822,9 @@
           * Prefixes from {{param|IANAManualPrefixes}} that are used for IA_NA
             offers.
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
-            {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
-            {{enum|AutoConfigured|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+          * Prefixes with {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+            = {{enum|Child|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
+            {{enum|AutoConfigured|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             associated with the interface instance referenced by
             {{param|Interface}}.
         </description>
@@ -832,7 +834,8 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="###.IP.Interface.{i}.IPv6Prefix."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -853,23 +856,24 @@
           Manually-configured prefixes from which IA_PD prefixes will be
           derived. This list can include:
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
-            {{enum|Static|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
-            {{enum|PrefixDelegation|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+          * Prefixes with {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+            = {{enum|Static|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
+            {{enum|PrefixDelegation|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             associated with upstream interfaces (i.e. interfaces for which the
             physical layer interface object has ''Upstream'' = {{true}}).
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}
-            = {{enum|Static|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
-            {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}
+          * Prefixes with
+            {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} =
+            {{enum|Static|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
+            {{enum|Child|###.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}
             associated with with the interface instance referenced by
             {{param|Interface}}.
 
           All clients that request IA_PD and match filter criteria on this
           {{param|Interface}} MUST be offered IA_PD prefixes derived from all
           of the ''Valid''
-          ({{param|.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}} is infinite
-          or in the future) prefixes in this list.
+          ({{param|###.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}} is
+          infinite or in the future) prefixes in this list.
         </description>
         <syntax>
           <list maxItems="8">
@@ -877,7 +881,8 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="###.IP.Interface.{i}.IPv6Prefix."
+                targetType="row"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -893,15 +898,17 @@
           * Prefixes from {{param|IAPDManualPrefixes}} that are used for IA_PD
             offers.
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
-            {{enum|PrefixDelegation|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
-            or {{enum|AutoConfigured|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+          * Prefixes with {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+            =
+            {{enum|PrefixDelegation|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+            or
+            {{enum|AutoConfigured|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             associated with upstream interfaces (i.e. interfaces for which the
             physical layer interface object has ''Upstream'' = {{true}}).
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
-            {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
-            {{enum|AutoConfigured|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+          * Prefixes with {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+            = {{enum|Child|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
+            {{enum|AutoConfigured|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             associated with the interface instance referenced by
             {{param|Interface}}.
         </description>
@@ -911,7 +918,8 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="###.IP.Interface.{i}.IPv6Prefix."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -964,11 +972,11 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="SourceAddress"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -1040,7 +1048,7 @@
       <description>
         IPv6 addresses assigned to this client via IA_NA.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
       </uniqueKey>
 
@@ -1082,7 +1090,7 @@
       <description>
         IPv6 prefixes delegated to this client via IA_PD.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Prefix"/>
       </uniqueKey>
 
@@ -1165,7 +1173,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -1179,7 +1187,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1303,7 +1311,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv6:2.14">
+  <model name="DHCPv6:2.16">
     <component ref="Root"/>
     <component ref="DHCPv6"/>
   </model>

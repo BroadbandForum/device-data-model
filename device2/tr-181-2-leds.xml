@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-leds"
-    file="tr-181-2-14-0-leds.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-leds"
+    file="tr-181-2-16-0-leds.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -107,14 +107,14 @@
         {{param|RelativeYPosition}} parameters are 0, this indicates that the
         position of the LED is unknown.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Name"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -258,14 +258,14 @@
         The length of the complete LED cycle is the sum of the Duration
         parameters for all of the entries in this table.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Order"/>
       </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -449,7 +449,7 @@
     </profile>
   </component>
 
-  <model name="LEDs:2.14">
+  <model name="LEDs:2.16">
     <component ref="Root"/>
     <component ref="LEDs"/>
   </model>

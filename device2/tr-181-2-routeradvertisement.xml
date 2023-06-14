@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-routeradvertisement"
-    file="tr-181-2-14-0-routeradvertisement.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement"
+    file="tr-181-2-16-0-routeradvertisement.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -79,9 +79,9 @@
         that defines the RA configuration for individual IP interfaces.
 
         Information received via router advertisement messages is automatically
-        propagated to the relevant {{object|.IP.Interface}} sub-objects, e.g.
-        to the {{object|.IP.Interface.{i}.IPv6Address}} and
-        {{object|.IP.Interface.{i}.IPv6Prefix}} tables.
+        propagated to the relevant {{object|#.IP.Interface}} sub-objects, e.g.
+        to the {{object|#.IP.Interface.{i}.IPv6Address}} and
+        {{object|#.IP.Interface.{i}.IPv6Prefix}} tables.
       </description>
 
       <parameter name="Enable" access="readWrite">
@@ -129,7 +129,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -167,7 +167,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -182,7 +182,7 @@
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -195,13 +195,13 @@
 
           Manually-configured prefixes that will be sent in Router
           Advertisement messages. Each referenced prefix MUST have a
-          {{param|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} of
-          {{enum|Static|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
-          {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}. Router
+          {{param|##.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} of
+          {{enum|Static|##.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}} or
+          {{enum|Child|##.IP.Interface.{i}.IPv6Prefix.{i}.StaticType}}. Router
           Advertisement messages MUST include Prefix Information Options
           {{bibref|RFC4861}} for all ''Valid''
-          ({{param|.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}} is infinite
-          or in the future) prefixes in this list.
+          ({{param|##.IP.Interface.{i}.IPv6Prefix.{i}.ValidLifetime}} is
+          infinite or in the future) prefixes in this list.
 
           Prefixes MUST be associated with the interface instance referenced by
           {{param|Interface}}.
@@ -212,7 +212,7 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="##.IP.Interface.{i}.IPv6Prefix." targetType="row"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -228,9 +228,9 @@
           * Prefixes from {{param|ManualPrefixes}} that are included in RA
             messages.
 
-          * Prefixes with {{param|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
-            {{enum|Child|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
-            {{enum|AutoConfigured|.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
+          * Prefixes with {{param|##.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
+            {{enum|Child|##.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} or
+            {{enum|AutoConfigured|##.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             associated with the interface instance referenced by
             {{param|Interface}}.
         </description>
@@ -240,7 +240,7 @@
           </list>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="##.IP.Interface.{i}.IPv6Prefix." targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -406,7 +406,8 @@
       <parameter name="AdvRetransTimer" access="readWrite">
         <description>
           The value placed in the "Retrans Timer" field of Router Advertisement
-          messages on this interface (see {{bibref|RFC4861|Section 4.2}}).
+          messages on this interface, in {{units}} (see
+          {{bibref|RFC4861|Section 4.2}}).
 
           The value zero means unspecified (by the router).
         </description>
@@ -464,7 +465,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tag"/>
       </uniqueKey>
 
@@ -478,7 +479,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -545,7 +546,7 @@
     </profile>
   </component>
 
-  <model name="RouterAdvertisement:2.14">
+  <model name="RouterAdvertisement:2.16">
     <component ref="Root"/>
     <component ref="RouterAdvertisement"/>
   </model>

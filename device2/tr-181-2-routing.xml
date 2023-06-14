@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-routing"
-    file="tr-181-2-15-0-routing.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-routing"
+    file="tr-181-2-16-0-routing.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,7 +71,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -132,7 +132,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -202,7 +202,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="DestIPAddress"/>
         <parameter ref="DestSubnetMask"/>
         <parameter ref="ForwardingPolicy"/>
@@ -243,12 +243,53 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
         <syntax>
           <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Type" access="readWrite" version="2.16">
+        <description>
+          Specifies the forwarding entry type. Based on {{bibref|RFC8349}}
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Normal">
+              <description>
+                The packet will be sent to the next hop.
+              </description>
+            </enumeration>
+            <enumeration value="Receive">
+              <description>
+                The packet will be received by the local system.
+              </description>
+            </enumeration>
+            <enumeration value="Blackhole">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are silently discarded.
+              </description>
+            </enumeration>
+            <enumeration value="Unreachable">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are discarded and an ICMP message "host unreachable message" is
+                sent.
+              </description>
+            </enumeration>
+            <enumeration value="Prohibit">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are discarded and an ICMP message "communication
+                administratively prohibited" is sent.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Normal"/>
         </syntax>
       </parameter>
 
@@ -298,7 +339,7 @@
       <parameter name="ForwardingPolicy" access="readWrite">
         <description>
           Identifier of a set of classes or flows that have the corresponding
-          {{param}} value as defined in the {{object|Device.QoS}} object.
+          {{param}} value as defined in the {{object|###.QoS}} object.
 
           A value of -1 indicates no {{param}} is specified.
 
@@ -346,7 +387,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -424,7 +465,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="DestIPPrefix"/>
         <parameter ref="ForwardingPolicy"/>
         <parameter ref="NextHop"/>
@@ -463,12 +504,53 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
         <syntax>
           <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Type" access="readWrite" version="2.16">
+        <description>
+          Specifies the forwarding entry type. Based on {{bibref|RFC8349}}
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Normal">
+              <description>
+                The packet will be sent to the next hop.
+              </description>
+            </enumeration>
+            <enumeration value="Receive">
+              <description>
+                The packet will be received by the local system.
+              </description>
+            </enumeration>
+            <enumeration value="Blackhole">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are silently discarded.
+              </description>
+            </enumeration>
+            <enumeration value="Unreachable">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are discarded and an ICMP message "host unreachable message" is
+                sent.
+              </description>
+            </enumeration>
+            <enumeration value="Prohibit">
+              <description>
+                The specified destinations are considered unreachable. Packets
+                are discarded and an ICMP message "communication
+                administratively prohibited" is sent.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Normal"/>
         </syntax>
       </parameter>
 
@@ -491,7 +573,7 @@
       <parameter name="ForwardingPolicy" access="readWrite">
         <description>
           Identifier of a set of classes or flows that have the corresponding
-          {{param}} value as defined in the {{object|.QoS}} object.
+          {{param}} value as defined in the {{object|###.QoS}} object.
 
           A value of -1 indicates no {{param}} is specified.
 
@@ -540,7 +622,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -668,7 +750,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -703,7 +785,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -720,7 +802,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -788,7 +870,7 @@
         information {{bibref|RFC4191}}. As such, the data in this table cannot
         be modified.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -816,7 +898,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -861,6 +943,32 @@
         </syntax>
       </parameter>
 
+      <parameter name="ManagedAddressConfiguration" access="readOnly"
+          version="2.16">
+        <description>
+          When set, it indicates that addresses are available via Dynamic Host
+          Configuration Protocol [DHCPv6]. If the {{param}} is set, the
+          {{param|OtherConfiguration}} is redundant and can be ignored because
+          DHCPv6 will return all available configuration information (see
+          {{bibref|RFC4861|Section 4.2}}).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="OtherConfiguration" access="readOnly" version="2.16">
+        <description>
+          When set, it indicates that other configuration information is
+          available via DHCPv6. Examples of such information are DNS-related
+          information or information on other servers within the network (see
+          {{bibref|RFC4861|Section 4.2}}).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="RouteLifetime" access="readOnly">
         <description>
           The time at which {{param|Prefix}} will cease to be usable for use as
@@ -874,7 +982,109 @@
           <dateTime/>
         </syntax>
       </parameter>
-    </object>
+
+      <parameter name="ReachableTime" access="readOnly" version="2.16">
+        <description>
+          The time, in {{units}}, that a node assumes a neighbor is reachable
+          after having received a reachability confirmation. Used by the
+          Neighbor Unreachability Detection algorithm {{bibref|RFC4861|see
+          Section 7.3}}. A value of zero means unspecified (by this router)
+          (see {{bibref|RFC4861|Section 4.2}}).
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="3600000"/>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RetransTimer" access="readOnly" version="2.16">
+        <description>
+          The time, in {{units}}, between retransmitted Neighbor Solicitation
+          messages. Used by address resolution and the Neighbor Unreachability
+          Detection algorithm {{bibref|RFC4861|Sections 7.2 and 7.3}}. A value
+          of zero means unspecified (by this router) (see
+          {{bibref|RFC4861|Section 4.2}}).
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="HomeAgent" access="readOnly" version="2.16">
+        <description>
+          The Home Agent (H) bit is set in a Router Advertisement to indicate
+          that the router sending this Router Advertisement is also functioning
+          as a Mobile IPv6 home agent on this link. (see
+          {{bibref|RFC3775|Section 7.1}} and {{bibref|RFC4861|Section 4.2}})
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+    <parameter name="OptionNumberOfEntries" access="readOnly" version="2.16">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+  </object>
+
+  <object
+        name="Device.Routing.RouteInformation.InterfaceSetting.{i}.Option.{i}."
+        access="readOnly" numEntriesParameter="OptionNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.16">
+    <description>
+      This object specifies the received options in a Router Advertisement
+      (RA) message {{bibref|RFC4861|Section 4.6}}. This includes support for
+      receiving DNS information in the RA message as described in
+      {{bibref|RFC6106}}.
+    </description>
+    <uniqueKey functional="false">
+      <parameter ref="Alias"/>
+    </uniqueKey>
+    <uniqueKey functional="true">
+      <parameter ref="Tag"/>
+    </uniqueKey>
+
+    <parameter name="Alias" access="readWrite">
+      <description>
+        {{datatype|expand}}
+      </description>
+      <syntax>
+        <dataType ref="Alias"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="Tag" access="readOnly">
+      <description>
+        Option tag (type) {{bibref|RFC4861|Section 4.6}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="0" maxInclusive="65535"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="Value" access="readOnly">
+      <description>
+        A hexbinary encoded option value {{bibref|RFC4861|Section 4.6}}.
+      </description>
+      <syntax>
+        <hexBinary>
+          <size minLength="0" maxLength="65535"/>
+        </hexBinary>
+      </syntax>
+    </parameter>
+  </object>
+
 
     <profile name="Routing:1" version="2.0">
       <object ref="Device.Routing." requirement="present">
@@ -1149,7 +1359,7 @@
       </parameter>
     </object>
     <object name="Device.Routing.Babel.Constants." access="readOnly"
-        minEntries="1" maxEntries="1">
+        minEntries="1" maxEntries="1" version="2.15">
       <description>
         This object represents the constants used by the Babel protocol.
       </description>
@@ -1178,7 +1388,7 @@
     <object name="Device.Routing.Babel.InterfaceSetting.{i}."
         access="readWrite"
         numEntriesParameter="InterfaceSettingNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" enableParameter="Enable">
+        maxEntries="unbounded" enableParameter="Enable" version="2.15">
       <description>
         This object provides parameters related to the interfaces the Babel
         protocol is operating over and can act as a routing protocol for.
@@ -1211,7 +1421,7 @@
           <default type="object" value="Disabled"/>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1221,13 +1431,13 @@
       </parameter>
       <parameter name="InterfaceReference" access="readOnly">
         <description>
-          The {{object|Device.IP.Interface.}} object instance this Babel
+          The {{object|###.IP.Interface}} object instance this Babel
           implementation is running over. The referenced interface object MUST
-          have {{param|Device.IP.Interface.{i}.IPv6Enable}} set to true.
+          have {{param|###.IP.Interface.{i}.IPv6Enable}} set to true.
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent="Device.IP.Interface."
+            <pathRef refType="strong" targetParent="###.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1386,8 +1596,8 @@
       </parameter>
       <parameter name="PacketLog" access="readOnly">
         <description>
-          A reference to a {{object|.DeviceInfo.VendorLogFile}} instance that
-          contains a timestamped log of packets received and sent on
+          A reference to a {{object|###.DeviceInfo.VendorLogFile}} instance
+          that contains a timestamped log of packets received and sent on
           {{param|#.Constants.UDPPort}} on this interface. The
           {{bibref|LIBPCAP}} file format with .pcap file extension SHOULD be
           supported for packet log files. Logging is enabled/disabled by
@@ -1396,8 +1606,7 @@
         <syntax>
           <string>
             <pathRef refType="strong"
-                targetParent="Device.DeviceInfo.VendorLogFile."
-                targetType="row"/>
+                targetParent="###.DeviceInfo.VendorLogFile." targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -1411,7 +1620,7 @@
       </parameter>
     </object>
     <object name="Device.Routing.Babel.InterfaceSetting.{i}.Stats."
-        access="readOnly" minEntries="1" maxEntries="1">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15">
       <description>
         This object provides statistics parameters for this interface.
       </description>
@@ -1471,12 +1680,12 @@
     </object>
     <object name="Device.Routing.Babel.InterfaceSetting.{i}.Neighbor.{i}."
         access="readOnly" numEntriesParameter="NeighborNumberOfEntries"
-        minEntries="0" maxEntries="unbounded">
+        minEntries="0" maxEntries="unbounded" version="2.15">
       <description>
         This object provides parameters related to neighbor devices that Babel
         packets are received from and sent to.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="NeighborAddress"/>
       </uniqueKey>
       <parameter name="NeighborAddress" access="readOnly">
@@ -1609,12 +1818,12 @@
     </object>
     <object name="Device.Routing.Babel.Route.{i}." access="readOnly"
         numEntriesParameter="RouteNumberOfEntries" minEntries="0"
-        maxEntries="unbounded">
+        maxEntries="unbounded" version="2.15">
       <description>
         This object provides parameters for routes recieved from neighbors and
         internal routes.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="RoutePrefix"/>
         <parameter ref="SourceRouterID"/>
       </uniqueKey>
@@ -1721,7 +1930,7 @@
     </object>
     <object name="Device.Routing.Babel.MACKeySet.{i}." access="readWrite"
         numEntriesParameter="MACKeySetNumberOfEntries" minEntries="0"
-        maxEntries="unbounded">
+        maxEntries="unbounded" version="2.15">
       <description>
         This object provides parameters related to use of the HMAC security
         mechanism {{bibref|RFC8967}} to sign and verify Babel packets.
@@ -1729,7 +1938,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1763,7 +1972,7 @@
     </object>
     <object name="Device.Routing.Babel.MACKeySet.{i}.MACKey.{i}."
         access="readWrite" numEntriesParameter="MACKeyNumberOfEntries"
-        minEntries="0" maxEntries="unbounded">
+        minEntries="0" maxEntries="unbounded" version="2.15">
       <description>
         This object provides the MAC keys used to calculate MACs for
         verification and sending by the {{object|#.}} instance.
@@ -1771,7 +1980,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1818,7 +2027,7 @@
           "BLAKE2s-128", the length MUST be between 0 and 32 bytes inclusive,
           as specified in {{bibref|RFC7693}}.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <hexBinary/>
         </syntax>
       </parameter>
@@ -1837,7 +2046,7 @@
     </object>
     <object name="Device.Routing.Babel.DTLSCertSet.{i}." access="readWrite"
         numEntriesParameter="DTLSCertSetNumberOfEntries" minEntries="0"
-        maxEntries="unbounded">
+        maxEntries="unbounded" version="2.15">
       <description>
         This object provides parameters related to use of the DTLS security
         mechanism {{bibref|RFC8968}} to encrypt Babel packets.
@@ -1845,7 +2054,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1879,7 +2088,7 @@
     </object>
     <object name="Device.Routing.Babel.DTLSCertSet.{i}.DTLSCert.{i}."
         access="readWrite" numEntriesParameter="DTLSCertNumberOfEntries"
-        minEntries="0" maxEntries="unbounded">
+        minEntries="0" maxEntries="unbounded" version="2.15">
       <description>
         This object provides the certificates used for verification and signing
         by the {{object|#.}} instance with DTLS.
@@ -1887,7 +2096,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -1925,7 +2134,7 @@
           this certificate can be supplied during DTLS handshaking. This value
           is immutable, once written.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <hexBinary/>
         </syntax>
       </parameter>
@@ -2018,7 +2227,7 @@
     </profile>
   </component>
 
-  <model name="Routing:2.15">
+  <model name="Routing:2.16">
     <component ref="Root"/>
     <component ref="Routing"/>
     <component ref="BabelRoutingProtocol"/>

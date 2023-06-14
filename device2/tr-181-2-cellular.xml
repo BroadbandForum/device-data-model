@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-cellular"
-    file="tr-181-2-14-0-cellular.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-cellular"
+    file="tr-181-2-16-0-cellular.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -145,7 +145,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly" activeNotify="canDeny">
+      <parameter name="Status" access="readOnly">
         <description>
           The current operational state of the interface (see
           {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
@@ -597,7 +597,7 @@
           Allows the Controller to change the USIM PIN used for SIM card
           activation.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="4"/>
           </string>
@@ -803,10 +803,10 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="APN"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Interface"/>
       </uniqueKey>
 
@@ -856,7 +856,7 @@
           Password used to authenticate the CPE when making a connection to the
           Access Point.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="256"/>
           </string>
@@ -889,7 +889,7 @@
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".Cellular.Interface."
+            <pathRef refType="strong" targetParent="#.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -953,7 +953,7 @@
     </profile>
   </component>
 
-  <model name="Cellular:2.14">
+  <model name="Cellular:2.16">
     <component ref="Root"/>
     <component ref="Cellular"/>
   </model>

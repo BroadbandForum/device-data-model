@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-ip"
-    file="tr-181-2-15-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ip"
+    file="tr-181-2-16-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,17 @@
     <dataType name="IPv6Address"/>
     <dataType name="IPv6Prefix"/>
     <dataType name="URL"/>
+    <dataType name="StatsCounter64"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <template id="IP-DIAGNOSTICS-PARENT">
+    #.
+  </template>
 
   <component name="IPPingDiagnosticsInput">
 
@@ -82,9 +87,7 @@
         to be performed. Example: ''Device.IP.Interface.1'',
         ''Device.Bridge.1.Port.2''
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its bridging or routing policy (''Forwarding'' table entries) to
-        determine the appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -246,8 +249,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="MaximumResponseTime" access="readOnly"
-        activeNotify="canDeny" version="2.0">
+    <parameter name="MaximumResponseTime" access="readOnly" version="2.0">
       <description>
         Result parameter indicating the maximum response time in {{units}} over
         all repetitions with successful responses of the most recent ping test.
@@ -289,7 +291,7 @@
     </parameter>
 
     <parameter name="MaximumResponseTimeDetailed" access="readOnly"
-        activeNotify="canDeny" version="2.7">
+        version="2.7">
       <description>
         Result parameter indicating the maximum response time in {{units}} over
         all repetitions with successful responses of the most recent ping test.
@@ -311,9 +313,7 @@
         to be performed. Example: ''Device.IP.Interface.1'',
         ''Device.Bridge.1.Port.2''
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its bridging or routing policy (''Forwarding'' table entries) to
-        determine the appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -516,7 +516,6 @@
         </description>
         <syntax>
           <list minItems="1" maxItems="3">
-            <size maxLength="16"/>
           </list>
           <unsignedInt>
             <units value="milliseconds"/>
@@ -575,9 +574,7 @@
         {{reference}} The IP-layer interface over which the test is to be
         performed. Example: Device.IP.Interface.1
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its routing policy (''Forwarding'' table entries) to determine the
-        appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -846,9 +843,9 @@
         {{param|EOMTime}} across all connections.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -862,9 +859,9 @@
         determined and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -878,9 +875,9 @@
         and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -892,9 +889,9 @@
         {{param|PerConnectionResult.{i}.EOMTime}} across all connections.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -909,9 +906,9 @@
         {{param|PerConnectionResult.{i}.EOMTime}} and subtracting.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -926,9 +923,9 @@
         {{param|PerConnectionResult.{i}.EOMTime}} and subtracting.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1067,9 +1064,9 @@
           {{param|EOMTime}}.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1083,9 +1080,9 @@
           {{param|EOMTime}} and subtracting.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1098,9 +1095,9 @@
           object at {{param|BOMTime}} and at {{param|EOMTime}} and subtracting.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1163,12 +1160,13 @@
           activeNotify="canDeny">
         <description>
           Change in the value of {{param|#.TestBytesReceivedUnderFullLoading}}
-          between {{param|StartTime}} and {{param|EndTime}}.
+          between {{param|StartTime}} and {{param|EndTime}}, measured in
+          {{units}}.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1182,9 +1180,9 @@
           {{empty}}, this parameter cannot be determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1198,9 +1196,9 @@
           cannot be determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1279,9 +1277,7 @@
         {{reference}} The IP-layer interface over which the test is to be
         performed. Example: Device.IP.Interface.1
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its routing policy (''Forwarding'' table entries) to determine the
-        appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -1339,12 +1335,14 @@
 
     <parameter name="TestFileLength" access="readWrite" version="2.0">
       <description>
-        The size of the file (in bytes) to be uploaded to the server.
+        The size of the file {{units}} to be uploaded to the server.
 
         The CPE MUST insure the appropriate number of bytes are sent.
       </description>
       <syntax>
-        <unsignedInt/>
+        <unsignedLong>
+          <units value="bytes"/>
+        </unsignedLong>
       </syntax>
     </parameter>
 
@@ -1556,9 +1554,9 @@
         {{param|EOMTime}} acrosss all connections.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1572,9 +1570,9 @@
         determined and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1588,9 +1586,9 @@
         and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1602,9 +1600,9 @@
         {{param|PerConnectionResult.{i}.EOMTime}} across all connections.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1622,9 +1620,9 @@
         and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1642,9 +1640,9 @@
         and SHOULD be 0.
       </description>
       <syntax>
-        <unsignedInt>
+        <dataType ref="StatsCounter64">
           <units value="bytes"/>
-        </unsignedInt>
+        </dataType>
       </syntax>
     </parameter>
 
@@ -1775,16 +1773,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="TestBytesSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="TestBytesSent" access="readOnly">
         <description>
           The number of {{units}} of the test file sent during the FTP/HTTP
           transaction including FTP/HTTP headers, between {{param|BOMTime}} and
           {{param|EOMTime}}.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1799,9 +1797,9 @@
           {{empty}}, this parameter cannot be determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1816,9 +1814,9 @@
           determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1877,15 +1875,15 @@
         {{enum|None|#.DiagnosticsState}}.
       </description>
 
-      <parameter name="TestBytesSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="TestBytesSent" access="readOnly">
         <description>
           Change in the value of {{param|#.TestBytesSent}} between
-          {{param|StartTime}} and {{param|EndTime}}.
+          {{param|StartTime}} and {{param|EndTime}}, measured in {{units}}.
         </description>
         <syntax>
-          <unsignedInt>
+      <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1899,9 +1897,9 @@
           {{empty}}, this parameter cannot be determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1915,9 +1913,9 @@
           cannot be determined and SHOULD be 0.
         </description>
         <syntax>
-          <unsignedInt>
+          <dataType ref="StatsCounter64">
             <units value="bytes"/>
-          </unsignedInt>
+          </dataType>
         </syntax>
       </parameter>
 
@@ -1950,7 +1948,7 @@
   <component name="IPUDPEchoDiagnosticsCapabilities">
 
     <parameter name="UDPEchoDiagnosticsMaxResults" access="readOnly"
-        activeNotify="canDeny" version="2.9">
+        version="2.9">
       <description>
         The maximum number of rows in {{object|IndividualPacketResult}} that
         the CPE will store. If a test would create more rows than {{param}}
@@ -1969,22 +1967,15 @@
 
     <parameter name="Interface" access="readWrite" version="2.9">
       <description>
-        {{reference|the IP-layer interface over which the test is to be
-        performed|ignore}} Example: Device.IP.Interface.1
+        The IP-layer interface over which the test is to be performed. Example:
+        Device.IP.Interface.1
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its routing policy (''Forwarding'' table entries) to determine the
-        appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
           <size maxLength="256"/>
-          <pathRef
-              refType="strong"
-              targetParent="
-                .WANDevice.{i}.WANConnectionDevice.{i}.WANIPConnection.
-                .WANDevice.{i}.WANConnectionDevice.{i}.WANPPPConnection.
-                .IP.Interface."
+          <pathRef refType="strong" targetParent=".IP.Interface."
               targetType="row"/>
         </string>
       </syntax>
@@ -2011,6 +2002,7 @@
         <unsignedInt>
           <range minInclusive="1" maxInclusive="65535"/>
         </unsignedInt>
+        <default type="factory" value="7"/>
       </syntax>
     </parameter>
 
@@ -2290,9 +2282,9 @@
         <description>
           The TestRespRcvTimeStamp field in the response packet
           {{bibref|TR-143|Section A.1.4}} from the UDP Echo Plus server (i.e.
-          {{param|#.Host}}) to record the reception time of this UDP Echo Plus
-          packet sent from the CPE client. If {{param|PacketSuccess}} is
-          {{false}}, {{param}} SHOULD be 0.
+          {{param|#.Host}}) to record the reception time in {{units}} of this
+          UDP Echo Plus packet sent from the CPE client. If
+          {{param|PacketSuccess}} is {{false}}, {{param}} SHOULD be 0.
         </description>
         <syntax>
           <unsignedInt>
@@ -2305,8 +2297,8 @@
         <description>
           The TestRespReplyTimeStamp field in the response packet
           {{bibref|TR-143|Section A.1.4}} from the UDP Echo Plus server (i.e.
-          {{param|#.Host}}) to record the server reply time of this UDP Echo
-          Plus packet sent from the CPE client.
+          {{param|#.Host}}) to record the server reply time in {{units}} of
+          this UDP Echo Plus packet sent from the CPE client.
 
           That is, the time that the server returned the UDP Echo Plus packet.
           If {{param|PacketSuccess}} is {{false}}, {{param}} SHOULD be 0.
@@ -2427,9 +2419,7 @@
         {{reference}} The IP-layer interface over which the test is to be
         performed. Example: Device.IP.Interface.1
 
-        If {{empty}} is specified, the device MUST use the interface as
-        directed by its routing policy (''Forwarding'' table entries) to
-        determine the appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
@@ -2494,7 +2484,7 @@
       <description>
         The number of connections to be used in the test. The default value
         SHOULD be 1. {{param}} MUST NOT be set to a value greater than
-        {{param|#.IPLayerMaxConnections}}.
+        {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerMaxConnections}}.
       </description>
       <syntax>
         <unsignedInt>
@@ -2748,8 +2738,23 @@
       </description>
       <syntax>
         <unsignedInt>
-          <range minInclusive="500" maxInclusive="10000000"/>
+          <range minInclusive="500" maxInclusive="40000000"/>
           <units value="kbps"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="StartSendingRateIndex" access="readWrite" version="2.16">
+      <description>
+        The configurable initial Sending Rate index (to a row of the sending
+        rate table) for a {{enum|Fixed|TestType}} or {{enum|Search|TestType}}
+        test. {{param}} overrides {{param|StartSendingRate}} if both parameters
+        are present. See Annex A of {{bibref|TR-471}} for details. The default
+        value SHOULD be 0.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="0" maxInclusive="11108"/>
         </unsignedInt>
       </syntax>
     </parameter>
@@ -2757,8 +2762,9 @@
     <parameter name="NumberTestSubIntervals" access="readWrite" version="2.14">
       <description>
         Number of intermediate measurement reporting intervals. The value MUST
-        NOT be greater than {{param|#.IPLayerMaxIncrementalResult}}. The
-        default value SHOULD be 10.
+        NOT be greater than
+        {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerMaxIncrementalResult}}.
+        The default value SHOULD be 10.
       </description>
       <syntax>
         <unsignedInt>
@@ -2819,7 +2825,9 @@
         version="2.14">
       <description>
         Timeout value. Value specified in {{units}}. The default value SHOULD
-        be 5 {{units}}. {{deprecated|2.15|because it is superseded by
+        be 5 {{units}}.
+
+        {{deprecated|2.15|because it is superseded by
         {{param|TimeoutNoTestTraffic}} due to new precision requirement. Refer
         to {{bibref|TR-471}} for details}}
       </description>
@@ -2891,9 +2899,10 @@
         implementation will determine the actual precision to use based on the
         implemented resolution capabilities of the protocols used and this
         requested value. If the implemented resolution capabilities of the
-        {{param|#.IPLayerCapSupportedMetrics}} protocols being used are able to
-        provide the requested resolution, this resolution SHOULD be provided.
-        Value specified in {{units}}. The default value SHOULD be 1 {{units}}.
+        {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerCapSupportedMetrics}}
+        protocols being used are able to provide the requested resolution, this
+        resolution SHOULD be provided. Value specified in {{units}}. The
+        default value SHOULD be 1 {{units}}.
       </description>
       <syntax>
         <unsignedInt>
@@ -2921,10 +2930,10 @@
       <description>
         This parameter is only meaningful if {{param|TestType}} is
         {{enum|Search|TestType}}. When {{true}} (enabled) only Loss counts
-        toward received packet sequence number errors, and reordering and
+        toward received packet sequence number errors, and Reordering and
         Duplication impairments are ignored. When {{false}} (disabled), Loss,
         Reordering and Duplication are all counted as sequence number errors.
-        The default value SHOULD be {{false}} (disabled).
+        The default value SHOULD be {{true}} (enabled).
       </description>
       <syntax>
         <boolean/>
@@ -2961,6 +2970,22 @@
       </syntax>
     </parameter>
 
+    <parameter name="RetryThresh" access="readWrite" version="2.16">
+      <description>
+        The initial number of retries before activating “fast” sending rate
+        increase mode. Different paths through the flow chart increase the
+        sending rate, either fast or slow, or decrease the rate, etc. The
+        algorithm doubles the threshold each time on subsequent activations.
+        See Annex B of {{bibref|TR-471}} for details. The default value SHOULD
+        be 5.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="1" maxInclusive="3000"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
     <parameter name="HighSpeedDelta" access="readWrite" version="2.14">
       <description>
         This parameter is only meaningful if {{param|TestType}} is
@@ -2972,6 +2997,29 @@
         <unsignedInt>
           <range minInclusive="2"/>
         </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="RateAdjAlgorithm" access="readWrite" version="2.16">
+      <description>
+        Configurable choice of Load Rate Adjustment Algorithm. Refer to
+        {{bibref|TR-471}} for details.
+      </description>
+      <syntax>
+        <string>
+          <enumeration value="B">
+            <description>
+              Use type "B" Load Rate Adjustment Algorithm. See section 5.2.1 in
+              {{bibref|TR-471}} for details.
+            </description>
+          </enumeration>
+          <enumeration value="C">
+            <description>
+              Use type "C" Load Rate Adjustment Algorithm. See Annex B in
+              {{bibref|TR-471}} for details.
+            </description>
+          </enumeration>
+        </string>
       </syntax>
     </parameter>
 
@@ -3096,8 +3144,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="TimeOfMax" access="readOnly" activeNotify="canDeny"
-        version="2.14">
+    <parameter name="TimeOfMax" access="readOnly" version="2.14">
       <description>
         Time in UTC of end of the sub-interval when
         {{param|MaxIPLayerCapacity}} was measured. If the value of
@@ -3727,21 +3774,14 @@
     <parameter name="Interface" access="readWrite" version="2.9">
       <description>
         {{reference|the IP-layer interface over which the test is to be
-        performed|ignore}} Example: Device.IP.Interface.1
+        performed}} Example: Device.IP.Interface.1
 
-        If {{empty}} is specified, the CPE MUST use the interface as directed
-        by its routing policy (''Forwarding'' table entries) to determine the
-        appropriate interface.
+        {{template|INTERFACE-ROUTING}}
       </description>
       <syntax>
         <string>
           <size maxLength="256"/>
-          <pathRef
-              refType="strong"
-              targetParent="
-                .WANDevice.{i}.WANConnectionDevice.{i}.WANIPConnection.
-                .WANDevice.{i}.WANConnectionDevice.{i}.WANPPPConnection.
-                .IP.Interface."
+          <pathRef refType="strong" targetParent=".IP.Interface."
               targetType="row"/>
         </string>
       </syntax>
@@ -3873,8 +3913,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="MaximumResponseTime" access="readOnly"
-        activeNotify="canDeny" version="2.9">
+    <parameter name="MaximumResponseTime" access="readOnly" version="2.9">
       <description>
         Result parameter indicating the maximum response time in {{units}} over
         all repetitions with successful responses of the most recent ping test
@@ -4179,7 +4218,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -4239,7 +4278,7 @@
         <syntax>
           <string>
             <size maxLength="256"/>
-            <pathRef refType="strong" targetParent=".Routing.Router."
+            <pathRef refType="strong" targetParent="##.Routing.Router."
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
@@ -4374,7 +4413,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
         <parameter ref="SubnetMask"/>
       </uniqueKey>
@@ -4410,7 +4449,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -4694,7 +4733,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -4829,7 +4868,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPAddress"/>
       </uniqueKey>
 
@@ -4926,7 +4965,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -5086,10 +5125,10 @@
         from this table, including:
 
         * Automatically via {{bibref|RFC4861}} Router Advertisements. See also
-          {{object|.RouterAdvertisement}}.
+          {{object|###.RouterAdvertisement}}.
 
         * Automatically via DHCPv6 {{bibref|RFC3315}} prefix delegation
-          {{bibref|RFC3633}}. See also {{object|.DHCPv6.Client}}.
+          {{bibref|RFC3633}}. See also {{object|###.DHCPv6.Client}}.
 
         * Automatically via internal CPE logic, e.g. creation of child prefixes
           derived from a parent prefix.
@@ -5113,7 +5152,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Prefix"/>
       </uniqueKey>
 
@@ -5180,7 +5219,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
 
@@ -5378,8 +5417,7 @@
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+            <pathRef refType="strong" targetParent="." targetType="row"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -5487,7 +5525,7 @@
         This table lists the ports on which TCP connections are listening or
         established.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="LocalIPAddress"/>
         <parameter ref="LocalPort"/>
         <parameter ref="RemoteIPAddress"/>
@@ -5878,7 +5916,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.14">
+  <model name="IP:2.16">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

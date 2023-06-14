@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-packetcapture"
-    file="tr-181-2-15-0-packetcapture.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-packetcapture"
+    file="tr-181-2-16-0-packetcapture.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -141,8 +141,9 @@
     
     <parameter name="FileTarget" access="readWrite" version="2.13">
       <description>
-        The {{datatype}} specifying the destination file location. HTTP and
-        HTTPS transports MUST be supported. Other transports MAY be supported.
+        The {{datatype}} specifying the destination file location. The HTTPS
+        transport MUST be supported, and the HTTP transport MAY be supported.
+        Other transports MAY also be supported.
       </description>
       <syntax>
         <dataType ref="URL"/>
@@ -180,7 +181,7 @@
         location. This string is set to {{empty}} if no authentication is
         required.
       </description>
-      <syntax hidden="true">
+      <syntax secured="true">
         <string>
           <size maxLength="256"/>
         </string>

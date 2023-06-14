@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-14-0-ipsec"
-    file="tr-181-2-14-0-ipsec.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-ipsec"
+    file="tr-181-2-16-0-ipsec.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,7 +68,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -408,8 +408,8 @@
 
         The CPE MUST reset global IPsec Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when
-        IPsec is disabled ({{param|.IPsec.Enable}} is set to {{false}}) or when
-        IPsec is enabled ({{param|.IPsec.Enable}} is set to {{true}}).
+        IPsec is disabled ({{param|#.Enable}} is set to {{false}}) or when
+        IPsec is enabled ({{param|#.Enable}} is set to {{true}}).
       </description>
 
       <parameter name="NegotiationFailures" access="readOnly">
@@ -1048,7 +1048,7 @@
       <parameter name="IKEv2AuthenticationMethod" access="readWrite">
         <description>
           IKEv2 CPE authentication method {{bibref|RFC5996|Section 2.15}}.
-          {{reference|an enabled row in the {{object|.Security.Certificate}}
+          {{reference|an enabled row in the {{object|##.Security.Certificate}}
           table or in another table that contains appropriate CPE credentials}}
 
           If {{empty}}, or the referenced row is disabled or deleted, the CPE
@@ -1342,7 +1342,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Type"/>
       </uniqueKey>
 
@@ -1398,13 +1398,13 @@
         Represents an IPsec tunnel, i.e. a virtual IP interface that models an
         IPsec tunnel entry point and exit point. A {{object}} instance always
         references (and has the same lifetime as) a
-        ({{enum|Tunnel|.IP.Interface.{i}.Type}},{{enum|Tunneled|.IP.Interface.{i}.Type}})
-        {{object|.IP.Interface}} pair. The {{object}} instance models the
-        IPsec-specific concepts, the {{enum|Tunnel|.IP.Interface.{i}.Type}}
-        {{object|.IP.Interface}} instance models the generic concepts, and the
-        {{enum|Tunneled|.IP.Interface.{i}.Type}} {{object|.IP.Interface}}
-        instance exists only so it can be referenced by forwarding or filter
-        rules.
+        ({{enum|Tunnel|##.IP.Interface.{i}.Type}},{{enum|Tunneled|##.IP.Interface.{i}.Type}})
+        {{object|##.IP.Interface}} pair. The {{object}} instance models the
+        IPsec-specific concepts, the {{enum|Tunnel|##.IP.Interface.{i}.Type}}
+        {{object|##.IP.Interface}} instance models the generic concepts, and
+        the {{enum|Tunneled|##.IP.Interface.{i}.Type}}
+        {{object|##.IP.Interface}} instance exists only so it can be referenced
+        by forwarding or filter rules.
 
         {{object}} instances are automatically created (as needed) when
         {{object|#.Filter}} instances are enabled and disabled.
@@ -1415,17 +1415,17 @@
         referenced {{object|#.Filter}} instances have been disabled or deleted,
         the CPE MAY choose not to delete the {{object}} instance (and its
         associated
-        ({{enum|Tunnel|.IP.Interface.{i}.Type}},{{enum|Tunneled|.IP.Interface.{i}.Type}})
-        {{object|.IP.Interface}} pair). This can be desirable, because
-        {{object|.QoS.Classification}},
-        {{object|.Routing.Router.{i}.IPv4Forwarding}},
-        {{object|.Routing.Router.{i}.IPv6Forwarding}} etc instances might be
-        referencing the {{object|.IP.Interface}} instances.
+        ({{enum|Tunnel|##.IP.Interface.{i}.Type}},{{enum|Tunneled|##.IP.Interface.{i}.Type}})
+        {{object|##.IP.Interface}} pair). This can be desirable, because
+        {{object|##.QoS.Classification}},
+        {{object|##.Routing.Router.{i}.IPv4Forwarding}},
+        {{object|##.Routing.Router.{i}.IPv6Forwarding}} etc instances might be
+        referencing the {{object|##.IP.Interface}} instances.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="TunnelInterface"/>
         <parameter ref="TunneledInterface"/>
       </uniqueKey>
@@ -1442,12 +1442,12 @@
       <parameter name="TunnelInterface" access="readOnly">
         <description>
           The corresponding auto-created
-          {{enum|Tunnel|Device.IP.Interface.{i}.Type}} {{object|.IP.Interface}}
+          {{enum|Tunnel|##.IP.Interface.{i}.Type}} {{object|##.IP.Interface}}
           instance. {{reference||delete}}
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1456,12 +1456,12 @@
       <parameter name="TunneledInterface" access="readOnly">
         <description>
           The corresponding auto-created
-          {{enum|Tunneled|Device.IP.Interface.{i}.Type}}
-          {{object|.IP.Interface}} instance. {{reference||delete}}
+          {{enum|Tunneled|##.IP.Interface.{i}.Type}} {{object|##.IP.Interface}}
+          instance. {{reference||delete}}
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1475,7 +1475,7 @@
         <syntax>
           <list/>
           <string>
-            <pathRef refType="strong" targetParent=".IPsec.Filter."
+            <pathRef refType="strong" targetParent="#.Filter."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1492,14 +1492,15 @@
         The CPE MUST reset the tunnel's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when the
         tunnel becomes operationally down due to a previous administrative down
-        (i.e. its associated {{param|.IP.Interface.{i}.Status}} parameter
+        (i.e. its associated {{param|###.IP.Interface.{i}.Status}} parameter
         transitions to a down state after the tunnel has been disabled) or when
         the tunnel becomes administratively up (i.e. its associated
-        {{param|.IP.Interface.{i}.Enable}} parameter transition from {{false}}
-        to {{true}}).
+        {{param|###.IP.Interface.{i}.Enable}} parameter transition from
+        {{false}} to {{true}}).
 
         Note that this object does not include generic statistics that are
-        available in the associated {{object|.IP.Interface.{i}.Stats}} object.
+        available in the associated {{object|###.IP.Interface.{i}.Stats}}
+        object.
       </description>
 
       <parameter name="DecryptionErrors" access="readOnly">
@@ -1570,7 +1571,7 @@
         IKEv2 session. Instances are automatically created and deleted as IKEv2
         SAs are created and deleted.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Tunnel"/>
       </uniqueKey>
 
@@ -1935,10 +1936,10 @@
         Represents a child Security Association (SA) pair, i.e. an inbound
         child SA and an outbound child SA.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="InboundSPI"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="OutboundSPI"/>
       </uniqueKey>
 
@@ -2247,7 +2248,7 @@
     </profile>
   </component>
 
-  <model name="IPsec:2.14">
+  <model name="IPsec:2.16">
     <component ref="Root"/>
     <component ref="IPsec"/>
   </model>

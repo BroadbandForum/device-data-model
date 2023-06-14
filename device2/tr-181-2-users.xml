@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Users]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2022, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-users"
-    file="tr-181-2-15-0-users.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-users"
+    file="tr-181-2-16-0-users.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -138,7 +138,7 @@
       <description>
         This object contains parameters relating to the user characteristics.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Username"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -148,7 +148,7 @@
          <parameter ref="UserID"/>
        </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -181,10 +181,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="RemoteAccessCapable" access="readWrite">
+      <parameter name="RemoteAccessCapable" access="readWrite"
+          status="deprecated">
         <description>
           Allows this user to remotely access the UserInterface via the
-          mechanism defined in {{object|.UserInterface.RemoteAccess.}}
+          mechanism defined in {{object|##.UserInterface.HTTPAccess}}
+
+          {{deprecated|2.16|due to the introduction of
+          {{object|.UserInterface.HTTPAccess.{i}.}} and
+          {{param|RoleParticipation}}}}
         </description>
         <syntax>
           <boolean/>
@@ -208,7 +213,7 @@
         <description>
           The user's password.
         </description>
-        <syntax hidden="true">
+        <syntax secured="true">
           <string>
             <size maxLength="64"/>
           </string>
@@ -261,7 +266,7 @@
           String describing the default language for the local configuration
           interface, specified according to {{bibref|RFC3066}}.
 
-          If {{empty}}, {{param|.UserInterface.CurrentLanguage}} is used.
+          If {{empty}}, {{param|##.UserInterface.CurrentLanguage}} is used.
         </description>
         <syntax>
           <string>
@@ -292,7 +297,7 @@
         This object contains parameters relating to the characteristics of a
         user group.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="Groupname"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -302,7 +307,7 @@
          <parameter ref="GroupID"/>
        </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -383,7 +388,7 @@
         maxEntries="unbounded" version="2.15">
     <description>
       This table provides a list of user accessible shells which can be used
-      as a reference in {{param|.Users.User.{i}.Shell}}
+      as a reference in {{param|#.User.{i}.Shell}}
     </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -392,7 +397,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -429,7 +434,7 @@
       <description>
         This object contains parameters relating to the role characteristics.
       </description>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="RoleName"/>
       </uniqueKey>
       <uniqueKey functional="false">
@@ -439,8 +444,7 @@
         <parameter ref="RoleID"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny"
-          version="2.15">
+      <parameter name="Alias" access="readWrite" version="2.15">
         <description>
           {{datatype|expand}}
         </description>
@@ -502,6 +506,12 @@
         <parameter ref="Username" requirement="readWrite"/>
         <parameter ref="Password" requirement="readWrite"/>
       </object>
+    </profile>
+
+    <profile name="User:2" base="User:1" version="2.15.1">
+      <object ref="Device.Users." requirement="present">
+        <parameter ref="RoleNumberOfEntries" requirement="readOnly"/>
+      </object>
       <object ref="Device.Users.Role.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="RoleName" requirement="readWrite"/>
@@ -509,7 +519,7 @@
     </profile>
   </component>
 
-  <model name="Users:2.15">
+  <model name="Users:2.16">
     <component ref="Root"/>
     <component ref="Users"/>
   </model>

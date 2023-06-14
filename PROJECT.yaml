@@ -1,0 +1,557 @@
+name: WT-181
+
+title: Device Data Model for CWMP Endpoints and USP Agents
+
+shorttitle: Device Data Model
+
+shortertitle: TR-181
+
+tagline: TR-181 Documentation and Theory of Operations
+
+summary: |
+  See <https://device-data-model.broadband-forum.org> for the
+  current TR-181 specification.
+
+description: |
+  TR-181 Issue 2 defines version 2 of the Device data model (Device:2). The
+  Device:2 data model applies to all types of TR-069 or USP enabled devices,
+  including End Devices, Residential Gateways, and other Network Infrastructure
+  Devices.
+
+  The Device:2 data model defined in this Technical Report consists of a set of
+  data objects covering things like basic device information, time-of-day configuration,
+  network interface and protocol stack configuration, routing and bridging management,
+  throughput statistics, and diagnostic tests. It also defines a baseline profile that
+  specifies a minimum level of data model support.
+
+  The cornerstone of the Device:2 data model is the interface stacking mechanism. Network
+  interfaces and protocol layers are modeled as independent data objects that can be stacked,
+  one on top of the other, into whatever configuration a device might support.
+
+reponame: device-data-model
+
+resources:
+  specification:
+    title: TR-181 Document
+  data-model:
+    title: Data Model
+    restype: root
+    resname: Device
+
+versions:
+  v2.16.0:
+    date: 2023-06-14
+    changes:
+      specification: |
+        * Refreshed all diagrams
+        * Added ToO appendix for logical interfaces concept
+        * Extended advanced firewall appendix
+        * Updated Wi-Fi theory of operation
+      data-model: |
+        * Added Device.LocalAgent.Subscription.{i}.TriggerAction parameter to
+          control the notification behavior
+        * Added SecuredRoles concept to the USP-specific ControllerTrust
+        * Turned a number of "hidden" parameters into "secured" parameters to
+          allow USP Controllers with a secure role to read parameter values
+        * Added a few parameters to Device.Bridging.Bridge. and sub-objects to
+          allow better control over bridges and STP behavior
+        * Made unique key type (functional vs non-functional) explicit rather
+          than defaulting, and fixed incorrect choices
+        * Added ability to configure exclusions from BulkData reports
+        * Added Device.DeviceInfo.HostName parameter
+        * Unified description of Interface parameters
+        * Updated status according to our deprecation policy
+        * Extended some incorrect type restrictions
+        * Fixed/unified some units and their use in the description
+        * Added SupportedLinkModes parameter to ethernet interfaces
+        * Clarified the Device.Firewall. object and added support for
+          firewall features DMZ, Services, Pinholing and Policies. Also added
+          support for additional classifiers
+        * Introduced Device.GatewayInfo. into USP
+        * Extended the type of a few counters from unsignedInt to StatsCounter64
+        * Added new IPLayerCapacityDiagnostic parameters/arguments from the
+          TR-471i3 document
+        * Added UDS (Unix Domain Socket) MTP and Device.UnixDomainSockets. objects
+          for internal services
+        * Added Device.Logical. sub-tree to allow for definition of logical network
+          interfaces
+        * Added Device.NAT.PortTrigger.
+        * Added USP notification mechanism to Device.PeriodicStatistics.
+        * Improved PPP LCPEcho description and added LCPEchoAdaptive parameter
+        * Vastly extended Device.QoS. features by adding Queues, Shapers and Schedulers
+        * Added new parameters to Device.Routing. and sub-objects to add more routing
+          features
+        * Vastly extended SMM (Software Module Management) capabilities with support for
+          ApplicationData, HostObject, ExecEnvClass and AutoRestart
+        * Added Device.SSH. to configure an SSH service
+        * Extended Device.Time. with support for NTP client and server configuration
+        * Added Device.UserInterface.HTTPAccess. to allow for local UI access control
+        * Added USP-specific Device.LocalAgent.Monitor. object to allow for efficient
+          tracking of parameter value changes
+        * Added support for Device.USPServices. to manage internal services via USP
+        * Added Device.XPON. to model xPON interfaces
+        * Applied cleanup for Wi-Fi objects/parameters to line up with Wi-Fi Alliance
+          documents
+        * Removed activeNotify="canDeny" attributes from some parameters
+        * Added PeriodicStatsAdv:2 and MQTTController:2 profiles
+        * Added USPServiceRef parameters to MTP referencing a service using it
+        * Disambiguated NTP vs. SNTP protocols
+        * Expanded/unified descriptions of parameters used for retries
+
+  v2.15.1:
+    date: 2022-04-06
+    changes:
+      data-model: |
+        * Removed items that were erroneously added to the User:1 profile and
+          instead added them to a new User:2 profile
+        * Fixed the BulkData Profile Parameter reference; it's a string, not a
+          formal path reference
+        * Fixed the InstallDU() command's ExecutionEnvRef argument; it
+          references an execution environment, not an execution unit
+        * Fixed the VendorConfigFile description's CWMP/USP-specific text
+
+  v2.15.0:
+    date: 2022-01-27
+    depends-on:
+      WT-106: v1.11.0
+    editors:
+      - William Lupton, Broadband Forum
+    changes:
+      specification: |
+        * Converted the document to markdown and extended the Wi-Fi
+          Theory of Operation
+      data-model: |
+        * Split the XML into multiple smaller files (this is just
+          housekeeping; it doesn't affect how the model is used)
+        ::: CWMP :::
+        * Added Device.USPAgent to the CWMP model to allow a CWMP ACS
+          to configure a device for USP communications
+        :::
+        ::: USP :::
+        * Allowed USP to access the EnableCWMP parameter (so a USP
+          Controller can enable/disable CWMP access)
+        :::
+        * Added Device.Routing.Babel for the RFC 8966 Babel routing
+          protocol
+        * Added Device.DOCSIS for modeling DOCSIS 3.0 and 3.1 interfaces
+        * Added Device.Users.Group, Device.Users.Role and
+          Device.Users.SupportedShell tables for modeling system users
+        * Improved the Wi-Fi data model by adding Data Elements R2
+          parameters, commands and events, moving MultiAP parameters and
+          commands into the Data Elements structure, and by deprecating
+          AIFSN, ECWMin, ECWMax and TxOpMax
+        * Clarified the LockoutPeriod and Retries ControllerTrust
+          parameters that impact how the RequestChallenge() and
+          ChallengeResponse() data model commands handle failed attempts
+        * Clarified bulk data profile, threshold and periodic statistics USP
+          Controller permissions: only the USP Controller that created the
+          profile will receive the corresponding events
+        ::: USP :::
+        * Added a bulk data profile ForceCollection() command
+        :::
+        * Added support for a new bulk data collection mechanism that
+          utilizes MQTT as the transport protocol
+        ::: USP :::
+        * Removed old bulk data collection protocols (Streaming and File)
+          from the USP data model (they don't apply to USP)
+        * Updated the IPLayerCapacity() test to support TR-472 Issue 2
+        * Added an enumeration to indicate when a Boot! event was due to a
+          factory reset
+        * Added an enumeration to distinguish encrypted and unencrypted
+          USP MQTT WebSocket connections
+        * Added an Order parameter to provide guidance to USP Agents on
+          which MTP to use when communicating with a Controller
+        :::
+        * Clarified that Device.Optical is intended for generic optical
+          interfaces and is not intended to model anything specific to
+          IEEE or ITU-T PON technologies (objects specific to such
+          technologies may be added in future versions of the data model)
+        * Clarified the meaning and usage of the Device.Ethernet.Interface
+          and Device.Ethernet.Link objects (also allowed the Ethernet
+          Link MACAddress parameter to be written)
+        * Improved (and made more consistent) the marking of (and
+          explanation of) deprecated items, and how such items should
+          progress from being deprecated to obsoleted to deleted
+        * Added a Baseline:4 profile that doesn't include
+          Device.LANConfigSecurity (it relates to the now-deprecated
+          TR-064 LAN management protocol)
+        ::: CWMP :::
+        * Many minor improvements to object and parameter descriptions
+        :::
+        ::: USP :::
+        * Many minor improvements to object, parameter, command and event
+          descriptions
+        :::
+        * Replaced the non-standard dmr:version attribute with the version
+          attribute (which supports three levels of version)
+        * Switched to DMR (data model report) schema v1.0, which supports
+          multi-line paragraphs, and wrapped all lines to 80 characters
+          maximum
+
+  v2.14.1:
+    date: 2020-11-17
+    changes:
+      data-model: |
+        ::: USP :::
+        * Fixed Device.LocalAgent.Subscription.{i}.ID constraints
+        :::
+        ::: CWMP :::
+        * Removed duplicate remarks about CWMP BOOTSTRAP from descriptions
+        :::
+        * Fixed typos
+
+  v2.14.0:
+    date: 2020-11-05
+    editors:
+      - David Woolley, Telstra
+    changes:
+      specification: |
+        * Added Appendix XXI 5G - Wireline Wireless Convergence and Appendix
+          XXII Data Elements
+      data-model: |
+        * Added WWC (5G Wireline Wireless Convergence), PDU (Protocol Data
+          Unit) and FWE (5G Wireline wireless Encapsulation) top-level objects
+        * Updated Cellular object to be applicable to 5G Residential Gateways
+        * Extended support for TR-471 IP-layer metrics, including new IP-layer
+          capacity test
+        * Supported LAN device time-based access-control
+        * Various Wi-Fi improvements
+
+  v2.13.0:
+    date: 2019-09-13
+    editors:
+      - Klaus Wich, Huawei
+    changes:
+      specification: |
+        * Unified text for CWMP and USP support
+        * Updated references
+      data-model: |
+        * Added support for WFA Data Elements
+        * Added support for Multi AP
+        * Added support for WPA3 and 802.11ax
+        * Added support for MQTT 5.0
+        * Added support for Packet capture diagnostics
+        * Updates for TR-369 MQTT support
+        * Added support for IoT Data model
+
+  v2.12.0:
+    date: 2018-03-16
+    editors:
+      - Steve Nicolai, Arris
+    changes:
+      specification: |
+        * Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII
+          and XIX
+        * Added Appendix XX BASAPM and LMAP Theory of Operations
+        * Added Annex H from TR-069a5 as Annex C
+      data-model: |
+        ::: CWMP :::
+        * Added TR-069a6 support
+        :::
+        ::: USP :::
+        * Added USP Local agent support (TR-369)
+        :::
+        * Added Firmware Image support
+        * Added Ethernet Link Aggregation Group
+        * Added additional Wi-Fi and WAN statistics
+        * Added support for Two-Way Active Measurement Protocol (TWAMP)
+          reflector
+        * Added support for Layer Two Tunneling Protocol version 3 (L2TPv3)
+        * Added support for Virtual eXtensible Local Area Network (VXLAN)
+          tunnels
+        * Added support for Broadband Access Service Attributes and
+          Performance Metrics measurement test framework (BASAPM)
+        * Added support for Large-Scale Measurement of Broadband Performance
+          (LMAP)
+
+  v2.11.0:
+    date: 2016-07-18
+    editors:
+      - Klaus Wich, Axiros
+      - Mark Tabry, Google
+    changes:
+      specification: |
+        * Added G.fast theory of operation
+      data-model: |
+        * LED status model
+        * Layer 2 tunnel support for IP diagnostics model
+        * DSL G.fast model
+        * Management Frame Protection support for WiFi model
+        * WPS 2.0 support for WiFi model
+        * User interface toggle
+        * User interface messaging model
+        * ConnectionRequest HTTP service toggle
+        * DNS fallback support for XMPP connections
+
+  v2.10.0:
+    date: 2015-11-09
+    editors:
+      - Klaus Wich, Axiros
+    changes:
+      specification: |
+        * No changes to the specification
+      data-model: |
+        * MQTT model
+        * Bulk data over HTTP
+        * DNS Server updates
+        * New diagnostics state
+
+  v2.9.0:
+    date: 2014-12-01
+    editors:
+      - Douglas Knisely, Qualcomm, Inc
+    changes:
+      data-model: |
+        * Added support for WiFi MAC Address Filtering
+        * Fixes for Traceroute
+        * Added IEEE 1905 data model
+        * Incorporated new components from TR-143 Amendment 1
+
+  v2.8.0:
+    date: 2014-09-08
+    editors:
+      - William Lupton, Cisco
+    changes:
+      specification: |
+        * Updated Annex B on tunneling
+        * Added GRE, MAP and PCP theory of operation
+      data-model: |
+        * Added LLDP and HTIP home network topology discovery parameters
+        * Added G.997.1-2012 DSL parameters
+        * Added various WiFi parameters (associated device statistics,
+          retry limits, reports, QoS)
+        * Added IPv6-related IP diagnostics parameters, and other minor changes
+        * Updated G.hn data model to align with G.9962
+        * Added GRE and MAP data models
+        * Added PCP data model
+        * Added Cellular interface data model
+
+  v2.7.0:
+    date: 2013-11-11
+    editors:
+      - Apostolos Papageorgiou, NEC
+      - William Lupton, Cisco
+    changes:
+      specification: |
+        * Added ZigBee and Provider Bridge theory of operation
+        * Added backup/restore theory of operation
+      data-model: |
+        * Added ZigBee and Provider Bridge data models
+        * Also added additional WiFi statistics, and other minor changes
+
+  v2.6.0:
+    date: 2012-11
+    editors:
+      - Tim Carey, Alcatel-Lucent
+    changes:
+      specification: |
+        * Added support M2M SCL Administration as an Appendix
+      data-model:
+
+  v2.5.0:
+    date: 2012-05
+    editors:
+      - William Lupton, Pace
+    changes:
+      specification: |
+        * Added Tunneling Annex and IPsec Appendix
+      data-model: |
+        * Added support for IPsec and bulk data collection
+
+  v2.4.0:
+    date: 2011-11
+    editors:
+      - William Lupton, Pace
+    changes:
+      data-model: |
+        * Added support for G.hn and Optical interfaces
+        * Additional WiFi parameters
+
+  v2.3.0:
+    date: 2011-07
+    changes:
+      data-model: |
+        * Added support for proxy management and alias-based addressing
+
+  v2.2.0:
+    date: 2011-02
+    editors:
+      - Paul Sigurdson, Broadband Forum
+      - William Lupton, Pace
+    changes:
+      specification: |
+        * Added IPv6 and Firewall Appendices
+      data-model: |
+        * Added support for IPv6 and Firewall
+
+  v2.1.0:
+    date: 2010-11
+    editors:
+      - Paul Sigurdson, Broadband Forum
+      - William Lupton, 2Wire
+    changes:
+      data-model: |
+        * Added support for Software Module Management
+
+  v2.0.2:
+    date: 2016-07
+    changes: |
+      * Removed *SSID* unique key from *WiFi.SSID* object
+
+  v2.0.1:
+    date: 2010-11
+    changes:
+      data-model: |
+        * Fixed various ranges and defaults
+        * Removed non interface object *Alias* parameters from profiles
+
+  v2.0.0:
+    date: 2010-05
+    editors:
+      - Paul Sigurdson, Broadband Forum
+      - William Lupton, 2Wire
+    changes:
+      specification: |
+        * Original
+      data-model: |
+        * Original
+
+  v1.7.0:
+    date: 2015-11
+    status: deprecated
+    depends-on:
+      WT-157: v1.10.0
+    changes:
+      data-model:
+        resname: Device:1.14
+        text: |
+          Incorporated new components from [TR-157 Amendment 10]
+
+        expand: WT-157.components
+
+  v1.6.0:
+    date: 2014-09
+    depends-on:
+      WT-157: v1.9.0
+    changes:
+      data-model:
+        resname: Device:1.13
+        text: |
+          Incorporated new components from TR-157 Amendment 9
+
+        expand: WT-157.components
+
+  v1.5.0:
+    date: 2013-11
+    depends-on:
+      WT-157: v1.8.0
+    changes:
+      data-model:
+        resname: Device:1.12
+        text: |
+          Incorporated new components from TR-157 Amendment 8
+
+        expand: WT-157.components
+
+  v1.4.0:
+    date: 2012-11
+    depends-on:
+      WT-157: v1.7.0
+    changes:
+      data-model:
+        resname: Device:1.11
+        text: |
+          Incorporated new components from TR-157 Amendment 7
+
+        expand: WT-157.components
+
+  v1.3.0:
+    date: 2012-05
+    depends-on:
+      WT-157: v1.6.0
+    changes:
+      data-model:
+        resname: Device:1.10
+        text: |
+          Incorporated new components from TR-157 Amendment 6
+
+        expand: WT-157.components
+
+  v1.2.0:
+    date: 2011-11
+    depends-on:
+      WT-157: v1.5.0
+    changes:
+      data-model:
+        resname: Device:1.9
+        text: |
+          Incorporated new components from [TR-157 Amendment 5]
+
+          Incorporated Femto components from [TR-262]
+
+        expand: WT-157.components
+
+  v1.1.0:
+    date: 2011-07
+    depends-on:
+      WT-157: v1.4.0
+    changes:
+      data-model:
+        resname: Device:1.8
+        text: |
+          Incorporated new components from TR-157 Amendment 4
+
+        expand: WT-157.components
+
+  # WT-157 v1.2.0 - v1.3.0 defined Device:1.6 - Device:1.7
+
+  v1.0.0:
+    date: 2010-02
+    editors:
+      - William Lupton, 2Wire
+      - Paul Sigurdson, Broadband Forum
+    changes:
+      specification:
+        text: |
+          * Original
+      data-model:
+        resname: Device:1.5
+        text: |
+          * Minor clarifications and additions
+
+  # WT-157 v1.0.0 - v1.1.0 defined Device:1.3 - Device:1.4
+  # WT-106 v1.0.0 - v1.2.0 defined Device:1.0 - Device:1.2 (*)
+
+  # (*) WT-143 v1.0.2 defined the original version of Device:1.2
+
+# Work Area Directors
+WADs:
+  - Jason Walls, QA Cafe
+  - John Blackford, CommScope
+
+# Project Stream Leaders
+PSLs:
+  - Daniel Egger, Axiros
+  - William Lupton, Broadband Forum
+
+acknowledgments:
+  - Al Morton, AT&T
+  - Alexandre Abdo, Sagemcom
+  - André-Jean Côté, Snom
+  - Barbara Stark, AT&T
+  - Charles Foster, BT
+  - Chen Li, AT&T
+  - Chris Gray, Orange
+  - Daniel Egger, Axiros
+  - David Cluytens, Orange
+  - Jason Walls, QA Cafe
+  - Johan Jacobs, Orange
+  - John Blackford, Commscope
+  - Ken Kerpez, DZS
+  - Laurent Alarcon, Sagemcom
+  - Matthieu Anne, Orange
+  - Patrick Rogier, Orange
+  - Ramesh Rajasekaran, Nokia
+  - Richard Holme, Commscope
+  - Tim Spets, Nokia
+  - William Lupton, BBF

@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [MAP]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2022, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-8"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-8
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-8.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-10
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-15-0-map"
-    file="tr-181-2-15-0-map.xml">
+    spec="urn:broadband-forum-org:tr-181-2-16-0-map"
+    file="tr-181-2-16-0-map.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-14-root">
+      spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
 
@@ -139,7 +139,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="WANInterface"/>
         <parameter ref="IPv6Prefix"/>
       </uniqueKey>
@@ -171,7 +171,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -215,7 +215,7 @@
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent=".IP.Interface."
+            <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
         </syntax>
@@ -235,7 +235,7 @@
         <syntax>
           <string>
             <pathRef refType="strong"
-                targetParent=".IP.Interface.{i}.IPv6Prefix." targetType="row"/>
+                targetParent="##.IP.Interface.{i}.IPv6Prefix." targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -254,7 +254,7 @@
             (Default Mapping Rule) option.
 
           Note: There will be a corresponding
-          {{object|.Routing.Router.{i}.IPv4Forwarding}} default rule.
+          {{object|##.Routing.Router.{i}.IPv4Forwarding}} default rule.
         </description>
         <syntax>
           <dataType ref="IPv6Prefix"/>
@@ -295,7 +295,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.15}}
+          {{obsoleted|2.14-2.16}}
         </description>
         <syntax>
           <unsignedInt>
@@ -318,7 +318,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.15}}
+          {{obsoleted|2.14-2.16}}
         </description>
         <syntax>
           <unsignedInt>
@@ -345,7 +345,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.15}}
+          {{obsoleted|2.14-2.16}}
         </description>
         <syntax>
           <unsignedInt>
@@ -402,10 +402,10 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPv6Prefix"/>
       </uniqueKey>
-      <uniqueKey>
+      <uniqueKey functional="true">
         <parameter ref="IPv4Prefix"/>
       </uniqueKey>
 
@@ -436,7 +436,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -668,7 +668,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite" activeNotify="canDeny">
+      <parameter name="Alias" access="readWrite">
         <description>
           {{datatype|expand}}
         </description>
@@ -958,7 +958,7 @@
     </profile>
   </component>
 
-  <model name="MAP:2.15">
+  <model name="MAP:2.16">
     <component ref="Root"/>
     <component ref="MAP"/>
   </model>

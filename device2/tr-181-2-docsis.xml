@@ -60,11 +60,11 @@
         http://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-docsis"
-    file="tr-181-2-16-0-docsis.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-docsis"
+    file="tr-181-2-17-0-docsis.xml">
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
@@ -561,14 +561,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="Name" access="readOnly">
         <description>
           The textual name of the interface as assigned by the CPE.
@@ -904,14 +897,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="Name" access="readOnly">
         <description>
           The textual name of the interface as assigned by the CPE.
@@ -1200,14 +1186,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="ID"
           id="docsIfDownChannelId/1.3.6.1.2.1.10.127.1.1.1.1.1"
           access="readOnly">
@@ -1563,14 +1542,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="ID" id="docsIfUpChannelId/1.3.6.1.2.1.10.127.1.1.2.1.1"
           access="readOnly">
         <description>
@@ -1916,14 +1888,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="Name" access="readOnly">
         <description>
           The textual name of the interface as assigned by the CPE.
@@ -2754,7 +2719,7 @@
     <component ref="DOCSISLayer2"/>
   </component>
 
-  <model name="DOCSIS:2.16">
+  <model name="DOCSIS:2.17">
     <component ref="Root"/>
     <component ref="DOCSIS"/>
   </model>

@@ -13,12 +13,15 @@ bbfContrib: ''
 bbfMajor: 1
 bbfMinor: 1
 bbfPatch: 2
+bbfMicro: 0
+bbfExtra: 0
 bbfDraft: ''
 bbfBuild: ''
 
 # other top-level variables
 notice: tr
 reponame: ''
+website: ''
 "tagline": ""
 "summary": ""
 "description": ""

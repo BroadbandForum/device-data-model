@@ -8,17 +8,20 @@ bbfVersion: 1 Amendment 7
 bbfMonth: November
 bbfYear: 2015
 bbfType: Technical Report
-bbfStatus: ''
+bbfStatus: Deprecated
 bbfContrib: ''
 bbfMajor: 1
 bbfMinor: 7
 bbfPatch: 0
+bbfMicro: 0
+bbfExtra: 0
 bbfDraft: ''
 bbfBuild: ''
 
 # other top-level variables
 notice: tr
 reponame: device-data-model
+website: https://device-data-model.broadband-forum.org
 "tagline": |-
   TR-181 Documentation and Theory of Operations
 "summary": |

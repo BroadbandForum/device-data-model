@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DHCPv4]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,15 +55,16 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-dhcpv4"
-    file="tr-181-2-16-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-dhcpv4"
+    file="tr-181-2-17-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPv4Address"/>
     <dataType name="MACAddress"/>
+    <dataType name="Order"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -128,14 +129,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -353,14 +347,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -413,33 +400,17 @@
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the option in the DHCP client request. A value of ''1''
-          indicates the first entry.
-
-          When this value is modified, if the value matches that of an existing
-          entry, the {{param}} value for the existing entry and all lower
-          {{param}} entries is incremented to ensure uniqueness of this value.
-          A deletion causes {{param}} values to be compacted. When a value is
-          changed, incrementing occurs before compaction.
-
-          The value of {{param}} on creation of a {{object}} table entry MUST
-          be one greater than the largest current value.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="Alias" access="readWrite">
-        <description>
           {{datatype|expand}}
+
+          This indicates the position of the option in the DHCP
+          client request.
         </description>
         <syntax>
-          <dataType ref="Alias"/>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
+
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -552,37 +523,17 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the {{object}} entry in the order of precedence. A value
-          of ''1'' indicates the first entry considered (highest precedence).
+          {{datatype|expand}}
+
           For each DHCP request, the highest ordered entry that matches the
           association criteria is applied. All lower order entries are ignored.
-
-          When this value is modified, if the value matches that of an existing
-          entry, the {{param}} value for the existing entry and all lower
-          {{param}} entries is incremented (lowered in precedence) to ensure
-          uniqueness of this value. A deletion causes {{param}} values to be
-          compacted. When a value is changed, incrementing occurs before
-          compaction.
-
-          The value of {{param}} on creation of a {{object}} table entry MUST
-          be one greater than the largest current value (initially assigned the
-          lowest precedence).
         </description>
         <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
 
@@ -998,14 +949,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Chaddr" access="readWrite">
         <description>
@@ -1055,14 +999,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -1104,17 +1041,13 @@
         <parameter ref="Chaddr"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-
+      <component ref="Alias-2-0" version="2.2"/>
+      <parameter base="Alias">
+        <description action="append">
           Note: There is no guarantee that the {{param}} value on
           automatically-created {{object}} instances will be retained. This is
           because automatically-created {{object}} instances can be transitory.
         </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
       </parameter>
 
       <parameter name="Chaddr" access="readOnly">
@@ -1311,37 +1244,17 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the {{object}} entry in the order of precedence. A value
-          of ''1'' indicates the first entry considered (highest precedence).
+          {{datatype|expand}}
+
           For each DHCP request, the highest ordered entry that matches the
           association criteria is applied. All lower order entries are ignored.
-
-          When this value is modified, if the value matches that of an existing
-          entry, the {{param}} value for the existing entry and all lower
-          {{param}} entries is incremented (lowered in precedence) to ensure
-          uniqueness of this value. A deletion causes {{param}} values to be
-          compacted. When a value is changed, incrementing occurs before
-          compaction.
-
-          The value of {{param}} on creation of a {{object}} table entry MUST
-          be one greater than the largest current value (initially assigned the
-          lowest precedence).
         </description>
         <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
 
@@ -1621,7 +1534,7 @@
       </object>
       <object ref="Device.DHCPv4.Server.Pool.{i}.Client.{i}."
           requirement="present">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Chaddr" requirement="readOnly"/>
         <parameter ref="Active" requirement="readOnly"/>
         <parameter ref="IPv4AddressNumberOfEntries" requirement="readOnly"/>
@@ -1640,7 +1553,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.16">
+  <model name="DHCPv4:2.17">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

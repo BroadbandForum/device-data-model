@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DNS]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-dns"
-    file="tr-181-2-16-0-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-dns"
+    file="tr-181-2-17-0-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPAddress"/>
   </import>
 
@@ -302,6 +302,181 @@
           </string>
         </syntax>
       </parameter>
+
+      <parameter name="ZoneNumberOfEntries" access="readOnly" version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DNS.Zone.{i}." access="readWrite" minEntries="0"
+        numEntriesParameter="ZoneNumberOfEntries" maxEntries="unbounded" version="2.17">
+      <description>
+        This object specifies Zone file configuration of the DNS server.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the DNS zone.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          Domain name that is associated with the zone.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="128"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Origin" access="readOnly">
+        <description>
+          The mechanism via which the Zone was created.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="User">
+              <description>
+                Used for indicating that the entry was created by the end-user.
+                For example through the web user interface.
+              </description>
+            </enumeration>
+            <enumeration value="System">
+              <description>
+                Used for indicating that the entry was created by the system itself.
+              </description>
+            </enumeration>
+            <enumeration value="Controller">
+              <description>
+                Used for indicating that the entry was created by a Controller.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="System"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          Specifies the Layer 3 interface on which the zone should be available.
+          Example: ''Device.IP.Interface.1'' or ''Device.Logical.Interface.1''.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".IP.Interface." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HostNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DNS.Zone.{i}.Host.{i}." access="readWrite" minEntries="0"
+          numEntriesParameter="HostNumberOfEntries" maxEntries="unbounded" version="2.17">
+      <description>
+        This object specifies the resource records (RR) of the DNS zone.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the entry in the zone file.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          List of hostnames that are associated with the {{object}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="128"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Origin" access="readWrite">
+        <description>
+          Indicates the owner of the {{object}} instance.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="User">
+              <description>
+                Used for indicating that the entry was created by the end-user.
+                For example through the web user interface.
+              </description>
+            </enumeration>
+            <enumeration value="System">
+              <description>
+                Used for indicating that the entry was created by the system itself.
+              </description>
+            </enumeration>
+            <enumeration value="Controller">
+              <description>
+                Used for indicating that the entry was created by a Controller.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="System"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Host" access="readWrite">
+        <description>
+          Host table entries associated with the device.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef
+                refType="strong"
+                targetParent=".Hosts.Host."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpdate">
+        <description>
+          The date and time in UTC when the entry was last changed.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.DNS.Client." access="readOnly" minEntries="1"
@@ -390,14 +565,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="DNSServer" access="readWrite">
         <description>
@@ -499,6 +667,16 @@
         </syntax>
       </parameter>
 
+      <parameter name="ConfigNumberOfEntries" access="readOnly"
+          dmr:customNumEntriesParameter="true" version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="ForwardNumberOfEntries" access="readOnly"
           dmr:customNumEntriesParameter="true">
         <description>
@@ -506,6 +684,93 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DNS.Relay.Config.{i}." access="readWrite"
+        numEntriesParameter="ConfigNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.17">
+      <description>
+          This object is used to specify the cache configuration for each Forwarding relay.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Forwarders" access="readWrite">
+        <description>
+          Specifies the list of the DNS forwarders to be used.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="#.Forwarding."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          {{reference}} Specifies the IP interface over which the DNS query is
+          received. This is usually the LAN interface.
+
+          {{template|INTERFACE-ROUTING}}
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="###.IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CacheSize" access="readOnly">
+        <description>
+          Specifies the size of cache in kilobytes.
+
+          When '0' is specified, no DNS results will be cached.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CacheMinTTL" access="readOnly">
+        <description>
+          Specifies the minium TTL amount of time, in {{units}},
+          that an entry MUST be kept in the cache regardless of what has been specified by the domain owner.
+
+          When '0' is specified, then the TTL chosen by the domain owner will be applied.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CacheMaxTTL" access="readOnly">
+        <description>
+          Specifies the maximum TTL amount of time, in {{units}},
+          than an entry MUST be kept in the cache regardless of what has been specified by the domain owner.
+
+          When '0' is specified, then the TTL chosen by the domain owner will be applied.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="86400"/>
         </syntax>
       </parameter>
     </object>
@@ -556,14 +821,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="DNSServer" access="readWrite">
         <description>
@@ -662,6 +920,15 @@
         </syntax>
       </parameter>
 
+      <parameter name="AdvertiseNumberOfEntries" access="readOnly" version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="ServiceNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -671,19 +938,222 @@
         </syntax>
       </parameter>
 
-      <parameter name="AdvertisedInterfaces" access="readWrite" version="2.12">
+      <parameter name="AdvertisedInterfaces" access="readWrite" status="deprecated" version="2.12">
         <description>
           {{reference|the {{object|##.IP.Interface}} object instance from which
           DNS-SD services are advertised}}
 
           If this parameter is not supported by an implementation then DNS-SD
           services are advertised on all LAN interfaces.
+
+          {{deprecated|2.17|in favor of {{param|Advertise.{i}.Interface}}}}
         </description>
         <syntax>
           <list/>
           <string>
             <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DNS.SD.Advertise.{i}." access="readWrite"
+        numEntriesParameter="AdvertiseNumberOfEntries" enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.17">
+      <description>
+        The {{object}} table contains DNS-SD services that MUST be advertised. DNS.SD
+        service information is provided in DNS RR SRV records
+        {{bibref|RFC2782}}. The Service Instance Name {{bibref|DNS-SD|Section
+        4.1 Structured Instance Names}} further specifies information about the
+        service name (RFC2782 Service field) and domain name (RFC2782 Name
+        field) in the form:
+
+        Service Instance Name = [InstanceName] . [Service] . [Domain]
+
+        [Service] = _[ApplicationProtocol] . _[TransportProtocol]
+
+        RFC2782 Service field will always be equal to [InstanceName]. [Service]
+
+        RFC2782 Name field will always be equal to [Domain]
+
+        For example, an SSH service might have:
+
+        *{{param|InstanceName}} = "Secure Shell (SSH))"
+
+        *{{param|ApplicationProtocol}} = "ssh"
+
+        *{{param|TransportProtocol}} = "TCP"
+
+        *{{param|Port}} = 22
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the advertisement of the DNS-SD service.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of the advertised {{object}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                Indicates that the DNS-SD service advertisement is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>
+                Indicates that the DNS-SD service advertisement is enabled.
+              </description>
+            </enumeration>
+            <enumeration value="Error_Misconfigured">
+              <description>
+                Indicates that a necessary configuration value is undefined or invalid.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                MAY be used to define an error condition.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          {{reference}} The layer 3 interface on which the DNS-SD service MUST be advertised.
+          Example: ''Device.IP.Interface.1'' or ''Device.Logical.Interface.1''.
+
+          {{template|INTERFACE-ROUTING}}
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".IP.Interface." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="InstanceName" access="readOnly">
+        <description>
+          Human-readable instance name {{bibref|DNS-SD|Section 4.1.1 Instance
+          Names}} (i.e. The "[{{param}}]" portion of the '"Service
+          Instance Name'").
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="63"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ApplicationProtocol" access="readOnly">
+        <description>
+          The Application Protocol, without the leading underscore, associated
+          with the service (e.g., daap) as defined by the DNS-SD service
+          {{bibref|DNS-SD|Section 7 Application Protocol Names}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="15"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="TransportProtocol" access="readOnly">
+        <description>
+          The Transport Protocol associated with the service as defined by the
+          DNS-SD service {{bibref|DNS-SD|Section 4.1.2 Service Names}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="TCP"/>
+            <enumeration value="UDP"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Domain" access="readOnly">
+        <description>
+          The value to be entered into the Name field of the DNS SRV record
+          {{bibref|RFC2782}} which represents the fully qualified domain name
+          (FQDN) associated with the service as defined by the DNS-SD service
+          {{bibref|DNS-SD|Section 4.1.3 Domain Names}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+          <default type="object" value="local"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readOnly">
+        <description>
+          The value to be entered into the Port field of the DNS SRV record
+          {{bibref|RFC2782}} that is used to contact the service.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="TextRecordNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DNS.SD.Advertise.{i}.TextRecord.{i}." access="readOnly"
+        numEntriesParameter="TextRecordNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.17">
+      <description>
+        This object maintains an instance of a (key/value pairs) of the
+        service. The information is to be provided in the DNS TXT records
+        {{bibref|RFC1035}} of the advertised service.
+
+        When multiple instances of the {{object}} table have the same value for
+        the {{param|Key}} parameter, the implementation is CPE specific.
+      </description>
+
+      <parameter name="Key" access="readWrite">
+        <description>
+          The key that identifies the text record
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="255"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Value" access="readWrite">
+        <description>
+          The value of the text record.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="255"/>
           </string>
         </syntax>
       </parameter>
@@ -700,16 +1170,13 @@
         service name (RFC2782 Service field) and domain name (RFC2782 Name
         field) in the form:
 
-        Service Instance Name = &lt;InstanceName&gt; . &lt;Service&gt; .
-        &lt;Domain&gt;
+        Service Instance Name = [InstanceName] . [Service] . [Domain]
 
-        &lt;Service&gt; = _&lt;ApplicationProtocol&gt; .
-        _&lt;TransportProtocol&gt;
+        [Service] = _[ApplicationProtocol] . _[TransportProtocol]
 
-        RFC2782 Service field will always be equal to &lt;InstanceName&gt;.
-        &lt;Service&gt;
+        RFC2782 Service field will always be equal to [InstanceName]. [Service]
 
-        RFC2782 Name field will always be equal to &lt;Domain&gt;
+        RFC2782 Name field will always be equal to [Domain]
 
         For example, an SSH service might have:
 
@@ -735,7 +1202,7 @@
       <parameter name="InstanceName" access="readOnly">
         <description>
           Human-readable instance name {{bibref|DNS-SD|Section 4.1.1 Instance
-          Names}} (i.e. The "&lt;{{param}}&gt;" portion of the '"Service
+          Names}} (i.e. The "[{{param}}]" portion of the '"Service
           Instance Name'").
         </description>
         <syntax>
@@ -999,7 +1466,7 @@
     </profile>
   </component>
 
-  <model name="DNS:2.16">
+  <model name="DNS:2.17">
     <component ref="Root"/>
     <component ref="DNS"/>
   </model>

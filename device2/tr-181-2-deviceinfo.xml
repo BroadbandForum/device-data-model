@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DeviceInfo]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-deviceinfo"
-    file="tr-181-2-16-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-deviceinfo"
+    file="tr-181-2-17-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -381,6 +381,16 @@
         </syntax>
       </parameter>
 
+      <parameter name="LogRotateNumberOfEntries" access="readOnly"
+          version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="VendorLogFileNumberOfEntries" access="readOnly"
           version="2.1">
         <description>
@@ -431,14 +441,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -718,14 +721,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" version="2.3">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1035,14 +1031,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" version="2.3">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.3"/>
 
       <parameter name="Architecture" access="readOnly">
         <description>
@@ -1078,6 +1067,177 @@
       </parameter>
     </object>
 
+    <object name="Device.DeviceInfo.LogRotate.{i}." access="readWrite"
+      enableParameter="Enable" numEntriesParameter="LogRotateNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.17">
+      <description>
+        This Object details the available rotation settings for vendor log file rotation.
+
+        Based on {{bibref|YANGSYSLOG|A YANG Data Model for Syslog Configuration}}.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the log rotation functionality for this item.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          Specifies the full path and filename of the log file that must be rotated.
+          Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NumberOfFiles" access="readWrite">
+        <description>
+          Specifies the maximum number of log files retained.
+          When during log rotation the maximum number of log files is reached,
+          the oldest log file will be deleted.
+
+          Specify ''1'' for implementations that only support one log file.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxFileSize" access="readWrite">
+        <description>
+          Specifies the maximum log file size in {{units}}.
+          Log events that arrive after the maximum file size is reached will cause the current log file to be closed
+          and a new log file to be opened.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="KiB"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RollOver" access="readWrite">
+        <description>
+          Specifies the length of time, in {{units}}, that log events should be written to a specific log file.
+          Log events that arrive after the rollover period cause the current log file to be closed
+          and a new log file to be opened.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="minutes"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Retention" access="readWrite">
+        <description>
+          Specifies the length of time, in {{units}}, that completed/closed log event files
+          should be stored in the file system before they are removed.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="minutes"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Compression" access="readWrite">
+        <description>
+          Specifies the post-rotation compression method that must be applied
+          exclusively on the initial log file in a rotation sequence.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="None"/>
+            <enumeration value="GZIP"/>
+            <enumeration value="BZIP2"/>
+            <enumeration value="LZO"/>
+            <enumeration value="XZ"/>
+            <enumeration value="ZSTD"/>
+          </string>
+          <default type="object" value="None"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LogFileNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.LogRotate.{i}.LogFile.{i}." access="readOnly"
+        numEntriesParameter="LogFileNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.17">
+      <description>
+        Each table entry represents a Log File.
+
+        This table of log files is informational only and does not allow the
+        Controller to operate on these files in any way.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Name" access="readOnly">
+        <description>
+          Name of the rotated log file stored within the same directory that {{param|#.Name}} is specified.
+          Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Size" access="readOnly">
+        <description>
+          The size of the log file in {{units}}. If the device doesn't
+          know the file size then {{param}} will be 0.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
+        <description>
+          Last modification date of the file specified by {{param|Name}}.
+        </description>
+        <syntax>
+            <dateTime/>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Device.DeviceInfo.VendorLogFile.{i}." access="readOnly"
         numEntriesParameter="VendorLogFileNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.1">
@@ -1094,14 +1254,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.1"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1276,14 +1429,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.11"/>
 
       <parameter name="Location" access="readOnly">
         <description>
@@ -1326,14 +1472,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1456,8 +1595,8 @@
             </enumeration>
             <enumeration value="ActivationFailed">
               <description>
-                The Agent has attempted to active this Firmware Image instance,
-                but ultimately failed while being activated.
+                The Agent has attempted to activate this Firmware Image instance,
+                but ultimately the activation failed.
               </description>
             </enumeration>
           </string>
@@ -1476,6 +1615,310 @@
 
           The length of this string is defined as implementation-specific by
           the Agent.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.KernelFaults." access="readOnly" version="2.17">
+      <description>
+        A fault in the context of the Kernel refers to a situation where the kernel encounters a critical error or a bug that it cannot recover from.
+        When this happens, the kernel generates a "fault message" or "kernel panic", which provides information about the error,
+        the state of the system at the time of the error, and a stack trace of function calls leading up to the error.
+      </description>
+
+      <parameter name="StoragePath" access="readOnly">
+        <description>
+          Path where the Kernel faults logs must be stored.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpgradeCount" access="readOnly">
+        <description>
+          Total number of Kernel faults which occured since last firmware upgrade.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PreviousBootCount" access="readOnly">
+        <description>
+          The number of Kernel faults which occurred during the previous boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinFreeSpace" access="readWrite">
+        <description>
+          Minimum free space in {{units}} on the device that must be free before attempting to create a {{object|KernelFault}} instance.
+          This setting does not affect the counting of Kernel faults.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="KiB"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxKernelFaultEntries" access="readWrite">
+        <description>
+          The maximum number of entries available in the {{object|KernelFault}} table.
+          Defines the maximum number of {{object|KernelFault}} instances that can be stored on the device.
+
+          If this limit is hit, No new {{object|KernelFault}} instances will be created until sufficient Kernel fault instances are removed.
+          Set this parameter to 0 to completely disable the creation of {{object|KernelFault}} instances.
+
+          Reducing the {{param}} will cause for the implementation to delete the oldest {{object|KernelFault}} instances.
+
+          This setting does not affect the counting of Kernel faults.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="KernelFaultNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.KernelFaults.KernelFault.{i}." access="readOnly"
+        numEntriesParameter="KernelFaultNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.17">
+      <description>
+        Each table entry represents a Kernel fault that is stored on the device.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FaultLocation" access="readOnly">
+        <description>
+          Specifies the location of where to create and keep the logs.
+          Can either be a relative path or file within the {{param|#.StoragePath}} location.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastInstruction" access="readOnly">
+        <description>
+          The last instruction executed when the Kernel fault was triggered.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeStamp" access="readOnly">
+        <description>
+          The time when the Kernel fault was registered.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FirmwareVersion" access="readOnly">
+        <description>
+          The firmeware version that triggered the Kernel fault.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProcessName" access="readOnly">
+        <description>
+          The name of the process that was active while the kernel fault occurred.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reason" access="readOnly">
+        <description>
+          The reason why the kernel fault occurred.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.ProcessFaults." access="readOnly" version="2.17">
+      <description>
+        Monitoring process faults and configuring the operating system to generate crash dumps and core files
+        is essential for diagnosing and troubleshooting issues with applications and processes.
+      </description>
+
+      <parameter name="StoragePath" access="readOnly">
+        <description>
+          Path where the process fault logs must be stored.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpgradeCount" access="readOnly">
+        <description>
+          Total number of process faults which occured since last firmware upgrade.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PreviousBootCount" access="readOnly">
+        <description>
+          The number of process faults which occurred during the previous boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinFreeSpace" access="readWrite">
+        <description>
+          Minimum free space in {{units}} on the device that must be free before attempting to create a {{object|ProcessFault}} instance.
+          This setting does not affect the counting of process faults.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="KiB"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxProcessFaultEntries" access="readWrite">
+        <description>
+          The maximum number of entries available in the {{object|ProcessFault}} table.
+          Defines the maximum number of {{object|ProcessFault}} instances that can be stored on the device.
+
+          If this limit is hit, No new {{object|ProcessFault}} instances will be created until sufficient process fault instances are removed.
+          Set this parameter to 0 to completely disable the creation of {{object|ProcessFault}} instances.
+
+          Reducing the {{param}} will cause for the implementation to delete the oldest {{object|ProcessFault}} instances.
+
+          This setting does not affect the counting of process faults.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProcessFaultNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.ProcessFaults.ProcessFault.{i}." access="readOnly"
+        numEntriesParameter="ProcessFaultNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.17">
+      <description>
+        Each table entry represents a process fault that is stored on the device.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Alias" access="readWrite">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="Alias"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProcessID" access="readOnly">
+        <description>
+          Process ID of the process that crashed.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProcessName" access="readOnly">
+        <description>
+          Process Name of the process that crashed.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FaultLocation" access="readOnly">
+        <description>
+          Specifies the location of where to create and keep the process fault logs.
+          Can either be a relative path or file within the {{param|#.StoragePath}} location.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeStamp" access="readOnly">
+        <description>
+          The time when the process fault occured.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FirmwareVersion" access="readOnly">
+        <description>
+          The firmware version that triggered the the process fault.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Arguments" access="readOnly">
+        <description>
+          The command arguments that were used to start to the process.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reason" access="readOnly">
+        <description>
+          The reason why the process fault occurred.
         </description>
         <syntax>
           <string/>
@@ -1565,7 +2008,163 @@
     </profile>
   </component>
 
-  <model name="DeviceInfo:2.16">
+  <component name="DeviceInfoUSP">
+    <object base="Device.DeviceInfo.KernelFaults." access="readOnly">
+      <command name="RemoveAllKernelFaults()" async="true" version="2.17">
+        <description>
+          This command removes all the {{object|KernelFault.{i}.}} from the device, together with all the associated Kernel fault data stored on the device.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DeviceInfo.KernelFaults.KernelFault.{i}." access="readOnly" minEntries="0" maxEntries="unbounded">
+      <command name="Upload()" async="true" version="2.17">
+        <description>
+          This command is issued to upload the Kernel fault information specified by this
+          KernelFault instance.
+
+          All results of the actual upload will be contained within the
+          {{event|.LocalAgent.TransferComplete!}} event.
+        </description>
+        <input>
+
+          <parameter name="URL" mandatory="true">
+            <description>
+              The {{datatype}} specifying the destination file location. The
+              HTTPS transport MUST be supported, and the HTTP transport MAY be
+              supported.
+
+              This argument specifies only the destination file location, and
+              does not indicate in any way the name or location of the local
+              file to be uploaded.
+
+              If the Agent receives multiple upload requests with the same URL,
+              the Agent MUST perform each upload as requested, and MUST NOT
+              assume that the content of the file to be uploaded is the same
+              each time.
+
+              This URL MUST NOT include the "userinfo" component, as defined in
+              {{bibref|RFC3986}}.
+            </description>
+            <syntax>
+              <dataType ref="URL"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Username" mandatory="true">
+            <description>
+              Username to be used by the Agent to authenticate with the file
+              server. This string is set to {{empty}} if no authentication is
+              required.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Password" mandatory="true">
+            <description>
+              Password to be used by the Agent to authenticate with the file
+              server. This string is set to {{empty}} if no authentication is
+              required.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="Remove()" async="true" version="2.17">
+        <description>
+          Remove this row from the table, together with the associated Kernel fault data stored on the device.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DeviceInfo.ProcessFaults." access="readOnly">
+      <command name="RemoveAllProcessFaults()" async="true" version="2.17">
+        <description>
+          This command removes all the {{object|ProcessFault.{i}.}} from the device, together with all the associated faulty data stored on the device.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DeviceInfo.ProcessFaults.ProcessFault.{i}." access="readOnly" minEntries="0" maxEntries="unbounded">
+      <command name="Upload()" async="true" version="2.17">
+        <description>
+          This command is issued to upload the Fault information specified by this
+          Fault instance.
+
+          All results of the actual upload will be contained within the
+          {{event|.LocalAgent.TransferComplete!}} event.
+        </description>
+        <input>
+
+          <parameter name="URL" mandatory="true">
+            <description>
+              The {{datatype}} specifying the destination file location. The
+              HTTPS transport MUST be supported, and the HTTP transport MAY be
+              supported.
+
+              This argument specifies only the destination file location, and
+              does not indicate in any way the name or location of the local
+              file to be uploaded.
+
+              If the Agent receives multiple upload requests with the same URL,
+              the Agent MUST perform each upload as requested, and MUST NOT
+              assume that the content of the file to be uploaded is the same
+              each time.
+
+              This URL MUST NOT include the "userinfo" component, as defined in
+              {{bibref|RFC3986}}.
+            </description>
+            <syntax>
+              <dataType ref="URL"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Username" mandatory="true">
+            <description>
+              Username to be used by the Agent to authenticate with the file
+              server. This string is set to {{empty}} if no authentication is
+              required.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Password" mandatory="true">
+            <description>
+              Password to be used by the Agent to authenticate with the file
+              server. This string is set to {{empty}} if no authentication is
+              required.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="Remove()" async="true" version="2.17">
+        <description>
+          Remove this row from the table, together with the associated faulty data stored on the device.
+        </description>
+      </command>
+    </object>
+  </component>
+
+  <model name="DeviceInfo:2.17">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

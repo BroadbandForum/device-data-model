@@ -1,38 +1,74 @@
 make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
 rm -f   
-rm -f ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk  ./docs/PROJECT.yaml.outputs
+rm -f ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk ./docs/METADATA.mk  ./docs/PROJECT.yaml.outputs
 rm -f -r  ./docs/PROJECT
 make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
 make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
 PYTHONPATH=./../../install/python/ ./../../install/bin/project-parser.py --outdir=./docs --loglevel=1 PROJECT.yaml 2>&1 >docs/PROJECT.yaml.outputs || true
 INFO:project-parser:created WT-181 project (valid)
 INFO:project-parser:find_file WT-106 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
-INFO:project-parser:  (1/5) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-106/PROJECT.yaml
-INFO:project-parser:  (2/5) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-106/bbf/PROJECT.yaml
+INFO:project-parser:  (1/7) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-106/PROJECT.yaml
+INFO:project-parser:  (2/7) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-106/bbf/PROJECT.yaml
 INFO:project-parser:created WT-106 project (depth 1)
 INFO:project-parser:find_file WT-157 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
-INFO:project-parser:  (1/6) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
+INFO:project-parser:  (1/8) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
 INFO:project-parser:created WT-157 project (depth 1)
 INFO:project-parser:validated projects
 INFO:project-parser:wrote ./docs/README.md
 INFO:project-parser:wrote ./docs/CHANGELOG.md
 INFO:project-parser:wrote ./docs/METADATA-1.yaml
 INFO:project-parser:wrote ./docs/METADATA-2.yaml
+INFO:project-parser:wrote ./docs/METADATA.yaml
 INFO:project-parser:wrote ./docs/METADATA-1.md
 INFO:project-parser:wrote ./docs/METADATA-2.md
+INFO:project-parser:wrote ./docs/METADATA.md
 INFO:project-parser:wrote ./docs/METADATA-1.mk
 INFO:project-parser:wrote ./docs/METADATA-2.mk
+INFO:project-parser:wrote ./docs/METADATA.mk
+[ -f docs/PROJECT ] && echo docs/PROJECT exists and is not a directory && exit 1; \
+rm -f -r docs/PROJECT && mkdir -p docs/PROJECT && touch docs/PROJECT/index.html; \
+cp -p ./../../install/pandoc/css/bbf.css docs/PROJECT; \
+echo "<p>WT-181 PROJECT.yaml and its products:</p>" >>docs/PROJECT/index.html; \
+echo "<ul>" >>docs/PROJECT/index.html; \
+flags=""; \
+        flags="$flags --standalone"; \
+        flags="$flags --metadata-file=bbf-metadata.yaml"; \
+        flags="$flags --metadata-file=no-title-metadata.yaml"; \
+        flags="$flags --lua-filter=expand-macros.lua"; \
+        flags="$flags --lua-filter=list-table.lua"; \
+        flags="$flags --css=bbf.css"; \
+for file in PROJECT.yaml ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk ./docs/METADATA.mk; do \
+            bas=$(basename $file); \
+    out=$bas.txt; \
+    echo cp -p $file docs/PROJECT/$out; \
+    cp -p $file docs/PROJECT/$out; \
+    echo "<li>$file -> <a href='$out'>$out</a></li>" \
+	>>docs/PROJECT/index.html; \
+    if [ ${file##*.} = "md" ]; then \
+	[ $bas = "index.md" ] && \
+                    out="_index.html" || out=${out/.md.txt/.html}; \
+	echo pandoc --data-dir=./../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	pandoc --data-dir=./../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	echo "<li>$file -> <a href='$out'>$out</a></li>" \
+		>>docs/PROJECT/index.html; \
+    fi; \
+        done; \
+echo "</ul>" >>docs/PROJECT/index.html
 cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
 cp -p ./docs/README.md docs/PROJECT/README.md.txt
-pandoc --data-dir=./../../install/pandoc/ ./docs/README.md --output=docs/PROJECT/README.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/README.md --output=docs/PROJECT/README.html
 cp -p ./docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
-pandoc --data-dir=./../../install/pandoc/ ./docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
 cp -p ./docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
 cp -p ./docs/METADATA-2.yaml docs/PROJECT/METADATA-2.yaml.txt
+cp -p ./docs/METADATA.yaml docs/PROJECT/METADATA.yaml.txt
 cp -p ./docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
-pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
 cp -p ./docs/METADATA-2.md docs/PROJECT/METADATA-2.md.txt
-pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-2.md --output=docs/PROJECT/METADATA-2.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA-2.md --output=docs/PROJECT/METADATA-2.html
+cp -p ./docs/METADATA.md docs/PROJECT/METADATA.md.txt
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA.md --output=docs/PROJECT/METADATA.html
 cp -p ./docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
 cp -p ./docs/METADATA-2.mk docs/PROJECT/METADATA-2.mk.txt
+cp -p ./docs/METADATA.mk docs/PROJECT/METADATA.mk.txt
 make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'

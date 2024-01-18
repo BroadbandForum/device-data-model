@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [MAP]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-map"
-    file="tr-181-2-16-0-map.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-map"
+    file="tr-181-2-17-0-map.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPv4Prefix"/>
     <dataType name="IPv6Prefix"/>
     <dataType name="StatsCounter32"/>
@@ -171,14 +171,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
       <parameter name="TransportMode" access="readWrite">
         <description>
@@ -295,7 +288,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.16}}
+          {{obsoleted|2.14-2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -318,7 +311,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.16}}
+          {{obsoleted|2.14-2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -345,7 +338,7 @@
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
 
-          {{obsoleted|2.14-2.16}}
+          {{obsoleted|2.14-2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -356,7 +349,7 @@
       </parameter>
 
       <parameter name="IncludeSystemPorts" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Whether to include low-numbered (system) ports in the Port-sets.
           Normally ports in the range
@@ -373,6 +366,8 @@
           {{deprecated|2.15|because details changed between drafting this data
           model and the RFC being published. This parameter has been moved to
           the proper location within the {{object|Rule.{i}.}} object}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <boolean/>
@@ -436,14 +431,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
       <parameter name="Origin" access="readOnly">
         <description>
@@ -668,14 +656,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -940,7 +921,7 @@
         <parameter ref="PSIDLength" requirement="readWrite" status="obsoleted"/>
         <parameter ref="PSID" requirement="readWrite" status="obsoleted"/>
         <parameter ref="IncludeSystemPorts" requirement="readWrite"
-            status="deprecated"/>
+            status="obsoleted"/>
       </object>
       <object ref="Device.MAP.Domain.{i}.Rule.{i}." requirement="createDelete">
         <parameter ref="EABitsLength" requirement="readWrite"/>
@@ -958,7 +939,7 @@
     </profile>
   </component>
 
-  <model name="MAP:2.16">
+  <model name="MAP:2.17">
     <component ref="Root"/>
     <component ref="MAP"/>
   </model>

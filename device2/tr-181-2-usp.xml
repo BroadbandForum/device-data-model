@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  USP Device:2.16 Root Object definition
+  Device:2 Root Data Model definition [USP]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,11 +59,12 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-usp"
-    file="tr-181-2-16-0-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-usp"
+    file="tr-181-2-17-0-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
+    <component name="Alias-2-0"/>
     <dataType name="Alias" ref="_AliasUSP"/>
     <dataType name="IPAddress"/>
     <dataType name="JSONObject"/>
@@ -83,12 +84,12 @@
   </import>
 
   <import file="tr-181-2-gatewayinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-gatewayinfo">
+      spec="urn:broadband-forum-org:tr-181-2-17-gatewayinfo">
     <component name="GatewayInfo"/>
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-common">
+      spec="urn:broadband-forum-org:tr-181-2-17-common">
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
     <component name="SELTUERDiagnosticsInput"/>
@@ -148,12 +149,33 @@
     <component name="SMApplicationData"/>
     <component name="SMRetainData"/>
     <component name="SMEEHostObject"/>
-    <model name="_Device:2.16" ref="Device:2.16"/>
+    <component name="SMEEEnvVariables"/>
+    <model name="_Device:2.17" ref="Device:2.17"/>
+  </import>
+
+  <import file="tr-181-2-softwaremodules.xml"
+      spec="urn:broadband-forum-org:tr-181-2-17-softwaremodules">
+      <component name="SMDUNetworkConfig"/>
+    </import>
+
+  <import file="tr-181-2-deviceinfo.xml"
+    spec="urn:broadband-forum-org:tr-181-2-17-deviceinfo">
+    <component name="DeviceInfoUSP"/>
   </import>
 
   <import file="tr-181-2-wifi-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-wifi-usp">
+      spec="urn:broadband-forum-org:tr-181-2-17-wifi-usp">
     <component name="WiFiUSP"/>
+  </import>
+
+  <import file="tr-181-2-moca-usp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-17-moca-usp">
+    <component name="MoCAUSP"/>
+  </import>
+
+  <import file="tr-181-2-syslog.xml"
+      spec="urn:broadband-forum-org:tr-181-2-17-syslog">
+    <component name="SyslogUSP"/>
   </import>
 
   <!-- Templates used in object and/or parameter descriptions -->
@@ -271,7 +293,7 @@
     </parameter>
   </component>
 
-  <model name="Device:2.16" base="_Device:2.16">
+  <model name="Device:2.17" base="_Device:2.17">
     <object base="Device." access="readOnly" minEntries="1" maxEntries="1">
 
       <parameter name="ProxiedDeviceNumberOfEntries" access="readOnly"
@@ -569,20 +591,24 @@
         <syntax>
           <list/>
           <string>
-            <enumeration value="Streaming" status="deprecated">
+            <enumeration value="Streaming" status="obsoleted">
               <description>
                 IPDR Streaming Protocol {{bibref|IPDR-SP}}
 
                 {{deprecated|2.15|because IPDR Bulk Data Collection is not
                 supported in USP}}
+
+                {{obsoleted|2.17}}
               </description>
             </enumeration>
-            <enumeration value="File" status="deprecated">
+            <enumeration value="File" status="obsoleted">
               <description>
                 IPDR File Transfer Protocol {{bibref|IPDR-FTP}}
 
                 {{deprecated|2.15|because IPDR Bulk Data Collection is not
                 supported in USP}}
+
+                {{obsoleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="HTTP"/>
@@ -601,22 +627,26 @@
         <syntax>
           <list/>
           <string>
-            <enumeration value="XML" status="deprecated">
+            <enumeration value="XML" status="obsoleted">
               <description>
                 Used with the IPDR Streaming and File Protocols.
                 {{bibref|IPDR-XML}}
 
                 {{deprecated|2.15|because IPDR Bulk Data Collection is not
                 supported in USP}}
+
+                {{obsoleted|2.17}}
               </description>
             </enumeration>
-            <enumeration value="XDR" status="deprecated">
+            <enumeration value="XDR" status="obsoleted">
               <description>
                 Used with the IPDR Streaming and File Protocols.
                 {{bibref|IPDR-XDR}}
 
                 {{deprecated|2.15|because IPDR Bulk Data Collection is not
                 supported in USP}}
+
+                {{obsoleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="CSV">
@@ -666,7 +696,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="StreamingHost" access="readWrite" status="deprecated">
+      <parameter name="StreamingHost" access="readWrite" status="obsoleted">
         <description>
           This is the host name or IP Address of the IPDR Collector to be used
           by the CPE to stream bulk data records if this collection profile is
@@ -676,6 +706,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <string>
@@ -684,7 +716,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="StreamingPort" access="readWrite" status="deprecated">
+      <parameter name="StreamingPort" access="readWrite" status="obsoleted">
         <description>
           This is the port number of the IPDR Collector to be used by the CPE
           to stream bulk data records if this collection profile is configured
@@ -694,6 +726,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -704,7 +738,7 @@
       </parameter>
 
       <parameter name="StreamingSessionID" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           This is the unique identification of an IPDR Session to be used when
           this collection profile is configured for the IPDR Streaming Protocol
@@ -721,6 +755,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -730,7 +766,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="FileTransferURL" access="readWrite" status="deprecated">
+      <parameter name="FileTransferURL" access="readWrite" status="obsoleted">
         <description>
           This is the {{datatype}} within the CPE that is used by an IPDR
           Collector to retrieve the IPDRDocs when this collection profile is
@@ -740,6 +776,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <dataType ref="URL"/>
@@ -747,7 +785,7 @@
       </parameter>
 
       <parameter name="FileTransferUsername" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Username used for authentication of the {{param|FileTransferURL}}.
 
@@ -758,6 +796,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <string>
@@ -767,7 +807,7 @@
       </parameter>
 
       <parameter name="FileTransferPassword" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Password used for authentication of the {{param|FileTransferURL}}.
 
@@ -778,6 +818,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax secured="true">
           <string>
@@ -787,7 +829,7 @@
       </parameter>
 
       <parameter name="ControlFileFormat" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           If this collection profile is configured for the IPDR File Transfer
           Protocol {{bibref|IPDR-FTP}} (the {{param|Protocol}} parameter has a
@@ -816,6 +858,8 @@
 
           {{deprecated|2.15|because IPDR Bulk Data Collection is not supported
           in USP}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <string>
@@ -1017,6 +1061,61 @@
             <default type="parameter" value=""/>
           </syntax>
         </parameter>
+        <parameter name="CheckSumAlgorithm" version="2.17">
+          <description>
+              The hash algorithm that was used to generate the checksum
+              for the transferred file.
+          </description>
+            <syntax>
+              <string>
+                <enumeration value="SHA-1">
+                  <description>
+                    As specified in {{bibref|RFC3174}}.
+                  </description>
+                </enumeration>
+                <enumeration value="SHA-224">
+                  <description>
+                    As specified in {{bibref|RFC6234}}.
+                  </description>
+                </enumeration>
+                <enumeration value="SHA-256">
+                  <description>
+                    As specified in {{bibref|RFC6234}}.
+                  </description>
+                </enumeration>
+                <enumeration value="SHA-384">
+                  <description>
+                    As specified in {{bibref|RFC6234}}.
+                  </description>
+                </enumeration>
+                <enumeration value="SHA-512">
+                  <description>
+                    As specified in {{bibref|RFC6234}}.
+                  </description>
+                </enumeration>
+                <enumeration value="Unknown">
+                  <description>
+                    There was no algorithm specified for the transferred file.
+                  </description>
+                </enumeration>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="CheckSum" version="2.17">
+            <description>
+              The hash value that was used for the transferred file. This hash value was 
+              generated using transferred file content and the {{param|CheckSumAlgorithm}}.
+
+              If the argument is {{empty}}, not present, or the {{param|CheckSumAlgorithm}} 
+              is {{enum|Unknown|CheckSumAlgorithm}}, then the
+              Controller can assume that the checksum is not applicable or
+              was not generated for this transfer.
+            </description>
+            <syntax>
+              <hexBinary/>
+            </syntax>
+          </parameter>
       </event>
 
       <command name="AddCertificate()" async="false">
@@ -1168,7 +1267,7 @@
     <object name="Device.LocalAgent.Threshold.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded"
         numEntriesParameter="ThresholdNumberOfEntries" enableParameter="Enable"
-        dmr:previousObject="Device.LocalAgent.MTP.{i}.MQTT." version="2.13">
+        dmr:previousObject="Device.LocalAgent.MTP.{i}.UDS." version="2.13">
       <description>
         Each {{object}} instance of this table represents a Threshold Event.
 
@@ -1178,14 +1277,13 @@
         {{param|ThresholdParam}} may only reference integer parameters and
         {{param|ThresholdValue}} only uses integer values. For example:
 
-           {{param|ReferencePath}}:
-           Device.Ethernet.Interface.[Enable=="1"].Stats.
+            {{param|ReferencePath}}: Device.Ethernet.Interface.[Enable=="1"].Stats.
 
-           {{param|ThresholdParam}}: BytesSent
+            {{param|ThresholdParam}}: BytesSent
 
-           {{param|ThresholdOperator}}: Rise
+            {{param|ThresholdOperator}}: Rise
 
-           {{param|ThresholdValue}}: 100000
+            {{param|ThresholdValue}}: 100000
 
         This would trigger a {{event|Triggered!}} Event whenever a value of a
         parameter matching
@@ -1205,14 +1303,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.13"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1379,14 +1470,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1471,7 +1555,7 @@
 
             When a parameter of an already included object changes multiple
             times within in the configured {{param|##.Interval}}. The parameter
-            must be included in the previously used {{object}} instance and a
+            must be included in the {{object}} instance, where the {{param|ObjectPath}} was previously used, and a
             new {{object|Parameter.{i}}} instance MUST be created.
           </description>
           <uniqueKey functional="true">
@@ -1500,6 +1584,7 @@
 
           <uniqueKey functional="true">
             <parameter ref="Name"/>
+            <parameter ref="ChangeTime"/>
           </uniqueKey>
 
           <parameter name="Name">
@@ -1554,7 +1639,7 @@
         numEntriesParameter="ControllerNumberOfEntries"
         enableParameter="Enable">
 
-      <command name="ScheduleTimer()" status="obsoleted" async="false"
+      <command name="ScheduleTimer()" status="deleted" async="false"
           dmr:previousParameter="USPNotifRetryIntervalMultiplier">
         <description>
           Schedule a ''Timer!'' event on the associated {{object}}.
@@ -1563,6 +1648,8 @@
           asynchronous {{command|##.ScheduleTimer()}}}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
         <input>
 
@@ -1582,7 +1669,7 @@
         </input>
       </command>
 
-      <event name="Timer!" status="obsoleted">
+      <event name="Timer!" status="deleted">
         <description>
           Timer event requested via a ScheduleTimer() command invoked on the
           same Controller instance via an Operate USP message.
@@ -1592,6 +1679,8 @@
           {{command|##.ScheduleTimer()}}}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
 
         <parameter name="CommandKey">
@@ -1658,7 +1747,8 @@
       <command name="SendOnBoardRequest()" async="false">
         <description>
           Requests the Agent to send an ''OnBoardRequest'' notification to this
-          Controller.
+          Controller. This sets the value of {{param|OnBoardingComplete}}
+          to {{false}}.
         </description>
       </command>
 
@@ -1668,6 +1758,62 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="OnBoardingComplete" access="readWrite" version="2.17">
+        <description>
+          Signifies whether the onboarding is completed for this
+          Controller.
+
+          When set to {{false}}, the Controller hasn't completed its onboarding
+          procedure and the agent MUST send it an OnBoardRequest USP
+          Notification when the Controller's {{param|Enable}} parameter is
+          {{true}}. This OnBoardRequest MUST be retried until the Controller
+          confirms it has received the request as required by
+          {{bibref|TR-369|R-NOT.5}} and {{bibref|TR-369|R-NOT.6}}.
+
+          The value of this parameter SHOULD be set to {{true}} by the Controller
+          when it is done with its onboarding procedure or it can be set by the
+          Agent itself when it knows the onboarding has been completed.
+
+          While the value of this parameter is {{false}} it will also restart the OnBoardRequest procedure according to
+          the {{param|OnBoardingRestartTime}} parameter.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+      <parameter name="OnBoardingRestartTime" access="readWrite" version="2.17">
+        <description>
+          This parameter is used to configure a linear retry mechanism for the
+          OnBoardRequest. It represents the time in {{units}} before the
+          OnBoardRequest is retried.
+
+          The OnBoardRequest notification is a USP notification that requires
+          a NotifyResponse message like any other notification that needs to be
+          retried. OnBoardRequest notifications must follow the default retry
+          mechanism as required by {{bibref|TR-369|R-NOT.6}} until the
+          Controller has confirmed the notification with a NotifyResponse
+          message. However, the onboarding procedure typically requires several
+          actions from the Controller before it can be considered as complete
+          and things can go wrong during this procedure. The value of this
+          parameter can be set to configure how long the Agent should wait
+          before it sends another OnBoardRequest. This timer kicks in as soon
+          as the Agent receives the NotifyResponse message for the previous
+          OnBoardRequest. The timer is cancelled when the
+          {{param|OnBoardingComplete}} parameter is set to {{true}}.
+
+          When the value of this parameter is set to 0, the OnBoardRequest is
+          not retried after the notification retry mechanism has
+          been completed.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
         </syntax>
       </parameter>
     </object>
@@ -1741,14 +1887,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1788,7 +1927,7 @@
         functionality for this {{object|##.Controller.{i}}} object instance.
       </description>
 
-      <parameter name="Enable" access="readWrite" status="deprecated">
+      <parameter name="Enable" access="readWrite" status="obsoleted">
         <description>
           Enable/Disable this {{object}} instance.
 
@@ -1801,6 +1940,8 @@
           {{object|##.Controller.{i}}} object instance.
 
           {{deprecated|2.15|because it is replaced by {{param|SessionMode}}}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <boolean/>
@@ -2062,14 +2203,7 @@
         <parameter ref="ID"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2394,14 +2528,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Originator" access="readOnly">
         <description>
@@ -3069,10 +3196,8 @@
                       {{object|##.ExecEnv}} in which the DeploymentUnit is to
                       be installed.
 
-                      The application data will be retained on
-                      {{command|##.DeploymentUnit.{i}.Update()}} or
-                      {{command|##.DeploymentUnit.{i}.Uninstall()}} if and only
-                      if {{template|RetainDataTrue}}.
+                      The application data will be retained on {{command|##.DeploymentUnit.{i}.Update()}} or
+                      {{command|##.DeploymentUnit.{i}.Uninstall()}} if and only if {{template|RetainDataTrue}}.
                     </description>
                   </enumeration>
                 </string>
@@ -3086,12 +3211,35 @@
 
           <object base="HostObject.{i}." minEntries="0" maxEntries="unbounded">
             <description action="replace">
-              This parameter describes the
-              {{object|##.ExecutionUnit.{i}.HostObject}} instances which should
-              be added to any {{object|##.ExecutionUnit}} created by
+              This parameter describes the {{object|##.ExecutionUnit.{i}.HostObject}} instances
+              which should be added to any {{object|##.ExecutionUnit}} created by
               installation of the DeploymentUnit.
             </description>
           </object>
+
+
+          <component ref="SMEEEnvVariables"/>
+
+          <object base="EnvVariable.{i}." minEntries="0" maxEntries="unbounded">
+            <description action="replace">
+              This parameter describes the {{object|##.ExecutionUnit.{i}.EnvVariable}} instances
+              which should be added to any {{object|##.ExecutionUnit}} created by
+              installation of the DeploymentUnit.
+            </description>
+          </object>
+
+          <parameter name="ModuleVersion" mandatory="false" version="2.17">
+            <description>
+              Version of the {{object}} as optionally set by the Controller.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="32"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <component ref="SMDUNetworkConfig"/>
         </input>
       </command>
 
@@ -3335,28 +3483,28 @@
                SHOULD reject the operation with a 7229 (Invalid Deployment Unit
                State) fault code.
 
-               *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a DU and
                the server specified in the URL is not currently reachable or
                the request times out, then the device SHOULD reject the
                operation with a 7033 (Server Unreachable) fault code.
 
-               *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a DU and
                the server specified in the URL fails security checks (e.g. by
                not presenting a valid certificate), then the device SHOULD
                reject the operation with a 7034 (Server Insecure) fault code.
 
-               *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a DU and
                the file returned by the server appears to be corrupt, then the
                device SHOULD reject the operation with a 7035 (Corrupt Data)
                fault code.
 
-               *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a DU and
                the file returned by the server does not match the signature
                provided, or a required signature is absent, then the device
                SHOULD reject the operation with a 7036 (Bad Signature) fault
                code.
 
-               * If a requested operation attempts to Install or Update a DU
+              *If a requested operation attempts to Install or Update a DU
                and includes a RequestedRole argument which contains at least
                one Role which is not in the EE's AvailableRoles list, then the
                device SHOULD reject the operation with a 7032 (Unavailable
@@ -3631,6 +3779,21 @@
         </syntax>
       </parameter>
 
+      <parameter name="AvailableAccessInterfaces" access="readOnly" version="2.17">
+        <description>
+          Represents the network interface through which the outgoing traffic from the ExecutionUnit running in
+          this {{object}} may be allowed.
+
+          This value can be altered by executing the {{command|ModifyAvailableAccessInterfaces()}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".Logical.Interface." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
       <command name="SetRunLevel()" version="2.12" async="false">
         <description>
           Provides a mechanism to remotely manipulate the run level of this
@@ -3707,6 +3870,9 @@
         <description>
           Modify the roles which are available to Deployment Units installed
           into this {{object}}.
+
+          The command will fail if the new list of roles doesn't contain a required role of DeploymentUnit
+          installed previously into the {{object}}.
         </description>
         <input>
 
@@ -3720,6 +3886,34 @@
 
               Each entry in the list is the Name of a row in
               {{object|###.LocalAgent.ControllerTrust.Role}}.
+            </description>
+            <syntax>
+              <list/>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="ModifyAvailableAccessInterfaces()" async="true" version="2.17">
+        <description>
+           Modify the outgoing network traffic interfaces which are available to Deployment Units installed
+           into this {{object}}.
+
+           The command will fail if the new list of access interfaces doesn't contain an access interface required
+           for a DeploymentUnit installed previously into the {{object}}.
+        </description>
+        <input>
+          <parameter name="AccessInterfaces" mandatory="true">
+            <description>
+              The new list of access interfaces which may be assigned to any DeploymentUnit installed into
+              the {{object}} this list replaces the previous value of {{param|#.AvailableAccessInterfaces}}.
+              If this parameter is an empty string then no access interface may be assigned to any DeploymentUnit
+              installed into the {{object}}.
+
+              Each entry in the list is the Name of a row in {{object|.Logical.Interface}}.
             </description>
             <syntax>
               <list/>
@@ -3920,10 +4114,8 @@
                 The application data will be lost if the {{object|###}} is
                 removed.
 
-                The application data will be retained on
-                {{command|##.DeploymentUnit.{i}.Update()}} or
-                {{command|##.DeploymentUnit.{i}.Uninstall()}} if and only if
-                {{template|RetainDataTrue}}.
+                The application data will be retained on {{command|##.DeploymentUnit.{i}.Update()}} or
+                {{command|##.DeploymentUnit.{i}.Uninstall()}} if and only if {{template|RetainDataTrue}}.
               </description>
             </enumeration>
           </string>
@@ -3939,7 +4131,18 @@
     </object>
 
     <object base="Device.SoftwareModules.DeploymentUnit.{i}."
-        access="readOnly" minEntries="0" maxEntries="unbounded">
+      access="readOnly" minEntries="0" maxEntries="unbounded">
+      <parameter name="ModuleVersion" access="readOnly" version="2.17">
+        <description>
+          Version of the {{object}} as optionally set by the Controller during {{command|#.InstallDU()}} command or {{command|Update()}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="32"/>
+          </string>
+        </syntax>
+      </parameter>
+
       <parameter base="URL" access="readOnly">
         <description action="replace">
           Contains the {{datatype}} used by the most recent
@@ -4036,7 +4239,7 @@
               such row then the command will fail, as installation requires a
               role which is not available on the Device.
 
-              If this argument is absent or empty then no roles are required in
+              If this argument is empty then no roles are required in
               order for the application to function.
             </description>
             <syntax>
@@ -4062,7 +4265,7 @@
               will be ignored. Some Agents may apply further filtering, for
               roles which are considered security- or privacy-sensitive.
 
-              If this argument is absent or empty then no additional roles are
+              If this argument is empty then no additional roles are
               required in order for the application to be able to provide its
               full functionality.
             </description>
@@ -4248,6 +4451,33 @@
               instances which may have been present before the update.
             </description>
           </object>
+
+          <component ref="SMEEEnvVariables"/>
+
+          <object base="EnvVariable.{i}." minEntries="0" maxEntries="unbounded">
+            <description action="replace">
+              This parameter describes the
+              {{object|###.ExecutionUnit.{i}.EnvVariable}} instances which
+              should be present after the update in any
+              {{object|###.ExecutionUnit}} created by this DeploymentUnit. This
+              table supersedes any {{object|###.ExecutionUnit.{i}.EnvVariable}}
+              instances which may have been present before the update.
+            </description>
+          </object>
+
+          <parameter name="ModuleVersion" mandatory="false" version="2.17">
+            <description>
+              Version of the {{object}} as optionally set by the Controller.
+              When the argument is absent then {{param}} is unchanged.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="32"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <component ref="SMDUNetworkConfig"/>
         </input>
       </command>
 
@@ -4371,8 +4601,8 @@
         access="readOnly" minEntries="1" maxEntries="1">
       <parameter base="RetryCount" access="readWrite">
         <description action="append">
-          Invoking the {{command|#.Restart()}} command also has the effect of
-          resetting this parameter to zero.
+          Invoking the {{command|#.Restart()}} command
+          also has the effect of resetting this parameter to zero.
         </description>
         <syntax>
           <unsignedInt/>
@@ -4411,19 +4641,12 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="IsNativeDevice" access="readOnly">
         <description>
           If {{true}} this {{object}} models the top level {{object|#}} only one instance
-          can represent the top-level device. If {{false}} this {{object}} represents another 
+          can represent the top-level device. If {{false}} this {{object}} represents another
           device in the network.
         </description>
         <syntax>
@@ -4649,14 +4872,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
       <component ref="IoT_ProxiedDeviceExtensionComponent"/>
       <component ref="IoT_NodeComponent"/>
     </object>
@@ -6845,14 +7061,30 @@
       <component ref="ManagementServerCommon" version="2.15"/>
     </object>
 
+    <object base="Device.DNS.Relay.Config.{i}." access="readWrite"
+      numEntriesParameter="ConfigNumberOfEntries"
+      minEntries="0" maxEntries="unbounded">
+      <command name="FlushCache()" async="false" version="2.17">
+        <description>
+          This command empties the cache.
+        </description>
+      </command>
+    </object>
+
     <component ref="STOMP" version="2.12"/>
     <component ref="GatewayInfo"/>
+
 
     <!-- Profiles -->
     <component ref="WiFiUSP"/>
 
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>
+
+    <component ref="MoCAUSP"/>
+    <component ref="SyslogUSP"/>
+    <component ref="DeviceInfoUSP"/>
+
     <!-- General Commands from common model -->
 
     <profile name="Download:1" version="2.12">
@@ -6881,7 +7113,7 @@
       </object>
     </profile>
 
-    <profile name="IPLayerCapacity:1" version="2.14" status="deprecated">
+    <profile name="IPLayerCapacity:1" version="2.14" status="obsoleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
         <parameter ref="IPLayerMaxConnections" requirement="readOnly"/>
@@ -6891,10 +7123,10 @@
           <input>
             <parameter ref="Interface"/>
             <parameter ref="Role"/>
-            <parameter ref="Host"/>
-            <parameter ref="Port"/>
+            <parameter ref="Host" status="obsoleted"/>
+            <parameter ref="Port" status="obsoleted"/>
             <parameter ref="JumboFramesPermitted"/>
-            <parameter ref="NumberOfConnections"/>
+            <parameter ref="NumberOfConnections" status="obsoleted"/>
             <parameter ref="EthernetPriority"/>
             <parameter ref="DSCP"/>
             <parameter ref="ProtocolVersion"/>
@@ -6908,7 +7140,7 @@
             <parameter ref="NumberTestSubIntervals"/>
             <parameter ref="TestSubInterval"/>
             <parameter ref="StatusFeedbackInterval"/>
-            <parameter ref="TimeoutNoTraffic" status="deprecated"/>
+            <parameter ref="TimeoutNoTraffic" status="obsoleted"/>
             <parameter ref="Tmax"/>
             <parameter ref="TmaxRTT"/>
             <parameter ref="TimestampResolution"/>
@@ -6944,7 +7176,7 @@
       </object>
     </profile>
 
-    <profile name="IPLayerCapacityTest:1" version="2.15">
+    <profile name="IPLayerCapacityTest:1" version="2.15" status="deprecated">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
         <parameter ref="IPLayerCapSupportedSoftwareVersion"
@@ -6955,7 +7187,7 @@
         <command ref="IPLayerCapacity()">
           <input>
             <parameter ref="Role"/>
-            <parameter ref="Host"/>
+            <parameter ref="Host" status="deprecated"/>
             <parameter ref="JumboFramesPermitted"/>
             <parameter ref="DSCP"/>
             <parameter ref="TestType"/>
@@ -6982,6 +7214,50 @@
             <parameter ref="IPLayerCapacitySummary"/>
             <parameter ref="LossRatioSummary"/>
             <parameter ref="MinRTTSummary"/>
+          </output>
+        </command>
+      </object>
+    </profile>
+
+    <profile name="IPLayerCapacityTest:2" version="2.17">
+      <object ref="Device.IP.Diagnostics." requirement="present">
+        <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
+        <parameter ref="IPLayerCapSupportedSoftwareVersion"
+            requirement="readOnly"/>
+        <parameter ref="IPLayerCapSupportedControlProtocolVersion"
+            requirement="readOnly"/>
+        <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
+        <command ref="IPLayerCapacity()">
+          <input>
+            <parameter ref="Role"/>
+            <parameter ref="ServerList"/>
+            <parameter ref="JumboFramesPermitted"/>
+            <parameter ref="DSCP"/>
+            <parameter ref="TestType"/>
+            <parameter ref="IPDVEnable"/>
+            <parameter ref="TestSubInterval"/>
+            <parameter ref="StatusFeedbackInterval"/>
+            <parameter ref="SeqErrThresh"/>
+            <parameter ref="ReordDupIgnoreEnable"/>
+            <parameter ref="LowerThresh"/>
+            <parameter ref="UpperThresh"/>
+            <parameter ref="HighSpeedDelta"/>
+            <parameter ref="SlowAdjThresh"/>
+          </input>
+          <output>
+            <parameter ref="BOMTime"/>
+            <parameter ref="MaxIPLayerCapacity"/>
+            <parameter ref="TimeOfMax"/>
+            <parameter ref="LossRatioAtMax"/>
+            <parameter ref="RTTRangeAtMax"/>
+            <parameter ref="PDVRangeAtMax"/>
+            <parameter ref="MaxETHCapacityNoFCS"/>
+            <parameter ref="MaxETHCapacityWithFCS"/>
+            <parameter ref="MaxETHCapacityWithFCSVLAN"/>
+            <parameter ref="IPLayerCapacitySummary"/>
+            <parameter ref="LossRatioSummary"/>
+            <parameter ref="MinRTTSummary"/>
+            <parameter ref="ActiveFlows"/>
           </output>
         </command>
       </object>
@@ -7475,7 +7751,7 @@
         <parameter ref="ConnectionNumberOfEntries" requirement="readOnly"/>
       </object>
       <object ref="Device.STOMP.Connection.{i}." requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
         <parameter ref="Host" requirement="readWrite"/>
@@ -7594,7 +7870,7 @@
       <object ref="Device.IP.Interface.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -7659,7 +7935,7 @@
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="IPv6Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -7679,7 +7955,7 @@
       <object ref="Device.PPP.Interface.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -7925,7 +8201,7 @@
         <parameter ref="FirmwareImageNumberOfEntries" requirement="readOnly"/>
       </object>
       <object ref="Device.DeviceInfo.FirmwareImage.{i}." requirement="present">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="Version" requirement="readOnly"/>
         <parameter ref="Available" requirement="readWrite"/>
@@ -7952,9 +8228,9 @@
     </profile>
 
     <profile name="CoAPAgent:1" extends="LocalAgent:1" version="2.13"
-        status="deprecated">
+        status="obsoleted">
       <object ref="Device.LocalAgent.MTP.{i}.CoAP." requirement="present"
-          status="deprecated">
+          status="obsoleted">
         <parameter ref="Port" requirement="readOnly"/>
         <parameter ref="Path" requirement="readOnly"/>
       </object>
@@ -8007,9 +8283,9 @@
     </profile>
 
     <profile name="CoAPController:1" extends="Controllers:1" version="2.13"
-        status="deprecated">
+        status="obsoleted">
       <object ref="Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP."
-          requirement="present" status="deprecated">
+          requirement="present" status="obsoleted">
         <parameter ref="Host" requirement="readOnly"/>
         <parameter ref="Port" requirement="readOnly"/>
         <parameter ref="Path" requirement="readOnly"/>
@@ -8067,7 +8343,7 @@
       <object ref="Device.LocalAgent.Subscription.{i}."
           requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="ID" requirement="readWrite"/>
         <parameter ref="Recipient" requirement="readOnly"/>
         <parameter ref="CreationDate" requirement="readOnly"/>
@@ -8101,14 +8377,14 @@
       </object>
       <object ref="Device.LocalAgent.ControllerTrust.Role.{i}."
           requirement="present">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="PermissionNumberOfEntries" requirement="readOnly"/>
       </object>
       <object ref="Device.LocalAgent.ControllerTrust.Role.{i}.Permission.{i}."
           requirement="present">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Targets" requirement="readOnly"/>
         <parameter ref="Param" requirement="readOnly"/>
@@ -8122,6 +8398,36 @@
       <object ref="Device.LocalAgent.ControllerTrust.Role.{i}.Permission.{i}."
           requirement="present">
         <parameter ref="Order" requirement="readWrite"/>
+      </object>
+    </profile>
+
+    <profile name="UDSAgent:1" extends="LocalAgent:1" version="2.17">
+      <object ref="Device.LocalAgent.MTP.{i}.UDS." requirement="present">
+        <parameter ref="UnixDomainSocketRef" requirement="readOnly"/>
+      </object>
+      <object ref="Device.UnixDomainSockets." requirement="present">
+        <parameter ref="UnixDomainSocketNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.UnixDomainSockets.UnixDomainSocket.{i}." requirement="present">
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
+        <parameter ref="Mode" requirement="readOnly"/>
+        <parameter ref="Path" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="UDSController:1" extends="Controllers:1" version="2.17">
+      <object ref="Device.LocalAgent.Controller.{i}.MTP.{i}.UDS."
+          requirement="present">
+        <parameter ref="UnixDomainSocketRef" requirement="readOnly"/>
+        <parameter ref="USPServiceRef" requirement="readOnly"/>
+      </object>
+      <object ref="Device.UnixDomainSockets." requirement="present">
+        <parameter ref="UnixDomainSocketNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.UnixDomainSockets.UnixDomainSocket.{i}." requirement="present">
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
+        <parameter ref="Mode" requirement="readOnly"/>
+        <parameter ref="Path" requirement="readOnly"/>
       </object>
     </profile>
 

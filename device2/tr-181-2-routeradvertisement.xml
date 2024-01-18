@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [RouterAdvertisement]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement"
-    file="tr-181-2-16-0-routeradvertisement.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement"
+    file="tr-181-2-17-0-routeradvertisement.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -167,14 +167,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -185,6 +178,66 @@
             <pathRef refType="strong" targetParent="##.IP.Interface."
                 targetType="row"/>
           </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RDNSSMode" access="readWrite" version="2.17">
+        <description>
+          Describes which IPv6 address information MUST be specified in the RDNSS option field specified in {{bibref|RFC8106|5.1. Recursive DNS Server Option}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Static">
+              <description>
+                The DNS Servers as defined in the {{param|RDNSS}} parameter should be used in the RA messages.
+                A comma separated list of IPv6 addresses must be supported.
+              </description>
+            </enumeration>
+            <enumeration value="LLA">
+              <description>
+                The link-local IPv6 address of the {{param|Interface}} is sent in the RA messages.
+              </description>
+            </enumeration>
+            <enumeration value="GUA" optional="true">
+              <description>
+                The global unique IPv6 addresses of the {{param|Interface}} are sent in the RA messages.
+              </description>
+            </enumeration>
+            <enumeration value="LLA_GUA" optional="true">
+              <description>
+                Both GUA and LLA of the {{param|Interface}} are sent in the RA messages.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Static"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RDNSS" access="readWrite" version="2.17">
+        <description>
+          The RDNSS parameter contains one or more IPv6 addresses of RDNSSes as described in {{bibref|RFC8106|5.1. Recursive DNS Server Option}}.
+
+          When {{param|RDNSSMode}} is not {{enum|Static|RDNSSMode}}, this parameter will contain the list of IPv6 addresses, automatically filled in by the system, that needs to be advertised.
+
+          {{empty}} means that no RDNSS information is being advertised.
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="IPv6Address"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DNSSL" access="readWrite" version="2.17">
+        <description>
+          The DNSSL parameter contains one or more domain names of DNS suffixes as described in {{bibref|RFC8106|5.2. DNS Search List Option}}.
+
+          {{empty}} means that no DNSSL information is being advertised.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
           <default type="object" value=""/>
         </syntax>
       </parameter>
@@ -437,6 +490,48 @@
         </syntax>
       </parameter>
 
+      <parameter name="AdvRDNSSLifetime" access="readWrite" version="2.17">
+        <description>
+          The Lifetime field in RDNSS specifies the maximum duration, in {{units}},
+          during which the provided RDNSS addresses can be used for name resolution relative to the time the packet is received.
+          By default, the value of Lifetime is recommended to be at least 3 times the MaxRtrAdvInterval.
+          The MaxRtrAdvInterval is defined in {{bibref|RFC4861}} and refers to the maximum interval between Router Advertisement (RA) messages.
+
+          When the Lifetime value is set to all one bits (0xffffffff), it indicates an infinite duration.
+
+          The Lifetime value of zero signifies that the RDNSS addresses must not be used anymore,
+          as specified in {{bibref|RFC8106|5.1. Recursive DNS Server Option}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="4294967295"/>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AdvDNSSLLifetime" access="readWrite" version="2.17">
+        <description>
+          The Lifetime field in DNSSL specifies the maximum duration, in {{units}},
+          during which the provided DNSSL domain names can be used for name resolution relative to the time the packet is received.
+          By default, the value of Lifetime is recommended to be at least 3 times the MaxRtrAdvInterval.
+          The MaxRtrAdvInterval is defined in {{bibref|RFC4861}} and refers to the maximum interval between Router Advertisement (RA) messages.
+
+          When the Lifetime value is set to all one bits (0xffffffff), it indicates an infinite duration.
+
+          The Lifetime value of zero signifies that the DNSSL domain names must not be used anymore,
+          as specified in {{bibref|RFC8106|5.2. DNS Search List Option}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+            <range maxInclusive="4294967295"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
       <parameter name="OptionNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -479,14 +574,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -546,7 +634,7 @@
     </profile>
   </component>
 
-  <model name="RouterAdvertisement:2.16">
+  <model name="RouterAdvertisement:2.17">
     <component ref="Root"/>
     <component ref="RouterAdvertisement"/>
   </model>

@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-softwaremodules"
-    file="tr-181-2-16-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-softwaremodules"
+    file="tr-181-2-17-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="URL"/>
     <dataType name="UUID"/>
   </import>
@@ -167,7 +167,7 @@
       <syntax>
         <boolean/>
         <default type="implementation" value="false"/>
-      </syntax> 
+      </syntax>
     </parameter>
   </component>
 
@@ -219,6 +219,40 @@
      </object>
   </component>
 
+  <component name="SMEEEnvVariables">
+     <object name="EnvVariable.{i}." minEntries="0" maxEntries="unbounded"
+        version="2.17" access="readOnly"
+        numEntriesParameter="EnvVariableNumberOfEntries">
+       <description>
+         This parameter describes the environment variables which are accessible
+         to the ExecutionUnit.
+       </description>
+       <parameter name="Key" mandatory="true" access="readOnly">
+         <description>
+           The Environment variable name that needs to be passed to the Execution
+           unit when the execution unit is activated.
+         </description>
+         <syntax>
+           <string>
+             <size maxLength="2048"/>
+           </string>
+         </syntax>
+       </parameter>
+       <parameter name="Value" mandatory="true" access="readOnly">
+         <description>
+           The Environment variable value associated with the name that needs to be
+           passed to the Execution unit it is activated.
+         </description>
+         <syntax>
+           <string>
+             <size maxLength="2048"/>
+           </string>
+         </syntax>
+       </parameter>
+     </object>
+  </component>
+
+
   <component name="SMEEResourceConstraints">
     <parameter name="AllocatedDiskSpace" access="readOnly">
       <description>
@@ -263,6 +297,94 @@
        <default type="implementation" value="-1"/>
       </syntax>
     </parameter>
+  </component>
+
+  <component name="SMDUNetworkConfig">
+    <object name="NetworkConfig." version="2.17">
+      <description>
+        Specifies the network configuration for any ExecutionUnit generated during the installation or update of the DeploymentUnit.
+
+        When this argument or any of its child objects are missing from the {{command|.SoftwareModules.InstallDU()}},
+        the corresponding absent part is considered unnecessary and will not be available to the ExecutionUnit.
+
+        When this argument is not present in the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
+        the network configuration remains unaltered.
+       </description>
+      <parameter name="AccessInterfaces" mandatory="false">
+        <description>
+          The logical network interfaces which the application installed by this command will be allowed to send traffic through it.
+          If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
+          of the ExecEnv into which the DU is to be installed then the command will fail.
+
+          Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
+          Each entry in the list is the Name of a row in {{object|.Logical.Interface.}}.
+
+          If there is no such row then the command will fail, as installation requires access to a network, through the logical interface, which is not available.
+
+          When this argument is absent or {{empty}} then no outgoing network access is required for the ExecutionUnit to function.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" access="readOnly" version="2.17">
+      <description>
+        Defines the list of required port mapping rules for any ExecutionUnit which
+        is created as a result of this call command.
+      </description>
+
+      <parameter name="Interface" access="readWrite" mandatory="true" >
+        <description>
+          Name of a row in {{object|.Logical.Interface.}}. Specifies the logical interface to which the port mapping applies.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ExternalPort" access="readWrite" mandatory="true" >
+        <description>
+          The external port that the NAT gateway would listen on for traffic to a
+          corresponding InternalPort. Inbound packets to this external port on the selected
+          interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="InternalPort" access="readWrite" mandatory="true" >
+        <description>
+          The port on ExecutionUnit that the gateway MUST forward traffic to.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readWrite" mandatory="true">
+        <description>
+          The protocol of the port mapping.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="TCP"/>
+            <enumeration value="UDP"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
   </component>
 
   <component name="SoftwareModules">
@@ -328,14 +450,7 @@
         <parameter ref="Version"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -501,14 +616,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.1"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -755,14 +863,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" dmr:previousParameter="">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="ApplicationUUID" access="readOnly">
         <description>
@@ -840,14 +941,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.1"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1115,14 +1209,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.1"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1496,6 +1583,16 @@
           <unsignedInt/>
             </syntax>
       </parameter>
+
+      <parameter name="EnvVariableNumberOfEntries" access="readOnly"
+          version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+            </syntax>
+      </parameter>
     </object>
 
 
@@ -1503,7 +1600,7 @@
         access="readOnly" minEntries="1" maxEntries="1" version="2.16">
       <description>
         Configures the parameters of the auto-restart algorithm for this
-        {{object|#}}.
+        EU.
 
         An auto-restart may be triggered if the Agent determines that the EU
         has terminated abnormally. An exponential backoff algorithm is applied
@@ -1529,7 +1626,7 @@
 
       <parameter name="Enable" access="readWrite">
         <description>
-          Enable the auto-restart feature for this {{object|#}}.
+          Enable the auto-restart feature for this EU.
         </description>
         <syntax>
           <boolean/>
@@ -1585,7 +1682,7 @@
 
       <parameter name="ResetPeriod" access="readWrite">
         <description>
-          If the {{object|#}} runs for this number of {{units}} without
+          If the EU runs for this number of {{units}} without
           terminating abnormally the Agent MAY reset the {{param|RetryCount}}
           to zero, thereby resetting the exponential backoff algorithm. A value
           of zero disables this behavior.
@@ -1599,9 +1696,9 @@
 
       <parameter name="RetryCount" access="readWrite">
         <description>
-          The number of restart attempts which have been initiated so far.
-          Resetting this parameter to zero has the effect of re-initialising
-          the exponential back-off algorithm.
+          The number times the EU has terminated abnormally and a restart has
+          been attempted.  Resetting this parameter to zero has the effect of
+          re-initialising the exponential back-off algorithm.
         </description>
         <syntax>
           <unsignedInt/>
@@ -1630,6 +1727,38 @@
       </parameter>
     </object>
 
+    <object name="Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig." access="readOnly" version="2.17">
+      <description>
+        Parameters of the network configuration for this ExecutionUnit.
+
+        When no network configuration is provided, the EU will not have any network access.
+      </description>
+
+      <parameter name="AccessInterfaceRefList" access="readOnly">
+        <description>
+          Represents the network interface through which the traffic from the EU will be allowed.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".Logical.Interface." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="PortMappingRefList" access="readOnly">
+        <description>
+          Represents the list of Port mappings associated with this EU.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".NAT.PortMapping." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
     <component ref="SMEEHostObject"
         path="Device.SoftwareModules.ExecutionUnit.{i}."/>
 
@@ -1641,14 +1770,21 @@
       <uniqueKey functional="true">
         <parameter ref="Destination"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite" dmr:previousParameter="">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
+    </object>
+
+    <component ref="SMEEEnvVariables"
+        path="Device.SoftwareModules.ExecutionUnit.{i}."/>
+
+    <object base="Device.SoftwareModules.ExecutionUnit.{i}.EnvVariable.{i}."
+        access="readOnly" minEntries="0" maxEntries="unbounded">
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Key"/>
+      </uniqueKey>
+      <component ref="Alias-2-0" version="2.17"/>
     </object>
 
     <object name="Device.SoftwareModules.ExecutionUnit.{i}.Extensions."
@@ -1663,7 +1799,7 @@
     </object>
   </component>
 
-  <model name="SoftwareModules:2.16">
+  <model name="SoftwareModules:2.17">
     <component ref="Root"/>
     <component ref="SoftwareModules"/>
   </model>

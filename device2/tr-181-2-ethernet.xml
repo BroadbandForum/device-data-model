@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Ethernet]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-ethernet"
-    file="tr-181-2-16-0-ethernet.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-ethernet"
+    file="tr-181-2-17-0-ethernet.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
@@ -184,8 +184,7 @@
         {{bibref|TR-181i2|Section 4.2}}). This table models physical Ethernet
         ports, but in terms of the interface stack it only models the PHY and
         Connection Access Method of the Ethernet interface MAC. A
-        {{object|#.Interface}} is also required to model a full Ethernet
-        device.
+        {{object|#.Link}} is also required to model a full Ethernet device.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -245,14 +244,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -415,6 +407,34 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EEEStatus" access="readOnly" version="2.17">
+        <description>
+          Indicates the active state of Energy Efficient Ethernet
+          {{bibref|802.3-2012_section6|Section 78}}.
+
+          The {{enum|Disabled}} value indicates that {{param|EEEEnable}} is disabled.
+
+          The {{enum|Active}} value indicates that {{param|EEEEnable}} is enabled and
+          that EEE support has been negotiated with the link partner. In this state EEE
+          will be used.
+
+          The {{enum|Inactive}} value indicates that {{param|EEEEnable}} is disabled, or that
+          EEE support has not been negotiated with the link partner, either because the
+          link parter is not EEE capable, or its support for EEE is disabled.
+
+          The {{enum|Unsupported}} value indicates that this physical interface does not
+          support EEE. In which case {{param|EEECapability}} will be {{false}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Active"/>
+            <enumeration value="Inactive"/>
+            <enumeration value="Unsupported"/>
+          </string>
         </syntax>
       </parameter>
     </object>
@@ -680,14 +700,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1029,14 +1042,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1399,14 +1405,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.4"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1815,14 +1814,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -2086,7 +2078,7 @@
           requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -2119,7 +2111,7 @@
       <object ref="Device.Ethernet.Link.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -2151,7 +2143,7 @@
       <object ref="Device.Ethernet.Interface.{i}." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="Upstream" requirement="readOnly"/>
@@ -2186,7 +2178,7 @@
     </profile>
   </component>
 
-  <model name="Ethernet:2.16">
+  <model name="Ethernet:2.17">
     <component ref="Root"/>
     <component ref="Ethernet"/>
   </model>

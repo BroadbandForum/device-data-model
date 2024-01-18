@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-atm"
-    file="tr-181-2-16-0-atm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-atm"
+    file="tr-181-2-17-0-atm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -273,14 +273,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -736,7 +729,7 @@
       <object ref="Device.ATM.Link.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>

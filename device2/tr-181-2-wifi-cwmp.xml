@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WiFi CWMP]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-wifi-cwmp"
-    file="tr-181-2-16-0-wifi-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi-cwmp"
+    file="tr-181-2-17-0-wifi-cwmp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-17-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
@@ -144,11 +144,13 @@
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Error" access="readOnly" optional="true"/>
             <enumeration value="Completed" access="readOnly"
-                status="obsoleted">
+                status="deleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
 
                 {{obsoleted|2.16}}
+
+                {{deleted|2.17}}
               </description>
             </enumeration>
           </dataType>

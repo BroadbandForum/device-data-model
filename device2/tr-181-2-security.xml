@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Security]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-security"
-    file="tr-181-2-16-0-security.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-security"
+    file="tr-181-2-17-0-security.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -176,10 +176,11 @@
 
       <parameter name="SubjectAlt" access="readOnly">
         <description>
-          {{list}} Each item is a DNS Name.
+          {{list}} Each item specifies an identity that is bound to the
+          certificate's subject, and thus bound to the Public Key.
 
-          The Subject Alternative Names extension field in an X.509
-          certificate, see {{bibref|RFC5280}}.
+          The Subject Alternative Names extension field in an X.509 certificate,
+          see {{bibref|RFC5280}}.
         </description>
         <syntax>
           <list>

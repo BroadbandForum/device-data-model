@@ -5,6 +5,57 @@
 See <https://device-data-model.broadband-forum.org> for the
 current TR-181 specification.
 
+## 2024-01-18: [TR-181 Issue 2 Amendment 17]
+
+*Tags: [v2.17.0] (TR-181), 
+       [v1.11.0][TR-106-v1.11.0] (TR-106 didn't change)*
+
+### TR-181 Document
+* Refreshed some data model diagrams
+
+### Data Model
+* Added new parameters for Multi-flow and Multi-server testing
+  capability as defined in TR-471 Issue 4
+* Updated MoCA data model with MoCA Alliance 2.5 specification
+* Added Device.DNS.SD.Advertise object to to allow the configuration of
+  DNS-SD services that need to be advertised by the device
+* Added RDNSS and DNSSL options to the Device.RouterAdvertisement.InterfaceSetting.{i}. object
+* Added missing parameters from the Data Elements R2.1 specification
+* Added the Zone file concept to the Device.DNS. object
+* Added DNS caching configurability to the Device.DNS.Relay. object, allowing for control
+  over the cache settings, added a mechanism to allow the specification of the ingress (LAN side) interface(s)
+  to be used by the DNS forwarders
+* Added new InterfaceSetting object to Device.Firewall.
+* Added ModuleVersion parameter to InstallDU() and Update() commands
+* Added Origin parameter to PinHole, PortMapping and AccesssControl
+* Added PhysAddresMask parameter to AccessControl
+* Added LeaseDuration and RemainLeaseTime parameters to the DMZ and Pinhole objects
+* Added Device.Firewall.ConnectionTracking. object tree to configure ALGs
+* Added missing DSL xTU-C and xTU-R parameters to DSL objects
+* Added Device.Syslog. object tree to configure a syslog service
+* Added Support for password authentication in xPON
+* Added MaxNumberOfPortMappings and MaxNumberOfPortTriggers parameters to indicate system limits
+* Fixed the access of some UserInterface parameters and objects: Demoted Session and User to read-only, promoted Protocol to read-write
+* Fixed the access of a SSH parameter: Promoted AutoDisableDuration to read-write
+* Fixed the access of a USPServices parameter: Demoted Protocol to read-only
+* Added UDSAgent:1 and UDSController:1 profiles
+* Added Device.DeviceInfo.LogRotate.{i}. to setup a log rotation mechanism
+* Clarified descriptions of parameters in Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.
+* Added initial support for the 802.11be Wi-Fi 7 standard/mode in various places
+* Added OnBoardingComplete parameter to Device.LocalAgent.Controller.{i}.
+* Clarified suggested implementation of Device.PeriodicStatistics. concept
+* Added support for passing environment variables to software modules
+* Removed reference to an incorrect default port requirement from TR-471
+* Added EEEStatus parameter to Device.Ethernet.Interface.{i}.
+* Extended the key of Device.LocalAgent.Monitor.{i}.OnChange! ChangeSet.{i}.Parameter.{i}. output argument to include ChangeTime
+* Added objects and parameters to align with the work-in-progress DataElements R3 specification
+* Refactored scheduling related parameters into component for easier reuse and added Active and TimeLeft parameters
+* Added Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig. object and parameters
+* Added MaxSupportedDataDownlinkRate, MaxSupportedDataUplinkRate, SNR, and MaxSupportedBandwidth parameters to Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.
+* Replaced custom coded Order parameter type and descriptions with the new Order datatype and text template
+* Changed the default WebSocket port from 5683 to 8443
+* Added support for checksum reporting to TransferComplete! event
+
 ## 2023-06-14: [TR-181 Issue 2 Amendment 16]
 
 *Tags: [v2.16.0] (TR-181), 
@@ -233,6 +284,12 @@ current TR-181 specification.
 * ConnectionRequest HTTP service toggle
 * DNS fallback support for XMPP connections
 
+## 2016-07-01: TR-181 Issue 2 Corrigendum 2
+
+*Tag: [v2.0.2]*
+
+* Removed *SSID* unique key from *WiFi.SSID* object
+
 ## 2015-11-09: [TR-181 Issue 2 Amendment 10]
 
 *Tag: [v2.10.0]*
@@ -245,6 +302,15 @@ current TR-181 specification.
 * Bulk data over HTTP
 * DNS Server updates
 * New diagnostics state
+
+## 2015-11-01: TR-181 Amendment 7
+
+*Tag: [v1.7.0]*
+
+### Data Model
+Incorporated new components from [TR-157 Amendment 10]
+
+* Update Bulk Data Collection for HTTP Transport
 
 ## 2014-12-01: TR-181 Issue 2 Amendment 9
 
@@ -275,6 +341,18 @@ current TR-181 specification.
 * Added PCP data model
 * Added Cellular interface data model
 
+## 2014-09-01: TR-181 Amendment 6
+
+*Tag: [v1.6.0]*
+
+### Data Model
+Incorporated new components from TR-157 Amendment 9
+
+* Added Inform Parameters table to ManagementServer
+* Added *HTIP* Component to *DeviceInfo* containing HTIP related
+  parameters
+* Updated the *UPnP* component for HTIP parameters
+
 ## 2013-11-11: [TR-181 Issue 2 Amendment 7]
 
 *Tag: [v2.7.0]*
@@ -287,6 +365,16 @@ current TR-181 specification.
 * Added ZigBee and Provider Bridge data models
 * Also added additional WiFi statistics, and other minor changes
 
+## 2013-11-01: TR-181 Amendment 5
+
+*Tag: [v1.5.0]*
+
+### Data Model
+Incorporated new components from TR-157 Amendment 8
+
+* Addition of *MS_StandbyPolicy*, *XMPP* and *XMPPConnReq*
+  components; other minor updates
+
 ## 2012-11-01: [TR-181 Issue 2 Amendment 6]
 
 *Tag: [v2.6.0]*
@@ -295,6 +383,15 @@ current TR-181 specification.
 * Added support M2M SCL Administration as an Appendix
 
 ### Data Model
+
+## 2012-11-01: TR-181 Amendment 4
+
+*Tag: [v1.4.0]*
+
+### Data Model
+Incorporated new components from TR-157 Amendment 7
+
+* Addition of *DNS_SD* component; other minor updates
 
 ## 2012-05-01: [TR-181 Issue 2 Amendment 5]
 
@@ -306,6 +403,15 @@ current TR-181 specification.
 ### Data Model
 * Added support for IPsec and bulk data collection
 
+## 2012-05-01: TR-181 Amendment 3
+
+*Tag: [v1.3.0]*
+
+### Data Model
+Incorporated new components from TR-157 Amendment 6
+
+* Addition of *BulkDataCollection* component
+
 ## 2011-11-01: TR-181 Issue 2 Amendment 4
 
 *Tag: [v2.4.0]*
@@ -314,12 +420,32 @@ current TR-181 specification.
 * Added support for G.hn and Optical interfaces
 * Additional WiFi parameters
 
+## 2011-11-01: TR-181 Amendment 2
+
+*Tag: [v1.2.0]*
+
+### Data Model
+Incorporated new components from [TR-157 Amendment 5]
+
+Incorporated Femto components from [TR-262]
+
+* Addition of *Location*, *FaultManagement* and *Security* components
+
 ## 2011-07-01: TR-181 Issue 2 Amendment 3
 
 *Tag: [v2.3.0]*
 
 ### Data Model
 * Added support for proxy management and alias-based addressing
+
+## 2011-07-01: TR-181 Amendment 1
+
+*Tag: [v1.1.0]*
+
+### Data Model
+Incorporated new components from TR-157 Amendment 4
+
+* Support for CWMP Proxy Management and Alias-Based Addressing
 
 ## 2011-02-01: [TR-181 Issue 2 Amendment 2]
 
@@ -338,12 +464,6 @@ current TR-181 specification.
 ### Data Model
 * Added support for Software Module Management
 
-## 2016-07-01: TR-181 Issue 2 Corrigendum 2
-
-*Tag: [v2.0.2]*
-
-* Removed *SSID* unique key from *WiFi.SSID* object
-
 ## 2010-11-01: TR-181 Issue 2 Corrigendum 1
 
 *Tag: [v2.0.1]*
@@ -361,75 +481,6 @@ current TR-181 specification.
 
 ### Data Model
 * Original
-
-## 2015-11-01: TR-181 Amendment 7
-
-*Tag: [v1.7.0]*
-
-### Data Model
-Incorporated new components from [TR-157 Amendment 10]
-
-* Update Bulk Data Collection for HTTP Transport
-
-## 2014-09-01: TR-181 Amendment 6
-
-*Tag: [v1.6.0]*
-
-### Data Model
-Incorporated new components from TR-157 Amendment 9
-
-* Added Inform Parameters table to ManagementServer
-* Added *HTIP* Component to *DeviceInfo* containing HTIP related
-  parameters
-* Updated the *UPnP* component for HTIP parameters
-
-## 2013-11-01: TR-181 Amendment 5
-
-*Tag: [v1.5.0]*
-
-### Data Model
-Incorporated new components from TR-157 Amendment 8
-
-* Addition of *MS_StandbyPolicy*, *XMPP* and *XMPPConnReq*
-  components; other minor updates
-
-## 2012-11-01: TR-181 Amendment 4
-
-*Tag: [v1.4.0]*
-
-### Data Model
-Incorporated new components from TR-157 Amendment 7
-
-* Addition of *DNS_SD* component; other minor updates
-
-## 2012-05-01: TR-181 Amendment 3
-
-*Tag: [v1.3.0]*
-
-### Data Model
-Incorporated new components from TR-157 Amendment 6
-
-* Addition of *BulkDataCollection* component
-
-## 2011-11-01: TR-181 Amendment 2
-
-*Tag: [v1.2.0]*
-
-### Data Model
-Incorporated new components from [TR-157 Amendment 5]
-
-Incorporated Femto components from [TR-262]
-
-* Addition of *Location*, *FaultManagement* and *Security* components
-
-## 2011-07-01: TR-181 Amendment 1
-
-*Tag: [v1.1.0]*
-
-### Data Model
-Incorporated new components from TR-157 Amendment 4
-
-* Support for CWMP Proxy Management and Alias-Based Addressing
 
 ## 2010-02-01: [TR-181 Issue 1]
 
@@ -453,6 +504,7 @@ Incorporated new components from TR-157 Amendment 4
 [TR-181 Issue 2 Amendment 14]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf
 [TR-181 Issue 2 Amendment 15]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf
 [TR-181 Issue 2 Amendment 16]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-16.pdf
+[TR-181 Issue 2 Amendment 17]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
@@ -488,3 +540,4 @@ Incorporated new components from TR-157 Amendment 4
 [v2.15.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.15.0
 [v2.15.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.15.1
 [v2.16.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.16.0
+[v2.17.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.17.0

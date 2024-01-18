@@ -1,8 +1,11 @@
 <!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
 
-### Issue History {.unnumbered .unlisted .new-page}
+::: {.new-page}
+:::
 
-::: {.list-table .bbf-revision-history aligns=l,l,l,l widths=14,14,14,65}
+### Issue History {.unnumbered .unlisted}
+
+::: {.list-table .issue-history aligns=l,l,l,l widths=14,14,14,65}
 
 * - Issue Number
   - Approval Date

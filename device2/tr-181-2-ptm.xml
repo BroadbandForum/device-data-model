@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [PTM]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-ptm"
-    file="tr-181-2-16-0-ptm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-ptm"
+    file="tr-181-2-17-0-ptm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="MACAddress"/>
   </import>
 
@@ -163,14 +163,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -419,7 +412,7 @@
       <object ref="Device.PTM.Link.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -445,7 +438,7 @@
     </profile>
   </component>
 
-  <model name="PTM:2.16">
+  <model name="PTM:2.17">
     <component ref="Root"/>
     <component ref="PTM"/>
   </model>

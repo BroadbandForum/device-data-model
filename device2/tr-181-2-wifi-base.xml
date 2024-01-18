@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WiFi Base]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2021,2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-wifi-base"
-    file="tr-181-2-16-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi-base"
+    file="tr-181-2-17-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPAddress"/>
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
@@ -249,15 +249,15 @@
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|2.4GHz|OperatingFrequencyBand}}, only values {{enum|b}},
-          {{enum|g}}, {{enum|n}}, {{enum|ax}} are allowed.
+          {{enum|g}}, {{enum|n}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|5GHz|OperatingFrequencyBand}}, only values {{enum|a}},
-          {{enum|n}}, {{enum|ac}}, {{enum|ax}} are allowed.
+          {{enum|n}}, {{enum|ac}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
-          {{enum|6GHz|OperatingFrequencyBand}}, only value {{enum|ax}} is
-          allowed.
+          {{enum|6GHz|OperatingFrequencyBand}}, only values {{enum|ax}},
+          {{enum|be}} are allowed.
         </description>
         <syntax>
           <list/>
@@ -280,6 +280,9 @@
             <enumeration value="ax">
               <description>{{bibref|802.11ax}}</description>
             </enumeration>
+            <enumeration value="be" version="2.17">
+              <description>{{bibref|802.11be}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -293,15 +296,15 @@
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|2.4GHz|##.Radio.{i}.SupportedFrequencyBands}}, only values
-          {{enum|b}}, {{enum|g}}, {{enum|n}}, {{enum|ax}} are allowed.
+          {{enum|b}}, {{enum|g}}, {{enum|n}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|5GHz|##.Radio.{i}.SupportedFrequencyBands}}, only values
-          {{enum|a}}, {{enum|n}}, {{enum|ac}}, {{enum|ax}} are allowed.
+          {{enum|a}}, {{enum|n}}, {{enum|ac}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|6GHz|##.Radio.{i}.SupportedFrequencyBands}}, only value
-          {{enum|ax}} is allowed.
+          {{enum|ax}}, {{enum|be}} are allowed.
 
           For example, a value of "g,b" (or "b,g" - order is not important)
           means that the 802.11g standard {{bibref|802.11g-2003}} is used with
@@ -326,6 +329,8 @@
             <enumeration value="40MHz"/>
             <enumeration value="80MHz"/>
             <enumeration value="160MHz"/>
+            <enumeration value="320MHz-1" version="2.17"/>
+            <enumeration value="320MHz-2" version="2.17"/>
             <enumeration value="Auto"/>
           </string>
         </syntax>
@@ -574,14 +579,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -709,15 +707,15 @@
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|2.4GHz|OperatingFrequencyBand}}, only values {{enum|b}},
-          {{enum|g}}, {{enum|n}}, {{enum|ax}} are allowed.
+          {{enum|g}}, {{enum|n}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|5GHz|OperatingFrequencyBand}}, only values {{enum|a}},
-          {{enum|n}}, {{enum|ac}}, {{enum|ax}} are allowed.
+          {{enum|n}}, {{enum|ac}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
-          {{enum|6GHz|OperatingFrequencyBand}}, only value {{enum|ax}} is
-          allowed.
+          {{enum|6GHz|OperatingFrequencyBand}}, only values {{enum|ax}},
+          {{enum|be}} are allowed.
         </description>
         <syntax>
           <list/>
@@ -740,6 +738,9 @@
             <enumeration value="ax">
               <description>{{bibref|802.11ax}}</description>
             </enumeration>
+            <enumeration value="be" version="2.17">
+              <description>{{bibref|802.11be}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -753,15 +754,15 @@
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|2.4GHz|OperatingFrequencyBand}}, only values {{enum|b}},
-          {{enum|g}}, {{enum|n}}, {{enum|ax}} are allowed.
+          {{enum|g}}, {{enum|n}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
           {{enum|5GHz|OperatingFrequencyBand}}, only values {{enum|a}},
-          {{enum|n}}, {{enum|ac}}, {{enum|ax}} are allowed.
+          {{enum|n}}, {{enum|ac}}, {{enum|ax}}, {{enum|be}} are allowed.
 
           If {{param|OperatingFrequencyBand}} is set to
-          {{enum|6GHz|OperatingFrequencyBand}}, only value {{enum|ax}} is
-          allowed.
+          {{enum|6GHz|OperatingFrequencyBand}}, only values {{enum|ax}},
+          {{enum|be}} are allowed.
 
           For example, a value of "g,b" (or "b,g" - order is not important)
           means that the 802.11g standard {{bibref|802.11g-2003}} is used with
@@ -779,7 +780,7 @@
       <parameter name="PossibleChannels" access="readOnly">
         <description>
           {{list}} List items represent possible radio channels for the
-          wireless standard (a, b, g, n, ac, ax) and the regulatory domain.
+          wireless standard (a, b, g, n, ac, ax, be) and the regulatory domain.
 
           Ranges in the form "n-m" are permitted.
 
@@ -1006,13 +1007,19 @@
               <description>wide mode</description>
             </enumeration>
             <enumeration value="80MHz">
-              <description>802.11ac and 802.11ax only</description>
+              <description>802.11ac, 802.11ax and 802.11be only</description>
             </enumeration>
             <enumeration value="160MHz">
-              <description>802.11ac and 802.11ax only</description>
+              <description>802.11ac, 802.11ax and 802.11be only</description>
             </enumeration>
             <enumeration value="80+80MHz">
-              <description>802.11ac and 802.11ax only</description>
+              <description>802.11ac, 802.11ax and 802.11be only</description>
+            </enumeration>
+            <enumeration value="320MHz-1" version="2.17">
+              <description>802.11be only - channel center frequency 31, 95, 159</description>
+            </enumeration>
+            <enumeration value="320MHz-2" version="2.17">
+              <description>802.11be only - channel center frequency 63, 127, 191</description>
             </enumeration>
             <enumeration value="Auto"/>
           </string>
@@ -1022,7 +1029,7 @@
       <parameter name="OperatingChannelBandwidth" access="readWrite">
         <description>
           The preferred channel bandwidth to be used (applicable to 802.11n,
-          802.11ac, and 802.11ax specifications only).
+          802.11ac, 802.11ax and 802.11be specifications only).
         </description>
         <syntax>
           <string>
@@ -1043,6 +1050,8 @@
             <enumeration value="80MHz"/>
             <enumeration value="160MHz"/>
             <enumeration value="80+80MHz"/>
+            <enumeration value="320MHz-1" version="2.17"/>
+            <enumeration value="320MHz-2" version="2.17"/>
           </string>
         </syntax>
       </parameter>
@@ -1072,42 +1081,42 @@
           <string>
             <enumeration value="400nsec">
               <description>
-                applicable to 802.11n and 802.11ac specifications only
+                applicable to 802.11n, 802.11ac and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="800nsec">
               <description>
-                applicable to 802.11n and 802.11ac specifications only
+                applicable to 802.11n, 802.11ac and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="1xLTF_0.8us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="1xLTF_1.6us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="2xLTF_0.8us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="2xLTF_1.6us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="4xLTF_0.8us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="4xLTF_3.2us" version="2.14">
               <description>
-                applicable to 802.11ax specification only
+                applicable to 802.11ax and 802.11be specifications only
               </description>
             </enumeration>
             <enumeration value="Auto"/>
@@ -1116,7 +1125,7 @@
       </parameter>
 
       <parameter name="CenterFrequencySegement0" access="readWrite"
-          status="obsoleted" version="2.13">
+          status="deleted" version="2.13">
         <description>
           When operating in {{enum|80+80MHz|CurrentOperatingChannelBandwidth}},
           this parameter determines the Center Frequency Segment 0 for the
@@ -1127,6 +1136,8 @@
           {{param|CenterFrequencySegment0}} instead}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -1134,7 +1145,7 @@
       </parameter>
 
       <parameter name="CenterFrequencySegement1" access="readWrite"
-          status="obsoleted" version="2.13">
+          status="deleted" version="2.13">
         <description>
           When operating in {{enum|80+80MHz|CurrentOperatingChannelBandwidth}},
           this parameter determines the Center Frequency Segment 1 for the
@@ -1145,6 +1156,8 @@
           {{param|CenterFrequencySegment1}} instead}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -1180,10 +1193,11 @@
       <parameter name="MCS" access="readWrite">
         <description>
           The Modulation Coding Scheme index (applicable to 802.11n, 802.11ac,
-          and 802.11ax specifications only). Values from 0 to 15 MUST be
+          802.11ax and 802.11be specifications only). Values from 0 to 15 MUST be
           supported for ({{bibref|802.11n-2009}}). Values from 0 to 9 MUST be
           supported for {{bibref|802.11ac-2013}}. Values from 0 to 11 MUST be
-          supported for {{bibref|802.11ax}}. A value of -1 indicates automatic
+          supported for {{bibref|802.11ax}}. Values from 0 to 15 MUST be
+          supported for {{bibref|802.11be}}. A value of -1 indicates automatic
           selection of the MCS index.
         </description>
         <syntax>
@@ -1953,14 +1967,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -2057,6 +2064,22 @@
           <string>
             <size maxLength="32"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDUnit" access="readWrite" version="2.17">
+        <description>
+          MLD-BSS unit number specifying BSS across multiple radios that form
+          a single Multi Link Device. Assigning the same MLD unit groups Basic
+          Service Sets (BSS) across radios. A (default) value of -1 indicates that
+          the interface is not part of any MLD.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="-1"/>
+            <range minInclusive="0" maxInclusive="24"/>
+          </int>
+          <default type="object" value="-1"/>
         </syntax>
       </parameter>
 
@@ -2511,14 +2534,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="SSIDReference" access="readWrite">
         <description>
@@ -3210,6 +3226,9 @@
             <enumeration value="ax">
               <description>{{bibref|802.11ax}}</description>
             </enumeration>
+            <enumeration value="be" version="2.17">
+              <description>{{bibref|802.11be}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -3243,6 +3262,19 @@
         </syntax>
       </parameter>
 
+      <parameter name="MaxSupportedDataDownlinkRate" access="readOnly" version="2.17">
+        <description>
+          Maximum supported data rate on the downlink from the associated device
+          to the access point, measured in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1000"/>
+            <units value="kbps"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
       <parameter name="LastDataUplinkRate" access="readOnly"
           activeNotify="canDeny">
         <description>
@@ -3253,6 +3285,19 @@
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}},
           then this parameter is the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.LastDataUplinkRate}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1000"/>
+            <units value="kbps"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxSupportedDataUplinkRate" access="readOnly" version="2.17">
+        <description>
+          Maximum supported data rate on the uplink from the associated device
+          to the access point, measured in {{units}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -3315,6 +3360,19 @@
         </syntax>
       </parameter>
 
+      <parameter name="SNR" access="readOnly" version="2.17">
+        <description>
+          An indicator of signal to noise ratio, in {{units}}, on the uplink from the associated device
+          to the access point, measured in {{units}}, as an average of the last
+          100 packets received from the device.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="dB"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
       <parameter name="Retransmissions" access="readOnly">
         <description>
           The number of {{units}} that had to be re-transmitted, from the last
@@ -3346,6 +3404,23 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxSupportedBandwidth" access="readOnly" version="2.17">
+        <description>
+          Specifies the maximum supported bandwidth for the associated device
+          to the access point.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="20MHz"></enumeration>
+            <enumeration value="40MHz"></enumeration>
+            <enumeration value="80MHz"></enumeration>
+            <enumeration value="160MHz"></enumeration>
+            <enumeration value="320MHz"></enumeration>
+            <enumeration value="Unknown"></enumeration>
+          </string>
         </syntax>
       </parameter>
     </object>
@@ -3541,22 +3616,17 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
-      <parameter name="AIFSN" access="readWrite" status="deprecated">
+      <parameter name="AIFSN" access="readWrite" status="obsoleted">
         <description>
           Arbitration Inter Frame Spacing (Number). This is the number of time
           slots in the arbitration interframe space.
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3565,14 +3635,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMin" access="readWrite" status="deprecated">
+      <parameter name="ECWMin" access="readWrite" status="obsoleted">
         <description>
           Exponent of Contention Window (Minimum). This encodes the values of
           CWMin as an exponent: CWMin = 2^ECWMin - 1. For example, if ECWMin is
           8, then CWMin is 2^8 - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3582,14 +3654,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMax" access="readWrite" status="deprecated">
+      <parameter name="ECWMax" access="readWrite" status="obsoleted">
         <description>
           Exponent of Contention Window (Maximum). This encodes the values of
           CWMax as an exponent: CWMax = 2^ECWMax - 1. For example, if ECWMax is
           8, then CWMax is 2^8 - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3599,14 +3673,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxOpMax" access="readWrite" status="deprecated">
+      <parameter name="TxOpMax" access="readWrite" status="obsoleted">
         <description>
           Maximum transmit opportunity, in multiples of {{units}}. A TXOP time
           interval of 0 means it is limited to a single MAC protocol data unit
           (MPDU).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3980,14 +4056,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="ProfileReference" access="readWrite">
         <description>
@@ -4179,14 +4248,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="SSID" access="readWrite">
         <description>
@@ -4493,22 +4555,17 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
-      <parameter name="AIFSN" access="readWrite" status="deprecated">
+      <parameter name="AIFSN" access="readWrite" status="obsoleted">
         <description>
           Arbitration Inter Frame Spacing (Number). This is the number of time
           slots in the arbitration interframe space.
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4517,14 +4574,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMin" access="readWrite" status="deprecated">
+      <parameter name="ECWMin" access="readWrite" status="obsoleted">
         <description>
           Exponent of Contention Window (Minimum). This encodes the values of
           CWMin as an exponent: CWMin = 2^ECWMin - 1. For example, if ECWMin is
           8, then CWMin is 2^8 - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4534,14 +4593,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMax" access="readWrite" status="deprecated">
+      <parameter name="ECWMax" access="readWrite" status="obsoleted">
         <description>
           Exponent of Contention Window (Maximum). This encodes the values of
           CWMax as an exponent: CWMax = 2^ECWMax - 1. For example, if ECWMax is
           8, then CWMax is 2^8 - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4551,14 +4612,16 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxOpMax" access="readWrite" status="deprecated">
+      <parameter name="TxOpMax" access="readWrite" status="obsoleted">
         <description>
           Maximum transmit opportunity, in multiples of {{units}}. A TXOP time
           interval of 0 means it is limited to a single MAC protocol data unit
           (MPDU).
 
           {{deprecated|2.15|because it is superseded by the WMM
-          Specification.}}
+          Specification}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4767,7 +4830,7 @@
       <object ref="Device.WiFi.Radio.{i}." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="Upstream" requirement="readOnly"/>
         <parameter ref="MaxBitRate" requirement="readOnly"/>
@@ -4806,7 +4869,7 @@
       <object ref="Device.WiFi.SSID.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
         <parameter ref="BSSID" requirement="readOnly"/>
@@ -4820,6 +4883,12 @@
         <parameter ref="PacketsReceived" requirement="readOnly"/>
         <parameter ref="ErrorsSent" requirement="readOnly"/>
         <parameter ref="ErrorsReceived" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="WiFiSSID:2" base="WiFiSSID:1" version="2.17">
+      <object ref="Device.WiFi.SSID.{i}." requirement="createDelete">
+        <parameter ref="MLDUnit" requirement="readWrite"/>
       </object>
     </profile>
 
@@ -4866,7 +4935,7 @@
     </profile>
 
     <profile name="WiFiAccessPoint:2" base="WiFiAccessPoint:1" version="2.9">
-      <object ref="Device.WiFi.AccessPoint.{i}." requirement="present">
+      <object ref="Device.WiFi.AccessPoint.{i}." requirement="createDelete">
         <parameter ref="MACAddressControlEnabled" requirement="readWrite"/>
         <parameter ref="AllowedMACAddress" requirement="readWrite"/>
       </object>
@@ -4913,7 +4982,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.16">
+  <model name="WiFiBase:2.17">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

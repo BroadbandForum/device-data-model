@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IEEE1905]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2021,2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-ieee1905"
-    file="tr-181-2-16-0-ieee1905.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-ieee1905"
+    file="tr-181-2-17-0-ieee1905.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -1248,7 +1248,7 @@
       <parameter name="AssocWiFiNetworkDeviceRef" access="readOnly"
           version="2.13">
         <description>
-          {{reference||deprecated}}{{param}} is a reference to a MultiAP.Device
+          {{reference||obsoleted}}{{param}} is a reference to a MultiAP.Device
           or Wi-Fi Network Data Elements Device. Since IEEE 1905.1 is the
           protocol used by the Wi-Fi Alliance's EasyMesh specification for
           communications, this parameter allows the IEEE 1905.1 portion of the

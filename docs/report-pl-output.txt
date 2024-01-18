@@ -2,428 +2,462 @@ make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir
 PYTHONPATH=./../../install/python/ ./../../install/bin/project-parser.py --outdir=./docs --loglevel=1 PROJECT.yaml 2>&1 >docs/PROJECT.yaml.outputs || true
 INFO:project-parser:created WT-181 project (valid)
 INFO:project-parser:find_file WT-106 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
-INFO:project-parser:  (1/5) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-106/PROJECT.yaml
-INFO:project-parser:  (2/5) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-106/bbf/PROJECT.yaml
+INFO:project-parser:  (1/7) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-106/PROJECT.yaml
+INFO:project-parser:  (2/7) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-106/bbf/PROJECT.yaml
 INFO:project-parser:created WT-106 project (depth 1)
 INFO:project-parser:find_file WT-157 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/PROJECT.yaml
-INFO:project-parser:  (1/6) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
+INFO:project-parser:  (1/8) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
 INFO:project-parser:created WT-157 project (depth 1)
 INFO:project-parser:validated projects
 INFO:project-parser:wrote ./docs/README.md
 INFO:project-parser:wrote ./docs/CHANGELOG.md
 INFO:project-parser:wrote ./docs/METADATA-1.yaml
 INFO:project-parser:wrote ./docs/METADATA-2.yaml
+INFO:project-parser:wrote ./docs/METADATA.yaml
 INFO:project-parser:wrote ./docs/METADATA-1.md
 INFO:project-parser:wrote ./docs/METADATA-2.md
+INFO:project-parser:wrote ./docs/METADATA.md
 INFO:project-parser:wrote ./docs/METADATA-1.mk
 INFO:project-parser:wrote ./docs/METADATA-2.mk
+INFO:project-parser:wrote ./docs/METADATA.mk
+[ -f docs/PROJECT ] && echo docs/PROJECT exists and is not a directory && exit 1; \
+rm -f -r docs/PROJECT && mkdir -p docs/PROJECT && touch docs/PROJECT/index.html; \
+cp -p ./../../install/pandoc/css/bbf.css docs/PROJECT; \
+echo "<p>WT-181 PROJECT.yaml and its products:</p>" >>docs/PROJECT/index.html; \
+echo "<ul>" >>docs/PROJECT/index.html; \
+flags=""; \
+        flags="$flags --standalone"; \
+        flags="$flags --metadata-file=bbf-metadata.yaml"; \
+        flags="$flags --metadata-file=no-title-metadata.yaml"; \
+        flags="$flags --lua-filter=expand-macros.lua"; \
+        flags="$flags --lua-filter=list-table.lua"; \
+        flags="$flags --css=bbf.css"; \
+for file in PROJECT.yaml ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk ./docs/METADATA.mk; do \
+            bas=$(basename $file); \
+    out=$bas.txt; \
+    echo cp -p $file docs/PROJECT/$out; \
+    cp -p $file docs/PROJECT/$out; \
+    echo "<li>$file -> <a href='$out'>$out</a></li>" \
+	>>docs/PROJECT/index.html; \
+    if [ ${file##*.} = "md" ]; then \
+	[ $bas = "index.md" ] && \
+                    out="_index.html" || out=${out/.md.txt/.html}; \
+	echo pandoc --data-dir=./../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	pandoc --data-dir=./../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	echo "<li>$file -> <a href='$out'>$out</a></li>" \
+		>>docs/PROJECT/index.html; \
+    fi; \
+        done; \
+echo "</ul>" >>docs/PROJECT/index.html
 cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
 cp -p ./docs/README.md docs/PROJECT/README.md.txt
-pandoc --data-dir=./../../install/pandoc/ ./docs/README.md --output=docs/PROJECT/README.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/README.md --output=docs/PROJECT/README.html
 cp -p ./docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
-pandoc --data-dir=./../../install/pandoc/ ./docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
 cp -p ./docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
 cp -p ./docs/METADATA-2.yaml docs/PROJECT/METADATA-2.yaml.txt
+cp -p ./docs/METADATA.yaml docs/PROJECT/METADATA.yaml.txt
 cp -p ./docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
-pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
 cp -p ./docs/METADATA-2.md docs/PROJECT/METADATA-2.md.txt
-pandoc --data-dir=./../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css ./docs/METADATA-2.md --output=docs/PROJECT/METADATA-2.html
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA-2.md --output=docs/PROJECT/METADATA-2.html
+cp -p ./docs/METADATA.md docs/PROJECT/METADATA.md.txt
+pandoc --data-dir=./../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css ./docs/METADATA.md --output=docs/PROJECT/METADATA.html
 cp -p ./docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
 cp -p ./docs/METADATA-2.mk docs/PROJECT/METADATA-2.mk.txt
+cp -p ./docs/METADATA.mk docs/PROJECT/METADATA.mk.txt
 make -C device2 all
 make[2]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/device2'
-report.pl --exitcode=fatals --include=../../../install/cwmp/ --report=xml --outfile=docs/tr-181-2-usp-full.xml tr-181-2-usp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-atm: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-basapm: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-cellular: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-common: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 94
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv4: 104
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv6: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
-(I) urn:broadband-forum-org:tr-181-2-16-0-dns: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-docsis: 158
-(I) urn:broadband-forum-org:tr-181-2-16-0-dsl: 364
-(I) urn:broadband-forum-org:tr-181-2-16-0-dslite: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-dynamicdns: 31
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 140
-(I) urn:broadband-forum-org:tr-181-2-16-0-fap: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-fast: 132
-(I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 112
-(I) urn:broadband-forum-org:tr-181-2-16-0-fwe: 24
-(I) urn:broadband-forum-org:tr-181-2-16-0-gatewayinfo: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-ghn: 135
-(I) urn:broadband-forum-org:tr-181-2-16-0-gre: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-homeplug: 48
-(I) urn:broadband-forum-org:tr-181-2-16-0-hosts: 47
-(I) urn:broadband-forum-org:tr-181-2-16-0-hpna: 136
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee1905: 146
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee8021x: 35
-(I) urn:broadband-forum-org:tr-181-2-16-0-interfacestack: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-iot: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 366
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipsec: 137
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipv6rd: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-l2tpv3: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-leds: 23
-(I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
-(I) urn:broadband-forum-org:tr-181-2-16-0-lmap: 188
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-map: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-moca: 86
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 44
-(I) urn:broadband-forum-org:tr-181-2-16-0-neighbordiscovery: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-optical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-pdu: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-periodicstatistics: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-ptm: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 209
-(I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 149
-(I) urn:broadband-forum-org:tr-181-2-16-0-security: 12
-(I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-smartcardreaders: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 135
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-stomp: 20
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-upa: 68
-(I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
-(I) urn:broadband-forum-org:tr-181-2-16-0-usb: 76
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-users: 36
-(I) urn:broadband-forum-org:tr-181-2-16-0-usp: 350
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-vxlan: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 129
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 308
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 579
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-usp: 126
-(I) urn:broadband-forum-org:tr-181-2-16-0-wwc: 38
-(I) urn:broadband-forum-org:tr-181-2-16-0-xmpp: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
-(I) urn:broadband-forum-org:tr-181-2-16-0-zigbee: 128
-report.pl --exitcode=fatals --include=../../../install/cwmp/ --report=xml --outfile=docs/tr-181-2-cwmp-full.xml tr-181-2-cwmp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-atm: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-basapm: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-cellular: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-common: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-cwmp: 215
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 94
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv4: 104
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv6: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
-(I) urn:broadband-forum-org:tr-181-2-16-0-dns: 60
-(I) urn:broadband-forum-org:tr-181-2-16-0-docsis: 158
-(I) urn:broadband-forum-org:tr-181-2-16-0-dsl: 364
-(I) urn:broadband-forum-org:tr-181-2-16-0-dslite: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-dynamicdns: 31
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 140
-(I) urn:broadband-forum-org:tr-181-2-16-0-etsim2m: 84
-(I) urn:broadband-forum-org:tr-181-2-16-0-fap: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-fast: 132
-(I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 112
-(I) urn:broadband-forum-org:tr-181-2-16-0-fwe: 24
-(I) urn:broadband-forum-org:tr-181-2-16-0-ghn: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-gre: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-homeplug: 48
-(I) urn:broadband-forum-org:tr-181-2-16-0-hosts: 47
-(I) urn:broadband-forum-org:tr-181-2-16-0-hpna: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee1905: 146
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee8021x: 35
-(I) urn:broadband-forum-org:tr-181-2-16-0-interfacestack: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 374
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipsec: 137
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipv6rd: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-l2tpv3: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-leds: 23
-(I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
-(I) urn:broadband-forum-org:tr-181-2-16-0-lmap: 188
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-map: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-moca: 86
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 44
-(I) urn:broadband-forum-org:tr-181-2-16-0-neighbordiscovery: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-optical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-pdu: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-periodicstatistics: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-ptm: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 209
-(I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 149
-(I) urn:broadband-forum-org:tr-181-2-16-0-security: 12
-(I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-smartcardreaders: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 107
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-stomp: 20
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-upa: 68
-(I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
-(I) urn:broadband-forum-org:tr-181-2-16-0-usb: 76
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-users: 36
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-vxlan: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 93
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 309
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-cwmp: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 460
-(I) urn:broadband-forum-org:tr-181-2-16-0-wwc: 38
-(I) urn:broadband-forum-org:tr-181-2-16-0-xmpp: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
-(I) urn:broadband-forum-org:tr-181-2-16-0-zigbee: 128
 report.pl --exitcode=fatals --include=../../../install/cwmp/ --usp --report=html --outfile=docs/tr-181-2-usp.html tr-181-2-usp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-atm: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-basapm: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 55
+(I) urn:broadband-forum-org:tr-106: 226
 (I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-cellular: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-common: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 94
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv4: 104
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv6: 82
 (I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
-(I) urn:broadband-forum-org:tr-181-2-16-0-dns: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-docsis: 158
-(I) urn:broadband-forum-org:tr-181-2-16-0-dsl: 364
-(I) urn:broadband-forum-org:tr-181-2-16-0-dslite: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-dynamicdns: 31
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 140
-(I) urn:broadband-forum-org:tr-181-2-16-0-fap: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-fast: 132
 (I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 112
-(I) urn:broadband-forum-org:tr-181-2-16-0-fwe: 24
-(I) urn:broadband-forum-org:tr-181-2-16-0-gatewayinfo: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-ghn: 135
-(I) urn:broadband-forum-org:tr-181-2-16-0-gre: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-homeplug: 48
-(I) urn:broadband-forum-org:tr-181-2-16-0-hosts: 47
-(I) urn:broadband-forum-org:tr-181-2-16-0-hpna: 136
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee1905: 146
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee8021x: 35
-(I) urn:broadband-forum-org:tr-181-2-16-0-interfacestack: 6
 (I) urn:broadband-forum-org:tr-181-2-16-0-iot: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 366
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipsec: 137
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipv6rd: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-l2tpv3: 58
 (I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-leds: 23
 (I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
-(I) urn:broadband-forum-org:tr-181-2-16-0-lmap: 188
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-map: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-moca: 86
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 44
-(I) urn:broadband-forum-org:tr-181-2-16-0-neighbordiscovery: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-optical: 25
 (I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-pdu: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-periodicstatistics: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-ptm: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 209
 (I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 149
-(I) urn:broadband-forum-org:tr-181-2-16-0-security: 12
 (I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-smartcardreaders: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 135
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-stomp: 20
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-upa: 68
 (I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
-(I) urn:broadband-forum-org:tr-181-2-16-0-usb: 76
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-users: 36
-(I) urn:broadband-forum-org:tr-181-2-16-0-usp: 350
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-vxlan: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 129
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 308
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 579
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-usp: 126
-(I) urn:broadband-forum-org:tr-181-2-16-0-wwc: 38
-(I) urn:broadband-forum-org:tr-181-2-16-0-xmpp: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
-(I) urn:broadband-forum-org:tr-181-2-16-0-zigbee: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-atm: 49
+(I) urn:broadband-forum-org:tr-181-2-17-0-basapm: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-bridging: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-bulkdata: 54
+(I) urn:broadband-forum-org:tr-181-2-17-0-cellular: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-common: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 145
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv4: 96
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv6: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 91
+(I) urn:broadband-forum-org:tr-181-2-17-0-docsis: 153
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 372
+(I) urn:broadband-forum-org:tr-181-2-17-0-dslite: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-dynamicdns: 29
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 136
+(I) urn:broadband-forum-org:tr-181-2-17-0-fap: 138
+(I) urn:broadband-forum-org:tr-181-2-17-0-fast: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-fwe: 23
+(I) urn:broadband-forum-org:tr-181-2-17-0-gatewayinfo: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-ghn: 134
+(I) urn:broadband-forum-org:tr-181-2-17-0-gre: 52
+(I) urn:broadband-forum-org:tr-181-2-17-0-homeplug: 47
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-hpna: 134
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee1905: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee8021x: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-interfacestack: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 365
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipsec: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipv6rd: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-l2tpv3: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-leds: 21
+(I) urn:broadband-forum-org:tr-181-2-17-0-lmap: 177
+(I) urn:broadband-forum-org:tr-181-2-17-0-localagent: 126
+(I) urn:broadband-forum-org:tr-181-2-17-0-logical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-map: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 252
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-usp: 39
+(I) urn:broadband-forum-org:tr-181-2-17-0-mqtt: 123
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 43
+(I) urn:broadband-forum-org:tr-181-2-17-0-neighbordiscovery: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-optical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-pcp: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-pdu: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-periodicstatistics: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-ppp: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-ptm: 25
+(I) urn:broadband-forum-org:tr-181-2-17-0-qos: 201
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-routing: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-security: 12
+(I) urn:broadband-forum-org:tr-181-2-17-0-smartcardreaders: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 156
+(I) urn:broadband-forum-org:tr-181-2-17-0-ssh: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-stomp: 19
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 44
+(I) urn:broadband-forum-org:tr-181-2-17-0-time: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-unixdomainsocket: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-upa: 65
+(I) urn:broadband-forum-org:tr-181-2-17-0-usb: 73
+(I) urn:broadband-forum-org:tr-181-2-17-0-userinterface: 74
+(I) urn:broadband-forum-org:tr-181-2-17-0-users: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-usp: 354
+(I) urn:broadband-forum-org:tr-181-2-17-0-uspservices: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-vxlan: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi: 129
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 306
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 891
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-usp: 171
+(I) urn:broadband-forum-org:tr-181-2-17-0-wwc: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-xmpp: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-zigbee: 122
 report.pl --exitcode=fatals --include=../../../install/cwmp/ --report=html --outfile=docs/tr-181-2-cwmp.html tr-181-2-cwmp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-atm: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-basapm: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 55
+(I) urn:broadband-forum-org:tr-106: 230
 (I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-cellular: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-common: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-cwmp: 215
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 94
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv4: 104
-(I) urn:broadband-forum-org:tr-181-2-16-0-dhcpv6: 82
 (I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
-(I) urn:broadband-forum-org:tr-181-2-16-0-dns: 60
-(I) urn:broadband-forum-org:tr-181-2-16-0-docsis: 158
-(I) urn:broadband-forum-org:tr-181-2-16-0-dsl: 364
-(I) urn:broadband-forum-org:tr-181-2-16-0-dslite: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-dynamicdns: 31
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 140
-(I) urn:broadband-forum-org:tr-181-2-16-0-etsim2m: 84
-(I) urn:broadband-forum-org:tr-181-2-16-0-fap: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-fast: 132
 (I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 112
-(I) urn:broadband-forum-org:tr-181-2-16-0-fwe: 24
-(I) urn:broadband-forum-org:tr-181-2-16-0-ghn: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-gre: 55
-(I) urn:broadband-forum-org:tr-181-2-16-0-homeplug: 48
-(I) urn:broadband-forum-org:tr-181-2-16-0-hosts: 47
-(I) urn:broadband-forum-org:tr-181-2-16-0-hpna: 139
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee1905: 146
-(I) urn:broadband-forum-org:tr-181-2-16-0-ieee8021x: 35
-(I) urn:broadband-forum-org:tr-181-2-16-0-interfacestack: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 374
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipsec: 137
-(I) urn:broadband-forum-org:tr-181-2-16-0-ipv6rd: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-l2tpv3: 58
 (I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-leds: 23
 (I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
-(I) urn:broadband-forum-org:tr-181-2-16-0-lmap: 188
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 134
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-map: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-moca: 86
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 130
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 44
-(I) urn:broadband-forum-org:tr-181-2-16-0-neighbordiscovery: 14
-(I) urn:broadband-forum-org:tr-181-2-16-0-optical: 25
 (I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 82
-(I) urn:broadband-forum-org:tr-181-2-16-0-pdu: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-periodicstatistics: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 58
-(I) urn:broadband-forum-org:tr-181-2-16-0-ptm: 26
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 209
 (I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-routeradvertisement: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 149
-(I) urn:broadband-forum-org:tr-181-2-16-0-security: 12
 (I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-smartcardreaders: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 107
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-stomp: 20
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-upa: 68
 (I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
-(I) urn:broadband-forum-org:tr-181-2-16-0-usb: 76
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 75
-(I) urn:broadband-forum-org:tr-181-2-16-0-users: 36
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-vxlan: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 93
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 309
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-cwmp: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 460
-(I) urn:broadband-forum-org:tr-181-2-16-0-wwc: 38
-(I) urn:broadband-forum-org:tr-181-2-16-0-xmpp: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
-(I) urn:broadband-forum-org:tr-181-2-16-0-zigbee: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-atm: 49
+(I) urn:broadband-forum-org:tr-181-2-17-0-basapm: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-bridging: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-bulkdata: 54
+(I) urn:broadband-forum-org:tr-181-2-17-0-cellular: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-common: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-cwmp: 212
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 133
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv4: 96
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv6: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 92
+(I) urn:broadband-forum-org:tr-181-2-17-0-docsis: 153
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 372
+(I) urn:broadband-forum-org:tr-181-2-17-0-dslite: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-dynamicdns: 29
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 136
+(I) urn:broadband-forum-org:tr-181-2-17-0-etsim2m: 76
+(I) urn:broadband-forum-org:tr-181-2-17-0-fap: 138
+(I) urn:broadband-forum-org:tr-181-2-17-0-fast: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-fwe: 23
+(I) urn:broadband-forum-org:tr-181-2-17-0-ghn: 129
+(I) urn:broadband-forum-org:tr-181-2-17-0-gre: 52
+(I) urn:broadband-forum-org:tr-181-2-17-0-homeplug: 47
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-hpna: 137
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee1905: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee8021x: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-interfacestack: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 373
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipsec: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipv6rd: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-l2tpv3: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-leds: 21
+(I) urn:broadband-forum-org:tr-181-2-17-0-lmap: 177
+(I) urn:broadband-forum-org:tr-181-2-17-0-localagent: 126
+(I) urn:broadband-forum-org:tr-181-2-17-0-logical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-map: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 252
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-cwmp: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-mqtt: 123
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 43
+(I) urn:broadband-forum-org:tr-181-2-17-0-neighbordiscovery: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-optical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-pcp: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-pdu: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-periodicstatistics: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-ppp: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-ptm: 25
+(I) urn:broadband-forum-org:tr-181-2-17-0-qos: 201
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-routing: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-security: 12
+(I) urn:broadband-forum-org:tr-181-2-17-0-smartcardreaders: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 108
+(I) urn:broadband-forum-org:tr-181-2-17-0-ssh: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-stomp: 19
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 42
+(I) urn:broadband-forum-org:tr-181-2-17-0-time: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-unixdomainsocket: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-upa: 65
+(I) urn:broadband-forum-org:tr-181-2-17-0-usb: 73
+(I) urn:broadband-forum-org:tr-181-2-17-0-userinterface: 74
+(I) urn:broadband-forum-org:tr-181-2-17-0-users: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-uspservices: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-vxlan: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi: 93
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 307
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-cwmp: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 722
+(I) urn:broadband-forum-org:tr-181-2-17-0-wwc: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-xmpp: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-zigbee: 122
+report.pl --exitcode=fatals --include=../../../install/cwmp/ --usp --report=xml --outfile=docs/tr-181-2-usp-full.xml tr-181-2-usp.xml
+(I) urn:broadband-forum-org:tr-106: 226
+(I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
+(I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
+(I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
+(I) urn:broadband-forum-org:tr-181-2-16-0-iot: 75
+(I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
+(I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
+(I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 14
+(I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
+(I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
+(I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
+(I) urn:broadband-forum-org:tr-181-2-17-0-atm: 49
+(I) urn:broadband-forum-org:tr-181-2-17-0-basapm: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-bridging: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-bulkdata: 54
+(I) urn:broadband-forum-org:tr-181-2-17-0-cellular: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-common: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 145
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv4: 96
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv6: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 91
+(I) urn:broadband-forum-org:tr-181-2-17-0-docsis: 153
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 372
+(I) urn:broadband-forum-org:tr-181-2-17-0-dslite: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-dynamicdns: 29
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 136
+(I) urn:broadband-forum-org:tr-181-2-17-0-fap: 138
+(I) urn:broadband-forum-org:tr-181-2-17-0-fast: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-fwe: 23
+(I) urn:broadband-forum-org:tr-181-2-17-0-gatewayinfo: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-ghn: 134
+(I) urn:broadband-forum-org:tr-181-2-17-0-gre: 52
+(I) urn:broadband-forum-org:tr-181-2-17-0-homeplug: 47
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-hpna: 134
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee1905: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee8021x: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-interfacestack: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 365
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipsec: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipv6rd: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-l2tpv3: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-leds: 21
+(I) urn:broadband-forum-org:tr-181-2-17-0-lmap: 177
+(I) urn:broadband-forum-org:tr-181-2-17-0-localagent: 126
+(I) urn:broadband-forum-org:tr-181-2-17-0-logical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-map: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 252
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-usp: 39
+(I) urn:broadband-forum-org:tr-181-2-17-0-mqtt: 123
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 43
+(I) urn:broadband-forum-org:tr-181-2-17-0-neighbordiscovery: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-optical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-pcp: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-pdu: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-periodicstatistics: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-ppp: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-ptm: 25
+(I) urn:broadband-forum-org:tr-181-2-17-0-qos: 201
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-routing: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-security: 12
+(I) urn:broadband-forum-org:tr-181-2-17-0-smartcardreaders: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 156
+(I) urn:broadband-forum-org:tr-181-2-17-0-ssh: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-stomp: 19
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 44
+(I) urn:broadband-forum-org:tr-181-2-17-0-time: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-unixdomainsocket: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-upa: 65
+(I) urn:broadband-forum-org:tr-181-2-17-0-usb: 73
+(I) urn:broadband-forum-org:tr-181-2-17-0-userinterface: 74
+(I) urn:broadband-forum-org:tr-181-2-17-0-users: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-usp: 354
+(I) urn:broadband-forum-org:tr-181-2-17-0-uspservices: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-vxlan: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi: 129
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 306
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 891
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-usp: 171
+(I) urn:broadband-forum-org:tr-181-2-17-0-wwc: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-xmpp: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-zigbee: 122
 report.pl --exitcode=fatals --include=../../../install/cwmp/ --usp --report=html --outfile=docs/tr-181-2-usp-full.html docs/tr-181-2-usp-full.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-usp: 7029
+(I) urn:broadband-forum-org:tr-181-2-17-0-usp: 7853
+report.pl --exitcode=fatals --include=../../../install/cwmp/ --report=xml --outfile=docs/tr-181-2-cwmp-full.xml tr-181-2-cwmp.xml
+(I) urn:broadband-forum-org:tr-106: 230
+(I) urn:broadband-forum-org:tr-181-2-16-0-captiveportal: 5
+(I) urn:broadband-forum-org:tr-181-2-16-0-dlna: 10
+(I) urn:broadband-forum-org:tr-181-2-16-0-faultmgmt: 57
+(I) urn:broadband-forum-org:tr-181-2-16-0-lanconfigsecurity: 2
+(I) urn:broadband-forum-org:tr-181-2-16-0-lldp: 29
+(I) urn:broadband-forum-org:tr-181-2-16-0-packetcapture: 15
+(I) urn:broadband-forum-org:tr-181-2-16-0-root: 4
+(I) urn:broadband-forum-org:tr-181-2-16-0-selftest: 1
+(I) urn:broadband-forum-org:tr-181-2-16-0-upnp: 89
+(I) urn:broadband-forum-org:tr-181-2-17-0-atm: 49
+(I) urn:broadband-forum-org:tr-181-2-17-0-basapm: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-bridging: 128
+(I) urn:broadband-forum-org:tr-181-2-17-0-bulkdata: 54
+(I) urn:broadband-forum-org:tr-181-2-17-0-cellular: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-common: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-cwmp: 212
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 133
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv4: 96
+(I) urn:broadband-forum-org:tr-181-2-17-0-dhcpv6: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 92
+(I) urn:broadband-forum-org:tr-181-2-17-0-docsis: 153
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 372
+(I) urn:broadband-forum-org:tr-181-2-17-0-dslite: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-dynamicdns: 29
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 136
+(I) urn:broadband-forum-org:tr-181-2-17-0-etsim2m: 76
+(I) urn:broadband-forum-org:tr-181-2-17-0-fap: 138
+(I) urn:broadband-forum-org:tr-181-2-17-0-fast: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-fwe: 23
+(I) urn:broadband-forum-org:tr-181-2-17-0-ghn: 129
+(I) urn:broadband-forum-org:tr-181-2-17-0-gre: 52
+(I) urn:broadband-forum-org:tr-181-2-17-0-homeplug: 47
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-hpna: 137
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee1905: 146
+(I) urn:broadband-forum-org:tr-181-2-17-0-ieee8021x: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-interfacestack: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 373
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipsec: 131
+(I) urn:broadband-forum-org:tr-181-2-17-0-ipv6rd: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-l2tpv3: 55
+(I) urn:broadband-forum-org:tr-181-2-17-0-leds: 21
+(I) urn:broadband-forum-org:tr-181-2-17-0-lmap: 177
+(I) urn:broadband-forum-org:tr-181-2-17-0-localagent: 126
+(I) urn:broadband-forum-org:tr-181-2-17-0-logical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-map: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 252
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-cwmp: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-mqtt: 123
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 43
+(I) urn:broadband-forum-org:tr-181-2-17-0-neighbordiscovery: 13
+(I) urn:broadband-forum-org:tr-181-2-17-0-optical: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-pcp: 77
+(I) urn:broadband-forum-org:tr-181-2-17-0-pdu: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-periodicstatistics: 24
+(I) urn:broadband-forum-org:tr-181-2-17-0-ppp: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-ptm: 25
+(I) urn:broadband-forum-org:tr-181-2-17-0-qos: 201
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-routing: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-security: 12
+(I) urn:broadband-forum-org:tr-181-2-17-0-smartcardreaders: 15
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 108
+(I) urn:broadband-forum-org:tr-181-2-17-0-ssh: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-stomp: 19
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 42
+(I) urn:broadband-forum-org:tr-181-2-17-0-time: 57
+(I) urn:broadband-forum-org:tr-181-2-17-0-unixdomainsocket: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-upa: 65
+(I) urn:broadband-forum-org:tr-181-2-17-0-usb: 73
+(I) urn:broadband-forum-org:tr-181-2-17-0-userinterface: 74
+(I) urn:broadband-forum-org:tr-181-2-17-0-users: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-uspservices: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-vxlan: 50
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi: 93
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 307
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-cwmp: 8
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 722
+(I) urn:broadband-forum-org:tr-181-2-17-0-wwc: 34
+(I) urn:broadband-forum-org:tr-181-2-17-0-xmpp: 32
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 139
+(I) urn:broadband-forum-org:tr-181-2-17-0-zigbee: 122
 report.pl --exitcode=fatals --include=../../../install/cwmp/ --report=html --outfile=docs/tr-181-2-cwmp-full.html docs/tr-181-2-cwmp-full.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-cwmp: 6596
-report.pl --exitcode=fatals --include=../../../install/cwmp/ --usp --lastonly --report=html --outfile=docs/tr-181-2-usp-diffs.html tr-181-2-usp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-gatewayinfo: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 18
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 22
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-periodicstatistics: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 22
+(I) urn:broadband-forum-org:tr-181-2-17-0-cwmp: 7272
+report.pl --exitcode=fatals --include=../../../install/cwmp/ --usp --lastonly --report=html --outfile=docs/tr-181-2-usp-diffs.html  tr-181-2-usp.xml
+(I) urn:broadband-forum-org:tr-106: 13
 (I) urn:broadband-forum-org:tr-181-2-16-0-root: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 18
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 81
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-usp: 107
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 9
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 47
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-usp: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
-report.pl --exitcode=fatals --include=../../../install/cwmp/ --lastonly --report=html --outfile=docs/tr-181-2-cwmp-diffs.html tr-181-2-cwmp.xml
-(I) urn:broadband-forum-org:tr-181-2-16-0-bridging: 15
-(I) urn:broadband-forum-org:tr-181-2-16-0-bulkdata: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-cwmp: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-deviceinfo: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-ethernet: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-firewall: 59
-(I) urn:broadband-forum-org:tr-181-2-16-0-ip: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-localagent: 18
-(I) urn:broadband-forum-org:tr-181-2-16-0-logical: 25
-(I) urn:broadband-forum-org:tr-181-2-16-0-mqtt: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-nat: 22
-(I) urn:broadband-forum-org:tr-181-2-16-0-pcp: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-ppp: 3
-(I) urn:broadband-forum-org:tr-181-2-16-0-qos: 22
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 58
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 37
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 3
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 45
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 4
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 6
+(I) urn:broadband-forum-org:tr-181-2-17-0-localagent: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 173
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-usp: 39
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 7
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 44
+(I) urn:broadband-forum-org:tr-181-2-17-0-usp: 16
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi: 4
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 17
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 353
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-usp: 59
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 7
+report.pl --exitcode=fatals --include=../../../install/cwmp/ --lastonly --report=html --outfile=docs/tr-181-2-cwmp-diffs.html  tr-181-2-cwmp.xml
+(I) urn:broadband-forum-org:tr-106: 13
 (I) urn:broadband-forum-org:tr-181-2-16-0-root: 1
-(I) urn:broadband-forum-org:tr-181-2-16-0-routing: 18
-(I) urn:broadband-forum-org:tr-181-2-16-0-softwaremodules: 53
-(I) urn:broadband-forum-org:tr-181-2-16-0-ssh: 34
-(I) urn:broadband-forum-org:tr-181-2-16-0-time: 50
-(I) urn:broadband-forum-org:tr-181-2-16-0-unixdomainsocket: 6
-(I) urn:broadband-forum-org:tr-181-2-16-0-userinterface: 28
-(I) urn:broadband-forum-org:tr-181-2-16-0-uspservices: 8
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi: 5
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-base: 16
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-cwmp: 2
-(I) urn:broadband-forum-org:tr-181-2-16-0-wifi-de: 4
-(I) urn:broadband-forum-org:tr-181-2-16-0-xpon: 138
+(I) urn:broadband-forum-org:tr-181-2-17-0-cwmp: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-deviceinfo: 46
+(I) urn:broadband-forum-org:tr-181-2-17-0-dns: 37
+(I) urn:broadband-forum-org:tr-181-2-17-0-dsl: 14
+(I) urn:broadband-forum-org:tr-181-2-17-0-ethernet: 3
+(I) urn:broadband-forum-org:tr-181-2-17-0-firewall: 45
+(I) urn:broadband-forum-org:tr-181-2-17-0-hosts: 4
+(I) urn:broadband-forum-org:tr-181-2-17-0-ip: 6
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca: 173
+(I) urn:broadband-forum-org:tr-181-2-17-0-moca-cwmp: 31
+(I) urn:broadband-forum-org:tr-181-2-17-0-nat: 5
+(I) urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement: 7
+(I) urn:broadband-forum-org:tr-181-2-17-0-softwaremodules: 9
+(I) urn:broadband-forum-org:tr-181-2-17-0-syslog: 42
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-base: 17
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-cwmp: 1
+(I) urn:broadband-forum-org:tr-181-2-17-0-wifi-de: 286
+(I) urn:broadband-forum-org:tr-181-2-17-0-xpon: 7
 make[2]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/device2'
 make -C components all
 make[2]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components'
@@ -433,17 +467,53 @@ INFO:project-parser:validated projects
 INFO:project-parser:wrote docs/README.md
 INFO:project-parser:wrote docs/CHANGELOG.md
 INFO:project-parser:wrote docs/METADATA-1.yaml
+INFO:project-parser:wrote docs/METADATA.yaml
 INFO:project-parser:wrote docs/METADATA-1.md
+INFO:project-parser:wrote docs/METADATA.md
 INFO:project-parser:wrote docs/METADATA-1.mk
+INFO:project-parser:wrote docs/METADATA.mk
+[ -f docs/PROJECT ] && echo docs/PROJECT exists and is not a directory && exit 1; \
+rm -f -r docs/PROJECT && mkdir -p docs/PROJECT && touch docs/PROJECT/index.html; \
+cp -p ../../../install/pandoc/css/bbf.css docs/PROJECT; \
+echo "<p>WT-157 PROJECT.yaml and its products:</p>" >>docs/PROJECT/index.html; \
+echo "<ul>" >>docs/PROJECT/index.html; \
+flags=""; \
+        flags="$flags --standalone"; \
+        flags="$flags --metadata-file=bbf-metadata.yaml"; \
+        flags="$flags --metadata-file=no-title-metadata.yaml"; \
+        flags="$flags --lua-filter=expand-macros.lua"; \
+        flags="$flags --lua-filter=list-table.lua"; \
+        flags="$flags --css=bbf.css"; \
+for file in PROJECT.yaml docs/README.md docs/CHANGELOG.md docs/METADATA-1.yaml docs/METADATA.yaml docs/METADATA-1.md docs/METADATA.md docs/METADATA-1.mk docs/METADATA.mk; do \
+            bas=$(basename $file); \
+    out=$bas.txt; \
+    echo cp -p $file docs/PROJECT/$out; \
+    cp -p $file docs/PROJECT/$out; \
+    echo "<li>$file -> <a href='$out'>$out</a></li>" \
+	>>docs/PROJECT/index.html; \
+    if [ ${file##*.} = "md" ]; then \
+	[ $bas = "index.md" ] && \
+                    out="_index.html" || out=${out/.md.txt/.html}; \
+	echo pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	echo "<li>$file -> <a href='$out'>$out</a></li>" \
+		>>docs/PROJECT/index.html; \
+    fi; \
+        done; \
+echo "</ul>" >>docs/PROJECT/index.html
 cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
 cp -p docs/README.md docs/PROJECT/README.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/README.md --output=docs/PROJECT/README.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/README.md --output=docs/PROJECT/README.html
 cp -p docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
 cp -p docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
+cp -p docs/METADATA.yaml docs/PROJECT/METADATA.yaml.txt
 cp -p docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
-pandoc --data-dir=../../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+cp -p docs/METADATA.md docs/PROJECT/METADATA.md.txt
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA.md --output=docs/PROJECT/METADATA.html
 cp -p docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
+cp -p docs/METADATA.mk docs/PROJECT/METADATA.mk.txt
 make[2]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components'
 make -C perftest all
 make[2]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/perftest'
@@ -453,17 +523,53 @@ INFO:project-parser:validated projects
 INFO:project-parser:wrote docs/README.md
 INFO:project-parser:wrote docs/CHANGELOG.md
 INFO:project-parser:wrote docs/METADATA-1.yaml
+INFO:project-parser:wrote docs/METADATA.yaml
 INFO:project-parser:wrote docs/METADATA-1.md
+INFO:project-parser:wrote docs/METADATA.md
 INFO:project-parser:wrote docs/METADATA-1.mk
+INFO:project-parser:wrote docs/METADATA.mk
+[ -f docs/PROJECT ] && echo docs/PROJECT exists and is not a directory && exit 1; \
+rm -f -r docs/PROJECT && mkdir -p docs/PROJECT && touch docs/PROJECT/index.html; \
+cp -p ../../../install/pandoc/css/bbf.css docs/PROJECT; \
+echo "<p>WT-143 PROJECT.yaml and its products:</p>" >>docs/PROJECT/index.html; \
+echo "<ul>" >>docs/PROJECT/index.html; \
+flags=""; \
+        flags="$flags --standalone"; \
+        flags="$flags --metadata-file=bbf-metadata.yaml"; \
+        flags="$flags --metadata-file=no-title-metadata.yaml"; \
+        flags="$flags --lua-filter=expand-macros.lua"; \
+        flags="$flags --lua-filter=list-table.lua"; \
+        flags="$flags --css=bbf.css"; \
+for file in PROJECT.yaml docs/README.md docs/CHANGELOG.md docs/METADATA-1.yaml docs/METADATA.yaml docs/METADATA-1.md docs/METADATA.md docs/METADATA-1.mk docs/METADATA.mk; do \
+            bas=$(basename $file); \
+    out=$bas.txt; \
+    echo cp -p $file docs/PROJECT/$out; \
+    cp -p $file docs/PROJECT/$out; \
+    echo "<li>$file -> <a href='$out'>$out</a></li>" \
+	>>docs/PROJECT/index.html; \
+    if [ ${file##*.} = "md" ]; then \
+	[ $bas = "index.md" ] && \
+                    out="_index.html" || out=${out/.md.txt/.html}; \
+	echo pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	echo "<li>$file -> <a href='$out'>$out</a></li>" \
+		>>docs/PROJECT/index.html; \
+    fi; \
+        done; \
+echo "</ul>" >>docs/PROJECT/index.html
 cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
 cp -p docs/README.md docs/PROJECT/README.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/README.md --output=docs/PROJECT/README.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/README.md --output=docs/PROJECT/README.html
 cp -p docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
 cp -p docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
+cp -p docs/METADATA.yaml docs/PROJECT/METADATA.yaml.txt
 cp -p docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
-pandoc --data-dir=../../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+cp -p docs/METADATA.md docs/PROJECT/METADATA.md.txt
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA.md --output=docs/PROJECT/METADATA.html
 cp -p docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
+cp -p docs/METADATA.mk docs/PROJECT/METADATA.mk.txt
 make[2]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/perftest'
 make -C igd all
 make[2]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/igd'
@@ -471,30 +577,66 @@ PYTHONPATH=../../../install/python/ ../../../install/bin/project-parser.py --out
 INFO:project-parser:created WT-098 project (valid)
 INFO:project-parser:find_file WT-157 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/igd/PROJECT.yaml
 INFO:project-parser:  up a level to /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf
-INFO:project-parser:  (1/6) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
+INFO:project-parser:  (1/8) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
 INFO:project-parser:created WT-157 project (depth 1)
 INFO:project-parser:find_file WT-262 /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/igd/PROJECT.yaml
 INFO:project-parser:  up a level to /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf
-INFO:project-parser:  (1/6) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
-INFO:project-parser:  (2/6) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-196/components/PROJECT.yaml
-INFO:project-parser:  (3/6) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-196/bbf/components/PROJECT.yaml
-INFO:project-parser:  (4/6) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/install/projectyaml/WT-262/PROJECT.yaml
-INFO:project-parser:  (5/6) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/install/projectyaml/WT-262/PROJECT.yaml
+INFO:project-parser:  (1/8) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/components/PROJECT.yaml
+INFO:project-parser:  (2/8) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/WT-196/components/PROJECT.yaml
+INFO:project-parser:  (3/8) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/WT-196/bbf/components/PROJECT.yaml
+INFO:project-parser:  (4/8) not found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/install/projectyaml/WT-262/PROJECT.yaml
+INFO:project-parser:  (5/8) found in /mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/install/projectyaml/WT-262/PROJECT.yaml
 INFO:project-parser:created WT-262 project (depth 1)
 INFO:project-parser:validated projects
 INFO:project-parser:wrote docs/README.md
 INFO:project-parser:wrote docs/CHANGELOG.md
 INFO:project-parser:wrote docs/METADATA-1.yaml
+INFO:project-parser:wrote docs/METADATA.yaml
 INFO:project-parser:wrote docs/METADATA-1.md
+INFO:project-parser:wrote docs/METADATA.md
 INFO:project-parser:wrote docs/METADATA-1.mk
+INFO:project-parser:wrote docs/METADATA.mk
+[ -f docs/PROJECT ] && echo docs/PROJECT exists and is not a directory && exit 1; \
+rm -f -r docs/PROJECT && mkdir -p docs/PROJECT && touch docs/PROJECT/index.html; \
+cp -p ../../../install/pandoc/css/bbf.css docs/PROJECT; \
+echo "<p>WT-098 PROJECT.yaml and its products:</p>" >>docs/PROJECT/index.html; \
+echo "<ul>" >>docs/PROJECT/index.html; \
+flags=""; \
+        flags="$flags --standalone"; \
+        flags="$flags --metadata-file=bbf-metadata.yaml"; \
+        flags="$flags --metadata-file=no-title-metadata.yaml"; \
+        flags="$flags --lua-filter=expand-macros.lua"; \
+        flags="$flags --lua-filter=list-table.lua"; \
+        flags="$flags --css=bbf.css"; \
+for file in PROJECT.yaml docs/README.md docs/CHANGELOG.md docs/METADATA-1.yaml docs/METADATA.yaml docs/METADATA-1.md docs/METADATA.md docs/METADATA-1.mk docs/METADATA.mk; do \
+            bas=$(basename $file); \
+    out=$bas.txt; \
+    echo cp -p $file docs/PROJECT/$out; \
+    cp -p $file docs/PROJECT/$out; \
+    echo "<li>$file -> <a href='$out'>$out</a></li>" \
+	>>docs/PROJECT/index.html; \
+    if [ ${file##*.} = "md" ]; then \
+	[ $bas = "index.md" ] && \
+                    out="_index.html" || out=${out/.md.txt/.html}; \
+	echo pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	pandoc --data-dir=../../../install/pandoc/ $flags $file --output=docs/PROJECT/$out; \
+	echo "<li>$file -> <a href='$out'>$out</a></li>" \
+		>>docs/PROJECT/index.html; \
+    fi; \
+        done; \
+echo "</ul>" >>docs/PROJECT/index.html
 cp -p PROJECT.yaml docs/PROJECT/PROJECT.yaml.txt
 cp -p docs/README.md docs/PROJECT/README.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/README.md --output=docs/PROJECT/README.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/README.md --output=docs/PROJECT/README.html
 cp -p docs/CHANGELOG.md docs/PROJECT/CHANGELOG.md.txt
-pandoc --data-dir=../../../install/pandoc/ docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/CHANGELOG.md --output=docs/PROJECT/CHANGELOG.html
 cp -p docs/METADATA-1.yaml docs/PROJECT/METADATA-1.yaml.txt
+cp -p docs/METADATA.yaml docs/PROJECT/METADATA.yaml.txt
 cp -p docs/METADATA-1.md docs/PROJECT/METADATA-1.md.txt
-pandoc --data-dir=../../../install/pandoc/ --metadata-file bbf-metadata.yaml --lua-filter=list-table.lua --lua-filter=expand-macros.lua --standalone --css bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA-1.md --output=docs/PROJECT/METADATA-1.html
+cp -p docs/METADATA.md docs/PROJECT/METADATA.md.txt
+pandoc --data-dir=../../../install/pandoc/ --standalone --metadata-file=bbf-metadata.yaml --metadata-file=no-title-metadata.yaml --lua-filter=expand-macros.lua --lua-filter=list-table.lua --css=bbf.css docs/METADATA.md --output=docs/PROJECT/METADATA.html
 cp -p docs/METADATA-1.mk docs/PROJECT/METADATA-1.mk.txt
+cp -p docs/METADATA.mk docs/PROJECT/METADATA.mk.txt
 make[2]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/igd'
 make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'

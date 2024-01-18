@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Routing]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-routing"
-    file="tr-181-2-16-0-routing.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-routing"
+    file="tr-181-2-17-0-routing.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
     <dataType name="IPv6Prefix"/>
@@ -80,8 +80,9 @@
     <object name="Device.Routing." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
-        Routing object that contains the {{object|Router}} table and
-        {{object|RIP}} protocol object.
+        Routing object that contains the {{object|Router}} table,
+        the received router advertisement information {{object|RouteInformation}},
+        {{object|Babel}}, and {{object|RIP}} protocol objects.
       </description>
 
       <parameter name="RouterNumberOfEntries" access="readOnly">
@@ -132,14 +133,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="IPv4ForwardingNumberOfEntries" access="readOnly">
         <description>
@@ -243,14 +237,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Type" access="readWrite" version="2.16">
         <description>
@@ -504,14 +491,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Type" access="readWrite" version="2.16">
         <description>
@@ -785,14 +765,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -1053,14 +1026,7 @@
       <parameter ref="Tag"/>
     </uniqueKey>
 
-    <parameter name="Alias" access="readWrite">
-      <description>
-        {{datatype|expand}}
-      </description>
-      <syntax>
-        <dataType ref="Alias"/>
-      </syntax>
-    </parameter>
+    <component ref="Alias-2-0" version="2.16"/>
 
     <parameter name="Tag" access="readOnly">
       <description>
@@ -1421,14 +1387,7 @@
           <default type="object" value="Disabled"/>
         </syntax>
       </parameter>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="InterfaceReference" access="readOnly">
         <description>
           The {{object|###.IP.Interface}} object instance this Babel
@@ -1938,14 +1897,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="DefaultApply" access="readWrite">
         <description>
           A Boolean flag indicating whether this {{object}} instance is to be
@@ -1980,14 +1932,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="KeyUseSend" access="readWrite">
         <description>
           Indicates whether this {{param|KeyValue}} is used to compute a MAC
@@ -2054,14 +1999,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="DefaultApply" access="readWrite">
         <description>
           A Boolean flag indicating whether this {{object}} instance is to be
@@ -2096,14 +2034,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.15"/>
       <parameter name="CertValue" access="writeOnceReadOnly">
         <description>
           The DTLS certificate in PEM format {{bibref|RFC7468}}. This value is
@@ -2227,7 +2158,7 @@
     </profile>
   </component>
 
-  <model name="Routing:2.16">
+  <model name="Routing:2.17">
     <component ref="Root"/>
     <component ref="Routing"/>
     <component ref="BabelRoutingProtocol"/>

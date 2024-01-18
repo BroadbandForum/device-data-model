@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [LocalAgent]
 
-  Copyright (c) 2021-2022, Broadband Forum
+  Copyright (c) 2021-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-localagent"
-    file="tr-181-2-16-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-localagent"
+    file="tr-181-2-17-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="URL"/>
   </import>
 
@@ -122,12 +122,14 @@
       <syntax>
         <list minItems="1"/>
         <string>
-          <enumeration value="CoAP" status="deprecated">
+          <enumeration value="CoAP" status="obsoleted">
             <description>
               See {{bibref|RFC7252}}.
 
               {{deprecated|2.15|because the CoAP MTP was deprecated in USP
               1.2}}
+
+              {{obsoleted|2.17}}
             </description>
           </enumeration>
           <enumeration value="WebSocket">
@@ -150,7 +152,7 @@
 
     <parameter name="SupportedFingerprintAlgorithms" access="readOnly">
       <description>
-        {{list|each entry is an algorithm for calculating firgerprints that is
+        {{list|each entry is an algorithm for calculating fingerprints that is
         supported by the Agent}}
       </description>
       <syntax>
@@ -243,14 +245,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -290,7 +285,7 @@
 
       <parameter name="Protocol" access="readWrite">
         <description>
-          The Message Transport Protocol (MTP) to be used for communications by
+          The Message Transfer Protocol (MTP) to be used for communications by
           a USP Endpoint.
         </description>
         <syntax>
@@ -316,7 +311,7 @@
           The interfaces that advertise these DNS-SD services are restriced to
           the set of interfaces associated with this {{object}} instance and
           the interfaces defined by the
-          {{param|##.DNS.SD.AdvertisedInterfaces}} parameter.
+          {{param|.DNS.SD.Advertise.{i}.Interface}} parameter.
         </description>
         <syntax>
           <boolean/>
@@ -326,13 +321,15 @@
     </object>
 
     <object name="MTP.{i}.CoAP." access="readOnly" minEntries="0"
-        maxEntries="1" discriminatorParameter="Protocol" status="deprecated"
+        maxEntries="1" discriminatorParameter="Protocol" status="obsoleted"
         version="2.12">
       <description>
-        If the USP Endpoint uses the CoAP Message Transport Protocol (MTP),
+        If the USP Endpoint uses the CoAP Message Transfer Protocol (MTP),
         then this object contains CoAP specific configuration parameters.
 
         {{deprecated|2.15|because the CoAP MTP was deprecated in USP 1.2}}
+
+        {{obsoleted|2.17}}
       </description>
 
       <parameter name="Interfaces" access="readWrite">
@@ -373,7 +370,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IsEncrypted" status="obsoleted" access="readOnly">
+      <parameter name="IsEncrypted" status="deleted" access="readOnly">
         <description>
           This parameter represents whether or not communications that utilize
           this {{object}} object instance are encrypted.
@@ -383,6 +380,8 @@
           or are not encrypted}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
         <syntax>
           <boolean/>
@@ -403,7 +402,7 @@
     <object name="MTP.{i}.STOMP." access="readOnly" minEntries="0"
         maxEntries="1" discriminatorParameter="Protocol" version="2.12">
       <description>
-        If the USP Endpoint uses the STOMP Message Transport Protocol (MTP),
+        If the USP Endpoint uses the STOMP Message Transfer Protocol (MTP),
         then this object contains STOMP Client specific configuration
         parameters related to how the Agent communicates with the STOMP Server.
       </description>
@@ -457,7 +456,7 @@
     <object name="MTP.{i}.WebSocket." access="readOnly" minEntries="0"
         maxEntries="1" discriminatorParameter="Protocol" version="2.12">
       <description>
-        If the USP Endpoint uses the WebSocket Message Transport Protocol (MTP)
+        If the USP Endpoint uses the WebSocket Message Transfer Protocol (MTP)
         as a WebSocket server, then this object contains WebSocket specific
         configuration parameters.
       </description>
@@ -486,7 +485,7 @@
           <unsignedInt>
             <range minInclusive="1" maxInclusive="65535"/>
           </unsignedInt>
-          <default type="object" value="5683"/>
+          <default type="object" value="8443"/>
         </syntax>
       </parameter>
 
@@ -531,7 +530,7 @@
     <object name="MTP.{i}.MQTT." access="readOnly" minEntries="0"
         maxEntries="1" discriminatorParameter="Protocol" version="2.13">
       <description>
-        If the USP Endpoint uses the MQTT Message Transport Protocol (MTP),
+        If the USP Endpoint uses the MQTT Message Transfer Protocol (MTP),
         then this object contains MQTT Client specific configuration parameters
         related to how the Agent communicates with the MQTT broker.
       </description>
@@ -611,9 +610,12 @@
         maxEntries="1" discriminatorParameter="Protocol" version="2.16">
       <description>
         If the USP Endpoint uses the Unix Domain Socket (UDS) Message Transfer
-        Protocol (MTP), then this object contains UDS Client specific
-        configuration parameters related to how the Agent communicates with the
-        UDS Server.
+        Protocol (MTP), then this object contains UDS specific configuration
+        parameters related to how this Agent communicates with a Controller on
+        another USP Endpoint.
+
+        An example of how to set up this MTP can be found in {{bibref|TR-369|
+        Section "Example Data Models for a USP Broker and USP Services"}}.
       </description>
 
       <parameter name="UnixDomainSocketRef" access="readWrite">
@@ -651,14 +653,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="EndpointID" access="readWrite">
         <description>
@@ -897,14 +892,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -922,7 +910,7 @@
 
       <parameter name="Protocol" access="readWrite">
         <description>
-          The Message Transport Protocol (MTP) to be used for communications by
+          The Message Transfer Protocol (MTP) to be used for communications by
           a USP Endpoint.
         </description>
         <syntax>
@@ -958,12 +946,14 @@
 
     <object name="Controller.{i}.MTP.{i}.CoAP." access="readOnly"
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
-        status="deprecated" version="2.12">
+        status="obsoleted" version="2.12">
       <description>
-        If the USP Endpoint uses the CoAP Message Transport Protocol (MTP),
+        If the USP Endpoint uses the CoAP Message Transfer Protocol (MTP),
         then this object contains CoAP specific configuration parameters.
 
         {{deprecated|2.15|because the CoAP MTP was deprecated in USP 1.2}}
+
+        {{obsoleted|2.17}}
       </description>
 
       <parameter name="Host" access="readWrite">
@@ -1015,7 +1005,7 @@
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
         version="2.12">
       <description>
-        If the USP Endpoint uses the STOMP Message Transport Protocol (MTP),
+        If the USP Endpoint uses the STOMP Message Transfer Protocol (MTP),
         then this object contains STOMP Client specific configuration
         parameters related to how this Controller communicates with the STOMP
         Server.
@@ -1064,7 +1054,7 @@
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
         version="2.12">
       <description>
-        If the USP Endpoint uses the WebSocket Message Transport Protocol (MTP)
+        If the USP Endpoint uses the WebSocket Message Transfer Protocol (MTP)
         as a WebSocket client, then this object contains WebSocket specific
         configuration parameters.
       </description>
@@ -1103,7 +1093,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IsEncrypted" status="obsoleted" access="readOnly">
+      <parameter name="IsEncrypted" status="deleted" access="readOnly">
         <description>
           This parameter represents whether or not communications that utilize
           this {{object}} object instance are encrypted.
@@ -1112,6 +1102,8 @@
           will dictate whether this {{object}} is or is not encrypted}}
 
           {{obsoleted|2.16}}
+
+          {{deleted|2.17}}
         </description>
         <syntax>
           <boolean/>
@@ -1211,7 +1203,7 @@
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
         version="2.13">
       <description>
-        If the USP Endpoint uses the MQTT Message Transport Protocol (MTP),
+        If the USP Endpoint uses the MQTT Message Transfer Protocol (MTP),
         then this object contains MQTT Client specific configuration parameters
         related to how this Controller communicates with the MQTT broker.
       </description>
@@ -1303,10 +1295,13 @@
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
         version="2.16">
         <description>
-          If the USP Endpoint uses the Unix Domain Socket (UDS) Message Transport
-          Protocol (MTP), then this object contains UDS Client specific
-          configuration parameters related to how the Controller communicates
-          with the UDS Server.
+          If the USP Endpoint uses the Unix Domain Socket (UDS) Message Transfer
+          Protocol (MTP), then this object contains UDS specific configuration
+          parameters related to how this Agent communicates with a Controller on
+          another USP Endpoint.
+
+          An example of how to set up this MTP can be found in {{bibref|TR-369|
+          Section "Example Data Models for a USP Broker and USP Services"}}.
         </description>
 
         <parameter name="UnixDomainSocketRef" access="readWrite">
@@ -1357,14 +1352,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1546,14 +1534,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1603,14 +1584,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1826,14 +1800,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1952,14 +1919,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -2113,7 +2073,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.16">
+  <model name="LocalAgent:2.17">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

@@ -4,21 +4,24 @@
 bbfNumber: TR-181
 bbfTitle: Device Data Model for CWMP Endpoints and USP Agents
 bbfIssue: Issue
-bbfVersion: 2 Amendment 16
-bbfMonth: June
-bbfYear: 2023
+bbfVersion: 2 Amendment 17
+bbfMonth: January
+bbfYear: 2024
 bbfType: Technical Report
 bbfStatus: ''
 bbfContrib: ''
 bbfMajor: 2
-bbfMinor: 16
+bbfMinor: 17
 bbfPatch: 0
+bbfMicro: 0
+bbfExtra: 0
 bbfDraft: ''
 bbfBuild: ''
 
 # other top-level variables
 notice: tr
 reponame: device-data-model
+website: https://device-data-model.broadband-forum.org
 "tagline": |-
   TR-181 Documentation and Theory of Operations
 "summary": |

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  TR-069 Device:2 Root Data Model definition [CWMP]
+  Device:2 Root Data Model definition [CWMP]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,11 +59,12 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-cwmp"
-    file="tr-181-2-16-0-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-cwmp"
+    file="tr-181-2-17-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
+    <component name="Alias-2-0"/>
     <dataType name="Alias" ref="_AliasCWMP"/>
     <dataType name="DiagnosticsState"/>
     <dataType name="StatsCounter32"/>
@@ -73,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-common">
+      spec="urn:broadband-forum-org:tr-181-2-17-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -142,12 +143,17 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.16" ref="Device:2.16"/>
+    <model name="_Device:2.17" ref="Device:2.17"/>
   </import>
 
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-17-wifi-cwmp">
     <component name="WiFiCWMP"/>
+  </import>
+
+  <import file="tr-181-2-moca-cwmp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-17-moca-cwmp">
+    <component name="MoCACWMP"/>
   </import>
 
   <!-- Templates used in object and/or parameter descriptions -->
@@ -230,7 +236,7 @@
 
   <template id="IP-DIAGNOSTICS-PARENT"/>
 
-  <model name="Device:2.16" base="_Device:2.16">
+  <model name="Device:2.17" base="_Device:2.17">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -292,14 +298,7 @@
         <parameter ref="UUID"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" version="2.3">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.3"/>
 
       <parameter name="URL" access="readOnly">
         <description>
@@ -1763,14 +1762,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite" version="2.3">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2545,14 +2537,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.8"/>
 
       <parameter name="ParameterName" access="readWrite">
         <description>
@@ -3494,11 +3479,13 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="obsoleted">
+                status="deleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
 
                 {{obsoleted|2.16}}
+
+                {{deleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -3549,11 +3536,13 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="obsoleted">
+                status="deleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
 
                 {{obsoleted|2.16}}
+
+                {{deleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -3603,11 +3592,13 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="obsoleted">
+                status="deleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
 
                 {{obsoleted|2.16}}
+
+                {{deleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -3692,11 +3683,13 @@
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Completed" access="readOnly"
-                status="obsoleted">
+                status="deleted">
               <description>
                 {{deprecated|2.13|because it's a typo for {{enum|Complete}}}}
 
                 {{obsoleted|2.16}}
+
+                {{deleted|2.17}}
               </description>
             </enumeration>
             <enumeration value="Error_CannotResolveHostName" access="readOnly"/>
@@ -4334,6 +4327,8 @@
 
     <component ref="STOMP" version="2.15"/>
 
+    <component ref="MoCACWMP"/>
+
     <profile name="PacketCaptureDiagnostics:1" dmr:previousProfile=""
         version="2.13">
       <object ref="Device.PacketCaptureDiagnostics." requirement="present">
@@ -4440,7 +4435,7 @@
     </profile>
 
     <profile name="IPLayerCapacity:1" dmr:previousProfile="" version="2.14"
-        status="deprecated">
+        status="obsoleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
       </object>
@@ -4452,10 +4447,11 @@
         <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
         <parameter ref="Interface" requirement="readWrite"/>
         <parameter ref="Role" requirement="readWrite"/>
-        <parameter ref="Host" requirement="readOnly"/>
-        <parameter ref="Port" requirement="readOnly"/>
+        <parameter ref="Host" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="Port" requirement="readOnly" status="obsoleted"/>
         <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
-        <parameter ref="NumberOfConnections" requirement="readOnly"/>
+        <parameter ref="NumberOfConnections" requirement="readOnly"
+          status="obsoleted"/>
         <parameter ref="EthernetPriority" requirement="readWrite"/>
         <parameter ref="DSCP" requirement="readWrite"/>
         <parameter ref="ProtocolVersion" requirement="readWrite"/>
@@ -4470,7 +4466,7 @@
         <parameter ref="TestSubInterval" requirement="readWrite"/>
         <parameter ref="StatusFeedbackInterval" requirement="readWrite"/>
         <parameter ref="TimeoutNoTraffic" requirement="readWrite"
-            status="deprecated"/>
+          status="obsoleted"/>
         <parameter ref="Tmax" requirement="readOnly"/>
         <parameter ref="TmaxRTT" requirement="readWrite"/>
         <parameter ref="TimestampResolution" requirement="readWrite"/>
@@ -4490,7 +4486,7 @@
         <parameter ref="MinOnewayDelayAtMax" requirement="readOnly"/>
         <parameter ref="ReorderedRatioAtMax" requirement="readOnly"/>
         <parameter ref="IncrementalResultNumberOfEntries"
-            requirement="readOnly"/>
+          requirement="readOnly"/>
       </object>
       <object
           ref="Device.IP.Diagnostics.IPLayerCapacityMetrics.IncrementalResult.{i}."
@@ -4506,7 +4502,7 @@
     </profile>
 
     <profile name="IPLayerCapacityTest:1"
-        dmr:previousProfile="IPLayerCapacity:1" version="2.15">
+        dmr:previousProfile="IPLayerCapacity:1" version="2.15" status="deprecated">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
       </object>
@@ -4519,7 +4515,7 @@
             requirement="readOnly"/>
         <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
         <parameter ref="Role" requirement="readWrite"/>
-        <parameter ref="Host" requirement="readOnly"/>
+        <parameter ref="Host" requirement="readOnly" status="deprecated"/>
         <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
         <parameter ref="DSCP" requirement="readWrite"/>
         <parameter ref="TestType" requirement="readWrite"/>
@@ -4545,6 +4541,49 @@
         <parameter ref="MinRTTSummary" requirement="readOnly"/>
       </object>
     </profile>
+    
+    <profile name="IPLayerCapacityTest:2"
+        dmr:previousProfile="IPLayerCapacity:2" version="2.17" >
+      <object ref="Device.IP.Diagnostics." requirement="present">
+        <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
+      </object>
+      <object ref="Device.IP.Diagnostics.IPLayerCapacityMetrics."
+          requirement="present">
+        <parameter ref="DiagnosticsState" requirement="readWrite"/>
+        <parameter ref="IPLayerCapSupportedSoftwareVersion"
+            requirement="readOnly"/>
+        <parameter ref="IPLayerCapSupportedControlProtocolVersion"
+            requirement="readOnly"/>
+        <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
+        <parameter ref="Role" requirement="readWrite"/>
+        <parameter ref="ServerList" requirement="readOnly"/>
+        <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
+        <parameter ref="DSCP" requirement="readWrite"/>
+        <parameter ref="TestType" requirement="readWrite"/>
+        <parameter ref="IPDVEnable" requirement="readWrite"/>
+        <parameter ref="TestSubInterval" requirement="readWrite"/>
+        <parameter ref="StatusFeedbackInterval" requirement="readWrite"/>
+        <parameter ref="SeqErrThresh" requirement="readWrite"/>
+        <parameter ref="ReordDupIgnoreEnable" requirement="readOnly"/>
+        <parameter ref="LowerThresh" requirement="readWrite"/>
+        <parameter ref="UpperThresh" requirement="readWrite"/>
+        <parameter ref="HighSpeedDelta" requirement="readWrite"/>
+        <parameter ref="SlowAdjThresh" requirement="readWrite"/>
+        <parameter ref="MaxIPLayerCapacity" requirement="readOnly"/>
+        <parameter ref="TimeOfMax" requirement="readOnly"/>
+        <parameter ref="MaxETHCapacityNoFCS" requirement="readOnly"/>
+        <parameter ref="MaxETHCapacityWithFCS" requirement="readOnly"/>
+        <parameter ref="MaxETHCapacityWithFCSVLAN" requirement="readOnly"/>
+        <parameter ref="LossRatioAtMax" requirement="readOnly"/>
+        <parameter ref="RTTRangeAtMax" requirement="readOnly"/>
+        <parameter ref="PDVRangeAtMax" requirement="readOnly"/>
+        <parameter ref="IPLayerCapacitySummary" requirement="readOnly"/>
+        <parameter ref="LossRatioSummary" requirement="readOnly"/>
+        <parameter ref="MinRTTSummary" requirement="readOnly"/>
+        <parameter ref="ActiveFlows" requirement="readOnly"/>
+      </object>
+    </profile>
+ 
 
     <profile name="AutonXferComplPolicy:1" version="2.0"
         dmr:previousProfile="TempStatusAdv:2">
@@ -5269,7 +5308,7 @@
       <object ref="Device.IP.Interface.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -5334,7 +5373,7 @@
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="IPv6Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>
@@ -5354,7 +5393,7 @@
       <object ref="Device.PPP.Interface.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="LowerLayers" requirement="readWrite"/>

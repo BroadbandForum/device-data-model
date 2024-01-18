@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [COMMON]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-common"
-    file="tr-181-2-16-0-common.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-common"
+    file="tr-181-2-17-0-common.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -74,32 +74,32 @@
   </import>
 
   <import file="tr-181-2-deviceinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-deviceinfo">
+      spec="urn:broadband-forum-org:tr-181-2-17-deviceinfo">
     <component name="DeviceInfo"/>
   </import>
 
   <import file="tr-181-2-etsim2m.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-etsim2m">
+      spec="urn:broadband-forum-org:tr-181-2-17-etsim2m">
     <component name="ETSIM2M"/>
   </import>
 
   <import file="tr-181-2-time.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-time">
+      spec="urn:broadband-forum-org:tr-181-2-17-time">
     <component name="Time"/>
   </import>
 
   <import file="tr-181-2-userinterface.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-userinterface">
+      spec="urn:broadband-forum-org:tr-181-2-17-userinterface">
     <component name="UserInterface"/>
   </import>
 
   <import file="tr-181-2-interfacestack.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-interfacestack">
+      spec="urn:broadband-forum-org:tr-181-2-17-interfacestack">
     <component name="InterfaceStack"/>
   </import>
 
   <import file="tr-181-2-dsl.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dsl">
+      spec="urn:broadband-forum-org:tr-181-2-17-dsl">
     <component name="DSL"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -112,50 +112,50 @@
   </import>
 
   <import file="tr-181-2-fast.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-fast">
+      spec="urn:broadband-forum-org:tr-181-2-17-fast">
     <component name="FAST"/>
   </import>
 
   <import file="tr-181-2-optical.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-optical">
+      spec="urn:broadband-forum-org:tr-181-2-17-optical">
     <component name="Optical"/>
   </import>
 
   <import file="tr-181-2-cellular.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-cellular">
+      spec="urn:broadband-forum-org:tr-181-2-17-cellular">
     <component name="Cellular"/>
   </import>
 
   <import file="tr-181-2-atm.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-atm">
+      spec="urn:broadband-forum-org:tr-181-2-17-atm">
     <component name="ATM"/>
     <component name="ATMF5LoopbackDiagnosticsInput"/>
     <component name="ATMF5LoopbackDiagnosticsOutput"/>
   </import>
 
   <import file="tr-181-2-docsis.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-docsis">
+      spec="urn:broadband-forum-org:tr-181-2-17-docsis">
     <component name="DOCSIS"/>
   </import>
 
   <import file="tr-181-2-ptm.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ptm">
+      spec="urn:broadband-forum-org:tr-181-2-17-ptm">
     <component name="PTM"/>
   </import>
 
   <import file="tr-181-2-ethernet.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ethernet">
+      spec="urn:broadband-forum-org:tr-181-2-17-ethernet">
     <component name="Ethernet"/>
     <component name="SendMagicPacketInput"/>
   </import>
 
   <import file="tr-181-2-usb.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-usb">
+      spec="urn:broadband-forum-org:tr-181-2-17-usb">
     <component name="USB"/>
   </import>
 
   <import file="tr-181-2-hpna.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-hpna">
+      spec="urn:broadband-forum-org:tr-181-2-17-hpna">
     <component name="HPNA"/>
     <component name="HPNAPHYThroughputDiagnosticsInput"/>
     <component name="HPNAPHYThroughputDiagnosticsOutputNumberOfEntries"/>
@@ -167,12 +167,12 @@
   </import>
 
   <import file="tr-181-2-moca.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-moca">
+      spec="urn:broadband-forum-org:tr-181-2-17-moca">
     <component name="MoCA"/>
   </import>
 
   <import file="tr-181-2-ghn.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ghn">
+      spec="urn:broadband-forum-org:tr-181-2-17-ghn">
     <component name="Ghn"/>
     <component name="GhnPHYThroughputDiagnosticsInput"/>
     <component name="GhnPHYThroughputDiagnosticsOutput"/>
@@ -182,19 +182,19 @@
   </import>
 
   <import file="tr-181-2-homeplug.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-homeplug">
+      spec="urn:broadband-forum-org:tr-181-2-17-homeplug">
     <component name="HomePlug"/>
   </import>
 
   <import file="tr-181-2-upa.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-upa">
+      spec="urn:broadband-forum-org:tr-181-2-17-upa">
     <component name="UPA"/>
     <component name="UPAInterfaceMeasurementDiagnosticsInput"/>
     <component name="UPAInterfaceMeasurementDiagnosticsOutput"/>
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-17-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
@@ -205,21 +205,21 @@
   </import>
 
   <import file="tr-181-2-zigbee.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-zigbee">
+      spec="urn:broadband-forum-org:tr-181-2-17-zigbee">
     <component name="ZigBee"/>
   </import>
 
   <import file="tr-181-2-bridging.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-bridging">
+      spec="urn:broadband-forum-org:tr-181-2-17-bridging">
     <component name="Bridging"/>
   </import>
 
   <import file="tr-181-2-ppp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ppp">
+      spec="urn:broadband-forum-org:tr-181-2-17-ppp">
     <component name="PPP"/>
   </import>
 
-  <import file="tr-181-2-ip.xml" spec="urn:broadband-forum-org:tr-181-2-16-ip">
+  <import file="tr-181-2-ip.xml" spec="urn:broadband-forum-org:tr-181-2-17-ip">
     <component name="IP"/>
     <component name="IPPingDiagnosticsInput"/>
     <component name="IPPingDiagnosticsOutput"/>
@@ -255,27 +255,27 @@
   </import>
 
   <import file="tr-181-2-ipsec.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ipsec">
+      spec="urn:broadband-forum-org:tr-181-2-17-ipsec">
     <component name="IPsec"/>
   </import>
 
   <import file="tr-181-2-gre.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-gre">
+      spec="urn:broadband-forum-org:tr-181-2-17-gre">
     <component name="GRE"/>
   </import>
 
   <import file="tr-181-2-l2tpv3.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-l2tpv3">
+      spec="urn:broadband-forum-org:tr-181-2-17-l2tpv3">
     <component name="L2TPv3"/>
   </import>
 
   <import file="tr-181-2-vxlan.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-vxlan">
+      spec="urn:broadband-forum-org:tr-181-2-17-vxlan">
     <component name="VXLAN"/>
   </import>
 
   <import file="tr-181-2-map.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-map">
+      spec="urn:broadband-forum-org:tr-181-2-17-map">
     <component name="MAP"/>
   </import>
 
@@ -285,33 +285,33 @@
   </import>
 
   <import file="tr-181-2-routing.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-routing">
+      spec="urn:broadband-forum-org:tr-181-2-17-routing">
     <component name="Routing"/>
     <component name="BabelRoutingProtocol"/>
   </import>
 
   <import file="tr-181-2-neighbordiscovery.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-neighbordiscovery">
+      spec="urn:broadband-forum-org:tr-181-2-17-neighbordiscovery">
     <component name="NeighborDiscovery"/>
   </import>
 
   <import file="tr-181-2-routeradvertisement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-routeradvertisement">
+      spec="urn:broadband-forum-org:tr-181-2-17-routeradvertisement">
     <component name="RouterAdvertisement"/>
   </import>
 
   <import file="tr-181-2-ipv6rd.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ipv6rd">
+      spec="urn:broadband-forum-org:tr-181-2-17-ipv6rd">
     <component name="IPv6rd"/>
   </import>
 
   <import file="tr-181-2-dslite.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dslite">
+      spec="urn:broadband-forum-org:tr-181-2-17-dslite">
     <component name="DSLite"/>
   </import>
 
   <import file="tr-181-2-qos.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-qos">
+      spec="urn:broadband-forum-org:tr-181-2-17-qos">
     <component name="QoS"/>
   </import>
 
@@ -321,12 +321,12 @@
   </import>
 
   <import file="tr-181-2-hosts.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-hosts">
+      spec="urn:broadband-forum-org:tr-181-2-17-hosts">
     <component name="Hosts"/>
   </import>
 
   <import file="tr-181-2-dns.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dns">
+      spec="urn:broadband-forum-org:tr-181-2-17-dns">
     <component name="DNS"/>
     <component name="DNSLookupDiagnosticsInput"/>
     <component name="DNSLookupDiagnosticsOutputNumberOfEntries"/>
@@ -334,38 +334,38 @@
   </import>
 
   <import file="tr-181-2-nat.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-nat">
+      spec="urn:broadband-forum-org:tr-181-2-17-nat">
     <component name="NAT"/>
   </import>
 
   <import file="tr-181-2-pcp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-pcp">
+      spec="urn:broadband-forum-org:tr-181-2-17-pcp">
     <component name="PCP"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dhcpv4">
+      spec="urn:broadband-forum-org:tr-181-2-17-dhcpv4">
     <component name="DHCPv4"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dhcpv6">
+      spec="urn:broadband-forum-org:tr-181-2-17-dhcpv6">
     <component name="DHCPv6"/>
   </import>
 
   <import file="tr-181-2-ieee8021x.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ieee8021x">
+      spec="urn:broadband-forum-org:tr-181-2-17-ieee8021x">
     <component name="IEEE8021x"/>
   </import>
 
   <import file="tr-181-2-users.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-users">
+      spec="urn:broadband-forum-org:tr-181-2-17-users">
     <component name="Users"/>
     <component name="CheckCredentialsInput"/>
   </import>
 
   <import file="tr-181-2-smartcardreaders.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-smartcardreaders">
+      spec="urn:broadband-forum-org:tr-181-2-17-smartcardreaders">
     <component name="SmartCardReaders"/>
   </import>
 
@@ -380,12 +380,12 @@
   </import>
 
   <import file="tr-181-2-firewall.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-firewall">
+      spec="urn:broadband-forum-org:tr-181-2-17-firewall">
     <component name="Firewall"/>
   </import>
 
   <import file="tr-181-2-periodicstatistics.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-periodicstatistics">
+      spec="urn:broadband-forum-org:tr-181-2-17-periodicstatistics">
     <component name="PeriodicStatistics"/>
   </import>
 
@@ -395,79 +395,80 @@
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-security">
+      spec="urn:broadband-forum-org:tr-181-2-17-security">
     <component name="Security"/>
   </import>
 
   <import file="tr-181-2-fap.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-fap">
+      spec="urn:broadband-forum-org:tr-181-2-17-fap">
     <component name="FAP"/>
   </import>
 
   <import file="tr-181-2-bulkdata.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-bulkdata">
+      spec="urn:broadband-forum-org:tr-181-2-17-bulkdata">
     <component name="BulkData"/>
   </import>
 
   <import file="tr-181-2-softwaremodules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-softwaremodules">
+      spec="urn:broadband-forum-org:tr-181-2-17-softwaremodules">
     <component name="SMEEHostObject"/>
     <component name="SoftwareModules"/>
     <component name="SMEEResourceConstraints"/>
     <component name="SMApplicationData"/>
     <component name="SMRetainData"/>
+    <component name="SMEEEnvVariables"/>
   </import>
 
   <import file="tr-181-2-xmpp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-xmpp">
+      spec="urn:broadband-forum-org:tr-181-2-17-xmpp">
     <component name="XMPP"/>
   </import>
 
   <import file="tr-181-2-ieee1905.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ieee1905">
+      spec="urn:broadband-forum-org:tr-181-2-17-ieee1905">
     <component name="IEEE1905"/>
   </import>
 
   <import file="tr-181-2-mqtt.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-mqtt">
+      spec="urn:broadband-forum-org:tr-181-2-17-mqtt">
     <component name="MQTT"/>
   </import>
 
   <import file="tr-181-2-dynamicdns.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-dynamicdns">
+      spec="urn:broadband-forum-org:tr-181-2-17-dynamicdns">
     <component name="DynamicDNS"/>
   </import>
 
   <import file="tr-181-2-leds.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-leds">
+      spec="urn:broadband-forum-org:tr-181-2-17-leds">
     <component name="LEDs"/>
   </import>
 
   <import file="tr-181-2-basapm.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-basapm">
+      spec="urn:broadband-forum-org:tr-181-2-17-basapm">
     <component name="BASAPM"/>
   </import>
 
   <import file="tr-181-2-lmap.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-lmap">
+      spec="urn:broadband-forum-org:tr-181-2-17-lmap">
     <component name="LMAP"/>
   </import>
 
   <import file="tr-181-2-wwc.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-wwc">
+      spec="urn:broadband-forum-org:tr-181-2-17-wwc">
     <component name="WWC"/>
     <!-- <component name="guti"/> -->
     <!-- <component name="s-nssai"/> -->
   </import>
 
   <import file="tr-181-2-pdu.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-pdu">
+      spec="urn:broadband-forum-org:tr-181-2-17-pdu">
     <component name="PDU"/>
     <!-- <component name="s-nssai"/> -->
   </import>
 
   <import file="tr-181-2-fwe.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-fwe">
+      spec="urn:broadband-forum-org:tr-181-2-17-fwe">
     <component name="FWE"/>
   </import>
 
@@ -484,38 +485,43 @@
   </import>
 
   <import file="tr-181-2-localagent.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-localagent">
+      spec="urn:broadband-forum-org:tr-181-2-17-localagent">
     <component name="USPLocalAgent"/>
   </import>
 
   <import file="tr-181-2-stomp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-stomp">
+      spec="urn:broadband-forum-org:tr-181-2-17-stomp">
     <component name="STOMP"/>
   </import>
 
   <import file="tr-181-2-logical.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-logical">
+      spec="urn:broadband-forum-org:tr-181-2-17-logical">
     <component name="Logical"/>
   </import>
 
   <import file="tr-181-2-xpon.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-xpon">
+      spec="urn:broadband-forum-org:tr-181-2-17-xpon">
     <component name="XPON"/>
   </import>
 
   <import file="tr-181-2-ssh.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-ssh">
+      spec="urn:broadband-forum-org:tr-181-2-17-ssh">
     <component name="SSH"/>
    </import>
 
    <import file="tr-181-2-unixdomainsocket.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-unixdomainsocket">
+      spec="urn:broadband-forum-org:tr-181-2-17-unixdomainsocket">
      <component name="UnixDomainSockets"/>
    </import>
 
    <import file="tr-181-2-uspservices.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-uspservices">
+      spec="urn:broadband-forum-org:tr-181-2-17-uspservices">
      <component name="USPServices"/>
+   </import>
+
+   <import file="tr-181-2-syslog.xml"
+      spec="urn:broadband-forum-org:tr-181-2-17-syslog">
+    <component name="Syslog"/>
    </import>
 
   <template id="INTERFACE-ROUTING">
@@ -546,7 +552,7 @@
     </parameter>
   </component>
 
-  <model name="Device:2.16">
+  <model name="Device:2.17">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
     <component ref="Time"/>
@@ -619,6 +625,7 @@
     <component ref="SSH"/>
     <component ref="UnixDomainSockets"/>
     <component ref="USPServices"/>
+    <component ref="Syslog"/>
 
     <profile name="_Baseline:1" status="deleted" version="2.0">
       <object ref="Device." requirement="present">

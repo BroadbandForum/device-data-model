@@ -2,7 +2,7 @@
 <!--
 Device:2 Root Data Model: Common Object definitions [UserInterface]
 
-Copyright (c) 2010-2020, Broadband Forum
+Copyright (c) 2010-2023, Broadband Forum
 
 Redistribution and use in source and binary forms, with or
 without modification, are permitted provided that the following
@@ -55,14 +55,15 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-userinterface"
-    file="tr-181-2-16-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-userinterface"
+    file="tr-181-2-17-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPAddress"/>
+    <dataType name="Order"/>
     <dataType name="URL"/>
   </import>
 
@@ -389,33 +390,18 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the {{object}} entry in the order of precedence. A value
-          of ''1'' indicates the first entry considered (highest precedence).
+          {{datatype|expand}}
+
           For each incoming connection, the highest ordered entry that matches
           the Host: HTTP header and path prefix is applied. All lower {{param}}
-          entries are ignored. When this value is set, if the value matches
-          that of an existing entry, the {{param}} value for the existing entry
-          and all lower {{param}} entries is incremented (lowered in
-          precedence) to ensure uniqueness of this value.
-
-          A deletion causes {{param}} values to be compacted. When a value is
-          changed, incrementing occurs before compaction.
+          entries are ignored.
         </description>
         <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
 
@@ -521,9 +507,8 @@ directed to <info@broadband-forum.org>.
           The IP or Logical Interface associated with the {{object}} entry.
           Example:
 
-          * ''Device.IP.Interface.1''.
-
-          * ''Device.Logical.Interface.1''.
+          * ''Device.IP.Interface.1''
+          * ''Device.Logical.Interface.1''
 
           {{template|INTERFACE-ROUTING}}
         </description>
@@ -548,7 +533,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Protocol" access="readOnly">
+      <parameter name="Protocol" access="readWrite">
         <description>
           Protocol being used.
         </description>
@@ -645,10 +630,12 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.UserInterface.HTTPAccess.{i}.Session.{i}."
-        access="readWrite" numEntriesParameter="SessionNumberOfEntries"
+        access="readOnly" numEntriesParameter="SessionNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.16">
       <description>
         Web server session list.
+
+        Note: This parameter was demoted to readOnly in the Device:2.17 version.
       </description>
 
       <uniqueKey functional="false">
@@ -666,10 +653,12 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="User" access="readWrite">
+      <parameter name="User" access="readOnly">
         <description>
           The user to whom the session belongs. When the user is unknown
           {{empty}} string SHOULD be used.
+
+          Note: This parameter was demoted to readOnly in the Device:2.17 version.
         </description>
         <syntax>
           <string>
@@ -1043,7 +1032,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="UserInterface:2.16">
+  <model name="UserInterface:2.17">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

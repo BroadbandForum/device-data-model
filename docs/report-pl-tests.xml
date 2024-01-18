@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="208" time="0.0">
-	<testsuite disabled="0" errors="0" failures="0" name="report-pl" skipped="0" tests="208" time="0">
+<testsuites disabled="0" errors="0" failures="0" tests="207" time="0.0">
+	<testsuite disabled="0" errors="0" failures="0" name="report-pl" skipped="0" tests="207" time="0">
 		<testcase name="access-got-demoted"/>
 		<testcase name="access-got-demoted-2"/>
 		<testcase name="all-unique-key-parameters-are-defaulted-need-enableparameter"/>
@@ -96,7 +96,6 @@
 		<testcase name="no-reason-for-deprecation-given"/>
 		<testcase name="no-such-file-or-directory"/>
 		<testcase name="no-unique-keys-are-defined"/>
-		<testcase name="noautomodel-deprecated-use-automodel-instead"/>
 		<testcase name="noparameters-not-yet-implemented"/>
 		<testcase name="nowarnbibref-overrides-warnbibref"/>
 		<testcase name="nowarnprofbadref-deprecated-its-no-longer-necessary"/>

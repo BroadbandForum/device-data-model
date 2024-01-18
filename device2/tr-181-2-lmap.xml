@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [LMAP]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-lmap"
-    file="tr-181-2-16-0-lmap.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-lmap"
+    file="tr-181-2-17-0-lmap.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="URL"/>
     <dataType name="UUID"/>
   </import>
@@ -123,14 +123,7 @@
         <parameter ref="Identifier"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -517,14 +510,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -630,8 +616,8 @@
           <string>
             <enumeration value="Sequential">
               <description>
-                 Actions are executed in sequence as defined by the value of
-                 the {{param|Action.{i}.Order}} parameter.
+                Actions are executed in sequence as defined by the value of
+                the {{param|Action.{i}.Order}} parameter.
 
                 The first Scheduled Action of the DestinationOutput is provided
                 the input.
@@ -767,14 +753,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="State" access="readOnly">
         <description>
@@ -1020,14 +999,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -1092,14 +1064,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -1168,14 +1133,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="RegistryEntry" access="readWrite">
         <description>
@@ -1227,14 +1185,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -1304,14 +1255,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -1409,14 +1353,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="LastChange" access="readOnly">
         <description>
@@ -1515,14 +1452,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -2040,14 +1970,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -2353,7 +2276,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Version" requirement="readOnly"/>
         <parameter ref="CapabilityTags" requirement="readOnly"/>
@@ -2389,7 +2312,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Schedule.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="Start" requirement="readWrite"/>
@@ -2402,7 +2325,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Schedule.{i}.Action.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Order" requirement="readWrite"/>
         <parameter ref="Task" requirement="readWrite"/>
@@ -2412,7 +2335,7 @@
       <object
           ref="Device.LMAP.MeasurementAgent.{i}.Schedule.{i}.Action.{i}.Option.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Order" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
@@ -2420,7 +2343,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Task.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="Tags" requirement="readWrite"/>
@@ -2429,14 +2352,14 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Task.{i}.Registry.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="RegistryEntry" requirement="readWrite"/>
         <parameter ref="Roles" requirement="readWrite"/>
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Task.{i}.Option.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Order" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
@@ -2444,7 +2367,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.CommunicationChannel.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="UseBulkDataProfile" requirement="readWrite"/>
@@ -2453,7 +2376,7 @@
         <parameter ref="Interface" requirement="readWrite"/>
       </object>
       <object ref="Device.LMAP.Event.{i}." requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="Type" requirement="readWrite"/>
@@ -2532,7 +2455,7 @@
       </object>
       <object ref="Device.LMAP.MeasurementAgent.{i}.Instruction.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="InstructionSchedules" requirement="readWrite"/>
@@ -2544,7 +2467,7 @@
       <object
           ref="Device.LMAP.MeasurementAgent.{i}.Instruction.{i}.MeasurementSuppression.{i}."
           requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="State" requirement="readOnly"/>
@@ -2611,7 +2534,7 @@
     </profile>
   </component>
 
-  <model name="LMAP:2.16">
+  <model name="LMAP:2.17">
     <component ref="Root"/>
     <component ref="LMAP"/>
   </model>

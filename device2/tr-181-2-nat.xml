@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [NAT]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-nat"
-    file="tr-181-2-16-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-nat"
+    file="tr-181-2-17-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -97,10 +97,34 @@
         </syntax>
       </parameter>
 
+      <parameter name="MaxNumberOfPortMappings" access="readOnly" version="2.17">
+        <description>
+          The maximum number of port mappings that can exist at any given time.
+
+          If the value of this parameter is 0, then it means that the device
+          doesn't have a limit to the number of port mappings that can exist.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="PortTriggerNumberOfEntries" access="readOnly"
           version="2.16">
         <description>
           {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxNumberOfPortTriggers" access="readOnly" version="2.17">
+        <description>
+          The maximum number of port triggers that can exist at any given time.
+
+          If the value of this parameter is 0, then it means that the device
+          doesn't have a limit to the number of port mappings that can exist.
         </description>
         <syntax>
           <unsignedInt/>
@@ -181,14 +205,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -330,17 +347,47 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
+      <parameter name="Origin" access="readOnly" version="2.17">
         <description>
-          {{datatype|expand}}
+          Indicates the Origin of the {{object}} instance.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="User">
+              <description>
+                Used for indicating that the port mapping entry was created by the
+                end-user. For example through the web user interface.
+              </description>
+            </enumeration>
+            <enumeration value="System">
+              <description>
+                Used for indicating that the port mapping entry was created by the
+                system itself.
+              </description>
+            </enumeration>
+            <enumeration value="UPnP">
+              <description>
+                Used for indicating that the port mapping entry was created by a device using UPnP-IGD.
+              </description>
+            </enumeration>
+            <enumeration value="Controller">
+              <description>
+                Used for indicating that the port mapping entry was created by a
+                Controller.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Controller"/>
+        </syntax>
+      </parameter>
 
+      <component ref="Alias-2-0" version="2.0"/>
+      <parameter base="Alias">
+        <description action="append">
           Note: There is no guarantee that the {{param}} value on
           automatically-created {{object}} instances will be retained. This is
           because automatically-created {{object}} instances can be transitory.
         </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
       </parameter>
 
       <parameter name="Interface" access="readWrite">
@@ -583,14 +630,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -642,7 +682,7 @@
             <enumeration value="User">
               <description>
                 Used for indicating that the PortTrigger entry was created by
-                the end-user. For example through the web-ui.
+                the end-user. For example through the web user interface.
               </description>
             </enumeration>
             <enumeration value="System">
@@ -780,14 +820,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Port" access="readWrite">
         <description>
@@ -865,7 +898,7 @@
     </profile>
   </component>
 
-  <model name="NAT:2.16">
+  <model name="NAT:2.17">
     <component ref="Root"/>
     <component ref="NAT"/>
   </model>

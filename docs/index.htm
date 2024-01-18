@@ -14,8 +14,11 @@ Operations" />
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -98,6 +101,7 @@ Operations" />
   <!-- Automatic hover links styles -->
   <style>
   :root {
+      --hoverlink-gap: 0.2em;
       --hoverlink-size: 0.9em;
   }
 
@@ -105,13 +109,11 @@ Operations" />
       text-decoration: none;
   }
 
-  .hoverlink::before {
-      content: " ";
-  }
-
   .hoverlink::after {
+      position: absolute;
       display: inline-block;
       content: "";
+      margin-left: var(--hoverlink-gap);
       width: var(--hoverlink-size);
       height: var(--hoverlink-size);
       background-size: var(--hoverlink-size) var(--hoverlink-size);
@@ -129,9 +131,9 @@ Operations" />
 <header id="title-block-header">
 <h1 class="title auto-hoverlink" id="title">TR-181 – Device Data Model
 for CWMP Endpoints and USP Agents</h1>
-<p class="subtitle">Issue: 2 Amendment 16 <span
-class="release"></span></p>
-<p class="date">Issue Date: June 2023</p>
+<p class="subtitle">Issue: 2 Amendment 17 <span id="section"
+class="release auto-hoverlink"></span></p>
+<p class="date">Issue Date: January 2024</p>
 </header>
 <nav id="SIDEBAR" role="doc-toc">
 <ul>
@@ -1030,20 +1032,21 @@ ALL SUCH ASSERTIONS THAT HAVE OR MAY BE MADE ARE SO LISTED.</p>
 include the notices, legends, and other provisions set forth on this
 page.</p>
 <!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
-<h3 class="unnumbered unlisted new-page auto-hoverlink"
-data-info="header" id="sec:issue-history">Issue History</h3>
-<table class="bbf-revision-history" style="width:100%;">
+<div class="new-page">
+
+</div>
+<h3 class="unnumbered unlisted auto-hoverlink" data-info="header"
+id="sec:issue-history">Issue History</h3>
+<table class="issue-history">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 60%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 69%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Issue Number</th>
 <th style="text-align: left;">Approval Date</th>
-<th style="text-align: left;">Issue Editor</th>
 <th style="text-align: left;">Changes</th>
 </tr>
 </thead>
@@ -1054,28 +1057,19 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2.pdf">Issue
 2</a></td>
 <td style="text-align: left;">May 2010</td>
 <td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, 2Wire</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Original</li>
 </ul></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Issue 2 Amendment 1</td>
+<td style="text-align: left;">Issue 2 Corrigendum 1</td>
 <td style="text-align: left;">November 2010</td>
-<td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, 2Wire</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Issue 2 Corrigendum 1</td>
+<td style="text-align: left;">Issue 2 Amendment 1</td>
 <td style="text-align: left;">November 2010</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1086,17 +1080,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf">I
 2 Amendment 2</a></td>
 <td style="text-align: left;">February 2011</td>
 <td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, Pace</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added IPv6 and Firewall Appendices</li>
 </ul></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Amendment 3</td>
 <td style="text-align: left;">July 2011</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1104,9 +1093,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf">I
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 4</td>
 <td style="text-align: left;">November 2011</td>
-<td style="text-align: left;"><ul>
-<li>William Lupton, Pace</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1117,9 +1103,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf">I
 2 Amendment 5</a></td>
 <td style="text-align: left;">May 2012</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Pace</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added Tunneling Annex and IPsec Appendix</li>
 </ul></td>
 </tr>
@@ -1129,9 +1112,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf">I
 2 Amendment 6</a></td>
 <td style="text-align: left;">November 2012</td>
 <td style="text-align: left;"><ul>
-<li>Tim Carey, Alcatel-Lucent</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added support M2M SCL Administration as an Appendix</li>
 </ul></td>
 </tr>
@@ -1140,10 +1120,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf">I
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf">Issue
 2 Amendment 7</a></td>
 <td style="text-align: left;">November 2013</td>
-<td style="text-align: left;"><ul>
-<li>Apostolos Papageorgiou, NEC</li>
-<li>William Lupton, Cisco</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Added ZigBee and Provider Bridge theory of operation</li>
 <li>Added backup/restore theory of operation</li>
@@ -1155,9 +1131,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf">I
 2 Amendment 8</a></td>
 <td style="text-align: left;">September 2014</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Cisco</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Updated Annex B on tunneling</li>
 <li>Added GRE, MAP and PCP theory of operation</li>
 </ul></td>
@@ -1165,9 +1138,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf">I
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Amendment 9</td>
 <td style="text-align: left;">December 2014</td>
-<td style="text-align: left;"><ul>
-<li>Douglas Knisely, Qualcomm, Inc</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1178,16 +1148,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf">
 2 Amendment 10</a></td>
 <td style="text-align: left;">November 2015</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Axiros</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>No changes to the specification</li>
 </ul></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Corrigendum 2</td>
 <td style="text-align: left;">July 2016</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Removed <em>SSID</em> unique key from <em>WiFi.SSID</em> object</li>
 </ul></td>
@@ -1198,10 +1164,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf">
 2 Amendment 11</a></td>
 <td style="text-align: left;">July 2016</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Axiros</li>
-<li>Mark Tabry, Google</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added G.fast theory of operation</li>
 </ul></td>
 </tr>
@@ -1210,9 +1172,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf">
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-12.pdf">Issue
 2 Amendment 12</a></td>
 <td style="text-align: left;">March 2018</td>
-<td style="text-align: left;"><ul>
-<li>Steve Nicolai, Arris</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII and
 XIX</li>
@@ -1226,9 +1185,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-13.pdf">
 2 Amendment 13</a></td>
 <td style="text-align: left;">September 2019</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Huawei</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Unified text for CWMP and USP support</li>
 <li>Updated references</li>
 </ul></td>
@@ -1239,9 +1195,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf">
 2 Amendment 14</a></td>
 <td style="text-align: left;">November 2020</td>
 <td style="text-align: left;"><ul>
-<li>David Woolley, Telstra</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added Appendix XXI 5G - Wireline Wireless Convergence and Appendix
 XXII Data Elements</li>
 </ul></td>
@@ -1249,7 +1202,6 @@ XXII Data Elements</li>
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 14 Corrigendum 1</td>
 <td style="text-align: left;">November 2020</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1260,9 +1212,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf">
 2 Amendment 15</a></td>
 <td style="text-align: left;">January 2022</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Broadband Forum</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Converted the document to markdown and extended the Wi-Fi Theory of
 Operation</li>
 </ul></td>
@@ -1270,7 +1219,6 @@ Operation</li>
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 15 Corrigendum 1</td>
 <td style="text-align: left;">April 2022</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -1280,12 +1228,20 @@ Operation</li>
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-16.pdf">Issue
 2 Amendment 16</a></td>
 <td style="text-align: left;">June 2023</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Refreshed all diagrams</li>
 <li>Added ToO appendix for logical interfaces concept</li>
 <li>Extended advanced firewall appendix</li>
 <li>Updated Wi-Fi theory of operation</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a
+href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf">Issue
+2 Amendment 17</a></td>
+<td style="text-align: left;">January 2024</td>
+<td style="text-align: left;"><ul>
+<li>Refreshed some data model diagrams</li>
 </ul></td>
 </tr>
 </tbody>
@@ -1301,6 +1257,15 @@ id="sec:bbfprojectstream-project-stream-leaders"> Project Stream
 Leaders</h3>
 <ul>
 <li>Daniel Egger, Axiros</li>
+<li>Matthieu Anne, Orange</li>
+</ul>
+<h3 class="unnumbered unlisted auto-hoverlink" data-info="header"
+id="sec:editors">Editors</h3>
+<ul>
+<li>Klaus Wich, Huawei</li>
+<li>Mark Tabry, Google</li>
+<li>Steve Nicolai, Arris</li>
+<li>David Woolley, Telstra</li>
 <li>William Lupton, Broadband Forum</li>
 </ul>
 <h3 class="unnumbered unlisted auto-hoverlink" data-info="header"
@@ -1379,8 +1344,7 @@ id="img:cwmp-specific-device2-data-model-structure--overview"
 alt="CWMP-specific Device:2 Data Model Structure – Overview" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cwmp-specific-device2-data-model-structure--overview">
-Figure 1:
-CWMP-specific Device:2 Data Model Structure – Overview
+Figure 1: CWMP-specific Device:2 Data Model Structure – Overview
 </div></figcaption>
 </figure>
 <figure id="fig:usp-specific-device2-data-model-structure--overview">
@@ -1389,8 +1353,7 @@ id="img:usp-specific-device2-data-model-structure--overview"
 alt="USP-specific Device:2 Data Model Structure – Overview" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:usp-specific-device2-data-model-structure--overview">
-Figure 2:
-USP-specific Device:2 Data Model Structure – Overview
+Figure 2: USP-specific Device:2 Data Model Structure – Overview
 </div></figcaption>
 </figure>
 <h3 class="new-page auto-hoverlink" data-info="header"
@@ -1407,8 +1370,7 @@ id="img:device2-data-model-structure--device-level"
 alt="Device:2 Data Model Structure – Device Level" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--device-level">
-Figure 3:
-Device:2 Data Model Structure – Device Level
+Figure 3: Device:2 Data Model Structure – Device Level
 </div></figcaption>
 </figure>
 <figure
@@ -1418,9 +1380,8 @@ id="img:device2-data-model-structure--common-interface-stack-and-networking-tech
 alt="Device:2 Data Model Structure – Common Interface Stack and Networking Technologies" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--common-interface-stack-and-networking-technologies">
-Figure 4:
-Device:2 Data Model Structure – Common Interface Stack and Networking
-Technologies
+Figure 4: Device:2 Data Model Structure – Common Interface Stack and
+Networking Technologies
 </div></figcaption>
 </figure>
 <figure
@@ -1430,8 +1391,8 @@ id="img:device2-data-model-structure--common-applications-and-protocols"
 alt="Device:2 Data Model Structure – Common Applications and Protocols" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--common-applications-and-protocols">
-Figure 5:
-Device:2 Data Model Structure – Common Applications and Protocols
+Figure 5: Device:2 Data Model Structure – Common Applications and
+Protocols
 </div></figcaption>
 </figure>
 <h3 class="auto-hoverlink" data-info="header"
@@ -1447,8 +1408,7 @@ id="img:device2-data-model-structure--cwmp-management"
 alt="Device:2 Data Model Structure – CWMP Management" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--cwmp-management">
-Figure 6:
-Device:2 Data Model Structure – CWMP Management
+Figure 6: Device:2 Data Model Structure – CWMP Management
 </div></figcaption>
 </figure>
 <figure
@@ -1458,8 +1418,8 @@ id="img:device2-data-model-structure--cwmp-specific-applications-and-protocols"
 alt="Device:2 Data Model Structure – CWMP-specific applications and protocols" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--cwmp-specific-applications-and-protocols">
-Figure 7:
-Device:2 Data Model Structure – CWMP-specific applications and protocols
+Figure 7: Device:2 Data Model Structure – CWMP-specific applications and
+protocols
 </div></figcaption>
 </figure>
 <h3 class="new-page auto-hoverlink" data-info="header"
@@ -1475,8 +1435,7 @@ id="img:device2-data-model-structure--usp-management"
 alt="Device:2 Data Model Structure – USP Management" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--usp-management">
-Figure 8:
-Device:2 Data Model Structure – USP Management
+Figure 8: Device:2 Data Model Structure – USP Management
 </div></figcaption>
 </figure>
 <figure
@@ -1486,8 +1445,8 @@ id="img:device2-data-model-structure--usp-specific-applications-and-protocols"
 alt="Device:2 Data Model Structure – USP-specific applications and protocols" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device2-data-model-structure--usp-specific-applications-and-protocols">
-Figure 9:
-Device:2 Data Model Structure – USP-specific applications and protocols
+Figure 9: Device:2 Data Model Structure – USP-specific applications and
+protocols
 </div></figcaption>
 </figure>
 <h1 class="new-page auto-hoverlink" data-info="header"
@@ -1498,9 +1457,8 @@ Conventions</h2>
 requirements of the specification. These words are always capitalized.
 More information can be found in RFC 2119 <span class="citation"
 data-cites="RFC2119"><a href="#ref-RFC2119"
-role="doc-biblioref">[13]</a></span>.</p>
-<div class="borderless">
-<table>
+role="doc-biblioref">[23]</a></span>.</p>
+<table class="borderless">
 <colgroup>
 <col style="width: 16%" />
 <col style="width: 83%" />
@@ -1540,11 +1498,10 @@ implementation that does include the option.</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>The key words “DEPRECATED” and “OBSOLETED” in this Technical Report
 are to be interpreted as defined in TR-106 <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span>.</p>
+role="doc-biblioref">[4]</a></span>.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:references">2.2
 References</h2>
 <p>The following references are of relevance to this Technical Report.
@@ -1556,416 +1513,458 @@ recent edition of the references listed below.</p>
 published at <a href="https://www.broadband-forum.org"
 class="uri">https://www.broadband-forum.org</a>.</p>
 <div id="refs" class="references csl-bib-body" role="list">
-<div id="ref-3GPP-TS.23.501" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><a
-href="https://www.3gpp.org/ftp/Specs/html-info/23501.htm">3GPP TS
-23.501</a>, <em>System architecture for the 5G System (5GS); Stage
-2</em>, 3GPP SA WG2</div>
+<div id="ref-TR-059" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div
+class="csl-right-inline">TR-059, <em><a
+href="https://www.broadband-forum.org/download/TR-059.pdf">DSL Evolution
+&amp;#8211; Architecture Requirements for the Support of QoS-Enabled IP
+Services</a></em>, Broadband Forum, 2003</div>
+</div>
+<div id="ref-TR-069" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div
+class="csl-right-inline">TR-069 Amendment 6 Corrigendum 1, <em><a
+href="https://www.broadband-forum.org/download/TR-069_Amendment-6_Corrigendum-1.pdf">CPE
+WAN Management Protocol</a></em>, Broadband Forum, 2020</div>
+</div>
+<div id="ref-TR-101" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div
+class="csl-right-inline">TR-101 Issue 2, <em><a
+href="https://www.broadband-forum.org/download/TR-101_Issue-2.pdf">Migration
+to Ethernet-Based Broadband Aggregation</a></em>, Broadband Forum,
+2011</div>
+</div>
+<div id="ref-TR-106" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div
+class="csl-right-inline">TR-106 Amendment 12, <em><a
+href="https://www.broadband-forum.org/download/TR-106_Amendment-12.pdf">Data
+Model Template for CWMP Endpoints and USP Agents</a></em>, Broadband
+Forum, 2023</div>
+</div>
+<div id="ref-TR-124" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div
+class="csl-right-inline">TR-124 Issue 8, <em><a
+href="https://www.broadband-forum.org/download/TR-124_Issue-8.pdf">Functional
+Requirements for Broadband Residential Gateway Devices</a></em>,
+Broadband Forum, 2022</div>
+</div>
+<div id="ref-TR-143" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div
+class="csl-right-inline">TR-143 Amendment 1 Corrigendum 2, <em><a
+href="https://www.broadband-forum.org/download/TR-143_Amendment-1_Corrigendum-2.pdf">Enabling
+Network Throughput Performance Tests and Statistical
+Monitoring</a></em>, Broadband Forum, 2023</div>
+</div>
+<div id="ref-TR-177" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div
+class="csl-right-inline">TR-177 Corrigendum 1, <em><a
+href="https://www.broadband-forum.org/download/TR-177_Corrigendum-1.pdf">IPv6
+in the context of TR-101</a></em>, Broadband Forum, 2017</div>
+</div>
+<div id="ref-TR-187" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div
+class="csl-right-inline">TR-187 Issue 2, <em><a
+href="https://www.broadband-forum.org/download/TR-187_Issue-2.pdf">IPv6
+for PPP Broadband Access</a></em>, Broadband Forum, 2013</div>
+</div>
+<div id="ref-TR-232" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div
+class="csl-right-inline">TR-232, <em><a
+href="https://www.broadband-forum.org/download/TR-232.pdf">Bulk Data
+Collection</a></em>, Broadband Forum, 2012</div>
+</div>
+<div id="ref-TR-304" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div
+class="csl-right-inline">TR-304, <em><a
+href="https://www.broadband-forum.org/download/TR-304.pdf">Broadband
+Access Service Attributes and Performance Metrics</a></em>, Broadband
+Forum, 2015</div>
+</div>
+<div id="ref-TR-369" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div
+class="csl-right-inline">TR-369 Amendment 3 Corrigendum 1, <em><a
+href="https://www.broadband-forum.org/download/TR-369_Amendment-3_Corrigendum-1.pdf">User
+Services Platform (USP)</a></em>, Broadband Forum, 2023</div>
+</div>
+<div id="ref-TR-470" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div
+class="csl-right-inline">TR-470 Issue 2, <em><a
+href="https://www.broadband-forum.org/download/TR-470_Issue-2.pdf">5G
+Wireless Wireline Convergence Architecture</a></em>, Broadband Forum,
+2022</div>
 </div>
 <div id="ref-3GPP-TS.23.503" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline"><a
-href="https://www.3gpp.org/ftp/Specs/html-info/23503.htm">3GPP TS
-23.503</a>, <em>Policy and charging control framework for the 5G System
-(5GS); Stage 2</em>, 3GPP CT WG4, 2019</div>
+<div class="csl-left-margin">[13] </div><div
+class="csl-right-inline">3GPP TS 23.503, <em><a
+href="https://www.3gpp.org/ftp/Specs/html-info/23503.htm">Policy and
+charging control framework for the 5G System (5GS); Stage 2</a></em>,
+3GPP CT WG4, 2019</div>
 </div>
-<div id="ref-DataElements" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline"><a
-href="https://www.wi-fi.org/discover-wi-fi/specifications">Data Elements
-Specification</a>, <em>Wi-Fi Data Elements Specification</em>, Wi-Fi
-Alliance, 2021</div>
+<div id="ref-3GPP-TS.23.501" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div
+class="csl-right-inline">3GPP TS 23.501, <em><a
+href="https://www.3gpp.org/ftp/Specs/html-info/23501.htm">System
+architecture for the 5G System (5GS); Stage 2</a></em>, 3GPP SA
+WG2</div>
+</div>
+<div id="ref-ETSIM2MFA" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div
+class="csl-right-inline">ETSI TS 102 690 v1.1.6, <em><a
+href="https://docbox.etsi.org/M2M/Open/Latest_Drafts/00002ed121v116.pdf">Machine-to-Machine
+Communications (M2M Functional Architecture)</a></em>, ETSI, 2012</div>
+</div>
+<div id="ref-ETSIM2MInterfaces" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div
+class="csl-right-inline">ETSI TS 102 921 v1.1.6, <em><a
+href="https://docbox.etsi.org/M2M/Open/Latest_Drafts/00010ed121v116.pdf">M2M
+mIa, dIa and mId Interfaces</a></em>, ETSI, 2012</div>
+</div>
+<div id="ref-IANA-Method-Tokens" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div
+class="csl-right-inline">IANA Method Tokens Registry, <em><a
+href="https://www.iana.org/assignments/method-tokens/method-tokens.xhtml">Method
+Tokens</a></em>, IANA, 2008</div>
+</div>
+<div id="ref-ICSA-Baseline" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div
+class="csl-right-inline">ICSA Baseline Modular Firewall Certification
+Criteria, <em><a
+href="https://www.icsalabs.com/sites/default/files/baseline.pdf">Baseline
+module - version 4.1</a></em>, ICSA Labs, 2008</div>
+</div>
+<div id="ref-ICSA-Residential" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div
+class="csl-right-inline">ICSA Residential Modular Firewall Certification
+Criteria, <em><a
+href="https://www.icsalabs.com/sites/default/files/residential.pdf">Required
+Services Security Policy - Residential Category module - version
+4.1</a></em>, ICSA Labs, 2008</div>
+</div>
+<div id="ref-802.1D-2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div
+class="csl-right-inline">IEEE Std 802.1D-2004, <em><a
+href="http://ieeexplore.ieee.org/servlet/opac?punumber=9155">IEEE
+Standard for Local and metropolitan area networks: Media Access Control
+(MAC) Bridges</a></em>, IEEE, 2004</div>
+</div>
+<div id="ref-802.1Q-2011" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div
+class="csl-right-inline">IEEE Std 802.1Q-2011, <em><a
+href="https://standards.ieee.org/getieee802/download/802.1Q-2011.pdf">MAC
+Bridges and Virtual Bridge Local Area Networks</a></em>, IEEE,
+2011</div>
 </div>
 <div id="ref-draft-boucadair-pcp-flow-examples" class="csl-entry"
 role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline"><a
-href="https://datatracker.ietf.org/doc/html/draft-boucadair-pcp-flow-examples-04">draft-boucadair-pcp-flow-examples-04</a>,
-<em>Port Control Protocol (PCP) Flow Examples</em>, IETF, 2015</div>
+<div class="csl-left-margin">[22] </div><div
+class="csl-right-inline">draft-boucadair-pcp-flow-examples-04, <em><a
+href="https://datatracker.ietf.org/doc/html/draft-boucadair-pcp-flow-examples-04">Port
+Control Protocol (PCP) Flow Examples</a></em>, IETF, 2015</div>
 </div>
-<div id="ref-ETSIM2MFA" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline"><a
-href="https://docbox.etsi.org/M2M/Open/Latest_Drafts/00002ed121v116.pdf">ETSI
-TS 102 690 v1.1.6</a>, <em>Machine-to-Machine Communications (M2M
-Functional Architecture)</em>, ETSI, 2012</div>
+<div id="ref-RFC2119" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div
+class="csl-right-inline">RFC 2119, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2119.html">Key words for use in
+RFCs to Indicate Requirement Levels</a></em>, IETF, 1997</div>
 </div>
-<div id="ref-ETSIM2MInterfaces" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline"><a
-href="https://docbox.etsi.org/M2M/Open/Latest_Drafts/00010ed121v116.pdf">ETSI
-TS 102 921 v1.1.6</a>, <em>M2M mIa, dIa and mId Interfaces</em>, ETSI,
-2012</div>
+<div id="ref-RFC2460" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[24] </div><div
+class="csl-right-inline">RFC 2460, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2460.html">Internet Protocol,
+Version 6 (IPv6) Specification</a></em>, IETF, 1998</div>
 </div>
-<div id="ref-IANA-Method-Tokens" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline"><a
-href="https://www.iana.org/assignments/method-tokens/method-tokens.xhtml">IANA
-Method Tokens Registry</a>, <em>Method Tokens</em>, IANA, 2008</div>
+<div id="ref-RFC2464" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[25] </div><div
+class="csl-right-inline">RFC 2464, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2464.html">Transmission of IPv6
+Packets over Ethernet Networks</a></em>, IETF, 1998</div>
 </div>
-<div id="ref-ICSA-Baseline" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline"><a
-href="https://www.icsalabs.com/sites/default/files/baseline.pdf">ICSA
-Baseline Modular Firewall Certification Criteria</a>, <em>Baseline
-module - version 4.1</em>, ICSA Labs, 2008</div>
+<div id="ref-RFC2597" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[26] </div><div
+class="csl-right-inline">RFC 2597, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2597.html">Assured Forwarding
+PHB Group</a></em>, IETF, 1999</div>
 </div>
-<div id="ref-ICSA-Residential" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline"><a
-href="https://www.icsalabs.com/sites/default/files/residential.pdf">ICSA
-Residential Modular Firewall Certification Criteria</a>, <em>Required
-Services Security Policy - Residential Category module - version
-4.1</em>, ICSA Labs, 2008</div>
+<div id="ref-RFC2661" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[27] </div><div
+class="csl-right-inline">RFC 2661, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2661.html">Layer Two Tunneling
+Protocol <span>‘L2TP’</span></a></em>, IETF, 1999</div>
 </div>
-<div id="ref-802.1D-2004" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline"><a
-href="http://ieeexplore.ieee.org/servlet/opac?punumber=9155">IEEE Std
-802.1D-2004</a>, <em>IEEE Standard for Local and metropolitan area
-networks: Media Access Control (MAC) Bridges</em>, IEEE, 2004</div>
+<div id="ref-RFC2784" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[28] </div><div
+class="csl-right-inline">RFC 2784, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2784.html">Generic Routing
+Encapsulation (GRE)</a></em>, IETF, 2000</div>
 </div>
-<div id="ref-802.1Q-2011" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[11] </div><div class="csl-right-inline"><a
-href="https://standards.ieee.org/getieee802/download/802.1Q-2011.pdf">IEEE
-Std 802.1Q-2011</a>, <em>MAC Bridges and Virtual Bridge Local Area
-Networks</em>, IEEE, 2011</div>
+<div id="ref-RFC2863" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[29] </div><div
+class="csl-right-inline">RFC 2863, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2863.html">The Interfaces Group
+MIB</a></em>, IETF, 2000</div>
+</div>
+<div id="ref-RFC2890" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[30] </div><div
+class="csl-right-inline">RFC 2890, <em><a
+href="https://www.rfc-editor.org/rfc/rfc2890.html">Key and Sequence
+Number Extensions to GRE</a></em>, IETF, 2000</div>
+</div>
+<div id="ref-RFC3246" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[31] </div><div
+class="csl-right-inline">RFC 3246, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3246.html">An Expedited
+Forwarding PHB (Per-Hop Behavior)</a></em>, IETF, 2002</div>
+</div>
+<div id="ref-RFC3261" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[32] </div><div
+class="csl-right-inline">RFC 3261, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3261.html">SIP: Session
+Initiation Protocol</a></em>, IETF, 2002</div>
+</div>
+<div id="ref-RFC3315" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[33] </div><div
+class="csl-right-inline">RFC 3315, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3315.html">Dynamic Host
+Configuration Protocol for IPv6 (DHCPv6)</a></em>, IETF, 2003</div>
+</div>
+<div id="ref-RFC3435" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[34] </div><div
+class="csl-right-inline">RFC 3435, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3435.html">Media Gateway Control
+Protocol (MGCP) Version 1.0</a></em>, IETF, 2003</div>
+</div>
+<div id="ref-RFC3633" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[35] </div><div
+class="csl-right-inline">RFC 3633, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3633.html">IPv6 Prefix Options
+for Dynamic Host Configuration Protocol (DHCP) version 6</a></em>, IETF,
+2003</div>
+</div>
+<div id="ref-RFC3986" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[36] </div><div
+class="csl-right-inline">RFC 3986, <em><a
+href="https://www.rfc-editor.org/rfc/rfc3986.html">Uniform Resource
+Identifier (URI): Generic Syntax</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4119" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[37] </div><div
+class="csl-right-inline">RFC 4119, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4119.html">A Presence-based
+GEOPRIV Location Object Format</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4122" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[38] </div><div
+class="csl-right-inline">RFC 4122, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4122.html">A Universally Unique
+IDentifier (UUID) URN Namespace</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4191" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[39] </div><div
+class="csl-right-inline">RFC 4191, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4191.html">Default Router
+Preferences and More-Specific Routes</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4193" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[40] </div><div
+class="csl-right-inline">RFC 4193, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4193.html">Unique Local IPv6
+Unicast Addresses</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4301" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[41] </div><div
+class="csl-right-inline">RFC 4301, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4301.html">Security Architecture
+for the Internet Protocol</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4302" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[42] </div><div
+class="csl-right-inline">RFC 4302, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4302.html">IP Authentication
+Header</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4303" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[43] </div><div
+class="csl-right-inline">RFC 4303, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4303.html">IP Encapsulating
+Security Payload (ESP)</a></em>, IETF, 2005</div>
+</div>
+<div id="ref-RFC4479" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[44] </div><div
+class="csl-right-inline">RFC 4479, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4479.html">A Data Model for
+Presence</a></em>, IETF, 2006</div>
+</div>
+<div id="ref-RFC4566" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[45] </div><div
+class="csl-right-inline">RFC 4566, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4566.html">SDP: Session
+Description Protocol</a></em>, IETF, 2006</div>
+</div>
+<div id="ref-RFC4861" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[46] </div><div
+class="csl-right-inline">RFC 4861, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4861.html">Neighbor Discovery
+for IP version 6 (IPv6)</a></em>, IETF, 2007</div>
+</div>
+<div id="ref-RFC4862" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[47] </div><div
+class="csl-right-inline">RFC 4862, <em><a
+href="https://www.rfc-editor.org/rfc/rfc4862.html">IPv6 Stateless
+Address Autoconfiguration</a></em>, IETF, 2007</div>
+</div>
+<div id="ref-RFC5072" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[48] </div><div
+class="csl-right-inline">RFC 5072, <em><a
+href="https://www.rfc-editor.org/rfc/rfc5072.html">IP Version 6 over
+PPP</a></em>, IETF, 2007</div>
+</div>
+<div id="ref-RFC5139" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[49] </div><div
+class="csl-right-inline">RFC 5139, <em><a
+href="https://www.rfc-editor.org/rfc/rfc5139.html">Revised Civic
+Location Format for Presence Information Data Format Location Object
+(PIDF-LO)</a></em>, IETF, 2008</div>
+</div>
+<div id="ref-RFC5491" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[50] </div><div
+class="csl-right-inline">RFC 5491, <em><a
+href="https://www.rfc-editor.org/rfc/rfc5491.html">GEOPRIV Presence
+Information Data Format Location Object (PIDF-LO) Usage Clarification,
+Considerations, and Recommendations</a></em>, IETF, 2009</div>
+</div>
+<div id="ref-RFC5969" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[51] </div><div
+class="csl-right-inline">RFC 5969, <em><a
+href="https://www.rfc-editor.org/rfc/rfc5969.html">IPv6 Rapid Deployment
+on IPv4 Infrastructures (6rd) -- Protocol Specification</a></em>, IETF,
+2010</div>
+</div>
+<div id="ref-RFC5996" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[52] </div><div
+class="csl-right-inline">RFC 5996, <em><a
+href="https://www.rfc-editor.org/rfc/rfc5996.html">Internet Key Exchange
+Protocol Version 2 (IKEv2)</a></em>, IETF, 2010</div>
+</div>
+<div id="ref-RFC6106" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[53] </div><div
+class="csl-right-inline">RFC 6106, <em><a
+href="https://www.rfc-editor.org/rfc/rfc6106.html">IPv6 Router
+Advertisement Options for DNS Configuration</a></em>, IETF, 2010</div>
+</div>
+<div id="ref-RFC6333" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[54] </div><div
+class="csl-right-inline">RFC 6333, <em><a
+href="https://www.rfc-editor.org/rfc/rfc6333.html">Dual-Stack Lite
+Broadband Deployments Following IPv4 Exhaustion</a></em>, IETF,
+2011</div>
+</div>
+<div id="ref-RFC6334" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[55] </div><div
+class="csl-right-inline">RFC 6334, <em><a
+href="https://www.rfc-editor.org/rfc/rfc6334.html">Dynamic Host
+Configuration Protocol for IPv6 (DHCPv6) Option for Dual-Stack
+Lite</a></em>, IETF, 2011</div>
+</div>
+<div id="ref-RFC6887" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[56] </div><div
+class="csl-right-inline">RFC 6887, <em><a
+href="https://www.rfc-editor.org/rfc/rfc6887.html">Port Control Protocol
+(PCP)</a></em>, IETF, 2013</div>
+</div>
+<div id="ref-RFC6970" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[57] </div><div
+class="csl-right-inline">RFC 6970, <em><a
+href="https://www.rfc-editor.org/rfc/rfc6970.html">Universal Plug and
+Play (UPnP) Internet Gateway Device - Port Control Protocol Interworking
+Function (IGD-PCP IWF)</a></em>, IETF, 2013</div>
+</div>
+<div id="ref-RFC7291" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[58] </div><div
+class="csl-right-inline">RFC 7291, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7291.html">DHCP Options for the
+Port Control Protocol (PCP)</a></em>, IETF, 2014</div>
+</div>
+<div id="ref-RFC7488" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[59] </div><div
+class="csl-right-inline">RFC 7488, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7488.html">Port Control Protocol
+(PCP) Server Selection</a></em>, IETF, 2015</div>
+</div>
+<div id="ref-RFC7594" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[60] </div><div
+class="csl-right-inline">RFC 7594, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7594.html">A Framework for
+Large-Scale Measurement of Broadband Performance (LMAP)</a></em>, IETF,
+2015</div>
+</div>
+<div id="ref-RFC7597" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[61] </div><div
+class="csl-right-inline">RFC 7597, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7597.html">Mapping of Address
+and Port with Encapsulation (MAP-E)</a></em>, IETF, 2015</div>
+</div>
+<div id="ref-RFC7598" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[62] </div><div
+class="csl-right-inline">RFC 7598, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7598.html">DHCPv6 Options for
+Configuration of Softwire Address and Port-Mapped Clients</a></em>,
+IETF, 2015</div>
+</div>
+<div id="ref-RFC7599" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[63] </div><div
+class="csl-right-inline">RFC 7599, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7599.html">Mapping of Address
+and Port using Translation (MAP-T)</a></em>, IETF, 2015</div>
+</div>
+<div id="ref-RFC7648" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[64] </div><div
+class="csl-right-inline">RFC 7648, <em><a
+href="https://www.rfc-editor.org/rfc/rfc7648.html">Port Control Protocol
+(PCP) Proxy Function</a></em>, IETF, 2015</div>
+</div>
+<div id="ref-RFC8193" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[65] </div><div
+class="csl-right-inline">RFC 8193, <em><a
+href="https://www.rfc-editor.org/rfc/rfc8193.html">Information Model for
+Large-Scale Measurement Platforms (LMAPs)</a></em>, IETF, 2017</div>
+</div>
+<div id="ref-RFC8822" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[66] </div><div
+class="csl-right-inline">RFC 8822, <em><a
+href="https://www.rfc-editor.org/rfc/rfc8822.html">5G Wireless Wireline
+Convergence User Plane Encapsulation (5WE)</a></em>, IETF, 2021</div>
+</div>
+<div id="ref-X.200" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[67] </div><div
+class="csl-right-inline">X.200, <em><a
+href="https://www.itu.int/rec/T-REC-X.200-199407-I/en">Information
+technology - Open Systems Interconnection - Basic Reference Model: The
+basic model</a></em>, ITU-T, 1994</div>
 </div>
 <div id="ref-REC-xmlschema-0-20041028" class="csl-entry"
 role="listitem">
-<div class="csl-left-margin">[12] </div><div class="csl-right-inline"><a
-href="https://www.w3.org/TR/2004/REC-xmlschema-0-20041028">REC-xmlschema-0-20041028</a>,
-<em>XML Schema Part 0: Primer Second Edition</em>, W3C, 2004</div>
+<div class="csl-left-margin">[68] </div><div
+class="csl-right-inline">REC-xmlschema-0-20041028, <em><a
+href="https://www.w3.org/TR/2004/REC-xmlschema-0-20041028">XML Schema
+Part 0: Primer Second Edition</a></em>, W3C, 2004</div>
 </div>
-<div id="ref-RFC2119" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[13] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2119.html">RFC 2119</a>, <em>Key
-words for use in RFCs to Indicate Requirement Levels</em>, IETF,
-1997</div>
-</div>
-<div id="ref-RFC2460" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[14] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2460.html">RFC 2460</a>,
-<em>Internet Protocol, Version 6 (IPv6) Specification</em>, IETF,
-1998</div>
-</div>
-<div id="ref-RFC2464" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[15] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2464.html">RFC 2464</a>,
-<em>Transmission of IPv6 Packets over Ethernet Networks</em>, IETF,
-1998</div>
-</div>
-<div id="ref-RFC2597" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2597.html">RFC 2597</a>,
-<em>Assured Forwarding PHB Group</em>, IETF, 1999</div>
-</div>
-<div id="ref-RFC2661" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2661.html">RFC 2661</a>,
-<em>Layer Two Tunneling Protocol <span>‘L2TP’</span></em>, IETF,
-1999</div>
-</div>
-<div id="ref-RFC2784" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[18] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2784.html">RFC 2784</a>,
-<em>Generic Routing Encapsulation (GRE)</em>, IETF, 2000</div>
-</div>
-<div id="ref-RFC2863" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[19] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2863.html">RFC 2863</a>, <em>The
-Interfaces Group MIB</em>, IETF, 2000</div>
-</div>
-<div id="ref-RFC2890" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[20] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc2890.html">RFC 2890</a>, <em>Key
-and Sequence Number Extensions to GRE</em>, IETF, 2000</div>
-</div>
-<div id="ref-RFC3246" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[21] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3246.html">RFC 3246</a>, <em>An
-Expedited Forwarding PHB (Per-Hop Behavior)</em>, IETF, 2002</div>
-</div>
-<div id="ref-RFC3261" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[22] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3261.html">RFC 3261</a>,
-<em>SIP: Session Initiation Protocol</em>, IETF, 2002</div>
-</div>
-<div id="ref-RFC3315" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[23] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3315.html">RFC 3315</a>,
-<em>Dynamic Host Configuration Protocol for IPv6 (DHCPv6)</em>, IETF,
-2003</div>
-</div>
-<div id="ref-RFC3435" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[24] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3435.html">RFC 3435</a>,
-<em>Media Gateway Control Protocol (MGCP) Version 1.0</em>, IETF,
-2003</div>
-</div>
-<div id="ref-RFC3633" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[25] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3633.html">RFC 3633</a>,
-<em>IPv6 Prefix Options for Dynamic Host Configuration Protocol (DHCP)
-version 6</em>, IETF, 2003</div>
-</div>
-<div id="ref-RFC3986" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[26] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc3986.html">RFC 3986</a>,
-<em>Uniform Resource Identifier (URI): Generic Syntax</em>, IETF,
-2005</div>
-</div>
-<div id="ref-RFC4119" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[27] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4119.html">RFC 4119</a>, <em>A
-Presence-based GEOPRIV Location Object Format</em>, IETF, 2005</div>
-</div>
-<div id="ref-RFC4122" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[28] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4122.html">RFC 4122</a>, <em>A
-Universally Unique IDentifier (UUID) URN Namespace</em>, IETF,
-2005</div>
-</div>
-<div id="ref-RFC4191" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[29] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4191.html">RFC 4191</a>,
-<em>Default Router Preferences and More-Specific Routes</em>, IETF,
-2005</div>
-</div>
-<div id="ref-RFC4193" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[30] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4193.html">RFC 4193</a>,
-<em>Unique Local IPv6 Unicast Addresses</em>, IETF, 2005</div>
-</div>
-<div id="ref-RFC4301" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[31] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4301.html">RFC 4301</a>,
-<em>Security Architecture for the Internet Protocol</em>, IETF,
-2005</div>
-</div>
-<div id="ref-RFC4302" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[32] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4302.html">RFC 4302</a>, <em>IP
-Authentication Header</em>, IETF, 2005</div>
-</div>
-<div id="ref-RFC4303" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[33] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4303.html">RFC 4303</a>, <em>IP
-Encapsulating Security Payload (ESP)</em>, IETF, 2005</div>
-</div>
-<div id="ref-RFC4479" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[34] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4479.html">RFC 4479</a>, <em>A
-Data Model for Presence</em>, IETF, 2006</div>
-</div>
-<div id="ref-RFC4566" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[35] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4566.html">RFC 4566</a>,
-<em>SDP: Session Description Protocol</em>, IETF, 2006</div>
-</div>
-<div id="ref-RFC4861" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[36] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4861.html">RFC 4861</a>,
-<em>Neighbor Discovery for IP version 6 (IPv6)</em>, IETF, 2007</div>
-</div>
-<div id="ref-RFC4862" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[37] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc4862.html">RFC 4862</a>,
-<em>IPv6 Stateless Address Autoconfiguration</em>, IETF, 2007</div>
-</div>
-<div id="ref-RFC5072" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[38] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc5072.html">RFC 5072</a>, <em>IP
-Version 6 over PPP</em>, IETF, 2007</div>
-</div>
-<div id="ref-RFC5139" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[39] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc5139.html">RFC 5139</a>,
-<em>Revised Civic Location Format for Presence Information Data Format
-Location Object (PIDF-LO)</em>, IETF, 2008</div>
-</div>
-<div id="ref-RFC5491" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[40] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc5491.html">RFC 5491</a>,
-<em>GEOPRIV Presence Information Data Format Location Object (PIDF-LO)
-Usage Clarification, Considerations, and Recommendations</em>, IETF,
-2009</div>
-</div>
-<div id="ref-RFC5969" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[41] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc5969.html">RFC 5969</a>,
-<em>IPv6 Rapid Deployment on IPv4 Infrastructures (6rd) -- Protocol
-Specification</em>, IETF, 2010</div>
-</div>
-<div id="ref-RFC5996" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[42] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc5996.html">RFC 5996</a>,
-<em>Internet Key Exchange Protocol Version 2 (IKEv2)</em>, IETF,
-2010</div>
-</div>
-<div id="ref-RFC6106" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[43] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc6106.html">RFC 6106</a>,
-<em>IPv6 Router Advertisement Options for DNS Configuration</em>, IETF,
-2010</div>
-</div>
-<div id="ref-RFC6333" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[44] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc6333.html">RFC 6333</a>,
-<em>Dual-Stack Lite Broadband Deployments Following IPv4
-Exhaustion</em>, IETF, 2011</div>
-</div>
-<div id="ref-RFC6334" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[45] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc6334.html">RFC 6334</a>,
-<em>Dynamic Host Configuration Protocol for IPv6 (DHCPv6) Option for
-Dual-Stack Lite</em>, IETF, 2011</div>
-</div>
-<div id="ref-RFC6887" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[46] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc6887.html">RFC 6887</a>,
-<em>Port Control Protocol (PCP)</em>, IETF, 2013</div>
-</div>
-<div id="ref-RFC6970" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[47] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc6970.html">RFC 6970</a>,
-<em>Universal Plug and Play (UPnP) Internet Gateway Device - Port
-Control Protocol Interworking Function (IGD-PCP IWF)</em>, IETF,
-2013</div>
-</div>
-<div id="ref-RFC7291" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[48] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7291.html">RFC 7291</a>,
-<em>DHCP Options for the Port Control Protocol (PCP)</em>, IETF,
-2014</div>
-</div>
-<div id="ref-RFC7488" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[49] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7488.html">RFC 7488</a>,
-<em>Port Control Protocol (PCP) Server Selection</em>, IETF, 2015</div>
-</div>
-<div id="ref-RFC7594" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[50] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7594.html">RFC 7594</a>, <em>A
-Framework for Large-Scale Measurement of Broadband Performance
-(LMAP)</em>, IETF, 2015</div>
-</div>
-<div id="ref-RFC7597" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[51] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7597.html">RFC 7597</a>,
-<em>Mapping of Address and Port with Encapsulation (MAP-E)</em>, IETF,
-2015</div>
-</div>
-<div id="ref-RFC7598" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[52] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7598.html">RFC 7598</a>,
-<em>DHCPv6 Options for Configuration of Softwire Address and Port-Mapped
-Clients</em>, IETF, 2015</div>
-</div>
-<div id="ref-RFC7599" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[53] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7599.html">RFC 7599</a>,
-<em>Mapping of Address and Port using Translation (MAP-T)</em>, IETF,
-2015</div>
-</div>
-<div id="ref-RFC7648" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[54] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc7648.html">RFC 7648</a>,
-<em>Port Control Protocol (PCP) Proxy Function</em>, IETF, 2015</div>
-</div>
-<div id="ref-RFC8193" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[55] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc8193.html">RFC 8193</a>,
-<em>Information Model for Large-Scale Measurement Platforms
-(LMAPs)</em>, IETF, 2017</div>
-</div>
-<div id="ref-RFC8822" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[56] </div><div class="csl-right-inline"><a
-href="https://www.rfc-editor.org/rfc/rfc8822.html">RFC 8822</a>, <em>5G
-Wireless Wireline Convergence User Plane Encapsulation (5WE)</em>, IETF,
-2021</div>
-</div>
-<div id="ref-TR-059" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[57] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-059.pdf">TR-059</a>,
-<em>DSL Evolution - Architecture Requirements for the Support of
-QoS-Enabled IP Services</em>, Broadband Forum, 2003</div>
-</div>
-<div id="ref-TR-069" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[58] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-069.pdf">TR-069
-Amendment 6</a>, <em>CPE WAN Management Protocol</em>, Broadband Forum,
-2018</div>
-</div>
-<div id="ref-TR-101" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[59] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-101.pdf">TR-101 Issue
-2</a>, <em>Migration to Ethernet Based DSL Aggregation</em>, Broadband
-Forum, 2011</div>
-</div>
-<div id="ref-TR-106" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[60] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-106.pdf">TR-106
-Amendment 8</a>, <em>Data Model Template for CWMP Endpoints and USP
-Agents</em>, Broadband Forum, 2018</div>
-</div>
-<div id="ref-TR-124" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[61] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-124.pdf">TR-124 Issue
-5</a>, <em>Functional Requirements for Broadband Residential Gateway
-Devices</em>, Broadband Forum, 2016</div>
-</div>
-<div id="ref-TR-143" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[62] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-143.pdf">TR-143
-Amendment 1 Corrigendum 1</a>, <em>Enabling Network Throughput
-Performance Tests and Statistical Monitoring</em>, Broadband Forum,
-2015</div>
-</div>
-<div id="ref-TR-177" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[63] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-177.pdf">TR-177
-Corrigendum 1</a>, <em>IPv6 in the context of TR-101</em>, Broadband
-Forum, 2017</div>
-</div>
-<div id="ref-TR-187" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[64] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-187.pdf">TR-187 Issue
-2</a>, <em>IPv6 for PPP Broadband Access</em>, Broadband Forum,
-2013</div>
-</div>
-<div id="ref-TR-232" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[65] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-232.pdf">TR-232</a>,
-<em>Bulk Data Collection</em>, Broadband Forum, 2012</div>
-</div>
-<div id="ref-TR-304" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[66] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-304.pdf">TR-304</a>,
-<em>Broadband Access Service Attributes and Performance Metrics</em>,
-Broadband Forum, 2015</div>
-</div>
-<div id="ref-TR-369" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[67] </div><div class="csl-right-inline"><a
-href="https://usp.technology/specification">TR-369 Issue 1 Amendment
-2</a>, <em>User Services Platform</em>, Broadband Forum, 2022</div>
-</div>
-<div id="ref-TR-470" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[68] </div><div class="csl-right-inline"><a
-href="https://www.broadband-forum.org/download/TR-470.pdf">TR-470</a>,
-<em>5G Wireless Wireline Convergence Architecture</em>, Broadband Forum,
-2020</div>
-</div>
-<div id="ref-X.200" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[69] </div><div class="csl-right-inline"><a
-href="https://www.itu.int/rec/T-REC-X.200-199407-I/en">X.200</a>,
-<em>Information technology - Open Systems Interconnection - Basic
-Reference Model: The basic model</em>, ITU-T, 1994</div>
+<div id="ref-DataElements" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[69] </div><div
+class="csl-right-inline">Data Elements Specification, <em><a
+href="https://www.wi-fi.org/discover-wi-fi/specifications">Wi-Fi Data
+Elements Specification</a></em>, Wi-Fi Alliance, 2021</div>
 </div>
 <div id="ref-ZigBee2007" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[70] </div><div class="csl-right-inline"><a
+<div class="csl-left-margin">[70] </div><div
+class="csl-right-inline">ZigBee 2007 Specification, <em><a
 href="https://csa-iot.org/all-solutions/zigbee">ZigBee 2007
-Specification</a>, <em>ZigBee 2007 Specification</em>, ZigBee Alliance,
-2007</div>
+Specification</a></em>, ZigBee Alliance, 2007</div>
 </div>
 </div>
 <h2 class="auto-hoverlink" data-info="header" id="sec:definitions">2.3
 Definitions</h2>
 <p>The following terminology is used throughout this Technical
 Report.</p>
-<div class="borderless">
-<table>
+<table class="borderless">
 <colgroup>
 <col style="width: 24%" />
 <col style="width: 75%" />
@@ -2000,9 +1999,9 @@ is responsible for mobility and access related functions.</td>
 <td><strong>CPE</strong></td>
 <td>Customer Premises Equipment; refers (as appropriate) to any
 <em>CWMP</em>-enabled <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> or
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> or
 <em>USP</em>-enabled <span class="citation" data-cites="TR-369"><a
-href="#ref-TR-369" role="doc-biblioref">[67]</a></span> device and
+href="#ref-TR-369" role="doc-biblioref">[11]</a></span> device and
 therefore covers both Internet Gateway devices and LAN-side end
 devices.</td>
 </tr>
@@ -2027,7 +2026,7 @@ a USP Controller.</td>
 <td><strong>CWMP</strong></td>
 <td><em>CPE</em> WAN Management Protocol. Defined in TR-069 <span
 class="citation" data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span>, CWMP is a communication protocol
+role="doc-biblioref">[2]</a></span>, CWMP is a communication protocol
 between an <em>ACS</em> and a CWMP-enabled <em>CPE</em> that defines a
 mechanism for secure auto-configuration of a <em>CPE</em> and other
 <em>CPE</em> management functions in a common framework.</td>
@@ -2058,7 +2057,7 @@ in or referenced by the <em>DM Schema</em>.</td>
 <td>Data Model Schema. This is the XML Schema <span class="citation"
 data-cites="REC-xmlschema-0-20041028"><a
 href="#ref-REC-xmlschema-0-20041028"
-role="doc-biblioref">[12]</a></span> that is used for defining data
+role="doc-biblioref">[68]</a></span> that is used for defining data
 models for use with <em>CWMP and USP</em>.</td>
 </tr>
 <tr class="even">
@@ -2123,10 +2122,10 @@ Object, Parameter, Command or Event.</td>
 <td>Describes how a parameter can reference another parameter or object
 via its path name (A.2.3.4/TR-106 <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span>). Such a reference can be weak or
+role="doc-biblioref">[4]</a></span>). Such a reference can be weak or
 strong (Section A.2.3.6/TR-106 <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span>).</td>
+role="doc-biblioref">[4]</a></span>).</td>
 </tr>
 <tr class="odd">
 <td><strong>Upstream Interface</strong></td>
@@ -2140,7 +2139,7 @@ physical layer interface.</td>
 <td><strong>USP</strong></td>
 <td>User Services Platform. Defined in TR-369 <span class="citation"
 data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span>, USP is an evolution of CWMP that
+role="doc-biblioref">[11]</a></span>, USP is an evolution of CWMP that
 allows applications to manipulate Service Elements in a network of
 Controllers and Agents.</td>
 </tr>
@@ -2167,12 +2166,10 @@ plane.</td>
 </tr>
 </tbody>
 </table>
-</div>
 <h2 class="auto-hoverlink" data-info="header" id="sec:abbreviations">2.4
 Abbreviations</h2>
 <p>This Technical Report uses the following abbreviations:</p>
-<div class="borderless">
-<table>
+<table class="borderless">
 <colgroup>
 <col style="width: 23%" />
 <col style="width: 76%" />
@@ -2370,13 +2367,13 @@ Abbreviations</h2>
 <td>URI</td>
 <td>Uniform Resource Identifier <span class="citation"
 data-cites="RFC3986"><a href="#ref-RFC3986"
-role="doc-biblioref">[26]</a></span></td>
+role="doc-biblioref">[36]</a></span></td>
 </tr>
 <tr class="odd">
 <td>URL</td>
 <td>Uniform Resource Locator <span class="citation"
 data-cites="RFC3986"><a href="#ref-RFC3986"
-role="doc-biblioref">[26]</a></span></td>
+role="doc-biblioref">[36]</a></span></td>
 </tr>
 <tr class="even">
 <td>URSP</td>
@@ -2416,22 +2413,21 @@ role="doc-biblioref">[26]</a></span></td>
 </tr>
 </tbody>
 </table>
-</div>
 <h1 class="auto-hoverlink" data-info="header" id="sec:bbftype-impact">3
 Technical Report Impact</h1>
 <h2 class="auto-hoverlink" data-info="header"
 id="sec:energy-efficiency">3.1 Energy Efficiency</h2>
-<p>TR-181 Issue 2 Amendment 16 has no impact on Energy Efficiency.</p>
+<p>TR-181 Issue 2 Amendment 17 has no impact on Energy Efficiency.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:ipv6">3.2
 IPv6</h2>
-<p>TR-181 Issue 2 Amendment 16 defines IPv6 extensions (introduced in
+<p>TR-181 Issue 2 Amendment 17 defines IPv6 extensions (introduced in
 Issue 2 Amendment 2) to the Device:2 data model.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:security">3.3
 Security</h2>
-<p>TR-181 Issue 2 Amendment 16 has no impact on Security.</p>
+<p>TR-181 Issue 2 Amendment 17 has no impact on Security.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:privacy">3.4
 Privacy</h2>
-<p>TR-181 Issue 2 Amendment 16 has no impact on Privacy.</p>
+<p>TR-181 Issue 2 Amendment 17 has no impact on Privacy.</p>
 <h1 class="new-page auto-hoverlink" data-info="header"
 id="sec:architecture">4 Architecture</h1>
 <h2 class="auto-hoverlink" data-info="header"
@@ -2443,12 +2439,12 @@ other, using path references in order to dynamically define the
 relationships between interfaces.</p>
 <p>The interface object and interface stack are concepts inspired by RFC
 2863 <span class="citation" data-cites="RFC2863"><a href="#ref-RFC2863"
-role="doc-biblioref">[19]</a></span>.</p>
+role="doc-biblioref">[29]</a></span>.</p>
 <p>Within the Device:2 data model, interface objects are arbitrarily
 restricted to definitions that operate at or below the IP network layer
 (i.e., layers 1 through 3 of the OSI model <span class="citation"
 data-cites="X.200"><a href="#ref-X.200"
-role="doc-biblioref">[69]</a></span>). However, vendor-specific
+role="doc-biblioref">[67]</a></span>). However, vendor-specific
 interface objects MAY be defined which fall outside this restricted
 scope.</p>
 <p><a href="#fig:osi-layers-and-interface-objects" class="figure">Figure
@@ -2483,8 +2479,7 @@ id="img:osi-layers-and-interface-objects"
 alt="OSI Layers and Interface Objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:osi-layers-and-interface-objects">
-Figure 10:
-OSI Layers and Interface Objects
+Figure 10: OSI Layers and Interface Objects
 </div></figcaption>
 </figure>
 <h2 class="auto-hoverlink" data-info="header"
@@ -2498,8 +2493,7 @@ which serves as the template for defining interface objects within the
 data model. Interface objects can also contain other parameters and
 sub-objects specific to the type of interface.</p>
 <p>The core set of parameters consists of:</p>
-<div class="borderless">
-<table>
+<table class="borderless">
 <colgroup>
 <col style="width: 28%" />
 <col style="width: 71%" />
@@ -2538,13 +2532,11 @@ immediately below the interface</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>Also, a core set of statistics parameters is contained within a Stats
 sub-object. The definition of these parameters MAY be customized for
 each interface type. The core set of parameters within the Stats
 sub-object consists of:</p>
-<div class="borderless">
-<table>
+<table class="borderless">
 <colgroup>
 <col style="width: 28%" />
 <col style="width: 71%" />
@@ -2633,7 +2625,6 @@ discarded because of an unknown or unsupported protocol.</td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="note">
 <p>The CPE MUST reset an interface’s Stats parameters (unless otherwise
 stated in individual object or parameter descriptions) either when the
@@ -2687,8 +2678,7 @@ stranded, no longer referenced by the now deleted interface B).</p>
 id="img:interface-lowerlayers" alt="Interface LowerLayers" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:interface-lowerlayers">
-Figure 11:
-Interface LowerLayers
+Figure 11: Interface LowerLayers
 </div></figcaption>
 </figure>
 <h3 class="auto-hoverlink" data-info="header"
@@ -2697,7 +2687,7 @@ Operational Status</h3>
 <div class="note">
 <p>Many of the requirements outlined in this section were derived from
 Section 3.1.13/RFC 2863 <span class="citation" data-cites="RFC2863"><a
-href="#ref-RFC2863" role="doc-biblioref">[19]</a></span>.</p>
+href="#ref-RFC2863" role="doc-biblioref">[29]</a></span>.</p>
 </div>
 <p>An interface object’s Enable and Status parameters specify the
 current administrative and operational status of the interface,
@@ -2757,7 +2747,7 @@ Status</h3>
 <div class="note">
 <p>The requirements outlined in this section were derived from Section
 3.1.14/RFC 2863 <span class="citation" data-cites="RFC2863"><a
-href="#ref-RFC2863" role="doc-biblioref">[19]</a></span>.</p>
+href="#ref-RFC2863" role="doc-biblioref">[29]</a></span>.</p>
 </div>
 <p>When an interface object is stacked on top of lower-layer interfaces
 (i.e., is not a bottommost layer in the stack), then:</p>
@@ -2782,7 +2772,7 @@ objects are specified by vendors, they MUST be preceded by
 *X_&lt;VENDOR&gt;_* and follow the syntax for vendor extensions used for
 parameter names (as defined in Section 3.3/TR-106 <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span>).</p>
+role="doc-biblioref">[4]</a></span>).</p>
 <p>If the Controller encounters an unknown vendor-specific interface
 object within a CPE’s interface stack, rather than responding with a
 fault, the Controller MUST proceed as if this object’s upper-layer
@@ -2803,8 +2793,7 @@ id="img:ignoring-a-vendor-specific-interface-object-in-the-stack"
 alt="Ignoring a Vendor-specific Interface Object in the Stack" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ignoring-a-vendor-specific-interface-object-in-the-stack">
-Figure 12:
-Ignoring a Vendor-specific Interface Object in the Stack
+Figure 12: Ignoring a Vendor-specific Interface Object in the Stack
 </div></figcaption>
 </figure>
 <p><a
@@ -2820,9 +2809,8 @@ id="img:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-ob
 alt="Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects">
-Figure 13:
-Ignoring a Vendor-specific Interface Object in the Stack (multiple
-sub-objects)
+Figure 13: Ignoring a Vendor-specific Interface Object in the Stack
+(multiple sub-objects)
 </div></figcaption>
 </figure>
 <h2 class="auto-hoverlink" data-info="header"
@@ -3002,8 +2990,7 @@ id="img:simple-router-example-interfaces-visualized"
 alt="Simple Router Example (Interfaces Visualized)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:simple-router-example-interfaces-visualized">
-Figure 14:
-Simple Router Example (Interfaces Visualized)
+Figure 14: Simple Router Example (Interfaces Visualized)
 </div></figcaption>
 </figure>
 <div class="note">
@@ -3116,7 +3103,7 @@ id="sec:parameter-definitions">5 Parameter Definitions</h1>
 <p>The normative definition of the Device:2 data model is provided in
 XML DM Instance documents, as defined by TR-106 <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span> Annex A.</p>
+role="doc-biblioref">[4]</a></span> Annex A.</p>
 <p>For a given revision of the data model, the corresponding TR-181
 Issue 2 XML document defines the Device:2 model itself and imports
 additional components from the other XML documents listed.</p>
@@ -3147,8 +3134,7 @@ structured to conform to this model.</p>
 id="img:queuing-model-of-a-device" alt="Queuing Model of a Device" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:queuing-model-of-a-device">
-Figure 15:
-Queuing Model of a Device
+Figure 15: Queuing Model of a Device
 </div></figcaption>
 </figure>
 <h3 class="annex3 auto-hoverlink" data-info="header"
@@ -3392,9 +3378,9 @@ packets on their way out of the router over this layer 3 connection.</p>
 </div>
 <p>For each interface, the output of the classifier is modeled to feed a
 set of 802.1D <span class="citation" data-cites="802.1D-2004"><a
-href="#ref-802.1D-2004" role="doc-biblioref">[10]</a></span> or 802.1Q
+href="#ref-802.1D-2004" role="doc-biblioref">[20]</a></span> or 802.1Q
 <span class="citation" data-cites="802.1Q-2011"><a
-href="#ref-802.1Q-2011" role="doc-biblioref">[11]</a></span> layer 2
+href="#ref-802.1Q-2011" role="doc-biblioref">[21]</a></span> layer 2
 bridges as specified by the Bridging object. Each bridge specifies layer
 2 connectivity between one or more layer 2 downstream and/or upstream
 interfaces, and optionally one or more layer 3 connections to the local
@@ -3536,13 +3522,15 @@ Table 3: Default Layer 2/3 QoS Mapping
 <tr class="odd">
 <td>001 (1)</td>
 <td>BK</td>
-<td><span class="gray">000000 (0x00)</span></td>
-<td><span class="gray">Default</span></td>
+<td><span id="000000-0x00" class="gray auto-hoverlink">000000
+(0x00)</span></td>
+<td><span id="default" class="gray auto-hoverlink">Default</span></td>
 </tr>
 <tr class="even">
 <td>010 (2)</td>
 <td>spare</td>
-<td><span class="gray">000000 (0x00)</span></td>
+<td><span id="000000-0x00-1" class="gray auto-hoverlink">000000
+(0x00)</span></td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -3590,8 +3578,8 @@ AF31<br />
 CS3</td>
 </tr>
 <tr class="odd">
-<td><span class="gray">110 (6)</span></td>
-<td><span class="gray">VO</span></td>
+<td><span id="110-6" class="gray auto-hoverlink">110 (6)</span></td>
+<td><span id="vo" class="gray auto-hoverlink">VO</span></td>
 <td>100110 (0x26)<br />
 100100 (0x24)<br />
 100010 (0x22)<br />
@@ -3648,7 +3636,7 @@ Table 4: ProtocolIdentifer URNs
 <td>urn:dslforum-org:sip</td>
 <td>Session Initiation Protocol (SIP) as defined by RFC 3261 <span
 class="citation" data-cites="RFC3261"><a href="#ref-RFC3261"
-role="doc-biblioref">[22]</a></span></td>
+role="doc-biblioref">[32]</a></span></td>
 </tr>
 <tr class="even">
 <td>urn:dslforum-org:h.323</td>
@@ -3662,7 +3650,7 @@ role="doc-biblioref">[22]</a></span></td>
 <td>urn:dslforum-org:mgcp</td>
 <td>Media Gateway Control Protocol (MGCP) as defined by RFC 3435 <span
 class="citation" data-cites="RFC3435"><a href="#ref-RFC3435"
-role="doc-biblioref">[24]</a></span></td>
+role="doc-biblioref">[34]</a></span></td>
 </tr>
 <tr class="odd">
 <td>urn:dslforum-org:pppoe</td>
@@ -3675,7 +3663,7 @@ id="sec:flow-type">A.3.2 Flow Type</h3>
 <p>A syntax for forming URNs for the QoS Flow table’s Type parameter is
 defined for the Session Description Protocol (SDP) as defined by RFC
 4566 <span class="citation" data-cites="RFC4566"><a href="#ref-RFC4566"
-role="doc-biblioref">[35]</a></span>. Additional standard or
+role="doc-biblioref">[45]</a></span>. Additional standard or
 vendor-specific URNs can be defined following the standard syntax for
 forming URNs.</p>
 <p>A URN to specify an SDP flow is formed as follows:</p>
@@ -3770,8 +3758,7 @@ and pink indicates a tunnel (carrying green application traffic).</p>
 alt="Tunneling Overview" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:tunneling-overview">
-Figure 16:
-Tunneling Overview
+Figure 16: Tunneling Overview
 </div></figcaption>
 </figure>
 <p>The Figure highlights three decisions:</p>
@@ -3835,8 +3822,7 @@ id="img:tunneling-overview-showing-forwarding-decisions"
 alt="Tunneling Overview (Showing Forwarding Decisions)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:tunneling-overview-showing-forwarding-decisions">
-Figure 17:
-Tunneling Overview (Showing Forwarding Decisions)
+Figure 17: Tunneling Overview (Showing Forwarding Decisions)
 </div></figcaption>
 </figure>
 <div class="note">
@@ -3873,8 +3859,7 @@ id="img:sample-flow-of-upstream-tunneled-traffic-through-the-device"
 alt="Sample Flow of Upstream Tunneled Traffic through the Device" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-flow-of-upstream-tunneled-traffic-through-the-device">
-Figure 18:
-Sample Flow of Upstream Tunneled Traffic through the Device
+Figure 18: Sample Flow of Upstream Tunneled Traffic through the Device
 </div></figcaption>
 </figure>
 <figure
@@ -3885,8 +3870,7 @@ id="img:sample-flow-of-downstream-tunneled-traffic-through-the-device"
 alt="Sample Flow of Downstream Tunneled Traffic through the Device" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-flow-of-downstream-tunneled-traffic-through-the-device">
-Figure 19:
-Sample Flow of Downstream Tunneled Traffic through the Device
+Figure 19: Sample Flow of Downstream Tunneled Traffic through the Device
 </div></figcaption>
 </figure>
 <p>The less flexible (<em>Tunnel,Tunneled</em>) IP interface mechanism
@@ -3924,8 +3908,7 @@ id="img:general-layer-3-tunneling-interface-stack"
 alt="General Layer 3 Tunneling Interface Stack" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:general-layer-3-tunneling-interface-stack">
-Figure 20:
-General Layer 3 Tunneling Interface Stack
+Figure 20: General Layer 3 Tunneling Interface Stack
 </div></figcaption>
 </figure>
 <figure id="fig:general-layer-3-tunneling-from-tunneling-overview">
@@ -3934,8 +3917,7 @@ id="img:general-layer-3-tunneling-from-tunneling-overview"
 alt="General Layer 3 Tunneling (from Tunneling Overview)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:general-layer-3-tunneling-from-tunneling-overview">
-Figure 21:
-General Layer 3 Tunneling (from Tunneling Overview)
+Figure 21: General Layer 3 Tunneling (from Tunneling Overview)
 </div></figcaption>
 </figure>
 <div class="note">
@@ -3961,7 +3943,7 @@ IP interface(s) and the Tunnel interface(s).</p></li>
 </ul>
 <p><a href="#fig:l2tp-interface-stack-example" class="figure">Figure
 22</a> shows an L2TP <span class="citation" data-cites="RFC2661"><a
-href="#ref-RFC2661" role="doc-biblioref">[17]</a></span> example that
+href="#ref-RFC2661" role="doc-biblioref">[27]</a></span> example that
 illustrates both of the above.</p>
 <figure id="fig:l2tp-interface-stack-example">
 <img src="images/l2tp-interface-stack-example.png"
@@ -3969,8 +3951,7 @@ id="img:l2tp-interface-stack-example"
 alt="L2TP Interface Stack Example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:l2tp-interface-stack-example">
-Figure 22:
-L2TP Interface Stack Example
+Figure 22: L2TP Interface Stack Example
 </div></figcaption>
 </figure>
 <p>Some tunneling technologies support layer 2 tunnels, in which the
@@ -3986,8 +3967,7 @@ id="img:general-layer-2-tunneling-interface-stack"
 alt="General Layer 2 Tunneling Interface Stack" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:general-layer-2-tunneling-interface-stack">
-Figure 23:
-General Layer 2 Tunneling Interface Stack
+Figure 23: General Layer 2 Tunneling Interface Stack
 </div></figcaption>
 </figure>
 <h1 class="annex annex1 auto-hoverlink" data-info="header"
@@ -3997,7 +3977,7 @@ Management UUID Usage</h1>
 id="sec:overview-1">C.1 Overview</h2>
 <p>The Software Module Management mechanism uses a UUID (see RFC 4122
 <span class="citation" data-cites="RFC4122"><a href="#ref-RFC4122"
-role="doc-biblioref">[28]</a></span> for a complete definition of UUID)
+role="doc-biblioref">[38]</a></span> for a complete definition of UUID)
 to uniformly identify a Deployment Unit across Agents. Since Deployment
 Units can be installed multiple times on a single Agent (e.g., multiple
 versions of the same Deployment Unit or the same version of the
@@ -4014,10 +3994,10 @@ same exact UUID. The Software Module Management mechanism requires,
 whether the Controller or the Agent generates the UUID, that the UUID be
 generated in the exact same manner following both the rules defined in
 Section 4.3 / RFC 4122 <span class="citation" data-cites="RFC4122"><a
-href="#ref-RFC4122" role="doc-biblioref">[28]</a></span> and the rules
+href="#ref-RFC4122" role="doc-biblioref">[38]</a></span> and the rules
 defined within this Annex.</p>
 <p>Section 4.3 / RFC 4122 <span class="citation" data-cites="RFC4122"><a
-href="#ref-RFC4122" role="doc-biblioref">[28]</a></span> identifies the
+href="#ref-RFC4122" role="doc-biblioref">[38]</a></span> identifies the
 following high-level requirements for a Version 3 UUID:</p>
 <ul>
 <li><p>The UUIDs generated at different times from the same name in the
@@ -4042,7 +4022,7 @@ Requirements</h2>
 generates it:</p>
 <p>The FQDN “namespace” UUID as defined in Appendix C /RFC 4122 <span
 class="citation" data-cites="RFC4122"><a href="#ref-RFC4122"
-role="doc-biblioref">[28]</a></span> MUST be used:
+role="doc-biblioref">[38]</a></span> MUST be used:
 6ba7b810-9dad-11d1-80b4-00c04fd430c8</p>
 <p>The “name” will be the FQDN of the Deployment Unit, which MUST be a
 combination of the Deployment Unit’s Name (the value that will be
@@ -4090,7 +4070,7 @@ Example RG Queuing Architecture</h1>
 is shown in <a href="#fig:queuing-and-scheduling-example-for-rg"
 class="figure">Figure 24</a>, taken from the description of TR-059 <span
 class="citation" data-cites="TR-059"><a href="#ref-TR-059"
-role="doc-biblioref">[57]</a></span>.</p>
+role="doc-biblioref">[1]</a></span>.</p>
 <p>There are multiple access sessions supported in this model, however,
 all traffic is classified and scheduled in a monolithic system. So,
 while it might appear at first that the Diffserv queuing and scheduling
@@ -4140,7 +4120,7 @@ is arranged as:</p>
 <li>EF – red dotted line</li>
 <li>AF – blue dashed line (with various precedence among AF classes as
 described in RFC 2597 <span class="citation" data-cites="RFC2597"><a
-href="#ref-RFC2597" role="doc-biblioref">[16]</a></span>)</li>
+href="#ref-RFC2597" role="doc-biblioref">[26]</a></span>)</li>
 <li>BE – black solid line</li>
 </ol>
 <figure id="fig:queuing-and-scheduling-example-for-rg">
@@ -4149,8 +4129,7 @@ id="img:queuing-and-scheduling-example-for-rg"
 alt="Queuing and Scheduling Example for RG" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:queuing-and-scheduling-example-for-rg">
-Figure 24:
-Queuing and Scheduling Example for RG
+Figure 24: Queuing and Scheduling Example for RG
 </div></figcaption>
 </figure>
 <p>In <a href="#fig:queuing-and-scheduling-example-for-rg"
@@ -4160,10 +4139,10 @@ class="figure">Figure 24</a> the following abbreviations apply:</p>
     PPP – Point-to-Point Protocol<br />
     EF – Expedited Forwarding – as defined in RFC 3246 <span
 class="citation" data-cites="RFC3246"><a href="#ref-RFC3246"
-role="doc-biblioref">[21]</a></span><br />
+role="doc-biblioref">[31]</a></span><br />
     AF – Assured Forwarding – as defined in RFC 2597 <span
 class="citation" data-cites="RFC2597"><a href="#ref-RFC2597"
-role="doc-biblioref">[16]</a></span><br />
+role="doc-biblioref">[26]</a></span><br />
     BE – Best Effort forwarding<br />
     RL – Rate Limiter<br />
     ∑RL – Summing Rate Limiter (limits multiple flows)<br />
@@ -4201,9 +4180,8 @@ id="img:examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-ob
 alt="Examples of VLAN configuration based on Bridging and VLAN Termination objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects">
-Figure 25:
-Examples of VLAN configuration based on Bridging and VLAN Termination
-objects
+Figure 25: Examples of VLAN configuration based on Bridging and VLAN
+Termination objects
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -4228,11 +4206,9 @@ href="#tbl:tagged-lan-to-tagged-wan-configuration" class="table">Table
 alt="Bridge 1 model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:bridge-1-model">
-Figure 26:
-Bridge 1 model
+Figure 26: Bridge 1 model
 </div></figcaption>
 </figure>
-<div data-bbfTable="bridge1ModelTable">
 <table id="tbl:tagged-lan-to-tagged-wan-configuration"
 style="width:98%;">
 <caption><div class="auto-hoverlink"
@@ -4386,7 +4362,6 @@ and downstream port]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:tagged-lan-to-tagged-wan-traffic-special-case-with-vlan-id-translation">II.2
 Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID
@@ -4413,11 +4388,9 @@ class="table">Table 7</a>.</p>
 alt="Bridge 2 model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:bridge-2-model">
-Figure 27:
-Bridge 2 model
+Figure 27: Bridge 2 model
 </div></figcaption>
 </figure>
-<div data-bbfTable="bridge2ModelTable">
 <table
 id="tbl:tagged-lan-to-tagged-wan-configuration-vlan-id-translation"
 style="width:98%;">
@@ -4647,7 +4620,6 @@ VLANz]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:untagged-lan-to-tagged-wan-traffic">II.3 Untagged LAN to Tagged
 WAN Traffic</h2>
@@ -4670,11 +4642,9 @@ href="#tbl:untagged-lan-to-tagged-wan-configuration" class="table">Table
 alt="Bridge 3 model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:bridge-3-model">
-Figure 28:
-Bridge 3 model
+Figure 28: Bridge 3 model
 </div></figcaption>
 </figure>
-<div data-bbfTable="bridge3ModelTable">
 <table id="tbl:untagged-lan-to-tagged-wan-configuration"
 style="width:98%;">
 <caption><div class="auto-hoverlink"
@@ -4826,7 +4796,6 @@ downstream port]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:internally-generated-to-tagged-wan-traffic">II.4 Internally
 Generated to Tagged WAN Traffic</h2>
@@ -4846,11 +4815,9 @@ class="table">Table 9</a>.</p>
 id="img:vlan-termination-model" alt="VLAN Termination model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:vlan-termination-model">
-Figure 29:
-VLAN Termination model
+Figure 29: VLAN Termination model
 </div></figcaption>
 </figure>
-<div data-bbfTable="vlanTerminationModelTable">
 <table id="tbl:internally-generated-to-tagged-wan-configuration"
 style="width:98%;">
 <caption><div class="auto-hoverlink"
@@ -4897,7 +4864,6 @@ Ethernet Link]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:other-issues">II.5 Other Issues</h2>
 <p>The previous rules can be applied to allow all combinations of
@@ -4935,11 +4901,9 @@ id="img:bridge-1-model-additional-ethernet-interfaces"
 alt="Bridge 1 model (additional Ethernet interfaces)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:bridge-1-model-additional-ethernet-interfaces">
-Figure 30:
-Bridge 1 model (additional Ethernet interfaces)
+Figure 30: Bridge 1 model (additional Ethernet interfaces)
 </div></figcaption>
 </figure>
-<div data-bbfTable="bridge1ModelPlusTable">
 <table
 id="tbl:configuration-to-be-added-to-tagged-lan-to-tagged-wan-configuration-table"
 style="width:98%;">
@@ -5075,7 +5039,6 @@ downstream ports]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:802.1d-re-marking">II.5.2 802.1D (Re)-marking</h3>
 <p>The 802.1Q Tag includes the 802.1D user priority bits field. All the
@@ -5089,7 +5052,6 @@ egress traffic on the upstream interface are summarized in <a
 href="#tbl:802.1d-re-marking" class="table">Table 11</a>]. Compare it
 with <a href="#tbl:tagged-lan-to-tagged-wan-configuration"
 class="table">Table 6</a>.</p>
-<div data-bbfTable="bridgeRemarkingTable">
 <table id="tbl:802.1d-re-marking" style="width:98%;">
 <caption><div class="auto-hoverlink"
 data-anchor="tbl:802.1d-re-marking">
@@ -5191,7 +5153,6 @@ QoS object are referred. In this case remark with <em>0</em>]</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface">II.5.3
 More than one VLAN ID Tag Admitted on the Same Downstream Interface</h3>
@@ -5214,8 +5175,7 @@ id="img:example-of-vlan-configuration-in-a-2-box-scenario"
 alt="Example of VLAN configuration in a 2 box scenario" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-of-vlan-configuration-in-a-2-box-scenario">
-Figure 31:
-Example of VLAN configuration in a 2 box scenario
+Figure 31: Example of VLAN configuration in a 2 box scenario
 </div></figcaption>
 </figure>
 <p>Referring to <a
@@ -5237,11 +5197,9 @@ class="table">Table 12</a> for the global configuration.</p>
 alt="Bridge 1,2,3 model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:bridge-123-model">
-Figure 32:
-Bridge 1,2,3 model
+Figure 32: Bridge 1,2,3 model
 </div></figcaption>
 </figure>
-<div data-bbfTable="bridge123ModelTable">
 <table
 id="tbl:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface"
 style="width:98%;">
@@ -5326,7 +5284,6 @@ configured for each Bridge Port is always: Ethernet.Interface.2</p>
 </tr>
 </tbody>
 </table>
-</div>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
 data-info="header" id="sec:wi-fi-theory-of-operation">Appendix III:
 Wi-Fi Theory of Operation</h1>
@@ -5505,8 +5462,7 @@ id="img:wifi-functions-within-layers"
 alt="WiFi functions within layers" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:wifi-functions-within-layers">
-Figure 33:
-WiFi functions within layers
+Figure 33: WiFi functions within layers
 </div></figcaption>
 </figure>
 <p>PLCPErrorCount: This error occurs at point (1) in <a
@@ -5548,7 +5504,7 @@ FCSErrorCount plus the InvalidMACCount.</p>
 id="sec:wi-fi-data-elements">III.8 Wi-Fi Data Elements</h2>
 <p>The Wi-Fi Alliance has specified Wi-Fi CERTIFIED Data Elements <span
 class="citation" data-cites="DataElements"><a href="#ref-DataElements"
-role="doc-biblioref">[3]</a></span>. Wi-Fi Data Elements objects are
+role="doc-biblioref">[69]</a></span>. Wi-Fi Data Elements objects are
 under the Device.WiFi.DataElements. tree. Wi-Fi Data Elements Release
 1.0 objects were put into Device:2.13, and Wi-Fi Data Elements Release
 2.0 and Release 2.1 objects were put into Device:2.15.</p>
@@ -6045,7 +6001,7 @@ Incorporating Wi-Fi Data Elements into TR-181</h2>
 <p>This section discusses the Theory of Operation for representing the
 Wi-Fi Alliance (WFA) Data Elements (DE) data model <span
 class="citation" data-cites="DataElements"><a href="#ref-DataElements"
-role="doc-biblioref">[3]</a></span> using the Device.WiFi.DataElements
+role="doc-biblioref">[69]</a></span> using the Device.WiFi.DataElements
 object. The WFA DE specification provides a data model that can be used
 to represent a single access point or a multi access point network.</p>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -6066,7 +6022,7 @@ from any of the above sources</li>
 <p>Whatever source is used to acquire the data, the data will be
 represented according to the DE specification <span class="citation"
 data-cites="DataElements"><a href="#ref-DataElements"
-role="doc-biblioref">[3]</a></span>.</p>
+role="doc-biblioref">[69]</a></span>.</p>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:mapping-new-wi-fi-data-elements-objects-and-parameters">III.9.2
 Mapping new Wi-Fi Data Elements objects and parameters</h3>
@@ -6088,7 +6044,7 @@ elements within the DataElements object hierarchy.
 <li>If the YANG name of the container or list complies with TR-181
 naming conventions specified in <span class="citation"
 data-cites="TR-106"><a href="#ref-TR-106"
-role="doc-biblioref">[60]</a></span> section 3.1, the exact name will be
+role="doc-biblioref">[4]</a></span> section 3.1, the exact name will be
 used for the TR-181 object name. If the name does not comply, the
 container or list cannot be automatically added, and an appropriate
 compliant name will need to be identified.</li>
@@ -6112,7 +6068,7 @@ within the DataElements. hierarchy.
 list</li>
 <li>If the YANG name of the leaf complies with TR-181 naming conventions
 specified in <span class="citation" data-cites="TR-106"><a
-href="#ref-TR-106" role="doc-biblioref">[60]</a></span> section 3.1, the
+href="#ref-TR-106" role="doc-biblioref">[4]</a></span> section 3.1, the
 exact name will be used for the TR-181 parameter name. If the name does
 not comply, the leaf cannot be automatically added, and an appropriate
 compliant name will need to be identified.</li>
@@ -6273,7 +6229,7 @@ they’re addressed.</p>
 within the ManagementServer object also indicates that the device serves
 as the DHCP server for the TR-069 managed device exchange defined in
 TR-069 <span class="citation" data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span> Annex F, which is also often an
+role="doc-biblioref">[2]</a></span> Annex F, which is also often an
 indication of “gateway” functionality.</p>
 <p>In order to determine if the device provides functionality such as
 NAT or a router, the Controller would check for the existence of an
@@ -6294,7 +6250,7 @@ particular UPnP Root Device, Device, or Service.</p>
 ManagementServer object provides information about the CWMP managed
 devices that the CPE has learned about through the DHCP message exchange
 defined in TR-069 <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> Annex F.</p>
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> Annex F.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:determine-current-interfaces-configuration">IV.6 Determine
 Current Interfaces Configuration</h2>
@@ -6587,8 +6543,7 @@ id="img:device-user-configuration-backup"
 alt="Device User Configuration Backup" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device-user-configuration-backup">
-Figure 34:
-Device User Configuration Backup
+Figure 34: Device User Configuration Backup
 </div></figcaption>
 </figure>
 <p>Step 1: Retrieve instances and values of VendorConfigFile and
@@ -6650,8 +6605,7 @@ id="img:device-user-configuration-restore"
 alt="Device User Configuration Restore" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device-user-configuration-restore">
-Figure 35:
-Device User Configuration Restore
+Figure 35: Device User Configuration Restore
 </div></figcaption>
 </figure>
 <p>Step 1: For each user configuration file in the snapshot, retrieve
@@ -6680,7 +6634,7 @@ parameters, and then presents some example configurations.</p>
 id="sec:ipv6-overview">V.1 IPv6 Overview</h2>
 <p>The IETF published RFC 2460 <span class="citation"
 data-cites="RFC2460"><a href="#ref-RFC2460"
-role="doc-biblioref">[14]</a></span>, Internet Protocol, <em>Version 6
+role="doc-biblioref">[24]</a></span>, Internet Protocol, <em>Version 6
 (IPv6) Specification</em> in 1998. Since then, it has published a
 variety of RFCs to create a suite of protocols (and extensions to
 protocols) for operating, managing, and configuring IPv6 networks and
@@ -6691,19 +6645,19 @@ to do).</p>
 <p>The Broadband Forum has published several Technical Reports
 describing IPv6 architectures and device requirements. Specifically,
 TR-124 Issue 2 <span class="citation" data-cites="TR-124"><a
-href="#ref-TR-124" role="doc-biblioref">[61]</a></span> includes IPv6
+href="#ref-TR-124" role="doc-biblioref">[5]</a></span> includes IPv6
 requirements for Residential Gateways (RGs), TR-177 <span
 class="citation" data-cites="TR-177"><a href="#ref-TR-177"
-role="doc-biblioref">[63]</a></span> describes migration to IPv6 in the
+role="doc-biblioref">[7]</a></span> describes migration to IPv6 in the
 context of TR-101 <span class="citation" data-cites="TR-101"><a
-href="#ref-TR-101" role="doc-biblioref">[59]</a></span>, and TR-187
-<span class="citation" data-cites="TR-187"><a href="#ref-TR-187"
-role="doc-biblioref">[64]</a></span> describes an architecture for IPv6
+href="#ref-TR-101" role="doc-biblioref">[3]</a></span>, and TR-187 <span
+class="citation" data-cites="TR-187"><a href="#ref-TR-187"
+role="doc-biblioref">[8]</a></span> describes an architecture for IPv6
 for PPP Broadband Access. The Device:2 IPv6 Data Model is intended to
 ensure that TR-069 <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> or USP <span
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> or USP <span
 class="citation" data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span> managed End Devices, RGs, and other
+role="doc-biblioref">[11]</a></span> managed End Devices, RGs, and other
 Network Infrastructure Devices can be managed and configured, consistent
 with the requirements listed in these documents.</p>
 <p>The basic elements of IPv6 data modeling involve information on IPv6
@@ -6721,9 +6675,9 @@ Interactions</a></em>), and configuring IPv6 routing and forwarding
 information (see *[Configuring IPv6 Routing and Forwarding*]).</p>
 <p>Configuration protocols include Neighbor Discovery (ND; RFC 4861
 <span class="citation" data-cites="RFC4861"><a href="#ref-RFC4861"
-role="doc-biblioref">[36]</a></span>) and DHCPv6 (RFC 3315 <span
+role="doc-biblioref">[46]</a></span>) and DHCPv6 (RFC 3315 <span
 class="citation" data-cites="RFC3315"><a href="#ref-RFC3315"
-role="doc-biblioref">[23]</a></span>). Neighbor Discovery includes
+role="doc-biblioref">[33]</a></span>). Neighbor Discovery includes
 several messages that are important to configuration, including Router
 Solicitation (RS) [sent by devices looking for routers], Router
 Advertisement (RA) [sent by routers to other devices on the LAN],
@@ -6735,19 +6689,19 @@ to respond to a NS sent to one of the device’s IPv6 addresses]. These
 messages are central to the stateless address autoconfiguration (SLAAC)
 mechanism described in RFC 4862 <span class="citation"
 data-cites="RFC4862"><a href="#ref-RFC4862"
-role="doc-biblioref">[37]</a></span>. SLAAC is expected to be the
+role="doc-biblioref">[47]</a></span>. SLAAC is expected to be the
 primary means of IPv6 address configuration for devices inside a home
 network. RFC 4191 <span class="citation" data-cites="RFC4191"><a
-href="#ref-RFC4191" role="doc-biblioref">[29]</a></span> extended the RA
+href="#ref-RFC4191" role="doc-biblioref">[39]</a></span> extended the RA
 message to support a RouteInformation option. RFC 6106 <span
 class="citation" data-cites="RFC6106"><a href="#ref-RFC6106"
-role="doc-biblioref">[43]</a></span> extended the RA message to support
+role="doc-biblioref">[53]</a></span> extended the RA message to support
 sending Recursive DNS Servers (RDNSS) information for DNS
 configuration.</p>
 <p>DHCPv6 can also be used for IPv6 address provisioning, through its
 IA_NA option. DHCPv6 was extended by RFC 3633 <span class="citation"
 data-cites="RFC3633"><a href="#ref-RFC3633"
-role="doc-biblioref">[25]</a></span> to provide the IA_PD option for
+role="doc-biblioref">[35]</a></span> to provide the IA_PD option for
 delegating IPv6 prefixes to routers (that the routers can then use to
 provide IPv6 addresses to other devices on the LAN, or to further
 sub-delegate to other routers inside the LAN). Both IA_NA and IA_PD
@@ -6760,14 +6714,14 @@ through from the client to the server.</p>
 <p>Interfaces that support IPv6 will have more than one IPv6 address.
 IPv6 interfaces are always required to have a link-local address
 (described in RFC 4862 <span class="citation" data-cites="RFC4862"><a
-href="#ref-RFC4862" role="doc-biblioref">[37]</a></span>). Other IPv6
+href="#ref-RFC4862" role="doc-biblioref">[47]</a></span>). Other IPv6
 addresses may be acquired through SLAAC, DHCPv6 IA_NA, or they may be
 statically configured. Routers may acquire prefixes (for use with
 address assignment in the LAN) from DHCPv6 IA_PD, static configuration,
 or by generating their own Unique Local Address (ULA) prefixes from a
 self-generated ULA Global ID (RFC 4193 <span class="citation"
 data-cites="RFC4193"><a href="#ref-RFC4193"
-role="doc-biblioref">[30]</a></span>).</p>
+role="doc-biblioref">[40]</a></span>).</p>
 <p>Because of the various IPv6 addresses that devices can have,
 maintaining good routing table and IPv6 forwarding information is
 critical. Route information can be obtained from received RA messages
@@ -6778,9 +6732,9 @@ id="sec:data-model-overview">V.2 Data Model Overview</h2>
 <p>This Theory of Operations focuses on data modeling for the purpose of
 establishing upstream and downstream connectivity for TR-069 <span
 class="citation" data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span> or USP <span class="citation"
+role="doc-biblioref">[2]</a></span> or USP <span class="citation"
 data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span> enabled devices, and for
+role="doc-biblioref">[11]</a></span> enabled devices, and for
 configuration of IPv6-related parameters. This is not an exhaustive
 description of data model changes made in support of IPv6, and only
 intends to describe the working of elements that are not readily
@@ -6856,8 +6810,7 @@ id="img:relationship-of-protocols-to-data-model"
 alt="Relationship of Protocols to Data Model" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:relationship-of-protocols-to-data-model">
-Figure 36:
-Relationship of Protocols to Data Model
+Figure 36: Relationship of Protocols to Data Model
 </div></figcaption>
 </figure>
 <p><a href="#fig:internal-relationships-of-ipv6-addresses-and-prefixes"
@@ -6872,8 +6825,7 @@ id="img:internal-relationships-of-ipv6-addresses-and-prefixes"
 alt="Internal Relationships of IPv6 Addresses and Prefixes" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:internal-relationships-of-ipv6-addresses-and-prefixes">
-Figure 37:
-Internal Relationships of IPv6 Addresses and Prefixes
+Figure 37: Internal Relationships of IPv6 Addresses and Prefixes
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -6884,7 +6836,7 @@ device. IPv6 can only be enabled on a device with
 <em>IPv6Capable</em>=<em>true</em>. <em>IPv6Status</em> indicates
 whether IPv6 has been enabled on the device.</p>
 <p>Per TR-124 Issue 2 <span class="citation" data-cites="TR-124"><a
-href="#ref-TR-124" role="doc-biblioref">[61]</a></span>, the upstream
+href="#ref-TR-124" role="doc-biblioref">[5]</a></span>, the upstream
 interface can be configured to establish an IPv6 connection either over
 PPP (PPPoA or PPPoE) or directly over Ethernet. Both mechanisms require
 an <em>IP.Interface</em> instance with <em>IPv6Enable</em> set to
@@ -6987,7 +6939,7 @@ Address Detection (DAD)). A properly configured upstream
 <em>IP.Interface.IPv6Address</em> instance for its link-local address.
 This will have <em>Origin</em> of <em>AutoConfigured</em> (if internally
 generated per RFC 4862 <span class="citation" data-cites="RFC4862"><a
-href="#ref-RFC4862" role="doc-biblioref">[37]</a></span>) or
+href="#ref-RFC4862" role="doc-biblioref">[47]</a></span>) or
 <em>Static</em> (if statically configured by some management
 entity).</p>
 <p>IPv6 addresses that are created via stateless address
@@ -7026,9 +6978,9 @@ downstream IP interface.</p>
 in <em>IP.ULAPrefix</em>. In general, the device will generate its own
 ULA /48 prefix, although this value could be configured directly by the
 user or through TR-069 <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> or USP <span
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> or USP <span
 class="citation" data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span>. If ULA addressing is to be
+role="doc-biblioref">[11]</a></span>. If ULA addressing is to be
 supported on a downstream interface, then
 <em>IP.Interface.ULAEnable</em> must be <em>true</em>. The ULA /48
 prefix can be associated with any downstream IP interface, and can be
@@ -7088,7 +7040,7 @@ properly configured downstream IPv6 connection will have a
 instance for its link-local address. This will have <em>Origin</em> of
 <em>AutoConfigured</em> (if internally generated per RFC 4862 <span
 class="citation" data-cites="RFC4862"><a href="#ref-RFC4862"
-role="doc-biblioref">[37]</a></span>) or <em>Static</em> (if statically
+role="doc-biblioref">[47]</a></span>) or <em>Static</em> (if statically
 configured by some management entity).</p>
 <p>If the device has a Unique Local Address (ULA) prefix that it is
 advertising and/or sub-delegating to devices on the LAN, then it needs
@@ -7149,9 +7101,9 @@ and <em>DHCPv6.Server.Pool</em> have references to <em>IPv6Prefix</em>
 entries. The <em>ManualPrefixes</em>, <em>IANAManualPrefixes</em> and
 <em>IAPDManualPrefixes</em> parameters allow for configuration (through
 TR-069 <span class="citation" data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span>, USP <span class="citation"
+role="doc-biblioref">[2]</a></span>, USP <span class="citation"
 data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span>, user interface, or other means) of
+role="doc-biblioref">[11]</a></span>, user interface, or other means) of
 prefixes that are to be included in RA messages, and to be used in
 deriving DHCPv6 IA_NA and IA_PD offers, respectively. The
 <em>Prefixes</em>, <em>IANAPrefixes</em>, and <em>IAPDPrefixes</em>
@@ -7209,7 +7161,7 @@ Routing and Forwarding</h2>
 derived from Router Advertisement (RA) messages, either directly from
 the address of the router sending the RA, or from RA RouteInformation
 (RFC 4191 <span class="citation" data-cites="RFC4191"><a
-href="#ref-RFC4191" role="doc-biblioref">[29]</a></span>) options that
+href="#ref-RFC4191" role="doc-biblioref">[39]</a></span>) options that
 may be included in the message.
 <em>Routing.RouteInformation.InterfaceSetting</em> instances record
 received RA RouteInformation options.</p>
@@ -7227,8 +7179,7 @@ id="img:example-ipv6-rg-configuration"
 alt="Example IPv6 RG Configuration" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-ipv6-rg-configuration">
-Figure 38:
-Example IPv6 RG Configuration
+Figure 38: Example IPv6 RG Configuration
 </div></figcaption>
 </figure>
 <div class="code">
@@ -7263,9 +7214,9 @@ configuration<br />
 # time)<br />
 # - Assumes link-layer address is 55:44:33:22:11:00<br />
 # [Section 4/RFC 2464<span class="citation" data-cites="RFC2464"><a
-href="#ref-RFC2464" role="doc-biblioref">[15]</a></span>], [Section
+href="#ref-RFC2464" role="doc-biblioref">[25]</a></span>], [Section
 4.1/RFC 5072<span class="citation" data-cites="RFC5072"><a
-href="#ref-RFC5072" role="doc-biblioref">[38]</a></span>]<br />
+href="#ref-RFC5072" role="doc-biblioref">[48]</a></span>]<br />
 IP.Interface.1<br />
     <strong>Enable = true</strong><br />
     <strong>IPv6Enable = true</strong><br />
@@ -7277,7 +7228,7 @@ modeled<br />
         <strong>Enable = true</strong><br />
         Prefix = 1080:0:0:800::/56 # DHCPv6(IA_PD) [RFC 3633<span
 class="citation" data-cites="RFC3633"><a href="#ref-RFC3633"
-role="doc-biblioref">[25]</a></span>]<br />
+role="doc-biblioref">[35]</a></span>]<br />
         Origin = “Static”<br />
         <strong>StaticType =</strong>
 “<strong>PrefixDelegation</strong>”<br />
@@ -7293,13 +7244,13 @@ role="doc-biblioref">[25]</a></span>]<br />
         IPAddress = 1080:0:0:700::<br />
         Origin = “DHCPv6” # GUA (from IA_NA [RFC 3315<span
 class="citation" data-cites="RFC3315"><a href="#ref-RFC3315"
-role="doc-biblioref">[23]</a></span>])<br />
+role="doc-biblioref">[33]</a></span>])<br />
         Prefix = “”<br />
 <br />
 # Downstream IP interface<br />
 # - Assumes link-layer address is 00:11:22:33:44:55 [Section 4/RFC
 2464<span class="citation" data-cites="RFC2464"><a href="#ref-RFC2464"
-role="doc-biblioref">[15]</a></span>]<br />
+role="doc-biblioref">[25]</a></span>]<br />
 IP.Interface.2<br />
     <strong>Enable = true</strong><br />
     <strong>IPv6Enable = true</strong><br />
@@ -7337,7 +7288,7 @@ IA_NA)<br />
         Enable = true<br />
         Prefix = 2001:0db9::/60 # RA(PI) [RFC 4861<span class="citation"
 data-cites="RFC4861"><a href="#ref-RFC4861"
-role="doc-biblioref">[36]</a></span>]<br />
+role="doc-biblioref">[46]</a></span>]<br />
         Origin = “RouterAdvertisement” # from peer router<br />
         Autonomous = true<br />
         OnLink = true<br />
@@ -7391,7 +7342,7 @@ general information on how tunneling is modeled.</p>
 id="sec:rfc-5969-configuration-parameters">VI.1 RFC 5969 Configuration
 Parameters</h2>
 <p>RFC 5969 <span class="citation" data-cites="RFC5969"><a
-href="#ref-RFC5969" role="doc-biblioref">[41]</a></span> describes the
+href="#ref-RFC5969" role="doc-biblioref">[51]</a></span> describes the
 general operation of the 6rd protocol and configuration of external
 parameters needed to do the protocol. <a
 href="#tbl:rfc-5969-configuration-parameter-mapping" class="table">Table
@@ -7468,7 +7419,7 @@ IPv4 bits as other devices that will be supported by the same 6rd
 prefix, then the IPv4 mask will need to be zero. Masked IPv4 bits will
 be the same for all IPv4 addresses within a 6rd domain, per RFC 5969
 <span class="citation" data-cites="RFC5969"><a href="#ref-RFC5969"
-role="doc-biblioref">[41]</a></span>.</p>
+role="doc-biblioref">[51]</a></span>.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:sending-all-traffic-to-the-border-relay-server">VI.4 Sending All
 Traffic to the Border Relay Server</h2>
@@ -7539,8 +7490,7 @@ id="img:sample-6rd-routing-and-forwarding"
 alt="Sample 6rd Routing and Forwarding" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-6rd-routing-and-forwarding">
-Figure 39:
-Sample 6rd Routing and Forwarding
+Figure 39: Sample 6rd Routing and Forwarding
 </div></figcaption>
 </figure>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
@@ -7549,11 +7499,11 @@ VII: Dual-Stack Lite Theory of Operation</h1>
 <p>See <a href="#sec:tunneling" class="heading">Tunneling</a> for
 general information on how tunneling is modeled.</p>
 <p>RFC 6333 <span class="citation" data-cites="RFC6333"><a
-href="#ref-RFC6333" role="doc-biblioref">[44]</a></span> describes the
+href="#ref-RFC6333" role="doc-biblioref">[54]</a></span> describes the
 general operation of the dual-stack lite (DS-Lite) technology and
 configuration of external parameters needed to do the protocol. RFC 6334
 <span class="citation" data-cites="RFC6334"><a href="#ref-RFC6334"
-role="doc-biblioref">[45]</a></span> defines an AFTR (Address Family
+role="doc-biblioref">[55]</a></span> defines an AFTR (Address Family
 Transition Router) name DHCPv6 option that maps to an EndpointName
 parameter in the Device:2 data model (introduced in Amendment 2).</p>
 <p>EndpointName is a variable length field, containing a Fully Qualified
@@ -7600,8 +7550,7 @@ id="img:sample-ds-lite-routing-and-forwarding"
 alt="Sample DS-Lite Routing and Forwarding" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-ds-lite-routing-and-forwarding">
-Figure 40:
-Sample DS-Lite Routing and Forwarding
+Figure 40: Sample DS-Lite Routing and Forwarding
 </div></figcaption>
 </figure>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
@@ -7631,15 +7580,15 @@ settings corresponding to the following predefined
 Denied Inbound” and “Minimally Permit Common Services Outbound”
 components of the ICSA residential certification’s Required Services
 Security Policy <span class="citation" data-cites="ICSA-Residential"><a
-href="#ref-ICSA-Residential" role="doc-biblioref">[9]</a></span>. If DoS
-and vulnerability protections are implemented <span class="citation"
+href="#ref-ICSA-Residential" role="doc-biblioref">[19]</a></span>. If
+DoS and vulnerability protections are implemented <span class="citation"
 data-cites="ICSA-Baseline"><a href="#ref-ICSA-Baseline"
-role="doc-biblioref">[8]</a></span>, these are enabled.</p></li>
+role="doc-biblioref">[18]</a></span>, these are enabled.</p></li>
 <li><p><strong>Low</strong>: All Outbound traffic and pinhole-defined
 Inbound traffic is allowed. If DoS and vulnerability protections are
 implemented <span class="citation" data-cites="ICSA-Baseline"><a
-href="#ref-ICSA-Baseline" role="doc-biblioref">[8]</a></span>, these are
-enabled.</p></li>
+href="#ref-ICSA-Baseline" role="doc-biblioref">[18]</a></span>, these
+are enabled.</p></li>
 </ul>
 <pre><code>
     Firewall.
@@ -7826,8 +7775,7 @@ id="img:policy-configuration-example"
 alt="Policy configuration example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:policy-configuration-example">
-Figure 41:
-Policy configuration example
+Figure 41: Policy configuration example
 </div></figcaption>
 </figure>
 <p>In order to configure more complex scenarios the firewall Levels are
@@ -8928,8 +8876,7 @@ corresponding to creating a DMZ rule for a DMZ host in the LAN.</p>
 <img src="images/firewall-dmz-example.svg" id="img:dmz-example"
 alt="DMZ example" />
 <figcaption><div class="auto-hoverlink" data-anchor="fig:dmz-example">
-Figure 42:
-DMZ example
+Figure 42: DMZ example
 </div></figcaption>
 </figure>
 <p>Example:</p>
@@ -8948,8 +8895,7 @@ corresponding to creating a pinhole for an IP camera in the LAN.</p>
 alt="Pinhole example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:pinhole-example">
-Figure 43:
-Pinhole example
+Figure 43: Pinhole example
 </div></figcaption>
 </figure>
 <p>Example:</p>
@@ -8974,8 +8920,7 @@ the device.</p>
 id="img:local-service-example" alt="Local service example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:local-service-example">
-Figure 44:
-Local service example
+Figure 44: Local service example
 </div></figcaption>
 </figure>
 <p>Example:</p>
@@ -8996,15 +8941,15 @@ Theory of Operation</h1>
 general information on how tunneling is modeled.</p>
 <p>The Device:2 data model includes an IPsec (RFC 4301 <span
 class="citation" data-cites="RFC4301"><a href="#ref-RFC4301"
-role="doc-biblioref">[31]</a></span>) object that supports the
+role="doc-biblioref">[41]</a></span>) object that supports the
 configuration of Encapsulating Security Payload (ESP; RFC 4303 <span
 class="citation" data-cites="RFC4303"><a href="#ref-RFC4303"
-role="doc-biblioref">[33]</a></span>) and Authentication Header (AH; RFC
+role="doc-biblioref">[43]</a></span>) and Authentication Header (AH; RFC
 4302 <span class="citation" data-cites="RFC4302"><a href="#ref-RFC4302"
-role="doc-biblioref">[32]</a></span>) in tunnel mode (Section 3.2/RFC
+role="doc-biblioref">[42]</a></span>) in tunnel mode (Section 3.2/RFC
 4301). Use of IKEv2 (RFC 5996 <span class="citation"
 data-cites="RFC5996"><a href="#ref-RFC5996"
-role="doc-biblioref">[42]</a></span>) is assumed. The IPsec object does
+role="doc-biblioref">[52]</a></span>) is assumed. The IPsec object does
 not currently support static configuration of tunnels and child Security
 Associations (SAs).</p>
 <p><a href="#fig:ipsec-data-model-objects" class="figure">Figure 45</a>
@@ -9014,8 +8959,7 @@ illustrates the main IPsec objects and their relationships.</p>
 id="img:ipsec-data-model-objects" alt="IPsec Data Model Objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ipsec-data-model-objects">
-Figure 45:
-IPsec Data Model Objects
+Figure 45: IPsec Data Model Objects
 </div></figcaption>
 </figure>
 <p>In the Figure, instances of the colored objects (<em>Filter.{i}</em>
@@ -9084,7 +9028,7 @@ id="sec:ipsec.filter">IX.2 IPsec.Filter</h2>
 <p>The <em>Filter</em> table models IPsec Security Policy Database (SPD)
 selection criteria. Refer to Section 4.4.1/RFC 4301 <span
 class="citation" data-cites="RFC4301"><a href="#ref-RFC4301"
-role="doc-biblioref">[31]</a></span> for further details.</p>
+role="doc-biblioref">[41]</a></span> for further details.</p>
 <p>SPD filtering is performed for all packets that might need to cross
 the IPsec boundary. Refer to Section 3.1/RFC4301 for further details.
 Given that IPsec operates at the IP level, this means that SPD filtering
@@ -9116,7 +9060,7 @@ id="sec:ipsec.profile">IX.3 IPsec.Profile</h2>
 <p>The <em>Profile</em> table models IPsec Security Policy Database
 (SPD) processing info. Refer to Section 4.4.1/RFC 4301 <span
 class="citation" data-cites="RFC4301"><a href="#ref-RFC4301"
-role="doc-biblioref">[31]</a></span> for further details. Each
+role="doc-biblioref">[41]</a></span> for further details. Each
 <em>Filter</em> instance references a <em>Profile</em> instance. It
 would be possible to include the processing info directly in each
 <em>Filter</em> instance, but use of a separate table allows
@@ -9181,7 +9125,7 @@ X: ETSI M2M Remote Entity Management Theory of Operation</h1>
 <div class="note">
 <p>ETSI currently only endorses TR-069 <span class="citation"
 data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span> for management of M2M devices, but
+role="doc-biblioref">[2]</a></span> for management of M2M devices, but
 the principles would also apply for USP, even if the protocol is not
 mentioned in this appendix.</p>
 </div>
@@ -9189,9 +9133,9 @@ mentioned in this appendix.</p>
 class="figure">Figure 46</a> below depicts the high level ETSI M2M
 functional architecture defined in section 4 of ETSI TS 102 690 <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span>. The Data Models defined <span
+role="doc-biblioref">[15]</a></span>. The Data Models defined <span
 class="citation" data-cites="ETSIM2MInterfaces"><a
-href="#ref-ETSIM2MInterfaces" role="doc-biblioref">[6]</a></span> are
+href="#ref-ETSIM2MInterfaces" role="doc-biblioref">[16]</a></span> are
 used within CWMP enabled Devices and Gateways within the Device and
 Gateway domain.</p>
 <figure id="fig:etsi-high-level-functional-architecture">
@@ -9200,14 +9144,13 @@ id="img:etsi-high-level-functional-architecture"
 alt="ETSI High Level Functional Architecture" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:etsi-high-level-functional-architecture">
-Figure 46:
-ETSI High Level Functional Architecture
+Figure 46: ETSI High Level Functional Architecture
 </div></figcaption>
 </figure>
 <p>Within the Device and Gateway Domain, the M2M Device and Gateway
 contains 2 functional components as defined in the ETSI M2M Functional
 Architecture <span class="citation" data-cites="ETSIM2MFA"><a
-href="#ref-ETSIM2MFA" role="doc-biblioref">[5]</a></span>:</p>
+href="#ref-ETSIM2MFA" role="doc-biblioref">[15]</a></span>:</p>
 <ul>
 <li>M2M Service Capabilities: M2M functions that are to be shared by
 different M2M Applications.</li>
@@ -9221,15 +9164,14 @@ class="figure">Figure 47</a> below illustrates the Service Capability
 Layer (SCL) mId reference point that is of interest. A full explanation
 of the SCL reference points is provided in section 5 of the ETSI M2M
 Functional Architecture <span class="citation" data-cites="ETSIM2MFA"><a
-href="#ref-ETSIM2MFA" role="doc-biblioref">[5]</a></span>.</p>
+href="#ref-ETSIM2MFA" role="doc-biblioref">[15]</a></span>.</p>
 <figure id="fig:m2m-scl-functional-architecture-framework">
 <img src="images/m2m-scl-functional-architecture-framework.png"
 id="img:m2m-scl-functional-architecture-framework"
 alt="M2M SCL Functional Architecture Framework" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:m2m-scl-functional-architecture-framework">
-Figure 47:
-M2M SCL Functional Architecture Framework
+Figure 47: M2M SCL Functional Architecture Framework
 </div></figcaption>
 </figure>
 <p>The M2M Device or Gateway SCL provides capabilities (functionality)
@@ -9253,26 +9195,25 @@ Device (D) or Gateway (G).</p>
 </div>
 <p>The Data Model in <span class="citation"
 data-cites="ETSIM2MInterfaces"><a href="#ref-ETSIM2MInterfaces"
-role="doc-biblioref">[6]</a></span> reflects the device management
+role="doc-biblioref">[16]</a></span> reflects the device management
 objects and parameters necessary to implement xREM functionality across
 the mId reference point as defined in Annex E of the ETSI Functional
 Architecture <span class="citation" data-cites="ETSIM2MFA"><a
-href="#ref-ETSIM2MFA" role="doc-biblioref">[5]</a></span> is depicted in
-<a href="#fig:m2m-rem-service-capability" class="figure">Figure 48</a>.
-In this instance, the Device Mgmt Client is considered a CWMP endpoint
-interface and the Device Mgmt Server is considered the ACS interface. In
-most situations, these endpoints and servers have an interface between
-the native Device, Gateway or Server environment and the SCL. In
-addition, the dIa reference point, using RESTful procedures, is used to
-discover M2M D’ Devices and M2M Applications as well as proxy selected
-xREM management functions.</p>
+href="#ref-ETSIM2MFA" role="doc-biblioref">[15]</a></span> is depicted
+in <a href="#fig:m2m-rem-service-capability" class="figure">Figure
+48</a>. In this instance, the Device Mgmt Client is considered a CWMP
+endpoint interface and the Device Mgmt Server is considered the ACS
+interface. In most situations, these endpoints and servers have an
+interface between the native Device, Gateway or Server environment and
+the SCL. In addition, the dIa reference point, using RESTful procedures,
+is used to discover M2M D’ Devices and M2M Applications as well as proxy
+selected xREM management functions.</p>
 <figure id="fig:m2m-rem-service-capability">
 <img src="images/m2m-rem-service-capability.png"
 id="img:m2m-rem-service-capability" alt="M2M REM Service Capability" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:m2m-rem-service-capability">
-Figure 48:
-M2M REM Service Capability
+Figure 48: M2M REM Service Capability
 </div></figcaption>
 </figure>
 <div class="note">
@@ -9328,8 +9269,7 @@ id="img:etsi-m2m-devices-and-gateways"
 alt="ETSI M2M Devices and Gateways" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:etsi-m2m-devices-and-gateways">
-Figure 49:
-ETSI M2M Devices and Gateways
+Figure 49: ETSI M2M Devices and Gateways
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -9344,14 +9284,14 @@ id="sec:device2-data-model-and-functionality-for-etsi-m2m-rem">X.2
 Device:2 Data Model and Functionality for ETSI M2M REM</h2>
 <p>Annex B of the ETSI M2M Functional Architecture <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> provides a cross reference between
+role="doc-biblioref">[15]</a></span> provides a cross reference between
 the xREM management functions and the object instances and RPCs required
 to implement the management functionality. The following is a summary of
 the objects, services, components, RPCs and optional TR-069
 functionality required by the ETSI M2M xREM solution.</p>
 <p>The ETSI M2M xREM solution in Annex E of the ETSI M2M Managed Objects
 [<span class="citation" data-cites="ETSIM2MInterfaces"><a
-href="#ref-ETSIM2MInterfaces" role="doc-biblioref">[6]</a></span>
+href="#ref-ETSIM2MInterfaces" role="doc-biblioref">[16]</a></span>
 defines a cross reference of the following ETSI resources to the
 existing Device:2 Data Model objects. These ETSI resources are:</p>
 <ul>
@@ -9388,11 +9328,11 @@ id="sec:tr-069-functionality-for-etsi-m2m-rem">X.2.1 TR-069
 Functionality for ETSI M2M REM</h3>
 <p>In addition to the mandatory RPCs defined in TR-069 <span
 class="citation" data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span>, the ETSI M2M xREM solution
-requires that a M2M Device or Gateway implement the following optional
-RPCs according to Section 9.2.1.11 of <span class="citation"
+role="doc-biblioref">[2]</a></span>, the ETSI M2M xREM solution requires
+that a M2M Device or Gateway implement the following optional RPCs
+according to Section 9.2.1.11 of <span class="citation"
 data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span>:</p>
+role="doc-biblioref">[15]</a></span>:</p>
 <ul>
 <li>Upload method</li>
 <li>ScheduleDownload method</li>
@@ -9471,7 +9411,7 @@ Service Connection procedures.</p>
 <p>The M2M Service Bootstrap and Service Connection procedures are
 defined in section 8.2 of the ETSI M2M Functional Architecture <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> and describe how some of the
+role="doc-biblioref">[15]</a></span> and describe how some of the
 credentials are shared and obtained in order to establish a connections
 (e.g, HTTP TLS-PSK) during the exchange of RESTFul information over the
 mId reference point.</p>
@@ -9506,8 +9446,8 @@ id="sec:scl-addressing">X.3.2.3 SCL Addressing</h4>
 Service Bootstrap procedure or through an out-of-band mechanism. Table
 7.1 of the ETSI M2M Functional Architecture <span class="citation"
 data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> describes the characteristics of the
-SCL-ID.</p>
+role="doc-biblioref">[15]</a></span> describes the characteristics of
+the SCL-ID.</p>
 <p>When a M2M Device or Gateway SCL registers with a NSCL, the NSCL
 maintains the following information in its resource tree for the SCL
 that allows the NSCL to identify and contact the M2M Device or Gateway
@@ -9526,7 +9466,7 @@ id="sec:scl-registration">X.3.2.4 SCL Registration</h4>
 SCL and the NSCL, the M2M Device or Gateway SCL registers with the NSCL.
 Section 9.3.2.6.2 of the ETSI M2M Functional Architecture <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> describes the registration process
+role="doc-biblioref">[15]</a></span> describes the registration process
 including how attributes such as the SCLID, search strings and
 expiration times are provisioned. In order for a M2M Device or Gateway
 SCL to register with the NSCL, the M2M Device or Gateway SCL must be
@@ -9547,7 +9487,7 @@ ranges, is performed on the query string, and a successful response is
 returned with a URI(s) list for resources that contains the matching
 attributes. Section 9.3.2.27 of the ETSI M2M Functional Architecture
 <span class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> describes this procedure. The M2M
+role="doc-biblioref">[15]</a></span> describes this procedure. The M2M
 Device or Gateway MAY be provisioned through the TR-069 interface to
 either limit the number of URIs discovered by the device or define the
 maximum size allowed for a discovery result.</p>
@@ -9560,7 +9500,7 @@ applications) to NSCL(s) to which the M2M Device or Gateway SCL has
 registered if the SCL is contained within the “AnnounceToSCLList”.
 Section 9.3.2.28 of the ETSI M2M Functional Architecture <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> describes this procedure. The
+role="doc-biblioref">[15]</a></span> describes this procedure. The
 “AnnouncedToSCLList” is maintained through the TR-069 interface.</p>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
 id="sec:scl-store-and-forward-policies">X.3.2.7 SCL Store and Forward
@@ -9581,7 +9521,7 @@ selection of which Policy sets are used by the M2M Device or Gateway SCL
 is determined by the PolicyScope attribute of the Policy set.</p>
 <p>Section 9.3.1.5 of the ETSI M2M Functional Architecture <span
 class="citation" data-cites="ETSIM2MFA"><a href="#ref-ETSIM2MFA"
-role="doc-biblioref">[5]</a></span> describes this procedure. These
+role="doc-biblioref">[15]</a></span> describes this procedure. These
 policies are maintained through the TR-069 interface.</p>
 <h5 class="appendix5 auto-hoverlink" data-info="header"
 id="sec:access-network-provider-saf-policies">X.3.2.7.1 Access Network
@@ -9669,8 +9609,7 @@ instances of AreaNwkDeviceInfoInstance objects.</p>
 alt="Example M2M Network" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-m2m-network">
-Figure 50:
-Example M2M Network
+Figure 50: Example M2M Network
 </div></figcaption>
 </figure>
 <p>In <a href="#fig:example-m2m-network" class="figure">Figure 50</a>,
@@ -9707,8 +9646,7 @@ id="img:m2m-device-discovery-for-proxy-management"
 alt="M2M Device Discovery for Proxy Management" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:m2m-device-discovery-for-proxy-management">
-Figure 51:
-M2M Device Discovery for Proxy Management
+Figure 51: M2M Device Discovery for Proxy Management
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -9728,8 +9666,7 @@ id="img:etsi-m2m-data-model-structure"
 alt="ETSI M2M Data Model Structure" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:etsi-m2m-data-model-structure">
-Figure 52:
-ETSI M2M Data Model Structure
+Figure 52: ETSI M2M Data Model Structure
 </div></figcaption>
 </figure>
 <p><a href="#fig:etsi-m2m-data-model-structure" class="figure">Figure
@@ -9789,7 +9726,7 @@ data-info="header" id="sec:provider-bridge-theory-of-operation">Appendix
 XI: Provider Bridge Theory of Operation</h1>
 <p>A Provider Bridge is defined in 802.1Q-2011 <span class="citation"
 data-cites="802.1Q-2011"><a href="#ref-802.1Q-2011"
-role="doc-biblioref">[11]</a></span> as either a Provider Edge Bridge
+role="doc-biblioref">[21]</a></span> as either a Provider Edge Bridge
 (PEP) or an S-VLAN Bridge. A PEP provides the capability to stack VLAN
 tags with the inner tag being the C-TAG and the outer tag being the
 S-TAG. An S-VLAN Bridge provides a mechanism to process a S-TAG but does
@@ -9820,8 +9757,7 @@ termination in a routed environment</li>
 id="img:provider-bridge-scenarios" alt="Provider Bridge Scenarios" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:provider-bridge-scenarios">
-Figure 53:
-Provider Bridge Scenarios
+Figure 53: Provider Bridge Scenarios
 </div></figcaption>
 </figure>
 <p>In order to model the traffic scenarios in <a
@@ -9832,8 +9768,7 @@ use of the VLANTermination and Bridging Objects are used.</p>
 id="img:provider-bridge-components" alt="Provider Bridge Components" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:provider-bridge-components">
-Figure 54:
-Provider Bridge Components
+Figure 54: Provider Bridge Components
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -9947,8 +9882,7 @@ id="img:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069"
 alt="Usage of the data model to manage ZigBee devices with TR-069" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069">
-Figure 55:
-Usage of the data model to manage ZigBee devices with TR-069
+Figure 55: Usage of the data model to manage ZigBee devices with TR-069
 </div></figcaption>
 </figure>
 <figure
@@ -9959,8 +9893,7 @@ id="img:example-sequence-diagram-of-zigbee-management-with-tr-069"
 alt="Example sequence diagram of ZigBee management with TR-069" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-sequence-diagram-of-zigbee-management-with-tr-069">
-Figure 56:
-Example sequence diagram of ZigBee management with TR-069
+Figure 56: Example sequence diagram of ZigBee management with TR-069
 </div></figcaption>
 </figure>
 <p>This example shows how the ACS gets the network address of a ZigBee
@@ -10050,7 +9983,7 @@ VoIP…),</li>
 <li>The Controller,</li>
 <li>Interworking functions <span class="citation"
 data-cites="RFC6970"><a href="#ref-RFC6970"
-role="doc-biblioref">[47]</a></span> and the PCP proxy that allow
+role="doc-biblioref">[57]</a></span> and the PCP proxy that allow
 applications running on other end-devices connected to the device to
 manage the PCP-controlled device.</li>
 </ul>
@@ -10061,8 +9994,7 @@ id="img:example-of-a-pcp-client-embedded-in-the-rg-using-cwmp"
 alt="Example of a PCP Client embedded in the RG using CWMP" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-of-a-pcp-client-embedded-in-the-rg-using-cwmp">
-Figure 57:
-Example of a PCP Client embedded in the RG using CWMP
+Figure 57: Example of a PCP Client embedded in the RG using CWMP
 </div></figcaption>
 </figure>
 <figure
@@ -10073,9 +10005,8 @@ id="img:example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-i
 alt="Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg">
-Figure 58:
-Example of a PCP Client embedded in a device using CWMP, with PCP Proxy
-in the RG
+Figure 58: Example of a PCP Client embedded in a device using CWMP, with
+PCP Proxy in the RG
 </div></figcaption>
 </figure>
 <p>Defining a PCP data model allows the Controller to remotely manage
@@ -10095,22 +10026,22 @@ to manage the objects.</p>
 <ul>
 <li>RFC 6887 Port Control Protocol (PCP) <span class="citation"
 data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>,</li>
+role="doc-biblioref">[56]</a></span>,</li>
 <li>RFC 6970 UPnP IGD-PCP Interworking Function <span class="citation"
 data-cites="RFC6970"><a href="#ref-RFC6970"
-role="doc-biblioref">[47]</a></span>,</li>
+role="doc-biblioref">[57]</a></span>,</li>
 <li>DHCP Options for the Port Control Protocol (PCP) <span
 class="citation" data-cites="RFC7291"><a href="#ref-RFC7291"
-role="doc-biblioref">[48]</a></span>,</li>
+role="doc-biblioref">[58]</a></span>,</li>
 <li>Port Control Protocol (PCP) Proxy Function <span class="citation"
 data-cites="RFC7648"><a href="#ref-RFC7648"
-role="doc-biblioref">[54]</a></span>,</li>
+role="doc-biblioref">[64]</a></span>,</li>
 <li>PCP Server Selection <span class="citation" data-cites="RFC7488"><a
-href="#ref-RFC7488" role="doc-biblioref">[49]</a></span>,</li>
+href="#ref-RFC7488" role="doc-biblioref">[59]</a></span>,</li>
 <li>PCP Flow Examples <span class="citation"
 data-cites="draft-boucadair-pcp-flow-examples"><a
 href="#ref-draft-boucadair-pcp-flow-examples"
-role="doc-biblioref">[4]</a></span>.</li>
+role="doc-biblioref">[22]</a></span>.</li>
 </ul>
 <p>The data model allows for more than one PCP client, but those clients
 operate independently. Therefore, the text below considers only one PCP
@@ -10121,7 +10052,7 @@ Configuration and monitoring of the PCP Server</h2>
 <p>Prior to sending its first PCP message, the PCP client determines
 which server to use as described in <span class="citation"
 data-cites="RFC7488"><a href="#ref-RFC7488"
-role="doc-biblioref">[49]</a></span>. To do so the PCP client of the CPE
+role="doc-biblioref">[59]</a></span>. To do so the PCP client of the CPE
 can be configured statically (GUI or CWMP) or via DHCP (v4 or v6).</p>
 <ul>
 <li><p>When configured via DHCP, the CPE receives a list (at least one)
@@ -10130,7 +10061,7 @@ of PCP server addresses in one or more <em>OPTION_V4_PCP_SERVER</em> or
 these DHCP options, the CPE creates one or more instances of
 <em>PCP.Client.{i}.Server</em> (see <span class="citation"
 data-cites="RFC7291"><a href="#ref-RFC7291"
-role="doc-biblioref">[48]</a></span>). The list of addresses provided
+role="doc-biblioref">[58]</a></span>). The list of addresses provided
 for each PCP server is stored in the <em>ServerNameOrAddress</em> and
 <em>AdditionalServerAddresses</em> parameters and the <em>Origin</em>
 parameter is set to either “DHCPv4” or “DHCPv6”.</p></li>
@@ -10142,7 +10073,7 @@ either an FQDN or an IP address in
 </ul>
 <p>Based on these server definitions, the PCP client follows the
 procedures specified in <span class="citation" data-cites="RFC7488"><a
-href="#ref-RFC7488" role="doc-biblioref">[49]</a></span> to determine
+href="#ref-RFC7488" role="doc-biblioref">[59]</a></span> to determine
 the IP Address to be used for each configured PCP server.</p>
 <ul>
 <li><p>While the PCP client is trying to connect to a PCP server on a
@@ -10170,14 +10101,14 @@ ready to set rules in the corresponding PCP-controlled device. Depending
 on the use case, the PCP client selects the appropriate PCP server based
 on its <em>Capabilities</em>, as described in Section 10 of <span
 class="citation" data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. It is possible to define the
+role="doc-biblioref">[56]</a></span>. It is possible to define the
 following mappings:</p>
 <p><u>Inbound Mapping without filters</u><br />
 An inbound mapping is defined by an instance of the
 <em>PCP.Client.{i}.Server.{i}.InboundMapping</em> table. It is created
 by a PCP request with the MAP OpCode, as described in Section 11 of
 <span class="citation" data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. This is allowed only if
+role="doc-biblioref">[56]</a></span>. This is allowed only if
 <em>PCP.Client.{i}.MAPEnable</em> is “true”.</p>
 <p><u>Inbound Mapping with filters</u><br />
 As above, but additional filters are defined by instances of the
@@ -10185,33 +10116,33 @@ As above, but additional filters are defined by instances of the
 Filters are specified in the PCP request using the FILTER option, as
 described in Section 13.3 of <span class="citation"
 data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. This is allowed only if
+role="doc-biblioref">[56]</a></span>. This is allowed only if
 <em>PCP.Client.{i}.FILTEREnable</em> is “true”.</p>
 <p><u>Outbound Mapping</u><br />
 An outbound mapping is defined by an instance of the
 <em>PCP.Client.{i}.Server.{i}.OutboundMapping</em> table. It is created
 by a PCP request with the PEER OpCode, as described in Section 12 of
 <span class="citation" data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. This is allowed only if
+role="doc-biblioref">[56]</a></span>. This is allowed only if
 <em>PCP.Client.{i}.PEEREnable</em> is “true”.</p>
 <p>It is possible to define a mapping on behalf of another device. The
 PCP request uses the THIRD_PARTY option to create the mapping, as
 described in Section 13.1 of <span class="citation"
 data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. This is allowed only if
+role="doc-biblioref">[56]</a></span>. This is allowed only if
 <em>PCP.Client.{i}.THIRDPARTYStatus</em> is “Enabled”.</p>
 <p>These operations can be requested by the device itself (embedded
 applications, GUI, CWMP…) or by another device through the UPnP IGD
 interworking function <span class="citation" data-cites="RFC6970"><a
-href="#ref-RFC6970" role="doc-biblioref">[47]</a></span> (if
+href="#ref-RFC6970" role="doc-biblioref">[57]</a></span> (if
 <em>PCP.Client.{i}.UPnPIWF.Status</em> is “Enabled”) or the PCP Proxy
 <span class="citation" data-cites="RFC7648"><a href="#ref-RFC7648"
-role="doc-biblioref">[54]</a></span> (if
+role="doc-biblioref">[64]</a></span> (if
 <em>PCP.Client.{i}.PCPProxy.Status</em> is “Enabled”).</p>
 <p><span class="citation"
 data-cites="draft-boucadair-pcp-flow-examples"><a
 href="#ref-draft-boucadair-pcp-flow-examples"
-role="doc-biblioref">[4]</a></span> provides a set of examples to
+role="doc-biblioref">[22]</a></span> provides a set of examples to
 illustrate PCP operations. These operations can be monitored by getting
 <em>PCP.Client.{i}.Server.{i}.InboundMapping</em> and
 <em>PCP.Client.{i}.Server.{i}.OutboundMapping</em> objects<em>.</em> The
@@ -10251,7 +10182,7 @@ id="sec:rapid-recovery">XIII.3 Rapid recovery</h2>
 <p>A recovery mechanism for situations where the PCP server loses its
 state is described in Section 14 of <span class="citation"
 data-cites="RFC6887"><a href="#ref-RFC6887"
-role="doc-biblioref">[46]</a></span>. This is usable only if
+role="doc-biblioref">[56]</a></span>. This is usable only if
 <em>PCP.Client.{i}.ANNOUNCEEnable</em> is “true”.</p>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
 data-info="header" id="sec:gre-tunnel-theory-of-operation">Appendix XIV:
@@ -10259,14 +10190,14 @@ GRE Tunnel Theory of Operation</h1>
 <p>See <a href="#sec:tunneling" class="heading">Tunneling</a> for
 general information on how tunneling is modeled.</p>
 <p>RFC 2784 <span class="citation" data-cites="RFC2784"><a
-href="#ref-RFC2784" role="doc-biblioref">[18]</a></span> defines a
+href="#ref-RFC2784" role="doc-biblioref">[28]</a></span> defines a
 generic mechanism to encapsulate a packet of protocol A (known as the
 payload protocol) in a GRE packet. The resulting GRE packet is then
 encapsulated into a protocol B (known as the delivery protocol). The
 result of this operation is a payload packet that is encapsulated in a
 GRE tunnel delivered via protocol B. RFC 2890 <span class="citation"
 data-cites="RFC2890"><a href="#ref-RFC2890"
-role="doc-biblioref">[20]</a></span> extends the GRE header with two
+role="doc-biblioref">[30]</a></span> extends the GRE header with two
 optional fields. The Key field provides an identifier to identify flows
 within the GRE tunnel. The Sequence Number field is used to maintain the
 sequence of packets within the GRE tunnel.</p>
@@ -10297,8 +10228,7 @@ concentrator.</p>
 id="img:vlan-traffic-over-gre" alt="VLAN Traffic over GRE" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:vlan-traffic-over-gre">
-Figure 59:
-VLAN Traffic over GRE
+Figure 59: VLAN Traffic over GRE
 </div></figcaption>
 </figure>
 <p>The GRE Tunnel interface layout is shown in <a
@@ -10308,8 +10238,7 @@ href="#fig:l2-over-gre-tunnel" class="figure">Figure 60</a>.</p>
 alt="L2 over GRE Tunnel" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:l2-over-gre-tunnel">
-Figure 60:
-L2 over GRE Tunnel
+Figure 60: L2 over GRE Tunnel
 </div></figcaption>
 </figure>
 <p>The configuration for this scenario assumes that the WAN Ethernet
@@ -10320,7 +10249,7 @@ configuration of the GRE tunnel with the WAN IP interface and the Bridge
 Ports.</p>
 <p>The example configuration uses the RFC 2890 <span class="citation"
 data-cites="RFC2890"><a href="#ref-RFC2890"
-role="doc-biblioref">[20]</a></span> Key field to determine the GRE
+role="doc-biblioref">[30]</a></span> Key field to determine the GRE
 tunnel interface to which the GRE tunnel will forward packets.</p>
 <div class="code">
 <div class="line-block"><u><strong><em>GRE
@@ -10380,8 +10309,7 @@ id="img:ip-over-ip-gre-encapsulation"
 alt="IP over IP GRE Encapsulation" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ip-over-ip-gre-encapsulation">
-Figure 61:
-IP over IP GRE Encapsulation
+Figure 61: IP over IP GRE Encapsulation
 </div></figcaption>
 </figure>
 <p><a href="#fig:l3-over-gre-tunnel" class="figure">Figure 62</a> shows
@@ -10392,8 +10320,7 @@ to a LAN interface that is encapsulated in the IPv6 packet.</p>
 alt="L3 over GRE Tunnel" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:l3-over-gre-tunnel">
-Figure 62:
-L3 over GRE Tunnel
+Figure 62: L3 over GRE Tunnel
 </div></figcaption>
 </figure>
 <p>The configuration for this scenario assumes that the WAN and LAN
@@ -10430,15 +10357,15 @@ mutually exclusive MAP transport modes, both of which use NAPT44
 (modified to use a restricted port range):</p>
 <ul>
 <li>MAP-E (Encapsulation) <span class="citation" data-cites="RFC7597"><a
-href="#ref-RFC7597" role="doc-biblioref">[51]</a></span> uses an
+href="#ref-RFC7597" role="doc-biblioref">[61]</a></span> uses an
 IPv4-in-IPv6 tunnel.</li>
 <li>MAP-T (Translation) <span class="citation" data-cites="RFC7599"><a
-href="#ref-RFC7599" role="doc-biblioref">[53]</a></span> uses stateless
+href="#ref-RFC7599" role="doc-biblioref">[63]</a></span> uses stateless
 NAT64.</li>
 </ul>
 <p>Many aspects of the MAP configuration are the same for both MAP-E and
 MAP-T. <span class="citation" data-cites="RFC7598"><a
-href="#ref-RFC7598" role="doc-biblioref">[52]</a></span> defines DHCPv6
+href="#ref-RFC7598" role="doc-biblioref">[62]</a></span> defines DHCPv6
 options for configuring MAP parameters, and the Device:2 data model
 parameters correspond closely to these parameters.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -10461,8 +10388,7 @@ domain).</li>
 alt="MAP-T Architecture" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:map-t-architecture">
-Figure 63:
-MAP-T Architecture
+Figure 63: MAP-T Architecture
 </div></figcaption>
 </figure>
 <p>The Device:2 data model models each MAP domain as an instance of the
@@ -10481,11 +10407,11 @@ IPv6 address (MAP-E mode).</li>
 translating.</li>
 <li><em>PSIDOffset</em> etc: parameters defining Port-sets (<span
 class="citation" data-cites="RFC7597"><a href="#ref-RFC7597"
-role="doc-biblioref">[51]</a></span> Section 5.1).</li>
+role="doc-biblioref">[61]</a></span> Section 5.1).</li>
 </ul>
 <p>Each domain has a set of mapping rules (<span class="citation"
 data-cites="RFC7597"><a href="#ref-RFC7597"
-role="doc-biblioref">[51]</a></span> Section 5) with each rule having
+role="doc-biblioref">[61]</a></span> Section 5) with each rule having
 the following parameters:</p>
 <ul>
 <li><em>IPv6Prefix</em>: the IPv6 prefix for this rule.</li>
@@ -10519,8 +10445,7 @@ id="img:sample-map-routing-and-forwarding"
 alt="Sample MAP Routing and Forwarding" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-map-routing-and-forwarding">
-Figure 64:
-Sample MAP Routing and Forwarding
+Figure 64: Sample MAP Routing and Forwarding
 </div></figcaption>
 </figure>
 <p><a href="#fig:sample-map-routing-and-forwarding-interface-stack"
@@ -10532,8 +10457,7 @@ id="img:sample-map-routing-and-forwarding-interface-stack"
 alt="Sample MAP Routing and Forwarding (Interface Stack)" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:sample-map-routing-and-forwarding-interface-stack">
-Figure 65:
-Sample MAP Routing and Forwarding (Interface Stack)
+Figure 65: Sample MAP Routing and Forwarding (Interface Stack)
 </div></figcaption>
 </figure>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
@@ -10555,8 +10479,7 @@ PTM’s LowerLayers points to DSL.Channel instance whose status is
 id="img:ptm-link-for-dsl-mode-line" alt="PTM Link for DSL mode Line" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ptm-link-for-dsl-mode-line">
-Figure 66:
-PTM Link for DSL mode Line
+Figure 66: PTM Link for DSL mode Line
 </div></figcaption>
 </figure>
 <p>In the case when the device is connected in FAST mode, the DSL line
@@ -10568,8 +10491,7 @@ id="img:ptm-link-for-fast-mode-line"
 alt="PTM Link for FAST mode Line" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ptm-link-for-fast-mode-line">
-Figure 67:
-PTM Link for FAST mode Line
+Figure 67: PTM Link for FAST mode Line
 </div></figcaption>
 </figure>
 <p>The same fall back mechanism applies to the bonding of FAST and DSL
@@ -10585,8 +10507,7 @@ id="img:ptm-link-bonding-groups-for-fast-mode-lines"
 alt="PTM Link Bonding Groups for FAST mode Lines" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ptm-link-bonding-groups-for-fast-mode-lines">
-Figure 68:
-PTM Link Bonding Groups for FAST mode Lines
+Figure 68: PTM Link Bonding Groups for FAST mode Lines
 </div></figcaption>
 </figure>
 <p>In the case where DSL Bonding group is “Up” for non-FAST mode lines,
@@ -10599,8 +10520,7 @@ id="img:ptm-link-bonding-groups-for-dsl-mode-lines"
 alt="PTM Link Bonding Groups for DSL mode Lines" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:ptm-link-bonding-groups-for-dsl-mode-lines">
-Figure 69:
-PTM Link Bonding Groups for DSL mode Lines
+Figure 69: PTM Link Bonding Groups for DSL mode Lines
 </div></figcaption>
 </figure>
 <h1 class="appendix same-file appendix1 auto-hoverlink"
@@ -10630,8 +10550,7 @@ id="img:example-usb-host-connections"
 alt="Example USB Host Connections" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:example-usb-host-connections">
-Figure 70:
-Example USB Host Connections
+Figure 70: Example USB Host Connections
 </div></figcaption>
 </figure>
 <p>All USB devices attach to a USB Host through a port on a USB entity
@@ -10659,9 +10578,9 @@ data-info="header" id="sec:location-management">Appendix XVIII: Location
 Management</h1>
 <p>This section discusses the Theory of Operation for Location
 Management using CWMP <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> or USP <span
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> or USP <span
 class="citation" data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span> and the Location object defined in
+role="doc-biblioref">[11]</a></span> and the Location object defined in
 the &lt;rootobject&gt;.DeviceInfo data model.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:overview-3">XVIII.1 Overview</h2>
@@ -10729,14 +10648,14 @@ formats:</p>
 <li><p>Geographical coordinates formatted according to the XML syntax
 specified in IETF RFC 5491 <span class="citation"
 data-cites="RFC5491"><a href="#ref-RFC5491"
-role="doc-biblioref">[40]</a></span> (update of RFC 4119 <span
+role="doc-biblioref">[50]</a></span> (update of RFC 4119 <span
 class="citation" data-cites="RFC4119"><a href="#ref-RFC4119"
-role="doc-biblioref">[27]</a></span>)</p></li>
+role="doc-biblioref">[37]</a></span>)</p></li>
 <li><p>Civic addresses according to the XML syntax specified in IETF RFC
 5139 <span class="citation" data-cites="RFC5139"><a href="#ref-RFC5139"
-role="doc-biblioref">[39]</a></span> (update of RFC 4119 <span
+role="doc-biblioref">[49]</a></span> (update of RFC 4119 <span
 class="citation" data-cites="RFC4119"><a href="#ref-RFC4119"
-role="doc-biblioref">[27]</a></span>)</p></li>
+role="doc-biblioref">[37]</a></span>)</p></li>
 </ol>
 <p>Location information in these IETF RFCs is specified within the IETF
 framework of presence information. While these IETF RFCs specify
@@ -10760,7 +10679,7 @@ geographical coordinates and civic location information according to the
 above-referenced IETF RFCs. The schema associated with the civic
 location namespace “urn:ietf:params:xml:ns:pidf:geopriv10:civicAddr” is
 specified in RFC 5139 <span class="citation" data-cites="RFC5139"><a
-href="#ref-RFC5139" role="doc-biblioref">[39]</a></span>.</p>
+href="#ref-RFC5139" role="doc-biblioref">[49]</a></span>.</p>
 <pre><code>&lt;presence xmlns=&quot;urn:ietf:params:xml:ns:pidf&quot;
           xmlns:dm=&quot;urn:ietf:params:xml:ns:pidf:data-model&quot;
           xmlns:gp=&quot;urn:ietf:params:xml:ns:pidf:geopriv10&quot;
@@ -10789,11 +10708,11 @@ id="sec:rfc-5491-and-rfc-5139-location-element-definitions">XVIII.3.2
 RFC 5491 and RFC 5139 Location Element Definitions</h3>
 <p>The XML elements are defined as follows by the IETF in RFC 5491 <span
 class="citation" data-cites="RFC5491"><a href="#ref-RFC5491"
-role="doc-biblioref">[40]</a></span> and related documents:</p>
+role="doc-biblioref">[50]</a></span> and related documents:</p>
 <ol>
 <li><p>&lt;presence&gt; (RFC 5491 <span class="citation"
 data-cites="RFC5491"><a href="#ref-RFC5491"
-role="doc-biblioref">[40]</a></span>)</p>
+role="doc-biblioref">[50]</a></span>)</p>
 <p>The &lt;presence&gt; element MUST have an ‘entity’ attribute. The
 value of the ‘entity’ attribute is the ‘pres’ URL of the presentity
 publishing this presence document.</p>
@@ -10805,7 +10724,7 @@ namespace declarations for the extensions used in the presence XML
 document.</p></li>
 <li><p>&lt;device&gt; (RFC 5491 <span class="citation"
 data-cites="RFC5491"><a href="#ref-RFC5491"
-role="doc-biblioref">[40]</a></span>)</p>
+role="doc-biblioref">[50]</a></span>)</p>
 <p>The &lt;device&gt; element […] can appear as a child to
 &lt;presence&gt;. There can be zero or more occurrences of this element
 per document. Each &lt;device&gt; element has a mandatory “id”
@@ -10814,14 +10733,14 @@ the TR-069 framework the id attribute will contain the CWMP Identifier
 of the device, in the form OUI-ProductClass-SerialNumber.</p></li>
 <li><p>&lt;geopriv&gt; (RFC 5491 <span class="citation"
 data-cites="RFC5491"><a href="#ref-RFC5491"
-role="doc-biblioref">[40]</a></span>, RFC 5139 <span class="citation"
+role="doc-biblioref">[50]</a></span>, RFC 5139 <span class="citation"
 data-cites="RFC5139"><a href="#ref-RFC5139"
-role="doc-biblioref">[39]</a></span>)</p>
+role="doc-biblioref">[49]</a></span>)</p>
 <p>Location information in a PIDF-LO can be described in a geospatial
 manner based on a subset of Geography Markup Language (GML) 3.1.1 or as
 civic location information specified in RFC 5139 <span class="citation"
 data-cites="RFC5139"><a href="#ref-RFC5139"
-role="doc-biblioref">[39]</a></span>. The PIDF-LO Geodetic Shapes
+role="doc-biblioref">[49]</a></span>. The PIDF-LO Geodetic Shapes
 specification provides a specific GML profile for expressing commonly
 used shapes using simple GML representations. This profile defines eight
 shape types, the simplest ones being a 2-D and a 3-D Point. The PIDF-LO
@@ -10855,7 +10774,7 @@ recommended.</li>
 ‘no’, the recipient of this Location Object is not permitted to share
 the enclosed Location Information, or the object as a whole, with other
 parties. RFC 4119 <span class="citation" data-cites="RFC4119"><a
-href="#ref-RFC4119" role="doc-biblioref">[27]</a></span> specifies that
+href="#ref-RFC4119" role="doc-biblioref">[37]</a></span> specifies that
 “by default, the value MUST be assumed to be ‘no’”.</li>
 <li>&lt;retention expires&gt;: This field specifies an absolute date at
 which time the Recipient is no longer permitted to possess the location
@@ -10869,20 +10788,20 @@ further generic privacy directives.</li>
 <li>&lt;method&gt; is an optional element that describes the way that
 the location information was derived or discovered. Values allowed by
 RFC 4119 <span class="citation" data-cites="RFC4119"><a
-href="#ref-RFC4119" role="doc-biblioref">[27]</a></span> are stored in
+href="#ref-RFC4119" role="doc-biblioref">[37]</a></span> are stored in
 the IANA registry as “Method Tokens” <span class="citation"
 data-cites="IANA-Method-Tokens"><a href="#ref-IANA-Method-Tokens"
-role="doc-biblioref">[7]</a></span>. The “Wiremap” value listed in the
+role="doc-biblioref">[17]</a></span>. The “Wiremap” value listed in the
 example is described as “Location determined using wiremap correlations
 to circuit identifiers”</li>
 </ol></li>
 <li><p>&lt;deviceID&gt; element is mandatory. It contains a globally
 unique identifier, in the form of a URN, for each of the presentity
 devices (RFC 4479 <span class="citation" data-cites="RFC4479"><a
-href="#ref-RFC4479" role="doc-biblioref">[34]</a></span>)</p></li>
+href="#ref-RFC4479" role="doc-biblioref">[44]</a></span>)</p></li>
 <li><p>&lt;timestamp&gt; is optional (RFC 4479 <span class="citation"
 data-cites="RFC4479"><a href="#ref-RFC4479"
-role="doc-biblioref">[34]</a></span>)</p></li>
+role="doc-biblioref">[44]</a></span>)</p></li>
 </ol>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:use-of-rfc-5491-and-rfc-5139-location-xml-elements-in-cwmp-or-usp">XVIII.3.3
@@ -10893,7 +10812,7 @@ The entity attribute conveys no useful information and its value should
 be conventionally set to an empty string.</p></li>
 <li><p>&lt;device&gt;<br />
 In RFC 5491 <span class="citation" data-cites="RFC5491"><a
-href="#ref-RFC5491" role="doc-biblioref">[40]</a></span> this is one of
+href="#ref-RFC5491" role="doc-biblioref">[50]</a></span> this is one of
 the devices associated to the presentity. Devices are identified in the
 presence document by means of an instance identifier specified in the id
 attribute.</p></li>
@@ -10919,7 +10838,7 @@ where to send its location to others, and how to set this parameter when
 transmitting this location information. The device can choose to set
 this parameter to “yes” or to “no” when sending its location to others.
 RFC 4119 <span class="citation" data-cites="RFC4119"><a
-href="#ref-RFC4119" role="doc-biblioref">[27]</a></span> specifies that
+href="#ref-RFC4119" role="doc-biblioref">[37]</a></span> specifies that
 this element’s default value is “no”.</li>
 </ul></li>
 <li>&lt;method&gt;<br />
@@ -10932,7 +10851,7 @@ will not be used or populated by the Controller.</li>
 <li><p>&lt;deviceID&gt; It contains a globally unique identifier, in the
 form of a URN, for each of the presentity devices (RFC 4479 <span
 class="citation" data-cites="RFC4479"><a href="#ref-RFC4479"
-role="doc-biblioref">[34]</a></span>).</p></li>
+role="doc-biblioref">[44]</a></span>).</p></li>
 <li><p>&lt;timestamp&gt; is optional. The device (GPS, A-GPS, Manual),
 ACS (External:CWMP) or USP-Controller (External:USP) can set this to the
 time the location was set or acquired.</p></li>
@@ -10942,9 +10861,9 @@ data-info="header" id="sec:fault-management">Appendix XIX: Fault
 Management</h1>
 <p>This section discusses the Theory of Operation for Fault Management
 using CWMP <span class="citation" data-cites="TR-069"><a
-href="#ref-TR-069" role="doc-biblioref">[58]</a></span> or USP <span
+href="#ref-TR-069" role="doc-biblioref">[2]</a></span> or USP <span
 class="citation" data-cites="TR-369"><a href="#ref-TR-369"
-role="doc-biblioref">[67]</a></span> and the FaultMgmt object defined in
+role="doc-biblioref">[11]</a></span> and the FaultMgmt object defined in
 the Root data model.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:overview-4">XIX.1 Overview</h2>
@@ -11084,9 +11003,9 @@ XX: BASAPM and LMAP Theory of Operation</h1>
 and Large-Scale Measurement of Broadband Performance (LMAP) data model
 components are derived from TR-304 <span class="citation"
 data-cites="TR-304"><a href="#ref-TR-304"
-role="doc-biblioref">[66]</a></span> and the IETF LMAP information model
+role="doc-biblioref">[10]</a></span> and the IETF LMAP information model
 <span class="citation" data-cites="RFC8193"><a href="#ref-RFC8193"
-role="doc-biblioref">[55]</a></span>, respectively.</p>
+role="doc-biblioref">[65]</a></span>, respectively.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:tr-069-family-of-specifications-in-the-context-of-tr-304">XX.1
 TR-069 Family of Specifications in the Context of TR-304</h2>
@@ -11116,8 +11035,7 @@ can send reports to the different Data Collectors.</p>
 alt="TR-304 Framework" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:tr-304-framework">
-Figure 71:
-TR-304 Framework
+Figure 71: TR-304 Framework
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -11138,8 +11056,7 @@ the different Data Collectors.</p>
 alt="LMAP Framework" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:lmap-framework">
-Figure 72:
-LMAP Framework
+Figure 72: LMAP Framework
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11153,8 +11070,7 @@ Collector could use other protocols (e.g., IETF LMAP protocol).</p>
 id="img:cwmp-for-pre-configuration" alt="CWMP for Pre-configuration" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cwmp-for-pre-configuration">
-Figure 73:
-CWMP for Pre-configuration
+Figure 73: CWMP for Pre-configuration
 </div></figcaption>
 </figure>
 <p>Note that in the TR-304 framework the Status and Logging functions
@@ -11182,8 +11098,7 @@ id="img:cwmp-for-control-and-pre-configuration-ipdr-for-reporting"
 alt="CWMP for Control and Pre-configuration, IPDR for Reporting" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cwmp-for-control-and-pre-configuration-ipdr-for-reporting">
-Figure 74:
-CWMP for Control and Pre-configuration, IPDR for Reporting
+Figure 74: CWMP for Control and Pre-configuration, IPDR for Reporting
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11202,8 +11117,7 @@ id="img:cwmp-proxy-device-deployment"
 alt="CWMP Proxy Device Deployment" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cwmp-proxy-device-deployment">
-Figure 75:
-CWMP Proxy Device Deployment
+Figure 75: CWMP Proxy Device Deployment
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11221,8 +11135,7 @@ supported by CWMP.</p>
 id="img:cwmp-multi-acs-deployment" alt="CWMP Multi-ACS Deployment" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cwmp-multi-acs-deployment">
-Figure 76:
-CWMP Multi-ACS Deployment
+Figure 76: CWMP Multi-ACS Deployment
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -11232,7 +11145,7 @@ Elements</h2>
 id="sec:device.basapm">XX.2.1 Device.BASAPM</h3>
 <p>Device.BASAPM provides a TR-304 <span class="citation"
 data-cites="TR-304"><a href="#ref-TR-304"
-role="doc-biblioref">[66]</a></span> wrapper for a Device.LMAP.
+role="doc-biblioref">[10]</a></span> wrapper for a Device.LMAP.
 MeasurementAgent instance. Device.BASAPM provides parameters related to
 the operational domain, device ownership, device identification,
 geographic location, and measurement reference point of a referenced
@@ -11243,7 +11156,7 @@ Device.LMAP.MeasurementAgent</h3>
 <p>The Device.LMAP objects and parameters are mostly described in the
 IETF LMAP information model <span class="citation"
 data-cites="RFC8193"><a href="#ref-RFC8193"
-role="doc-biblioref">[55]</a></span>. That document serves as the
+role="doc-biblioref">[65]</a></span>. That document serves as the
 primary vehicle for describing theory of operations for
 Device.LMAP.MeasurementAgent.</p>
 <p>The base Device.LMAP.MeasurementAgent.{i} object contains parameters
@@ -11340,9 +11253,9 @@ Collection in the Context of LMAP</h2>
 used for the collection of bulk data between a CWMP Agent and an ACS.
 These protocols are defined for IPDR <span class="citation"
 data-cites="TR-232"><a href="#ref-TR-232"
-role="doc-biblioref">[65]</a></span> and HTTP <span class="citation"
+role="doc-biblioref">[9]</a></span> and HTTP <span class="citation"
 data-cites="TR-069"><a href="#ref-TR-069"
-role="doc-biblioref">[58]</a></span>. The Device:2 data model described
+role="doc-biblioref">[2]</a></span>. The Device:2 data model described
 in <em><a href="#sec:derivation-of-data-model-elements"
 class="heading">Derivation of Data Model Elements</a></em> includes the
 ability to use these protocols for transferring test results between a
@@ -11362,19 +11275,18 @@ id="img:integration-of-bulk-data-profiles-with-lmap"
 alt="Integration of Bulk Data Profiles with LMAP" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:integration-of-bulk-data-profiles-with-lmap">
-Figure 77:
-Integration of Bulk Data Profiles with LMAP
+Figure 77: Integration of Bulk Data Profiles with LMAP
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:tr-143-diagnostics-in-lmap">XX.4 TR-143 Diagnostics in LMAP</h2>
 <p>TR-143 <span class="citation" data-cites="TR-143"><a
-href="#ref-TR-143" role="doc-biblioref">[62]</a></span> describes a set
+href="#ref-TR-143" role="doc-biblioref">[6]</a></span> describes a set
 of tests that can be used within the context of TR-304 based on the IETF
 LMAP framework <span class="citation" data-cites="RFC7594"><a
-href="#ref-RFC7594" role="doc-biblioref">[50]</a></span> and Information
+href="#ref-RFC7594" role="doc-biblioref">[60]</a></span> and Information
 Model <span class="citation" data-cites="RFC8193"><a href="#ref-RFC8193"
-role="doc-biblioref">[55]</a></span> and implemented using the Device:2
+role="doc-biblioref">[65]</a></span> and implemented using the Device:2
 data model in <em><a href="#sec:derivation-of-data-model-elements"
 class="heading">Derivation of Data Model Elements</a></em>. These tests
 could be defined using the following procedure:</p>
@@ -11441,8 +11353,8 @@ data model elements comprising:</p>
 id="sec:architecture-1">XXI.2 Architecture</h2>
 <p>The 5G converged core represents a significant departure from the
 TR-101 <span class="citation" data-cites="TR-101"><a href="#ref-TR-101"
-role="doc-biblioref">[59]</a></span> based architecture currently used
-to support residential gateway access. Most noteworthy is the alignment
+role="doc-biblioref">[3]</a></span> based architecture currently used to
+support residential gateway access. Most noteworthy is the alignment
 with 3GPP architectural principles. It is important to understand the
 two deployment scenarios for the 5G core—Integration and
 Interworking.</p>
@@ -11469,25 +11381,23 @@ FMIF, are BBF-defined.</p>
 id="img:5g-converged-core-network" alt="5G Converged Core Network" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:5g-converged-core-network">
-Figure 78:
-5G Converged Core Network
+Figure 78: 5G Converged Core Network
 </div></figcaption>
 </figure>
 <p>The complete 5G architecture is documented in the 3GPP 23.501 <span
 class="citation" data-cites="3GPP-TS.23.501"><a
-href="#ref-3GPP-TS.23.501" role="doc-biblioref">[1]</a></span> standard.
-BBF has produced TR-470 <span class="citation" data-cites="TR-470"><a
-href="#ref-TR-470" role="doc-biblioref">[68]</a></span> documenting the
-Wireline Wireless Convergence architecture. Shown below is a simplified
-architecture with the network functions and interfaces relevant to
-supporting a 5G-RG.</p>
+href="#ref-3GPP-TS.23.501" role="doc-biblioref">[14]</a></span>
+standard. BBF has produced TR-470 <span class="citation"
+data-cites="TR-470"><a href="#ref-TR-470"
+role="doc-biblioref">[12]</a></span> documenting the Wireline Wireless
+Convergence architecture. Shown below is a simplified architecture with
+the network functions and interfaces relevant to supporting a 5G-RG.</p>
 <figure id="fig:5g-architecture">
 <img src="images/5g-architecture.png" id="img:5g-architecture"
 alt="5G Architecture" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:5g-architecture">
-Figure 79:
-5G Architecture
+Figure 79: 5G Architecture
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11580,9 +11490,9 @@ functions. The main driver for separation is to centralize control plane
 functions whilst distributing user plane functions deeper into the
 network. CUPS is documented in TR-470 Section 5.2 <span class="citation"
 data-cites="TR-470"><a href="#ref-TR-470"
-role="doc-biblioref">[68]</a></span> whilst TS 23.501 <span
+role="doc-biblioref">[12]</a></span> whilst TS 23.501 <span
 class="citation" data-cites="3GPP-TS.23.501"><a
-href="#ref-3GPP-TS.23.501" role="doc-biblioref">[1]</a></span> details
+href="#ref-3GPP-TS.23.501" role="doc-biblioref">[14]</a></span> details
 the architectural elements. From the perspective of a 5G-RG, CUPS has
 the following impacts:</p>
 <ul>
@@ -11602,7 +11512,7 @@ gateway is that of policy. Previous generations of mobile devices have
 been users of policy but 5G takes it to a new level. Policy and the role
 of the PCF are documented in TS 23.503 <span class="citation"
 data-cites="3GPP-TS.23.503"><a href="#ref-3GPP-TS.23.503"
-role="doc-biblioref">[2]</a></span>.</p>
+role="doc-biblioref">[13]</a></span>.</p>
 <p><strong>So, what is policy?</strong><br />
 The simplest way to think of policy is as a set of per-service rules
 sent to the 5G-RG by the network operator. This allows the operator to
@@ -11630,7 +11540,7 @@ leads to applications requiring:</p>
 <li>Guaranteed bit rates for a given application.</li>
 </ul>
 <p>TR-470 Section 6.2 <span class="citation" data-cites="TR-470"><a
-href="#ref-TR-470" role="doc-biblioref">[68]</a></span> provides
+href="#ref-TR-470" role="doc-biblioref">[12]</a></span> provides
 examples of multiple PDU scenarios for a 5G-RG.</p>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:g-qos">XXI.3.4 5G QoS</h3>
@@ -11638,7 +11548,7 @@ id="sec:g-qos">XXI.3.4 5G QoS</h3>
 priority, 5G QoS marking is merely a label called a QoS Flow Indicator
 (QFI). End-to-end QoS as documented in TR-470 Section 5.1 <span
 class="citation" data-cites="TR-470"><a href="#ref-TR-470"
-role="doc-biblioref">[68]</a></span> is a key outcome of policy. As part
+role="doc-biblioref">[12]</a></span> is a key outcome of policy. As part
 of PDU establishment, a set of QoS rules is supplied specific to that
 PDU. Consequently, the access network specifies not only the supported
 QFI labels but also the properties of the QoS profile. A QoS profile
@@ -11669,7 +11579,7 @@ network and maintain all the PDU properties including IP addresses. An
 operator can optimize its network usage by sending policy rules to a
 5G-RG, indicating the preferred access and data networks. TR-470 Section
 4.4 <span class="citation" data-cites="TR-470"><a href="#ref-TR-470"
-role="doc-biblioref">[68]</a></span> provides a more in-depth
+role="doc-biblioref">[12]</a></span> provides a more in-depth
 description of hybrid access.</p>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
 id="sec:network-slicing">XXI.3.7 Network Slicing</h3>
@@ -11680,7 +11590,7 @@ a network slice. Operators will provide slice information as part of
 URSP policy rules. Every PDU at the time of establishment must specify a
 network slice. Slicing is further documented in TS 23.501 Clause 5.15
 <span class="citation" data-cites="3GPP-TS.23.501"><a
-href="#ref-3GPP-TS.23.501" role="doc-biblioref">[1]</a></span>.</p>
+href="#ref-3GPP-TS.23.501" role="doc-biblioref">[14]</a></span>.</p>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
 id="sec:data-model-elements">XXI.4 Data Model Elements</h2>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11696,7 +11606,7 @@ identifier.</li>
 <li>5WE: An encapsulation method designed to carry multiplexed PDU
 traffic over existing (non 5G) access networks <span class="citation"
 data-cites="RFC8822"><a href="#ref-RFC8822"
-role="doc-biblioref">[56]</a></span>.</li>
+role="doc-biblioref">[66]</a></span>.</li>
 </ul>
 <p>The OSI layer model (see <a
 href="#fig:osi-layers-and-interface-objects" class="figure">Figure
@@ -11715,8 +11625,7 @@ remains unchanged on a 5G-RG.</p>
 id="img:fixed-access-only-example" alt="Fixed access only example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:fixed-access-only-example">
-Figure 80:
-Fixed access only example
+Figure 80: Fixed access only example
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -11735,8 +11644,7 @@ id="img:cellular-access-only-example"
 alt="Cellular access only example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cellular-access-only-example">
-Figure 81:
-Cellular access only example
+Figure 81: Cellular access only example
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -11757,8 +11665,7 @@ moment). All LAN traffic remains unchanged on a 5G-RG.</p>
 id="img:hybrid-access-example" alt="Hybrid access example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:hybrid-access-example">
-Figure 82:
-Hybrid access example
+Figure 82: Hybrid access example
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -11829,7 +11736,7 @@ capabilities</td>
 establishment. Table entries are used in precedence order until a
 successful PDU session is established. See TS 23.503 Annex A <span
 class="citation" data-cites="3GPP-TS.23.503"><a
-href="#ref-3GPP-TS.23.503" role="doc-biblioref">[2]</a></span> for an
+href="#ref-3GPP-TS.23.503" role="doc-biblioref">[13]</a></span> for an
 example URSP rule traversal</td>
 </tr>
 <tr class="odd">
@@ -11845,8 +11752,7 @@ a PDU session will be established on</td>
 alt="Device.WWC objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.wwc-objects">
-Figure 83:
-Device.WWC objects
+Figure 83: Device.WWC objects
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -11913,15 +11819,14 @@ destination IP and ports.</td>
 alt="Device.PDU objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.pdu-objects">
-Figure 84:
-Device.PDU objects
+Figure 84: Device.PDU objects
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
 id="sec:device.fwe">XXI.4.2.3 Device.FWE</h4>
 <p>5G Wireless Wireline Convergence User Plane Encapsulation <span
 class="citation" data-cites="RFC8822"><a href="#ref-RFC8822"
-role="doc-biblioref">[56]</a></span> is used to separate each PDU
+role="doc-biblioref">[66]</a></span> is used to separate each PDU
 session when multiplexed over a PHY. A Device.FWE.Link object is
 inserted into the interface stack, providing PDU session id as well as
 5G QoS markings (QFI, RQI). This is also the level at which fixed QoS
@@ -11964,8 +11869,7 @@ protocol.</td>
 alt="Device.FWE objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.fwe-objects">
-Figure 85:
-Device.FWE objects
+Figure 85: Device.FWE objects
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -12476,8 +12380,7 @@ id="img:logical-interfaces-problem-statement"
 alt="Logical interfaces problem statement" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:logical-interfaces-problem-statement">
-Figure 86:
-Logical interfaces problem statement
+Figure 86: Logical interfaces problem statement
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -12527,8 +12430,7 @@ id="img:solution-using-logical-interfaces"
 alt="solution using logical interfaces" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:solution-using-logical-interfaces">
-Figure 87:
-solution using logical interfaces
+Figure 87: solution using logical interfaces
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -12805,9 +12707,8 @@ id="img:logical-interfaces-example-ipv4-and-ipv6-are-on-different-network-interf
 alt="Logical interfaces example: IPv4 and IPv6 are on different network interface" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:logical-interfaces-example-ipv4-and-ipv6-are-on-different-network-interface">
-Figure 88:
-Logical interfaces example: IPv4 and IPv6 are on different network
-interface
+Figure 88: Logical interfaces example: IPv4 and IPv6 are on different
+network interface
 </div></figcaption>
 </figure>
 <div class="note">

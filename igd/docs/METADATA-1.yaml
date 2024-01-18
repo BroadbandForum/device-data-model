@@ -8,17 +8,20 @@ bbfVersion: 1 Amendment 8
 bbfMonth: September
 bbfYear: 2014
 bbfType: Technical Report
-bbfStatus: ''
+bbfStatus: Deprecated
 bbfContrib: ''
 bbfMajor: 1
 bbfMinor: 8
 bbfPatch: 0
+bbfMicro: 0
+bbfExtra: 0
 bbfDraft: ''
 bbfBuild: ''
 
 # other top-level variables
 notice: tr
 reponame: ''
+website: ''
 "tagline": ""
 "summary": ""
 "description": ""

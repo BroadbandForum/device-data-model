@@ -4,16 +4,19 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="description" content="WT-nnn – TITLE: " />
-  <title>BBF – WT-nnn – TITLE</title>
+  <meta name="description" content=" : " />
+  <title>BBF –  </title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -27,25 +30,23 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">WT-nnn – TITLE</h1>
-<p class="subtitle">Revision: 0 Draft <span class="release"></span></p>
-<p class="date">Revision Date: June 2023</p>
+<h1 class="title"> </h1>
 </header>
 <!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
-<h3 class="unnumbered unlisted new-page" id="issue-history">Issue
-History</h3>
-<table class="bbf-revision-history" style="width:100%;">
+<div class="new-page">
+
+</div>
+<h3 class="unnumbered unlisted" id="issue-history">Issue History</h3>
+<table class="issue-history">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 60%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 69%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Issue Number</th>
 <th style="text-align: left;">Approval Date</th>
-<th style="text-align: left;">Issue Editor</th>
 <th style="text-align: left;">Changes</th>
 </tr>
 </thead>
@@ -56,28 +57,19 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2.pdf">Issue
 2</a></td>
 <td style="text-align: left;">May 2010</td>
 <td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, 2Wire</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Original</li>
 </ul></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Issue 2 Amendment 1</td>
+<td style="text-align: left;">Issue 2 Corrigendum 1</td>
 <td style="text-align: left;">November 2010</td>
-<td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, 2Wire</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Issue 2 Corrigendum 1</td>
+<td style="text-align: left;">Issue 2 Amendment 1</td>
 <td style="text-align: left;">November 2010</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -88,17 +80,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf">I
 2 Amendment 2</a></td>
 <td style="text-align: left;">February 2011</td>
 <td style="text-align: left;"><ul>
-<li>Paul Sigurdson, Broadband Forum</li>
-<li>William Lupton, Pace</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added IPv6 and Firewall Appendices</li>
 </ul></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Amendment 3</td>
 <td style="text-align: left;">July 2011</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -106,9 +93,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf">I
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 4</td>
 <td style="text-align: left;">November 2011</td>
-<td style="text-align: left;"><ul>
-<li>William Lupton, Pace</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -119,9 +103,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf">I
 2 Amendment 5</a></td>
 <td style="text-align: left;">May 2012</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Pace</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added Tunneling Annex and IPsec Appendix</li>
 </ul></td>
 </tr>
@@ -131,9 +112,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf">I
 2 Amendment 6</a></td>
 <td style="text-align: left;">November 2012</td>
 <td style="text-align: left;"><ul>
-<li>Tim Carey, Alcatel-Lucent</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added support M2M SCL Administration as an Appendix</li>
 </ul></td>
 </tr>
@@ -142,10 +120,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf">I
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf">Issue
 2 Amendment 7</a></td>
 <td style="text-align: left;">November 2013</td>
-<td style="text-align: left;"><ul>
-<li>Apostolos Papageorgiou, NEC</li>
-<li>William Lupton, Cisco</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Added ZigBee and Provider Bridge theory of operation</li>
 <li>Added backup/restore theory of operation</li>
@@ -157,9 +131,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf">I
 2 Amendment 8</a></td>
 <td style="text-align: left;">September 2014</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Cisco</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Updated Annex B on tunneling</li>
 <li>Added GRE, MAP and PCP theory of operation</li>
 </ul></td>
@@ -167,9 +138,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf">I
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Amendment 9</td>
 <td style="text-align: left;">December 2014</td>
-<td style="text-align: left;"><ul>
-<li>Douglas Knisely, Qualcomm, Inc</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -180,16 +148,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf">
 2 Amendment 10</a></td>
 <td style="text-align: left;">November 2015</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Axiros</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>No changes to the specification</li>
 </ul></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Issue 2 Corrigendum 2</td>
 <td style="text-align: left;">July 2016</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Removed <em>SSID</em> unique key from <em>WiFi.SSID</em> object</li>
 </ul></td>
@@ -200,10 +164,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf">
 2 Amendment 11</a></td>
 <td style="text-align: left;">July 2016</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Axiros</li>
-<li>Mark Tabry, Google</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added G.fast theory of operation</li>
 </ul></td>
 </tr>
@@ -212,9 +172,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf">
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-12.pdf">Issue
 2 Amendment 12</a></td>
 <td style="text-align: left;">March 2018</td>
-<td style="text-align: left;"><ul>
-<li>Steve Nicolai, Arris</li>
-</ul></td>
 <td style="text-align: left;"><ul>
 <li>Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII and
 XIX</li>
@@ -228,9 +185,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-13.pdf">
 2 Amendment 13</a></td>
 <td style="text-align: left;">September 2019</td>
 <td style="text-align: left;"><ul>
-<li>Klaus Wich, Huawei</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Unified text for CWMP and USP support</li>
 <li>Updated references</li>
 </ul></td>
@@ -241,9 +195,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf">
 2 Amendment 14</a></td>
 <td style="text-align: left;">November 2020</td>
 <td style="text-align: left;"><ul>
-<li>David Woolley, Telstra</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Added Appendix XXI 5G - Wireline Wireless Convergence and Appendix
 XXII Data Elements</li>
 </ul></td>
@@ -251,7 +202,6 @@ XXII Data Elements</li>
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 14 Corrigendum 1</td>
 <td style="text-align: left;">November 2020</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -262,9 +212,6 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf">
 2 Amendment 15</a></td>
 <td style="text-align: left;">January 2022</td>
 <td style="text-align: left;"><ul>
-<li>William Lupton, Broadband Forum</li>
-</ul></td>
-<td style="text-align: left;"><ul>
 <li>Converted the document to markdown and extended the Wi-Fi Theory of
 Operation</li>
 </ul></td>
@@ -272,7 +219,6 @@ Operation</li>
 <tr class="even">
 <td style="text-align: left;">Issue 2 Amendment 15 Corrigendum 1</td>
 <td style="text-align: left;">April 2022</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Document not updated</li>
 </ul></td>
@@ -282,12 +228,20 @@ Operation</li>
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-16.pdf">Issue
 2 Amendment 16</a></td>
 <td style="text-align: left;">June 2023</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"><ul>
 <li>Refreshed all diagrams</li>
 <li>Added ToO appendix for logical interfaces concept</li>
 <li>Extended advanced firewall appendix</li>
 <li>Updated Wi-Fi theory of operation</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a
+href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf">Issue
+2 Amendment 17</a></td>
+<td style="text-align: left;">January 2024</td>
+<td style="text-align: left;"><ul>
+<li>Refreshed some data model diagrams</li>
 </ul></td>
 </tr>
 </tbody>
@@ -303,6 +257,14 @@ id="bbfprojectstream-project-stream-leaders"> Project Stream
 Leaders</h3>
 <ul>
 <li>Daniel Egger, Axiros</li>
+<li>Matthieu Anne, Orange</li>
+</ul>
+<h3 class="unnumbered unlisted" id="editors">Editors</h3>
+<ul>
+<li>Klaus Wich, Huawei</li>
+<li>Mark Tabry, Google</li>
+<li>Steve Nicolai, Arris</li>
+<li>David Woolley, Telstra</li>
 <li>William Lupton, Broadband Forum</li>
 </ul>
 <h3 class="unnumbered unlisted"

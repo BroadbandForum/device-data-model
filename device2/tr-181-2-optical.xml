@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Optical]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2021,2023 Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-optical"
-    file="tr-181-2-16-0-optical.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-optical"
+    file="tr-181-2-17-0-optical.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="Dbm1000"/>
   </import>
 
@@ -162,14 +162,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.4"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -253,7 +246,7 @@
       </parameter>
 
       <parameter name="LowerOpticalThreshold" access="readOnly"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Optical level that is used to declare the downstream low received
           optical power alarm.
@@ -269,6 +262,8 @@
 
           {{deprecated|2.15|because it is not intended for the device to raise
           an optical power alarm.}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <dataType ref="Dbm1000">
@@ -278,7 +273,7 @@
       </parameter>
 
       <parameter name="UpperOpticalThreshold" access="readOnly"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Optical level that is used to declare the downstream high received
           optical power alarm.
@@ -294,6 +289,8 @@
 
           {{deprecated|2.15|because it is not intended for the device to raise
           an optical power alarm.}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <dataType ref="Dbm1000">
@@ -322,7 +319,7 @@
       </parameter>
 
       <parameter name="LowerTransmitPowerThreshold" access="readOnly"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Minimum mean optical launch power that is used to declare the low
           transmit optical power alarm.
@@ -338,6 +335,8 @@
 
           {{deprecated|2.15|because it is not intended for the device to raise
           an optical power alarm.}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <dataType ref="Dbm1000">
@@ -347,7 +346,7 @@
       </parameter>
 
       <parameter name="UpperTransmitPowerThreshold" access="readOnly"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Maximum mean optical launch power that is used to declare the high
           transmit optical power alarm.
@@ -363,6 +362,8 @@
 
           {{deprecated|2.15|because it is not intended for the device to raise
           an optical power alarm.}}
+
+          {{obsoleted|2.17}}
         </description>
         <syntax>
           <dataType ref="Dbm1000">
@@ -482,7 +483,7 @@
       <object ref="Device.Optical.Interface.{i}." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="LastChange" requirement="readOnly"/>
         <parameter ref="Upstream" requirement="readOnly"/>
@@ -500,7 +501,7 @@
     </profile>
   </component>
 
-  <model name="Optical:2.16">
+  <model name="Optical:2.17">
     <component ref="Root"/>
     <component ref="Optical"/>
   </model>

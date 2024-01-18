@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IP]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2021,2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-ip"
-    file="tr-181-2-16-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-ip"
+    file="tr-181-2-17-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="IPAddress"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
@@ -2205,7 +2205,7 @@
         packets collected during a test if
         {{param|#.EnableIndividualPacketResults}} is set to true. When
         {{param|#.DiagnosticsState}} is set to
-        {{enum|Completed|#.DiagnosticsState}} it should contain
+        {{enum|Complete|#.DiagnosticsState}} it should contain
         {{param|#.NumberOfRepetitions}} objects. Instance numbers MUST start at
         1 and sequentially increment as new instances are created. The instance
         number should match the TestIterationNumber field of the request and
@@ -2446,10 +2446,14 @@
       </syntax>
     </parameter>
 
-    <parameter name="Host" access="readWrite" mandatory="true" version="2.14">
+    <parameter name="Host" access="readWrite" status="deprecated" version="2.14">
       <description>
         The Fully Qualified Domain Name (FQDN) or IP address of the Test
         Endpoint to perform the UDP Capacity tests with.
+
+        {{deprecated|2.17|because it is superseded by
+        {{param|ServerList}} with multi-flow and server capability. Refer
+        to {{bibref|TR-471}} for details}}
       </description>
       <syntax>
         <string>
@@ -2458,10 +2462,36 @@
       </syntax>
     </parameter>
 
-    <parameter name="Port" access="readWrite" mandatory="true"
+    <parameter name="ServerList" access="readWrite" mandatory="true" version="2.17">
+      <description>
+        A list of servers intended as testing partners for the client.
+        The client works through the server list attempting individual
+        test flows in a round-robin sequence. One flow is attempted to
+        each server and all flows are required for testing, unless the
+        optional {{param|FlowCount}} and {{param|MaximumFlows}}
+        parameters are specified. The list contains each server’s
+        Fully Qualified Domain Name or IP address and listening port
+        in the format ''server:port''.
+      </description>
+      <syntax>
+        <list maxItems="100">
+        </list>
+        <string>
+          <size maxLength="256"/>
+          <size/>
+        </string>
+      </syntax>
+    </parameter>
+
+    <parameter name="Port" access="readWrite" status="deprecated"
         activeNotify="canDeny" version="2.14">
       <description>
         Port on the Test Endpoint host.
+
+
+        {{deprecated|2.17|because it is superseded by
+        {{param|ServerList}} with multi-flow and server capability. Refer
+        to {{bibref|TR-471}} for details}}
       </description>
       <syntax>
         <unsignedInt>
@@ -2469,6 +2499,7 @@
         </unsignedInt>
       </syntax>
     </parameter>
+
 
     <parameter name="JumboFramesPermitted" access="readWrite" version="2.14">
       <description>
@@ -2480,11 +2511,16 @@
       </syntax>
     </parameter>
 
-    <parameter name="NumberOfConnections" access="readWrite" version="2.14">
+    <parameter name="NumberOfConnections" access="readWrite" status="deprecated"
+    version="2.14">
       <description>
         The number of connections to be used in the test. The default value
         SHOULD be 1. {{param}} MUST NOT be set to a value greater than
         {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerMaxConnections}}.
+
+        {{deprecated|2.17|because it is superseded by
+        {{param|ServerList}} with multi-flow and server capability and
+        related parameters. Refer to {{bibref|TR-471}} for details}}
       </description>
       <syntax>
         <unsignedInt>
@@ -2492,6 +2528,36 @@
         </unsignedInt>
       </syntax>
     </parameter>
+
+    <parameter name="FlowCount" access="readWrite" version="2.17">
+      <description>
+        Optional Number of flows required for a test.
+        The default SHOULD be 0 (a magic number that indicates the
+        parameter is not used).
+        {{param}} MUST NOT be set to a value greater than
+        {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerMaxConnections}}.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+
+    <parameter name="MaximumFlows" access="readWrite" version="2.17">
+      <description>
+        Optional number of flows to attempt. MaximumFlows must be
+        greater than the size of ServerList or FlowCount.
+
+        The default SHOULD be 0 (a magic number that indicates the
+        parameter is not used).
+        {{param}} MUST NOT be set to a value greater than
+        {{param|{{template|IP-DIAGNOSTICS-PARENT}}IPLayerMaxConnections}}.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
 
     <parameter name="EthernetPriority" access="readWrite" version="2.14">
       <description>
@@ -2821,7 +2887,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="TimeoutNoTraffic" access="readWrite" status="deprecated"
+    <parameter name="TimeoutNoTraffic" access="readWrite" status="obsoleted"
         version="2.14">
       <description>
         Timeout value. Value specified in {{units}}. The default value SHOULD
@@ -2830,6 +2896,8 @@
         {{deprecated|2.15|because it is superseded by
         {{param|TimeoutNoTestTraffic}} due to new precision requirement. Refer
         to {{bibref|TR-471}} for details}}
+
+        {{obsoleted|2.17}}
       </description>
       <syntax>
         <unsignedInt>
@@ -3767,6 +3835,17 @@
         </unsignedInt>
       </syntax>
     </parameter>
+
+    <parameter name="ActiveFlows" access="readOnly" version="2.17">
+      <description>
+        Number of flows set-up and used for a test.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="0"/>
+        </unsignedInt>
+      </syntax>
+     </parameter>
   </component>
 
   <component name="IPServerSelectionDiagnosticsInput">
@@ -4218,14 +4297,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.0"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -4449,16 +4521,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-
+      <component ref="Alias-2-0" version="2.0"/>
+      <parameter base="Alias">
+        <description action="append">
           This parameter can only be modified if {{param|AddressingType}} is
           {{enum|Static|AddressingType}}.
         </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
       </parameter>
 
       <parameter name="IPAddress" access="readWrite">
@@ -4733,14 +4801,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.12"/>
 
       <parameter name="Port" access="readWrite">
         <description>
@@ -4965,16 +5026,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-
+      <component ref="Alias-2-0" version="2.2"/>
+      <parameter base="Alias">
+        <description action="append">
           This parameter can only be modified if {{param|Origin}} is
           {{enum|Static|Origin}}.
         </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
       </parameter>
 
       <parameter name="IPAddress" access="readWrite">
@@ -5219,16 +5276,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-
+      <component ref="Alias-2-0" version="2.2"/>
+      <parameter base="Alias">
+        <description action="append">
           This parameter can only be modified if {{param|Origin}} is
           {{enum|Static|Origin}}.
         </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
       </parameter>
 
       <parameter name="Prefix" access="readWrite">
@@ -5916,7 +5969,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.16">
+  <model name="IP:2.17">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

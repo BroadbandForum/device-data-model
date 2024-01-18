@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Firewall]
 
-  Copyright (c) 2010-2021, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,18 +55,19 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-firewall"
-    file="tr-181-2-16-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-firewall"
+    file="tr-181-2-17-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="MACAddress"/>
     <dataType name="IPAddress"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPPrefix"/>
     <dataType name="IPv4Prefix"/>
+    <dataType name="Order"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -333,6 +334,15 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+
+      <parameter name="InterfaceSettingNumberOfEntries" access="readOnly" version="2.17">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.Firewall.Level.{i}." access="readWrite"
@@ -353,14 +363,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -386,23 +389,14 @@
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the {{object}} entry for user interface display; levels
-          can be presented according to an increasing or decreasing level of
-          security.
+          {{datatype|expand}}
 
-          When this value is modified, if the value matches that of an existing
-          entry, the {{param}} value for the existing entry and all
-          greater-valued {{param}} entries is incremented to ensure uniqueness
-          of this value. A deletion causes {{param}} values to be compacted.
-          When a value is changed, incrementing occurs before compaction.
-
-          The value of {{param}} on creation of a {{object}} table entry MUST
-          be one greater than the largest current value.
+          This indicates the order of the {{object}} entry in the user interface
+          display. Levels can be presented according to increasing or decreasing
+          level of security.
         </description>
         <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
 
@@ -526,14 +520,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -674,37 +661,17 @@
 
       <parameter name="Order" access="readWrite">
         <description>
-          Position of the {{object}} entry in the order of precedence. A value
-          of ''1'' indicates the first entry considered (highest precedence).
+          {{datatype|expand}}
+
           For each packet, the highest ordered entry that matches the rule
           criteria is applied. All lower order entries are ignored.
-
-          When this value is modified, if the value matches that of an existing
-          entry, the {{param}} value for the existing entry and all lower
-          {{param}} entries is incremented (lowered in precedence) to ensure
-          uniqueness of this value. A deletion causes {{param}} values to be
-          compacted. When a value is changed, incrementing occurs before
-          compaction.
-
-          The value of {{param}} on creation of a {{object}} table entry MUST
-          be one greater than the largest current value (initially assigned the
-          lowest precedence).
         </description>
         <syntax>
-          <unsignedInt>
-            <range minInclusive="1"/>
-          </unsignedInt>
+          <dataType ref="Order"/>
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.2"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -1329,14 +1296,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1377,22 +1337,27 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readWrite">
+      <parameter name="Origin" access="readOnly">
         <description>
-          Indicates the owner of the {{object}} instance.
+          Indicates the Origin of the {{object}} instance.
         </description>
         <syntax>
           <string>
             <enumeration value="User">
               <description>
                 Used for indicating that the pinhole rule was created by the
-                end-user. For example through the web-ui.
+                end-user. For example through the web user interface.
               </description>
             </enumeration>
             <enumeration value="System">
               <description>
                 Used for indicating that the pinhole rule was created by the
                 system itself.
+              </description>
+            </enumeration>
+            <enumeration value="UPnP" version="2.17">
+              <description>
+                Used for indicating that the pinhole rule was created by a device using UPnP-IGD.
               </description>
             </enumeration>
             <enumeration value="Controller">
@@ -1428,6 +1393,41 @@
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LeaseDuration" access="readWrite" version="2.17">
+        <description>
+          Determines the time to live, in {{units}}, of a pin hole lease,
+          where "time to live" means the number of {{units}} before the pin hole expires.
+
+          A value of 0 means the pin hole is static. Support for dynamic
+          (non-static) pin hole is OPTIONAL. That is, the only value for
+          {{param}} that MUST be supported is 0.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RemainingLeaseTime" access="readOnly"
+          activeNotify="canDeny" version="2.17">
+        <description>
+          For a dynamic (non-static) pin hole, when this parameter is read,
+          the value represents the time (in {{units}}) remaining on the pin hole lease.
+          That is, for a dynamic pin hole, the value counts down toward 0.
+          When a dynamic pin hole lease expires, the device MUST automatically
+          terminate that pin hole, and MUST automatically delete the
+          corresponding {{object}} table entry.
+
+          For a static pin hole, this parameter is irrelevant and should return ''0''.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -1560,14 +1560,7 @@
         <parameter ref="SourcePrefix"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1619,7 +1612,7 @@
             <enumeration value="User">
               <description>
                 Used for indicating that the DMZ rule was created by the
-                end-user. For example through the web-ui.
+                end-user. For example through the web user interface.
               </description>
             </enumeration>
             <enumeration value="System">
@@ -1661,6 +1654,41 @@
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LeaseDuration" access="readWrite" version="2.17">
+        <description>
+          Determines the time to live, in {{units}}, of a DMZ rule,
+          where "time to live" means the number of {{units}} before the DMZ rule expires.
+
+          A value of 0 means the DMZ rule is static. Support for dynamic
+          (non-static) DMZ rules is OPTIONAL. That is, the only value for
+          {{param}} that MUST be supported is 0.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RemainingLeaseTime" access="readOnly"
+          activeNotify="canDeny" version="2.17">
+        <description>
+          For a dynamic (non-static) DMZ rule, when this parameter is read,
+          the value represents the time (in {{units}}) remaining on the DMZ rule lease.
+          That is, for a dynamic DMZ rule, the value counts down toward 0.
+          When a dynamic DMZ rule lease expires, the device MUST automatically
+          terminate that DMZ rule, and MUST automatically delete the
+          corresponding {{object}} table entry.
+
+          For a static DMZ rule, this parameter is irrelevant and should return ''0''.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -1713,14 +1741,7 @@
         <parameter ref="SourcePrefixes"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1900,14 +1921,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2085,6 +2099,396 @@
       </parameter>
     </object>
 
+    <object name="Device.Firewall.InterfaceSetting.{i}." access="readWrite"
+        numEntriesParameter="InterfaceSettingNumberOfEntries"
+        enableParameter="Enable" minEntries="0" maxEntries="unbounded"
+        version="2.17">
+      <description>
+        Firewall settings for an associated IP Interface.
+
+        For enabled table entries, if {{param|Interface}} is not a valid
+        reference then the table entry is inoperable and the device MUST set
+        {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
+
+        Note: The {{object}} includes a unique key that is a
+        strong reference. If a strongly referenced object is deleted, the device
+        will set the referencing parameter to {{empty}}. However, doing so
+        under these circumstances might cause the updated {{object}} row to
+        then violate the table's unique key constraint; if this occurs, the device
+        MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
+        disable the offending {{object}} row.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Interface"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the {{object}} entry, indicating if NAT is
+          enabled for the referenced IP Interface instance. On creation, an
+          {{object}} entry is disabled by default.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this entry. {{enum}}
+
+          The {{enum|Error_Misconfigured}} value indicates that a necessary
+          configuration value is undefined or invalid.
+
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
+          defined error condition.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured"/>
+            <enumeration value="Error"/>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <component ref="Alias-2-0" version="2.17"/>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          {{reference}} The associated IP interface on which NAT is to be
+          enabled.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv4SpoofingProtection" access="readWrite">
+        <description>
+          Enables or disables the IPv4 spoofing protection.
+
+          Spoofing protection prevents LAN devices from sending packets with a wrong source IP address.
+
+          A number of DDoS attacks are known to modify the source IP address of packets to initiate a DDoS attack.
+          Spoofing protection checks if the source IP address of packets initiated in the LAN belongs
+          to the LAN interface Address range, otherwise the packet will be dropped early in the network stack.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6SpoofingProtection" access="readWrite">
+        <description>
+          Enables or disables the IPv6 spoofing protection.
+
+          Spoofing protection prevents LAN devices from sending packets with a wrong source IP address.
+
+          A number of DDoS attacks are known to modify the source IP address of packets to initiate a DDoS attack.
+          Spoofing protection checks if the source IP address of packets initiated in the LAN belongs
+          to the LAN interface Address range, otherwise the packet will be dropped early in the network stack.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv4AcceptICMPEchoRequest" access="readWrite">
+        <description>
+          When {{true}} the 'ICMPv4 echo request' packet must be answered with an 'ICMPv4 echo reply'.
+          When {{false}} the 'ICMPv4 echo request' packet must be dropped.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6AcceptICMPEchoRequest" access="readWrite">
+        <description>
+          When {{true}} the 'ICMPv6 echo request' packet must be answered with an 'ICMPv6 echo reply'.
+          When {{false}} the 'ICMPv6 echo request' packet must be dropped.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StealthMode" access="readWrite">
+        <description>
+          Enables or disables the stealth mode.
+          Stealth mode defines how the firewall must treat "unwanted" packets.
+
+          Typically the feature is enabled for WAN facing interface(s).
+          Stealth mode is applicable for both IPv4 and IPv6, and UDP and TCP based protocols.
+
+          If set to {{true}} all 'UDP/TCP' packets are dropped silently.
+          This prevents a possible attacker from knowing which ports are opened/closed on a gateway.
+
+          When {{param}} is set to {{false}}, the firewall will reply with an ICMP port unreachable.
+
+          If there are other firewall rules in effect, they will have priority over this parameter.
+          i.e: If an 'UDP' port is set to 'ACCEPT', and the {{param}} is activated, then the port will be accepted and
+          all the other 'UDP' ports will be blocked.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking." access="readOnly" version="2.17">
+      <description>
+        This Object contains the IP connection tracking related parameters.
+        Application Layer Gateway (ALG) are used to provide Network Address Translation (NAT)
+        support for various application-layer protocols.
+      </description>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.SIP." access="readOnly" version="2.17">
+      <description>
+        SIP is an application-layer control protocol used to establish, modify, and terminate multimedia sessions.
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the SIP protocol (SIP ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Ports" access="readWrite">
+        <description>
+          Port numbers of the SIP servers that need to be monitored.
+        </description>
+        <syntax>
+          <list/>
+          <int>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="DirectMedia" access="readWrite">
+        <description>
+          Allow media streams between signaling endpoints.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="true"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DirectSignaling" access="readWrite">
+        <description>
+          Allow incoming calls from registrar.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="true"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ExternalMedia" access="readWrite">
+        <description>
+          Allow media streams that are not passing through this router.
+
+          When this feature is activated, the logic will maintain the SDP payload as is
+          when it identifies that the interface towards the invited party
+          is the same as the one towards the media endpoint.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeOut" access="readWrite">
+        <description>
+          SIP time out session.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.H323." access="readOnly" version="2.17">
+      <description>
+        H.323 is a VoIP signalling protocol from ITU-T
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the H323 protocol (H323 ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RegistrationRequestTTL" access="readWrite">
+        <description>
+          When no TTL is specified in the registration request message the TTL specified here will be used.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="GKRoutedOnly" access="readWrite">
+        <description>
+          Only accept calls from the gatekeeper.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CallForwardFilter" access="readWrite">
+        <description>
+          Create call forwarding expectations only when both endpoints are on different sides, as determined by routing information.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.FTP." access="readOnly" version="2.17">
+      <description>
+          Tracking FTP connections is difficult due to the requirement for specialized helpers to handle them,
+          along with the complexities of masquerading and Network Address Translation.
+          This involves supporting FTP on Layer 3 with independent connection tracking.
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the FTP protocol (FTP ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Ports" access="readWrite">
+        <description>
+          Port numbers of the FTP servers that need to be monitored.
+        </description>
+        <syntax>
+          <list maxItems="8"/>
+          <int>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="Loose" access="readWrite">
+        <description>
+          The FTP protocol can enable a user to connect a FTP server to another FTP server.
+          This could lead to a hole in the DMZ and it is therefore recommended to disable this feature.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.PPTP." access="readOnly" version="2.17">
+      <description>
+        PPTP Connection Tracking configuration object.
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the PPTP protocol (PPTP ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.TFTP." access="readOnly" version="2.17">
+      <description>
+        TFTP Connection Tracking configuration object.
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the TFTP protocol (TFTP ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Ports" access="readWrite">
+        <description>
+          Port numbers of the TFTP servers that need to be monitored.
+        </description>
+        <syntax>
+          <list maxItems="8"/>
+          <int>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </int>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.ConnectionTracking.IRC." access="readOnly" version="2.17">
+      <description>
+        IRC Connection Tracking configuration object.
+      </description>
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the connection tracking support for the IRC protocol (IRC ALG).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Ports" access="readWrite">
+        <description>
+          Port numbers of the IRC servers that need to be monitored.
+        </description>
+        <syntax>
+          <list/>
+          <int>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="MAXDCCChannels" access="readWrite">
+        <description>
+          Maximum number of Direct Client-to-Client (DCC) channels allowed per IRC session.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DCCTimeout" access="readWrite">
+        <description>
+          Timeout duration for unestablished Direct Client-to-Client (DCC) channels.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="SimpleFirewall:1" version="2.0">
       <object ref="Device.Firewall." requirement="present">
         <parameter ref="Config" requirement="readWrite"/>
@@ -2102,7 +2506,7 @@
         <parameter ref="ChainNumberOfEntries" requirement="readOnly"/>
       </object>
       <object ref="Device.Firewall.Level.{i}." requirement="createDelete">
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readOnly"/>
         <parameter ref="Order" requirement="readWrite"/>
         <parameter ref="Chain" requirement="readOnly"/>
@@ -2116,7 +2520,7 @@
       </object>
       <object ref="Device.Firewall.Chain.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Name" requirement="readWrite"/>
         <parameter ref="Creator" requirement="readOnly"/>
         <parameter ref="RuleNumberOfEntries" requirement="readOnly"/>
@@ -2126,7 +2530,7 @@
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
         <parameter ref="Order" requirement="readWrite"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Target" requirement="readWrite"/>
         <parameter ref="TargetChain" requirement="readWrite"/>
         <parameter ref="SourceInterface" requirement="readWrite"/>
@@ -2154,7 +2558,7 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.16">
+  <model name="Firewall:2.17">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

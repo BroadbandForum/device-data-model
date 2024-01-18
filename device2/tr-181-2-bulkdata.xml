@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [BulkData]
 
-  Copyright (c) 2010-2022, Broadband Forum
+  Copyright (c) 2010-2023, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-bulkdata"
-    file="tr-181-2-16-0-bulkdata.xml">
+    spec="urn:broadband-forum-org:tr-181-2-17-0-bulkdata"
+    file="tr-181-2-17-0-bulkdata.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasCommon"/>
+    <component name="Alias-2-0"/>
     <dataType name="URL"/>
   </import>
 
@@ -278,14 +278,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias-2-0" version="2.5"/>
 
       <parameter name="Name" access="readWrite" version="2.10">
         <description>
@@ -984,7 +977,7 @@
       </object>
       <object ref="Device.BulkData.Profile.{i}." requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Alias" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Protocol" requirement="readWrite"/>
         <parameter ref="EncodingType" requirement="readWrite"/>
         <parameter ref="ReportingInterval" requirement="readWrite"/>
@@ -1056,7 +1049,7 @@
     </profile>
   </component>
 
-  <model name="BulkData:2.16">
+  <model name="BulkData:2.17">
     <component ref="Root"/>
     <component ref="BulkData"/>
   </model>

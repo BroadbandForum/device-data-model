@@ -39,6 +39,54 @@ resources:
     resname: Device
 
 versions:
+  v2.17.0:
+    date: 2024-01-18
+    changes:
+      specification: |
+        * Refreshed some data model diagrams
+      data-model: |
+        * Added new parameters for Multi-flow and Multi-server testing
+          capability as defined in TR-471 Issue 4
+        * Updated MoCA data model with MoCA Alliance 2.5 specification
+        * Added Device.DNS.SD.Advertise object to to allow the configuration of
+          DNS-SD services that need to be advertised by the device
+        * Added RDNSS and DNSSL options to the Device.RouterAdvertisement.InterfaceSetting.{i}. object
+        * Added missing parameters from the Data Elements R2.1 specification
+        * Added the Zone file concept to the Device.DNS. object
+        * Added DNS caching configurability to the Device.DNS.Relay. object, allowing for control
+          over the cache settings, added a mechanism to allow the specification of the ingress (LAN side) interface(s)
+          to be used by the DNS forwarders
+        * Added new InterfaceSetting object to Device.Firewall.
+        * Added ModuleVersion parameter to InstallDU() and Update() commands
+        * Added Origin parameter to PinHole, PortMapping and AccesssControl
+        * Added PhysAddresMask parameter to AccessControl
+        * Added LeaseDuration and RemainLeaseTime parameters to the DMZ and Pinhole objects
+        * Added Device.Firewall.ConnectionTracking. object tree to configure ALGs
+        * Added missing DSL xTU-C and xTU-R parameters to DSL objects
+        * Added Device.Syslog. object tree to configure a syslog service
+        * Added Support for password authentication in xPON
+        * Added MaxNumberOfPortMappings and MaxNumberOfPortTriggers parameters to indicate system limits
+        * Fixed the access of some UserInterface parameters and objects: Demoted Session and User to read-only, promoted Protocol to read-write
+        * Fixed the access of a SSH parameter: Promoted AutoDisableDuration to read-write
+        * Fixed the access of a USPServices parameter: Demoted Protocol to read-only
+        * Added UDSAgent:1 and UDSController:1 profiles
+        * Added Device.DeviceInfo.LogRotate.{i}. to setup a log rotation mechanism
+        * Clarified descriptions of parameters in Device.SoftwareModules.ExecutionUnit.{i}.AutoRestart.
+        * Added initial support for the 802.11be Wi-Fi 7 standard/mode in various places
+        * Added OnBoardingComplete parameter to Device.LocalAgent.Controller.{i}.
+        * Clarified suggested implementation of Device.PeriodicStatistics. concept
+        * Added support for passing environment variables to software modules
+        * Removed reference to an incorrect default port requirement from TR-471
+        * Added EEEStatus parameter to Device.Ethernet.Interface.{i}.
+        * Extended the key of Device.LocalAgent.Monitor.{i}.OnChange! ChangeSet.{i}.Parameter.{i}. output argument to include ChangeTime
+        * Added objects and parameters to align with the work-in-progress DataElements R3 specification
+        * Refactored scheduling related parameters into component for easier reuse and added Active and TimeLeft parameters
+        * Added Device.SoftwareModules.ExecutionUnit.{i}.NetworkConfig. object and parameters
+        * Added MaxSupportedDataDownlinkRate, MaxSupportedDataUplinkRate, SNR, and MaxSupportedBandwidth parameters to Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.
+        * Replaced custom coded Order parameter type and descriptions with the new Order datatype and text template
+        * Changed the default WebSocket port from 5683 to 8443
+        * Added support for checksum reporting to TransferComplete! event
+
   v2.16.0:
     date: 2023-06-14
     changes:
@@ -532,7 +580,10 @@ WADs:
 # Project Stream Leaders
 PSLs:
   - Daniel Egger, Axiros
-  - William Lupton, Broadband Forum
+  - Matthieu Anne, Orange
+
+# this lists recent editors in a separate 'Editors' table
+editors-from-versions: 10
 
 acknowledgments:
   - Al Morton, AT&T

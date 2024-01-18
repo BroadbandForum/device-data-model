@@ -1,8 +1,11 @@
 <!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
 
-### Issue History {.unnumbered .unlisted .new-page}
+::: {.new-page}
+:::
 
-::: {.list-table .bbf-revision-history aligns=l,l,l,l widths=14,14,14,65}
+### Issue History {.unnumbered .unlisted}
+
+::: {.list-table .issue-history aligns=l,l,l,l widths=14,14,14,65}
 
 * - Issue Number
   - Approval Date
@@ -11,18 +14,18 @@
 
 * - [Issue 1][TR-157 Issue 1]
   - March 2009
-  - * John Blackford, 2Wire, Inc.
+  - * John Blackford, 2Wire
     * Tim Spets, Westell
   - * Original
 
 * - [Amendment 1][TR-157 Amendment 1]
   - September 2009
-  - * John Blackford, 2Wire, Inc.
+  - * John Blackford, 2Wire
   - * Addition of *SupportedDataModel* component
 
 * - [Amendment 2][TR-157 Amendment 2]
   - May 2010
-  - * John Blackford, 2Wire, Inc.
+  - * John Blackford, 2Wire
   - * Support for TR-181 Issue 2
 
 * - [Amendment 3][TR-157 Amendment 3]

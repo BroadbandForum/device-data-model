@@ -1,53 +1,46 @@
 <!-- do not edit! this file was created from PROJECT.yaml by project-parser.py -->
 
-### Issue History {.unnumbered .unlisted .new-page}
+::: {.new-page}
+:::
 
-::: {.list-table .bbf-revision-history aligns=l,l,l,l widths=14,14,14,65}
+### Issue History {.unnumbered .unlisted}
+
+::: {.list-table .issue-history aligns=l,l,l widths=14,14,65}
 
 * - Issue Number
   - Approval Date
-  - Issue Editor
   - Changes
 
 * - [Issue 1][TR-181 Issue 1]
   - February 2010
-  - * William Lupton, 2Wire
-    * Paul Sigurdson, Broadband Forum
   - * Original
 
 * - Amendment 1
   - July 2011
-  -
   - * Document not updated
 
 * - Amendment 2
   - November 2011
-  -
   - * Document not updated
 
 * - Amendment 3
   - May 2012
-  -
   - * Document not updated
 
 * - Amendment 4
   - November 2012
-  -
   - * Document not updated
 
 * - Amendment 5
   - November 2013
-  -
   - * Document not updated
 
 * - Amendment 6
   - September 2014
-  -
   - * Document not updated
 
 * - Amendment 7
   - November 2015
-  -
   - * Document not updated
 
 :::
@@ -60,6 +53,14 @@
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
 * Daniel Egger, Axiros
+* Matthieu Anne, Orange
+
+### Editors {.unnumbered .unlisted}
+
+* Klaus Wich, Huawei
+* Mark Tabry, Google
+* Steve Nicolai, Arris
+* David Woolley, Telstra
 * William Lupton, Broadband Forum
 
 ### Acknowledgments {.unnumbered .unlisted}

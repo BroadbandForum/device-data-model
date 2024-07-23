@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [LocalAgent]
 
-  Copyright (c) 2021-2023, Broadband Forum
+  Copyright (c) 2021-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-localagent"
-    file="tr-181-2-17-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-localagent"
+    file="tr-181-2-18-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="URL"/>
   </import>
 
@@ -122,7 +122,7 @@
       <syntax>
         <list minItems="1"/>
         <string>
-          <enumeration value="CoAP" status="obsoleted">
+          <enumeration value="CoAP" status="deleted">
             <description>
               See {{bibref|RFC7252}}.
 
@@ -130,6 +130,8 @@
               1.2}}
 
               {{obsoleted|2.17}}
+
+              {{deleted|2.18}}
             </description>
           </enumeration>
           <enumeration value="WebSocket">
@@ -245,7 +247,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -308,7 +310,7 @@
           When {{true}}, the hostname advertised in the SRV record MUST be a
           Fully Qualified Domain Name (FQDN).
 
-          The interfaces that advertise these DNS-SD services are restriced to
+          The interfaces that advertise these DNS-SD services are restricted to
           the set of interfaces associated with this {{object}} instance and
           the interfaces defined by the
           {{param|.DNS.SD.Advertise.{i}.Interface}} parameter.
@@ -321,7 +323,7 @@
     </object>
 
     <object name="MTP.{i}.CoAP." access="readOnly" minEntries="0"
-        maxEntries="1" discriminatorParameter="Protocol" status="obsoleted"
+        maxEntries="1" discriminatorParameter="Protocol" status="deleted"
         version="2.12">
       <description>
         If the USP Endpoint uses the CoAP Message Transfer Protocol (MTP),
@@ -330,6 +332,8 @@
         {{deprecated|2.15|because the CoAP MTP was deprecated in USP 1.2}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="Interfaces" access="readWrite">
@@ -653,7 +657,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="EndpointID" access="readWrite">
         <description>
@@ -892,7 +896,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -946,7 +950,7 @@
 
     <object name="Controller.{i}.MTP.{i}.CoAP." access="readOnly"
         minEntries="0" maxEntries="1" discriminatorParameter="Protocol"
-        status="obsoleted" version="2.12">
+        status="deleted" version="2.12">
       <description>
         If the USP Endpoint uses the CoAP Message Transfer Protocol (MTP),
         then this object contains CoAP specific configuration parameters.
@@ -954,6 +958,8 @@
         {{deprecated|2.15|because the CoAP MTP was deprecated in USP 1.2}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="Host" access="readWrite">
@@ -1208,12 +1214,14 @@
         related to how this Controller communicates with the MQTT broker.
       </description>
 
-      <parameter name="Reference" access="readWrite" status="deprecated">
+      <parameter name="Reference" access="readWrite" status="obsoleted">
         <description>
           A reference to the MQTT Client used by this Controller when
           communicating via the MQTT MTP.
 
           {{deprecated|2.16|because {{param|AgentMTPReference}} was added}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -1352,7 +1360,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1534,7 +1542,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1584,7 +1592,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1631,7 +1639,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1640,10 +1648,10 @@
           The permissions of a Role for the specified Targets.
 
           A string of 4 characters where each character represents a permission
-          ("r" for Read, "w" for Write, "x" for Execute", and "n" for Notify).
+          ("`r`" for Read, "`w`" for Write, "`x`" for Execute", and "`n`" for Notify).
 
-          The string is always in the same order (rwxn) and the lack of a
-          permission is signified by a "-" character (e.g., r--n).
+          The string is always in the same order (`rwxn`) and the lack of a
+          permission is signified by a "`-`" character (e.g., `r--n`).
 
           The following describes the meaning of the permissions for Parameter
           type of Targets:
@@ -1673,10 +1681,10 @@
           The permissions of a Role for the specified Targets.
 
           A string of 4 characters where each character represents a permission
-          ("r" for Read, "w" for Write, "x" for Execute", and "n" for Notify).
+          ("`r`" for Read, "`w`" for Write, "`x`" for Execute", and "`n`" for Notify).
 
-          The string is always in the same order (rwxn) and the lack of a
-          permission is signified by a "-" character (e.g., r--n).
+          The string is always in the same order (`rwxn`) and the lack of a
+          permission is signified by a "`-`" character (e.g., `r--n`).
 
           The following describes the meaning of the permissions for Object
           type of Targets:
@@ -1707,10 +1715,10 @@
           The permissions of a Role for the specified Targets.
 
           A string of 4 characters where each character represents a permission
-          ("r" for Read, "w" for Write, "x" for Execute", and "n" for Notify).
+          ("`r`" for Read, "`w`" for Write, "`x`" for Execute", and "`n`" for Notify).
 
-          The string is always in the same order (rwxn) and the lack of a
-          permission is signified by a "-" character (e.g., r--n).
+          The string is always in the same order (`rwxn`) and the lack of a
+          permission is signified by a "`-`" character (e.g., `r--n`).
 
           The following describes the meaning of the permissions for
           Instantiated Object type of Targets:
@@ -1745,10 +1753,10 @@
           The permissions of a Role for the specified Targets.
 
           A string of 4 characters where each character represents a permission
-          ("r" for Read, "w" for Write, "x" for Execute", and "n" for Notify).
+          ("`r`" for Read, "`w`" for Write, "`x`" for Execute", and "`n`" for Notify).
 
-          The string is always in the same order (rwxn) and the lack of a
-          permission is signified by a "-" character (e.g., r--n).
+          The string is always in the same order (`rwxn`) and the lack of a
+          permission is signified by a "`-`" character (e.g., `r--n`).
 
           The following describes the meaning of the permissions for Command
           and Event type of Targets:
@@ -1786,12 +1794,13 @@
 
         When a credential is supplied to the Agent by a Controller during
         authentication, the credentials in this table are used to determine if
-        any of the supplied certificates (including those in the chain of
-        trust) are considered "trusted".
+        any of the supplied certificates (including those in the chain of trust)
+        are considered "trusted".
 
         If the Controller authenticated via an entry in this table is not
-        previously known to the Agent, the associated Role entry is
-        automatically applied to the Controller.
+        previously known to the Agent, the Roles specified in the {{param|Role}}
+        parameter might be automatically applied, depending on the value of the
+        {{param|AllowedUses}} parameter.
       </description>
       <uniqueKey functional="true">
         <parameter ref="Credential"/>
@@ -1800,7 +1809,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1859,23 +1868,26 @@
             <enumeration value="MTP-only">
               <description>
                 The CA can only authorize MTP (domain) connectivity, and cannot
-                authenticate Controllers.
+                authenticate Controllers, i.e. no Roles are automatically
+                applied.
               </description>
             </enumeration>
             <enumeration value="MTP-and-USP">
               <description>
                 The CA can authorize MTP (domain) connectivity and authenticate
-                Controllers.
+                Controller, i.e. the {{param|Role}} parameter applies.
               </description>
             </enumeration>
             <enumeration value="MTP-and-broker">
               <description>
-                The CA can authorize MTP (domain) connectivity and the
-                presenter of this certificate is trusted to have authenticated
-                the identity of Endpoints whose Records it transmits such that
-                the from_id can be trusted without additional authentication.
-                See {{bibref|TR-369|"Authentication and Authorization"}} for
-                additional description of the Trusted Broker function.
+                The CA can authorize MTP (domain) connectivity and the presenter
+                of a certificate signed by such CA is trusted to have
+                authenticated the identity of Endpoints whose Records it
+                transmits. Any Controller communicating through such a Broker is
+                automatically authenticated, i.e. the {{param|Role}} parameter
+                applies. See
+                {{bibref|TR-369|"Authentication and Authorization"}} for
+                additional description of the Trusted Broker concept.
               </description>
             </enumeration>
           </string>
@@ -1919,7 +1931,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -2073,7 +2085,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.17">
+  <model name="LocalAgent:2.18">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

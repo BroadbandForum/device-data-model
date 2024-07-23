@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [MQTT]
 
-  Copyright (c) 2010-2021,2023, Broadband Forum
+  Copyright (c) 2010-2021,2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-mqtt"
-    file="tr-181-2-17-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-mqtt"
+    file="tr-181-2-18-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
   </import>
@@ -217,7 +217,7 @@
 
     <object name="Device.MQTT.Client.{i}." access="readWrite"
         numEntriesParameter="ClientNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" dmr:fixedObject="true"
+        minEntries="0" maxEntries="unbounded"
         version="2.10">
       <description>
         MQTT client table. Contains a list of configured MQTT clients.
@@ -229,7 +229,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -331,7 +331,7 @@
       </parameter>
 
       <parameter name="EnableEncryption" access="readWrite" version="2.14"
-          status="obsoleted">
+          status="deleted">
         <description>
           When {{true}}, encryption MUST be used for this MQTT {{object}}
           instance.
@@ -340,6 +340,8 @@
           handled by the {{param|TransportProtocol}} parameter}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -820,8 +822,8 @@
 
           If the parameter {{param|ConnectRetryIntervalMultiplier}} is defined,
           the MQTT client MUST use a random value between
-          {{param}}*({{param|ConnectRetryIntervalMultiplier}}/1000)^(n-1) and
-          {{param}}*({{param|ConnectRetryIntervalMultiplier}}/1000)^n for the
+          {{param}}*({{param|ConnectRetryIntervalMultiplier}}/1000)^(n-1)^ and
+          {{param}}*({{param|ConnectRetryIntervalMultiplier}}/1000)^n^ for the
           connect retry time, with n equals the current retry number. The max
           number of n is 10, starting with the 11th retry always the value n =
           10 is used.
@@ -910,7 +912,7 @@
     <object name="Device.MQTT.Client.{i}.Subscription.{i}." access="readWrite"
         numEntriesParameter="SubscriptionNumberOfEntries"
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        dmr:fixedObject="true" version="2.10">
+        version="2.10">
       <description>
         List of MQTT subscriptions handled by the MQTT client.
 
@@ -927,7 +929,7 @@
         <parameter ref="Topic"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1009,7 +1011,7 @@
     <object name="Device.MQTT.Client.{i}.UserProperty.{i}." access="readWrite"
         numEntriesParameter="UserPropertyNumberOfEntries"
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        dmr:fixedObject="true" version="2.13">
+        version="2.13">
       <description>
         List of user properties used by the MQTT client.
 
@@ -1023,7 +1025,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.13"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1138,7 +1140,7 @@
     </object>
 
     <object name="Device.MQTT.Client.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" dmr:fixedObject="true" version="2.10">
+        minEntries="1" maxEntries="1" version="2.10">
       <description>
         Contains the MQTT client statistics and usage information.
 
@@ -1258,7 +1260,7 @@
 
     <object name="Device.MQTT.Broker.{i}." access="readWrite"
         numEntriesParameter="BrokerNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" dmr:fixedObject="true"
+        minEntries="0" maxEntries="unbounded"
         version="2.10">
       <description>
         MQTT broker table. Contains a list of configured MQTT brokers.
@@ -1270,7 +1272,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -1378,7 +1380,7 @@
 
     <object name="Device.MQTT.Broker.{i}.Bridge.{i}." access="readWrite"
         numEntriesParameter="BridgeNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" dmr:fixedObject="true"
+        minEntries="0" maxEntries="unbounded"
         version="2.10">
       <description>
         Configures MQTT bridges, which are used to communicate with other MQTT
@@ -1391,7 +1393,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -1743,7 +1745,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Priority" access="readWrite">
         <description>
@@ -1832,7 +1834,7 @@
         <parameter ref="Direction"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.10"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2044,7 +2046,7 @@
     </object>
 
     <object name="Device.MQTT.Broker.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" dmr:fixedObject="true" version="2.10">
+        minEntries="1" maxEntries="1" version="2.10">
       <description>
         The MQTT broker statistics values. These will reset with each MQTT
         broker start, either after reboot or if the MQTT broker gets
@@ -2297,7 +2299,7 @@
     </profile>
   </component>
 
-  <model name="MQTT:2.17">
+  <model name="MQTT:2.18">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

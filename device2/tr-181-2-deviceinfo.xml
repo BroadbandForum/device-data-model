@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DeviceInfo]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-deviceinfo"
-    file="tr-181-2-17-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-deviceinfo"
+    file="tr-181-2-18-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -69,8 +69,58 @@
     <component name="Root"/>
   </import>
 
-  <component name="DeviceInfo">
+  <component name="CauseOfBoot">
+    <parameter name="Cause">
+      <description>
+        The cause of the boot.
+      </description>
+      <syntax>
+        <string>
+          <enumeration value="LocalReboot">
+            <description>
+              A {{object|Device.|absolute}} Event that was the result of a reboot triggered
+              locally on the Device (NOT as a result of a
+              {{command|.Reboot()|model}}}} Command triggered by a remote trigger, e.g.
+              another remote management protocol)
+            </description>
+          </enumeration>
+          <enumeration value="RemoteReboot">
+            <description>
+              A {{object|Device.|absolute}} Event that was the result of a reboot triggered
+              via the {{command|.Reboot()|model}}} Command or other remote
+              trigger, e.g. another remote management protocol
+            </description>
+          </enumeration>
+          <enumeration value="FactoryReset" version="2.15">
+            <description>
+              A {{object|Device.|absolute}} Event that was the result of a factory reset
+              triggered locally on the Device or remotely (as a result of a
+              {{command|.FactoryReset()|model}}} Command or other remote trigger,
+              e.g. another remote management protocol), which is to be used
+              when the Agent cannot differentiate between local and remote
+            </description>
+          </enumeration>
+          <enumeration value="LocalFactoryReset">
+            <description>
+              A {{object|Device.|absolute}} Event that was the result of a factory reset
+              triggered locally on the Device (NOT as a result of a
+              {{command|.FactoryReset()|model}}} Command triggered by a remote trigger,
+              e.g. another remote management protocol)
+            </description>
+          </enumeration>
+          <enumeration value="RemoteFactoryReset">
+            <description>
+              A {{object|Device.|absolute}} Event that was the result of a factory reset
+              triggered via the {{command|.FactoryReset()|model}} Command or
+              other remote trigger, e.g. another remote management protocol
+            </description>
+          </enumeration>
+        </string>
+      </syntax>
+    </parameter>
+  </component>
 
+  <component name="DeviceInfo">
     <object name="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
@@ -372,9 +422,12 @@
       </parameter>
 
       <parameter name="ProcessorNumberOfEntries" access="readOnly"
-          version="2.1">
+          version="2.1" status="deprecated">
         <description>
           {{numentries}}
+
+          {{deprecated|2.18|because the only contained parameter, {{param|Processor.{i}.Architecture}},
+          is no longer relevant for modern devices.}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -441,7 +494,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -511,7 +564,7 @@
 
           Note: The backup and restore operations may require the use of
           multiple {{object}} instances. In this scenario the mechanism for
-          detemining the order and combination of {{object}} instances used for
+          determining the order and combination of {{object}} instances used for
           backup and restoration purposes is implementation specific.
         </description>
         <syntax>
@@ -579,6 +632,161 @@
       </parameter>
     </object>
 
+    <object name="Device.DeviceInfo.MemoryStatus.MemoryMonitor." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.18">
+      <description>
+        This object specifies information that the device has obtained via sampling
+        the memory utilization (RAM) on the device.
+      </description>
+
+      <parameter name="Enable" access="readWrite" version="2.18">
+        <description>
+          Indicates whether or not memory monitoring is enabled.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MemUtilization" access="readOnly" version = "2.18">
+        <description>
+          Memory utilization, in {{units}}, rounded to the nearest
+          whole {{units}}, is the percentage of memory used by the system which cannot be spontaneously
+          reclaimed or repurposed by the system in case it is required. This metric is collected at the
+          {{param|PollingInterval}}. This value is used to determine if a critical condition is
+          reached i.e., the memory utilization exceeds {{param|CriticalRiseThreshold}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PollingInterval" access="readWrite" version="2.18">
+        <description>
+          The interval, measured in {{units}}, in which the device polls
+          the memory utilization.
+
+          If the value is 0 then the device selects its own polling interval.
+
+          If the value is greater than 0 then the device MUST use this value as
+          the polling interval.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalRiseThreshold" access="readWrite" version = "2.18">
+        <description>
+          Memory utilization rise threshold {{units}} value. If the {{param|MemUtilization}} exceeds the rise threshold value,
+          and the {{param|CriticalFallTimeStamp}} is greater than {{param|CriticalRiseTimeStamp}} (indicating that critical
+          condition is reached), the following takes place:
+
+          * The {{param|CriticalRiseTimeStamp}} is updated to the current time.
+          * A log is generated into the vendor log file referenced by
+            {{param|VendorLogFileRef}}
+            indicating critical condition is reached if the {{param|EnableCriticalLog}} is {{true}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+          <default type="implementation" value="80"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalFallThreshold" access="readWrite" version = "2.18">
+        <description>
+          Memory utilization fall threshold {{units}} value. If the {{param|MemUtilization}} falls below the fall threshold value and
+          {{param|CriticalRiseTimeStamp}} is greater than {{param|CriticalFallTimeStamp}} (indicating that the critical condition
+          is no longer present), the following takes place:
+
+          * The {{param|CriticalFallTimeStamp}} is updated to current time.
+          * A log is generated into the vendor log file referenced by
+            {{object|.DeviceInfo.VendorLogFile}} indicating that the critical
+            condition is no longer present if the {{param|EnableCriticalLog}} is {{true}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+          <default type="implementation" value="60"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalRiseTimeStamp" access="readOnly" version="2.18">
+        <description>
+          Last date and time when the critical condition was reached. See {{param|CriticalRiseThreshold}} description
+          for more details.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalFallTimeStamp" access="readOnly" version="2.18">
+        <description>
+          Last date and time when the critical condition was no longer present. See {{param|CriticalFallThreshold}} description
+          for more details.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EnableCriticalLog" access="readWrite" version="2.18">
+        <description>
+          This parameter indicates whether a critical log needs to be
+          generated in the vendor log file.
+
+          * If the value of {{param}} is {{true}}, then a critical log is generated
+          in the vendor log file.
+
+          * If the value of {{param}} is {{false}}, then no critical log is generated
+          in the vendor log file.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="VendorLogFileRef" access="readOnly" version="2.18">
+        <description>
+          The reference to {{object|.DeviceInfo.VendorLogFile}} is automatically constructed
+          and the {{object|.DeviceInfo.VendorLogFile}} is populated with the information based on {{param|FilePath}}.
+
+          E.g. When {{param|FilePath}} = ''file:///var/log/messages''.
+          The following entry is automatically added to {{object|.DeviceInfo.VendorLogFile}}: ''file:///var/log/messages''.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+              targetParent=".DeviceInfo.VendorLogFile." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="FilePath" access="readWrite" version="2.18">
+        <description>
+          Destination path and filename of where to create and keep the log files
+          which MUST use the file URI scheme {{bibref|RFC8089|The file URI Scheme}}.
+          This file is related to {{param|EnableCriticalLog}}.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Device.DeviceInfo.ProcessStatus." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0">
       <description>
@@ -587,7 +795,7 @@
 
       <parameter name="CPUUsage" access="readOnly" activeNotify="canDeny">
         <description>
-          The total amount of the CPU, in {{units}}, rounded up to the nearest
+          The total amount of the CPU, in {{units}}, rounded to the nearest
           whole {{units}}. In the case that multiple CPU are present, this
           value represents the average of all CPU.
         </description>
@@ -605,6 +813,275 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CPUNumberOfEntries" access="readOnly" version="2.18">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.ProcessStatus.CPU.{i}." access="readOnly"
+        numEntriesParameter="CPUNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" dmr:fixedObject="true" version="2.18">
+      <description>
+        Each instance in the table represents a CPU on this device. Here CPU can imply
+        main CPU (where system software is executed) or hardware/network acceleration CPU (responsible for
+        data plane traffic).
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias" version="2.18"/>
+
+      <parameter name="Name" access="readOnly" version="2.18">
+        <description>
+          Name of this CPU. This text MUST be sufficient to
+          distinguish this CPU from other CPUs.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Enable" access="readWrite" version="2.18">
+        <description>
+          Enables or disables the CPU utilization monitoring.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="UpTime" access="readOnly" version = "2.18">
+        <description>
+          Time in {{units}} since the CPU was last restarted.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="UserModeUtilization" access="readOnly" version = "2.18">
+        <description>
+          CPU utilization, in {{units}}, rounded to the nearest
+          whole {{units}}, while executing at the user level.
+          This includes utilization across all cores.
+
+          This value is calculated the same way as {{param|CPUUtilization}}. See
+          {{param|CPUUtilization}} description for more details.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="SystemModeUtilization" access="readOnly" version = "2.18">
+        <description>
+          CPU utilization, in {{units}}, rounded to the nearest
+          whole {{units}}, while executing at the system/kernel level.
+          Note that this includes the time spent servicing interrupts as well.
+          This includes utilization across all cores.
+
+          This value is calculated the same way as {{param|CPUUtilization}}. See
+          {{param|CPUUtilization}} description for more details.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="IdleModeUtilization" access="readOnly" version = "2.18">
+        <description>
+          CPU utilization, in {{units}}, rounded to the nearest
+          whole {{units}}, while the CPU was idle.
+
+          This value is calculated the same way as {{param|CPUUtilization}}. See
+          {{param|CPUUtilization}} description for more details.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="CPUUtilization" access="readOnly" version = "2.18">
+        <description>
+          CPU utilization, in {{units}}, rounded to the nearest
+          whole {{units}}. The CPU Utilization is calculated as
+          a moving window average of {{param|NumSamples}} CPU utilization samples collected at the {{param|PollInterval}}.
+
+          For example, the CPU utilization is calculated as follows:
+          CPU Utilization = (sample1 + sample2 + ... + sampleN)/N where N is the number of CPU usage samples as represented by {{param|NumSamples}}
+          and sample1, sample2, ..., sampleN are CPU usage samples collected at every {{param|PollInterval}} seconds.
+
+          This parameter, which reflects system and user mode CPU utilization, is used to determine if the CPU is in critical condition.
+          This value includes system mode and user mode utilization i.e.,
+          everything except idle mode utilization.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PollInterval" access="readWrite" version="2.18">
+        <description>
+          The interval, measured in {{units}}, over which the CPU usage is polled.
+
+          If the value is 0 then the device selects its own polling interval.
+
+          If the value is greater than 0 then the device MUST use this value as
+          the poll interval.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="implementation" value="5"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NumSamples" access="readWrite" version="2.18">
+        <description>
+          This parameter indicates the number of CPU usage samples that is needed to
+          calculate the average CPU utilization and populate the {{param|CPUUtilization}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="300"/>
+          </unsignedInt>
+          <default type="implementation" value="30"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalRiseThreshold" access="readWrite" version = "2.18">
+        <description>
+          CPU utilization rise threshold {{units}} value. If the {{param|CPUUtilization}} exceeds the rise threshold value and the
+          {{param|CriticalFallTimeStamp}} is greater than {{param|CriticalRiseTimeStamp}} (indicating that critical condition
+          is reached), the following takes place:
+
+          * The {{param|CriticalRiseTimeStamp}} is updated to the current time
+          * A log is generated into the vendor log file referenced by {{object|###.DeviceInfo.VendorLogFile}}
+            indicating critical condition is reached if the {{param|EnableCriticalLog}} is {{true}}. The logs generated
+            should indicate the {{param|Name}} as well as the {{param|CriticalRiseTimeStamp}} of the CPU.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+          <default type="implementation" value="80"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalFallThreshold" access="readWrite" version = "2.18">
+        <description>
+          CPU utilization fall threshold {{units}} value. If the {{param|CPUUtilization}} falls below fall threshold value and
+          {{param|CriticalRiseTimeStamp}} is greater than {{param|CriticalFallTimeStamp}} (indicating that critical condition
+          is no longer present), the following takes place:
+
+          * The {{param|CriticalFallTimeStamp}} is updated to current time
+          * A log is generated into the vendor log file referenced by {{object|###.DeviceInfo.VendorLogFile}}
+            indicating the clearing of critical condition if the {{param|EnableCriticalLog}} is {{true}}. The logs generated
+            should indicate the {{param|Name}} as well as the {{param|CriticalFallTimeStamp}} of the CPU.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="100"/>
+            <units value="percent"/>
+          </unsignedInt>
+          <default type="implementation" value="60"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalRiseTimeStamp" access="readOnly" version="2.18">
+        <description>
+          Last date and time when the critical condition was reached. See {{param|CriticalRiseThreshold}} description for
+          more details.
+
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CriticalFallTimeStamp" access="readOnly" version="2.18">
+        <description>
+          Last date and time when the critical condition is no longer present. See {{param|CriticalFallThreshold}} description
+          for more details.
+
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EnableCriticalLog" access="readWrite" version="2.18">
+        <description>
+          This parameter indicates whether a critical log needs to be
+          generated in the vendor log file.
+
+          * If the value of {{param}} is {{true}}, then a critical log is generated
+          in the vendor log file.
+
+          * If the value of {{param}} is {{false}}, then no critical log is generated
+          in the vendor log file.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="VendorLogFileRef" access="readOnly" version="2.18">
+        <description>
+          The reference to {{object|###.DeviceInfo.VendorLogFile}} is automatically constructed
+          and the {{object|###.DeviceInfo.VendorLogFile}} is populated with the information based on {{param|FilePath}}.
+
+          E.g. When {{param|FilePath}} = ''file:///var/log/messages''.
+          The following entry is automatically added to {{object|###.DeviceInfo.VendorLogFile}}: ''file:///var/log/messages''.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+              targetParent=".DeviceInfo.VendorLogFile." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="FilePath" access="readWrite" version="2.18">
+        <description>
+          Destination path and filename of where to create and keep the log files
+          which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+          This file is related to {{param|EnableCriticalLog}}.
+        </description>
+        <syntax>
+          <string/>
         </syntax>
       </parameter>
     </object>
@@ -721,7 +1198,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1022,16 +1499,19 @@
 
     <object name="Device.DeviceInfo.Processor.{i}." access="readOnly"
         numEntriesParameter="ProcessorNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.1">
+        maxEntries="unbounded" version="2.1" status="deprecated">
       <description>
         Each table entry represents a hardware or virtual processor that
         resides on this device.
+
+        {{deprecated|2.18|because the only contained parameter, {{param|Architecture}},
+        is no longer relevant for modern devices.}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="Architecture" access="readOnly">
         <description>
@@ -1084,7 +1564,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.17"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1202,7 +1682,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.17"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1254,7 +1734,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.1"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1429,7 +1909,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.11"/>
+      <component ref="Alias"/>
 
       <parameter name="Location" access="readOnly">
         <description>
@@ -1472,7 +1952,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1640,7 +2120,7 @@
 
       <parameter name="LastUpgradeCount" access="readOnly">
         <description>
-          Total number of Kernel faults which occured since last firmware upgrade.
+          Total number of Kernel faults which occurred since last firmware upgrade.
         </description>
         <syntax>
           <unsignedInt/>
@@ -1697,7 +2177,7 @@
 
     <object name="Device.DeviceInfo.KernelFaults.KernelFault.{i}." access="readOnly"
         numEntriesParameter="KernelFaultNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.17">
+        maxEntries="unbounded" version="2.17">
       <description>
         Each table entry represents a Kernel fault that is stored on the device.
       </description>
@@ -1705,14 +2185,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias"/>
 
       <parameter name="FaultLocation" access="readOnly">
         <description>
@@ -1744,7 +2217,7 @@
 
       <parameter name="FirmwareVersion" access="readOnly">
         <description>
-          The firmeware version that triggered the Kernel fault.
+          The firmware version that triggered the Kernel fault.
         </description>
         <syntax>
           <string/>
@@ -1787,7 +2260,7 @@
 
       <parameter name="LastUpgradeCount" access="readOnly">
         <description>
-          Total number of process faults which occured since last firmware upgrade.
+          Total number of process faults which occurred since last firmware upgrade.
         </description>
         <syntax>
           <unsignedInt/>
@@ -1844,7 +2317,7 @@
 
     <object name="Device.DeviceInfo.ProcessFaults.ProcessFault.{i}." access="readOnly"
         numEntriesParameter="ProcessFaultNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.17">
+        maxEntries="unbounded" version="2.17">
       <description>
         Each table entry represents a process fault that is stored on the device.
       </description>
@@ -1852,14 +2325,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias"/>
 
       <parameter name="ProcessID" access="readOnly">
         <description>
@@ -1891,7 +2357,7 @@
 
       <parameter name="TimeStamp" access="readOnly">
         <description>
-          The time when the process fault occured.
+          The time when the process fault occurred.
         </description>
         <syntax>
           <dateTime/>
@@ -1900,7 +2366,7 @@
 
       <parameter name="FirmwareVersion" access="readOnly">
         <description>
-          The firmware version that triggered the the process fault.
+          The firmware version that triggered the process fault.
         </description>
         <syntax>
           <string/>
@@ -1969,7 +2435,7 @@
       </object>
     </profile>
 
-    <profile name="Processors:1" version="2.1">
+    <profile name="Processors:1" version="2.1" status="deprecated">
       <object ref="Device.DeviceInfo.Processor.{i}." requirement="present">
         <parameter ref="Architecture" requirement="readOnly"/>
       </object>
@@ -2162,9 +2628,229 @@
         </description>
       </command>
     </object>
+
+    <object name="Device.DeviceInfo.Reboots." access="readOnly" version="2.18">
+      <description>
+        The monitoring of reboot reasons is essential for diagnosing and troubleshooting
+        issues with applications and processes running on the Device.
+      </description>
+
+
+      <parameter name="BootCount" access="readOnly">
+        <description>
+          The number of times the device has rebooted since the last factory reset.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentVersionBootCount" access="readOnly">
+        <description>
+          The number of times the device has rebooted since the latest firmware update.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="WatchdogBootCount" access="readOnly">
+        <description>
+          The number of times the device has rebooted by a sw/hw watchdog since the last factory reset.
+
+          The watchdog is a component within the operating system kernel or Device responsible for monitoring user-space activities.
+          If it detects non-responsiveness in user-space processes, it triggers a reboot of the device.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ColdBootCount" access="readOnly">
+        <description>
+          The number of times the device has cold rebooted since the last factory reset.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="WarmBootCount" access="readOnly">
+        <description>
+          The number of times the device has warm rebooted since the last factory reset.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxRebootEntries" access="readWrite">
+        <description>
+          The maximum number of entries available in the {{object|Reboot}} table.
+          Defines the maximum number of {{object|Reboot}} instances that can be stored on the device.
+
+          When the maximum {{object|Reboot}} entries as indicated by {{param}} are reached,
+          the next boot entry overrides the object with the oldest {{param|Reboot.{i}.TimeStamp}}.
+
+          Set this parameter to 0 to completely disable the creation of {{object|Reboot}} instances.
+
+          Set this parameter to -1 to leave it open to the implementation to decide
+          the maximum number of {{object|Reboot}} instances that may be stored on the device.
+
+          Reducing the {{param}} will cause for the implementation to delete the oldest {{object|Reboot}} instances.
+
+          This setting does not affect the counting of reboots.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="RebootNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <command name="RemoveAllReboots()" async="true" version="2.18">
+        <description>
+          Removes all the {{object|Reboot.{i}.}} instances from the device, together with the associated data stored on the device.
+        </description>
+      </command>
+    </object>
+
+    <object name="Device.DeviceInfo.Reboots.Reboot.{i}." access="readOnly"
+        numEntriesParameter="RebootNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.18">
+      <description>
+        Each table entry represents a reboot reason that is stored on the device.
+
+        When the maximum {{object}} entries as indicated by {{param|#.MaxRebootEntries}} are reached,
+        the next boot entry overrides the object with the oldest {{param|TimeStamp}}.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="TimeStamp"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="TimeStamp" access="readOnly">
+        <description>
+          The time when the reboot occurred.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FirmwareUpdated" access="readOnly">
+        <description>
+          {{true}} if the Device was rebooted as a result of a firmware update; otherwise {{false}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="CauseOfBoot" version="2.18"/>
+
+      <parameter name="Reason" access="readOnly">
+        <description>
+          The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+        </description>
+        <syntax>
+          <string/>
+          <default type="implementation" value="Unknown"/>
+        </syntax>
+      </parameter>
+
+      <command name="Remove()" async="true">
+        <description>
+          Remove this row from the table, together with the associated data stored on the device.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DeviceInfo.MemoryStatus.MemoryMonitor." access="readOnly">
+      <parameter base="CriticalRiseThreshold" access="readWrite">
+        <description action="append">
+          * A {{event|MemoryCriticalState!}} event is generated along with Mem stats indicating
+            critical condition is reached.
+        </description>
+      </parameter>
+
+      <event name="MemoryCriticalState!" version="2.18">
+        <description>
+          This event is generated indicating critical condition is reached i.e., when
+          {{param|MemUtilization}} exceeds the rise threshold, the event is generated.
+        </description>
+
+        <parameter name="MemUtilization" version = "2.18">
+          <description>
+            Memory utilization, in {{units}}, rounded to the nearest
+            whole {{units}}, collected at the polling interval.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range maxInclusive="100"/>
+              <units value="percent"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+      </event>
+    </object>
+
+    <object base="Device.DeviceInfo.ProcessStatus.CPU.{i}." access="readOnly">
+      <parameter base="CriticalRiseThreshold">
+        <description action="append">
+          * A {{event|CPUCriticalState!}} event is generated along with CPU Utilization indicating
+            critical condition is reached.
+        </description>
+      </parameter>
+
+      <event name="CPUCriticalState!" version="2.18">
+        <description>
+          This event is generated indicating critical condition is reached i.e., when
+          the rise threshold is crossed, the event is generated.
+        </description>
+
+        <parameter name="CPUUtilization" version = "2.18">
+          <description>
+            CPU utilization, in {{units}}, rounded to the nearest
+            whole {{units}}.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range maxInclusive="100"/>
+              <units value="percent"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+
+        <parameter name="Name" version="2.18">
+          <description>
+            Name of this CPU. This text MUST be sufficient to
+            distinguish this CPU from other CPUs.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="256"/>
+            </string>
+          </syntax>
+        </parameter>
+      </event>
+    </object>
   </component>
 
-  <model name="DeviceInfo:2.17">
+  <model name="DeviceInfo:2.18">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

@@ -2,7 +2,7 @@
 <!--
 Device:2 Root Data Model: Common Object definitions [UserInterface]
 
-Copyright (c) 2010-2023, Broadband Forum
+Copyright (c) 2010-2024, Broadband Forum
 
 Redistribution and use in source and binary forms, with or
 without modification, are permitted provided that the following
@@ -55,13 +55,13 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-userinterface"
-    file="tr-181-2-17-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-userinterface"
+    file="tr-181-2-18-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="Order"/>
     <dataType name="URL"/>
@@ -363,7 +363,7 @@ directed to <info@broadband-forum.org>.
         maxEntries="unbounded" version="2.16">
       <description>
         HTTPAccess is used for modeling the different web interfaces that may
-        be either localy or remotely available in the device. For example with
+        be either locally or remotely available in the device. For example with
         Software Modules it is possible to install multiple services that embed
         a web interface like a ''Video service'' or ''Photo service''.
 
@@ -390,7 +390,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -469,7 +469,7 @@ directed to <info@broadband-forum.org>.
             <pathRef refType="strong" targetParent=".Users.Role."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -571,7 +571,57 @@ directed to <info@broadband-forum.org>.
         <syntax>
           <list/>
           <string/>
-          <default type="object" value="/"/>
+          <default type="object" value="[/]"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowAllIPv4" access="readWrite" version="2.18">
+        <description>
+          Allow access from any IPv4 address. The source prefixes defined in
+          {{param|IPv4AllowedSourcePrefix}} will be ignored.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv4AllowedSourcePrefix" access="readWrite" version="2.18">
+        <description>
+          Allow only access from the provided list of IPv4 prefixes.
+
+          When {{param}} is set to {{empty}} and {{param|AllowAllIPv4}} is set to ''false'', no incoming connections are allowed. When {{param|AllowAllIPv4}} is set ''true'', {{param}} is ignored.
+        </description>
+        <syntax>
+          <list>
+            <size/>
+          </list>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowAllIPv6" access="readWrite" version="2.18">
+        <description>
+          Allow access from any IPv6 address. The source prefixes defined in
+          {{param|IPv6AllowedSourcePrefix}} will be ignored.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6AllowedSourcePrefix" access="readWrite" version="2.18">
+        <description>
+          Allow only access from the provided list of IPv6 prefixes.
+
+          When {{param}} is set to {{empty}} and {{param|AllowAllIPv6}} is set to ''false'', no incoming connections are allowed. When {{param|AllowAllIPv6}} is set ''true'', {{param}} is ignored.
+        </description>
+        <syntax>
+          <list>
+            <size/>
+          </list>
+          <string/>
         </syntax>
       </parameter>
 
@@ -666,7 +716,6 @@ directed to <info@broadband-forum.org>.
             <pathRef refType="strong" targetParent=".Users.User."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
         </syntax>
       </parameter>
 
@@ -713,7 +762,7 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.UserInterface.RemoteAccess." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0" status="deprecated">
+        minEntries="1" maxEntries="1" version="2.0" status="obsoleted">
       <description>
         This object contains parameters relating to remotely accessing the
         CPE's user interface.
@@ -726,6 +775,8 @@ directed to <info@broadband-forum.org>.
         instance that has "RemoteAccessCapable" set to {{true}}.
 
         {{deprecated|2.16|due to the introduction of {{object|#.HTTPAccess}}}}
+
+        {{obsoleted|2.18}}
       </description>
 
       <parameter name="Enable" access="readWrite">
@@ -1032,7 +1083,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="UserInterface:2.17">
+  <model name="UserInterface:2.18">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WWC]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-wwc"
-    file="tr-181-2-17-0-wwc.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-wwc"
+    file="tr-181-2-18-0-wwc.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -319,7 +319,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -357,7 +357,7 @@
           <string>
             <enumeration value="RM_REGISTERED">
               <description>
-                The 5G-RG has sucessfully authenticated and has been assigned
+                The 5G-RG has successfully authenticated and has been assigned
                 an AMF to manage it.
               </description>
             </enumeration>
@@ -454,7 +454,7 @@
     <object name="Device.WWC.AccessNetwork.{i}.GUTI." access="readOnly"
         minEntries="1" maxEntries="1" version="2.14">
       <description>
-        A 5G Globally Unique Temparary Identity (GUTI) securely identifes an
+        A 5G Globally Unique Temporary Identity (GUTI) securely identifes an
         CPE by keeping the permanent User Equipment (UE identifier (IMSI)
         hidden. This identity is globally unique and assigned by the AMF at the
         time of registration.
@@ -476,7 +476,7 @@
         capabilities' matching 'ims' in order to establish a dedicated PDU
         session for telephony.
 
-        See {{bibref|3GPP-TS.24.526|Clause 5.2}} for a full descrption of the
+        See {{bibref|3GPP-TS.24.526|Clause 5.2}} for a full description of the
         URSP data elements.
       </description>
       <uniqueKey functional="false">
@@ -486,7 +486,7 @@
         <parameter ref="Precedence"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Precedence" access="readOnly">
         <description>
@@ -528,7 +528,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readOnly">
         <description>
@@ -582,7 +582,7 @@
         <parameter ref="Precedence"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Precedence" access="readOnly">
         <description>
@@ -670,7 +670,7 @@
     </object>
   </component>
 
-  <model name="WWC:2.17">
+  <model name="WWC:2.18">
     <component ref="Root"/>
     <component ref="WWC"/>
   </model>

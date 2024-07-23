@@ -9,9 +9,9 @@ When a PCP client is embedded in a device, the PCP client can be invoked by:
 * The Controller,
 * Interworking functions [@RFC6970] and the PCP proxy that allow applications running on other end-devices connected to the device to manage the PCP-controlled device.
 
-![Example of a PCP Client embedded in the RG using CWMP](/images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png)
+![Example of a PCP Client embedded in the RG using CWMP](/images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png){typst-scale=0.7}
 
-![Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG](/images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png)
+![Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG](/images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png){typst-scale=0.7}
 
 Defining a PCP data model allows the Controller to remotely manage the PCP client including:
 
@@ -82,4 +82,3 @@ To remotely create rules using CWMP or USP, the Controller configures the reques
 ## Rapid recovery
 
 A recovery mechanism for situations where the PCP server loses its state is described in Section 14 of [@RFC6887]. This is usable only if *PCP.Client.{i}.ANNOUNCEEnable* is "true".
-

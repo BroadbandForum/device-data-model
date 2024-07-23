@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IPsec]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-ipsec"
-    file="tr-181-2-17-0-ipsec.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-ipsec"
+    file="tr-181-2-18-0-ipsec.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="Order"/>
     <dataType name="StatsCounter32"/>
@@ -619,7 +619,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -938,7 +938,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="MaxChildSAs" access="readWrite">
         <description>
@@ -1097,7 +1097,7 @@
           <string>
             <enumerationRef targetParam=".IPsec.SupportedIntegrityAlgorithms"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1111,7 +1111,7 @@
           <string>
             <enumerationRef targetParam=".IPsec.SupportedIntegrityAlgorithms"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1329,7 +1329,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readWrite">
         <description>
@@ -1397,7 +1397,7 @@
         <parameter ref="TunneledInterface"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="TunnelInterface" access="readOnly">
         <description>
@@ -1525,7 +1525,7 @@
 
     <object name="Device.IPsec.IKEv2SA.{i}." access="readOnly"
         numEntriesParameter="IKEv2SANumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.5">
+        maxEntries="unbounded" version="2.5">
       <description>
         Represents an IKEv2 Security Association (SA), corresponding to an
         IKEv2 session. Instances are automatically created and deleted as IKEv2
@@ -1533,6 +1533,9 @@
       </description>
       <uniqueKey functional="true">
         <parameter ref="Tunnel"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
       </uniqueKey>
 
       <parameter name="Status" access="readOnly">
@@ -1550,7 +1553,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="Tunnel" access="readOnly">
         <description>
@@ -1895,6 +1898,9 @@
       <uniqueKey functional="true">
         <parameter ref="OutboundSPI"/>
       </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
 
       <parameter name="Status" access="readOnly">
         <description>
@@ -1911,7 +1917,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.5"/>
+      <component ref="Alias"/>
 
       <parameter name="InboundSPI" access="readOnly">
         <description>
@@ -2194,7 +2200,7 @@
     </profile>
   </component>
 
-  <model name="IPsec:2.17">
+  <model name="IPsec:2.18">
     <component ref="Root"/>
     <component ref="IPsec"/>
   </model>

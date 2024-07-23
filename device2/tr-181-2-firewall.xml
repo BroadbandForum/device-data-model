@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Firewall]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-firewall"
-    file="tr-181-2-17-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-firewall"
+    file="tr-181-2-18-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="MACAddress"/>
     <dataType name="IPAddress"/>
     <dataType name="IPv4Address"/>
@@ -73,6 +73,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-schedules.xml"
+      spec="urn:broadband-forum-org:tr-181-2-18-schedules">
+    <component name="ScheduleRef"/>
   </import>
 
   <component name="Firewall">
@@ -343,6 +348,16 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+
+      <parameter name="SetNumberOfEntries" access="readOnly"
+          version="2.18">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.Firewall.Level.{i}." access="readWrite"
@@ -363,7 +378,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -520,7 +535,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -671,7 +686,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -973,6 +988,38 @@
         </syntax>
       </parameter>
 
+      <parameter name="DestMatchSet" access="readWrite" version="2.18">
+        <description>
+          {{object}} criterion.
+
+          Destination Match Set, Matches packets if their destination is found in the designated {{object|##.Set.}} reference.
+          {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="##.Set." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestMatchSetExclude" access="readWrite" version="2.18">
+        <description>
+          {{object}} criterion.
+
+          Destination Exclude Match Set, Matches packets if their destination is not found in the designated {{object|##.Set.}} reference.
+          {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="##.Set." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
       <parameter name="SourceIP" access="readWrite">
         <description>
           {{object}} criterion.
@@ -1015,6 +1062,38 @@
         <syntax>
           <boolean/>
           <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceMatchSet" access="readWrite" version="2.18">
+        <description>
+          {{object}} criterion.
+
+          Source Match Set, Matches packets if their source is found in the designated {{object|##.Set.}} reference.
+          {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="##.Set." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceMatchSetExclude" access="readWrite"  version="2.18">
+        <description>
+          {{object}} criterion.
+
+          Source Exclude Match Set, Matches packets if their source is not found in the designated {{object|##.Set.}} reference.
+          {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="##.Set." targetType="row"/>
+          </string>
+          <default type="object" value=""/>
         </syntax>
       </parameter>
 
@@ -1296,7 +1375,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1321,6 +1400,11 @@
             <enumeration value="Enabled">
               <description>Indicates that the pinhole is enabled.</description>
             </enumeration>
+            <enumeration value="Inactive" version="2.18">
+              <description>
+                Indicates that the pinhole is still enabled but has been temporarily deactivated due to the Schedules defined in {{param|ScheduleRef}}.
+              </description>
+            </enumeration>
             <enumeration value="Error_Misconfigured">
               <description>
                 Indicates that a necessary configuration value is undefined or
@@ -1337,9 +1421,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
+      <parameter name="Origin" access="writeOnceReadOnly">
         <description>
           Indicates the Origin of the {{object}} instance.
+
+          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
         <syntax>
           <string>
@@ -1444,10 +1530,44 @@
         </syntax>
       </parameter>
 
+      <parameter name="SourcePortRangeMax" access="readWrite" version="2.18">
+        <description>
+          If specified, indicates the {{object}} criterion is to include the
+          port range from {{param|SourcePort}} through {{param}} (inclusive). If
+          specified, {{param}} MUST be greater than or equal to
+          {{param|SourcePort}}.
+
+          A value of -1 indicates that no port range is specified.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
       <parameter name="DestPort" access="readWrite">
         <description>
           Destination port number. A value of ''-1'' indicates this criterion
           is not used for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestPortRangeMax" access="readWrite" version="2.18">
+        <description>
+          If specified, indicates the {{object}} criterion is to include the
+          port range from {{param|DestPort}} through {{param}} (inclusive). If
+          specified, {{param}} MUST be greater than or equal to
+          {{param|DestPort}}.
+
+          A value of -1 indicates that no port range is specified.
         </description>
         <syntax>
           <int>
@@ -1483,7 +1603,9 @@
 
           * ''6'' (TCP)
 
-          * ''17''(UDP) A value of ''-1'' indicates this criterion is not used
+          * ''17'' (UDP)
+          
+          A value of ''-1'' indicates this criterion is not used
             for matching.
         </description>
         <syntax>
@@ -1491,7 +1613,7 @@
           <int>
             <range minInclusive="-1" maxInclusive="255"/>
           </int>
-          <default type="object" value="-1"/>
+          <default type="object" value="[-1]"/>
         </syntax>
       </parameter>
 
@@ -1529,6 +1651,8 @@
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
+
+      <component ref="ScheduleRef"/>
     </object>
 
     <object name="Device.Firewall.DMZ.{i}." access="readWrite"
@@ -1536,7 +1660,7 @@
         minEntries="0" maxEntries="unbounded" version="2.16">
       <description>
         Firewall DMZ object that is be used for configuring a demilitarized
-        zone. A DMZ network is a seperate network perimeter that protects the
+        zone. A DMZ network is a separate network perimeter that protects the
         internal network from untrusted traffic. Typically the DMZ is located
         between two firewalls, the firewall of the internal network and the
         firewall responsible for handling untrusted traffic.
@@ -1560,7 +1684,7 @@
         <parameter ref="SourcePrefix"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1603,9 +1727,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readWrite">
+      <parameter name="Origin" access="writeOnceReadOnly">
         <description>
           Indicates who configured the {{object}} instance.
+
+          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
         <syntax>
           <string>
@@ -1741,7 +1867,7 @@
         <parameter ref="SourcePrefixes"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1809,7 +1935,7 @@
           <int>
             <range minInclusive="-1" maxInclusive="65535"/>
           </int>
-          <default type="object" value="-1"/>
+          <default type="object" value="[-1]"/>
         </syntax>
       </parameter>
 
@@ -1839,15 +1965,16 @@
 
           * ''6'' (TCP)
 
-          * ''17''(UDP) A value of ''-1'' indicates this criterion is not used
-            for matching.
+          * ''17'' (UDP) 
+
+          A value of ''-1'' indicates this criterion is not used for matching.
         </description>
         <syntax>
           <list/>
           <int>
             <range minInclusive="-1" maxInclusive="255"/>
           </int>
-          <default type="object" value="-1"/>
+          <default type="object" value="[-1]"/>
         </syntax>
       </parameter>
 
@@ -1875,7 +2002,7 @@
         <syntax>
           <list/>
           <dataType ref="IPPrefix"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1921,7 +2048,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2158,7 +2285,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.17"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -2218,6 +2345,16 @@
       <parameter name="IPv6AcceptICMPEchoRequest" access="readWrite">
         <description>
           When {{true}} the 'ICMPv6 echo request' packet must be answered with an 'ICMPv6 echo reply'.
+          When {{false}} the 'ICMPv6 echo request' packet must be dropped.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6PassTroughICMPEchoRequest" access="readWrite" version="2.18">
+        <description>
+          When {{true}} the 'ICMPv6 echo request' packet must be forward to the LAN device.
           When {{false}} the 'ICMPv6 echo request' packet must be dropped.
         </description>
         <syntax>
@@ -2489,6 +2626,197 @@
       </parameter>
     </object>
 
+    <object name="Device.Firewall.Set.{i}." access="readWrite"
+        numEntriesParameter="SetNumberOfEntries" enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.18">
+      <description>
+        This object is used for configuring sets of IP, MAC addresses and/or
+        port numbers which can then be used in conjunction with the firewall.
+
+        It provides a more efficient way to manage large collections of addresses and ports
+        compared to traditional methods of listing them individually within firewall rules.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this {{object}} entry.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Origin" access="writeOnceReadOnly">
+        <description>
+          Indicates the Origin of the {{object}} instance.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="User">
+              <description>
+                Used for indicating that the set rule was created by the
+                end-user. For example through the web-ui.
+              </description>
+            </enumeration>
+            <enumeration value="System">
+              <description>
+                Used for indicating that the set rule was created by the
+                system itself.
+              </description>
+            </enumeration>
+            <enumeration value="Controller">
+              <description>
+                Used for indicating that the set rule was created by a
+                Controller.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Controller"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          Human-readable name associated with this {{object}} entry.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="31"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Type" access="readWrite">
+        <description>
+          Describes the intention of the {{object|Rule}} entries and what it contains.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="IPAddresses">
+              <description>
+                The Rule set entry describes only a list of IPaddresses.
+              </description>
+            </enumeration>
+            <enumeration value="Ports">
+              <description>
+                The Rule set entry describes only a list of ports.
+              </description>
+            </enumeration>
+            <enumeration value="MACAddresses">
+              <description>
+                The Rule set entry describes only a list of MAC addresses.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="IPAddresses"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPVersion" access="readWrite">
+        <description>
+          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
+          For example:
+          * ''4'' (IPv4)
+          * ''6'' (IPv6)
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="4" maxInclusive="4"/>
+            <range minInclusive="6" maxInclusive="6"/>
+          </unsignedInt>
+          <default type="object" value="6"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RuleNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.Set.{i}.Rule.{i}." access="readWrite"
+        numEntriesParameter="RuleNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.18">
+      <description>
+        Firewall Rule object that is used for configuring the set lists.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Exclude" access="readWrite">
+        <description>
+          Specifies if this rule entry should match or not match the configured criteria.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPAddressList" access="readWrite">
+        <description>
+          Source IPv4 or IPv6 address or subnet mask.
+
+          Note:
+          The IP version of the IP address MUST correspond to the IP version set in {{param|#.IPVersion}}.
+          Can not be used in combination with {{param|MACAddressList}} or {{param|PortList}}.
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="IPAddress"/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MACAddressList" access="readWrite">
+        <description>
+          Specifies the MACAddress that can be used by the {{object}} entry.
+
+          Note:
+          Can not be used in combination with {{param|IPAddressList}} or {{param|PortList}}.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PortList" access="readWrite">
+        <description>
+          Specifies the Port number or a port range that can be used by the {{object}} entry.
+          Syntax:
+
+          A single port can be configured as e.g. '80'.
+          A port range can be configured as '8000-80010'.
+
+          Note:
+          Can not be used in combination with {{param|MACAddressList}} or {{param|IPAddressList}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="SimpleFirewall:1" version="2.0">
       <object ref="Device.Firewall." requirement="present">
         <parameter ref="Config" requirement="readWrite"/>
@@ -2558,7 +2886,7 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.17">
+  <model name="Firewall:2.18">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

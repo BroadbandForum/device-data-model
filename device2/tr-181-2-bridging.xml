@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Bridging]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-bridging"
-    file="tr-181-2-17-0-bridging.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-bridging"
+    file="tr-181-2-18-0-bridging.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="IPPrefix"/>
     <dataType name="Order"/>
@@ -230,7 +230,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly" version="2.16">
         <description>
@@ -498,7 +498,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -542,7 +542,7 @@
           <string>
             <pathRef refType="strong" targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -629,7 +629,7 @@
           <unsignedInt>
             <range minInclusive="0" maxInclusive="7"/>
           </unsignedInt>
-          <default type="object" value="0,1,2,3,4,5,6,7"/>
+          <default type="object" value="[0,1,2,3,4,5,6,7]"/>
         </syntax>
       </parameter>
 
@@ -759,7 +759,7 @@
           <unsignedInt>
             <range minInclusive="0" maxInclusive="7"/>
           </unsignedInt>
-          <default type="object" value="0,1,2,3,4,5,6,7"/>
+          <default type="object" value="[0,1,2,3,4,5,6,7]"/>
         </syntax>
       </parameter>
 
@@ -1078,7 +1078,7 @@
             [7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0],[7,7,6,6,5,4,5,4,3,3,2,2,1,1,0,0],[7,7,6,6,5,4,5,4,3,2,3,2,1,1,0,0],[7,7,6,6,5,4,5,4,3,2,3,2,1,0,1,0]
         </description>
         <syntax>
-          <list minItems="4" maxItems="4">
+          <list minItems="4" maxItems="4" nestedBrackets="required">
             <size/>
           </list>
           <string>
@@ -1114,7 +1114,7 @@
             [7,0,6,0,5,0,4,0,3,0,2,0,1,0,0,0],[7,0,6,0,4,0,4,1,3,0,2,0,1,0,0,0],[7,0,6,0,4,0,4,1,2,0,2,1,1,0,0,0],[7,0,6,0,4,0,4,1,2,0,2,1,0,0,0,1]
         </description>
         <syntax>
-          <list minItems="4" maxItems="4">
+          <list minItems="4" maxItems="4" nestedBrackets="required">
             <size/>
           </list>
           <string>
@@ -1156,7 +1156,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -1215,7 +1215,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="VLAN" access="readWrite">
         <description>
@@ -1295,7 +1295,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Status" access="readOnly">
         <description>
@@ -1431,7 +1431,7 @@
             <size maxLength="256"/>
           </list>
           <unsignedInt/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1482,7 +1482,7 @@
             <size maxLength="512"/>
           </list>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1529,7 +1529,7 @@
             <size maxLength="512"/>
           </list>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1594,7 +1594,7 @@
           A hexbinary string used to identify one or more devices via DHCP for
           which MAC address filtering would subsequently apply. A device is
           considered matching if the most recent DHCPv6 Vendor Class Identifier
-          (Option 16 as defined in {{bibref|RFC3315}}) was equal to the
+          (Option 16 as defined in {{bibref|RFC8415}}) was equal to the
           specified value. The option value is binary, so an exact match is
           REQUIRED.
 
@@ -1704,7 +1704,7 @@
           A hexbinary string used to identify one or more devices via DHCP for
           which MAC address filtering would subsequently apply. A device is
           considered matching if the most recent DHCPv6 Vendor Class Identifier
-          (Option 16 as defined in {{bibref|RFC3315}}) was equal to the
+          (Option 16 as defined in {{bibref|RFC8415}}) was equal to the
           specified value. The option value is binary, so an exact match is
           REQUIRED.
 
@@ -1777,7 +1777,7 @@
           DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP Client Identifier is Option 61 (as defined
           in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or is Option 1
-          (as defined in {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}. The
+          (as defined in {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The
           option value is binary, so an exact match is REQUIRED.
 
           Note that neither 802.1D {{bibref|802.1D-2004}} nor 802.1Q
@@ -1838,7 +1838,7 @@
           DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP Client Identifier is Option 61 (as defined
           in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or is Option 1
-          (as defined in {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}. The
+          (as defined in {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The
           option value is binary, so an exact match is REQUIRED.
 
           Note: DHCPv4 Option values are limited to a length of 255, while
@@ -1891,7 +1891,7 @@
           (via DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP User Class Identifier is Option 77 (as
           defined in {{bibref|RFC3004}}) for {{enum|DHCPv4|DHCPType}}, or is
-          Option 15 (as defined in {{bibref|RFC3315}}) for
+          Option 15 (as defined in {{bibref|RFC8415}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -1951,7 +1951,7 @@
           (via DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP User Class Identifier is Option 77 (as
           defined in {{bibref|RFC3004}}) for {{enum|DHCPv4|DHCPType}}, or is
-          Option 15 (as defined in {{bibref|RFC3315}}) for
+          Option 15 (as defined in {{bibref|RFC8415}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -2252,7 +2252,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readWrite">
         <description>
@@ -2303,7 +2303,7 @@
             <pathRef refType="strong" targetParent="#.Bridge."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
     </object>
@@ -2546,7 +2546,7 @@
     </profile>
   </component>
 
-  <model name="Bridging:2.17">
+  <model name="Bridging:2.18">
     <component ref="Root"/>
     <component ref="Bridging"/>
   </model>

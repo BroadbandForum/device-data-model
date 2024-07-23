@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Ethernet]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-ethernet"
-    file="tr-181-2-17-0-ethernet.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-ethernet"
+    file="tr-181-2-18-0-ethernet.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
@@ -71,6 +71,76 @@
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    <component name="Layer1Interface"/>
+    <component name="Layer2Interface"/>
+    <component name="Link"/>
+    <component name="BaseInterfaceParams"/>
+    <component name="Layer2InterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <!-- These are based on the Layer2Interface component -->
+  <component name="VLANTermination">
+    <parameter name="VLANTerminationNumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="VLANTermination.{i}." access="readWrite"
+      numEntriesParameter="VLANTerminationNumberOfEntries" enableParameter="Enable"
+      minEntries="0" maxEntries="unbounded" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
+
+  <component name="LAG">
+    <parameter name="LAGNumberOfEntries" access="readOnly" version="2.0">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="LAG.{i}." access="readWrite"
+      numEntriesParameter="LAGNumberOfEntries" enableParameter="Enable"
+      minEntries="0" maxEntries="unbounded" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
 
   <component name="SendMagicPacketInput">
 
@@ -129,32 +199,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Layer1Interface"/>
 
-      <parameter name="LinkNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Link"/>
 
-      <parameter name="VLANTerminationNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="VLANTermination"/>
+
+      <component ref="LAG" version="2.12"/>
 
       <parameter name="RMONStatsNumberOfEntries" access="readOnly"
           version="2.4">
@@ -165,148 +216,16 @@
           <unsignedInt/>
         </syntax>
       </parameter>
-
-      <parameter name="LAGNumberOfEntries" access="readOnly" version="2.12">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
     </object>
 
-    <object name="Device.Ethernet.Interface.{i}." access="readOnly"
-        numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.Ethernet.Interface.{i}.">
+      <description action="replace">
         Ethernet interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). This table models physical Ethernet
         ports, but in terms of the interface stack it only models the PHY and
         Connection Access Method of the Ethernet interface MAC. A
         {{object|#.Link}} is also required to model a full Ethernet device.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias-2-0" version="2.0"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since {{object}} is a layer 1 interface, it is expected that
-          {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Upstream" access="readOnly">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
 
       <parameter name="MACAddress" access="readOnly">
         <description>
@@ -330,32 +249,21 @@
           as defined in {{bibref|IANAMauMIB|IANAifMauTypeListBits}}. For
           example, IANAifMauTypeListBits defines the following link mode types:
 
-          * ''11'' (10BASE-T full duplex mode)
-
-          * ''14'' (100BASE-T4)
-
-          * ''15'' (100BASE-TX half duplex mode)
-
           * ''16'' (100BASE-TX full duplex mode)
+
+          * ''26'' (1000BASE-SX full duplex mode)
+
+          * ''30'' (1000BASE-T full duplex mode)
+
+          * ''54'' (10GBASE-T)
+
+          * ''103'' (2.5GBASE-T)
+
+          * ''104'' (5GBASE-T)
         </description>
         <syntax>
           <list/>
           <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MaxBitRate" access="readWrite">
-        <description>
-          The maximum upstream and downstream PHY bit rate supported by this
-          interface (expressed in {{units}}).
-
-          A value of -1 indicates automatic selection of the maximum bit rate.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1"/>
-            <units value="Mbps"/>
-          </int>
         </syntax>
       </parameter>
 
@@ -376,13 +284,26 @@
 
       <parameter name="DuplexMode" access="readWrite">
         <description>
-          The duplex mode available to this connection.
+          The duplex mode requested for this connection.
         </description>
         <syntax>
           <string>
             <enumeration value="Half"/>
             <enumeration value="Full"/>
             <enumeration value="Auto"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentDuplexMode" access="readOnly" version="2.18">
+        <description>
+          The duplex mode currently in use by this connection.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown"/>
+            <enumeration value="Half"/>
+            <enumeration value="Full"/>
           </string>
         </syntax>
       </parameter>
@@ -437,307 +358,68 @@
           </string>
         </syntax>
       </parameter>
+      <parameter name="MDIX" access="readWrite" version="2.18">
+        <description>
+           Configure the Medium Dependent Interface crossover functionality on the interface.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Auto"/>
+            <enumeration value="On"/>
+            <enumeration value="Off"/>
+          </string>
+          <default type="factory" value="Auto"/>
+        </syntax>
+      </parameter>
+      <parameter name="CurrentMDIX" access="readOnly" version="2.18">
+        <description>
+          The current Medium Dependent Interface crossover setting in use on the interface.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unsupported"/>
+            <enumeration value="Unknown"/>
+            <enumeration value="On"/>
+            <enumeration value="Off"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <component ref="Layer2InterfaceStats"/>
     </object>
 
-    <object name="Device.Ethernet.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
+    <object base="Device.Ethernet.Interface.{i}.Stats.">
+      <parameter name="Collisions" access="readOnly"
+          activeNotify="canDeny" version="2.18">
         <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
+          The total number of collisions on the interface.
         </description>
         <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames that could not be
-          transmitted because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames that contained errors
-          preventing them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames requested for transmission which
-          were not addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames packets, delivered by this layer
-          to a higher layer, which were not addressed to a multicast or
-          broadcast address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being delivered. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames that higher-level protocols
-          requested for transmission and which were addressed to a multicast
-          address at this layer, including those that were discarded or not
-          sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this layer
-          to a higher layer, which were addressed to a multicast address at
-          this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames that higher-level protocols
-          requested for transmission and which were addressed to a broadcast
-          address at this layer, including those that were discarded or not
-          sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this layer
-          to a higher layer, which were addressed to a broadcast address at
-          this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received via the interface which
-          were discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
+          <dataType ref="StatsCounter64"/>
         </syntax>
       </parameter>
     </object>
-
-    <object name="Device.Ethernet.Link.{i}." access="readWrite"
-        numEntriesParameter="LinkNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" version="2.0">
-      <description>
+    <object base="Device.Ethernet.Link.{i}.">
+      <description action="replace">
         Ethernet link layer table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Table entries model the Logical Link
         Control (LLC) layer. It is expected that an ''Ethernet Link'' interface
         can be stacked above any lower-layer interface object capable of
         carrying Ethernet frames.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
+      <parameter name="MTU" access="readWrite" version="2.18" dmr:previousParameter="LowerLayers">
         <description>
-          Enables or disables the link.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the link (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-          <default type="object" value="Down"/>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias-2-0" version="2.0"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the link as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the link entered its current
-          operational state.
+          Maximum Transmission Unit for this interface (expressed in
+          {{units}}).
         </description>
         <syntax>
           <unsignedInt>
-            <units value="seconds"/>
+            <units value="bytes"/>
           </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-          <default type="object" value=""/>
         </syntax>
       </parameter>
 
@@ -783,305 +465,48 @@
           <default type="object" value="false"/>
         </syntax>
       </parameter>
-    </object>
 
-    <object name="Device.Ethernet.Link.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this link.
-
-        The CPE MUST reset the link's Stats parameters (unless otherwise stated
-        in individual object or parameter descriptions) either when the link
-        becomes operationally down due to a previous administrative down (i.e.
-        the link's {{param|#.Status}} parameter transitions to a down state
-        after the link is disabled) or when the link becomes administratively
-        up (i.e. the link's {{param|#.Enable}} parameter transitions from
-        {{false}} to {{true}}). Administrative and operational link status is
-        discussed in {{bibref|TR-181i2|section 4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="NoARP" access="readWrite" version="2.18">
         <description>
-          The total number of bytes transmitted out of the link, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the link, including framing
-          characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames transmitted out of the link.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received on the link.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames that could not be
-          transmitted because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames that contained errors
-          preventing them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames requested for transmission which
-          were not addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this layer
-          to a higher layer, which were not addressed to a multicast or
-          broadcast address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being delivered. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames that higher-level protocols
-          requested for transmission and which were addressed to a multicast
-          address at this layer, including those that were discarded or not
-          sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this layer
-          to a higher layer, which were addressed to a multicast address at
-          this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames that higher-level protocols
-          requested for transmission and which were addressed to a broadcast
-          address at this layer, including those that were discarded or not
-          sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this layer
-          to a higher layer, which were addressed to a broadcast address at
-          this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received via the link which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.Ethernet.VLANTermination.{i}." access="readWrite"
-        numEntriesParameter="VLANTerminationNumberOfEntries"
-        enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        version="2.0">
-      <description>
-        VLAN Termination table (a stackable interface object as described in
-        {{bibref|TR-181i2|Section 4.2}}). A VLAN Termination entry is typically
-        stacked on top of a {{object|#.Link}} object to receive and send frames
-        with the configured {{param|VLANID}}.
-      </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the VLANTermination entry.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
+          Disables or enables sending of ARP messages on the Ethernet link.
+          If {{true}}, the kernel will not send ARP requests and won't send ARP replies.
         </description>
         <syntax>
           <boolean/>
           <default type="object" value="false"/>
         </syntax>
       </parameter>
+    </object>
 
-      <parameter name="Status" access="readOnly">
+    <object base="Device.Ethernet.Link.{i}.Stats.">
+      <parameter name="PausePacketsSent" access="readOnly"
+          activeNotify="canDeny" version="2.18">
         <description>
-          The current operational state of the VLANTermination entry (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
+          The total number of Ethernet pause frames sent on the link.
         </description>
         <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-          <default type="object" value="Down"/>
+          <dataType ref="StatsCounter64"/>
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
-
-      <parameter name="Name" access="readOnly">
+      <parameter name="PausePacketsReceived" access="readOnly"
+          activeNotify="canDeny" version="2.18">
         <description>
-          The textual name of the VLANTermination entry as assigned by the CPE.
+          The total number of Ethernet pause frames received on the link.
         </description>
         <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
+          <dataType ref="StatsCounter64"/>
         </syntax>
       </parameter>
+    </object>
 
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the VLANTermination entered
-          its current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-          <default type="object" value=""/>
-        </syntax>
-      </parameter>
+    <object base="Device.Ethernet.VLANTermination.{i}.">
+      <description action="replace">
+        VLAN Termination table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}). A VLAN Termination entry is typically
+        stacked on top of a {{object|#.Link}} object to receive and send frames
+        with the configured {{param|VLANID}}.
+      </description>
 
       <parameter name="VLANID" access="readWrite">
         <description>
@@ -1094,6 +519,20 @@
           <unsignedInt>
             <range minInclusive="1" maxInclusive="4094"/>
           </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="VLANPriority" access="readWrite" version="2.18">
+        <description>
+          The VLAN Priority for this {{object}} entry, also known as 802.1p Priority,
+          is a 3-bit field used to indicate the priority of network traffic within a VLAN.
+
+          A value of ''-1'' indicates that the VLAN priority should not be changed for this {{object}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="7"/>
+          </int>
         </syntax>
       </parameter>
 
@@ -1116,192 +555,6 @@
         <syntax>
           <unsignedInt/>
           <default type="object" value="33024"/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.Ethernet.VLANTermination.{i}.Stats."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
         </syntax>
       </parameter>
     </object>
@@ -1405,7 +658,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.4"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1737,14 +990,12 @@
     <object name="Device.Ethernet.WoL." access="readOnly" minEntries="1"
         maxEntries="1" version="2.13">
       <description>
-        This object provides access to the WoL (Wake on LAN) funtionality.
+        This object provides access to the WoL (Wake on LAN) functionality.
       </description>
     </object>
 
-    <object name="Device.Ethernet.LAG.{i}." access="readWrite"
-        numEntriesParameter="LAGNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" version="2.12">
-      <description>
+    <object base="Device.Ethernet.LAG.{i}.">
+      <description action="replace">
         Ethernet Link Aggregation Group (LAG) table (a stackable interface
         object as described in {{bibref|TR-181i2|Section 4.2}}). Table entries
         model the Link Aggregation Sub-Layer as defined in
@@ -1753,305 +1004,24 @@
         interfaces. The CPE can reject creation of additional LAG instances if
         this would exceed its capabilities.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias-2-0" version="2.12"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the LAG interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}}. See {{bibref|TR-181i2|Section 4.2.1}}.
-
+      <parameter base="LowerLayers">
+        <description action="append">
           {{param}} must reference to Device.Ethernet.Interface instances where
           Link Aggregation Group is configured by the CPE.
 
           For example, "Device.Ethernet.Interface.1,
           Device.Ethernet.Interface.2"
         </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
-
       <parameter name="MACAddress" access="readWrite">
         <description>
           MAC address of the Link Aggregation Interface.
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.Ethernet.LAG.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.12">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
         </syntax>
       </parameter>
     </object>
@@ -2178,7 +1148,7 @@
     </profile>
   </component>
 
-  <model name="Ethernet:2.17">
+  <model name="Ethernet:2.18">
     <component ref="Root"/>
     <component ref="Ethernet"/>
   </model>

@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IEEE1905]
 
-  Copyright (c) 2010-2021,2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-ieee1905"
-    file="tr-181-2-17-0-ieee1905.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-ieee1905"
+    file="tr-181-2-18-0-ieee1905.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -224,7 +224,7 @@
 
     <object name="Device.IEEE1905.AL.Interface.{i}." access="readOnly"
         numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.9">
+        maxEntries="unbounded" version="2.9">
       <description>
         The 1905 interface table (described in {{bibref|IEEE1905.1a|sub-clause
         5 Abstraction Layer Management}}).
@@ -810,7 +810,7 @@
         minEntries="0" maxEntries="unbounded" dmr:noUniqueKeys="true"
         version="2.9">
       <description>
-        The 1905 fowarding rule for the ALME-SET-FWD-RULE.request and
+        The 1905 forwarding rule for the ALME-SET-FWD-RULE.request and
         ALME-GET-FWD-RULES.response with classification criteria as defined in
         {{bibref|IEEE1905.1a|Table 5-9: ClassificationSet elements}}.
       </description>
@@ -833,7 +833,7 @@
             <pathRef refType="strong" targetParent="##.Interface."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1248,8 +1248,7 @@
       <parameter name="AssocWiFiNetworkDeviceRef" access="readOnly"
           version="2.13">
         <description>
-          {{reference||obsoleted}}{{param}} is a reference to a MultiAP.Device
-          or Wi-Fi Network Data Elements Device. Since IEEE 1905.1 is the
+          {{param}} is a reference to a Wi-Fi Network Data Elements Device. Since IEEE 1905.1 is the
           protocol used by the Wi-Fi Alliance's EasyMesh specification for
           communications, this parameter allows the IEEE 1905.1 portion of the
           data model to reference the associated EasyMesh portion of the data
@@ -1259,9 +1258,7 @@
           <string>
             <pathRef
                 refType="strong"
-                targetParent="
-                  ####.WiFi.MultiAP.APDevice.
-                  ####.WiFi.DataElements.Network.Device."
+                targetParent="####.WiFi.DataElements.Network.Device."
                 targetType="row"/>
           </string>
         </syntax>
@@ -1858,8 +1855,7 @@
     <object
         name="Device.IEEE1905.AL.NetworkTopology.IEEE1905Device.{i}.IEEE1905Neighbor.{i}.Metric.{i}."
         access="readOnly" numEntriesParameter="MetricNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" dmr:noUniqueKeys="true"
-        version="2.9">
+        minEntries="0" maxEntries="unbounded" version="2.9">
       <description>
         This object represents the metrics included in a Link metric response
         from the IEEE1905Device where {{param|#.LocalInterface}} is the MAC

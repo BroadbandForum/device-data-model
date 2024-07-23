@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model definition [USP]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -51,20 +51,20 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-usp"
-    file="tr-181-2-17-0-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-usp"
+    file="tr-181-2-18-0-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias" ref="_AliasUSP"/>
     <dataType name="Alias" ref="_AliasUSP"/>
     <dataType name="IPAddress"/>
     <dataType name="JSONObject"/>
@@ -77,19 +77,19 @@
 
 
   <import file="tr-181-2-iot.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-iot">
+      spec="urn:broadband-forum-org:tr-181-2-18-iot">
     <component name="IoT_NodeComponent"/>
     <component name="IoT_ProxiedDeviceExtensionComponent"/>
     <component name="IoT_ObjectComponent"/>
   </import>
 
   <import file="tr-181-2-gatewayinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-gatewayinfo">
+      spec="urn:broadband-forum-org:tr-181-2-18-gatewayinfo">
     <component name="GatewayInfo"/>
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-common">
+      spec="urn:broadband-forum-org:tr-181-2-18-common">
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
     <component name="SELTUERDiagnosticsInput"/>
@@ -150,31 +150,33 @@
     <component name="SMRetainData"/>
     <component name="SMEEHostObject"/>
     <component name="SMEEEnvVariables"/>
-    <model name="_Device:2.17" ref="Device:2.17"/>
+    <model name="_Device:2.18" ref="Device:2.18"/>
   </import>
 
-  <import file="tr-181-2-softwaremodules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-softwaremodules">
-      <component name="SMDUNetworkConfig"/>
-    </import>
 
   <import file="tr-181-2-deviceinfo.xml"
-    spec="urn:broadband-forum-org:tr-181-2-17-deviceinfo">
+    spec="urn:broadband-forum-org:tr-181-2-18-deviceinfo">
     <component name="DeviceInfoUSP"/>
+    <component name="CauseOfBoot"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    <component name="InterfaceStatsReset" ref="InterfaceStatsResetUSP"/>
   </import>
 
   <import file="tr-181-2-wifi-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi-usp">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi-usp">
     <component name="WiFiUSP"/>
   </import>
 
   <import file="tr-181-2-moca-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-moca-usp">
+      spec="urn:broadband-forum-org:tr-181-2-18-moca-usp">
     <component name="MoCAUSP"/>
   </import>
 
   <import file="tr-181-2-syslog.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-syslog">
+      spec="urn:broadband-forum-org:tr-181-2-18-syslog">
     <component name="SyslogUSP"/>
   </import>
 
@@ -293,7 +295,7 @@
     </parameter>
   </component>
 
-  <model name="Device:2.17" base="_Device:2.17">
+  <model name="Device:2.18" base="_Device:2.18">
     <object base="Device." access="readOnly" minEntries="1" maxEntries="1">
 
       <parameter name="ProxiedDeviceNumberOfEntries" access="readOnly"
@@ -320,6 +322,44 @@
         <description>
           Reboot the entity associated with the containing {{object}}.
         </description>
+        <input>
+          <parameter name="Cause" mandatory="false" version="2.18">
+            <description>
+              The cause that will be contained within the {{event|#.Boot!}} Event.
+              By default the Device SHOULD set this value to {{enum|RemoteReboot}}.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="LocalReboot">
+                  <description>
+                    A {{object|Device.|absolute}} Event that was the result of a reboot triggered
+                    locally on the Device (NOT as a result of a
+                    {{command|.Reboot()|model}}}} Command triggered by a remote trigger, e.g.
+                    another remote management protocol)
+                  </description>
+                </enumeration>
+                <enumeration value="RemoteReboot">
+                  <description>
+                    A {{object|Device.|absolute}} Event that was the result of a reboot triggered
+                    via the {{command|.Reboot()|model}}} Command or other remote
+                    trigger, e.g. another remote management protocol
+                  </description>
+                </enumeration>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Reason" mandatory="false" version="2.18">
+            <description>
+              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+
+              When absent the implementation must set {{param}} to 'Unknown'.
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+        </input>
       </command>
 
       <event name="Boot!" version="2.12">
@@ -337,52 +377,14 @@
           </syntax>
         </parameter>
 
-        <parameter name="Cause">
+        <component ref="CauseOfBoot"/>
+
+        <parameter name="Reason" version="2.18">
           <description>
-            The cause of the boot.
+            The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
           </description>
           <syntax>
-            <string>
-              <enumeration value="LocalReboot">
-                <description>
-                  A {{object}} Event that was the result of a reboot triggered
-                  locally on the Device (NOT as a result of a
-                  {{command|#.Reboot()}} Command or other remote trigger, e.g.
-                  another remote management protocol)
-                </description>
-              </enumeration>
-              <enumeration value="RemoteReboot">
-                <description>
-                  A {{object}} Event that was the result of a reboot triggered
-                  via the {{command|#.Reboot()}} Command or other remote
-                  trigger, e.g. another remote management protocol
-                </description>
-              </enumeration>
-              <enumeration value="FactoryReset" version="2.15">
-                <description>
-                  A {{object}} Event that was the result of a factory reset
-                  triggered locally on the Device or remotely (as a result of a
-                  {{command|#.FactoryReset()}} Command or other remote trigger,
-                  e.g. another remote management protocol), which is to be used
-                  when the Agent cannot differentiate between local and remote
-                </description>
-              </enumeration>
-              <enumeration value="LocalFactoryReset">
-                <description>
-                  A {{object}} Event that was the result of a factory reset
-                  triggered locally on the Device (NOT as a result of a
-                  {{command|#.FactoryReset()}} Command or other remote trigger,
-                  e.g. another remote management protocol)
-                </description>
-              </enumeration>
-              <enumeration value="RemoteFactoryReset">
-                <description>
-                  A {{object}} Event that was the result of a factory reset
-                  triggered via the {{command|#.FactoryReset()}} Command or
-                  other remote trigger, e.g. another remote management protocol
-                </description>
-              </enumeration>
-            </string>
+            <string/>
           </syntax>
         </parameter>
 
@@ -413,6 +415,44 @@
         <description>
           Factory reset the entity associated with the containing {{object}}.
         </description>
+        <input>
+          <parameter name="Cause" mandatory="false" version="2.18">
+            <description>
+              The cause that will be contained within the {{event|#.Boot!}} Event.
+              By default the Device SHOULD set this value to {{enum|RemoteFactoryReset}}.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="LocalFactoryReset">
+                  <description>
+                    A {{object|Device.|absolute}} Event that was the result of a factory reset
+                    triggered locally on the Device (NOT as a result of a
+                    {{command|.FactoryReset()|model}}} Command trigger by a remote trigger,
+                    e.g. another remote management protocol)
+                  </description>
+                </enumeration>
+                <enumeration value="RemoteFactoryReset">
+                  <description>
+                    A {{object|Device.|absolute}} Event that was the result of a factory reset
+                    triggered via the {{command|.FactoryReset()|model}} Command or
+                    other remote trigger, e.g. another remote management protocol
+                  </description>
+                </enumeration>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Reason" mandatory="false" version="2.18">
+            <description>
+              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+
+              When absent the implementation must set {{param}} to 'Unknown'.
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+        </input>
       </command>
 
       <command name="SelfTestDiagnostics()" async="true" version="2.12">
@@ -554,7 +594,7 @@
         <description>
           Private Enterprise Number assigned and registered by IANA to the
           entity responsible for this Agent. Represented as a decimal encoding
-          of the IANA-assinged number.
+          of the IANA-assigned number.
 
           This value MUST remain fixed over the lifetime of the Agent,
           including across firmware updates. Any change would indicate that
@@ -591,7 +631,7 @@
         <syntax>
           <list/>
           <string>
-            <enumeration value="Streaming" status="obsoleted">
+            <enumeration value="Streaming" status="deleted">
               <description>
                 IPDR Streaming Protocol {{bibref|IPDR-SP}}
 
@@ -599,9 +639,11 @@
                 supported in USP}}
 
                 {{obsoleted|2.17}}
+
+                {{deleted|2.18}}
               </description>
             </enumeration>
-            <enumeration value="File" status="obsoleted">
+            <enumeration value="File" status="deleted">
               <description>
                 IPDR File Transfer Protocol {{bibref|IPDR-FTP}}
 
@@ -609,6 +651,8 @@
                 supported in USP}}
 
                 {{obsoleted|2.17}}
+
+                {{deleted|2.18}}
               </description>
             </enumeration>
             <enumeration value="HTTP"/>
@@ -627,7 +671,7 @@
         <syntax>
           <list/>
           <string>
-            <enumeration value="XML" status="obsoleted">
+            <enumeration value="XML" status="deleted">
               <description>
                 Used with the IPDR Streaming and File Protocols.
                 {{bibref|IPDR-XML}}
@@ -636,9 +680,11 @@
                 supported in USP}}
 
                 {{obsoleted|2.17}}
+
+                {{deleted|2.18}}
               </description>
             </enumeration>
-            <enumeration value="XDR" status="obsoleted">
+            <enumeration value="XDR" status="deleted">
               <description>
                 Used with the IPDR Streaming and File Protocols.
                 {{bibref|IPDR-XDR}}
@@ -647,6 +693,8 @@
                 supported in USP}}
 
                 {{obsoleted|2.17}}
+
+                {{deleted|2.18}}
               </description>
             </enumeration>
             <enumeration value="CSV">
@@ -696,7 +744,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="StreamingHost" access="readWrite" status="obsoleted">
+      <parameter name="StreamingHost" access="readWrite" status="deleted">
         <description>
           This is the host name or IP Address of the IPDR Collector to be used
           by the CPE to stream bulk data records if this collection profile is
@@ -708,6 +756,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -716,7 +766,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="StreamingPort" access="readWrite" status="obsoleted">
+      <parameter name="StreamingPort" access="readWrite" status="deleted">
         <description>
           This is the port number of the IPDR Collector to be used by the CPE
           to stream bulk data records if this collection profile is configured
@@ -728,6 +778,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -738,7 +790,7 @@
       </parameter>
 
       <parameter name="StreamingSessionID" access="readWrite"
-          status="obsoleted">
+          status="deleted">
         <description>
           This is the unique identification of an IPDR Session to be used when
           this collection profile is configured for the IPDR Streaming Protocol
@@ -757,6 +809,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -766,7 +820,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="FileTransferURL" access="readWrite" status="obsoleted">
+      <parameter name="FileTransferURL" access="readWrite" status="deleted">
         <description>
           This is the {{datatype}} within the CPE that is used by an IPDR
           Collector to retrieve the IPDRDocs when this collection profile is
@@ -778,6 +832,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <dataType ref="URL"/>
@@ -785,7 +841,7 @@
       </parameter>
 
       <parameter name="FileTransferUsername" access="readWrite"
-          status="obsoleted">
+          status="deleted">
         <description>
           Username used for authentication of the {{param|FileTransferURL}}.
 
@@ -798,6 +854,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -807,7 +865,7 @@
       </parameter>
 
       <parameter name="FileTransferPassword" access="readWrite"
-          status="obsoleted">
+          status="deleted">
         <description>
           Password used for authentication of the {{param|FileTransferURL}}.
 
@@ -820,6 +878,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax secured="true">
           <string>
@@ -829,7 +889,7 @@
       </parameter>
 
       <parameter name="ControlFileFormat" access="readWrite"
-          status="obsoleted">
+          status="deleted">
         <description>
           If this collection profile is configured for the IPDR File Transfer
           Protocol {{bibref|IPDR-FTP}} (the {{param|Protocol}} parameter has a
@@ -860,6 +920,8 @@
           in USP}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -1104,10 +1166,10 @@
 
           <parameter name="CheckSum" version="2.17">
             <description>
-              The hash value that was used for the transferred file. This hash value was 
+              The hash value that was used for the transferred file. This hash value was
               generated using transferred file content and the {{param|CheckSumAlgorithm}}.
 
-              If the argument is {{empty}}, not present, or the {{param|CheckSumAlgorithm}} 
+              If the argument is {{empty}}, not present, or the {{param|CheckSumAlgorithm}}
               is {{enum|Unknown|CheckSumAlgorithm}}, then the
               Controller can assume that the checksum is not applicable or
               was not generated for this transfer.
@@ -1222,6 +1284,16 @@
         </syntax>
       </parameter>
 
+     <parameter name="WatchdogNumberOfEntries" access="readOnly"
+        version="2.18">
+        <description>
+            {{numentries}}
+        </description>
+            <syntax>
+                  <unsignedInt/>
+            </syntax>
+     </parameter>
+
       <parameter name="SubscriptionNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -1303,7 +1375,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.13"/>
+      <component ref="Alias" version="2.13"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1452,6 +1524,186 @@
       </event>
     </object>
 
+    <object name="Device.LocalAgent.Watchdog.{i}." access="readWrite" minEntries="0" maxEntries="unbounded" numEntriesParameter="WatchdogNumberOfEntries" enableParameter="Enable" dmr:previousObject="Device.LocalAgent.Threshold.{i}." version="2.18">
+        <description>
+          Each {{object}} instance of this table represents a Watchdog Event.
+          A {{object}} instance is used to detect the lack of an expected update of a parameter value within a certain time window {{param|ReloadTimerValue}}. In case this timer expires, meaning {{param|RemainingTimerValue}} becomes 0,
+          a notification event {{event|Watchdog!}}, will be sent to the {{param|Controller}}. This is because timely parameter updates are required, e.g. for SLA or security reasons.
+        </description>
+        <uniqueKey functional="false">
+          <parameter ref="Alias"/>
+        </uniqueKey>
+
+        <parameter name="Alias" access="readWrite">
+          <description>
+          {{datatype|expand}}
+          </description>
+          <syntax>
+           <dataType ref="Alias"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Enable" access="readWrite">
+          <description>
+            Enable/Disable this {{object}} instance.
+            If the {{object}} instance is disabled, the {{event|Watchdog!}} will not be invoked, even if there is a {{object|#.Subscription}} instance that references it. The {{param|RemainingTimerValue}} will be set to 0.
+            If the {{object}} instance is set to enabled, the {{param|RemainingTimerValue}} will be set to the value of {{param|ReloadTimerValue}}.
+          </description>
+          <syntax>
+           <boolean/>
+           <default type="object" value="false"/>
+         </syntax>
+        </parameter>
+
+        <parameter name="ReloadTimerValue" access="readWrite">
+         <description>
+          Watchdog timer reload value in {{units}}. Every time the {{param|Reference}} value is updated, this {{param}} is used to reload the {{param|RemainingTimerValue}}.
+         </description>
+         <syntax>
+           <unsignedInt>
+             <units value="seconds"/>
+           </unsignedInt>
+         </syntax>
+        </parameter>
+
+        <parameter name="RemainingTimerValue" activeNotify="canDeny" access="readOnly">
+          <description>
+             This value is decreased every {{units}}. When 0, the {{object}} timer expires, an {{event|Watchdog!}} event will be generated.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <units value="seconds"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+
+        <parameter name="Status" access="readOnly">
+          <description>
+            The operational status of the {{object}} instance.
+
+            When the value of {{param|RemainingTimerValue}} becomes 0, this {{param}} will become {{enum|Expired}} and a {{event|Watchdog!}} event will be triggered. {{object}} will not be restarted, meaning that the {{param|RemainingTimerValue}} will stay at 0 until the {{command|Reset()}} command is invoked.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Inactive">
+                <description>
+                  The {{param|Enable}} is disabled.
+                </description>
+              </enumeration>
+              <enumeration value="Active">
+                <description>
+                  The {{param|Enable}} is enabled. The {{object}} timer is running. This means that {{param|RemainingTimerValue}} is decreased every second.
+                </description>
+              </enumeration>
+              <enumeration value="Expired">
+                <description>
+                  The {{param|Enable}} is enabled. The {{object}} timer expired whereby {{param|RemainingTimerValue}} is set to 0.
+                </description>
+              </enumeration>
+            </string>
+            <default type="object" value="Inactive"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Reference" access="readWrite">
+          <description>
+            The {{param}} consists of a Path Name or Search Path that determines the element(s) of the data model that the {{object}} is applicable to.
+            When more than one {{param}} is used, the Watchdog timer will only be stopped if all Parameters, referenced by {{param}} are updated. If one of the referenced Parameters is not updated, either with the same or different value,
+            an {{event|Watchdog!}} will be generated.
+            If all parameters, referenced by {{param}}, are updated, the {{param|RemainingTimerValue}} is set to the value of the {{param|ReloadTimerValue}}.
+          </description>
+          <syntax>
+            <string/>
+          </syntax>
+        </parameter>
+
+        <parameter name="SeverityIndication" access="readWrite">
+          <description>
+            Provides an indication of the severity which will be included in the generated {{event|Watchdog!}} event when the {{object}} instance expires.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Info">
+              </enumeration>
+              <enumeration value="Minor">
+              </enumeration>
+              <enumeration value="Major">
+              </enumeration>
+              <enumeration value="Critical">
+              </enumeration>
+            </string>
+            <default type="object" value="Info"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Controller" access="readOnly" version="2.18">
+          <description>
+            {{reference|the {{object|#.Controller}} instance that created
+            {{object}}|delete}}
+
+            The value of this parameter is automatically populated by the USP
+            Agent upon {{object}} creation using the reference to the USP
+            Controller that created the instance.
+
+            The USP Controller referenced by this parameter also defines the set
+            of permissions to use when evaluating the Watchdog. Furthermore,
+            only the USP Controller referenced by this parameter will receive a
+            {{event|Watchdog!}} Event (assuming it has an associated
+            Subscription), even if another USP Controller has an associated
+            Subscription.
+          </description>
+          <syntax>
+            <string>
+              <pathRef refType="strong" targetParent="#.Controller."
+                  targetType="row"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <command name="Reset()" version="2.18" async="false">
+          <description>
+             When the {{command}} is invoked, the {{param|RemainingTimerValue}} will be set to the {{param|ReloadTimerValue}} and the {{param|Status}} to either {{enum|Active|Status}} or {{enum|Inactive|Status}} depending on the value of the {{param|Enable}} parameter.
+          </description>
+        </command>
+
+        <event name="Watchdog!">
+            <description>
+              Watchdog event requested via a {{object}} object.
+
+              When the {{param|RemainingTimerValue}} becomes 0 because the value of the
+              {{param|Reference}} was not updated then the Watchdog Event will be
+              invoked.
+            </description>
+            <parameter name="Reference">
+              <description>
+                The parameter {{param|#.Reference}} for which the Watchdog has been
+                triggered.
+              </description>
+              <syntax>
+                <string/>
+              </syntax>
+            </parameter>
+            <parameter name="ReloadTimerValue">
+              <description>
+                The {{param|#.ReloadTimerValue}} Value in {{units}}.
+              </description>
+              <syntax>
+                <unsignedInt>
+                  <units value="seconds"/>
+                </unsignedInt>
+              </syntax>
+            </parameter>
+            <parameter name="SeverityIndication">
+              <description>
+                The {{param|#.SeverityIndication}} Value.
+              </description>
+              <syntax>
+                <string/>
+              </syntax>
+            </parameter>
+        </event>
+    </object>
+
     <object name="Device.LocalAgent.Monitor.{i}." access="readWrite"
         minEntries="0" maxEntries="unbounded"
         numEntriesParameter="MonitorNumberOfEntries" enableParameter="Enable"
@@ -1470,7 +1722,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias" version="2.16"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1887,7 +2139,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -1927,7 +2179,7 @@
         functionality for this {{object|##.Controller.{i}}} object instance.
       </description>
 
-      <parameter name="Enable" access="readWrite" status="obsoleted">
+      <parameter name="Enable" access="readWrite" status="deleted">
         <description>
           Enable/Disable this {{object}} instance.
 
@@ -1942,6 +2194,8 @@
           {{deprecated|2.15|because it is replaced by {{param|SessionMode}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -2082,7 +2336,7 @@
       </parameter>
 
       <parameter name="SegmentedPayloadChunkSize" access="readWrite"
-          status="deprecated">
+          status="obsoleted">
         <description>
           The maximum size, in {{units}}, of the Record (payload(s) and
           headers) that can be transmitted to the remote endpoint. The smallest
@@ -2093,6 +2347,8 @@
 
           {{deprecated|2.16|because it is replaced by
           {{param|MaxUSPRecordSize}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -2203,7 +2459,7 @@
         <parameter ref="ID"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias" version="2.12"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2263,7 +2519,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TriggerConfigSettings" access="readOnly" version="2.16">
+      <parameter name="TriggerConfigSettings" access="readWrite" version="2.16">
         <description>
           Each entry is a name-value pair representing the name of the data
           model parameter to configure and the value to configure it with.
@@ -2528,7 +2784,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias" version="2.12"/>
 
       <parameter name="Originator" access="readOnly">
         <description>
@@ -2914,6 +3170,30 @@
             </syntax>
           </parameter>
 
+          <parameter name="Privileged" version="2.18">
+            <description>
+              This parameter indicates whether the Deployment Unit runs in privileged mode.
+              {{false}} - Unprivileged Container.
+              {{true}}  - Privileged Container.
+            </description>
+            <syntax>
+              <boolean/>
+              <default type="parameter" value="false"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="NumRequiredUIDs" version="2.18">
+            <description>
+              Number of UIDs (EU User Identifiers) that this container will need as part of its
+              user namespace. UIDs are unique identifiers associated with each user and system
+              process that is used to determine the allocation and isolation of system resources.
+            </description>
+            <syntax>
+              <unsignedInt/>
+              <default type="parameter" value="1"/>
+            </syntax>
+          </parameter>
+
           <parameter name="ExecutionEnvRef">
             <description>
               A reference to the Execution Environment upon which the DU is to
@@ -2932,6 +3212,21 @@
           </parameter>
 
           <component ref="SMDUSignature"/>
+
+          <parameter name="ShutdownDelay" version="2.18">
+            <description>
+              The delay in {{units}} before which the container is shutdown.
+              This delay ensures that the application has enough time to perform any cleanup before
+              the Execution Unit transitions to idle state.
+              The default value is 10 seconds.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="seconds"/>
+              </unsignedInt>
+              <default type="parameter" value="10"/>
+            </syntax>
+          </parameter>
 
           <parameter name="RequiredRoles" version="2.16">
             <description>
@@ -2985,6 +3280,32 @@
             </syntax>
           </parameter>
 
+          <parameter name="RequiredUserRoles" version="2.18">
+            <description>
+              The User Roles which the application installed by this command will
+              need to be assigned in order to be able to function at all. If
+              any of these User Roles are not present in the
+              {{param|#.ExecEnv.{i}.AvailableUserRoles}} of the
+              {{object|#.ExecEnv}} into which the DU is to be installed then
+              the command will fail. Some Agents may apply further filtering
+              for User Roles which are considered security- or privacy-sensitive.
+
+              Each entry in the list is the Name of a row in
+              {{object|##.Users.Role}}. If there is no
+              such row then the command will fail, as installation requires a
+              User Role which is not available on the Device.
+
+              If this argument is absent or empty then no User Roles are required in
+              order for the application to function.
+            </description>
+            <syntax>
+              <list/>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+
           <object name="AutoRestart." minEntries="1" maxEntries="1"
               version="2.16">
             <description>
@@ -3007,8 +3328,8 @@
               {{param|##.ExecutionUnit.{i}.AutoRestart.RetryCount}}. Then on
               the next occasion that the Agent determines that the EU has
               terminated abnormally, the delay before re-starting the EU must
-              lie between ''m * (k/1000)^n'' and ''m * (k/1000)^(n+1)''
-              seconds, so long as ''m * (k/1000)^n'' evaluates to a value less
+              lie between ''m * (k/1000)^n^'' and ''m * (k/1000)^(n+1)^''
+              seconds, so long as ''m * (k/1000)^n^'' evaluates to a value less
               than {{param|RetryMaximumWaitInterval}}. Once this point has been
               reached, on all subsequent occasions that the Agent determines
               that the EU has terminated abnormally the delay before
@@ -3239,8 +3560,130 @@
             </syntax>
           </parameter>
 
-          <component ref="SMDUNetworkConfig"/>
+          <object name="NetworkConfig." version="2.17">
+            <description>
+              Specifies the network configuration for any ExecutionUnit which is created by the installation of the DeploymentUnit.
+
+              When this argument or any of its child objects are missing,
+              the corresponding absent part is considered unnecessary and will not be available to the ExecutionUnit.
+
+             </description>
+             <parameter name="AccessInterfaces" mandatory="false">
+               <description>
+                 The network interfaces which the application installed by this command will be allowed to send traffic through it.
+                 If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
+                 of the ExecEnv into which the DU is to be installed then the command will fail.
+
+                 Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
+                 Each entry in the list is the Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}.
+                 If Name is present in both {{object|.Logical.Interface.}} and {{object|.IP.Interface.}}, the Interface referenced in
+                 {{object|.Logical.Interface.}} must be selected.
+                 If there is no such row then the command will fail, as installation requires access to a network, through the interface, which is not available.
+
+                 When this argument is absent or {{empty}} then no outgoing network access is required for the ExecutionUnit to function.
+               </description>
+               <syntax>
+                 <list/>
+                 <string>
+                   <size maxLength="256"/>
+                 </string>
+               </syntax>
+             </parameter>
+           </object>
+
+           <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" version="2.17">
+             <description>
+                 Defines the list of required port mapping rules for any ExecutionUnit which
+                 is created as a result of this command.
+                 If this command encounters any issue in providing the requested mapping, such as the port already being used or reserved, then it will fail.
+             </description>
+
+             <parameter name="Interface" mandatory="true" >
+               <description>
+                 Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}. If Name is present in both {{object|.Logical.Interface.}}
+                 and {{object|.IP.Interface.}}, the Interface referenced in {{object|.Logical.Interface.}} must be selected.
+                 Specifies the interface to which the port mapping applies.
+               </description>
+               <syntax>
+                 <string>
+                   <size maxLength="256"/>
+                 </string>
+               </syntax>
+             </parameter>
+
+            <parameter name="ExternalPort" mandatory="true" >
+              <description>
+                The external port that the NAT gateway would listen on for traffic to a
+                corresponding InternalPort. Inbound packets to this external port on the selected
+                interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
+              </description>
+              <syntax>
+                <unsignedInt>
+                  <range minInclusive="0" maxInclusive="65535"/>
+                </unsignedInt>
+              </syntax>
+            </parameter>
+
+            <parameter name="InternalPort" mandatory="true" >
+              <description>
+                The port on ExecutionUnit that the gateway MUST forward traffic to.
+              </description>
+              <syntax>
+                <unsignedInt>
+                  <range minInclusive="0" maxInclusive="65535"/>
+                </unsignedInt>
+              </syntax>
+            </parameter>
+
+            <parameter name="Protocol" mandatory="true">
+              <description>
+                The protocol of the port mapping.
+              </description>
+              <syntax>
+                <string>
+                  <enumeration value="TCP"/>
+                  <enumeration value="UDP"/>
+                </string>
+              </syntax>
+            </parameter>
+          </object>
         </input>
+        <output>
+          <parameter name="UUID" version="2.18">
+            <description>
+              The Universally Unique Identifier that was either provided by the Controller, or
+              generated by the device, when this Deployment Unit was installed.
+
+              The format of this value is defined by {{bibref|RFC4122}} Version 5
+              (Name-Based) and {{bibref|TR-181i2|Annex C}}.
+            </description>
+            <syntax>
+              <dataType ref="UUID"/>
+            </syntax>
+          </parameter>
+          <parameter name="Version" version="2.18">
+            <description>
+              Version of the installed Deployment Unit. The format of this value is Execution
+              Environment specific.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="32"/>
+              </string>
+            </syntax>
+          </parameter>
+          <parameter name="ExecEnvRef" version="2.18">
+            <description>
+              A reference to the {{object|##.ExecEnv}} where the Deployment Unit was installed.
+            </description>
+            <syntax>
+              <string>
+                <pathRef targetParent="##.ExecEnv." refType="weak"
+                    targetType="row"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
       </command>
 
       <event name="DUStateChange!" version="2.12">
@@ -3509,6 +3952,12 @@
                one Role which is not in the EE's AvailableRoles list, then the
                device SHOULD reject the operation with a 7032 (Unavailable
                Role) fault code.
+
+              *If a requested operation attempts to Install or Update a DU
+               and includes a RequestedUserRole argument which contains at least
+               one User Role which is not in the EE's AvailableUserRoles list, then the
+               device SHOULD reject the operation with a 7037 (Unavailable
+               User Role) fault code.
             </description>
             <syntax>
               <unsignedInt/>
@@ -3596,6 +4045,26 @@
             </syntax>
           </parameter>
 
+          <parameter name="AvailableUserRoles" version="2.18">
+            <description>
+              The User Roles which are available to Deployment Units installed into
+              the new instance. Only the listed User Roles may be assigned to any
+              DeploymentUnit installed into the instance. If this parameter is
+              missing or {{empty}} then no User Roles may be assigned to any
+              DeploymentUnit installed into the instance.
+
+              Each entry in the list is the Name of a row in
+              {{object|###.Users.Role}}. If there is no
+              such row then the entry will be ignored.
+            </description>
+            <syntax>
+              <list/>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+
           <parameter name="Enable">
             <description>
               If this parameter is present and is {{true}}, the created ExecEnv
@@ -3621,7 +4090,7 @@
             </description>
             <syntax>
               <string>
-                <pathRef targetParent="##.ExecEnv." refType="weak"
+                <pathRef targetParent="##.ExecEnv." refType="strong"
                     targetType="row"/>
               </string>
             </syntax>
@@ -3794,10 +4263,29 @@
         </syntax>
       </parameter>
 
+      <parameter name="AvailableUserRoles" version="2.18">
+        <description>
+          The User Roles which are available to Deployment Units installed into this
+          {{object}}. Only the listed User Roles may be assigned to a
+          DeploymentUnit.
+
+          If this parameter is missing or {{empty}} then no User Roles will be
+          available to Deployment Units installed into this {{object}}.
+         </description>
+         <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong"
+                targetParent="Device.Users.Role."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
       <command name="SetRunLevel()" version="2.12" async="false">
         <description>
           Provides a mechanism to remotely manipulate the run level of this
-          {{object}}, meaning that altering this comand will change the value
+          {{object}}, meaning that altering this command will change the value
           of the {{param|#.CurrentRunLevel}}.
 
           Run levels dictate which Execution Units will be started. Execution
@@ -3894,6 +4382,25 @@
               </string>
             </syntax>
           </parameter>
+
+          <parameter name="AvailableUserRoles" mandatory="true" version="2.18">
+            <description>
+              The new list of User Roles which may be assigned to a DeploymentUnit
+              installed into the {{object}}; this list replaces the previous
+              value of {{param|#.AvailableUserRoles}}. If this parameter is
+              {{empty}} then no User Roles can be assigned to a DeploymentUnit
+              installed into the {{object}}.
+
+              Each entry in the list is the Name of a row in
+              {{object|###.Users.Role}}.
+            </description>
+            <syntax>
+              <list/>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
         </input>
       </command>
 
@@ -3943,7 +4450,7 @@
             {{enum|Idle|#.ExecutionUnit.{i}.Status}}, exactly as if the
             {{object}} had transitioned to status {{enum|Disabled|Status}}.
 
-          # As soon as all the Execution Units have transisitioned to
+          # As soon as all the Execution Units have transitioned to
             {{enum|Idle|#.ExecutionUnit.{i}.Status}}, the {{object}}
             transitions to status {{enum|Up|Status}}. The Execution Units which
             were running on the {{object}} will be restarted according to their
@@ -4184,7 +4691,7 @@
               be supported. Other optional transports MAY also be supported.
 
               If the device receives an Update command with the same source URL
-              as a previous Update or Install comamnd, the device MUST perform
+              as a previous Update or Install command, the device MUST perform
               each Update as requested, and MUST NOT assume that the content of
               the file to be downloaded is the same each time.
             </description>
@@ -4216,6 +4723,30 @@
                 <size maxLength="256"/>
               </string>
               <default type="parameter" value=""/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Privileged" version="2.18">
+            <description>
+              This parameter determines whether the {{object}} runs in priviled mode.
+              {{false}} - Unprivileged Container.
+              {{true}}  - Privileged Container.
+            </description>
+            <syntax>
+              <boolean/>
+              <default type="parameter" value="false"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="NumRequiredUIDs" version="2.18">
+            <description>
+              Number of UIDs (EU User Identifiers) that this container will need as part of its
+              user namespace. UIDs are unique identifiers associated with each user and system
+              process that is used to determine the allocation and isolation of system resources.
+            </description>
+            <syntax>
+              <unsignedInt/>
+              <default type="parameter" value="1"/>
             </syntax>
           </parameter>
 
@@ -4268,6 +4799,35 @@
               If this argument is empty then no additional roles are
               required in order for the application to be able to provide its
               full functionality.
+            </description>
+            <syntax>
+              <list/>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="RequiredUserRoles" version="2.18">
+            <description>
+              If this argument is present, it lists the User Roles which the
+              application will need to be assigned in order to be able to
+              function at all after this update. If it is absent then the
+              required User Roles are unchanged from the previous version.
+
+              If any of these User Roles are not present in the
+              {{param|##.ExecEnv.{i}.AvailableUserRoles}} of the
+              {{object|###.ExecEnv}} in which the DU is installed then the
+              command will fail. Some Agents may apply further filtering for
+              User Roles which are considered security- or privacy-sensitive.
+
+              Each entry in the list is the Name of a row in
+              {{object|###.Users.Role}}. If there is no
+              such row then the command will fail, as installation requires a
+              User Role which is not available on the Device.
+
+              If this argument is {{empty}} then no User Roles are required in
+              order for the application to function.
             </description>
             <syntax>
               <list/>
@@ -4477,7 +5037,104 @@
             </syntax>
           </parameter>
 
-          <component ref="SMDUNetworkConfig"/>
+          <object name="NetworkConfig." version="2.17">
+            <description>
+              Specifies the network configuration for any ExecutionUnit which is created by the update of the DeploymentUnit. The new network configuration supersedes any previous configuration.
+
+              When this argument is not present in the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
+              the network configuration remains unaltered.
+             </description>
+            <parameter name="AccessInterfaces" mandatory="false">
+              <description>
+                The network interfaces which the application updated by this command will be allowed to send traffic through it.
+                If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
+                of the ExecEnv into which the DU is to be updated then the command will fail.
+
+                Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
+                Each entry in the list is the Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}.
+                If Name is present in both {{object|.Logical.Interface.}} and {{object|.IP.Interface.}}, the Interface referenced in
+                {{object|.Logical.Interface.}} must be selected.
+
+                If there is no such row then the command will fail, as the update requires access to a network, through the interface, which is not available.
+
+                When the argument {{object|NetworkConfig}} is absent or {{empty}} for the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
+                the {{param}} network configuration remains unaltered.
+
+                When the argument {{object|NetworkConfig}} provided in {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}}, {{param}} configuration supersedes
+                any previous configuration. If {{param}} is absent or {{empty}}, it indicate that no outgoing network access is required for the resulting
+                ExecutionUnit to function.
+              </description>
+              <syntax>
+                <list/>
+                <string>
+                  <size maxLength="256"/>
+                </string>
+              </syntax>
+            </parameter>
+          </object>
+
+          <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" version="2.17">
+            <description>
+              Defines the list of required port mapping rules for any ExecutionUnit which
+              is created as a result of this command.
+              If this command encounters any issue in providing the requested mapping, such as the port already being used or reserved, then it will fail.
+
+              When the argument {{object|NetworkConfig}} is absent or {{empty}} for the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
+              the {{object}} network configuration remains unaltered.
+
+              When the argument {{object|NetworkConfig}} provided in {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}}, {{object}} configuration supersedes
+              any previous configuration. If {{object}} is absent or {{empty}}, it indicate that no port mapping is required for the resulting ExecutionUnit to function.
+            </description>
+
+            <parameter name="Interface" mandatory="true" >
+              <description>
+                Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}. If Name is present in both {{object|.Logical.Interface.}}
+                and {{object|.IP.Interface.}}, the Interface referenced in {{object|.Logical.Interface.}} must be selected.
+                Specifies the interface to which the port mapping applies.
+              </description>
+              <syntax>
+                <string>
+                  <size maxLength="256"/>
+                </string>
+              </syntax>
+            </parameter>
+
+            <parameter name="ExternalPort" mandatory="true" >
+              <description>
+                The external port that the NAT gateway would listen on for traffic to a
+                corresponding InternalPort. Inbound packets to this external port on the selected
+                interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
+              </description>
+              <syntax>
+                <unsignedInt>
+                  <range minInclusive="0" maxInclusive="65535"/>
+                </unsignedInt>
+              </syntax>
+            </parameter>
+
+            <parameter name="InternalPort" mandatory="true" >
+              <description>
+                The port on ExecutionUnit that the gateway MUST forward traffic to.
+              </description>
+              <syntax>
+                <unsignedInt>
+                  <range minInclusive="0" maxInclusive="65535"/>
+                </unsignedInt>
+              </syntax>
+            </parameter>
+
+            <parameter name="Protocol" mandatory="true">
+              <description>
+                The protocol of the port mapping.
+              </description>
+              <syntax>
+                <string>
+                  <enumeration value="TCP"/>
+                  <enumeration value="UDP"/>
+                </string>
+              </syntax>
+            </parameter>
+          </object>
         </input>
       </command>
 
@@ -4641,7 +5298,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias" version="2.16"/>
 
       <parameter name="IsNativeDevice" access="readOnly">
         <description>
@@ -4872,7 +5529,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias" version="2.12"/>
       <component ref="IoT_ProxiedDeviceExtensionComponent"/>
       <component ref="IoT_NodeComponent"/>
     </object>
@@ -6515,8 +7172,7 @@
       </command>
     </object>
 
-    <object base="Device.UserInterface.HTTPAccess.{i}.Session.{i}."
-        access="readWrite" minEntries="0" maxEntries="unbounded">
+    <object base="Device.UserInterface.HTTPAccess.{i}.Session.{i}." minEntries="0" maxEntries="unbounded">
       <command name="Delete()" async="false">
         <description>
           This terminates an active session ahead of any configured timeouts.
@@ -6623,7 +7279,7 @@
         minEntries="0" maxEntries="unbounded">
 
       <parameter name="Status" access="readOnly"
-          dmr:previousParameter="Enable" status="deprecated">
+          dmr:previousParameter="Enable" status="obsoleted">
         <description>
           Indicates availability of Sample statistics. {{enum}}
 
@@ -6637,6 +7293,8 @@
 
           {{deprecated|2.16|because the periodic statistics are sent through a
           USP {{event|Push!}} event}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -7046,8 +7704,16 @@
       </command>
     </object>
 
-    <object base="Device.SSH.Server.{i}.Session.{i}." access="readWrite"
-        minEntries="0" maxEntries="unbounded">
+    <object base="Device.IEEE8021x.Supplicant.{i}.Stats." access="readOnly" minEntries="1"
+        maxEntries="1">
+      <command name="Reset()" async="false" version="2.18">
+        <description>
+          Reset all this object's statistics counters to zero.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.SSH.Server.{i}.Session.{i}.">
       <command name="Delete()" async="false">
         <description>
           This command is issued to delete the current active session.
@@ -7113,7 +7779,7 @@
       </object>
     </profile>
 
-    <profile name="IPLayerCapacity:1" version="2.14" status="obsoleted">
+    <profile name="IPLayerCapacity:1" version="2.14" status="deleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
         <parameter ref="IPLayerMaxConnections" requirement="readOnly"/>
@@ -7123,10 +7789,10 @@
           <input>
             <parameter ref="Interface"/>
             <parameter ref="Role"/>
-            <parameter ref="Host" status="obsoleted"/>
-            <parameter ref="Port" status="obsoleted"/>
+            <parameter ref="Host" status="deleted"/>
+            <parameter ref="Port" status="deleted"/>
             <parameter ref="JumboFramesPermitted"/>
-            <parameter ref="NumberOfConnections" status="obsoleted"/>
+            <parameter ref="NumberOfConnections" status="deleted"/>
             <parameter ref="EthernetPriority"/>
             <parameter ref="DSCP"/>
             <parameter ref="ProtocolVersion"/>
@@ -7140,7 +7806,7 @@
             <parameter ref="NumberTestSubIntervals"/>
             <parameter ref="TestSubInterval"/>
             <parameter ref="StatusFeedbackInterval"/>
-            <parameter ref="TimeoutNoTraffic" status="obsoleted"/>
+            <parameter ref="TimeoutNoTraffic" status="deleted"/>
             <parameter ref="Tmax"/>
             <parameter ref="TmaxRTT"/>
             <parameter ref="TimestampResolution"/>
@@ -7176,7 +7842,7 @@
       </object>
     </profile>
 
-    <profile name="IPLayerCapacityTest:1" version="2.15" status="deprecated">
+    <profile name="IPLayerCapacityTest:1" version="2.15" status="obsoleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
         <parameter ref="IPLayerCapSupportedSoftwareVersion"
@@ -7187,7 +7853,7 @@
         <command ref="IPLayerCapacity()">
           <input>
             <parameter ref="Role"/>
-            <parameter ref="Host" status="deprecated"/>
+            <parameter ref="Host" status="obsoleted"/>
             <parameter ref="JumboFramesPermitted"/>
             <parameter ref="DSCP"/>
             <parameter ref="TestType"/>
@@ -7821,11 +8487,11 @@
 
     <profile name="PeriodicStatsAdv:1" extends="PeriodicStatsBase:1"
         version="2.0" dmr:previousProfile="PeriodicStatsBase:1"
-        status="deprecated">
+        status="obsoleted">
       <object ref="Device.PeriodicStatistics.SampleSet.{i}."
           requirement="createDelete">
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Status" requirement="readOnly" status="deprecated"/>
+        <parameter ref="Status" requirement="readOnly" status="obsoleted"/>
         <parameter ref="TimeReference" requirement="readWrite"/>
         <parameter ref="FetchSamples" requirement="readWrite"/>
         <command ref="ForceSample()"/>
@@ -8228,9 +8894,9 @@
     </profile>
 
     <profile name="CoAPAgent:1" extends="LocalAgent:1" version="2.13"
-        status="obsoleted">
+        status="deleted">
       <object ref="Device.LocalAgent.MTP.{i}.CoAP." requirement="present"
-          status="obsoleted">
+          status="deleted">
         <parameter ref="Port" requirement="readOnly"/>
         <parameter ref="Path" requirement="readOnly"/>
       </object>
@@ -8283,9 +8949,9 @@
     </profile>
 
     <profile name="CoAPController:1" extends="Controllers:1" version="2.13"
-        status="obsoleted">
+        status="deleted">
       <object ref="Device.LocalAgent.Controller.{i}.MTP.{i}.CoAP."
-          requirement="present" status="obsoleted">
+          requirement="present" status="deleted">
         <parameter ref="Host" requirement="readOnly"/>
         <parameter ref="Port" requirement="readOnly"/>
         <parameter ref="Path" requirement="readOnly"/>
@@ -8311,15 +8977,17 @@
     </profile>
 
     <profile name="MQTTController:1" extends="Controllers:1" version="2.13"
-        status="deprecated">
+        status="obsoleted">
       <description>
         This profile adds USP controller extensions for MQTT transport.
 
         {{deprecated|2.16|because it now contains a deprecated parameter}}
+
+        {{obsoleted|2.18}}
       </description>
       <object ref="Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT."
           requirement="present">
-        <parameter ref="Reference" requirement="readOnly" status="deprecated"/>
+        <parameter ref="Reference" requirement="readOnly" status="obsoleted"/>
         <parameter ref="Topic" requirement="readWrite"/>
       </object>
     </profile>

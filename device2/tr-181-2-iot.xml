@@ -2,7 +2,7 @@
 <!--
   IoT Component objects for TR-181 Device:2 model
 
-  Copyright (c) 2019-2021, Broadband Forum
+  Copyright (c) 2019-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,11 +55,14 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-iot"
-    file="tr-181-2-16-0-iot.xml">
-
+    spec="urn:broadband-forum-org:tr-181-2-18-0-iot"
+    file="tr-181-2-18-0-iot.xml">
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <dataType name="Alias" ref="_AliasUSP"/>
+    <component name="Alias"/>
+  </import>
+
+  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-16-root">
+    <component name="Root"/>
   </import>
 
   <dataType name="IoTUnitType">
@@ -230,6 +233,26 @@
       <enumeration value="J">
         <description>Joule [SI]</description>
       </enumeration>
+      <enumeration value="rpm">
+        <description>
+          Rotations per minute
+        </description>
+      </enumeration>
+      <enumeration value="pps">
+        <description>
+          Pulses per second
+        </description>
+      </enumeration>
+      <enumeration value="cu-m/s">
+        <description>
+          Cubic meters per second
+        </description>
+      </enumeration>
+      <enumeration value="liter/s">
+        <description>
+          Liters per second
+        </description>
+      </enumeration>
     </string>
   </dataType>
 
@@ -292,6 +315,8 @@
         </description>
       </enumeration>
       <enumeration value="Weight"/>
+      <enumeration value="Depth"/>
+      <enumeration value="Counter"/>
     </string>
   </dataType>
 
@@ -349,14 +374,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readOnly">
         <description>
@@ -499,14 +517,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <parameter name="Alias" access="readWrite">
-        <description>
-          {{datatype|expand}}
-        </description>
-        <syntax>
-          <dataType ref="Alias"/>
-        </syntax>
-      </parameter>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -679,7 +690,7 @@
           <!--<default type="object" value="1"/>-->
         </syntax>
       </parameter>
-
+  
       <command name="StepUp()" async="true">
         <description>
           Step Up the {{param|Value}}.
@@ -826,6 +837,15 @@
         </syntax>
       </parameter>
 
+      <parameter name="LastContactTime" access="readOnly" version="2.18">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
       <parameter name="Sensitivity" access="readWrite">
         <description>
           A 0 to 100 value indicating how reactive to changes the {{object}}
@@ -908,6 +928,15 @@
         <description>
           The date and time in UTC when {{param|Value}} has been changed to the
           current value.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastContactTime" access="readOnly" version="2.18">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
         </description>
         <syntax>
           <dateTime/>
@@ -1022,7 +1051,7 @@
           <decimal/>
         </syntax>
       </parameter>
-
+  
       <parameter name="ValueNames" access="readOnly">
         <description>
           The names of the values expressed in {{param|Values}}.
@@ -1039,6 +1068,15 @@
         <description>
           The date and time when {{param|Values}} has been changed to the
           current values.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastContactTime" access="readOnly" version="2.18">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
         </description>
         <syntax>
           <dateTime/>
@@ -1100,6 +1138,15 @@
         <description>
           The date and time when {{param|Value}} has been changed to the
           current value.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastContactTime" access="readOnly" version="2.18">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
         </description>
         <syntax>
           <dateTime/>
@@ -1231,4 +1278,10 @@
       </object>
     </profile>
   </component>
+
+  <model name="IoT:2.18">
+    <component ref="Root"/>
+    <component ref="IoT_ObjectComponent" path="Device."/>
+    <component ref="IoT_NodeComponent" path="Device."/>
+  </model>
 </dm:document>

@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DSL]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-dsl"
-    file="tr-181-2-17-0-dsl.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-dsl"
+    file="tr-181-2-18-0-dsl.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -792,7 +792,7 @@
         {{datatype|expand}}
 
         The value of UER at frequency i*{{param|UERGroupSize}}*Df =
-        ({{param|UERScaleFactor}}/(2^31))*(a(i)+j*b(i))/(2^31) where Df =
+        ({{param|UERScaleFactor}}/(2^31^))*(a(i)+j*b(i))/(2^31^) where Df =
         4.3125 kHz.
 
         This parameter is defined as CPE SELT uncalibrated echo response
@@ -813,7 +813,7 @@
         A.2.2.1}}.
 
         Note that the scale factor is chosen such that max(abs(a(i)),
-        abs(b(i))) over all i is equal to 2^31 - 1, which doesn't allow
+        abs(b(i))) over all i is equal to 2^31^ - 1, which doesn't allow
         {{param}} to be zero.
       </description>
       <syntax>
@@ -1295,7 +1295,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -3560,7 +3560,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -4593,7 +4593,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -4860,7 +4860,7 @@
         <parameter ref="Channel"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Channel" access="readOnly">
         <description>
@@ -6492,7 +6492,7 @@
     </profile>
   </component>
 
-  <model name="DSL:2.17">
+  <model name="DSL:2.18">
     <component ref="Root"/>
     <component ref="DSL"/>
   </model>

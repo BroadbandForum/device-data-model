@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [PDU]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-pdu"
-    file="tr-181-2-17-0-pdu.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-pdu"
+    file="tr-181-2-18-0-pdu.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
   </import>
@@ -171,7 +171,7 @@
         <parameter ref="SessionID"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readOnly">
         <description>
@@ -325,7 +325,7 @@
         <description>
           The Data Network Name used by the PDU. The DNN value may be from the
           optional S-NSSAI specified at the time of PDU establishment or a
-          default determined by the 5G core. A DNN is analagous to an LTE APN
+          default determined by the 5G core. A DNN is analogous to an LTE APN
           used the same format defined in {{bibref|3GPP-TS.24.501|clause
           9.11.2.1A}}.
         </description>
@@ -423,7 +423,7 @@
       <description>
         This object describes the PDU QoS Rule table. The purpose of the QoS
         Rule table is to assign a QFI to mark traffic based on a set of
-        classification rules. The rules are set by the netowrk operator and are
+        classification rules. The rules are set by the network operator and are
         specific for each PDU.
 
         For example:
@@ -473,7 +473,7 @@
         <parameter ref="Identifier"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Identifier" access="readOnly">
         <description>
@@ -554,7 +554,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Direction" access="readOnly">
         <description>
@@ -624,7 +624,7 @@
         <parameter ref="QFI"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="QFI" access="readOnly">
         <description>
@@ -715,7 +715,7 @@
     </object>
   </component>
 
-  <model name="PDU:2.17">
+  <model name="PDU:2.18">
     <component ref="Root"/>
     <component ref="PDU"/>
   </model>

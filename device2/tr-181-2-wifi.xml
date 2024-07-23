@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi"
-    file="tr-181-2-17-0-wifi.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi"
+    file="tr-181-2-18-0-wifi.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -75,7 +75,7 @@
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi-base">
     <component name="WiFiRoot"/>
     <component name="WiFiBase"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
@@ -83,7 +83,7 @@
   </import>
 
   <import file="tr-181-2-wifi-de.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi-de">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi-de">
     <component name="WiFiAllianceDataElements"/>
     <component name="SpatialReuse"/>
     <component name="DEScanResultNumberOfEntries"/>
@@ -235,7 +235,7 @@
   <component name="BBFEasyMesh">
 
     <object name="Device.WiFi.MultiAP." access="readOnly" minEntries="1"
-        maxEntries="1" status="obsoleted" version="2.13">
+        maxEntries="1" status="deleted" version="2.13">
       <description>
         This object describes a Wi-Fi network containing 1 or more Access Point
         devices.
@@ -254,10 +254,12 @@
         {{object|##.WiFi.DataElements.Network}} MultiAP objects}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="APDeviceNumberOfEntries" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{numentries}}
 
@@ -265,6 +267,8 @@
           deprecated}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -273,7 +277,7 @@
     </object>
 
     <object name="Device.WiFi.MultiAP.SteeringSummaryStats." access="readOnly"
-        minEntries="1" maxEntries="1" status="obsoleted" version="2.13">
+        minEntries="1" maxEntries="1" status="deleted" version="2.13">
       <description>
         The summary of statistics related to Multi-AP Steering for the Wi-Fi
         network.
@@ -284,6 +288,8 @@
         {{object|##.DataElements.Network.MultiAPSteeringSummaryStats}}}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="NoCandidateAPFailures" access="readOnly">
@@ -366,7 +372,7 @@
 
     <object name="Device.WiFi.MultiAP.APDevice.{i}." access="readOnly"
         numEntriesParameter="APDeviceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" status="obsoleted" version="2.13">
+        maxEntries="unbounded" status="deleted" version="2.13">
       <description>
         Each instance of this object represents an individual Access Point
         device in the Wi-Fi network.
@@ -381,12 +387,14 @@
         deprecated as noted}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
-      <parameter name="MACAddress" access="readOnly" status="obsoleted">
+      <parameter name="MACAddress" access="readOnly" status="deleted">
         <description>
           A unique identifier for this particular device within the Wi-Fi
           network.
@@ -395,13 +403,15 @@
           {{param|##.DataElements.Network.Device.{i}.ID}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="Manufacturer" access="readOnly" status="obsoleted">
+      <parameter name="Manufacturer" access="readOnly" status="deleted">
         <description>
           The manufacturer of the Access Point device (human readable string).
 
@@ -409,6 +419,8 @@
           Elements R2}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string/>
@@ -434,7 +446,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="ProductClass" access="readOnly" status="obsoleted">
+      <parameter name="ProductClass" access="readOnly" status="deleted">
         <description>
           Identifier of the class of product for which the serial number
           applies. That is, for a given manufacturer, this parameter is used to
@@ -448,6 +460,8 @@
           Elements R2}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -456,7 +470,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SerialNumber" access="readOnly" status="obsoleted">
+      <parameter name="SerialNumber" access="readOnly" status="deleted">
         <description>
           Identifier of the particular Access Point device that is unique for
           the indicated class of product and manufacturer.
@@ -468,6 +482,8 @@
           Elements R2}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -476,7 +492,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SoftwareVersion" access="readOnly" status="obsoleted">
+      <parameter name="SoftwareVersion" access="readOnly" status="deleted">
         <description>
           A string identifying the software version currently installed in the
           Access Point device (i.e. version of the overall firmware).
@@ -490,6 +506,8 @@
           Elements R2}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -628,7 +646,7 @@
       </parameter>
 
       <parameter name="DFSEnable" access="readWrite" version="2.14"
-          status="obsoleted">
+          status="deleted">
         <description>
           Enables or disables Dynamic Frequency Selection (DFS).
 
@@ -636,6 +654,8 @@
           Elements R2}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -643,7 +663,7 @@
       </parameter>
 
       <parameter name="RadioNumberOfEntries" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{numentries}}
 
@@ -651,6 +671,8 @@
           deprecated}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -660,7 +682,7 @@
 
     <object name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}."
         access="readOnly" numEntriesParameter="RadioNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" status="obsoleted"
+        minEntries="0" maxEntries="unbounded" status="deleted"
         version="2.13">
       <description>
         This object represents all of the individual Radios contained within
@@ -677,12 +699,14 @@
         The remaining parameters deprecated as noted}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
       </uniqueKey>
 
-      <parameter name="MACAddress" access="readOnly" status="obsoleted">
+      <parameter name="MACAddress" access="readOnly" status="deleted">
         <description>
           A unique identifier for this particular Radio within the identified
           Access Point.
@@ -691,6 +715,8 @@
           {{param|###.DataElements.Network.Device.{i}.Radio.{i}.ID}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -698,7 +724,7 @@
       </parameter>
 
       <parameter name="OperatingFrequencyBand" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           Indicates the frequency band at which the radio is operating.
           {{enum}}
@@ -707,6 +733,8 @@
           {{param|###.DataElements.Network.Device.{i}.Radio.{i}.CurrentOperatingClassProfile.{i}.Class}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -718,7 +746,7 @@
       </parameter>
 
       <parameter name="OperatingStandards" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{list}} List items indicate which IEEE 802.11 standard this
           {{object}} instance is configured for. {{enum}}
@@ -744,6 +772,8 @@
           EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <list/>
@@ -770,7 +800,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Channel" access="readWrite" status="obsoleted">
+      <parameter name="Channel" access="readWrite" status="deleted">
         <description>
           The current radio channel used by the connection.
 
@@ -794,6 +824,8 @@
           {{param|###.DataElements.Network.Device.{i}.Radio.{i}.CurrentOperatingClassProfile.{i}.Channel}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -802,7 +834,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="ExtensionChannel" access="readOnly" status="obsoleted">
+      <parameter name="ExtensionChannel" access="readOnly" status="deleted">
         <description>
           The secondary extension channel position, applicable when operating
           in wide channel mode (i.e. when
@@ -818,6 +850,8 @@
           EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -828,7 +862,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PossibleChannels" access="readOnly" status="obsoleted"
+      <parameter name="PossibleChannels" access="readOnly" status="deleted"
           version="2.14">
         <description>
           {{list}} List items represent possible radio channels for the
@@ -841,6 +875,8 @@
           {{deprecated|2.15|because it is not available via EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <list>
@@ -851,13 +887,15 @@
       </parameter>
 
       <parameter name="CurrentOperatingChannelBandwidth" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           The channel bandwidth currently in use. {{enum}}
 
           {{deprecated|2.15|because it is not available via EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -869,7 +907,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MCS" access="readOnly" status="obsoleted">
+      <parameter name="MCS" access="readOnly" status="deleted">
         <description>
           The Modulation Coding Scheme index (applicable to 802.11n and
           802.11ac specifications only). Values from 0 to 15 MUST be supported
@@ -880,6 +918,8 @@
           EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <int>
@@ -889,7 +929,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TransmitPower" access="readOnly" status="obsoleted">
+      <parameter name="TransmitPower" access="readOnly" status="deleted">
         <description>
           Indicates the current transmit power level as a {{units}} of full
           power.
@@ -898,6 +938,8 @@
           {{param|###.DataElements.Network.Device.{i}.Radio.{i}.CurrentOperatingClassProfile.{i}.TxPower}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <int>
@@ -908,7 +950,7 @@
       </parameter>
 
       <parameter name="TransmitPowerLimit" access="readWrite"
-          status="obsoleted" version="2.14">
+          status="deleted" version="2.14">
         <description>
           Indicates the maximum Effective Isotropic Radiated Power (EIRP) per
           20 MHz bandwidth representing the nominal transmit power limit for
@@ -918,6 +960,8 @@
           {{deprecated|2.15|because it is not available in EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <int>
@@ -928,7 +972,7 @@
       </parameter>
 
       <parameter name="APNumberOfEntries" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{numentries}}
 
@@ -936,6 +980,8 @@
           deprecated}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -945,7 +991,7 @@
 
     <object name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}.AP.{i}."
         access="readOnly" numEntriesParameter="APNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" status="obsoleted"
+        minEntries="0" maxEntries="unbounded" status="deleted"
         version="2.13">
       <description>
         A single logical Access Point operating on this radio.
@@ -956,6 +1002,8 @@
         {{object|####.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.}}}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <uniqueKey functional="true">
         <parameter ref="BSSID"/>
@@ -1014,7 +1062,7 @@
       </parameter>
 
       <parameter name="AssociatedDeviceNumberOfEntries" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{numentries}}
 
@@ -1022,6 +1070,8 @@
           being deprecated}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -1032,7 +1082,7 @@
     <object
         name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}.AP.{i}.AssociatedDevice.{i}."
         access="readOnly" numEntriesParameter="AssociatedDeviceNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" status="obsoleted"
+        minEntries="0" maxEntries="unbounded" status="deleted"
         version="2.13">
       <description>
         Object describing a single Associated Device (STA).
@@ -1045,6 +1095,8 @@
         except {{param|OperatingStandard}} which was deprecated as noted}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
@@ -1060,7 +1112,7 @@
       </parameter>
 
       <parameter name="OperatingStandard" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           The operating standard that this associated device is connected with.
           {{enum}}
@@ -1069,6 +1121,8 @@
           EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -1094,7 +1148,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Active" access="readOnly" status="obsoleted">
+      <parameter name="Active" access="readOnly" status="deleted">
         <description>
           Whether or not this associated device is currently present on the
           Wi-Fi Access Point device.
@@ -1108,6 +1162,8 @@
           EasyMesh}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -1179,7 +1235,7 @@
       </parameter>
 
       <parameter name="SteeringHistoryNumberOfEntries" access="readOnly"
-          status="obsoleted">
+          status="deleted">
         <description>
           {{numentries}}
 
@@ -1188,6 +1244,8 @@
           is being deprecated}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -1197,7 +1255,7 @@
 
     <object
         name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}.AP.{i}.AssociatedDevice.{i}.Stats."
-        access="readOnly" minEntries="1" maxEntries="1" status="obsoleted"
+        access="readOnly" minEntries="1" maxEntries="1" status="deleted"
         version="2.13">
       <description>
         Object describing the Statistics for a single Associated Device (STA).
@@ -1206,6 +1264,8 @@
         {{object|######.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}}}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="BytesSent" access="readOnly">
@@ -1279,7 +1339,7 @@
 
     <object
         name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}.AP.{i}.AssociatedDevice.{i}.SteeringSummaryStats."
-        access="readOnly" minEntries="1" maxEntries="1" status="obsoleted"
+        access="readOnly" minEntries="1" maxEntries="1" status="deleted"
         version="2.13">
       <description>
         The summary of statistics related to Multi-AP Steering for an
@@ -1291,6 +1351,8 @@
         {{object|######.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.SteeringSummaryStats.}}}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
 
       <parameter name="NoCandidateAPFailures" access="readOnly">
@@ -1389,7 +1451,7 @@
     <object
         name="Device.WiFi.MultiAP.APDevice.{i}.Radio.{i}.AP.{i}.AssociatedDevice.{i}.SteeringHistory.{i}."
         access="readOnly" numEntriesParameter="SteeringHistoryNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" status="obsoleted"
+        minEntries="0" maxEntries="unbounded" status="deleted"
         version="2.13">
       <description>
         The history of Multi-AP Steering for an individual STA on the Wi-Fi
@@ -1401,6 +1463,8 @@
         {{object|######.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.SteeringHistory.{i}.}}}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <uniqueKey functional="true">
         <parameter ref="Time"/>

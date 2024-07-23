@@ -142,17 +142,36 @@
   - January 2024
   - * Refreshed some data model diagrams
 
+* - [Issue 2 Amendment 18][TR-181 Issue 2 Amendment 18]
+  - July 2024
+  - * Fixed logical interface table
+    * Added ToO chapter about network interface MTU
+    * Manually resized diagrams to look nice
+    * Updated all generated diagrams
+
 :::
+
+Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
+
+::: nobreak
 
 ### %bbfWorkArea% Work Area Directors {.unnumbered .unlisted}
 
 * Jason Walls, QA Cafe
-* John Blackford, CommScope
+* John Blackford, Vantiva
+
+:::
+
+::: nobreak
 
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
 * Daniel Egger, Axiros
 * Matthieu Anne, Orange
+
+:::
+
+::: nobreak
 
 ### Editors {.unnumbered .unlisted}
 
@@ -161,6 +180,10 @@
 * Steve Nicolai, Arris
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
+
+:::
+
+::: nobreak
 
 ### Acknowledgments {.unnumbered .unlisted}
 
@@ -175,15 +198,17 @@
 * David Cluytens, Orange
 * Jason Walls, QA Cafe
 * Johan Jacobs, Orange
-* John Blackford, Commscope
+* John Blackford, Vantiva
 * Ken Kerpez, DZS
 * Laurent Alarcon, Sagemcom
 * Matthieu Anne, Orange
 * Patrick Rogier, Orange
 * Ramesh Rajasekaran, Nokia
-* Richard Holme, Commscope
+* Richard Holme, Vantiva
 * Tim Spets, Nokia
 * William Lupton, BBF
+
+:::
 
 [TR-181 Issue 1]: https://www.broadband-forum.org/download/TR-181_Issue-1.pdf
 [TR-181 Issue 2]: https://www.broadband-forum.org/download/TR-181_Issue-2.pdf
@@ -195,6 +220,7 @@
 [TR-181 Issue 2 Amendment 15]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-15.pdf
 [TR-181 Issue 2 Amendment 16]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-16.pdf
 [TR-181 Issue 2 Amendment 17]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf
+[TR-181 Issue 2 Amendment 18]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-18.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf

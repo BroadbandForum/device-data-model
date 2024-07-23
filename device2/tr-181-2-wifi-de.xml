@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WiFi Data Elements]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -51,16 +51,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi-de"
-    file="tr-181-2-17-0-wifi-de.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi-de"
+    file="tr-181-2-18-0-wifi-de.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -79,7 +79,7 @@
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi-base">
     <component name="WiFiRoot"/>
   </import>
 
@@ -156,7 +156,7 @@
 
     <parameter name="STREnabled" access="readOnly">
       <description>
-        Indicates if Simultaneous Transmit and Receive (STR) operation 
+        Indicates if Simultaneous Transmit and Receive (STR) operation
         is enabled.
       </description>
       <syntax>
@@ -186,7 +186,7 @@
     </parameter>
 
   </component>
-  
+
   <component name="MLD">
 
     <object name="Device.WiFi.DataElements.Network.Device.{i}.APMLD.{i}."
@@ -245,7 +245,7 @@
         access="readOnly" minEntries="1" maxEntries="1" version="2.17">
       <description>
         This object describes the Wi-Fi 7 Multi-Link Operation (MLO)
-        configuration of the Multi-Link Device (MLD) Access Point (AP), 
+        configuration of the Multi-Link Device (MLD) Access Point (AP),
         {{bibref|EasyMesh}} source: Agent AP MLD Configuration TLV.
       </description>
 
@@ -377,7 +377,7 @@
       <parameter name="ErrorsSent" access="readOnly">
         <description>
           The number of packets which could not be transmitted by the
-          Affiliated AP due to errors. 
+          Affiliated AP due to errors.
           This counter counts only MLD traffic through this BSSID,
           not legacy (non-MLD) traffic.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
@@ -490,7 +490,7 @@
         minEntries="0" maxEntries="unbounded" version="2.17">
       <description>
         This object describes Multi-Link Operation (MLO) capable stations
-        (STAs), also known as client Multilink Devices (MLDs), associated to 
+        (STAs), also known as client Multilink Devices (MLDs), associated to
         this MLO capable Access Point.
         {{bibref|EasyMesh}} source: Associated Clients TLV.
       </description>
@@ -538,7 +538,7 @@
 
       <parameter name="IsbSTA" access="readOnly">
         <description>
-          Indicates if the client MLD STA is a backhaul MLD STA (bSTAMLD). 
+          Indicates if the client MLD STA is a backhaul MLD STA (bSTAMLD).
           This is useful when the same AP MLD has both client MLD and bSTAMLDs
           associated.
           {{bibref|EasyMesh}} source: Backhaul STA MLD Configuration TLV.
@@ -582,7 +582,7 @@
       <parameter name="PacketsSent" access="readOnly">
         <description>
           The total number of packets transmitted to the client MLD STA.
-         {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
+          {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
           <dataType ref="StatsCounter32"/>
@@ -614,7 +614,7 @@
         <description>
           The number of packets which were received with error from the
           client MLD STA.
-          {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV. 
+          {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
           <dataType ref="StatsCounter32"/>
@@ -652,8 +652,7 @@
     </object>
 
     <object name="Device.WiFi.DataElements.Network.Device.{i}.APMLD.{i}.STAMLD.{i}.WiFi7Capabilities."
-        access="readOnly" numEntriesParameter="WiFi7CapabilitiesNumberOfEntries"
-        minEntries="1" maxEntries="1" version="2.17">
+        access="readOnly" version="2.17">
       <description>
         This object describes the Wi-Fi 7 capabilities for this STAMLD
         including Multi-Link Operation (MLO) capabilities.
@@ -682,7 +681,7 @@
 
       <parameter name="STRSupport" access="readOnly">
         <description>
-          Indicates if Simultaneous Transmit and Receive (STR) operation 
+          Indicates if Simultaneous Transmit and Receive (STR) operation
           is supported by this STAMLD.
         </description>
         <syntax>
@@ -692,7 +691,7 @@
 
       <parameter name="NSTRSupport" access="readOnly">
         <description>
-          Indicates if Non-Simultaneous Transmit and Receive (NSTR) 
+          Indicates if Non-Simultaneous Transmit and Receive (NSTR)
           operation is supported by this STAMLD.
         </description>
         <syntax>
@@ -716,13 +715,13 @@
         access="readOnly" minEntries="1" maxEntries="1" version="2.17">
       <description>
         This object describes the Wi-Fi 7 Multi-Link Operation (MLO)
-        configuration of the Multi-Link Device (MLD) 
+        configuration of the Multi-Link Device (MLD)
         station (STA, also called associated device).
         Note this may differ from the WiFi7 capabilities of the device.
         {{bibref|EasyMesh}} source: Associated STA MLD Configuration Report
         TLV.
       </description>
-  
+
       <component ref="MLDConfig"/>
     </object>
 
@@ -747,8 +746,8 @@
         access="readOnly" numEntriesParameter="AffiliatedSTANumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.17">
       <description>
-        This object describes stations (STAs, also called associated devices) 
-        that are affiliated to this Multi-Link Device (MLD) STA. 
+        This object describes stations (STAs, also called associated devices)
+        that are affiliated to this Multi-Link Device (MLD) STA.
         {{bibref|EasyMesh}} source: Associated STA MLD Configuration TLV.
       </description>
       <uniqueKey functional="true">
@@ -801,7 +800,7 @@
       <parameter name="PacketsSent" access="readOnly">
         <description>
           The total number of packets transmitted to the affiliated STA.
-         {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
+          {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
           <dataType ref="StatsCounter32"/>
@@ -843,7 +842,7 @@
           </unsignedInt>
         </syntax>
       </parameter>
- 
+
       <parameter name="EstMACDataRateDownlink" access="readOnly">
         <description>
           Estimate of the MAC layer throughput in {{units}} achievable in the
@@ -922,10 +921,10 @@
     </object>
 
     <object name="Device.WiFi.DataElements.Network.Device.{i}.bSTAMLD."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.17">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.17" dmr:noNameCheck="true">
       <description>
         This object represents the Multi-Link Operation (MLO) capable backhaul
-        station (bSTA) operating on this EasyMesh Agent. Only one MLO capable 
+        station (bSTA) operating on this EasyMesh Agent. Only one MLO capable
         bSTA per EasyMesh Agent is allowed.
         {{bibref|EasyMesh}} source: Backhaul STA MLD Configuration TLV.
       </description>
@@ -965,7 +964,7 @@
     </object>
 
     <object name="Device.WiFi.DataElements.Network.Device.{i}.bSTAMLD.bSTAMLDConfig."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.17">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.17" dmr:noNameCheck="true">
       <description>
         This object describes the Multi-Link Operation (MLO) configuration of
         a Multi-Link Device (MLD) backhaul STA (bSTA).
@@ -1001,7 +1000,7 @@
 
     <parameter name="STRSupport" access="readOnly">
       <description>
-        Indicates if Simultaneous Transmit and Receive (STR) operation 
+        Indicates if Simultaneous Transmit and Receive (STR) operation
         is supported.
       </description>
       <syntax>
@@ -1011,7 +1010,7 @@
 
     <parameter name="NSTRSupport" access="readOnly">
       <description>
-        Indicates if Non-Simultaneous Transmit and Receive (NSTR) 
+        Indicates if Non-Simultaneous Transmit and Receive (NSTR)
         operation is supported.
       </description>
       <syntax>
@@ -1070,7 +1069,7 @@
 
     <parameter name="RUID" access="readOnly">
       <description>
-        The Radio unique identifier (RUID) of another radio to which 
+        The Radio unique identifier (RUID) of another radio to which
         the specified frequency separation gap applies.
       </description>
       <syntax>
@@ -1883,7 +1882,7 @@
           string format as defined in {{bibref|RFC3339|Section 3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/>
         </syntax>
       </parameter>
 
@@ -2101,7 +2100,7 @@
           delimiters, e.g. 506F9A02 {{bibref|802.11-2020|Table 9-151}}.
 
           This parameter applies if {{param|AKMsAllowed}} includes value
-          "SuiteSelector". 
+          "SuiteSelector".
         </description>
         <syntax>
           <hexBinary>
@@ -2223,7 +2222,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.17"/>
+      <component ref="Alias"/>
 
       <parameter name="Day" access="readWrite" mandatory="true">
         <description>
@@ -2244,7 +2243,7 @@
       </parameter>
 
       <parameter name="StartTime" access="readWrite" mandatory="true">
-        <description> 
+        <description>
           Start time of the STA block in hh:mm format.
           [hh] refers to a zero-padded hour between 00 and 23.
           [mm] refers to a zero-padded minute between 00 and 59.
@@ -2588,7 +2587,7 @@
       </parameter>
 
       <parameter name="APMetricsWiFi6" access="readOnly" version="2.15"
-          status="deprecated">
+          status="obsoleted">
         <description>
           Associated Wi-Fi6 STA Status Inclusion Policy.
 
@@ -2600,6 +2599,8 @@
 
           {{deprecated|2.16|because it was the same as
           {{param|Radio.{i}.APMetricsWiFi6}}.}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -2672,7 +2673,7 @@
       </parameter>
 
       <parameter name="AssociatedSTAinAPMetricsWiFi6" access="readWrite"
-          version="2.15" status="deprecated">
+          version="2.15" status="obsoleted">
         <description>
           For EasyMesh {{bibref|EasyMesh}}, this is the Associated Wi-Fi6 STA
           Status Inclusion Policy.
@@ -2685,6 +2686,8 @@
 
           {{deprecated|2.16|because it was the same as
           {{param|Radio.{i}.APMetricsWiFi6}}.}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <boolean/>
@@ -2798,7 +2801,7 @@
         <description>
           The IEEE 1905 {{bibref|IEEE1905.1a}} Abstraction-Layer ID (ALID)
           of the EasyMesh Agent on the network that is
-          providing the backhaul for this EasyMesh Agent. 
+          providing the backhaul for this EasyMesh Agent.
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -2809,7 +2812,7 @@
           version="2.17">
         <description>
           {{list}} Each MAC address is that of a downstream EasyMesh agent's
-          backhaul link. 
+          backhaul link.
         </description>
         <syntax>
           <list/>
@@ -2822,7 +2825,7 @@
           Media type of the backhaul link of this EasyMesh Agent.
 
           This value can be derived from the neighbor's topology response
-          message 1905 device information type TLV Media Type field 
+          message 1905 device information type TLV Media Type field
           defined in {{bibref|IEEE1905.1a|Table 6-12}}. {{enum}}
         </description>
         <syntax>
@@ -2892,7 +2895,7 @@
       <parameter name="TrafficSeparationCapability" access="readOnly"
           version="2.17">
         <description>
-          Indicator of EasyMesh Agent capability to support EasyMesh 
+          Indicator of EasyMesh Agent capability to support EasyMesh
           {{bibref|EasyMesh}} 802.1Q C-TAG Traffic Separation.
         </description>
         <syntax>
@@ -2945,7 +2948,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Default8021QNumberOfEntries" access="readOnly">
+      <parameter name="Default8021QNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -2954,7 +2957,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SSIDtoVIDMappingNumberOfEntries" access="readOnly">
+      <parameter name="SSIDtoVIDMappingNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -2963,7 +2966,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="CACStatusNumberOfEntries" access="readOnly">
+      <parameter name="CACStatusNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -2972,7 +2975,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IEEE1905SecurityNumberOfEntries" access="readOnly">
+      <parameter name="IEEE1905SecurityNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -2981,7 +2984,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SPRuleNumberOfEntries" access="readOnly">
+      <parameter name="SPRuleNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -2990,7 +2993,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="AnticipatedChannelsNumberOfEntries" access="readOnly">
+      <parameter name="AnticipatedChannelsNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -3000,7 +3003,7 @@
       </parameter>
 
       <parameter name="AnticipatedChannelUsageNumberOfEntries"
-          access="readOnly">
+          access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -3033,7 +3036,8 @@
         </syntax>
       </parameter>
 
-      <parameter name="bSTAMLDMaxLinks" access="readOnly" version="2.17">
+      <parameter name="bSTAMLDMaxLinks" access="readOnly" version="2.17"
+          dmr:noNameCheck="true">
         <description>
           The maximum number of affiliated bSTAs supported by the bSTAMLD on
           this EasyMesh Agent. Set to a value between 0 and 14, which is the
@@ -3207,6 +3211,7 @@
         </description>
       <uniqueKey functional="true">
         <parameter ref="OpClass"/>
+        <parameter ref="Channel"/>
       </uniqueKey>
 
       <parameter name="OpClass" access="readOnly">
@@ -3259,6 +3264,7 @@
         </description>
       <uniqueKey functional="true">
         <parameter ref="OpClass"/>
+        <parameter ref="Channel"/>
       </uniqueKey>
 
       <parameter name="OpClass" access="readOnly">
@@ -3310,6 +3316,7 @@
       </description>
       <uniqueKey functional="true">
         <parameter ref="OpClass"/>
+        <parameter ref="Channel"/>
       </uniqueKey>
 
       <parameter name="OpClass" access="readOnly">
@@ -3559,7 +3566,7 @@
 
           : 0 = single burst,
 
-          : 2^32-1 = indefinite/unknown.
+          : 2^32^-1 = indefinite/unknown.
         </description>
         <syntax>
           <unsignedInt/>
@@ -3675,7 +3682,7 @@
         This object represents an individual Access Point device.
       </description>
 
-      <parameter name="ManufacturerOUI" access="readOnly">
+      <parameter name="ManufacturerOUI" access="readOnly" status="deprecated">
         <description>
           Organizationally unique identifier of the Access Point device
           manufacturer. Represented as a six hexadecimal-digit value using all
@@ -3689,6 +3696,9 @@
           If the instance of this {{object}} is the same as {{object|Device.}},
           then this parameter is the same as
           {{param|Device.DeviceInfo.ManufacturerOUI}}.
+
+          {{deprecated|2.18|because it was essentially the same as
+          {{param|#.Manufacturer}}.}}
         </description>
         <syntax>
           <string>
@@ -3725,10 +3735,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="EasyMeshControllerOperationMode" access="readOnly">
+      <parameter name="EasyMeshControllerOperationMode" access="readOnly" status="deprecated">
         <description>
           This parameter represents the status of Wi-Fi CERTIFIED EasyMeshTM
           controller functionality. {{enum}}
+
+          {{deprecated|2.18|because it was the same as
+          {{param|#.ControllerOperationMode}}.}}
         </description>
         <syntax>
           <string>
@@ -3782,23 +3795,24 @@
         The endpoints of the backhaul interface are represented by the
         (Device's ID and interface MAC Address). This object represents the
         upward view of the backhaul interface. The two endpoints of the
-        backhaul interface are - ({{param|BackhaulDeviceID}},
-        {{param|BackhaulMACAddress}}) of the uplinked Backhaul Device -
-        {{param|MACAddress}} of this Access Point Device
+        backhaul interface are - ({{param|BackhaulDeviceID|deprecated}},
+        {{param|BackhaulMACAddress|deprecated}}) of the uplinked Backhaul
+        Device - {{param|MACAddress|deprecated}} of this Access Point Device.
 
-            {{param|BackhaulDeviceID}} / {{param|BackhaulMACAddress}} &lt;--
-            {{param|LinkType}} --- &lt; {{param|MACAddress}}
 
         {{empty}} is reserved for the {{object}} instance that represents the
         Multi-AP Controller.
       </description>
 
-      <parameter name="LinkType" access="readOnly">
+      <parameter name="LinkType" access="readOnly" status="deprecated">
         <description>
           The medium being used to backhaul this Access Point Device to the
           Backhaul Access Point Device. The {{enum|None}} value is reserved for
           the {{object}} instance that represents the Multi-AP Controller.
           {{enum}}
+
+          {{deprecated|2.18|because it was essentially the same as
+          {{param|##.BackhaulMediaType}}.}}
         </description>
         <syntax>
           <string>
@@ -3814,37 +3828,46 @@
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulMACAddress" access="readOnly">
+      <parameter name="BackhaulMACAddress" access="readOnly" status="deprecated">
         <description>
           The MAC Address at the far end of the backhaul link of the interface
           on the network that is providing a backhaul for this Access Point
-          Device. This along with {{param|BackhaulDeviceID}}, helps to identfy
-          the backhaul interface endpoint.
+          Device. This along with {{param|BackhaulDeviceID|deprecated}}, helps
+          to identify the backhaul interface endpoint.
 
           {{empty}} is reserved for the {{object}} instance that represents the
           Multi-AP Controller.
+
+          {{deprecated|2.18|because it was the same as
+          {{param|##.BackhaulMACAddress}}.}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulDeviceID" access="readOnly">
+      <parameter name="BackhaulDeviceID" access="readOnly" status="deprecated">
         <description>
           The Device's ID of the Device on the network that is providing a
           Backhaul Link for this Access Point Device.
+
+          {{deprecated|2.18|because it was essentially the same as
+          {{param|##.BackhaulALID}}.}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="MACAddress" access="readOnly">
+      <parameter name="MACAddress" access="readOnly" status="deprecated">
         <description>
           The MAC Address at the near end of the backhaul link of this Access
           Point Device's backhaul interface that is connecting via
-          {{param|LinkType}} to {{param|BackhaulMACAddress}} of the Backhaul
-          Device identified by {{param|BackhaulDeviceID}}.
+          {{param|##.BackhaulMediaType}} to {{param|BackhaulMACAddress}} of the
+          Backhaul Device identified by {{param|BackhaulDeviceID}}.
+
+          {{deprecated|2.18|because it was the same as
+          {{param|##.Radio.{i}.BackhaulSta.MACAddress}}.}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -3940,8 +3963,8 @@
       <parameter name="BytesSent" access="readOnly">
         <description>
           The total number of bytes transmitted across the backhaul medium (as
-          identified by the value of the {{param|#.LinkType}} parameter),
-          including framing characters.
+          identified by the value of the {{param|###.BackhaulMediaType}}}}
+          parameter), including framing characters.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -3951,8 +3974,8 @@
       <parameter name="BytesReceived" access="readOnly">
         <description>
           The total number of bytes received across the backhaul medium (as
-          identified by the value of the {{param|#.LinkType}} parameter),
-          including framing characters.
+          identified by the value of the {{param|###.BackhaulMediaType}}
+          parameter), including framing characters.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -3962,8 +3985,8 @@
       <parameter name="PacketsSent" access="readOnly">
         <description>
           The total number of packets transmitted across the backhaul medium
-          (as identified by the value of the {{param|#.LinkType}} parameter),
-          including framing characters.
+          (as identified by the value of the {{param|###.BackhaulMediaType}}
+          parameter), including framing characters.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -3973,8 +3996,8 @@
       <parameter name="PacketsReceived" access="readOnly">
         <description>
           The total number of packets received across the backhaul medium (as
-          identified by the value of the {{param|#.LinkType}} parameter),
-          including framing characters.
+          identified by the value of the {{param|###.BackhaulMediaType}}
+          parameter), including framing characters.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -4004,7 +4027,8 @@
       <parameter name="LinkUtilization" access="readOnly">
         <description>
           Current utilization (expressed in {{units}}) of the medium (as
-          identified by the value of the {{param|#.LinkType}} parameter) being
+          identified by the value of the {{param|###.BackhaulMediaType}} 
+          parameter) being
           used to backhaul this Access Point device to the Multi-AP Controller.
           A value of 0 is used for the {{object}} instance that represents the
           Access Point on the Multi-AP Controller.
@@ -4023,8 +4047,8 @@
           Access Point (AP) to the Multi-AP Controller, measured in {{units}}.
           RCPI is encoded per {{bibref|802.11-2020|Table 9-176}}. The value of
           this parameter is indeterminate if the value of the
-          {{param|#.LinkType}} parameter is anything other than
-          {{enum|Wi-Fi|#.LinkType}}.
+          {{param|###.BackhaulMediaType}} parameter is anything other than
+          a type of IEEE 802.11 Wi-Fi.
         </description>
         <syntax>
           <unsignedInt>
@@ -4130,7 +4154,7 @@
           with 255 representing 100%) that the Access Point device sensed the
           medium was busy, as indicated by either the physical or virtual
           carier sense (CS) mechanism. This is essentially the amount of time
-          spent transmiting (both successful and failed transmissions),
+          spent transmitting (both successful and failed transmissions),
           receiving (both local and non-local transmissions), and processing
           noise {{bibref|802.11-2020|Section 9.4.2.27}}.
 
@@ -4188,7 +4212,7 @@
           (linearly scaled with 255 representing 100%) that the radio has spent
           on receiving individually or group addressed non-local transmissions
           (i.e. valid IEEE 802.11 PPDUs that are not associated with any BSS
-          operatin gon this radio).
+          operating on this radio).
 
           When more than one channel is in use for the BSS operating on the
           radio, the {{param}} value is calculated only for the primary
@@ -4403,7 +4427,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="ScanResultNumberOfEntries" access="readOnly">
+      <parameter name="ScanResultNumberOfEntries" access="readOnly" version="2.14">
         <description>
           {{numentries}}
         </description>
@@ -4475,7 +4499,7 @@
         </description>
         <syntax>
           <unsignedInt>
-            <range maxInclusive="3"/>
+            <range minInclusive="1" maxInclusive="4"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -4689,7 +4713,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="HECapabilities" access="readOnly" status="obsoleted">
+      <parameter name="HECapabilities" access="readOnly" status="deleted">
         <description>
           Describes the HE capabilities of the radio as defined by the
           HECapabilities TLV {{bibref|EasyMesh|Section 17.2.10}}.
@@ -4698,6 +4722,8 @@
           and {{object|WiFi6bSTARole}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <base64>
@@ -4752,7 +4778,7 @@
 
       <parameter name="SCSTrafficDescriptionCapability" access="readOnly" version="2.17">
         <description>
-          This parameter indicates support for QoS Management Stream 
+          This parameter indicates support for QoS Management Stream
           Classification Service (SCS) Traffic Description and EasyMesh
           configuration of and/or extensions to SCS using traffic descriptions
           {{bibref|EasyMesh|AP Radio Advanced Capabilities TLV}}.
@@ -4815,7 +4841,7 @@
       <component ref="WiFi6"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7APRole."
       access="readOnly" minEntries="1" maxEntries="1" version="2.17">
       <description>
@@ -4827,7 +4853,7 @@
         <component ref="WiFi7Capabilities"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7APRole.EMLMRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="EMLMRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4844,7 +4870,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7APRole.EMLSRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="EMLSRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4861,7 +4887,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7APRole.STRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="STRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4878,7 +4904,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7APRole.NSTRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="NSTRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4895,7 +4921,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7bSTARole."
       access="readOnly" minEntries="1" maxEntries="1" version="2.17">
       <description>
@@ -4907,7 +4933,7 @@
         <component ref="WiFi7Capabilities"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7bSTARole.EMLMRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="EMLMRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4924,7 +4950,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7bSTARole.EMLSRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="EMLSRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4941,7 +4967,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7bSTARole.STRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="STRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -4958,7 +4984,7 @@
       <component ref="MLOFreqSeparation"/>
     </object>
 
-    <object 
+    <object
       name="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Capabilities.WiFi7bSTARole.NSTRFreqSeparation.{i}."
       access="readOnly" numEntriesParameter="NSTRFreqSeparationNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
@@ -5154,7 +5180,7 @@
           string format as defined in {{bibref|RFC3339|Section 3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/>
         </syntax>
       </parameter>
     </object>
@@ -5324,7 +5350,7 @@
           string format as defined in {{bibref|RFC3339|Section 3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/>
         </syntax>
       </parameter>
 
@@ -5626,7 +5652,7 @@
           </string>
         </syntax>
       </parameter>
-   
+
       <parameter name="FronthaulSuiteSelector" access="readWrite" version="2.17">
         <description>
           AKM suite selector, the AKM suite selector (OUI and type) is
@@ -5634,7 +5660,7 @@
           delimiters, e.g. 506F9A02 {{bibref|802.11-2020|Table 9-151}}.
 
           This parameter applies if {{param|FronthaulAKMsAllowed}} includes
-          value "SuiteSelector". 
+          value "SuiteSelector".
         </description>
         <syntax>
           <hexBinary>
@@ -5688,7 +5714,7 @@
           delimiters, e.g. 506F9A02 {{bibref|802.11-2020|Table 9-151}}.
 
           This parameter applies if {{param|BackhaulAKMsAllowed}} includes
-          value "SuiteSelector". 
+          value "SuiteSelector".
         </description>
         <syntax>
           <hexBinary>
@@ -5721,7 +5747,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="QMDescriptorNumberOfEntries" access="readOnly">
+      <parameter name="QMDescriptorNumberOfEntries" access="readOnly" version="2.15">
         <description>
           {{numentries}}
         </description>
@@ -5790,11 +5816,14 @@
         network.
       </description>
 
-      <parameter name="RadarDetections" access="readOnly">
+      <parameter name="RadarDetections" access="readOnly" status="deprecated">
         <description>
           {{list}} List items represent channels in the non-occupancy list due
           to radars detected by Dynamic Frequency Selection (DFS) Channel
           Availability Check (CAC).
+
+          {{deprecated|2.18|because it was superseded by
+          {{object|##.CACStatus.{i}.}}.}}
         </description>
         <syntax>
           <list>
@@ -5871,7 +5900,7 @@
 
     <object
         name="Device.WiFi.DataElements.Network.Device.{i}.WPS."
-        access="readOnly" 
+        access="readOnly"
         minEntries="1" maxEntries="1" version="2.17">
       <description>
         This object contains Wi-Fi Protected Setup (WPS)
@@ -5966,7 +5995,7 @@
 
       <parameter name="TestDuration" access="readOnly">
         <description>
-          Duration of the throughput test in {{units}}. 
+          Duration of the throughput test in {{units}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -5977,7 +6006,7 @@
 
       <parameter name="TestLayer" access="readOnly">
         <description>
-          The OSI layer that the throughput test ran on. 
+          The OSI layer that the throughput test ran on.
         </description>
         <syntax>
           <unsignedInt/>
@@ -5986,7 +6015,7 @@
 
       <parameter name="TestAlgorithm" access="readOnly">
         <description>
-          The test algorithm that the throughput test used. 
+          The test algorithm that the throughput test used.
         </description>
         <syntax>
           <string/>
@@ -6024,7 +6053,7 @@
         Object containing the results of the most recent latency test set
         from the BSS to a station (STA). Each latency test set includes a
         number of individual echo tests. Each echo test result provides a
-        sample of round-trip times and statistics on all the echo tests 
+        sample of round-trip times and statistics on all the echo tests
         in this latency test are reported in this object.
       </description>
 
@@ -6092,7 +6121,7 @@
 
       <parameter name="TestLayer" access="readOnly">
         <description>
-          The OSI layer that the latency test ran on. 
+          The OSI layer that the latency test ran on.
         </description>
         <syntax>
           <unsignedInt/>
@@ -6101,7 +6130,7 @@
 
       <parameter name="TestAlgorithm" access="readOnly">
         <description>
-          The test algorithm that the latency test used. 
+          The test algorithm that the latency test used.
         </description>
         <syntax>
           <string/>
@@ -6150,7 +6179,7 @@
           The minimum round-trip time of the results of the latency test set
           in {{units}}. This minimum is across successfully received echoes
           only.
- 
+
           This parameter is an output of the latency test.
  </description>
         <syntax>
@@ -6208,7 +6237,7 @@
           string format as defined in {{bibref|RFC3339|Section 3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/> 
         </syntax>
       </parameter>
 
@@ -6234,7 +6263,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="HECapabilities" access="readOnly" status="obsoleted">
+      <parameter name="HECapabilities" access="readOnly" status="deleted">
         <description>
           Describes the HE capabilities of the Associated Device (STA).
 
@@ -6242,6 +6271,8 @@
           {{object|WiFi6Capabilities}}}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <base64>
@@ -6370,7 +6401,7 @@
 
       <parameter name="LastConnectTime" access="readOnly">
         <description>
-          The time in {{units}} since this Assocated Device (STA) was
+          The time in {{units}} since this Associated Device (STA) was
           associated.
         </description>
         <syntax>
@@ -6625,7 +6656,7 @@
           The counters contained in {{object}} are all reset on reboot.
         </description>
 
-        <parameter name="AssociationTime" access="readOnly">
+        <parameter name="AssociationTime" access="readOnly" status="deprecated">
           <description>
             Date and time in UTC when the device was associated.
 
@@ -6633,13 +6664,16 @@
             {{object|Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.}}, then
             this parameter is the same as
             {{param|Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AssociationTime}}.
+
+            {{deprecated|2.18|because it was essentially the same as
+            {{param|#.LastConnectTime}}.}}
           </description>
           <syntax>
             <dateTime/>
           </syntax>
         </parameter>
 
-        <parameter name="Noise" access="readOnly">
+        <parameter name="Noise" access="readOnly" status="deprecated">
           <description>
             An indicator of the average radio noise plus interference power
             measured on the uplink from the Associated Device (STA) to the Access
@@ -6652,6 +6686,9 @@
             {{object|Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.}}, then
             this parameter is the same as
             {{param|Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Noise}}.
+
+            {{deprecated|2.18|because it should be the same as
+            {{param|###.Noise}}.}}
           </description>
           <syntax>
             <unsignedInt>
@@ -7147,7 +7184,7 @@
           string format as defined in {{bibref|RFC3339|Section 3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/>
         </syntax>
       </parameter>
 
@@ -7231,7 +7268,7 @@
           3}}.
         </description>
         <syntax>
-          <string/>
+          <dateTime/>
         </syntax>
       </parameter>
 
@@ -7373,7 +7410,7 @@
         <description>
           The Multi-Link Device (MLD) MAC address of the
           Multi-Link Operation (MLO) capable access point this
-          neighboring BSS is affiliated to. 
+          neighboring BSS is affiliated to.
           Null if the neighboring BSS is not an affiliated AP.
         </description>
         <syntax>
@@ -7437,7 +7474,7 @@
         format as defined in {{bibref|RFC3339|Section 3}}.
       </description>
       <syntax>
-        <string/>
+        <dateTime/>
       </syntax>
     </parameter>
 
@@ -7492,12 +7529,14 @@
       </syntax>
     </parameter>
 
-    <parameter name="HECapabilities" access="readOnly" status="deprecated">
+    <parameter name="HECapabilities" access="readOnly" status="obsoleted">
       <description>
         Describes the HE capabilities of the Associated Device (STA).
 
         {{deprecated|2.16|because it is superseded by
         {{object|WiFi6Capabilities}}.}}
+
+        {{obsoleted|2.18}}
       </description>
       <syntax>
         <base64>
@@ -7630,7 +7669,7 @@
         format as defined in {{bibref|RFC3339|Section 3}}.
       </description>
       <syntax>
-        <string/>
+        <dateTime/>
       </syntax>
     </parameter>
 
@@ -7729,7 +7768,7 @@
 
     <parameter name="LastConnectTime" access="readOnly" version="2.17">
       <description>
-        The time in {{units}} since this Assocated Device (STA) was
+        The time in {{units}} since this Associated Device (STA) was
         associated.
       </description>
       <syntax>
@@ -7772,7 +7811,7 @@
     </parameter>
 
   </component>
-  
+
   <component name="DisassociationLinkStats">
 
       <parameter name="MACAddress" access="readOnly">
@@ -7883,12 +7922,12 @@
         format as defined in {{bibref|RFC3339|Section 3}}.
       </description>
       <syntax>
-        <string/>
+        <dateTime/>
       </syntax>
     </parameter>
   </component>
 
-  <model name="WiFiDE:2.17">
+  <model name="WiFiDE:2.18">
     <component ref="Root"/>
     <component ref="WiFiRoot"/>
     <component ref="WiFiAllianceDataElements"/>

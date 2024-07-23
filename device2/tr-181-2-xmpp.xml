@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [XMPP]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-xmpp"
-    file="tr-181-2-17-0-xmpp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-xmpp"
+    file="tr-181-2-18-0-xmpp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -168,7 +168,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="Username" access="readWrite">
         <description>
@@ -229,7 +229,7 @@
         <description>
           The complete Jabber ID as determined by the first-hop XMPP server at
           time of connection establishment. This Jabber ID will usually be the
-          standard concatentation of the local-part (Username), domain-part
+          standard concatenation of the local-part (Username), domain-part
           (Domain), and resource-part (Resource) as defined in
           {{bibref|RFC6120|Section 2.1}}
           (local-part@domain-part/resource-part), but since the Jabber ID is
@@ -490,7 +490,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="Priority" access="readWrite">
         <description>
@@ -530,8 +530,8 @@
           for this {{object|##.Connection}}.
 
           If the value of this Parameter is a FQDN that resolves to multiple
-          addresses then each address SHOULD be attemtped (in an
-          implemnetation-specific order) until a connection can be made or all
+          addresses then each address SHOULD be attempted (in an
+          implementation-specific order) until a connection can be made or all
           addresses are exhausted, in which case the next {{object}} instance
           (based on {{param|Priority}} and {{param|Weight}}) SHOULD be used.
         </description>
@@ -658,7 +658,7 @@
     </profile>
   </component>
 
-  <model name="XMPP:2.17">
+  <model name="XMPP:2.18">
     <component ref="Root"/>
     <component ref="XMPP"/>
   </model>

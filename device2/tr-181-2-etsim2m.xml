@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [ETSIM2M]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-etsim2m"
-    file="tr-181-2-17-0-etsim2m.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-etsim2m"
+    file="tr-181-2-18-0-etsim2m.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -131,7 +131,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="AnnouncedToSCLList" access="readWrite">
         <description>
@@ -385,7 +385,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="PolicyScope" access="readWrite">
         <description>
@@ -417,7 +417,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -458,7 +458,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="ANName" access="readWrite">
         <description>
@@ -495,7 +495,7 @@
         name="Device.ETSIM2M.SCL.{i}.SAFPolicySet.{i}.ANPPolicy.{i}.BlockPeriod.{i}."
         access="readWrite" numEntriesParameter="BlockPeriodNumberOfEntries"
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        dmr:noUniqueKeys="true" version="2.6">
+        version="2.6">
       <description>
         This table contains a list of block periods for a
         {{object|##.ANPPolicy}}.
@@ -521,7 +521,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="FailedAttempts" access="readWrite">
         <description>
@@ -580,7 +580,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="RCAT" access="readWrite">
         <description>
@@ -641,7 +641,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="Schedules" access="readWrite">
         <description>
@@ -676,7 +676,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -694,7 +694,7 @@
         name="Device.ETSIM2M.SCL.{i}.SAFPolicySet.{i}.ANPPolicy.{i}.RequestCategory.{i}.Schedule.{i}.AbsTimeSpan.{i}."
         access="readWrite" numEntriesParameter="AbsTimeSpanNumberOfEntries"
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        dmr:noUniqueKeys="true" version="2.6">
+        version="2.6">
       <description>
         This object defines an instance of a time span used for determining an
         RCAT schedule.
@@ -722,7 +722,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="StartTime" access="readWrite">
         <description>
@@ -817,7 +817,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.6"/>
+      <component ref="Alias"/>
 
       <parameter name="RCAT" access="readWrite">
         <description>
@@ -896,7 +896,7 @@
             <pathRef refType="strong" targetParent="##.ANPPolicy."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
     </object>
@@ -1317,7 +1317,7 @@
     </profile>
   </component>
 
-  <model name="ETSIM2M:2.17">
+  <model name="ETSIM2M:2.18">
     <component ref="Root"/>
     <component ref="ETSIM2M"/>
   </model>

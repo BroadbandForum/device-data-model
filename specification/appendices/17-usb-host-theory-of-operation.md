@@ -10,7 +10,7 @@ The data model contains the number of devices connected to each host controller.
 
 Example USB topology of connected devices:
 
-![Example USB Host Connections](/images/example-usb-host-connections.png)
+![Example USB Host Connections](/images/example-usb-host-connections.png){typst-scale=0.6}
 
 All USB devices attach to a USB Host through a port on a USB entity known as a hub. Hubs have status bits that are used to report the attachment or removal of a USB device on one of its ports. The USB Host queries the hub to retrieve these status bits. In the case of an attachment, the USB Host enables the port and addresses the USB device through the device's control pipe at the default address. @fig:example-usb-host-connections depicts both a Root Hub and an External Hub that provide this service.
 
@@ -19,4 +19,3 @@ The USB Host assigns a unique USB address to the device and then determines if t
 If the attached USB device is a hub and USB devices are attached to its ports, then the above procedure is followed for each of the attached USB devices.
 
 If the attached USB device is a function, then attachment notifications will be handled by the USB Host software that is appropriate for the function.
-

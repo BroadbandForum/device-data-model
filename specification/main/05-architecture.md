@@ -80,7 +80,7 @@ The lowest layer in a fully configured and operational stack is generally the ph
 
 @fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
 
-![Interface LowerLayers](/images/interface-lowerlayers.png)
+![Interface LowerLayers](/images/interface-lowerlayers.png){typst-scale=0.5}
 
 ### Administrative and Operational Status
 
@@ -129,11 +129,11 @@ If the Controller encounters an unknown vendor-specific interface object within 
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.
 
-![Ignoring a Vendor-specific Interface Object in the Stack](/images/ignoring-a-vendor-specific-interface-object-in-the-stack.png)
+![Ignoring a Vendor-specific Interface Object in the Stack](/images/ignoring-a-vendor-specific-interface-object-in-the-stack.png){typst-scale=0.5}
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there are multiple objects below the vendor-specific object.
 
-![Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)](/images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png)
+![Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)](/images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png){typst-scale=0.5}
 
 ## InterfaceStack Table
 

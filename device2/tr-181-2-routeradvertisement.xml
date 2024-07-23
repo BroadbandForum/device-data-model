@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [RouterAdvertisement]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-routeradvertisement"
-    file="tr-181-2-17-0-routeradvertisement.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-routeradvertisement"
+    file="tr-181-2-18-0-routeradvertisement.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -167,7 +167,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -225,7 +225,7 @@
         <syntax>
           <list/>
           <dataType ref="IPv6Address"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -238,7 +238,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -267,7 +267,7 @@
             <pathRef refType="strong"
                 targetParent="##.IP.Interface.{i}.IPv6Prefix." targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -363,7 +363,7 @@
       <parameter name="AdvManagedFlag" access="readWrite">
         <description>
           The value placed in the "Managed address configuration" (M) flag
-          field of Router Advertisement messages on this interafce (see
+          field of Router Advertisement messages on this interface (see
           {{bibref|RFC4861|Section 4.2}}, and {{bibref|RFC4862}}).
         </description>
         <syntax>
@@ -574,7 +574,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -634,7 +634,7 @@
     </profile>
   </component>
 
-  <model name="RouterAdvertisement:2.17">
+  <model name="RouterAdvertisement:2.18">
     <component ref="Root"/>
     <component ref="RouterAdvertisement"/>
   </model>

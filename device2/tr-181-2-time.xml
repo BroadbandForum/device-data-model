@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Time]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-time"
-    file="tr-181-2-17-0-time.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-time"
+    file="tr-181-2-18-0-time.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
   </import>
@@ -123,10 +123,12 @@
                 configure the time of the CPE.
               </description>
             </enumeration>
-            <enumeration value="Error_FailedToSynchronize" status="deprecated">
+            <enumeration value="Error_FailedToSynchronize" status="obsoleted">
               <description>
                 {{deprecated|2.16|due to the introduction of
                 {{object|Client}}}}
+
+                {{obsoleted|2.18}}
               </description>
             </enumeration>
             <enumeration value="Error" optional="true">
@@ -140,11 +142,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer1" access="readWrite" status="deprecated">
+      <parameter name="NTPServer1" access="readWrite" status="obsoleted">
         <description>
           First NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -153,11 +157,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer2" access="readWrite" status="deprecated">
+      <parameter name="NTPServer2" access="readWrite" status="obsoleted">
         <description>
           Second NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -166,11 +172,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer3" access="readWrite" status="deprecated">
+      <parameter name="NTPServer3" access="readWrite" status="obsoleted">
         <description>
           Third NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -179,11 +187,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer4" access="readWrite" status="deprecated">
+      <parameter name="NTPServer4" access="readWrite" status="obsoleted">
         <description>
           Fourth NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -192,11 +202,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer5" access="readWrite" status="deprecated">
+      <parameter name="NTPServer5" access="readWrite" status="obsoleted">
         <description>
           Fifth NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
+
+          {{obsoleted|2.18}}
         </description>
         <syntax>
           <string>
@@ -301,7 +313,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Mode" access="readWrite">
         <description>
@@ -368,7 +380,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -387,7 +399,7 @@
       <parameter name="ResolveMaxAddresses" access="readWrite">
         <description>
           When {{param|ResolveAddresses}} is enabled, This parameter specifies
-          the maxium number of IP addresses that the NTP client can resolve. 0
+          the maximum number of IP addresses that the NTP client can resolve. 0
           means that all addresses must be resolved.
         </description>
         <syntax>
@@ -637,7 +649,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Mode" access="readWrite">
         <description>
@@ -806,13 +818,13 @@
           Points to a CSV list of NTP servers. A NTP server can either be
           specified as an IP address or a host name. When used the NTS-KE
           server will tell the remote NTS-KE client the NTP hostname or address
-          of the NTP server(s) that should be used. This allows to seperate the
+          of the NTP server(s) that should be used. This allows to separate the
           NTP server and NTS-KE server implementation.
         </description>
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
     </object>
@@ -867,14 +879,14 @@
     </object>
 
 
-    <profile name="Time:1" version="2.0" status="deprecated">
+    <profile name="Time:1" version="2.0" status="obsoleted">
       <object ref="Device.Time." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
         <parameter ref="NTPServer1" requirement="readWrite"
-            status="deprecated"/>
+            status="obsoleted"/>
         <parameter ref="NTPServer2" requirement="readWrite"
-            status="deprecated"/>
+            status="obsoleted"/>
         <parameter ref="CurrentLocalTime" requirement="readOnly"/>
         <parameter ref="LocalTimeZone" requirement="readWrite"/>
       </object>
@@ -890,7 +902,7 @@
     </profile>
   </component>
 
-  <model name="Time:2.17">
+  <model name="Time:2.18">
     <component ref="Root"/>
     <component ref="Time"/>
   </model>

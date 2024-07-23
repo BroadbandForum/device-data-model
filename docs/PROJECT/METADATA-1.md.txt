@@ -45,15 +45,27 @@
 
 :::
 
+Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
+
+::: nobreak
+
 ### %bbfWorkArea% Work Area Directors {.unnumbered .unlisted}
 
 * Jason Walls, QA Cafe
-* John Blackford, CommScope
+* John Blackford, Vantiva
+
+:::
+
+::: nobreak
 
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
 * Daniel Egger, Axiros
 * Matthieu Anne, Orange
+
+:::
+
+::: nobreak
 
 ### Editors {.unnumbered .unlisted}
 
@@ -62,6 +74,10 @@
 * Steve Nicolai, Arris
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
+
+:::
+
+::: nobreak
 
 ### Acknowledgments {.unnumbered .unlisted}
 
@@ -76,14 +92,16 @@
 * David Cluytens, Orange
 * Jason Walls, QA Cafe
 * Johan Jacobs, Orange
-* John Blackford, Commscope
+* John Blackford, Vantiva
 * Ken Kerpez, DZS
 * Laurent Alarcon, Sagemcom
 * Matthieu Anne, Orange
 * Patrick Rogier, Orange
 * Ramesh Rajasekaran, Nokia
-* Richard Holme, Commscope
+* Richard Holme, Vantiva
 * Tim Spets, Nokia
 * William Lupton, BBF
+
+:::
 
 [TR-181 Issue 1]: https://www.broadband-forum.org/download/TR-181_Issue-1.pdf

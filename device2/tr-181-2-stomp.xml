@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [STOMP]
 
-  Copyright (c) 2021-2023, Broadband Forum
+  Copyright (c) 2021-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-stomp"
-    file="tr-181-2-17-0-stomp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-stomp"
+    file="tr-181-2-18-0-stomp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="URL"/>
   </import>
 
@@ -108,7 +108,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -378,7 +378,7 @@
     </object>
   </component>
 
-  <model name="STOMP:2.17">
+  <model name="STOMP:2.18">
     <component ref="Root"/>
     <component ref="STOMP"/>
   </model>

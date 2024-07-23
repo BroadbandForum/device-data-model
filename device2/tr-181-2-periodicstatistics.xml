@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [PeriodicStatistics]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-periodicstatistics"
-    file="tr-181-2-17-0-periodicstatistics.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-periodicstatistics"
+    file="tr-181-2-18-0-periodicstatistics.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -134,7 +134,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -269,7 +269,7 @@
           <unsignedInt>
             <units value="seconds"/>
           </unsignedInt>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -304,7 +304,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -388,6 +388,14 @@
                 interval
               </description>
             </enumeration>
+            <enumeration value="Histogram" version="2.18">
+              <description>
+                Statistic is a histogram representing the sampled values
+                during the sample interval with histogram bin spacing defined
+                by {{param|HistogramBinBoundaries}}. With this selection,
+                the output is in {{param|ValuesIfHistogram}}.
+              </description>
+            </enumeration>
           </string>
           <default type="object" value="Latest"/>
         </syntax>
@@ -448,7 +456,7 @@
           <unsignedInt>
             <units value="seconds"/>
           </unsignedInt>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -466,7 +474,7 @@
           <unsignedInt>
             <range maxInclusive="1"/>
           </unsignedInt>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -481,11 +489,43 @@
           If the {{param|SampleMode}} parameter is not present, or is
           inappropriate for the referenced parameter, the statistics values
           MUST be collected in Current mode.
+
+          if {{param|CalculationMode}} has value "Histogram" then the
+          values of the referenced parameter are in
+          {{param|ValuesIfHistogram}}.
         </description>
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ValuesIfHistogram" access="readOnly"
+        activeNotify="canDeny" version="2.18">
+        <description>
+          {{list}} Each entry indicates the value of the referenced parameter,
+          as determined by {{param|SampleMode}}, during the sample interval.
+
+          The statistics values in this comma-separated list MUST be in time
+          order, with the oldest one first and the most recent one last.
+
+          If the {{param|SampleMode}} parameter is not present, or is
+          inappropriate for the referenced parameter, the statistics values
+          MUST be collected in Current mode.
+
+          This parameter applies only if {{param|CalculationMode}} has value
+          "Histogram" and then this parameter is the values of the sampled 
+          histograms, where each histogram bin is the count of the number of
+          samples within the corresponding {{param|HistogramBinBoundaries}},
+          and this parameter is expressed using square brackets to
+          protect comma separators within nested lists.
+          For example, [12,5,1,0,1],[12,3,2,1,0] represents two histograms.
+        </description>
+        <syntax>
+          <list nestedBrackets="required"/>
+          <string/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -529,6 +569,27 @@
           <default type="object" value="0"/>
         </syntax>
       </parameter>
+
+      <parameter name="HistogramBinBoundaries" access="readWrite" version="2.18">
+        <description>
+          {{list}} Definition of the boundaries between histogram bins.
+          Applies if {{param|CalculationMode}} has value "Histogram".
+          Each value is the minimum value of this bin,
+          and the next value is just above the maximum value of this bin.
+          For example, “0,1,4,8,” defines the four histogram bins:
+          0 to 1 but not including values identically equal to 1,
+          1 to 4 but not including values identically equal to 4,
+          4 to 8 but not including values identically equal to 8,
+          and greater than or equal to 8. (No value after the
+          last comma means no upper bound.) If this parameter is set to
+          an empty string, then no histogram will be collected.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
     </object>
 
     <profile name="PeriodicStatsBase:1" version="2.0">
@@ -557,7 +618,7 @@
     </profile>
   </component>
 
-  <model name="PeriodicStatistics:2.17">
+  <model name="PeriodicStatistics:2.18">
     <component ref="Root"/>
     <component ref="PeriodicStatistics"/>
   </model>

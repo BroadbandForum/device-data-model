@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DHCPv6]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-dhcpv6"
-    file="tr-181-2-17-0-dhcpv6.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-dhcpv6"
+    file="tr-181-2-18-0-dhcpv6.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPv6Address"/>
     <dataType name="IPv6Prefix"/>
     <dataType name="Order"/>
@@ -78,7 +78,7 @@
         maxEntries="1" version="2.2">
       <description>
         The Dynamic Host Configuration Protocol (DHCP) IPv6 object
-        {{bibref|RFC3315}}. This entire object applies to IPv6 only. It
+        {{bibref|RFC8415}}. This entire object applies to IPv6 only. It
         contains the {{object|Client}} and {{object|Server}} objects.
       </description>
 
@@ -129,7 +129,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -170,8 +170,8 @@
 
       <parameter name="DUID" access="readOnly">
         <description>
-          The client's DHCP Unique Identifier (DUID) {{bibref|RFC3315|Section
-          9}}. {{param}} is set by the CPE.
+          The client's DHCP Unique Identifier (DUID) {{bibref|RFC8415|Section
+          11}}. {{param}} is set by the CPE.
         </description>
         <syntax>
           <hexBinary>
@@ -184,7 +184,7 @@
         <description>
           Enables or disables inclusion of the ''Identity Association (IA) for
           Non-Temporary Address'' option OPTION_IA_NA(3)
-          {{bibref|RFC3315|Section 22.4}} in Solicit messages.
+          {{bibref|RFC8415|Section 21.4}} in Solicit messages.
         </description>
         <syntax>
           <boolean/>
@@ -195,8 +195,8 @@
       <parameter name="RequestPrefixes" access="readWrite">
         <description>
           Enables or disables inclusion of the ''Identity Association (IA) for
-          Prefix Delegation'' option OPTION_IA_PD(25) {{bibref|RFC3633|Section
-          10}} in Solicit messages.
+          Prefix Delegation'' option OPTION_IA_PD(25) {{bibref|RFC8415|Section
+          21.22}} in Solicit messages.
 
           Note that this is only appropriate for an upstream interface on a
           requesting router, e.g. for an RG WAN interface.
@@ -210,7 +210,7 @@
       <parameter name="RapidCommit" access="readWrite">
         <description>
           Enables or disables inclusion of the ''Rapid Commit'' option
-          OPTION_RAPID_COMMIT(14) {{bibref|RFC3315|Section 22.14}} in Solicit
+          OPTION_RAPID_COMMIT(14) {{bibref|RFC8415|Section 21.14}} in Solicit
           messages.
         </description>
         <syntax>
@@ -222,8 +222,8 @@
       <parameter name="SuggestedT1" access="readWrite">
         <description>
           T1 value, in {{units}}, that the client SHOULD use when sending IA
-          options, e.g. OPTION_IA_NA {{bibref|RFC3315|Section 22.4}} and
-          OPTION_IA_PD {{bibref|RFC3633|Section 10}}.
+          options, e.g. OPTION_IA_NA {{bibref|RFC8415|Section 21.4}} and
+          OPTION_IA_PD {{bibref|RFC8415|Section 10}}.
 
           A value of -1 indicates that no T1 value is specified.
         </description>
@@ -238,8 +238,8 @@
       <parameter name="SuggestedT2" access="readWrite">
         <description>
           T2 value, in {{units}}, that the client SHOULD use when sending IA
-          options, e.g. OPTION_IA_NA {{bibref|RFC3315|Section 22.4}} and
-          OPTION_IA_PD {{bibref|RFC3633|Section 10}}.
+          options, e.g. OPTION_IA_NA {{bibref|RFC8415|Section 21.4}} and
+          OPTION_IA_PD {{bibref|RFC8415|Section 21.22}}.
 
           A value of -1 indicates that no T2 value is specified.
         </description>
@@ -283,8 +283,8 @@
           options and handle them as best it can.
 
           Loosely speaking, these are the options that the client will include
-          in OPTION_ORO {{bibref|RFC3315}} but the client is free to decide (in
-          accordance with {{bibref|RFC3315}}) in which messages to request
+          in OPTION_ORO {{bibref|RFC8415}} but the client is free to decide (in
+          accordance with {{bibref|RFC8415}}) in which messages to request
           which option, whether also to request additional options, whether not
           to request inappropriate options, and in which order to request any
           options that are also in {{param|SupportedOptions}}.
@@ -348,8 +348,8 @@
 
       <parameter name="DUID" access="readOnly">
         <description>
-          The server's DHCP Unique Identifier (DUID) {{bibref|RFC3315|Section
-          9}} as received via OPTION_SERVERID.
+          The server's DHCP Unique Identifier (DUID) {{bibref|RFC8415|Section
+          11}} as received via OPTION_SERVERID.
         </description>
         <syntax>
           <hexBinary>
@@ -406,11 +406,11 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
-          Option tag (code) {{bibref|RFC3315|Section 22.1}}.
+          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -421,10 +421,10 @@
 
       <parameter name="Value" access="readWrite">
         <description>
-          A hexbinary encoded option data {{bibref|RFC3315|Section 22.1}}.
+          A hexbinary encoded option data {{bibref|RFC8415|Section 21.1}}.
 
           Note: The length of the option data is ''option-len'' octets, as
-          specified in {{bibref|RFC3315|Section 22.1}}.
+          specified in {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <hexBinary>
@@ -454,7 +454,7 @@
 
       <parameter name="Tag" access="readOnly">
         <description>
-          Option tag (code) {{bibref|RFC3315|Section 22.1}}.
+          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -465,7 +465,7 @@
 
       <parameter name="Value" access="readOnly">
         <description>
-          A hexbinary encoded option data {{bibref|RFC3315|Section 22.1}}.
+          A hexbinary encoded option data {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <hexBinary>
@@ -484,6 +484,341 @@
             <pathRef refType="strong" targetParent="#.Server."
                 targetType="row"/>
           </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DHCPv6.Client.{i}.Retransmission." access="readOnly" version="2.18">
+      <description>
+        This object enables the configurion of the DHCPv6 retransmission behavior according to the guidelines described in {{bibref|RFC8415|Section 7.6}}.
+      </description>
+
+      <parameter name="SolicitMaxDelay" access="readWrite">
+        <description>
+          Maximum delay of first Solicit, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SolicitInitialTimeout" access="readWrite">
+        <description>
+          Initial solicit, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SolicitMaxTimeout" access="readWrite">
+        <description>
+          Maximum solicit timeout value, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="3600"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestInitialTimeout" access="readWrite">
+        <description>
+          Initial request timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestMaxTimeout" access="readWrite">
+        <description>
+          Maximum request timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="30"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestMaxRetry" access="readWrite">
+        <description>
+          Maximum request retry attempts.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="10"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfirmMaxDelay" access="readWrite">
+        <description>
+          Maximum delay of first confirm, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfirmInitialTimeout" access="readWrite">
+        <description>
+          Initial confirm timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfirmMaxTimeout" access="readWrite">
+        <description>
+          Maximum confirm timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="4"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfirmMaxDuration" access="readWrite">
+        <description>
+          Maximum confirm duration, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="10"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RenewInitialTimeout" access="readWrite">
+        <description>
+          Initial renew timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="10"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RenewMaxTimeout" access="readWrite">
+        <description>
+          Maximum renew timeout value, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="600"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RebindInitialTimeout" access="readWrite">
+        <description>
+          Initial rebind timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="10"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RebindMaxTimeout" access="readWrite">
+        <description>
+          Maximum rebind timeout value, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="600"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRequestMaxDelay" access="readWrite">
+        <description>
+          Maximum delay of first information-request, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRequestInitialTimeout" access="readWrite">
+        <description>
+          Initial information-request timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRequestMaxTimeout" access="readWrite">
+        <description>
+          Maximum information-request timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="3600"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ReleaseInitialTimeout" access="readWrite">
+        <description>
+          Initial Release timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ReleaseMaxAttempts" access="readWrite">
+        <description>
+          Maximum release retry attempts.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="4"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DeclineInitialTimeout" access="readWrite">
+        <description>
+          Initial Decline timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DeclineMaxAttempts" access="readWrite">
+        <description>
+          Maximum decline retry attempts.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="4"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ReconfigureInitialTimeout" access="readWrite">
+        <description>
+          Initial reconfigure timeout, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="2"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ReconfigureMaxAttempts" access="readWrite">
+        <description>
+          Maximum reconfigure attempts.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="8"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HopCountLimit" access="readWrite">
+        <description>
+          Maximum hop count in a relay-forward message.
+        </description>
+        <syntax>
+          <unsignedInt/>
+          <default type="object" value="32"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRefreshTime" access="readWrite">
+        <description>
+          Default information refresh time, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="86400"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinInformationRefreshTime" access="readWrite">
+        <description>
+          Minimum information refresh time, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="600"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxWaitTime" access="readWrite">
+        <description>
+          Maximum required time to wait for a response, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="60"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeoutRandomize" access="readWrite">
+        <description>
+          The Randomization factor for the retransmission timeout, in {{units}}, as defined in
+          {{bibref|RFC8415|15 Reliability of Client-Initiated Message Exchanges}}.
+
+          E.g. a timeout of 1000ms with a randomization of 100 will end up between 900 and 1100 ms.
+        </description>
+        <syntax>
+          <int>
+            <units value="ms"/>
+          </int>
+          <default type="object" value="100"/>
         </syntax>
       </parameter>
     </object>
@@ -568,7 +903,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -601,8 +936,8 @@
           Pool association criterion.
 
           A hexbinary string used to identify one or more LAN devices, value of
-          the DHCPv6 Client Identifier (Option 1) {{bibref|RFC3315|Section
-          22.2}}. The option value is binary, so an exact match is REQUIRED.
+          the DHCPv6 Client Identifier (Option 1) {{bibref|RFC8415|Section
+          21.2}}. The option value is binary, so an exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used.
 
@@ -637,7 +972,7 @@
 
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCPv6 Vendor Class Identifier (Option 16)
-          {{bibref|RFC3315|Section 22.16}}. The option value is binary, so an
+          {{bibref|RFC8415|Section 21.16}}. The option value is binary, so an
           exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used.
@@ -669,8 +1004,8 @@
           Pool association criterion.
 
           A hexbinary string used to identify one or more LAN devices, value of
-          the DHCPv6 User Class Identifier (Option 15) {{bibref|RFC3315|Section
-          22.15}}.
+          the DHCPv6 User Class Identifier (Option 15) {{bibref|RFC8415|Section
+          21.15}}.
 
           {{empty}} indicates this criterion is not used.
         </description>
@@ -775,7 +1110,7 @@
                 targetParent="###.IP.Interface.{i}.IPv6Prefix."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -851,7 +1186,7 @@
                 targetParent="###.IP.Interface.{i}.IPv6Prefix."
                 targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -943,7 +1278,7 @@
         <parameter ref="SourceAddress"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           Note: There is no guarantee that the {{param}} value on
@@ -1100,7 +1435,7 @@
 
       <parameter name="Tag" access="readOnly">
         <description>
-          Option tag (code) {{bibref|RFC3315|Section 22.1}}.
+          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -1150,11 +1485,11 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
-          Option tag (code) {{bibref|RFC3315|Section 22.1}}.
+          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -1267,7 +1602,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv6:2.17">
+  <model name="DHCPv6:2.18">
     <component ref="Root"/>
     <component ref="DHCPv6"/>
   </model>

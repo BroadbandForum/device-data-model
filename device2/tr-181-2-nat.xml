@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [NAT]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,18 +55,23 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-nat"
-    file="tr-181-2-17-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-nat"
+    file="tr-181-2-18-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
   </import>
 
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-schedules.xml"
+      spec="urn:broadband-forum-org:tr-181-2-18-schedules">
+    <component name="ScheduleRef"/>
   </import>
 
   <component name="NAT">
@@ -205,7 +210,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -244,7 +249,7 @@
           <string>
             <size maxLength="256"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -340,6 +345,11 @@
           <string>
             <enumeration value="Disabled"/>
             <enumeration value="Enabled"/>
+            <enumeration value="Inactive" version="2.18">
+              <description>
+                Indicates that the port mapping is still enabled but has been temporarily deactivated due to the Schedules defined in {{param|ScheduleRef}}.
+              </description>
+            </enumeration>
             <enumeration value="Error_Misconfigured"/>
             <enumeration value="Error" optional="true"/>
           </string>
@@ -347,9 +357,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly" version="2.17">
+      <parameter name="Origin" access="writeOnceReadOnly" version="2.17">
         <description>
           Indicates the Origin of the {{object}} instance.
+
+          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
         <syntax>
           <string>
@@ -381,7 +393,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           Note: There is no guarantee that the {{param}} value on
@@ -434,6 +446,25 @@
           When a dynamic port mapping lease expires, the CPE MUST automatically
           terminate that port mapping, and MUST automatically delete the
           corresponding {{object}} table entry.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RemainingLeaseTime" access="readOnly"
+          activeNotify="canDeny" version="2.18">
+        <description>
+          For a dynamic (non-static) port mapping, when this parameter is read,
+          the value represents the time (in {{units}}) remaining on the port mapping lease.
+          That is, for a dynamic port mapping, the value counts down toward 0.
+          When a dynamic port mapping lease expires, the device MUST automatically
+          terminate that port mapping, and MUST automatically delete the
+          corresponding {{object}} table entry.
+
+          For a static port mapping, this parameter is irrelevant and should return ''0''.
         </description>
         <syntax>
           <unsignedInt>
@@ -552,6 +583,9 @@
         <description>
           The port on {{param|InternalClient}} that the gateway SHOULD forward
           traffic to.
+
+          When {{param|ExternalPortEndRange}} is utilized, this range will also
+          be applied accordingly, starting from the {{param}} number.
         </description>
         <syntax>
           <unsignedInt>
@@ -618,6 +652,8 @@
           <default type="object" value=""/>
         </syntax>
       </parameter>
+
+      <component ref="ScheduleRef"/>
     </object>
 
     <object name="Device.NAT.PortTrigger.{i}." access="readWrite"
@@ -630,7 +666,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -657,6 +693,11 @@
                 Indicates that the PortTrigger entry is enabled.
               </description>
             </enumeration>
+            <enumeration value="Inactive" version="2.18">
+              <description>
+                Indicates that the PortTrigger is still enabled but has been temporary deactivated due to the Schedules defined in {{param|ScheduleRef}}.
+              </description>
+            </enumeration>
             <enumeration value="Error_Misconfigured">
               <description>
                 Indicates that a necessary configuration value is undefined or
@@ -673,9 +714,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readWrite">
+      <parameter name="Origin" access="writeOnceReadOnly">
         <description>
           Indicates the owner of the {{object}} instance.
+
+          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
         <syntax>
           <string>
@@ -777,10 +820,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="ActivationDate" access="readWrite">
+      <parameter name="ActivationDate" access="readOnly">
         <description>
           Indicates when the port trigger was enabled. When the port trigger is
           no longer active.
+
+          Note: This parameter was demoted to readOnly in the Device:2.18 version.
         </description>
         <syntax>
             <dateTime/>
@@ -799,6 +844,8 @@
           </string>
         </syntax>
       </parameter>
+
+      <component ref="ScheduleRef"/>
 
       <parameter name="RuleNumberOfEntries" access="readOnly" version="2.16">
         <description>
@@ -820,7 +867,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Port" access="readWrite">
         <description>
@@ -898,7 +945,7 @@
     </profile>
   </component>
 
-  <model name="NAT:2.17">
+  <model name="NAT:2.18">
     <component ref="Root"/>
     <component ref="NAT"/>
   </model>

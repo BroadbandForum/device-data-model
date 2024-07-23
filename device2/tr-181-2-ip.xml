@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IP]
 
-  Copyright (c) 2010-2021,2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,21 +47,21 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-ip"
-    file="tr-181-2-17-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-ip"
+    file="tr-181-2-18-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
@@ -73,6 +73,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    <component name="Layer3Interface"/>
   </import>
 
   <template id="IP-DIAGNOSTICS-PARENT">
@@ -1551,7 +1556,7 @@
       <description>
         The number of {{units}} of the test file sent during the FTP/HTTP
         transaction including FTP/HTTP headers, between {{param|BOMTime}} and
-        {{param|EOMTime}} acrosss all connections.
+        {{param|EOMTime}} across all connections.
       </description>
       <syntax>
         <dataType ref="StatsCounter64">
@@ -2488,7 +2493,6 @@
       <description>
         Port on the Test Endpoint host.
 
-
         {{deprecated|2.17|because it is superseded by
         {{param|ServerList}} with multi-flow and server capability. Refer
         to {{bibref|TR-471}} for details}}
@@ -2887,7 +2891,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="TimeoutNoTraffic" access="readWrite" status="obsoleted"
+    <parameter name="TimeoutNoTraffic" access="readWrite" status="deleted"
         version="2.14">
       <description>
         Timeout value. Value specified in {{units}}. The default value SHOULD
@@ -2898,6 +2902,8 @@
         to {{bibref|TR-471}} for details}}
 
         {{obsoleted|2.17}}
+
+        {{deleted|2.18}}
       </description>
       <syntax>
         <unsignedInt>
@@ -3133,7 +3139,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="ModalResultNumberOfEntries" access="readOnly">
+    <parameter name="ModalResultNumberOfEntries" access="readOnly" version="2.15">
       <description>
         {{numentries}}
       </description>
@@ -3202,7 +3208,7 @@
         {{param|IncrementalResult.{i}.IPLayerCapacity}} values measured between
         {{param|BOMTime}} and {{param|EOMTime}} across all connections for this
         test. This is calculated according to {{bibref|TR-471}} Equation 1.
-        Result is expressed in {{units}} with 2 digits beyond the decimal. 10^6
+        Result is expressed in {{units}} with 2 digits beyond the decimal. 10^6^
         bits/second = 1 {{units}}.
       </description>
       <syntax>
@@ -3232,7 +3238,7 @@
         according to {{bibref|TR-471}} Equation 1, and calculations to estimate
         the capacity at Layer 2 with Preamble and Inter-frame gap, but no ETH
         Frame Check Sequence. Result is expressed in {{units}} with 2 digits
-        beyond the decimal. 10^6 bits/second = 1 {{units}}.
+        beyond the decimal. 10^6^ bits/second = 1 {{units}}.
       </description>
       <syntax>
         <decimal>
@@ -3247,7 +3253,7 @@
         according to {{bibref|TR-471}} Equation 1, and calculations to estimate
         the capacity at Layer 2 with ETH Frame Check Sequence. Result is
         expressed in {{units}} with 2 digits beyond the decimal.
-        10^6bits/second = 1 {{units}}.
+        10^6^ bits/second = 1 {{units}}.
       </description>
       <syntax>
         <decimal>
@@ -3263,7 +3269,7 @@
         according to {{bibref|TR-471}} Equation 1, and calculations to estimate
         the capacity at Layer 2 with ETH Frame Check Sequence and VLAN tag.
         Result is expressed in {{units}} with 2 digits beyond the decimal.
-        10^6bits/second = 1 {{units}}.
+        10^6^ bits/second = 1 {{units}}.
       </description>
       <syntax>
         <decimal>
@@ -3354,7 +3360,7 @@
         ending at {{param|IncrementalResult.{i}.TimeOfSubInterval}}
         corresponding to the {{param|MaxIPLayerCapacity}}, divided by the
         duration of {{param|TestSubInterval}}. Result is expressed in Mbps with
-        2 digits beyond the decimal. 10^6 bits/second = 1 {{units}}. This is
+        2 digits beyond the decimal. 10^6^ bits/second = 1 {{units}}. This is
         primarily a diagnostic measurement. Measurement direction follows the
         {{param|Role}}.
       </description>
@@ -3371,7 +3377,7 @@
         {{param|IncrementalResult.{i}.IPLayerCapacity}} values measured between
         {{param|BOMTime}} and {{param|EOMTime}} across all connections for this
         test. This is calculated according to {{bibref|TR-471}} Equation 1.
-        Result is expressed in {{units}} with 2 digits beyond the decimal. 10^6
+        Result is expressed in {{units}} with 2 digits beyond the decimal. 10^6^
         bits/second = 1 {{units}}.
       </description>
       <syntax>
@@ -3471,7 +3477,7 @@
         IP-Layer Capacity test for the entire time interval of duration
         {{param|TestInterval}}, divided by the duration of
         {{param|TestInterval}}. Result is expressed in {{units}} with 2 digits
-        beyond the decimal. 10^6 bits/second = 1 {{units}}. This is primarily a
+        beyond the decimal. 10^6^ bits/second = 1 {{units}}. This is primarily a
         diagnostic measurement. Measurement direction follows the
         {{param|Role}}.
       </description>
@@ -3504,7 +3510,7 @@
           corresponding mode across all connections for this test. This is
           calculated according to {{bibref|TR-471}} Equation 1. Result is
           expressed in {{units}} with 2 digits beyond the decimal.
-          10^6bits/second = 1 {{units}}.
+          10^6^ bits/second = 1 {{units}}.
         </description>
         <syntax>
           <decimal>
@@ -3533,7 +3539,7 @@
           according to {{bibref|TR-471}} Equation 1, and calculations to
           estimate the capacity at Layer 2 with Preamble and Inter-frame gap,
           but no ETH Frame Check Sequence. Result is expressed in {{units}}
-          with 2 digits beyond the decimal. 10^6bits/second = 1 {{units}}.
+          with 2 digits beyond the decimal. 10^6^ bits/second = 1 {{units}}.
         </description>
         <syntax>
           <decimal>
@@ -3548,7 +3554,7 @@
           according to {{bibref|TR-471}} Equation 1, and calculations to
           estimate the capacity at Layer 2 with ETH Frame Check Sequence.
           Result is expressed in {{units}} with 2 digits beyond the decimal.
-          10^6bits/second = 1 {{units}}.
+          10^6^ bits/second = 1 {{units}}.
         </description>
         <syntax>
           <decimal>
@@ -3563,7 +3569,7 @@
           according to {{bibref|TR-471}} Equation 1, and calculations to
           estimate the capacity at Layer 2 with ETH Frame Check Sequence and
           VLAN tag. Result is expressed in {{units}} with 2 digits beyond the
-          decimal. 10^6bits/second = 1 {{units}}.
+          decimal. 10^6^ bits/second = 1 {{units}}.
         </description>
         <syntax>
           <decimal>
@@ -3655,7 +3661,7 @@
         {{param|#.IncrementalResult.{i}.TimeOfSubInterval}} corresponding to
         the {{param|MaxIPLayerCapacity}}, divided by the duration of
         {{param|#.TestSubInterval}}. Result is expressed in Mbps with 2
-        digits beyond the decimal. 10^6 bits/second = 1 {{units}}. This is
+        digits beyond the decimal. 10^6^ bits/second = 1 {{units}}. This is
         primarily a diagnostic measurement. Measurement direction follows the
         {{param|#.Role}}.
       </description>
@@ -3687,7 +3693,7 @@
           for time interval of duration {{param|#.TestSubInterval}} ending at
           {{param|TimeOfSubInterval}} across all connections for this test.
           Result is expressed in {{units}} with 2 digits beyond the decimal.
-          10^6 bits/second = 1 {{units}}.
+          10^6^ bits/second = 1 {{units}}.
         </description>
         <syntax>
           <decimal>
@@ -3799,7 +3805,7 @@
         IP-Layer Capacity test for time interval of duration
         {{param|#.TestSubInterval}} ending at {{param|TimeOfSubInterval}},
         divided by the duration of {{param|#.TestSubInterval}}. Result is
-        expressed in Mbps with 2 digits beyond the decimal. 10^6 bits/second
+        expressed in Mbps with 2 digits beyond the decimal. 10^6^ bits/second
         = 1 {{units}}. This is primarily a diagnostic measurement.
         Measurement direction follows the {{param|#.Role}}.
       </description>
@@ -4117,15 +4123,6 @@
         </syntax>
       </parameter>
 
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
       <parameter name="ActivePortNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -4134,12 +4131,12 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+
+      <component ref="Layer3Interface"/>
     </object>
 
-    <object name="Device.IP.Interface.{i}." access="readWrite"
-        numEntriesParameter="InterfaceNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" version="2.0">
-      <description>
+    <object base="Device.IP.Interface.{i}.">
+      <description action="replace">
         IP interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). This table models the layer 3 IP
         interface.
@@ -4183,27 +4180,26 @@
         {{object|##.GRE.Tunnel.{i}.Interface}} or
         {{object|##.MAP.Domain.{i}.Interface}} objects.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
+      <parameter base="Enable">
+        <description action="replace">
           Enables or disables the interface (regardless of {{param|IPv4Enable}}
           and {{param|IPv6Enable}}).
 
           This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
         </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
+     </parameter>
+
+      <parameter base="LowerLayers">
+        <description action="append">
+          {{param}} MUST be {{empty}} and read-only when {{param|Type}} is
+          {{enum|Loopback|Type}}, {{enum|Tunnel|Type}}, or
+          {{enum|Tunneled|Type}}.
+        </description>
       </parameter>
 
-      <parameter name="IPv4Enable" access="readWrite" version="2.2">
+      <parameter name="IPv4Enable" access="readWrite" version="2.2"
+          dmr:previousParameter="Enable">
         <description>
           If set to {{true}}, attaches this interface to the IPv4 stack. If set
           to {{false}}, detaches this interface from the IPv4 stack.
@@ -4256,93 +4252,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-          <default type="object" value="Down"/>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias-2-0" version="2.0"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          {{param}} MUST be {{empty}} and read-only when {{param|Type}} is
-          {{enum|Loopback|Type}}, {{enum|Tunnel|Type}}, or
-          {{enum|Tunneled|Type}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-          <default type="object" value=""/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Router" access="readWrite">
+      <parameter name="Router" access="readWrite" dmr:previousParameter="LowerLayers">
         <description>
           {{reference}} The ''Router'' instance that is associated with this IP
           Interface entry.
@@ -4476,10 +4386,10 @@
     <object name="Device.IP.Interface.{i}.IPv4Address.{i}." access="readWrite"
         numEntriesParameter="IPv4AddressNumberOfEntries"
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-        version="2.0">
+        version="2.0" dmr:previousObject="Device.IP.Interface.{i}.">
       <description>
         IPv4 address table. Entries are auto-created and auto-deleted as IP
-        addresses are added and deleted via DHCP, auto-IP, or IPCP. Static
+        addresses are added and deleted via DHCP, auto-IP, 3GPP-NAS, or IPCP. Static
         entries are created and configured by the Controller.
       </description>
       <uniqueKey functional="false">
@@ -4521,7 +4431,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           This parameter can only be modified if {{param|AddressingType}} is
@@ -4567,198 +4477,17 @@
             <enumeration value="AutoIP"/>
             <enumeration value="IPCP"/>
             <enumeration value="Static"/>
+            <enumeration value="3GPP-NAS" version="2.18">
+              <description>
+                Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
+                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}}, 
+                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}}, 
+                PDP Context Activation Request {{bibref|3GPP-TS.24.008|Clause 6.1.2A}}, ...
+                This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
+              </description>
+            </enumeration>
           </string>
           <default type="object" value="Static"/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.IP.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
-          will never cause this counter to increment.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
-          will never cause this counter to increment.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
         </syntax>
       </parameter>
     </object>
@@ -4766,7 +4495,8 @@
     <object name="Device.IP.Interface.{i}.TWAMPReflector.{i}."
         access="readWrite" minEntries="0" maxEntries="unbounded"
         enableParameter="Enable"
-        numEntriesParameter="TWAMPReflectorNumberOfEntries" version="2.12">
+        numEntriesParameter="TWAMPReflectorNumberOfEntries" version="2.12"
+        dmr:previousObject="Device.Interface.{i}.Stats.">
       <description>
         This object contains parameters associated with the configuration that
         permits this interface to be used as Two-Way Active Measurement
@@ -4801,7 +4531,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.12"/>
+      <component ref="Alias"/>
 
       <parameter name="Port" access="readWrite">
         <description>
@@ -4874,7 +4604,7 @@
           packets to be received from any source port.
 
           Each entry in the list MUST be either a port number or a range of
-          port numbers separated by a hypen (-).
+          port numbers separated by a hyphen (-).
 
           For example, an entry with the value: '2-40' accepts test packets
           from any allowed source IP addresses with a source port between 2 and
@@ -4905,7 +4635,7 @@
           of link-local addresses (for all types of device) and global
           addresses (for non-router devices).
 
-        * Automatically via DHCPv6 {{bibref|RFC3315}}, which covers generation
+        * Automatically via DHCPv6 {{bibref|RFC8415}}, which covers generation
           of any type of address (subject to the configured DHCP server
           policy).
 
@@ -5026,7 +4756,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           This parameter can only be modified if {{param|Origin}} is
@@ -5063,12 +4793,12 @@
                 specified by SLAAC {{bibref|RFC4862|Section 5.3}}, a global
                 address as specified by SLAAC {{bibref|RFC4862|Section 5.5}},
                 or generated via CPE logic (e.g. from delegated prefix as
-                specified by {{bibref|RFC3633}}), or from ULA /48 prefix as
+                specified by {{bibref|RFC8415}}), or from ULA /48 prefix as
                 specified by {{bibref|RFC4193}}.
               </description>
             </enumeration>
             <enumeration value="DHCPv6">
-              <description>Assigned by DHCPv6 {{bibref|RFC3315}}.</description>
+              <description>Assigned by DHCPv6 {{bibref|RFC8415}}.</description>
             </enumeration>
             <enumeration value="IKEv2">
               <description>Assigned by IKEv2 {{bibref|RFC5996}}.</description>
@@ -5083,6 +4813,15 @@
               <description>
                 Specified by a standards organization, e.g. the ''::1''
                 loopback address, which is defined in {{bibref|RFC4291}}.
+              </description>
+            </enumeration>
+            <enumeration value="3GPP-NAS" version="2.18">
+              <description>
+                Address assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
+                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}}, 
+                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}}, 
+                PDP Context Activation Request {{bibref|3GPP-TS.24.008|Clause 6.1.2A}}, ...
+                This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
               </description>
             </enumeration>
             <enumeration value="Static">
@@ -5184,8 +4923,8 @@
         * Automatically via {{bibref|RFC4861}} Router Advertisements. See also
           {{object|###.RouterAdvertisement}}.
 
-        * Automatically via DHCPv6 {{bibref|RFC3315}} prefix delegation
-          {{bibref|RFC3633}}. See also {{object|###.DHCPv6.Client}}.
+        * Automatically via DHCPv6 {{bibref|RFC8415}} prefix delegation
+          {{bibref|RFC8415}}. See also {{object|###.DHCPv6.Client}}.
 
         * Automatically via internal CPE logic, e.g. creation of child prefixes
           derived from a parent prefix.
@@ -5276,7 +5015,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           This parameter can only be modified if {{param|Origin}} is
@@ -5336,7 +5075,7 @@
             </enumeration>
             <enumeration value="PrefixDelegation">
               <description>
-                Delegated via DHCPv6 {{bibref|RFC3633}} or some other protocol,
+                Delegated via DHCPv6 {{bibref|RFC8415}} or some other protocol,
                 e.g. IPv6rd {{bibref|RFC5969}}. Also see {{param|StaticType}}.
               </description>
             </enumeration>
@@ -5969,7 +5708,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.17">
+  <model name="IP:2.18">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

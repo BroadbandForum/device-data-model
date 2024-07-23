@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [ZigBee]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-zigbee"
-    file="tr-181-2-17-0-zigbee.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-zigbee"
+    file="tr-181-2-18-0-zigbee.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IEEE_EUI64"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
@@ -170,7 +170,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -486,7 +486,7 @@
         {{param|NetworkAddress}}. This is because the ZigBee specification
         describes only intra-area network topologies
         {{bibref|ZigBee2007|Section 1.1.4 Network Topology}}. As such if two or
-        more {{object}} instances have the same key value the implemenation is
+        more {{object}} instances have the same key value the implementation is
         undefined.
       </description>
       <uniqueKey functional="true">
@@ -558,15 +558,18 @@
         {{param|NetworkAddress}}. This is because the ZigBee specification
         describes only intra-area network topologies
         {{bibref|ZigBee2007|Section 1.1.4 Network Topology}}. As such if two or
-        more {{object}} instances have the same key value the implemenation is
+        more {{object}} instances have the same key value the implementation is
         undefined
       </description>
       <uniqueKey functional="true">
         <parameter ref="IEEEAddress"/>
         <parameter ref="NetworkAddress"/>
       </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="IEEEAddress" access="readOnly">
         <description>
@@ -844,7 +847,7 @@
               <description>Constant (mains) power</description>
             </enumeration>
             <enumeration value="Rechargeable">
-              <description>Rechargable battery</description>
+              <description>Rechargeable battery</description>
             </enumeration>
             <enumeration value="Disposable">
               <description>Disposable battery</description>
@@ -866,7 +869,7 @@
               <description>Constant (mains) power</description>
             </enumeration>
             <enumeration value="Rechargeable">
-              <description>Rechargable battery</description>
+              <description>Rechargeable battery</description>
             </enumeration>
             <enumeration value="Disposable">
               <description>Disposable battery</description>
@@ -1206,8 +1209,7 @@
 
     <object name="Device.ZigBee.ZDO.{i}.NodeManager.RoutingTable.{i}."
         access="readOnly" numEntriesParameter="RoutingTableNumberOfEntries"
-        minEntries="0" maxEntries="unbounded" dmr:noUniqueKeys="true"
-        version="2.7">
+        minEntries="0" maxEntries="unbounded" version="2.7">
       <description>
         The {{object}} object describes the route table as defined in
         {{bibref|ZigBee2007|table 3.51 Routing Table Entry}}.
@@ -1307,7 +1309,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="SourceEndpoint" access="readWrite">
         <description>
@@ -1416,7 +1418,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="GroupId" access="readWrite">
         <description>
@@ -1470,7 +1472,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="EndpointId" access="readWrite">
         <description>
@@ -1652,7 +1654,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.7"/>
+      <component ref="Alias"/>
 
       <parameter name="Coordinator" access="readWrite">
         <description>
@@ -1883,7 +1885,7 @@
     </profile>
   </component>
 
-  <model name="ZigBee:2.17">
+  <model name="ZigBee:2.18">
     <component ref="Root"/>
     <component ref="ZigBee"/>
   </model>

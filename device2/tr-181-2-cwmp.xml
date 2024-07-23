@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model definition [CWMP]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -51,20 +51,20 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-cwmp"
-    file="tr-181-2-17-0-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-cwmp"
+    file="tr-181-2-18-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias" ref="_AliasCWMP"/>
     <dataType name="Alias" ref="_AliasCWMP"/>
     <dataType name="DiagnosticsState"/>
     <dataType name="StatsCounter32"/>
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-common">
+      spec="urn:broadband-forum-org:tr-181-2-18-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -143,16 +143,21 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.17" ref="Device:2.17"/>
+    <model name="_Device:2.18" ref="Device:2.18"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    <component name="InterfaceStatsReset" ref="InterfaceStatsResetCWMP"/>
   </import>
 
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi-cwmp">
     <component name="WiFiCWMP"/>
   </import>
 
   <import file="tr-181-2-moca-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-moca-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-18-moca-cwmp">
     <component name="MoCACWMP"/>
   </import>
 
@@ -236,7 +241,7 @@
 
   <template id="IP-DIAGNOSTICS-PARENT"/>
 
-  <model name="Device:2.17" base="_Device:2.17">
+  <model name="Device:2.18" base="_Device:2.18">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -298,7 +303,7 @@
         <parameter ref="UUID"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="URL" access="readOnly">
         <description>
@@ -1190,7 +1195,7 @@
           version="2.7">
         <description>
           When an XMPP Connection Request is sent to a CPE the XMPP IQ Stanza
-          will contian a "from" address that contains the Jabber ID of the
+          will contain a "from" address that contains the Jabber ID of the
           initiating entity.
 
           This parameter is a {{list}} Each entry represents a Jabber ID, or
@@ -1762,7 +1767,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.3"/>
+      <component ref="Alias" version="2.3"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -2537,7 +2542,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.8"/>
+      <component ref="Alias" version="2.8"/>
 
       <parameter name="ParameterName" access="readWrite">
         <description>
@@ -2575,7 +2580,7 @@
         <syntax>
           <list/>
           <string/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
     </object>
@@ -3614,7 +3619,7 @@
       <component ref="IPUDPEchoDiagnosticsCapabilities"
           dmr:previousParameter="EnableIndividualPacketResults"/>
       <component ref="IPUDPEchoDiagnosticsOutputNumberOfEntries"/>
-   </object>
+    </object>
 
     <object name="Device.IP.Diagnostics.IPLayerCapacityMetrics."
         access="readOnly" minEntries="1" maxEntries="1"
@@ -4264,6 +4269,19 @@
       </parameter>
     </object>
 
+    <object base="Device.IEEE8021x.Supplicant.{i}.Stats." access="readOnly" minEntries="1"
+        maxEntries="1">
+      <parameter name="Reset" access="readWrite" version="2.18">
+        <description>
+          Set this to {{true}} to reset this object's statistics counters to zero.
+        </description>
+        <syntax command="true">
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+
     <object name="Device.USPAgent." access="readOnly" minEntries="1"
         maxEntries="1" version="2.15">
       <description>
@@ -4435,7 +4453,7 @@
     </profile>
 
     <profile name="IPLayerCapacity:1" dmr:previousProfile="" version="2.14"
-        status="obsoleted">
+        status="deleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
       </object>
@@ -4447,11 +4465,11 @@
         <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
         <parameter ref="Interface" requirement="readWrite"/>
         <parameter ref="Role" requirement="readWrite"/>
-        <parameter ref="Host" requirement="readOnly" status="obsoleted"/>
-        <parameter ref="Port" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="Host" requirement="readOnly" status="deleted"/>
+        <parameter ref="Port" requirement="readOnly" status="deleted"/>
         <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
         <parameter ref="NumberOfConnections" requirement="readOnly"
-          status="obsoleted"/>
+          status="deleted"/>
         <parameter ref="EthernetPriority" requirement="readWrite"/>
         <parameter ref="DSCP" requirement="readWrite"/>
         <parameter ref="ProtocolVersion" requirement="readWrite"/>
@@ -4466,7 +4484,7 @@
         <parameter ref="TestSubInterval" requirement="readWrite"/>
         <parameter ref="StatusFeedbackInterval" requirement="readWrite"/>
         <parameter ref="TimeoutNoTraffic" requirement="readWrite"
-          status="obsoleted"/>
+          status="deleted"/>
         <parameter ref="Tmax" requirement="readOnly"/>
         <parameter ref="TmaxRTT" requirement="readWrite"/>
         <parameter ref="TimestampResolution" requirement="readWrite"/>
@@ -4541,7 +4559,7 @@
         <parameter ref="MinRTTSummary" requirement="readOnly"/>
       </object>
     </profile>
-    
+
     <profile name="IPLayerCapacityTest:2"
         dmr:previousProfile="IPLayerCapacity:2" version="2.17" >
       <object ref="Device.IP.Diagnostics." requirement="present">
@@ -4583,7 +4601,7 @@
         <parameter ref="ActiveFlows" requirement="readOnly"/>
       </object>
     </profile>
- 
+
 
     <profile name="AutonXferComplPolicy:1" version="2.0"
         dmr:previousProfile="TempStatusAdv:2">
@@ -5299,7 +5317,7 @@
         <parameter ref="FetchSamples" requirement="readWrite"/>
       </object>
    </profile>
-    
+
     <profile name="IPInterface:1" version="2.0"
         dmr:previousProfile="IPv6Routing:1">
       <object ref="Device.IP." requirement="present">

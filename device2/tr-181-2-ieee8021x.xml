@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [IEEE8021x]
 
-  Copyright (c) 2010-2020,2023, Broadband Forum
+  Copyright (c) 2010-2020,2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,14 +55,15 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-ieee8021x"
-    file="tr-181-2-17-0-ieee8021x.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-ieee8021x"
+    file="tr-181-2-18-0-ieee8021x.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="MACAddress"/>
+    <dataType name="StatsCounter32"/>
   </import>
 
   <import file="tr-181-2-root.xml"
@@ -149,7 +150,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -443,7 +444,26 @@
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
+      <parameter name="SuccessCount" access="readOnly" version="2.18">
+        <description>
+          Count of the number of successful authentications from the perspective
+          of this supplicant.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter32"/>
+        </syntax>
+      </parameter>
+      <parameter name="FailureCount" access="readOnly" version="2.18">
+        <description>
+          Count of the number of failed authentications from the perspective
+          of this supplicant.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter32"/>
+        </syntax>
+      </parameter>
     </object>
+
 
     <object name="Device.IEEE8021x.Supplicant.{i}.EAPMD5." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0">
@@ -566,7 +586,7 @@
     </profile>
   </component>
 
-  <model name="IEEE8021x:2.17">
+  <model name="IEEE8021x:2.18">
     <component ref="Root"/>
     <component ref="IEEE8021x"/>
   </model>

@@ -14,19 +14,19 @@ The IETF (LMAP) and BBF (TR-304) use a similar framework for diagnostics where e
 
 The TR-304 framework consists of a Management Server that is used to manage and configure the Measurement Agent. This would also include receiving logging and status information as well as the capability to schedule the Measurement Agent for tests. The TR-304 framework also has a Measurement Controller with the responsibility to schedule the Measurement Agent for tests to be performed provide test admin control. TR-304 framework also has multiple channels where a Measurement Agent can send reports to the different Data Collectors.
 
-![TR-304 Framework](/images/tr-304-framework.png)
+![TR-304 Framework](/images/tr-304-framework.png){typst-scale=0.6}
 
 #### IETF LMAP Framework
 
 The IETF LMAP framework, like the BBF TR-304 framework, consists of a Management Server that is used to pre-configure the Measurement Agent. Note that this also could be done at the manufacturing stage of the device. The LMAP framework also has a Measurement Controller with the responsibility to configure the Measurement Agent for tests to be performed; provide instructions about the test and receive status and logging information the Measurement agents. In the IETF LMAP framework these functions are treated as individual channels that can be assigned to different Measurement Controllers. Likewise the Reporting interface also has multiple channels where a Measurement Agent can send reports to the different Data Collectors.
 
-![LMAP Framework](/images/lmap-framework.png)
+![LMAP Framework](/images/lmap-framework.png){typst-scale=0.6}
 
 ### CWMP for Pre-configuration
 
 In the IETF LMAP and TR-304 frameworks, CWMP can be used to pre-configure the Measurement Agent; where the Controller and Data Collector could use other protocols (e.g., IETF LMAP protocol).
 
-![CWMP for Pre-configuration](/images/cwmp-for-pre-configuration.png)
+![CWMP for Pre-configuration](/images/cwmp-for-pre-configuration.png){typst-scale=0.6}
 
 Note that in the TR-304 framework the Status and Logging functions have not been explicitly identified as capabilities of the Controller.
 
@@ -34,13 +34,13 @@ Note that in the TR-304 framework the Status and Logging functions have not been
 
 In the IETF LMAP and TR-304 frameworks, CWMP can be used to pre-configure the Measurement Agent and manage/schedule the tests. Likewise the IPDR protocol can be used to report the test results. In this scenario, the ACS would act as the Management Server and Measurement Controller. This scenario would place a constraint on the IETF LMAP framework in that there would be allowed only 1 Measurement Controller per Measurement Agent. See *[Bulk Data Collection in the Context of LMAP]* for additional information on use of the BulkData.Profile object in the context of LMAP.
 
-![CWMP for Control and Pre-configuration, IPDR for Reporting](/images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png)
+![CWMP for Control and Pre-configuration, IPDR for Reporting](/images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png){typst-scale=0.6}
 
 ### CWMP as a Proxier, IPDR for Reporting
 
 In scenarios where Measurement Agent does not have connectivity with the Measurement Controller, CWMP can be used to act as a proxy between the Measurement Controller and Measurement Agent. In this scenario, if the CWMP Proxy is an Embedded Device then both Measurement Agents are associated with the same ACS. If the Measurement Agents need to be associated with different Measurement Controllers then the CWMP Virtual Device mechanism is to be used.
 
-![CWMP Proxy Device Deployment](/images/cwmp-proxy-device-deployment.png)
+![CWMP Proxy Device Deployment](/images/cwmp-proxy-device-deployment.png){typst-scale=0.6}
 
 ### Multi-ACS Deployment
 
@@ -48,7 +48,7 @@ In the IETF LMAP framework, the Measurement Agent could interact with different 
 
 For a CWMP framework, this would require a different CWMP Agent for each application. As such this type of scenario is not realistically supported by CWMP.
 
-![CWMP Multi-ACS Deployment](/images/cwmp-multi-acs-deployment.png)
+![CWMP Multi-ACS Deployment](/images/cwmp-multi-acs-deployment.png){typst-scale=0.6}
 
 ## Derivation of Data Model Elements
 
@@ -90,7 +90,7 @@ The TR-069 family of specifications has defined protocols that can be used for t
 
 When integrating the test results of the Device:2 data model (i.e., LMAP.Report object instance) into the bulk data objects and parameters provided by the Device:2 data model, the LMAP.Report object instance becomes the referenced parameter of the Bulk Data Profile (BulkData.Profile object instance). In addition, there is a linkage needed within the LMAP data model to identify the BulkData.Profile object instance. This is done through the reference of the BulkData.Profile object instance from the LMAP data model's Communication Channel for a Scheduled Action.
 
-![Integration of Bulk Data Profiles with LMAP](/images/integration-of-bulk-data-profiles-with-lmap.png)
+![Integration of Bulk Data Profiles with LMAP](/images/integration-of-bulk-data-profiles-with-lmap.png){typst-scale=0.8}
 
 ## TR-143 Diagnostics in LMAP
 
@@ -112,4 +112,3 @@ TR-143 [@TR-143] describes a set of tests that can be used within the context of
 ::: note
 These fully qualified names could be shortened or even specified as a different name based on the specification behind the RegistryEntry URN.
 :::
-

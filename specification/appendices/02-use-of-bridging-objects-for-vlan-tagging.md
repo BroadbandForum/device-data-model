@@ -10,7 +10,7 @@ Regarding different traffic bridging rules, the possible cases are characterized
 
 To better understand the different cases, refer to @fig:examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects and to the following examples.
 
-![Examples of VLAN configuration based on Bridging and VLAN Termination objects](/images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png)
+![Examples of VLAN configuration based on Bridging and VLAN Termination objects](/images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png){typst-scale=0.5}
 
 ## Tagged LAN to Tagged WAN Traffic (VLAN Bridging)
 
@@ -20,7 +20,7 @@ To achieve this, an interface-based bridge would be created using the Bridging o
 
 The Bridging model is depicted in @fig:bridge-1-model, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration.
 
-![Bridge 1 model](/images/bridge-1-model.png)
+![Bridge 1 model](/images/bridge-1-model.png){typst-scale=0.5}
 
 ---
 bridge1ModelTableSpec:
@@ -86,7 +86,7 @@ To achieve this, a bridge would be created using the Bridging object. A Bridge t
 
 The Bridging model is depicted in @fig:bridge-2-model, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration-vlan-id-translation.
 
-![Bridge 2 model](/images/bridge-2-model.png)
+![Bridge 2 model](/images/bridge-2-model.png){typst-scale=0.5}
 
 ---
 bridge2ModelTableSpec:
@@ -177,7 +177,7 @@ To achieve this, an interface-based bridge would be created using the Bridging o
 
 The Bridging model is depicted in @fig:bridge-3-model, while the configuration rules for this situation are summarized in @tbl:untagged-lan-to-tagged-wan-configuration.
 
-![Bridge 3 model](/images/bridge-3-model.png)
+![Bridge 3 model](/images/bridge-3-model.png){typst-scale=0.5}
 
 ---
 bridge3ModelTableSpec:
@@ -242,7 +242,7 @@ A CPE PPPoE internal session (instance Device.PPP.Interface.1) might be dedicate
 
 To achieve this, instead of using a bridging object, a VLAN Termination interface would be created (Device.Ethernet.VLANTermination.1). The Bridging model is depicted in @fig:vlan-termination-model, while the configuration rules for this situation are summarized in @tbl:internally-generated-to-tagged-wan-configuration.
 
-![VLAN Termination model](/images/vlan-termination-model.png)
+![VLAN Termination model](/images/vlan-termination-model.png){typst-scale=0.5}
 
 ---
 vlanTerminationModelTableSpec:
@@ -286,7 +286,7 @@ Referring to the example in *[Tagged LAN to tagged WAN traffic (VLAN bridging)]*
 
 To achieve this, new entries need to be added for interface Eth-3 and Eth-4. The Bridging model is depicted in @fig:bridge-1-model-additional-ethernet-interfaces, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration and @tbl:configuration-to-be-added-to-tagged-lan-to-tagged-wan-configuration-table.
 
-![Bridge 1 model (additional Ethernet interfaces)](/images/bridge-1-model-additional-ethernet-interfaces.png)
+![Bridge 1 model (additional Ethernet interfaces)](/images/bridge-1-model-additional-ethernet-interfaces.png){typst-scale=0.5}
 
 ---
 bridge1ModelPlusTableSpec:
@@ -391,13 +391,13 @@ Another scenario that can be further detailed is the case of more than one VLAN 
 
 In this case, we assume the User Device is able to tag the different traffic flows, segregating the different services (Voice, Video, ...) into different VLANs. The Residential Gateway needs, on the same downstream interface, to be able to receive different VLAN ID and correctly forward or translate to the upstream interface (and vice versa). To achieve this, appropriate Bridging objects need to be configured.
 
-![Example of VLAN configuration in a 2 box scenario](/images/example-of-vlan-configuration-in-a-2-box-scenario.png)
+![Example of VLAN configuration in a 2 box scenario](/images/example-of-vlan-configuration-in-a-2-box-scenario.png){typst-scale=0.5}
 
 Referring to @fig:example-of-vlan-configuration-in-a-2-box-scenario as an example, assume the case of three VLANs (VLAN ID=x,y,z) offered by a User Device to the Residential Gateway on the same downstream interface (Eth #1). The Residential Gateway bridges two of them (VLAN ID=x,y) and translates the other one (VLAN ID=z) to the upstream interface (VLAN ID=k).
 
 On the Residential Gateway, this can be achieved using a combination of the Bridging objects detailed in the preceding sections, with 3 bridge entries and their related entries. Refer to @fig:bridge-123-model for the Bridging model and @tbl:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface for the global configuration.
 
-![Bridge 1,2,3 model](/images/bridge-123-model.png)
+![Bridge 1,2,3 model](/images/bridge-123-model.png){typst-scale=0.5}
 
 ---
 bridge123ModelTableSpec:
@@ -435,4 +435,3 @@ bridge123ModelTable:
 
 ::: {bbfTable=bridge123ModelTable}
 :::
-

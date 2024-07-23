@@ -16,7 +16,7 @@ A GRE tunnel is used to preserve the VLAN tagging at the edge to further interco
 
 In addition, the *DSCPMarkPolicy* parameter can be used to assign DSCP values to each *GRE.Tunnel.{i}.Interface* instance for QoS treatment in the access network and towards the GRE concentrator.
 
-![VLAN Traffic over GRE](/images/vlan-traffic-over-gre.png)
+![VLAN Traffic over GRE](/images/vlan-traffic-over-gre.png){typst-scale=0.7}
 
 The GRE Tunnel interface layout is shown in @fig:l2-over-gre-tunnel.
 
@@ -69,7 +69,7 @@ This example describes an IP in IP encapsulation where a GRE tunnel takes IPv4 p
 
 The GRE tunnels use the default IPv6 WAN interface of the CPE.
 
-![IP over IP GRE Encapsulation](/images/ip-over-ip-gre-encapsulation.png)
+![IP over IP GRE Encapsulation](/images/ip-over-ip-gre-encapsulation.png){typst-scale=0.7}
 
 @fig:l3-over-gre-tunnel shows the configuration of a GRE tunnel for an IPv4 Private network attached to a LAN interface that is encapsulated in the IPv6 packet.
 
@@ -90,4 +90,3 @@ The configuration for this scenario assumes that the WAN and LAN Ethernet interf
 | [***Associate Tunnel IPv4 Interface with GRE Tunnel Interface***]{.underline}
 | **Device.IP.Interface.3.LowerLayers = Device.GRE.Tunnel.1.Interface.1**
 :::
-

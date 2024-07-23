@@ -2,6 +2,8 @@
 
 """Edit an XML file to use the Alias component.
 
+** UPDATED APRIL 2024 to use replace Alias-1-0 and Alias-2-0 with Alias **
+
 (Based on edit-file-headers.py.)
 
 The changes are illustrated by the tr-181-2-atm.xml diffs shown below:
@@ -98,30 +100,19 @@ copyright_regex = re.compile(r'(\s*Copyright\s+\(c\)\s+[\d, -]+)(\d{4})('
 spec_regex = re.compile(r'(.*spec\s*=\s*"urn:[^:]+:tr-181-2-)(\d+-\d+)(.+)',
                         re.S)
 file_regex = re.compile(r'(.*file\s*=\s*"tr-181-2-)(\d+-\d+)(.+)', re.S)
-import_regex = re.compile(r'(\s*)(<dataType\s+name="Alias"'
-                          r'(?:\s+ref="_AliasCommon")?/>)(.+)', re.S)
 
-object_open_regex = re.compile(r'(\s*<object\s+name\s*=\s*")([^"]+)(".+)',
-                               re.S)
-object_version_regex = re.compile(r'(.*version\s*=\s*")([^"]+)(".+)', re.S)
-object_close_regex = re.compile(r'(.*)(>)(\s+)', re.S)
+import_regex = re.compile(r'(\s*)(<component\s+name="Alias[^"]*"/>)(.+)', re.S)
+ref_regex = re.compile(r'(\s*)(<component\s+ref=")(Alias[^"]*)(".+)',
+                       re.S)
 
-alias_open_regex = re.compile(r'(\s*)(<parameter\s+name="Alias"\s+access=")'
-                              r'(\w+)(".+)', re.S)
-alias_version_regex = re.compile(r'(.*version\s*=\s*")([^"]+)(".+)', re.S)
-alias_descr_regex = re.compile(r'(\s*)({{datatype\|expand}}.+)', re.S)
-alias_close_regex = re.compile(r'(\s*)(</parameter>)(.+)', re.S)
-
-alias_prof_regex = re.compile(r'(\s*<parameter\s+ref="Alias"\s+'
-                              r'requirement=")(readWrite)("/>.+)', re.S)
 model_regex = re.compile(r'(\s*<model\s+name="[^:]+:2\.)(\d+)(">.+)', re.S)
 
 # these could be command-line arguments
-copyright_year = '2023'
-amend = '17'
+copyright_year = '2024'
+amend = '18'
 amend_corr = '%s-0' % amend
-import_comp = '<component name="Alias-2-0"/>'
-ref_comp = '<component ref="Alias-2-0"%s/>'  # version is substituted
+import_comp = '<component name="Alias"/>'
+ref_comp = '<component ref="Alias"/>'
 param_access = 'readWrite'
 prof_req = 'writeOnceReadOnly'
 
@@ -139,22 +130,23 @@ def main(argv=None):
     lines = open(file).readlines()
 
     # if nothing matches the Alias import regex there's nothing to be done
-    do_nothing = not any(import_regex.match(line) for line in lines)
-    if do_nothing:
+    not_imported = not any(import_regex.match(line) for line in lines)
+    if not_imported:
         logger.info('%s: no Alias import; nothing to be done' % base)
 
-    state = 'outer'
-    seen_alias_descr = False
-    object_name = None
-    object_version = None
-    alias_version = None
+    # check whether the import is used
+    not_referenced = not any(ref_regex.match(line) for line in lines)
+    if not not_imported and not_referenced:
+        logger.warning('%s: no Alias references; should remove the import' %
+                       base)
+
     for line in lines:
         ignore = False
 
-        if do_nothing:
+        if not_imported:
             pass
 
-        elif state == 'outer':
+        else:
             # update the copyright year
             if match := copyright_regex.match(line):
                 prefix, year, suffix = match.groups()
@@ -181,8 +173,7 @@ def main(argv=None):
                     logger.info('%s: file %s -> %s' % (base, version,
                                                        amend_corr))
 
-            # replace the Alias data type import with the Alias-2-0
-            # component import
+            # replace the Alias-2-0 component import with Alias
             if match := import_regex.match(line):
                 prefix, entity, suffix = match.groups()
                 if entity != import_comp:
@@ -190,40 +181,13 @@ def main(argv=None):
                     logger.info('%s: import %s -> %s' % (base, entity,
                                                          import_comp))
 
-            # note object names and versions
-            if match := object_open_regex.match(line):
-                version, closed = None, None
-                _, name, _ = match.groups()
-                if name:
-                    object_name = name
-                if match := object_version_regex.match(line):
-                    _, version, _ = match.groups()
-                if match := object_close_regex.match(line):
-                    _, closed, _ = match.groups()
-                if version:
-                    object_version = version
-                if not closed:
-                    state = 'object'
-
-            # look for Alias parameter definition
-            if match := alias_open_regex.match(line):
-                indent, prefix, access, suffix = match.groups()
-                if access != param_access:
-                    logger.warning('%s: Alias access is unexpected %s' %
-                                   (base, access))
-                else:
-                    ignore = True
-                    state = 'alias'
-                    alias_version = None
-                    seen_alias_descr = False
-
-            # replace Alias profile readWrite requirements with
-            # writeOnceReadOnly
-            if match := alias_prof_regex.match(line):
-                prefix, req, suffix = match.groups()
-                if req != prof_req:
-                    line = '%s%s%s' % (prefix, prof_req, suffix)
-                    logger.info('%s: req %s -> %s' % (base, req, prof_req))
+            # replace the Alias-2-0 component reference with Alias
+            # (discard any attributes)
+            if match := ref_regex.match(line):
+                indent, prefix, name, suffix = match.groups()
+                if name == 'Alias-2-0':
+                    line = '%s%sAlias"/>\n' % (indent, prefix)
+                    logger.info('%s: reference Alias-2-0 -> Alias' % base)
 
             # update the local model version
             if match := model_regex.match(line):
@@ -231,41 +195,6 @@ def main(argv=None):
                 if version != amend:
                     line = '%s%s%s' % (prefix, amend, suffix)
                     logger.info('%s: model %s -> %s' % (base, version, amend))
-
-        # capture object version (if not on the <object line)
-        elif state == 'object':
-            if match := object_version_regex.match(line):
-                _, version, _ = match.groups()
-                if version:
-                    object_version = version
-            if match := object_close_regex.match(line):
-                _, closed, _ = match.groups()
-                state = 'outer'
-
-        # replace Alias parameter definition with Alias-2-0 component reference
-        elif state == 'alias':
-            ignore = True
-
-            if alias_descr_regex.match(line):
-                seen_alias_descr = True
-
-            if match := alias_version_regex.match(line):
-                alias_version = match.group(2)
-
-            if match := alias_close_regex.match(line):
-                if seen_alias_descr:
-                    ignore = False
-                    state = 'outer'
-                    prefix, _, suffix = match.groups()
-                    version = alias_version or object_version or ''
-                    if version:
-                        version = ' version="%s"' % version
-                    line = '%s%s%s' % (prefix, ref_comp % version, suffix)
-                    logger.info('%s: %s Alias -> %s' % (
-                        base, object_name, ref_comp % version))
-
-        else:
-            logger.error('invalid state %r' % state)
 
         if loglevel != logging.INFO and not ignore:
             sys.stdout.write(line)

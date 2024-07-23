@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-softwaremodules"
-    file="tr-181-2-17-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-softwaremodules"
+    file="tr-181-2-18-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="URL"/>
     <dataType name="UUID"/>
   </import>
@@ -299,94 +299,6 @@
     </parameter>
   </component>
 
-  <component name="SMDUNetworkConfig">
-    <object name="NetworkConfig." version="2.17">
-      <description>
-        Specifies the network configuration for any ExecutionUnit generated during the installation or update of the DeploymentUnit.
-
-        When this argument or any of its child objects are missing from the {{command|.SoftwareModules.InstallDU()}},
-        the corresponding absent part is considered unnecessary and will not be available to the ExecutionUnit.
-
-        When this argument is not present in the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
-        the network configuration remains unaltered.
-       </description>
-      <parameter name="AccessInterfaces" mandatory="false">
-        <description>
-          The logical network interfaces which the application installed by this command will be allowed to send traffic through it.
-          If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
-          of the ExecEnv into which the DU is to be installed then the command will fail.
-
-          Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
-          Each entry in the list is the Name of a row in {{object|.Logical.Interface.}}.
-
-          If there is no such row then the command will fail, as installation requires access to a network, through the logical interface, which is not available.
-
-          When this argument is absent or {{empty}} then no outgoing network access is required for the ExecutionUnit to function.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <size maxLength="256"/>
-          </string>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" access="readOnly" version="2.17">
-      <description>
-        Defines the list of required port mapping rules for any ExecutionUnit which
-        is created as a result of this call command.
-      </description>
-
-      <parameter name="Interface" access="readWrite" mandatory="true" >
-        <description>
-          Name of a row in {{object|.Logical.Interface.}}. Specifies the logical interface to which the port mapping applies.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="256"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="ExternalPort" access="readWrite" mandatory="true" >
-        <description>
-          The external port that the NAT gateway would listen on for traffic to a
-          corresponding InternalPort. Inbound packets to this external port on the selected
-          interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range minInclusive="0" maxInclusive="65535"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="InternalPort" access="readWrite" mandatory="true" >
-        <description>
-          The port on ExecutionUnit that the gateway MUST forward traffic to.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range minInclusive="0" maxInclusive="65535"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="Protocol" access="readWrite" mandatory="true">
-        <description>
-          The protocol of the port mapping.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="TCP"/>
-            <enumeration value="UDP"/>
-          </string>
-        </syntax>
-      </parameter>
-    </object>
-  </component>
-
   <component name="SoftwareModules">
     <object name="Device.SoftwareModules." access="readOnly" minEntries="1"
         maxEntries="1" version="2.1">
@@ -450,7 +362,7 @@
         <parameter ref="Version"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -616,7 +528,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.1"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -802,9 +714,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="ProcessorRefList" access="readOnly">
+      <parameter name="ProcessorRefList" access="readOnly" status="deprecated">
         <description>
           Represents the processors that this {{object}} has available to it.
+
+          {{deprecated|2.18|because the referenced object,{{object|##.DeviceInfo.Processor.}},
+          is deprecated.}}
         </description>
         <syntax>
           <list/>
@@ -863,7 +778,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="ApplicationUUID" access="readOnly">
         <description>
@@ -941,7 +856,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.1"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1209,7 +1124,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.1"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1469,6 +1384,85 @@
         </syntax>
       </parameter>
 
+      <parameter name="AllocatedEUUID" access="readOnly" version="2.18">
+        <description>
+          This parameter is allocated by the host system. This is the user identifier
+          within the execution unit's environment. This UID is local to the execution 
+          unit and is used by the EU's internal processes to manage permissions. By default,
+          processes within the EU execute as root (UID 0) unless otherwise specified. 
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllocatedEUGID" access="readOnly" version="2.18">
+        <description>
+          This parameter is allocated by the host system. This is the group identifier
+          within the execution unit's environment. This GID is local to the execution 
+          unit and is used by the EU's internal processes to manage permissions. 
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllocatedHostUID" access="readOnly" version="2.18">
+        <description>
+          This parameter is allocated by the host system. This is the user identifier
+          on the host system where this EU is running. This UID is system wide and is 
+          managed by the kernel.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllocatedHostGID" access="readOnly" version="2.18">
+        <description>
+          This parameter is allocated by the host system. This is the group identifier
+          on the host system where this EU is running. This GID is system wide and is 
+          managed by the kernel.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CreationTime" access="readOnly" version="2.18">
+        <description>
+          The date and time when the EU was created.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Uptime" access="readOnly" version="2.18">
+        <description>
+          The amount of time in {{units}} that this EU has been up and running since it was activated.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="ShutdownDelay" access="readWrite" version="2.18">
+        <description>
+          The delay in {{units}} before which the container is shutdown.
+          This delay ensures that the application has enough time to perform any cleanup before
+          the Execution Unit transitions to idle state.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="implementation" value="10"/>
+        </syntax>
+      </parameter>
+
       <parameter name="References" access="readOnly">
         <description>
           Represents the instances of multi-instanced objects that are directly
@@ -1615,8 +1609,8 @@
         value of {{param|RetryIntervalMultiplier}}, and ''n'' the current value
         of {{param|RetryCount}}. Then on the next occasion that the Agent
         determines that the EU has terminated abnormally, the delay before
-        re-starting the EU must lie between ''m * (k/1000)^n'' and ''m *
-        (k/1000)^(n+1)'' seconds, so long as ''m * (k/1000)^n'' evaluates to a
+        re-starting the EU must lie between ''m * (k/1000)^n^'' and ''m *
+        (k/1000)^(n+1)^'' seconds, so long as ''m * (k/1000)^n^'' evaluates to a
         value less than {{param|RetryMaximumWaitInterval}}. Once this point has
         been reached, on all subsequent occasion that the Agent determines that
         the EU has terminated abnormally the delay before re-starting the EU
@@ -1718,7 +1712,7 @@
       <parameter name="NextRestart" access="readOnly">
         <description>
           The time at which the next restart of the {{object|#}} is scheduled
-          to occur. The Infinte Time (9999-12-31T23:59:59Z) is used to indicate
+          to occur. The Infinite Time (9999-12-31T23:59:59Z) is used to indicate
           that no restart is currently scheduled.
         </description>
         <syntax>
@@ -1770,7 +1764,7 @@
       <uniqueKey functional="true">
         <parameter ref="Destination"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
     </object>
 
     <component ref="SMEEEnvVariables"
@@ -1784,7 +1778,7 @@
       <uniqueKey functional="true">
         <parameter ref="Key"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.17"/>
+      <component ref="Alias"/>
     </object>
 
     <object name="Device.SoftwareModules.ExecutionUnit.{i}.Extensions."
@@ -1799,7 +1793,7 @@
     </object>
   </component>
 
-  <model name="SoftwareModules:2.17">
+  <model name="SoftwareModules:2.18">
     <component ref="Root"/>
     <component ref="SoftwareModules"/>
   </model>

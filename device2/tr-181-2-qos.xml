@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [QoS]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-qos"
-    file="tr-181-2-17-0-qos.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-qos"
+    file="tr-181-2-18-0-qos.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="IPPrefix"/>
     <dataType name="MACAddress"/>
@@ -411,7 +411,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="DHCPType" access="readWrite" version="2.2">
         <description>
@@ -957,7 +957,7 @@
 
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCPv6 Vendor Class Identifier (Option 16) as defined in
-          {{bibref|RFC3315}}. The option value is binary, so an exact match is
+          {{bibref|RFC8415}}. The option value is binary, so an exact match is
           REQUIRED.
 
           {{empty}} indicates this criterion is not used for classification.
@@ -1044,7 +1044,7 @@
 
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCPv6 Vendor Class Identifier (Option 16) as defined in
-          {{bibref|RFC3315}}. The option value is binary, so an exact match is
+          {{bibref|RFC8415}}. The option value is binary, so an exact match is
           REQUIRED.
 
           {{empty}} indicates this criterion is not used for classification.
@@ -1105,7 +1105,7 @@
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCP Client Identifier. The DHCP Client Identifier is Option 61
           (as defined in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or
-          is Option 1 (as defined in {{bibref|RFC3315}}) for
+          is Option 1 (as defined in {{bibref|RFC8415}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -1151,7 +1151,7 @@
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCP Client Identifier. The DHCP Client Identifier is Option 61
           (as defined in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or
-          is Option 1 (as defined in {{bibref|RFC3315}}) for
+          is Option 1 (as defined in {{bibref|RFC8415}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -1198,7 +1198,7 @@
           the DHCP User Class Identifier. The DHCP User Class Identifier is
           Option 77 (as defined in {{bibref|RFC3004}}) for
           {{enum|DHCPv4|DHCPType}}, or is Option 15 (as defined in
-          {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}. The option value is
+          {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The option value is
           binary, so an exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used for classification.
@@ -1242,7 +1242,7 @@
           the DHCP User Class Identifier. The DHCP User Class Identifier is
           Option 77 (as defined in {{bibref|RFC3004}}) for
           {{enum|DHCPv4|DHCPType}}, or is Option 15 (as defined in
-          {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}. The option value is
+          {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The option value is
           binary, so an exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used for classification.
@@ -1287,7 +1287,7 @@
           {{param|SourceVendorSpecificInfoSubOption}}. The DHCP Vendor-specific
           Information is Option 125 (as defined in {{bibref|RFC3925}}) for
           {{enum|DHCPv4|DHCPType}}, or is Option 17 (as defined in
-          {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}.
+          {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}.
 
           {{empty}} indicates this criterion is not used for classification.
 
@@ -1359,7 +1359,7 @@
           {{param|DestVendorSpecificInfoSubOption}}. The DHCP Vendor-specific
           Information is Option 125 (as defined in {{bibref|RFC3925}}) for
           {{enum|DHCPv4|DHCPType}}, or is Option 17 (as defined in
-          {{bibref|RFC3315}}) for {{enum|DHCPv6|DHCPType}}.
+          {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}.
 
           {{empty}} indicates this criterion is not used for classification.
 
@@ -1454,10 +1454,12 @@
         <description>
           Classification criterion.
 
-          Minimum IP Packet Length (including header) in bytes.
+          Minimum IP Packet Length (including header) in {{units}}.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -1466,13 +1468,15 @@
         <description>
           Classification criterion.
 
-          Maximum IP Packet Length (including header) in bytes.
+          Maximum IP Packet Length (including header) in {{units}}.
 
           A value of zero indicates that no maximum is specified (an umlimited
           maximum length).
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -1861,7 +1865,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="ProtocolIdentifier" access="readWrite">
         <description>
@@ -2028,7 +2032,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readWrite">
         <description>
@@ -2056,7 +2060,7 @@
           <string>
             <size maxLength="256"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -2219,38 +2223,44 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="CommittedRate" access="readWrite">
         <description>
           Committed rate allowed for this policer in {{units}}.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <unsignedInt>
+          <unsignedLong>
             <units value="bits per second"/>
-          </unsignedInt>
+          </unsignedLong>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
 
       <parameter name="CommittedBurstSize" access="readWrite">
         <description>
-          Committed Burstsize in bytes.
+          Committed Burstsize in {{units}}.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
 
       <parameter name="ExcessBurstSize" access="readWrite">
         <description>
-          Excess Burstsize in bytes.
+          Excess Burstsize in {{units}}.
 
           Applied for a {{enum|SingleRateThreeColor|MeterType}} meter.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -2260,23 +2270,27 @@
           Peak rate allowed for this Meter in {{units}}.
 
           Applied for {{enum|TwoRateThreeColor|MeterType}} meters.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <unsignedInt>
+          <unsignedLong>
             <units value="bits per second"/>
-          </unsignedInt>
+          </unsignedLong>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
 
       <parameter name="PeakBurstSize" access="readWrite">
         <description>
-          Peak Burstsize in bytes.
+          Peak Burstsize in {{units}}.
 
           Applied for {{enum|TwoRateThreeColor|MeterType}} meters.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -2593,7 +2607,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Children" access="readWrite" version="2.16">
         <description>
@@ -2629,7 +2643,7 @@
             <size maxLength="256"/>
           </list>
           <unsignedInt/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -2679,14 +2693,16 @@
 
       <parameter name="BufferLength" access="readOnly">
         <description>
-          Number of bytes in the buffer.
+          Number of {{units}} in the buffer.
 
           Queue buffer size for all egress interfaces for which this queue
           exists. If the buffer size is not the same for all such egress
           interfaces, this parameter MUST be 0.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -2822,11 +2838,13 @@
           ATM layer is rate-constrained, then the rate is calculated relative
           to this rate. Otherwise, the rate is calculated relative to the
           physical-layer DSL rate.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
@@ -2836,12 +2854,14 @@
           If the Queue is active, the CurrentShapingRate must reflect the
           actual configured ShapingRate, in {{units}} per second. -1 means no
           rate due to do Queue not active.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
             <units value="bits per second"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
@@ -2856,11 +2876,13 @@
           If &gt; 100, in bits per second.
 
           A value of -1 indicates no shaping.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
@@ -2870,23 +2892,27 @@
           If the Queue is active, the CurrentAssuredRate must reflect the
           actual configured AssuredRate, in bits per second. -1 means no rate
           due to do Queue not active.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
 
       <parameter name="ShapingBurstSize" access="readWrite">
         <description>
-          Burst size in bytes. For both leaky bucket (constant rate shaping)
+          Burst size in {{units}}. For both leaky bucket (constant rate shaping)
           and token bucket (variable rate shaping) this is the bucket size and
           is therefore the maximum burst size.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
         </syntax>
       </parameter>
     </object>
@@ -2945,7 +2971,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Queue" access="readWrite">
         <description>
@@ -2991,10 +3017,12 @@
 
       <parameter name="OutputBytes" access="readOnly" activeNotify="canDeny">
         <description>
-          Number of bytes output through the queue.
+          Number of {{units}} output through the queue.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -3012,10 +3040,12 @@
 
       <parameter name="DroppedBytes" access="readOnly" activeNotify="canDeny">
         <description>
-          Number of bytes dropped by the queue.
+          Number of {{units}} dropped by the queue.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
           <default type="object" value="0"/>
         </syntax>
       </parameter>
@@ -3107,7 +3137,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Children" access="readWrite" version="2.16">
         <description>
@@ -3158,23 +3188,28 @@
           layer is rate-constrained, then the rate is calculated relative to
           this rate. Otherwise, the rate is calculated relative to the
           physical-layer DSL rate.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
+
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
 
       <parameter name="ShapingBurstSize" access="readWrite">
         <description>
-          Burst size in bytes. For both leaky bucket (constant rate shaping)
+          Burst size in {{units}}. For both leaky bucket (constant rate shaping)
           and token bucket (variable rate shaping) this is the bucket size and
           is therefore the maximum burst size.
         </description>
         <syntax>
-          <unsignedInt/>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
         </syntax>
       </parameter>
     </object>
@@ -3220,7 +3255,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Children" access="readWrite" version="2.16">
         <description>
@@ -3287,11 +3322,13 @@
           If &gt; 100, in bits per second.
 
           A value of -1 indicates no shaping.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
@@ -3303,11 +3340,13 @@
           Must be &gt; 0 and &lt; ShapingRate, for a valid rate.
 
           A value of -1 indicates the ShapingRate's value is not used.
+
+          Note: To be able to support higher bit rates, this parameter was changed to unsignedLong in the Device:2.18 version.
         </description>
         <syntax>
-          <int>
+          <long>
             <range minInclusive="-1"/>
-          </int>
+          </long>
           <default type="object" value="-1"/>
         </syntax>
       </parameter>
@@ -3517,7 +3556,7 @@
     </profile>
   </component>
 
-  <model name="QoS:2.17">
+  <model name="QoS:2.18">
     <component ref="Root"/>
     <component ref="QoS"/>
   </model>

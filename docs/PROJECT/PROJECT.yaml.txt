@@ -39,8 +39,60 @@ resources:
     resname: Device
 
 versions:
+  v2.18.0:
+    date: 2024-07-23
+    depends-on:
+      WT-106: v1.14.0
+    changes:
+      specification: |
+        * Fixed logical interface table
+        * Added ToO chapter about network interface MTU
+        * Manually resized diagrams to look nice
+        * Updated all generated diagrams
+      data-model: |
+        * Added more counter types to IoT
+        * Improved MoCA network state parameter descriptions
+        * Added new parameter to support VLAN priority
+        * Added new parameter to indicate the used Ethernet duplex mode
+        * Improved example Ethernet PHY types by using more commonly used types
+        * Added new parameter to control the sending of ARP messages on an Ethernet link
+        * Corrected access type of multiple parameters
+        * Added new parameters for IP based access control in HTTP access
+        * Added new parameter to configure the MTU on an Ethernet link
+        * Added new parameter to link a USPService to an ExecutionUnit providing it
+        * Extended size of various QoS parameter types from 32 bits to 64 bits types
+        * Added new parameter to control filtering of ICMPv6 packets
+        * Changed one more missed parameter from hidden to secured
+        * Added new parameters to control DHCP retransmission/retry behavior
+        * Removed some dmr:fixedObject attributes from non-fixed objects
+        * Added Device.Schedules. mechanism to define time-based schedules for services to use
+        * Added new parameters indicate the reason for a device reboot
+        * Added new parameters to configure and check the Ethernet MDIX mode
+        * Deprecated a decent number of MultiAP commands and parameters due to being supported in DataElements
+        * Refactored many Interface and Link objects, parameters and commands into components for deduplication
+        * Refactored and improved the description of the NetworkConfig object
+        * Replaced outdated DHCPv6 bibref by latest RFC
+        * Added Reset() command to various interface stats objects
+        * Promoted some readOnly parameters to readWrite
+        * Added source and dest port ranges to more firewall objects
+        * Added success and failure counters to IEEE802.1x supplicant stats
+        * Added 3GPP-NAS auto configuration type to various enumerations
+        * Added RemainingLeastTime to port-mapping objects
+        * Demoted a few readWrite objects to readOnly since they were never meant to be the former
+        * Added histogram mode to PeriodicSampling mechanism
+        * Added more informational parameters and ShutdownDelay as well as user configuration to SMM DUs
+        * Added system capabilities configuration to Users
+        * Changed parameter type of some Wi-Fi timestamps from string to datetime
+        * Clarified the credentials allowed usages
+        * Added UUID, Version, and ExecEnvRef as output arguments to the InstallDU() command
+        * Adjusted indentation to fix rendering issues
+        * Added missing Alias keys throughout the data model
+        * Removed some inappropriate dmr:noUniqueKeys annotations
+
   v2.17.0:
     date: 2024-01-18
+    depends-on:
+      WT-106: v1.13.0
     changes:
       specification: |
         * Refreshed some data model diagrams
@@ -58,8 +110,8 @@ versions:
           to be used by the DNS forwarders
         * Added new InterfaceSetting object to Device.Firewall.
         * Added ModuleVersion parameter to InstallDU() and Update() commands
-        * Added Origin parameter to PinHole, PortMapping and AccesssControl
-        * Added PhysAddresMask parameter to AccessControl
+        * Added Origin parameter to PinHole, PortMapping and AccessControl
+        * Added PhysAddressMask parameter to AccessControl
         * Added LeaseDuration and RemainLeaseTime parameters to the DMZ and Pinhole objects
         * Added Device.Firewall.ConnectionTracking. object tree to configure ALGs
         * Added missing DSL xTU-C and xTU-R parameters to DSL objects
@@ -89,6 +141,8 @@ versions:
 
   v2.16.0:
     date: 2023-06-14
+    depends-on:
+      WT-106: v1.12.0
     changes:
       specification: |
         * Refreshed all diagrams
@@ -575,7 +629,7 @@ versions:
 # Work Area Directors
 WADs:
   - Jason Walls, QA Cafe
-  - John Blackford, CommScope
+  - John Blackford, Vantiva
 
 # Project Stream Leaders
 PSLs:
@@ -597,12 +651,12 @@ acknowledgments:
   - David Cluytens, Orange
   - Jason Walls, QA Cafe
   - Johan Jacobs, Orange
-  - John Blackford, Commscope
+  - John Blackford, Vantiva
   - Ken Kerpez, DZS
   - Laurent Alarcon, Sagemcom
   - Matthieu Anne, Orange
   - Patrick Rogier, Orange
   - Ramesh Rajasekaran, Nokia
-  - Richard Holme, Commscope
+  - Richard Holme, Vantiva
   - Tim Spets, Nokia
   - William Lupton, BBF

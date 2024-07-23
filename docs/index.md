@@ -311,7 +311,7 @@ The lowest layer in a fully configured and operational stack is generally the ph
 
 @fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
 
-![Interface LowerLayers](images/interface-lowerlayers.png)
+![Interface LowerLayers](images/interface-lowerlayers.png){typst-scale=0.5}
 
 ### Administrative and Operational Status
 
@@ -360,11 +360,11 @@ If the Controller encounters an unknown vendor-specific interface object within 
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.
 
-![Ignoring a Vendor-specific Interface Object in the Stack](images/ignoring-a-vendor-specific-interface-object-in-the-stack.png)
+![Ignoring a Vendor-specific Interface Object in the Stack](images/ignoring-a-vendor-specific-interface-object-in-the-stack.png){typst-scale=0.5}
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there are multiple objects below the vendor-specific object.
 
-![Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)](images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png)
+![Ignoring a Vendor-specific Interface Object in the Stack (multiple sub-objects)](images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png){typst-scale=0.5}
 
 ## InterfaceStack Table
 
@@ -923,7 +923,7 @@ Regarding different traffic bridging rules, the possible cases are characterized
 
 To better understand the different cases, refer to @fig:examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects and to the following examples.
 
-![Examples of VLAN configuration based on Bridging and VLAN Termination objects](images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png)
+![Examples of VLAN configuration based on Bridging and VLAN Termination objects](images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png){typst-scale=0.5}
 
 ## Tagged LAN to Tagged WAN Traffic (VLAN Bridging)
 
@@ -933,7 +933,7 @@ To achieve this, an interface-based bridge would be created using the Bridging o
 
 The Bridging model is depicted in @fig:bridge-1-model, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration.
 
-![Bridge 1 model](images/bridge-1-model.png)
+![Bridge 1 model](images/bridge-1-model.png){typst-scale=0.5}
 
 ---
 bridge1ModelTableSpec:
@@ -999,7 +999,7 @@ To achieve this, a bridge would be created using the Bridging object. A Bridge t
 
 The Bridging model is depicted in @fig:bridge-2-model, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration-vlan-id-translation.
 
-![Bridge 2 model](images/bridge-2-model.png)
+![Bridge 2 model](images/bridge-2-model.png){typst-scale=0.5}
 
 ---
 bridge2ModelTableSpec:
@@ -1090,7 +1090,7 @@ To achieve this, an interface-based bridge would be created using the Bridging o
 
 The Bridging model is depicted in @fig:bridge-3-model, while the configuration rules for this situation are summarized in @tbl:untagged-lan-to-tagged-wan-configuration.
 
-![Bridge 3 model](images/bridge-3-model.png)
+![Bridge 3 model](images/bridge-3-model.png){typst-scale=0.5}
 
 ---
 bridge3ModelTableSpec:
@@ -1155,7 +1155,7 @@ A CPE PPPoE internal session (instance Device.PPP.Interface.1) might be dedicate
 
 To achieve this, instead of using a bridging object, a VLAN Termination interface would be created (Device.Ethernet.VLANTermination.1). The Bridging model is depicted in @fig:vlan-termination-model, while the configuration rules for this situation are summarized in @tbl:internally-generated-to-tagged-wan-configuration.
 
-![VLAN Termination model](images/vlan-termination-model.png)
+![VLAN Termination model](images/vlan-termination-model.png){typst-scale=0.5}
 
 ---
 vlanTerminationModelTableSpec:
@@ -1199,7 +1199,7 @@ Referring to the example in *[Tagged LAN to tagged WAN traffic (VLAN bridging)]*
 
 To achieve this, new entries need to be added for interface Eth-3 and Eth-4. The Bridging model is depicted in @fig:bridge-1-model-additional-ethernet-interfaces, while the configuration rules for this situation are summarized in @tbl:tagged-lan-to-tagged-wan-configuration and @tbl:configuration-to-be-added-to-tagged-lan-to-tagged-wan-configuration-table.
 
-![Bridge 1 model (additional Ethernet interfaces)](images/bridge-1-model-additional-ethernet-interfaces.png)
+![Bridge 1 model (additional Ethernet interfaces)](images/bridge-1-model-additional-ethernet-interfaces.png){typst-scale=0.5}
 
 ---
 bridge1ModelPlusTableSpec:
@@ -1304,13 +1304,13 @@ Another scenario that can be further detailed is the case of more than one VLAN 
 
 In this case, we assume the User Device is able to tag the different traffic flows, segregating the different services (Voice, Video, ...) into different VLANs. The Residential Gateway needs, on the same downstream interface, to be able to receive different VLAN ID and correctly forward or translate to the upstream interface (and vice versa). To achieve this, appropriate Bridging objects need to be configured.
 
-![Example of VLAN configuration in a 2 box scenario](images/example-of-vlan-configuration-in-a-2-box-scenario.png)
+![Example of VLAN configuration in a 2 box scenario](images/example-of-vlan-configuration-in-a-2-box-scenario.png){typst-scale=0.5}
 
 Referring to @fig:example-of-vlan-configuration-in-a-2-box-scenario as an example, assume the case of three VLANs (VLAN ID=x,y,z) offered by a User Device to the Residential Gateway on the same downstream interface (Eth #1). The Residential Gateway bridges two of them (VLAN ID=x,y) and translates the other one (VLAN ID=z) to the upstream interface (VLAN ID=k).
 
 On the Residential Gateway, this can be achieved using a combination of the Bridging objects detailed in the preceding sections, with 3 bridge entries and their related entries. Refer to @fig:bridge-123-model for the Bridging model and @tbl:more-than-one-vlan-id-tag-admitted-on-the-same-downstream-interface for the global configuration.
 
-![Bridge 1,2,3 model](images/bridge-123-model.png)
+![Bridge 1,2,3 model](images/bridge-123-model.png){typst-scale=0.5}
 
 ---
 bridge123ModelTableSpec:
@@ -1348,7 +1348,6 @@ bridge123ModelTable:
 
 ::: {bbfTable=bridge123ModelTable}
 :::
-
 
 # Wi-Fi Theory of Operation {.appendix .same-file}
 
@@ -1432,7 +1431,7 @@ To avoid confusion that may be caused by fragmentation or frame aggregation, "Wi
 
 @fig:wifi-functions-within-layers explains the process of the MSDU/MPDU flow structure through the MAC layer of the WiFi receiver.
 
-![WiFi functions within layers](images/wifi-functions-within-layers.png)
+![WiFi functions within layers](images/wifi-functions-within-layers.png){typst-scale=0.5}
 
 PLCPErrorCount: This error occurs at point (1) in @fig:wifi-functions-within-layers, and is the first error type that can be counted. The PLCPErrorCount is the number of errors in the PLCP headers of the received MPDUs, which is the number of frames for which the parity check of the PLCP header failed.
 
@@ -4329,9 +4328,9 @@ When a PCP client is embedded in a device, the PCP client can be invoked by:
 * The Controller,
 * Interworking functions [@RFC6970] and the PCP proxy that allow applications running on other end-devices connected to the device to manage the PCP-controlled device.
 
-![Example of a PCP Client embedded in the RG using CWMP](images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png)
+![Example of a PCP Client embedded in the RG using CWMP](images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png){typst-scale=0.7}
 
-![Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG](images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png)
+![Example of a PCP Client embedded in a device using CWMP, with PCP Proxy in the RG](images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png){typst-scale=0.7}
 
 Defining a PCP data model allows the Controller to remotely manage the PCP client including:
 
@@ -4403,7 +4402,6 @@ To remotely create rules using CWMP or USP, the Controller configures the reques
 
 A recovery mechanism for situations where the PCP server loses its state is described in Section 14 of [@RFC6887]. This is usable only if *PCP.Client.{i}.ANNOUNCEEnable* is "true".
 
-
 # GRE Tunnel Theory of Operation {.appendix .same-file}
 
 See [Tunneling] for general information on how tunneling is modeled.
@@ -4422,7 +4420,7 @@ A GRE tunnel is used to preserve the VLAN tagging at the edge to further interco
 
 In addition, the *DSCPMarkPolicy* parameter can be used to assign DSCP values to each *GRE.Tunnel.{i}.Interface* instance for QoS treatment in the access network and towards the GRE concentrator.
 
-![VLAN Traffic over GRE](images/vlan-traffic-over-gre.png)
+![VLAN Traffic over GRE](images/vlan-traffic-over-gre.png){typst-scale=0.7}
 
 The GRE Tunnel interface layout is shown in @fig:l2-over-gre-tunnel.
 
@@ -4475,7 +4473,7 @@ This example describes an IP in IP encapsulation where a GRE tunnel takes IPv4 p
 
 The GRE tunnels use the default IPv6 WAN interface of the CPE.
 
-![IP over IP GRE Encapsulation](images/ip-over-ip-gre-encapsulation.png)
+![IP over IP GRE Encapsulation](images/ip-over-ip-gre-encapsulation.png){typst-scale=0.7}
 
 @fig:l3-over-gre-tunnel shows the configuration of a GRE tunnel for an IPv4 Private network attached to a LAN interface that is encapsulated in the IPv6 packet.
 
@@ -4496,7 +4494,6 @@ The configuration for this scenario assumes that the WAN and LAN Ethernet interf
 | [***Associate Tunnel IPv4 Interface with GRE Tunnel Interface***]{.underline}
 | **Device.IP.Interface.3.LowerLayers = Device.GRE.Tunnel.1.Interface.1**
 :::
-
 
 # MAP Theory of Operation {.appendix .same-file}
 
@@ -4556,20 +4553,19 @@ G.fast (hereafter referred to as FAST) is a DSL communications technology define
 
 Devices that support both DSL and FAST (both interfaces' objects are administratively Enabled) have the capability to switch from one mode to another. If the device is connected in xDSL mode (DSL.Line.{i}.status is "Up"), FAST interface is down (FAST.Line.{i}.status is "Not Present" or "Down"). The InterfaceStack Table needs to reflect the relationship between the PTM interface and DSL interface as seen in @fig:ptm-link-for-dsl-mode-line. The PTM's LowerLayers points to DSL.Channel instance whose status is "Up".
 
-![PTM Link for DSL mode Line](images/ptm-link-for-dsl-mode-line.png)
+![PTM Link for DSL mode Line](images/ptm-link-for-dsl-mode-line.png){typst-scale=0.4}
 
 In the case when the device is connected in FAST mode, the DSL line is down. The InterfaceStack Table needs to show that the PTM's LowerLayers points to the FAST.Line interface as below:
 
-![PTM Link for FAST mode Line](images/ptm-link-for-fast-mode-line.png)
+![PTM Link for FAST mode Line](images/ptm-link-for-fast-mode-line.png){typst-scale=0.4}
 
 The same fall back mechanism applies to the bonding of FAST and DSL interfaces. PTM's interface is to be stacked on two bonding groups as they are both administrative "Enable". However, in the InterfaceStack Table, the PTM interface's LowerLayers points to the bonding group that has Operational Status "Up". In the diagram below, PTM's LowerLayers points to the bonding group of FAST.Line, which is currently "Up". The DSL bonding group instance corresponding to DSL channels is "Down".
 
-![PTM Link Bonding Groups for FAST mode Lines](images/ptm-link-bonding-groups-for-fast-mode-lines.png)
+![PTM Link Bonding Groups for FAST mode Lines](images/ptm-link-bonding-groups-for-fast-mode-lines.png){typst-scale=0.4}
 
 In the case where DSL Bonding group is "Up" for non-FAST mode lines, the diagram below shows PTM's LowerLayers pointing to the bonding group of DSL.Channel, which is currently "Up". The DSL bonding group instance corresponding to FAST Lines is "Down" here.
 
-![PTM Link Bonding Groups for DSL mode Lines](images/ptm-link-bonding-groups-for-dsl-mode-lines.png)
-
+![PTM Link Bonding Groups for DSL mode Lines](images/ptm-link-bonding-groups-for-dsl-mode-lines.png){typst-scale=0.4}
 
 # USB Host Theory of Operation {.appendix .same-file}
 
@@ -4583,7 +4579,7 @@ The data model contains the number of devices connected to each host controller.
 
 Example USB topology of connected devices:
 
-![Example USB Host Connections](images/example-usb-host-connections.png)
+![Example USB Host Connections](images/example-usb-host-connections.png){typst-scale=0.6}
 
 All USB devices attach to a USB Host through a port on a USB entity known as a hub. Hubs have status bits that are used to report the attachment or removal of a USB device on one of its ports. The USB Host queries the hub to retrieve these status bits. In the case of an attachment, the USB Host enables the port and addresses the USB device through the device's control pipe at the default address. @fig:example-usb-host-connections depicts both a Root Hub and an External Hub that provide this service.
 
@@ -4592,7 +4588,6 @@ The USB Host assigns a unique USB address to the device and then determines if t
 If the attached USB device is a hub and USB devices are attached to its ports, then the above procedure is followed for each of the attached USB devices.
 
 If the attached USB device is a function, then attachment notifications will be handled by the USB Host software that is appropriate for the function.
-
 
 # Location Management {.appendix .same-file}
 
@@ -4783,19 +4778,19 @@ The IETF (LMAP) and BBF (TR-304) use a similar framework for diagnostics where e
 
 The TR-304 framework consists of a Management Server that is used to manage and configure the Measurement Agent. This would also include receiving logging and status information as well as the capability to schedule the Measurement Agent for tests. The TR-304 framework also has a Measurement Controller with the responsibility to schedule the Measurement Agent for tests to be performed provide test admin control. TR-304 framework also has multiple channels where a Measurement Agent can send reports to the different Data Collectors.
 
-![TR-304 Framework](images/tr-304-framework.png)
+![TR-304 Framework](images/tr-304-framework.png){typst-scale=0.6}
 
 #### IETF LMAP Framework
 
 The IETF LMAP framework, like the BBF TR-304 framework, consists of a Management Server that is used to pre-configure the Measurement Agent. Note that this also could be done at the manufacturing stage of the device. The LMAP framework also has a Measurement Controller with the responsibility to configure the Measurement Agent for tests to be performed; provide instructions about the test and receive status and logging information the Measurement agents. In the IETF LMAP framework these functions are treated as individual channels that can be assigned to different Measurement Controllers. Likewise the Reporting interface also has multiple channels where a Measurement Agent can send reports to the different Data Collectors.
 
-![LMAP Framework](images/lmap-framework.png)
+![LMAP Framework](images/lmap-framework.png){typst-scale=0.6}
 
 ### CWMP for Pre-configuration
 
 In the IETF LMAP and TR-304 frameworks, CWMP can be used to pre-configure the Measurement Agent; where the Controller and Data Collector could use other protocols (e.g., IETF LMAP protocol).
 
-![CWMP for Pre-configuration](images/cwmp-for-pre-configuration.png)
+![CWMP for Pre-configuration](images/cwmp-for-pre-configuration.png){typst-scale=0.6}
 
 Note that in the TR-304 framework the Status and Logging functions have not been explicitly identified as capabilities of the Controller.
 
@@ -4803,13 +4798,13 @@ Note that in the TR-304 framework the Status and Logging functions have not been
 
 In the IETF LMAP and TR-304 frameworks, CWMP can be used to pre-configure the Measurement Agent and manage/schedule the tests. Likewise the IPDR protocol can be used to report the test results. In this scenario, the ACS would act as the Management Server and Measurement Controller. This scenario would place a constraint on the IETF LMAP framework in that there would be allowed only 1 Measurement Controller per Measurement Agent. See *[Bulk Data Collection in the Context of LMAP]* for additional information on use of the BulkData.Profile object in the context of LMAP.
 
-![CWMP for Control and Pre-configuration, IPDR for Reporting](images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png)
+![CWMP for Control and Pre-configuration, IPDR for Reporting](images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png){typst-scale=0.6}
 
 ### CWMP as a Proxier, IPDR for Reporting
 
 In scenarios where Measurement Agent does not have connectivity with the Measurement Controller, CWMP can be used to act as a proxy between the Measurement Controller and Measurement Agent. In this scenario, if the CWMP Proxy is an Embedded Device then both Measurement Agents are associated with the same ACS. If the Measurement Agents need to be associated with different Measurement Controllers then the CWMP Virtual Device mechanism is to be used.
 
-![CWMP Proxy Device Deployment](images/cwmp-proxy-device-deployment.png)
+![CWMP Proxy Device Deployment](images/cwmp-proxy-device-deployment.png){typst-scale=0.6}
 
 ### Multi-ACS Deployment
 
@@ -4817,7 +4812,7 @@ In the IETF LMAP framework, the Measurement Agent could interact with different 
 
 For a CWMP framework, this would require a different CWMP Agent for each application. As such this type of scenario is not realistically supported by CWMP.
 
-![CWMP Multi-ACS Deployment](images/cwmp-multi-acs-deployment.png)
+![CWMP Multi-ACS Deployment](images/cwmp-multi-acs-deployment.png){typst-scale=0.6}
 
 ## Derivation of Data Model Elements
 
@@ -4859,7 +4854,7 @@ The TR-069 family of specifications has defined protocols that can be used for t
 
 When integrating the test results of the Device:2 data model (i.e., LMAP.Report object instance) into the bulk data objects and parameters provided by the Device:2 data model, the LMAP.Report object instance becomes the referenced parameter of the Bulk Data Profile (BulkData.Profile object instance). In addition, there is a linkage needed within the LMAP data model to identify the BulkData.Profile object instance. This is done through the reference of the BulkData.Profile object instance from the LMAP data model's Communication Channel for a Scheduled Action.
 
-![Integration of Bulk Data Profiles with LMAP](images/integration-of-bulk-data-profiles-with-lmap.png)
+![Integration of Bulk Data Profiles with LMAP](images/integration-of-bulk-data-profiles-with-lmap.png){typst-scale=0.8}
 
 ## TR-143 Diagnostics in LMAP
 
@@ -4881,7 +4876,6 @@ TR-143 [@TR-143] describes a set of tests that can be used within the context of
 ::: note
 These fully qualified names could be shortened or even specified as a different name based on the specification behind the RegistryEntry URN.
 :::
-
 
 # 5G Theory of Operation {.appendix .same-file}
 
@@ -5586,7 +5580,7 @@ Each individual internal network service must subscribe to the interface status 
 
 When the interface is disabled and re-enabled, it is the responsibility of the internal service to retrieve the new lower interface and the associated IP address.
 
-![solution using logical interfaces](images/logicalinterfaces-solution.png)
+![Solution using logical interfaces](images/logicalinterfaces-solution.png){typst-scale=0.6}
 
 ## How to use
 A logical interface can be used on top of one or more stackable interfaces. [IPv4 and IPv6 on a different network interface](#sec:ipv4-and-ipv6-on-a-different-network-interface) is an example where a logical interface is layered on top of multiple IP interfaces. Most of the time a logical interface will just be layered on top of one IP interface. In theory a logical interface could be layered anywhere in the interface stack topology.
@@ -5662,7 +5656,7 @@ By using the logical interface method, it is not necessary any more to update th
 ### IPv4 and IPv6 on a different network interface
 In this example the Time server needs to use the IPv4 and IPv6 addresses of the WAN interfaces. In more traditional scenarios the IPv4 and IPv6 addresses are available on the same network interface, but in this example the IPv4 and IPv6 addresses are on different network interfaces.
 
-:::{.list-table .vertical-align-bottom aligns=c,c,c,c,c}
+:::{.list-table .valign-top aligns=c,c,c,c,c}
    * - []{colspan=2} WAN Interface
      - VOIP Interface
      - MGMT Interface
@@ -5674,13 +5668,12 @@ In this example the Time server needs to use the IPv4 and IPv6 addresses of the 
      - Logical.Interface.4
 
    * - IP.Interface.1 (IPv4)
-     - IP.Interface.2 (IPv6)
-     - IP.Interface.3
-     - IP.Interface.4
-     - IP.Interface.5
+     - []{rowspan=2} IP.Interface.2 (IPv6)
+     - []{rowspan=2} IP.Interface.3
+     - []{rowspan=2} IP.Interface.4
+     - []{rowspan=2} IP.Interface.5
 
   * - PPP.Interface.1
-    - []{colspan=4}
 
   * - []{colspan=2} Ethernet.VLANTermination.1
     - Ethernet.VLANTermination.2
@@ -5704,7 +5697,90 @@ In this example the Time server needs to use the IPv4 and IPv6 addresses of the 
 
 With the help of the Logical Interface, the Time server can automatically retrieve the correct IPv4 or IPv6 address from the TR-181 data model without having to know all the details that come from a certain WAN mode or network configuration.
 
-![Logical interfaces example: IPv4 and IPv6 are on different network interface](images/logicalinterfaces-example2.png)
+![Logical interfaces example: IPv4 and IPv6 are on different network interface](images/logicalinterfaces-example2.png){typst-scale=0.6}
+
+# MTU configuration Theory of Operations {.appendix .same-file}
+## Introduction - Understanding MTU in Layer 2 and Layer 3 Networks
+The Maximum Transmission Unit (MTU) defines the maximum size of data packets that can be transmitted across a network segment without fragmentation. MTU values are crucial for efficient data transmissions.
+
+Two layers where MTU considerations are paramount are Layer 2 (Data Link Layer) and Layer 3 (Network Layer). Ethernet MTU, fundamental to Layer 2 networks, determines the maximum payload size within Ethernet frames. In contrast, IP MTU, governing Layer 3, defines the maximum size of IP packets, including headers and payloads. While both share a standard size of 1500 bytes.
+
+
+:::{.list-table aligns=l,l}
+  * - []{colspan=2} TR-181 MTU definitions
+
+  * - Layer 2: `Ethernet.Link.{i}.MTU`
+    - Maximum Transmission Unit for this interface (expressed in bytes).
+
+  * - Layer 3: `IP.Interface.{i}.MaxMTUSize`
+    - The maximum transmission unit (MTU); the largest allowed size of an IP packet (including IP
+      headers, but excluding lower layer headers such as Ethernet, PPP, or PPPoE headers) that is allowed to be transmitted by or through this device.
+:::
+Typically the Layer 2 and Layer 3 is set to 1500 bytes.
+
+## Use cases
+Dynamic MTU Assignment: An upstream DHCP server may include MTU information in DHCP lease offers. When the Device or Gateway requests an IP address lease from the DHCP server, along with the IP address, subnet mask, default gateway, DNS server information, the DHCP server also provides the MTU size.
+
+Jumbo Frames Support: Some network devices and applications support jumbo frames, which are frames with an MTU larger than the standard Ethernet MTU of 1500 bytes. Enabling jumbo frames by increasing the MTU size can improve throughput and reduce CPU overhead on networking equipment, particularly in high-performance computing environments.
+
+Avoiding Fragmentation: In networks where packet fragmentation occurs frequently due to mismatched MTU sizes between different network segments, adjusting the MTU to a common size can help avoid fragmentation. Fragmentation can degrade performance and increase the processing overhead on routers and switches.
+
+
+
+::: spacer :::
+:::
+
+## Interface example
+
+:::{.list-table aligns=l,l}
+  * - []{colspan=2}Simple Interface example (InterfaceStack table)
+  * - Higher Layer Interface
+    - Lower Layer Interface
+  * - Device.Logical.Interface.1
+    - Device.IP.Interface.1
+  * - Device.IP.Interface.1
+    - Device.Ethernet.Link.1
+  * - Device.Ethernet.Link.1
+    - Device.Ethernet.Interface.1
+  * - []{colspan=2}Device.Ethernet.Interface.1
+:::                                       
+
+::: spacer :::
+:::
+
+
+## Simple Linux bridge example
+:::{.list-table aligns=l,l}
+  * - []{colspan=4}Simple Linux LAN Bridge example (InterfaceStack table)
+  * - []{colspan=2}Higher Layer Interface
+    - []{colspan=2}Lower Layer Interface
+  * - []{colspan=2}Device.Logical.Interface.1
+    - []{colspan=2}Device.IP.Interface.1
+  * - []{colspan=2}Device.IP.Interface.1
+    - []{colspan=2}Device.Ethernet.Link.1
+  * - []{colspan=2}Device.Ethernet.Link.1
+    - []{colspan=2}Device.Bridging.Bridge.1.Port.1
+  * - []{colspan=2}Device.Bridging.Bridge.1.Port.1
+    - []{colspan=2}Device.Bridging.Bridge.1.Port.2,
+      Device.Bridging.Bridge.1.Port.3,
+      Device.Bridging.Bridge.1.Port.4,
+      Device.Bridging.Bridge.1.Port.5
+  * - Device.Bridging.Bridge.1.Port.2
+    - Device.Bridging.Bridge.1.Port.3
+    - Device.Bridging.Bridge.1.Port.4
+    - Device.Bridging.Bridge.1.Port.5
+  * - Device.Ethernet.Link.2
+    - Device.Ethernet.Link.3
+    - Device.Ethernet.Link.4
+    - Device.Ethernet.Link.5
+  * - Device.Ethernet.Interface.1
+    - Device.Ethernet.Interface.2
+    - Device.Ethernet.Interface.3
+    - Device.Ethernet.Interface.4    
+:::                                       
+
+::: spacer :::
+:::
 
 !include back-matter.md
 

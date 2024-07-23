@@ -80,7 +80,7 @@ To avoid confusion that may be caused by fragmentation or frame aggregation, "Wi
 
 @fig:wifi-functions-within-layers explains the process of the MSDU/MPDU flow structure through the MAC layer of the WiFi receiver.
 
-![WiFi functions within layers](/images/wifi-functions-within-layers.png)
+![WiFi functions within layers](/images/wifi-functions-within-layers.png){typst-scale=0.5}
 
 PLCPErrorCount: This error occurs at point (1) in @fig:wifi-functions-within-layers, and is the first error type that can be counted. The PLCPErrorCount is the number of errors in the PLCP headers of the received MPDUs, which is the number of frames for which the parity check of the PLCP header failed.
 

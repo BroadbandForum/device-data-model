@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-xpon"
-    file="tr-181-2-17-0-xpon.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-xpon"
+    file="tr-181-2-18-0-xpon.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
   </import>
@@ -353,7 +353,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -738,7 +738,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.16"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1656,7 +1656,7 @@
 
           This parameter specifies the downstream bit error rate (BER)
           threshold to detect the SF alarm. When this value is y, the BER
-          threshold is 10^–y.
+          threshold is 10^-y^.
 
           This parameter is based on ''Signal fail (SF) threshold'' from
           {{bibref|G.988|Section 9.2.1}}.
@@ -1673,7 +1673,7 @@
           Signal degrade (SD) threshold.
 
           This parameter specifies the downstream BER threshold to detect the
-          SD alarm. When this value is x, the BER threshold for SD is 10^–x .
+          SD alarm. When this value is x, the BER threshold for SD is 10^-x^.
           The SD threshold must be lower than the SF threshold; i.e., x &gt; y.
 
           This parameter is based on ''Signal degrade (SD) threshold'' from
@@ -1802,7 +1802,7 @@
       </parameter>
       <parameter name="LODS" access="readOnly">
         <description>
-          Loss of downstream syncronization. See {{bibref|G.9807.1|}}.
+          Loss of downstream synchronization. See {{bibref|G.9807.1|}}.
         </description>
         <syntax>
           <boolean/>
@@ -2023,7 +2023,7 @@
 
   </component>
 
-  <model name="XPON:2.17">
+  <model name="XPON:2.18">
     <component ref="Root"/>
     <component ref="XPON"/>
   </model>

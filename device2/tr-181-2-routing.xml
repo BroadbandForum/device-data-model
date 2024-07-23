@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Routing]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-routing"
-    file="tr-181-2-17-0-routing.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-routing"
+    file="tr-181-2-18-0-routing.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
     <dataType name="IPv6Prefix"/>
@@ -133,7 +133,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="IPv4ForwardingNumberOfEntries" access="readOnly">
         <description>
@@ -164,7 +164,7 @@
 
         In addition to statically configured routes, this table MUST include
         dynamic routes learned through layer 3 routing protocols, including RIP
-        (i.e. RIP version 2), OSPF, DHCPv4, and IPCP. The CPE MAY reject
+        (i.e. RIP version 2), OSPF, DHCPv4, 3GPP-NAS and IPCP. The CPE MAY reject
         attempts to delete or modify a dynamic route entry.
 
         For each incoming packet, the layer 3 forwarding decision is
@@ -237,7 +237,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readWrite" version="2.16">
         <description>
@@ -391,6 +391,15 @@
             <enumeration value="OSPF"/>
             <enumeration value="IPCP"/>
             <enumeration value="RIP"/>
+            <enumeration value="3GPP-NAS" version="2.18">
+              <description>
+                Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
+                e.g. PDU Session Establishment Request,
+                PDN Connectivity Request,
+                PDP Context Activation Request, ...
+                This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
+              </description>
+            </enumeration>
             <enumeration value="Static">
               <description>
                 For example, present in the factory default configuration,
@@ -425,7 +434,7 @@
 
         In addition to statically configured routes, this table MUST include
         dynamic routes learned through layer 3 routing protocols, including
-        RIPng, OSPF, DHCPv6, and RA. The CPE MAY reject attempts to delete or
+        RIPng, OSPF, DHCPv6, 3GPP-NAS, and RA. The CPE MAY reject attempts to delete or
         modify a dynamic route entry.
 
         For each incoming packet, the layer 3 forwarding decision is
@@ -491,7 +500,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
 
       <parameter name="Type" access="readWrite" version="2.16">
         <description>
@@ -625,6 +634,15 @@
             </enumeration>
             <enumeration value="RIPng">
               <description>RIPng for IPv6 {{bibref|RFC2080}}</description>
+            </enumeration>
+            <enumeration value="3GPP-NAS" version="2.18">
+              <description>
+                Address assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
+                e.g. PDU Session Establishment Request,
+                PDN Connectivity Request,
+                PDP Context Activation Request, ...
+                This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
+              </description>
             </enumeration>
             <enumeration value="Static">
               <description>
@@ -765,7 +783,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -1026,7 +1044,7 @@
       <parameter ref="Tag"/>
     </uniqueKey>
 
-    <component ref="Alias-2-0" version="2.16"/>
+    <component ref="Alias"/>
 
     <parameter name="Tag" access="readOnly">
       <description>
@@ -1387,7 +1405,7 @@
           <default type="object" value="Disabled"/>
         </syntax>
       </parameter>
-      <component ref="Alias-2-0" version="2.15"/>
+      <component ref="Alias"/>
       <parameter name="InterfaceReference" access="readOnly">
         <description>
           The {{object|###.IP.Interface}} object instance this Babel
@@ -1779,7 +1797,7 @@
         numEntriesParameter="RouteNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.15">
       <description>
-        This object provides parameters for routes recieved from neighbors and
+        This object provides parameters for routes received from neighbors and
         internal routes.
       </description>
       <uniqueKey functional="true">
@@ -1897,7 +1915,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.15"/>
+      <component ref="Alias"/>
       <parameter name="DefaultApply" access="readWrite">
         <description>
           A Boolean flag indicating whether this {{object}} instance is to be
@@ -1932,7 +1950,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.15"/>
+      <component ref="Alias"/>
       <parameter name="KeyUseSend" access="readWrite">
         <description>
           Indicates whether this {{param|KeyValue}} is used to compute a MAC
@@ -1999,7 +2017,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.15"/>
+      <component ref="Alias"/>
       <parameter name="DefaultApply" access="readWrite">
         <description>
           A Boolean flag indicating whether this {{object}} instance is to be
@@ -2034,7 +2052,7 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.15"/>
+      <component ref="Alias"/>
       <parameter name="CertValue" access="writeOnceReadOnly">
         <description>
           The DTLS certificate in PEM format {{bibref|RFC7468}}. This value is
@@ -2158,7 +2176,7 @@
     </profile>
   </component>
 
-  <model name="Routing:2.17">
+  <model name="Routing:2.18">
     <component ref="Root"/>
     <component ref="Routing"/>
     <component ref="BabelRoutingProtocol"/>

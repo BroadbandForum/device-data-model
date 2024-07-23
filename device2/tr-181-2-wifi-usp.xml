@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WiFi USP]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -50,16 +50,16 @@
   directed to <info@broadband-forum.org>.
 -->
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi-usp"
-    file="tr-181-2-17-0-wifi-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi-usp"
+    file="tr-181-2-18-0-wifi-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,7 +73,7 @@
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-17-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-18-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
     <component name="SpatialReuse"/>
@@ -308,7 +308,7 @@
       <description>
         The time for which the associated device is to be disassociated in
         {{units}}. If set to 0, then the associated device is blocked
-        indefinately.
+        indefinitely.
       </description>
       <syntax>
         <unsignedInt>
@@ -905,7 +905,8 @@
         </syntax>
       </parameter>
 
-      <parameter name="bSTAMACAddress" access="readOnly" mandatory="true">
+      <parameter name="bSTAMACAddress" access="readOnly" mandatory="true"
+          dmr:noNameCheck="true">
         <description>
           The MAC address of the backhaul Station STA (bSTA), or bSTAMLD,
           or similar Ethernet interface, on this preferred backhaul link.
@@ -953,7 +954,8 @@
             </syntax>
           </parameter>
 
-          <parameter name="bSTAMACAddress" mandatory="true">
+          <parameter name="bSTAMACAddress" mandatory="true"
+              dmr:noNameCheck="true">
             <description>
               The MAC address of the backhaul STA (bSTA), or similar Ethernet
               interface, on this preferred backhaul link.
@@ -1622,7 +1624,7 @@
               <enumeration value="Steering_Mandate"><description>
                   Request is a Steering Mandate to trigger steering for
                   specific client STA(s), indicated by 1 in
-                 {{bibref|EasyMesh|Table 49}}.
+                  {{bibref|EasyMesh|Table 49}}.
                 </description>
               </enumeration>
             </string>
@@ -1734,7 +1736,7 @@
 
   <component name="FullScan">
 
-    <command name="FullScan()" async="true" version="2.15">
+    <command name="FullScan()" async="true" version="2.15" status="deprecated">
       <description>
         This command represents a request to initiate a full scan on this
         radio, including all channels supported by this radio, for a specific
@@ -1746,6 +1748,10 @@
         {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}}}, then
         this command is similar to,
         {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
+
+        {{deprecated|2.18|because is was 
+        superseded by {{command|#.ChannelScanRequest()}} and performed the
+        same function as {{command|#####.Radio.{i}.FullScan()}}.}}
       </description>
       <input>
         <component ref="WiFiScanInput"/>
@@ -2004,7 +2010,7 @@
 
   <component name="ChannelScan">
 
-    <command name="ChannelScan()" async="true" version="2.15">
+    <command name="ChannelScan()" async="true" version="2.15" status="deprecated">
       <description>
         This parameter represents a request to initiate a channel scan on this
         radio on the given channel using a specific {{param|DwellTime}}. This
@@ -2015,6 +2021,10 @@
         {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}}}, then
         this command is similar to,
         {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
+
+        {{deprecated|2.18|because is was 
+        superseded by {{command|#.ChannelScanRequest()}} and performed the
+        same function as {{command|#####.Radio.{i}.ChannelScan()}}.}}
       </description>
       <input>
         <component ref="WiFiChannelScanInput"/>
@@ -2174,10 +2184,14 @@
         base="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA."
         access="readOnly" minEntries="1" maxEntries="1">
 
-      <command name="Disassociate()" async="true">
+      <command name="Disassociate()" async="true" status="deprecated">
         <description>
           This command represents a request to disassociate this associated
           device.
+
+          {{deprecated|2.18|because {{command|#.ClientSteer()}} and 
+          {{object|#####.STABlock.{i}.}} cover the use cases for this 
+          (client steering and client blocking).}}
         </description>
         <input>
           <component ref="DisassociateInput"/>
@@ -2202,11 +2216,14 @@
         </output>
       </command>
 
-      <command name="BTMRequest()" async="true">
+      <command name="BTMRequest()" async="true" status="deprecated">
         <description>
           This command requests initiation of a BSS Transition Management (BTM)
           request to influence this client's roaming behavior to another BSS as
           defined in {{bibref|802.11-2020|Section 9.6.13.9}}.
+
+          {{deprecated|2.18|because it is superseded by
+          {{command|#.ClientSteer()}}.}}
         </description>
         <input>
           <component ref="BTMRequestInput"/>
@@ -2362,8 +2379,81 @@
           </parameter>
         </output>
       </command>
-      <component ref="FullScan"/>
-      <component ref="ChannelScan"/>
+
+      <command name="FullScan()" async="true" version="2.15">
+        <description>
+          This command represents a request to initiate a full scan on this
+          radio, including all channels supported by this radio, for a specific
+          {{param|DwellTime}} and {{param|HomeTime}}. This command will result in
+          updating
+          {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ScanResult.}}
+
+          If the instance of this {{object}} is the same as
+          {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}}}, then
+          this command is similar to,
+          {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
+        </description>
+        <input>
+          <component ref="WiFiScanInput"/>
+        </input>
+        <output>
+
+          <parameter name="Status">
+            <description>
+              Indicates the type of outcome of the request to initiate a full
+              band scan. {{enum}}
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="Success"/>
+                <enumeration value="Error_Not_Ready"/>
+                <enumeration value="Error_Timeout"/>
+                <enumeration value="Error_Invalid_Input"/>
+                <enumeration value="Error_Interface_Down"/>
+                <enumeration value="Error_Other" optional="true"/>
+              </string>
+            </syntax>
+          </parameter>
+          <component ref="BigScanResult" version="2.15"/>
+        </output>
+      </command>
+
+    <command name="ChannelScan()" async="true" version="2.15">
+      <description>
+        This parameter represents a request to initiate a channel scan on this
+        radio on the given channel using a specific {{param|DwellTime}}. This
+        command should result in updating
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ScanResult.}}
+
+        If the instance of this {{object}} is the same as
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}}}, then
+        this command is similar to,
+        {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
+      </description>
+      <input>
+        <component ref="WiFiChannelScanInput"/>
+      </input>
+      <output>
+
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of the request to initiate a channel
+            scan. {{enum}}
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Not_Ready"/>
+              <enumeration value="Error_Invalid_Input"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Interface_Down"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+        <component ref="BigScanResult" version="2.15"/>
+      </output>
+    </command>
     </object>
 
     <object base="Device.WiFi.AccessPoint.{i}.WPS." access="readOnly"

@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [WiFi Base]
 
-  Copyright (c) 2010-2021,2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,13 +59,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-wifi-base"
-    file="tr-181-2-17-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi-base"
+    file="tr-181-2-18-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="MACAddress"/>
     <dataType name="StatsCounter32"/>
@@ -579,7 +579,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -1967,7 +1967,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -2009,7 +2009,7 @@
           <string>
             <pathRef refType="strong" targetType="row"/>
           </string>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -2534,7 +2534,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="SSIDReference" access="readWrite">
         <description>
@@ -2722,7 +2722,7 @@
             </enumeration>
             <enumeration value="Bridge/Extender">
               <description>
-                Indicates operation as a range extender or acess point in
+                Indicates operation as a range extender or access point in
                 bridge mode.
               </description>
             </enumeration>
@@ -3350,7 +3350,7 @@
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}},
           then this parameter is the same as
-          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise}}.
+          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise|deprecated}}.
         </description>
         <syntax>
           <int>
@@ -3601,6 +3601,9 @@
       <uniqueKey functional="true">
         <parameter ref="AccessCategory"/>
       </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
 
       <parameter name="AccessCategory" access="readOnly">
         <description>
@@ -3616,9 +3619,9 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.8"/>
+      <component ref="Alias"/>
 
-      <parameter name="AIFSN" access="readWrite" status="obsoleted">
+      <parameter name="AIFSN" access="readWrite" status="deleted">
         <description>
           Arbitration Inter Frame Spacing (Number). This is the number of time
           slots in the arbitration interframe space.
@@ -3627,6 +3630,8 @@
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3635,16 +3640,18 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMin" access="readWrite" status="obsoleted">
+      <parameter name="ECWMin" access="readWrite" status="deleted">
         <description>
           Exponent of Contention Window (Minimum). This encodes the values of
-          CWMin as an exponent: CWMin = 2^ECWMin - 1. For example, if ECWMin is
-          8, then CWMin is 2^8 - 1, or 255, (expressed in {{units}}).
+          CWMin as an exponent: CWMin = 2^ECWMin^ - 1. For example, if ECWMin is
+          8, then CWMin is 2^8^ - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3654,16 +3661,18 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMax" access="readWrite" status="obsoleted">
+      <parameter name="ECWMax" access="readWrite" status="deleted">
         <description>
           Exponent of Contention Window (Maximum). This encodes the values of
-          CWMax as an exponent: CWMax = 2^ECWMax - 1. For example, if ECWMax is
-          8, then CWMax is 2^8 - 1, or 255, (expressed in {{units}}).
+          CWMax as an exponent: CWMax = 2^ECWMax^ - 1. For example, if ECWMax is
+          8, then CWMax is 2^8^ - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3673,7 +3682,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxOpMax" access="readWrite" status="obsoleted">
+      <parameter name="TxOpMax" access="readWrite" status="deleted">
         <description>
           Maximum transmit opportunity, in multiples of {{units}}. A TXOP time
           interval of 0 means it is limited to a single MAC protocol data unit
@@ -3683,6 +3692,8 @@
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4056,7 +4067,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="ProfileReference" access="readWrite">
         <description>
@@ -4248,7 +4259,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="SSID" access="readWrite">
         <description>
@@ -4540,6 +4551,9 @@
       <uniqueKey functional="true">
         <parameter ref="AccessCategory"/>
       </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
 
       <parameter name="AccessCategory" access="readOnly">
         <description>
@@ -4555,9 +4569,9 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.8"/>
+      <component ref="Alias"/>
 
-      <parameter name="AIFSN" access="readWrite" status="obsoleted">
+      <parameter name="AIFSN" access="readWrite" status="deleted">
         <description>
           Arbitration Inter Frame Spacing (Number). This is the number of time
           slots in the arbitration interframe space.
@@ -4566,6 +4580,8 @@
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4574,16 +4590,18 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMin" access="readWrite" status="obsoleted">
+      <parameter name="ECWMin" access="readWrite" status="deleted">
         <description>
           Exponent of Contention Window (Minimum). This encodes the values of
-          CWMin as an exponent: CWMin = 2^ECWMin - 1. For example, if ECWMin is
-          8, then CWMin is 2^8 - 1, or 255, (expressed in {{units}}).
+          CWMin as an exponent: CWMin = 2^ECWMin^ - 1. For example, if ECWMin is
+          8, then CWMin is 2^8^ - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4593,16 +4611,18 @@
         </syntax>
       </parameter>
 
-      <parameter name="ECWMax" access="readWrite" status="obsoleted">
+      <parameter name="ECWMax" access="readWrite" status="deleted">
         <description>
           Exponent of Contention Window (Maximum). This encodes the values of
-          CWMax as an exponent: CWMax = 2^ECWMax - 1. For example, if ECWMax is
-          8, then CWMax is 2^8 - 1, or 255, (expressed in {{units}}).
+          CWMax as an exponent: CWMax = 2^ECWMax^ - 1. For example, if ECWMax is
+          8, then CWMax is 2^8^ - 1, or 255, (expressed in {{units}}).
 
           {{deprecated|2.15|because it is superseded by the WMM
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4612,7 +4632,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxOpMax" access="readWrite" status="obsoleted">
+      <parameter name="TxOpMax" access="readWrite" status="deleted">
         <description>
           Maximum transmit opportunity, in multiples of {{units}}. A TXOP time
           interval of 0 means it is limited to a single MAC protocol data unit
@@ -4622,6 +4642,8 @@
           Specification}}
 
           {{obsoleted|2.17}}
+
+          {{deleted|2.18}}
         </description>
         <syntax>
           <unsignedInt>
@@ -4982,7 +5004,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.17">
+  <model name="WiFiBase:2.18">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

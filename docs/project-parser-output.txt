@@ -1,6 +1,7 @@
 make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
 rm -f   
-rm -f ./docs/README.md ./docs/CHANGELOG.md ./docs/METADATA-1.yaml ./docs/METADATA-2.yaml ./docs/METADATA.yaml ./docs/METADATA-1.md ./docs/METADATA-2.md ./docs/METADATA.md ./docs/METADATA-1.mk ./docs/METADATA-2.mk ./docs/METADATA.mk  ./docs/PROJECT.yaml.outputs
+rm -f 
+rm -f  ./docs/PROJECT.yaml.outputs
 rm -f -r  ./docs/PROJECT
 make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'
 make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf'

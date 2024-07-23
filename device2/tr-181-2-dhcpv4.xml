@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DHCPv4]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-dhcpv4"
-    file="tr-181-2-17-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-dhcpv4"
+    file="tr-181-2-18-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPv4Address"/>
     <dataType name="MACAddress"/>
     <dataType name="Order"/>
@@ -129,7 +129,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -223,7 +223,7 @@
             <size maxLength="256"/>
           </list>
           <dataType ref="IPv4Address"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -240,7 +240,7 @@
             <size maxLength="256"/>
           </list>
           <dataType ref="IPv4Address"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -347,7 +347,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -410,7 +410,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -523,7 +523,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -798,7 +798,7 @@
             <size/>
           </list>
           <dataType ref="IPv4Address"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -949,7 +949,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Chaddr" access="readWrite">
         <description>
@@ -999,7 +999,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Tag" access="readWrite">
         <description>
@@ -1041,7 +1041,7 @@
         <parameter ref="Chaddr"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.2"/>
+      <component ref="Alias"/>
       <parameter base="Alias">
         <description action="append">
           Note: There is no guarantee that the {{param}} value on
@@ -1244,7 +1244,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
 
       <parameter name="Order" access="readWrite">
         <description>
@@ -1469,6 +1469,107 @@
       </parameter>
     </object>
 
+    <object name="Device.DHCPv4.Client.{i}.Retransmission." access="readOnly" version="2.18">
+      <description>
+        This object enables the configurion of the DHCPv4 retransmission behavior according to the guidelines described in {{bibref|RFC2131|Chapter 4.1}}.
+      </description>
+
+      <parameter name="DiscoverInitialTimeout" access="readWrite">
+        <description>
+          Initial delay, expressed in {{units}}, before initiating the first DCHCPDISCOVER message.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="4"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscoverMaxTimeout" access="readWrite">
+        <description>
+          Maximum duration, expressed in {{units}}, between two DHCPDISCOVER message retransmission.
+
+          According to {{bibref|RFC2131|Chapter 4.1}}, the recommended value for this parameter is 64 {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscoverMaxDuration" access="readWrite">
+        <description>
+          Maximum duration, expressed in {{units}}, during which the DHCPv4 client is permitted to retransmit DHCPDISCOVER message
+
+          A value of '0' indicates that no specific maximum duration is set.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestInitialTimeout" access="readWrite">
+        <description>
+          Initial delay, expressed in {{units}}, before initiating the first DHCPREQUEST message.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="4"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestMaxTimeout" access="readWrite">
+        <description>
+          Maximum duration, expressed in {{units}}, between two DHCPREQUEST message retransmission.
+
+          According to {{bibref|RFC2131|Chapter 4.1}}, the recommended value for this parameter is 64 {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestMaxDuration" access="readWrite">
+        <description>
+          Maximum duration, expressed in {{units}}, during which the DHCPv4 client is permitted to retransmit DHCPREQUEST message.
+
+          A value of '0' indicates that no specific maximum duration is set.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeoutRandomize" access="readWrite">
+        <description>
+          The Randomization factor for the retransmission timeout, in {{units}}, as defined in
+          {{bibref|RFC2131|4.1 Constructing and sending DHCP messages}}.
+
+          E.g. a timeout of 2000ms with a randomization of 1000 will end up between 1000 and 3000 ms.
+        </description>
+        <syntax>
+          <int>
+            <units value="ms"/>
+          </int>
+          <default type="object" value="1000"/>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="DHCPv4Server:1" version="2.0">
       <object ref="Device.DHCPv4." requirement="present"/>
       <object ref="Device.DHCPv4.Server." requirement="present">
@@ -1553,7 +1654,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.17">
+  <model name="DHCPv4:2.18">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

@@ -31,7 +31,7 @@ Each individual internal network service must subscribe to the interface status 
 
 When the interface is disabled and re-enabled, it is the responsibility of the internal service to retrieve the new lower interface and the associated IP address.
 
-![solution using logical interfaces](/images/logicalinterfaces-solution.png)
+![Solution using logical interfaces](/images/logicalinterfaces-solution.png){typst-scale=0.6}
 
 ## How to use
 A logical interface can be used on top of one or more stackable interfaces. [IPv4 and IPv6 on a different network interface](#sec:ipv4-and-ipv6-on-a-different-network-interface) is an example where a logical interface is layered on top of multiple IP interfaces. Most of the time a logical interface will just be layered on top of one IP interface. In theory a logical interface could be layered anywhere in the interface stack topology.
@@ -107,7 +107,7 @@ By using the logical interface method, it is not necessary any more to update th
 ### IPv4 and IPv6 on a different network interface
 In this example the Time server needs to use the IPv4 and IPv6 addresses of the WAN interfaces. In more traditional scenarios the IPv4 and IPv6 addresses are available on the same network interface, but in this example the IPv4 and IPv6 addresses are on different network interfaces.
 
-:::{.list-table .vertical-align-bottom aligns=c,c,c,c,c}
+:::{.list-table .valign-top aligns=c,c,c,c,c}
    * - []{colspan=2} WAN Interface
      - VOIP Interface
      - MGMT Interface
@@ -119,13 +119,12 @@ In this example the Time server needs to use the IPv4 and IPv6 addresses of the 
      - Logical.Interface.4
 
    * - IP.Interface.1 (IPv4)
-     - IP.Interface.2 (IPv6)
-     - IP.Interface.3
-     - IP.Interface.4
-     - IP.Interface.5
+     - []{rowspan=2} IP.Interface.2 (IPv6)
+     - []{rowspan=2} IP.Interface.3
+     - []{rowspan=2} IP.Interface.4
+     - []{rowspan=2} IP.Interface.5
 
   * - PPP.Interface.1
-    - []{colspan=4}
 
   * - []{colspan=2} Ethernet.VLANTermination.1
     - Ethernet.VLANTermination.2
@@ -149,4 +148,4 @@ In this example the Time server needs to use the IPv4 and IPv6 addresses of the 
 
 With the help of the Logical Interface, the Time server can automatically retrieve the correct IPv4 or IPv6 address from the TR-181 data model without having to know all the details that come from a certain WAN mode or network configuration.
 
-![Logical interfaces example: IPv4 and IPv6 are on different network interface](/images/logicalinterfaces-example2.png)
+![Logical interfaces example: IPv4 and IPv6 are on different network interface](/images/logicalinterfaces-example2.png){typst-scale=0.6}

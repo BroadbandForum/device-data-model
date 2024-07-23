@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Hosts]
 
-  Copyright (c) 2010-2023, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-17-0-hosts"
-    file="tr-181-2-17-0-hosts.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-0-hosts"
+    file="tr-181-2-18-0-hosts.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
-    <component name="Alias-2-0"/>
+    <component name="Alias"/>
     <dataType name="IPAddress"/>
     <dataType name="IPv4Address"/>
     <dataType name="IPv6Address"/>
@@ -72,6 +72,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-schedules.xml"
+    spec="urn:broadband-forum-org:tr-181-2-18-schedules">
+    <component name="ScheduleRef"/>
   </import>
 
   <component name="Hosts">
@@ -115,7 +120,7 @@
         <parameter ref="PhysAddress"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.0"/>
+      <component ref="Alias"/>
       <parameter base="Alias" status="deleted">
         <description action="append">
           {{deprecated|2.11|because {{object}} is a transient object}}
@@ -586,11 +591,13 @@
         <parameter ref="PhysAddress"/>
       </uniqueKey>
 
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
-      <parameter name="Origin" access="readOnly" version="2.17">
+      <parameter name="Origin" access="writeOnceReadOnly" version="2.17">
         <description>
           Indicates the owner of the {{object}} instance.
+
+          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
         <syntax>
           <string>
@@ -671,10 +678,10 @@
           Allows or denies access for a device.
 
           If {{param}} is set to "Allow", device access is allowed based on the
-          {{object|Schedule}} objects. Access is enabled if there is no
-          {{object|Schedule}} object defined.
+          {{object|.Schedules.Schedule}} objects referenced by the {{param|ScheduleRef}} parameter. Access is enabled if there is no
+          {{object|.Schedules.Schedule}} object referenced by the {{param|ScheduleRef}} parameter.
 
-          If {{param}} is set to "Deny", defined {{object|Schedule}} objects
+          If {{param}} is set to "Deny", {{object|.Schedules.Schedule}} objects referenced by the {{param|ScheduleRef}} parameter
           are ignored and no access is allowed for the device.
         </description>
         <syntax>
@@ -686,8 +693,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="ScheduleNumberOfEntries" access="readOnly">
+      <component ref="ScheduleRef"/>
+
+      <parameter name="ScheduleNumberOfEntries" access="readOnly" status="deprecated">
         <description>
+          {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
+
           {{numentries}}
         </description>
         <syntax>
@@ -699,15 +710,17 @@
     <object name="Device.Hosts.AccessControl.{i}.Schedule.{i}."
       access="readWrite" numEntriesParameter="ScheduleNumberOfEntries"
       enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-      version="2.14">
+      version="2.14" status="deprecated">
       <description>
+        {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
+
         Each instance of this object provides a schedule where access is
         enabled.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <component ref="Alias-2-0" version="2.14"/>
+      <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -863,7 +876,7 @@
       </object>
     </profile>
 
-    <profile name="AccessControl:1" version="2.14">
+    <profile name="AccessControl:1" status="deprecated" version="2.14">
       <object ref="Device.Hosts." requirement="present">
         <parameter ref="AccessControlNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -871,10 +884,10 @@
         <parameter ref="PhysAddress" requirement="readWrite"/>
         <parameter ref="AccessPolicy" requirement="readWrite"/>
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly"/>
+        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly" status="deprecated"/>
       </object>
       <object ref="Device.Hosts.AccessControl.{i}.Schedule.{i}."
-          requirement="present">
+          requirement="present" status="deprecated">
         <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Day" requirement="readWrite"/>
@@ -882,9 +895,21 @@
         <parameter ref="Duration" requirement="readWrite"/>
       </object>
     </profile>
+
+    <profile name="AccessControl:2" version="2.18">
+      <object ref="Device.Hosts." requirement="present">
+        <parameter ref="AccessControlNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.Hosts.AccessControl.{i}." requirement="present">
+        <parameter ref="PhysAddress" requirement="readWrite"/>
+        <parameter ref="AccessPolicy" requirement="readWrite"/>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="ScheduleRef" requirement="readOnly"/>
+      </object>
+    </profile>
   </component>
 
-  <model name="Hosts:2.17">
+  <model name="Hosts:2.18">
     <component ref="Root"/>
     <component ref="Hosts"/>
   </model>

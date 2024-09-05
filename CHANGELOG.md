@@ -5,6 +5,16 @@
 See <https://device-data-model.broadband-forum.org> for the
 current TR-181 specification.
 
+## 2024-09-04: TR-181 Issue 2 Amendment 18 Corrigendum 1
+
+*Tags: [v2.18.1] (TR-181), 
+       [v1.14.0][TR-106-v1.14.0] (TR-106 didn't change)*
+
+### Data Model
+* Fixed newly introduced parameter name from IPv6PassTroughICMPEchoRequest to IPv6PassThroughICMPEchoRequest
+* Replaced manual Alias definition by use of component
+* Fixed invalid syntax in description of Device.DNS.Client.Server.{i}.Type
+
 ## 2024-07-23: [TR-181 Issue 2 Amendment 18]
 
 *Tags: [v2.18.0] (TR-181), 
@@ -597,3 +607,4 @@ Incorporated new components from TR-157 Amendment 4
 [v2.16.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.16.0
 [v2.17.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.17.0
 [v2.18.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.0
+[v2.18.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.1

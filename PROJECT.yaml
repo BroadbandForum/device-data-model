@@ -39,6 +39,14 @@ resources:
     resname: Device
 
 versions:
+  v2.18.1:
+    date: 2024-09-04
+    changes:
+      data-model: |
+        * Fixed newly introduced parameter name from IPv6PassTroughICMPEchoRequest to IPv6PassThroughICMPEchoRequest
+        * Replaced manual Alias definition by use of component
+        * Fixed invalid syntax in description of Device.DNS.Client.Server.{i}.Type
+
   v2.18.0:
     date: 2024-07-23
     depends-on:

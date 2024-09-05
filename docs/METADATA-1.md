@@ -69,9 +69,8 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### Editors {.unnumbered .unlisted}
 
-* Klaus Wich, Huawei
-* Mark Tabry, Google
 * Steve Nicolai, Arris
+* Klaus Wich, Huawei
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
 

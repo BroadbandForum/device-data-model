@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-firewall"
-    file="tr-181-2-18-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-1-firewall"
+    file="tr-181-2-18-1-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -2352,7 +2352,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPv6PassTroughICMPEchoRequest" access="readWrite" version="2.18">
+      <parameter name="IPv6PassThroughICMPEchoRequest" access="readWrite" version="2.18">
         <description>
           When {{true}} the 'ICMPv6 echo request' packet must be forward to the LAN device.
           When {{false}} the 'ICMPv6 echo request' packet must be dropped.

@@ -117,6 +117,10 @@
     * Manually resized diagrams to look nice
     * Updated all generated diagrams
 
+* - Issue 2 Amendment 18 Corrigendum 1
+  - September 2024
+  - * Document not updated
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
@@ -143,9 +147,8 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### Editors {.unnumbered .unlisted}
 
-* Klaus Wich, Huawei
-* Mark Tabry, Google
 * Steve Nicolai, Arris
+* Klaus Wich, Huawei
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
 

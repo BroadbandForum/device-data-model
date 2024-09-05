@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-dns"
-    file="tr-181-2-18-0-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-18-1-dns"
+    file="tr-181-2-18-1-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -634,9 +634,9 @@
             <enumeration value="3GPP-NAS" version="2.18">
               <description>
                 Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
-                e.g. PDU Session Establishment Request using the extended Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}},
-                PDN Connectivity Request using the Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}, 
-                PDP Context Activation Request using the Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}, ...
+                e.g. PDU Session Establishment Request using the extended Protocol Configuration Options,
+                PDN Connectivity Request using the Protocol Configuration Options, 
+                PDP Context Activation Request using the Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}}, ...
                 This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
               </description>
             </enumeration>

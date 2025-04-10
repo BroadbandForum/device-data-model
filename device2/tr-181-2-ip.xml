@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-ip"
-    file="tr-181-2-18-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-ip"
+    file="tr-181-2-19-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -76,13 +76,96 @@
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
     <component name="Layer3Interface"/>
   </import>
 
   <template id="IP-DIAGNOSTICS-PARENT">
     #.
   </template>
+
+  <component name="IPAccessControl">
+    <parameter name="AllowAllIPv4" access="readWrite" version="2.16">
+      <description>
+        Allow access from any IPv4 address. The source prefixes defined in
+        {{param|IPv4AllowedSourcePrefix}} will be ignored.
+      </description>
+      <syntax>
+        <boolean/>
+        <default type="object" value="false"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="IPv4AllowedSourcePrefix" access="readWrite" version="2.16">
+      <description>
+        Allow only access from the provided list of IPv4 prefixes.
+
+        When {{param}} is set to {{empty}} and {{param|AllowAllIPv4}} is set to ''false'',
+        no incoming connections are allowed.
+
+        When {{param|AllowAllIPv4}} is set ''true'', {{param}} is ignored.
+      </description>
+      <syntax>
+        <list>
+          <size maxLength="1024"/>
+        </list>
+        <string/>
+      </syntax>
+    </parameter>
+
+    <parameter name="AllowAllIPv6" access="readWrite" version="2.16">
+      <description>
+        Allow access from any IPv6 address. The source prefixes defined in
+        {{param|IPv6AllowedSourcePrefix}} will be ignored.
+      </description>
+      <syntax>
+        <boolean/>
+        <default type="object" value="false"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="IPv6AllowedSourcePrefix" access="readWrite" version="2.16">
+      <description>
+        Allow only access from the provided list of IPv6 prefixes.
+
+        When {{param}} is set to {{empty}} and {{param|AllowAllIPv6}} is set to ''false'',
+        no incoming connections are allowed.
+
+        When {{param|AllowAllIPv6}} is set ''true'', {{param}} is ignored.
+      </description>
+      <syntax>
+        <list>
+          <size maxLength="1024"/>
+        </list>
+        <string/>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="IPVersion">
+    <parameter name="IPVersion" access="readWrite" version="2.2">
+      <description>
+        Specifies the IP protocol version, following the definitions in {{bibref|IANA-ipversionnumbers}}.
+        Valid values are: {{range}}.
+      </description>
+      <syntax>
+        <int>
+          <range minInclusive="4" maxInclusive="4">
+            <description>IPv4</description>
+          </range>
+          <range minInclusive="6" maxInclusive="6">
+            <description>IPv6</description>
+          </range>
+          <range minInclusive="-1" maxInclusive="-1">
+            <description>
+              No specific IP version is required
+            </description>
+          </range>
+        </int>
+        <default type="object" value="-1"/>
+      </syntax>
+    </parameter>
+  </component>
 
   <component name="IPPingDiagnosticsInput">
 
@@ -2416,6 +2499,37 @@
         </string>
       </syntax>
     </parameter>
+
+    <parameter name="IPLayerCapacityAuthCodeNumberOfEntries"
+        access="readOnly" version="2.19">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+  <object name="IPLayerCapacityAuthCode.{i}." access="readWrite"
+        numEntriesParameter="IPLayerCapacityAuthCodeNumberOfEntries"
+        maxEntries="256" version="2.19">
+      <description>
+        Authentication Code table containing list of keys to be used by the
+        client when connecting to the server.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <component ref="Alias"/>
+      <parameter name="AuthenticationKey" access="readWrite" version="2.19">
+        <description>
+          A passphrase that is used by the client to authenticate with the
+          server.
+        </description>
+        <syntax secured="true">
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
   </component>
 
   <component name="IPLayerCapacityInput">
@@ -2451,7 +2565,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Host" access="readWrite" status="deprecated" version="2.14">
+    <parameter name="Host" access="readWrite" status="obsoleted" version="2.14">
       <description>
         The Fully Qualified Domain Name (FQDN) or IP address of the Test
         Endpoint to perform the UDP Capacity tests with.
@@ -2459,6 +2573,8 @@
         {{deprecated|2.17|because it is superseded by
         {{param|ServerList}} with multi-flow and server capability. Refer
         to {{bibref|TR-471}} for details}}
+
+        {{obsoleted|2.19}}
       </description>
       <syntax>
         <string>
@@ -2488,7 +2604,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Port" access="readWrite" status="deprecated"
+    <parameter name="Port" access="readWrite" status="obsoleted"
         activeNotify="canDeny" version="2.14">
       <description>
         Port on the Test Endpoint host.
@@ -2496,6 +2612,8 @@
         {{deprecated|2.17|because it is superseded by
         {{param|ServerList}} with multi-flow and server capability. Refer
         to {{bibref|TR-471}} for details}}
+
+        {{obsoleted|2.19}}
       </description>
       <syntax>
         <unsignedInt>
@@ -2515,7 +2633,83 @@
       </syntax>
     </parameter>
 
-    <parameter name="NumberOfConnections" access="readWrite" status="deprecated"
+    <parameter name="MTU" access="readWrite" version="2.19">
+      <description>
+        The MTU to be used for this test. Common MTU settings are 1500, 1250
+        and 9000.
+      </description>
+      <syntax>
+        <unsignedInt/>
+        <default type="implementation" value="1500"/>
+      </syntax>
+    </parameter>
+
+     <parameter name="LocalInterfaceRateIncluded" access="readWrite"
+          version="2.19">
+      <description>
+        When set to {{true}}, the client is invoked with the option which uses
+        the bytes statistics on the interface along with the test traffic to
+        determine the maximum IP layer capacity. When set to {{false}}, only
+        test traffic is used to calculate IP layer capacity metrics.
+      </description>
+      <syntax>
+        <boolean/>
+        <default type="implementation" value="true"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="AuthenticationEnabled" access="readWrite" version="2.19">
+      <description>
+        If {{true}}, client uses authentication for the test. If {{false}}, the
+        client does not use authentication. Refer to
+        {{template|IPLAYERCAPACITY}} for description on how the input
+        arguments are provided to enable authentication for the test.
+      </description>
+      <syntax>
+        <boolean/>
+        <default type="implementation" value="false"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="AuthenticationCode" access="readWrite" version="2.19">
+      <description>
+        The authentication code or key to use when the client connects to
+        the server. Refer to {{template|IPLAYERCAPACITY}} for description
+        on how the input arguments are provided to enable authentication
+        for the test.
+      </description>
+      <syntax secured="true">
+          <string/>
+      </syntax>
+    </parameter>
+
+    <parameter name="AuthenticationAlias" access="readWrite" version="2.19">
+      <description>
+        The reference to {{object|IPLayerCapacityAuthCode}} table
+        by Alias. Refer to {{template|IPLAYERCAPACITY}} for description on
+        how the input arguments are provided to enable authentication for the
+        test.
+      </description>
+      <syntax>
+        <string/>
+      </syntax>
+    </parameter>
+
+    <parameter name="AuthenticationKeyFileLocation" access="readWrite"
+        version="2.19">
+      <description>
+        The key file location the client uses to derive the
+        {{param|AuthenticationCode}} and {{param|AuthenticationAlias}} to be
+        used for authentication. Refer to {{template|IPLAYERCAPACITY}} for
+        description on how the input arguments are provided to enable
+        authentication for the test.
+      </description>
+      <syntax>
+        <string/>
+      </syntax>
+    </parameter>
+
+    <parameter name="NumberOfConnections" access="readWrite" status="obsoleted"
     version="2.14">
       <description>
         The number of connections to be used in the test. The default value
@@ -2525,6 +2719,8 @@
         {{deprecated|2.17|because it is superseded by
         {{param|ServerList}} with multi-flow and server capability and
         related parameters. Refer to {{bibref|TR-471}} for details}}
+
+        {{obsoleted|2.19}}
       </description>
       <syntax>
         <unsignedInt>
@@ -2797,6 +2993,22 @@
           <range minInclusive="0" maxInclusive="5"/>
           <units value="seconds"/>
         </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="MaximumTestBandwidth" access="readWrite" version="2.19">
+      <description>
+        The rate limiting or admission control bandwidth to be
+        configured on the client for the test. A value of 0
+        indicates the client does not use rate limiting or admission control.
+        The value is expressed in {{units}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range maxInclusive="32767"/>
+          <units value="Mbps"/>
+        </unsignedInt>
+        <default type="implementation" value="0"/>
       </syntax>
     </parameter>
 
@@ -3151,6 +3363,24 @@
 
   <component name="IPLayerCapacityOutput">
 
+    <parameter name="StatusCode" access="readOnly" version="2.19">
+      <description>
+        Status code of the test returned by the client, if applicable.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="StatusMessage" access="readOnly" version="2.19">
+      <description>
+        Status message of the test returned by the client, if applicable.
+      </description>
+      <syntax>
+        <string/>
+      </syntax>
+    </parameter>
+
     <parameter name="BOMTime" access="readOnly" activeNotify="canDeny"
         version="2.14">
       <description>
@@ -3353,7 +3583,29 @@
       </syntax>
     </parameter>
 
-      <parameter name="InterfaceEthMbpsAtMax" access="readOnly" version="2.15">
+    <parameter name="RTTMinAtMax" access="readOnly" version="2.19">
+      <description>
+        The value of minimum Round Trip Time (RTT) during the sub interval of
+        {{param|MaxIPLayerCapacity}}. This value is expressed as a decimal to 9
+        decimal digits.
+      </description>
+      <syntax>
+        <decimal/>
+      </syntax>
+    </parameter>
+
+    <parameter name="RTTMaxAtMax" access="readOnly" version="2.19">
+      <description>
+        The value of maximum Round Trip Time (RTT) during the sub interval of
+        {{param|MaxIPLayerCapacity}}. This value is expressed as a decimal to 9
+        decimal digits.
+      </description>
+      <syntax>
+        <decimal/>
+      </syntax>
+    </parameter>
+
+    <parameter name="InterfaceEthMbpsAtMax" access="readOnly" version="2.15">
       <description>
         The number of bits observed on the Interface during an IP-Layer
         Capacity test for time interval of duration {{param|TestSubInterval}}
@@ -4389,7 +4641,7 @@
         version="2.0" dmr:previousObject="Device.IP.Interface.{i}.">
       <description>
         IPv4 address table. Entries are auto-created and auto-deleted as IP
-        addresses are added and deleted via DHCP, auto-IP, 3GPP-NAS, or IPCP. Static
+        addresses are added and deleted via DHCP, auto-IP, 3GPP-NAS (3GPP Non Access Stratum), or IPCP. Static
         entries are created and configured by the Controller.
       </description>
       <uniqueKey functional="false">
@@ -4480,8 +4732,8 @@
             <enumeration value="3GPP-NAS" version="2.18">
               <description>
                 Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
-                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}}, 
-                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}}, 
+                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}},
+                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}},
                 PDP Context Activation Request {{bibref|3GPP-TS.24.008|Clause 6.1.2A}}, ...
                 This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
               </description>
@@ -4818,8 +5070,8 @@
             <enumeration value="3GPP-NAS" version="2.18">
               <description>
                 Address assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
-                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}}, 
-                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}}, 
+                e.g. PDU Session Establishment Request {{bibref|3GPP-TS.24.501|Clause 6.2.4.2}},
+                PDN Connectivity Request {{bibref|3GPP-TS.24.301|Clause 6.2.2}},
                 PDP Context Activation Request {{bibref|3GPP-TS.24.008|Clause 6.1.2A}}, ...
                 This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
               </description>

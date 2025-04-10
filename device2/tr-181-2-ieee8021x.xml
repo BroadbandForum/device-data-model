@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-ieee8021x"
-    file="tr-181-2-18-0-ieee8021x.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-ieee8021x"
+    file="tr-181-2-19-0-ieee8021x.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,6 +69,10 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-security.xml">
+    <component name="ClientCerts"/>
   </import>
 
   <component name="IEEE8021x">
@@ -523,6 +527,8 @@
           <boolean/>
         </syntax>
       </parameter>
+
+      <component ref="ClientCerts" version="2.19"/>
     </object>
 
     <profile name="IEEE8021xAuthentication:1" version="2.0">
@@ -586,7 +592,7 @@
     </profile>
   </component>
 
-  <model name="IEEE8021x:2.18">
+  <model name="IEEE8021x:2.19">
     <component ref="Root"/>
     <component ref="IEEE8021x"/>
   </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-1-firewall"
-    file="tr-181-2-18-1-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-firewall"
+    file="tr-181-2-19-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -79,6 +79,40 @@
       spec="urn:broadband-forum-org:tr-181-2-18-schedules">
     <component name="ScheduleRef"/>
   </import>
+
+  <import file="tr-181-2-ip.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-ip">
+    <component name="IPVersion"/>
+  </import>
+
+  <component name="FirewallLog">
+    <parameter name="Log" access="readWrite" version="2.19">
+      <description>
+        Enable or disable logging, in a
+        {{object|.DeviceInfo.VendorLogFile}}, of packets matching this
+        {{object}}.
+      </description>
+      <syntax>
+        <boolean/>
+        <default type="object" value="false"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="LogRef" access="readWrite" version="2.19">
+      <description>
+        Specifies the logging rules for this {{object}} entry.
+        The {{param|Log}} parameter MUST be set to {{true}} for this setting to take effect.
+        When {{param|Log}} is {{true}} and {{param}} is {{empty}} or contains an invalid reference, the system MUST treat the configuration as an error and set {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
+      </description>
+      <syntax>
+        <list/>
+        <string>
+          <pathRef refType="strong" targetParent=".Firewall.Log." targetType="row"/>
+        </string>
+        <default type="object" value="[]"/>
+      </syntax>
+    </parameter>
+  </component>
 
   <component name="Firewall">
 
@@ -351,6 +385,15 @@
 
       <parameter name="SetNumberOfEntries" access="readOnly"
           version="2.18">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LogNumberOfEntries" access="readOnly" version="2.19">
         <description>
           {{numentries}}
         </description>
@@ -765,7 +808,7 @@
       <parameter name="Log" access="readWrite">
         <description>
           Enable or disable logging, in a
-          {{object|###.DeviceInfo.VendorLogFile}}, of packets matching this
+          {{object|.DeviceInfo.VendorLogFile}}, of packets matching this
           {{object}}.
 
           If the {{object}} is not ''Static'' (as explained in the object
@@ -775,6 +818,21 @@
         <syntax>
           <boolean/>
           <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LogRef" access="readWrite" version="2.19">
+        <description>
+          Specifies the logging rules for this {{object}} entry.
+          The {{param|Log}} parameter MUST be set to {{true}} for this setting to take effect.
+          When {{param|Log}} is {{true}} and {{param}} is {{empty}} or contains an invalid reference, the system MUST treat the configuration as an error and set {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".Firewall.Log." targetType="row"/>
+          </string>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -915,28 +973,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPVersion" access="readWrite">
-        <description>
-          {{object}} criterion.
-
-          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
-          For example:
-
-          * ''4'' (IPv4)
-
-          * ''6'' (IPv6)
-
-          A value of ''-1'' indicates this criterion is not used for matching.
-
+      <component ref="IPVersion"/>
+      <parameter base="IPVersion">
+        <description action="append">
           This parameter can only be modified if the {{object}} is ''Static''
           (as explained in the object description).
         </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="15"/>
-          </int>
-          <default type="object" value="-1"/>
-        </syntax>
       </parameter>
 
       <parameter name="DestIP" access="readWrite">
@@ -1421,7 +1463,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           Indicates the Origin of the {{object}} instance.
 
@@ -1577,24 +1619,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPVersion" access="readWrite">
-        <description>
-          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
-          For example:
-
-          * ''4'' (IPv4)
-
-          * ''6'' (IPv6)
-
-          A value of ''-1'' indicates this criterion is not used for matching.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="15"/>
-          </int>
-          <default type="object" value="6"/>
-        </syntax>
-      </parameter>
+      <component ref="IPVersion" version="2.16"/>
 
       <parameter name="Protocol" access="readWrite">
         <description>
@@ -1604,7 +1629,7 @@
           * ''6'' (TCP)
 
           * ''17'' (UDP)
-          
+
           A value of ''-1'' indicates this criterion is not used
             for matching.
         </description>
@@ -1653,6 +1678,7 @@
       </parameter>
 
       <component ref="ScheduleRef"/>
+      <component ref="FirewallLog"/>
     </object>
 
     <object name="Device.Firewall.DMZ.{i}." access="readWrite"
@@ -1727,7 +1753,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           Indicates who configured the {{object}} instance.
 
@@ -1839,6 +1865,8 @@
           <default type="object" value=""/>
         </syntax>
       </parameter>
+
+      <component ref="FirewallLog"/>
     </object>
 
     <object name="Device.Firewall.Service.{i}." access="readWrite"
@@ -1939,24 +1967,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPVersion" access="readWrite">
-        <description>
-          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
-          For example:
-
-          * ''4'' (IPv4)
-
-          * ''6'' (IPv6)
-
-          A value of ''-1'' indicates this criterion is not used for matching.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="15"/>
-          </int>
-          <default type="object" value="-1"/>
-        </syntax>
-      </parameter>
+      <component ref="IPVersion" version="2.16"/>
 
       <parameter name="Protocol" access="readWrite">
         <description>
@@ -1965,7 +1976,7 @@
 
           * ''6'' (TCP)
 
-          * ''17'' (UDP) 
+          * ''17'' (UDP)
 
           A value of ''-1'' indicates this criterion is not used for matching.
         </description>
@@ -2032,6 +2043,8 @@
           <default type="object" value="Accept"/>
         </syntax>
       </parameter>
+
+      <component ref="FirewallLog"/>
     </object>
 
     <object name="Device.Firewall.Policy.{i}." access="readWrite"
@@ -2158,24 +2171,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPVersion" access="readWrite">
-        <description>
-          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
-          For example:
-
-          * ''4'' (IPv4)
-
-          * ''6'' (IPv6)
-
-          A value of ''-1'' indicates this criterion is not used for matching.
-        </description>
-        <syntax>
-          <int>
-            <range minInclusive="-1" maxInclusive="15"/>
-          </int>
-          <default type="object" value="-1"/>
-        </syntax>
-      </parameter>
+      <component ref="IPVersion" version="2.16"/>
 
       <parameter name="ReverseChain" access="readWrite">
         <description>
@@ -2224,6 +2220,8 @@
           <default type="object" value="Drop"/>
         </syntax>
       </parameter>
+
+      <component ref="FirewallLog"/>
     </object>
 
     <object name="Device.Firewall.InterfaceSetting.{i}." access="readWrite"
@@ -2655,7 +2653,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           Indicates the Origin of the {{object}} instance.
         </description>
@@ -2721,21 +2719,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPVersion" access="readWrite">
-        <description>
-          IP Protocol Version as specified in {{bibref|IANA-ipversionnumbers}}.
-          For example:
-          * ''4'' (IPv4)
-          * ''6'' (IPv6)
-        </description>
-        <syntax>
-          <unsignedInt>
-            <range minInclusive="4" maxInclusive="4"/>
-            <range minInclusive="6" maxInclusive="6"/>
-          </unsignedInt>
-          <default type="object" value="6"/>
-        </syntax>
-      </parameter>
+      <component ref="IPVersion" version="2.18"/>
 
       <parameter name="RuleNumberOfEntries" access="readOnly">
         <description>
@@ -2772,7 +2756,7 @@
 
       <parameter name="IPAddressList" access="readWrite">
         <description>
-          Source IPv4 or IPv6 address or subnet mask.
+          Each element of the list can specify the source IPv4 or IPv6 address or subnet mask.
 
           Note:
           The IP version of the IP address MUST correspond to the IP version set in {{param|#.IPVersion}}.
@@ -2787,24 +2771,25 @@
 
       <parameter name="MACAddressList" access="readWrite">
         <description>
-          Specifies the MACAddress that can be used by the {{object}} entry.
+          Each element of the list can specify the MAC addresses that can be used by the {{object}} entry.
 
           Note:
           Can not be used in combination with {{param|IPAddressList}} or {{param|PortList}}.
         </description>
         <syntax>
+          <list/>
           <dataType ref="MACAddress"/>
-          <default type="object" value=""/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
       <parameter name="PortList" access="readWrite">
         <description>
-          Specifies the Port number or a port range that can be used by the {{object}} entry.
+          Each element of the list can specify the port number or a port range that can be used by the {{object}} entry.
           Syntax:
 
           A single port can be configured as e.g. '80'.
-          A port range can be configured as '8000-80010'.
+          A port range can be configured as '8000-8010'.
 
           Note:
           Can not be used in combination with {{param|MACAddressList}} or {{param|IPAddressList}}.
@@ -2813,6 +2798,171 @@
           <list/>
           <string/>
           <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.Log.{i}." access="readWrite"
+        numEntriesParameter="LogNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.19">
+      <description>
+        Firewalls monitor network traffic and enforce security policies.
+        To aid in debugging and troubleshooting potential issues, it's possible to capture specific information when certain rules are triggered.
+        These captured details, known as traces, are then logged by the implementation for further analysis.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the firewall logging configuration for this entry.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          Human-readable description associated with this entry.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Severity" access="readWrite">
+        <description>
+          Specifies the severity level at which the message is logged.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Emergency">
+              <description>
+                Indicates that the system is unusable.
+              </description>
+            </enumeration>
+            <enumeration value="Alert">
+              <description>
+                Indicating that an action must be taken immediately.
+              </description>
+            </enumeration>
+            <enumeration value="Critical">
+              <description>
+                Indicates a critical condition.
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                Indicates a errors condition.
+              </description>
+            </enumeration>
+            <enumeration value="Warning">
+              <description>
+                Indicates a warning condition.
+              </description>
+            </enumeration>
+            <enumeration value="Notice">
+              <description>
+                Indicates a informational message.
+              </description>
+            </enumeration>
+            <enumeration value="Debug">
+              <description>
+                Indicates a debug-level message.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Debug"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Prefix" access="readWrite">
+        <description>
+          Specifies the prefix that must be added to each logmessage.
+          When {{param|.Firewall.Chain.{i}.Rule.{i}.LogRef}} specifies multiple {{object}} entries.
+          The implementation may chose to combine both prefixes into one.
+          When {{param}} is {{empty}} no prefix will be added to the log message.
+
+          The maximum allowed {{param}} length is implementation specific.
+        </description>
+        <syntax>
+          <string/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Firewall.Log.{i}.Filter." access="readOnly"
+      minEntries="1" maxEntries="1" version="2.19">
+      <description>
+        Defines the filter criteria used for configuring firewall log rules.
+        These criteria determine which firewall events are logged based
+        on specified parameters such as policy, source interface, and destination interface.
+      </description>
+
+      <parameter name="Policy" access="readWrite">
+        <description>
+          Specifies the policy for filtering logs based on the type of firewall rule.
+          This parameter allows you to select which types of rules (e.g., all rules, denied rules, or allowed rules) will have their events logged.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="All">
+              <description>
+                Logs all types of firewall rules, including ACCEPT, DROP, and REJECT rules.
+              </description>
+            </enumeration>
+            <enumeration value="Denied">
+              <description>
+                Logs only DROP or REJECT rules, which indicate denied connections or rejected packets.
+              </description>
+            </enumeration>
+            <enumeration value="Allowed">
+              <description>
+                Logs only ACCEPT rules, which indicate permitted connections or allowed packets.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="All"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceInterface" access="readWrite">
+        <description>
+          Filters logs based on the rule's source interface.
+          This parameter specifies the network interface from which the traffic originates.
+          If left empty, no filtering on the source interface will be applied.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestinationInterface" access="readWrite">
+        <description>
+          Filters logs based on the rule's destination interface.
+          This parameter specifies the network interface to which the traffic is directed.
+          If left empty, no filtering on the destination interface will be applied.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
         </syntax>
       </parameter>
     </object>
@@ -2886,7 +3036,7 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.18">
+  <model name="Firewall:2.19">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

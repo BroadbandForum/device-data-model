@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-ethernet"
-    file="tr-181-2-18-0-ethernet.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-ethernet"
+    file="tr-181-2-19-0-ethernet.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,17 +73,16 @@
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-interface">
-    <component name="Layer1Interface"/>
-    <component name="Layer2Interface"/>
-    <component name="Link"/>
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer1InterfaceMaxBitRateReadWrite"/>
+    <component name="LinkReadWrite"/>
     <component name="BaseInterfaceParams"/>
+    <component name="BaseInterfaceParamsAddDefaults"/>
     <component name="Layer2InterfaceParams"/>
     <component name="BaseInterfaceStats"/>
     <component name="Layer2InterfaceStats"/>
   </import>
 
-  <!-- These are based on the Layer2Interface component -->
   <component name="VLANTermination">
     <parameter name="VLANTerminationNumberOfEntries" access="readOnly">
       <description>
@@ -107,6 +106,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
       <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
       <component ref="Layer2InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer2InterfaceStats"/>
@@ -136,6 +136,7 @@
         <parameter ref="Name"/>
       </uniqueKey>
       <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
       <component ref="Layer2InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer2InterfaceStats"/>
@@ -199,9 +200,9 @@
         </syntax>
       </parameter>
 
-      <component ref="Layer1Interface"/>
+      <component ref="Layer1InterfaceMaxBitRateReadWrite"/>
 
-      <component ref="Link"/>
+      <component ref="LinkReadWrite"/>
 
       <component ref="VLANTermination"/>
 
@@ -248,17 +249,47 @@
           Reports the supported link modes. MUST be reported in a compliant way
           as defined in {{bibref|IANAMauMIB|IANAifMauTypeListBits}}. For
           example, IANAifMauTypeListBits defines the following link mode types:
-
           * ''16'' (100BASE-TX full duplex mode)
-
           * ''26'' (1000BASE-SX full duplex mode)
-
           * ''30'' (1000BASE-T full duplex mode)
-
           * ''54'' (10GBASE-T)
-
           * ''103'' (2.5GBASE-T)
+          * ''104'' (5GBASE-T)
+        </description>
+        <syntax>
+          <list/>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
 
+      <parameter name="AdvertisedLinkModes" access="readWrite" version="2.19">
+        <description>
+          Sets the advertised link modes. MUST be set in a compliant way
+          as defined in {{bibref|IANAMauMIB|IANAifMauTypeListBits}}. For
+          example, IANAifMauTypeListBits defines the following link mode types:
+          * ''16'' (100BASE-TX full duplex mode)
+          * ''26'' (1000BASE-SX full duplex mode)
+          * ''30'' (1000BASE-T full duplex mode)
+          * ''54'' (10GBASE-T)
+          * ''103'' (2.5GBASE-T)
+          * ''104'' (5GBASE-T)
+        </description>
+        <syntax>
+          <list/>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LinkPartnerAdvertisedLinkModes" access="readOnly" version="2.19">
+        <description>
+          Reports the link modes advertised by the link partner. MUST be reported in a compliant way
+          as defined in {{bibref|IANAMauMIB|IANAifMauTypeListBits}}. For
+          example, IANAifMauTypeListBits defines the following link mode types:
+          * ''16'' (100BASE-TX full duplex mode)
+          * ''26'' (1000BASE-SX full duplex mode)
+          * ''30'' (1000BASE-T full duplex mode)
+          * ''54'' (10GBASE-T)
+          * ''103'' (2.5GBASE-T)
           * ''104'' (5GBASE-T)
         </description>
         <syntax>
@@ -358,6 +389,63 @@
           </string>
         </syntax>
       </parameter>
+
+      <parameter name="EDPDCapability" access="readOnly" version="2.19">
+        <description>
+          Indicates whether this physical ethernet port supports Energy Detect Power Down (EDPD).
+
+          Implementations of this feature are vendor specific,
+          Energy Detect Power Down is not part of the 802.3-2015 standard.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EDPDEnable" access="readWrite" version="2.19">
+        <description>
+          Indicates whether Energy Detect Power Down (EDPD) support is currently enabled.
+          When enabled, depending on the type of hardware, either the transmit power is disabled or
+          the link impulses are sent at a greater interval.
+
+          Implementations of this feature are vendor specific,
+          Energy Detect Power Down is not part of the 802.3-2015 standard.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EDPDStatus" access="readOnly" version="2.19">
+        <description>
+          Indicates the active state of Energy Detect Power Down (EDPD).
+
+          Implementations of this feature are vendor specific,
+          Energy Detect Power Down is not part of the 802.3-2015 standard.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                Indictes that EDPD is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>
+                Indicates that {{param|EDPDEnable}} is enabled and supported
+                by the physical interface.  In this state EDPD will be used.
+              </description>
+            </enumeration>
+            <enumeration value="Unsupported">
+              <description>
+                Indicates that this physical interface does not support EDPD.
+                In which case {{param|EDPDCapability}} will be {{false}}.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
       <parameter name="MDIX" access="readWrite" version="2.18">
         <description>
            Configure the Medium Dependent Interface crossover functionality on the interface.
@@ -381,6 +469,19 @@
             <enumeration value="Unknown"/>
             <enumeration value="On"/>
             <enumeration value="Off"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="SFPReferenceList" access="readOnly" version="2.19">
+        <description>
+          Small-form Factor Pluggable (SFP) entries associated with this interface.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.SFPs.SFPCage."
+                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -1148,7 +1249,7 @@
     </profile>
   </component>
 
-  <model name="Ethernet:2.18">
+  <model name="Ethernet:2.19">
     <component ref="Root"/>
     <component ref="Ethernet"/>
   </model>

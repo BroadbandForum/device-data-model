@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-gre"
-    file="tr-181-2-18-0-gre.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-gre"
+    file="tr-181-2-19-0-gre.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,6 +70,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer2InterfaceReadWrite"/>
   </import>
 
   <component name="GRE">
@@ -234,14 +239,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Layer2InterfaceReadWrite" version="2.8"/>
     </object>
 
     <object name="Device.GRE.Tunnel.{i}.Stats." access="readOnly"
@@ -351,10 +349,8 @@
       </parameter>
     </object>
 
-    <object name="Device.GRE.Tunnel.{i}.Interface.{i}." access="readWrite"
-        numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.8">
-      <description>
+    <object base="Device.GRE.Tunnel.{i}.Interface.{i}.">
+      <description action="replace">
         GRE Interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). The {{object}} object models the GRE
         Header as defined in {{bibref|RFC2784}} and extensions to the GRE
@@ -365,103 +361,6 @@
         Unless the Key Identifier of {{bibref|RFC2890}} is supported there is
         only one instance of this {{object}} object per tunnel.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
 
       <parameter name="ProtocolIdOverride" access="readWrite">
         <description>
@@ -530,90 +429,22 @@
       </parameter>
     </object>
 
-    <object name="Device.GRE.Tunnel.{i}.Interface.{i}.Stats."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.8">
-      <description>
-        Statistics for this GRE tunnel interface, i.e. all traffic that has
-        passed through the interface.
-
-        The device MUST reset the interface's Stats parameters (unless
-        otherwise stated in individual object or parameter descriptions) either
-        when the interface becomes operationally down due to a previous
-        administrative down (i.e., the interface's Status parameter transitions
-        to a down state after the interface has been disabled) or when the
-        interface becomes administratively up (i.e. the Enable parameter
-        transitioned from {{false}} to {{true}}).
-      </description>
-
-      <parameter name="BytesSent" access="readOnly">
-        <description>
-          The total number of {{units}} sent by this interface.
+    <object base="Device.GRE.Tunnel.{i}.Interface.{i}.Stats.">
+      <parameter base="ErrorsSent">
+        <description action="append">
+          This can include packets dropped due to a lack of transmit buffers.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64">
-            <units value="bytes"/>
-          </dataType>
-        </syntax>
       </parameter>
 
-      <parameter name="BytesReceived" access="readOnly">
-        <description>
-          The total number of {{units}} received by this interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64">
-            <units value="bytes"/>
-          </dataType>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly">
-        <description>
-          The total number of {{units}} sent by this interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64">
-            <units value="packets"/>
-          </dataType>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly">
-        <description>
-          The total number of {{units}} received by this interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64">
-            <units value="packets"/>
-          </dataType>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly">
-        <description>
-          The total number of {{units}} discarded by this interface due to any
-          error. This can include packets dropped due to a lack of transmit
-          buffers.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32">
-            <units value="packets"/>
-          </dataType>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly">
-        <description>
-          The total number of {{units}} received by this interface that
-          contained errors preventing them from being delivered to a
-          higher-layer protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32">
-            <units value="packets"/>
-          </dataType>
-        </syntax>
-      </parameter>
+      <parameter base="BroadcastPacketsReceived" version="2.19"/>
+      <parameter base="BroadcastPacketsSent" version="2.19"/>
+      <parameter base="DiscardPacketsReceived" version="2.19"/>
+      <parameter base="DiscardPacketsSent" version="2.19"/>
+      <parameter base="MulticastPacketsReceived" version="2.19"/>
+      <parameter base="MulticastPacketsSent" version="2.19"/>
+      <parameter base="UnicastPacketsReceived" version="2.19"/>
+      <parameter base="UnicastPacketsSent" version="2.19"/>
+      <parameter base="UnknownProtoPacketsReceived" version="2.19"/>
 
       <parameter name="DiscardChecksumReceived" access="readOnly">
         <description>
@@ -878,7 +709,7 @@
     </profile>
   </component>
 
-  <model name="GRE:2.18">
+  <model name="GRE:2.19">
     <component ref="Root"/>
     <component ref="GRE"/>
   </model>

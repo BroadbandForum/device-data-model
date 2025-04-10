@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model definition [CWMP]
 
-  Copyright (c) 2010-2024, Broadband Forum
+  Copyright (c) 2010-2025, Broadband Forum
 
   The undersigned members have elected to grant the copyright to
   their contributed material used in this software:
@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-1-cwmp"
-    file="tr-181-2-18-1-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-cwmp"
+    file="tr-181-2-19-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-common">
+      spec="urn:broadband-forum-org:tr-181-2-19-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -143,22 +143,37 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.18" ref="Device:2.18"/>
+    <model name="_Device:2.19" ref="Device:2.19"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-interface">
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetCWMP"/>
   </import>
 
+  <import file="tr-181-2-dhcpv4.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv4">
+    <component name="DHCPv4CWMP"/>
+  </import>
+
+  <import file="tr-181-2-dhcpv6.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv6">
+    <component name="DHCPv6CWMP"/>
+  </import>
+
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-19-wifi-cwmp">
     <component name="WiFiCWMP"/>
   </import>
 
   <import file="tr-181-2-moca-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-moca-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-19-moca-cwmp">
     <component name="MoCACWMP"/>
+  </import>
+
+  <import file="tr-181-2-collectiondevice.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-collectiondevice">
+    <component name="CollectionDeviceCWMP"/>
   </import>
 
   <!-- Templates used in object and/or parameter descriptions -->
@@ -241,7 +256,11 @@
 
   <template id="IP-DIAGNOSTICS-PARENT"/>
 
-  <model name="Device:2.18" base="_Device:2.18">
+  <template id="IPLAYERCAPACITY">
+    {{object|Device.IP.Diagnostics.IPLayerCapacityMetrics}}
+  </template>
+
+  <model name="Device:2.19" base="_Device:2.19">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -2834,6 +2853,20 @@
       </parameter>
     </object>
 
+    <object base="Device.SoftwareModules.">
+        <description action="append">
+          Since Device:2.15, the Software Module data model has undergone significant enhancements,
+          particularly in expanding support for new concepts, e.g. {{object|ExecEnvClass.{i}.}},
+          {{object|ExecEnv.{i}.ApplicationData.{i}.}}, {{object|ExecutionUnit.{i}.AutoRestart.}},
+          {{object|ExecutionUnit.{i}.NetworkConfig.}}, {{object|ExecutionUnit.{i}.HostObject.{i}}},
+          and {{object|ExecutionUnit.{i}.EnvVariable.{i}.}}.
+
+          However, the CWMP protocol lacks native capabilities to dynamically manage these new concepts.
+          At best, CWMP can be used to view the available configurations.
+          For more dynamic and interactive management of these concepts, the USP protocol should be utilized.
+        </description>
+    </object>
+
     <object base="Device.SoftwareModules.ExecEnv.{i}." access="readOnly"
         minEntries="0" maxEntries="unbounded">
       <parameter base="Enable" access="readWrite">
@@ -3632,6 +3665,44 @@
 
         Files received in the IP Layer Capacity test do not require file
         storage on the CPE device.
+
+        If {{param|AuthenticationEnabled}} is set to {{true}}, one of the
+        following combinations of {{param|AuthenticationCode}},
+        {{param|AuthenticationAlias}} and
+        {{param|AuthenticationKeyFileLocation}} MUST be met. Otherwise, the
+        client returns an error.
+
+        If only {{param|AuthenticationCode}} is provided, the client uses
+        the value directly as the key.
+
+        If both {{param|AuthenticationCode}} and
+        {{param|AuthenticationAlias}} are provided but
+        {{param|AuthenticationKeyFileLocation}} is not provided, the client
+        uses the {{param|AuthenticationCode}} as the key and the
+        {{param|AuthenticationAlias}} as key ID. The
+        {{object|IPLayerCapacityAuthCode}} table is ignored.
+
+        If only {{param|AuthenticationAlias}} is provided, the client uses
+        the {{object|IPLayerCapacityAuthCode}} table to derive the
+        {{param|IPLayerCapacityAuthCode.{i}.Alias}} to use as key ID,
+        and the
+        {{param|IPLayerCapacityAuthCode.{i}.AuthenticationKey}} as
+        the key.
+
+        If both {{param|AuthenticationAlias}} and
+        {{param|AuthenticationKeyFileLocation}} are provided, but
+        {{param|AuthenticationCode}} is not provided, the client uses
+        the {{param|AuthenticationAlias}} as key ID along with
+        {{param|AuthenticationKeyFileLocation}} as file location. The
+        {{object|IPLayerCapacityAuthCode}} table is ignored.
+
+        If only {{param|AuthenticationAlias}} is provided, and the
+        {{object|IPLayerCapacityAuthCode}} does not contain the
+        {{param|AuthenticationAlias}}, the client returns an error.
+
+        If only {{param|AuthenticationKeyFileLocation}} is provided, the file
+        specified MUST contain a single entry. Otherwise, the client returns
+        an error.
       </description>
 
       <parameter name="DiagnosticsState" access="readWrite">
@@ -3776,23 +3847,8 @@
     </object>
     <!-- TR-069 command parameters -->
 
-    <object base="Device.DHCPv6.Client.{i}." access="readWrite" minEntries="1"
-        maxEntries="unbounded">
-
-      <parameter name="Renew" access="readWrite"
-          dmr:previousParameter="RapidCommit" version="2.2">
-        <description>
-          When set to {{true}}, the {{object}} will renew its DHCPv6-supplied
-          information (i.e. the CPE will do a renew or information request as
-          needed, updating both stateful and stateless parameter values
-          discovered by this Client instance).
-        </description>
-        <syntax command="true">
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-    </object>
+    <component ref="DHCPv4CWMP"/>
+    <component ref="DHCPv6CWMP"/>
 
     <object base="Device.FAP.GPS." access="readOnly" minEntries="1"
         maxEntries="1">
@@ -3911,21 +3967,6 @@
           call.
 
           Reset on a disabled interface is a no-op (not an error).
-        </description>
-        <syntax command="true">
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object base="Device.DHCPv4.Client.{i}." access="readWrite" minEntries="1"
-        maxEntries="unbounded">
-
-      <parameter name="Renew" access="readWrite"
-          dmr:previousParameter="DHCPStatus">
-        <description>
-          When set to {{true}}, the DHCP client will renew its DHCP lease.
         </description>
         <syntax command="true">
           <boolean/>
@@ -4339,6 +4380,193 @@
       </parameter>
     </object>
 
+    <!-- override USP writeOnceReadOnly parameter descriptions updated in 2.19 -->
+    <object base="Device.Hosts.AccessControl.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.DNS.Zone.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.DNS.Zone.{i}.Host.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Firewall.Pinhole.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Firewall.DMZ.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Firewall.Set.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was changed to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.NAT.PortMapping.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.NAT.PortTrigger.{i}.">
+      <parameter base="Origin">
+        <description action="append">
+          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Routing.Babel.MACKeySet.{i}.MACKey.{i}.">
+      <parameter base="KeyValue">
+        <description action="append">
+          Note: This parameter was changed to readWrite in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Routing.Babel.DTLSCertSet.{i}.DTLSCert.{i}.">
+      <parameter base="CertValue">
+        <description action="append">
+          Note: This parameter was changed to readWrite in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+    <object base="Device.Routing.Babel.DTLSCertSet.{i}.DTLSCert.{i}.">
+      <parameter base="CertPrivateKey">
+        <description action="append">
+          Note: This parameter was changed to readWrite in the Device 2.19 version.
+        </description>
+      </parameter>
+    </object>
+
+
+
+    <!-- override versions for interface components added in 2.18 -->
+    <object base="Device.ATM.Link.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.Ethernet.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.Ethernet.Link.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.Ethernet.LAG.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.Ethernet.VLANTermination.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.IP.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+    <object base="Device.Optical.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.18"/>
+    </object>
+
+    <!-- override versions for interface components added in 2.19 -->
+    <object base="Device.DSL.Line.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.DSL.Channel.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.DSL.BondingGroup.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.FAST.Line.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.Cellular.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.DOCSIS.Downstream.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.DOCSIS.Upstream.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.DOCSIS.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.PTM.Link.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.USB.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.HPNA.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.MoCA.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.Ghn.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.HomePlug.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.UPA.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.WiFi.Radio.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.WiFi.SSID.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.ZigBee.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.Bridging.Bridge.{i}.Port.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.PPP.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.GRE.Tunnel.{i}.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.L2TPv3.Tunnel.{i}.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.VXLAN.Tunnel.{i}.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.MAP.Domain.{i}.Interface.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.FWE.Link.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.Logical.Interface.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+    <object base="Device.XPON.ONU.{i}.EthernetUNI.{i}.Stats.">
+      <parameter base="Reset" version="2.19"/>
+    </object>
+
     <component ref="WiFiCWMP"/>
 
     <component ref="ETSIM2M"/>
@@ -4346,6 +4574,8 @@
     <component ref="STOMP" version="2.15"/>
 
     <component ref="MoCACWMP"/>
+
+    <component ref="CollectionDeviceCWMP"/>
 
     <profile name="PacketCaptureDiagnostics:1" dmr:previousProfile=""
         version="2.13">
@@ -4520,7 +4750,7 @@
     </profile>
 
     <profile name="IPLayerCapacityTest:1"
-        dmr:previousProfile="IPLayerCapacity:1" version="2.15" status="deprecated">
+        dmr:previousProfile="IPLayerCapacity:1" version="2.15" status="obsoleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
       </object>
@@ -4533,7 +4763,7 @@
             requirement="readOnly"/>
         <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
         <parameter ref="Role" requirement="readWrite"/>
-        <parameter ref="Host" requirement="readOnly" status="deprecated"/>
+        <parameter ref="Host" requirement="readOnly" status="obsoleted"/>
         <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
         <parameter ref="DSCP" requirement="readWrite"/>
         <parameter ref="TestType" requirement="readWrite"/>
@@ -5462,99 +5692,6 @@
         </description>
         <parameter ref="LocalInterfaceIdentifier" requirement="readOnly"/>
         <parameter ref="RemoteInterfaceIdentifier" requirement="readOnly"/>
-      </object>
-    </profile>
-
-    <profile name="DHCPv4Client:1" version="2.0"
-        dmr:previousProfile="IEEE8021xAuthentication:2">
-      <object ref="Device.DHCPv4." requirement="present">
-        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv4.Client.{i}." requirement="createDelete">
-        <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Interface" requirement="readWrite"/>
-        <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Renew" requirement="readWrite"/>
-        <parameter ref="IPAddress" requirement="readOnly"/>
-        <parameter ref="SubnetMask" requirement="readOnly"/>
-        <parameter ref="IPRouters" requirement="readOnly"/>
-        <parameter ref="DNSServers" requirement="readOnly"/>
-        <parameter ref="LeaseTimeRemaining" requirement="readOnly"/>
-        <parameter ref="DHCPServer" requirement="readOnly"/>
-        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
-        <parameter ref="ReqOptionNumberOfEntries" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv4.Client.{i}.SentOption.{i}."
-          requirement="createDelete">
-        <description>
-          This table is REQUIRED to support sending of option 60 (Vendor Class
-          Identifier) and option 77 (User Class Identifier) values.
-        </description>
-        <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Tag" requirement="readWrite"/>
-        <parameter ref="Value" requirement="readWrite"/>
-      </object>
-      <object ref="Device.DHCPv4.Client.{i}.ReqOption.{i}."
-          requirement="createDelete">
-        <description>
-          This table is REQUIRED to support requesting of option 60 (Vendor
-          Class Identifier), option 61 (Client Identifier) and option 77 (User
-          Class Identifier) values.
-        </description>
-        <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Order" requirement="readWrite"/>
-        <parameter ref="Tag" requirement="readWrite"/>
-        <parameter ref="Value" requirement="readOnly"/>
-      </object>
-    </profile>
-
-    <profile name="DHCPv6Client:1"
-        dmr:previousProfile="DHCPv4ServerClientInfo:1" version="2.2">
-      <object ref="Device.DHCPv6." requirement="present">
-        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
-        <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Status" requirement="readOnly"/>
-        <parameter ref="Interface" requirement="readWrite"/>
-        <parameter ref="DUID" requirement="readOnly"/>
-        <parameter ref="RequestAddresses" requirement="readWrite"/>
-        <parameter ref="RequestPrefixes" requirement="readWrite"/>
-        <parameter ref="RapidCommit" requirement="readWrite"/>
-        <parameter ref="Renew" requirement="readWrite"/>
-        <parameter ref="SuggestedT1" requirement="readWrite"/>
-        <parameter ref="SuggestedT2" requirement="readWrite"/>
-        <parameter ref="SupportedOptions" requirement="readOnly"/>
-        <parameter ref="RequestedOptions" requirement="readWrite"/>
-        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
-        <parameter ref="ReceivedOptionNumberOfEntries" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv6.Client.{i}.SentOption.{i}."
-          requirement="createDelete">
-        <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="Tag" requirement="readWrite"/>
-        <parameter ref="Value" requirement="readWrite"/>
-      </object>
-      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
-          requirement="present">
-        <parameter ref="Tag" requirement="readOnly"/>
-        <parameter ref="Value" requirement="readOnly"/>
-      </object>
-    </profile>
-
-    <profile name="DHCPv6ClientServerIdentity:1" extends="DHCPv6Client:1"
-        dmr:previousProfile="DHCPv6Client:1" version="2.2">
-      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
-        <parameter ref="ServerNumberOfEntries" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv6.Client.{i}.Server.{i}." requirement="present">
-        <parameter ref="SourceAddress" requirement="readOnly"/>
-        <parameter ref="DUID" requirement="readOnly"/>
-        <parameter ref="InformationRefreshTime" requirement="readOnly"/>
-      </object>
-      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
-          requirement="present">
-        <parameter ref="Server" requirement="readOnly"/>
       </object>
     </profile>
 

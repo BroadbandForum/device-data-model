@@ -1,34 +1,20 @@
-make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
-yq eval ../../../install/cwmp/dm-units.yaml
-yq eval ../../../install/projectyaml/WT-232/PROJECT.yaml
-yq eval ../../../install/projectyaml/DTP-069/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-140/PROJECT.yaml
-yq eval ../../../install/projectyaml/DTP-469/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-181/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-369/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-104/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-124/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-135/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-157/PROJECT.yaml
-yq eval ../../../install/projectyaml/usp-data-models/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-098/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-262/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-106/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-143/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-069/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-196/PROJECT.yaml
-yq eval ../../../install/projectyaml/cwmp-data-models/PROJECT.yaml
+make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
 yq eval ../../../install/pandoc/metadata/bbf-metadata.yaml
 yq eval ../../../install/pandoc/metadata/no-title-metadata.yaml
-yq eval ../../../install/pandoc/defaults/common-defaults.yaml
-yq eval ../../../install/pandoc/defaults/html-defaults.yaml
-yq eval ../../../install/pandoc/defaults/pdf-defaults.yaml
-yq eval ../../../install/pandoc/defaults/typst-defaults.yaml
-yq eval ../../../install/pandoc/defaults/json-defaults.yaml
-yq eval ../../../install/pandoc/defaults/docx-defaults.yaml
-yq eval ../../../install/pandoc/defaults/_codebraid_preview.yaml
 yq eval ../../../install/pandoc/defaults/htm-defaults.yaml
+yq eval ../../../install/pandoc/defaults/html-defaults.yaml
+yq eval ../../../install/pandoc/defaults/_codebraid_preview.yaml
 yq eval ../../../install/pandoc/defaults/codebraid-defaults.yaml
+yq eval ../../../install/pandoc/defaults/common-defaults.yaml
+yq eval ../../../install/pandoc/defaults/typst-defaults.yaml
+yq eval ../../../install/pandoc/defaults/docx-defaults.yaml
+yq eval ../../../install/pandoc/defaults/pdf-defaults.yaml
+yq eval ../../../install/pandoc/defaults/json-defaults.yaml
+yq eval ../../../install/pandoc/csl/itu-extra-csl.yaml
+yq eval ../../../install/pandoc/csl/ansi-extra-csl.yaml
+yq eval ../../../install/pandoc/csl/gsma-extra-csl.yaml
+yq eval ../../../install/pandoc/csl/sff-extra-csl.yaml
+yq eval ../../../install/pandoc/csl/w3c-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/ieee-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/iso-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/iana-extra-csl.yaml
@@ -36,12 +22,27 @@ yq eval ../../../install/pandoc/csl/grpc-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/mef-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/ietf-extra-csl.yaml
 yq eval ../../../install/pandoc/csl/3gpp-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/ansi-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/itu-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/w3c-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/sff-extra-csl.yaml
-make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
-make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
+yq eval ../../../install/projectyaml/WT-135/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-106/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-262/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-098/PROJECT.yaml
+yq eval ../../../install/projectyaml/DTP-069/PROJECT.yaml
+yq eval ../../../install/projectyaml/cwmp-data-models/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-196/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-232/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-104/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-124/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-140/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-181/PROJECT.yaml
+yq eval ../../../install/projectyaml/DTP-469/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-369/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-157/PROJECT.yaml
+yq eval ../../../install/projectyaml/usp-data-models/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-143/PROJECT.yaml
+yq eval ../../../install/projectyaml/WT-069/PROJECT.yaml
+yq eval ../../../install/cwmp/dm-units.yaml
+make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
+make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
 'CNAME' -> '../docs/CNAME'
 rm -f ../docs/index.md
 sed -e'<relocate-image-links>' main/00-front-matter.md >>../docs/index.md
@@ -78,14 +79,15 @@ sed -e'<relocate-image-links>' appendices/21-5g-theory-of-operation.md >>../docs
 sed -e'<relocate-image-links>' appendices/22-data-elements-theory-of-operations.md >>../docs/index.md
 sed -e'<relocate-image-links>' appendices/23-logical-interfaces-theory-of-operations.md >>../docs/index.md
 sed -e'<relocate-image-links>' appendices/24-mtu-configuration.md >>../docs/index.md
+sed -e'<relocate-image-links>' appendices/25-3gpp-nas-theory-of-operation.md >>../docs/index.md
 sed -e'<relocate-image-links>' appendices/99-back-matter.md >>../docs/index.md
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/css/release.css >../docs/release.css
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/json-defaults.yaml >../docs/json-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/docx-defaults.yaml >../docs/docx-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/pdf-defaults.yaml >../docs/pdf-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/typst-defaults.yaml >../docs/typst-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-template.typ >../docs/typst-template.typ
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-stringify.typ >../docs/typst-stringify.typ
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/css/release.css >../docs/release.css
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/json-defaults.yaml >../docs/json-defaults.yaml
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/docx-defaults.yaml >../docs/docx-defaults.yaml
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/pdf-defaults.yaml >../docs/pdf-defaults.yaml
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/typst-defaults.yaml >../docs/typst-defaults.yaml
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-template.typ >../docs/typst-template.typ
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-147)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-stringify.typ >../docs/typst-stringify.typ
 '../../../install/pandoc/css/bbf.css' -> '../docs/bbf.css'
 '../../../install/pandoc/css/bbflogo-bw.png' -> '../docs/bbflogo-bw.png'
 '../../../install/pandoc/css/bbflogo-reverse-dark.png' -> '../docs/bbflogo-reverse-dark.png'
@@ -117,6 +119,7 @@ sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.18-137
 'images/device-user-configuration-restore.png' -> '../docs/images/device-user-configuration-restore.png'
 'images/device.fwe-objects.png' -> '../docs/images/device.fwe-objects.png'
 'images/device.pdu-objects.png' -> '../docs/images/device.pdu-objects.png'
+'images/device.sessionmanagement-objects.png' -> '../docs/images/device.sessionmanagement-objects.png'
 'images/device.wwc-objects.png' -> '../docs/images/device.wwc-objects.png'
 'images/etsi-high-level-functional-architecture.png' -> '../docs/images/etsi-high-level-functional-architecture.png'
 'images/etsi-m2m-data-model-structure.png' -> '../docs/images/etsi-m2m-data-model-structure.png'
@@ -209,5 +212,29 @@ pandoc --data-dir=../../../install/pandoc/ --defaults=html-defaults.yaml   --css
 pandoc --data-dir=../../../install/pandoc/ --defaults=../docs/docx-defaults.yaml --toc ../docs/index.json --output=../docs/index.docx
 pandoc --data-dir=../../../install/pandoc/ --defaults=../docs/typst-defaults.yaml ../docs/index.json --output=../docs/index.typ
 typst compile ../docs/index.typ ../docs/index.pdf
-'../docs/index.pdf' -> '../docs/WT-181-release-2.18-137.pdf'
-make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
+warning: unknown font family: arial
+    ┌─ ../docs/typst-template.typ:379:17
+    │
+379 │            font: font,
+    │                  ^^^^
+
+warning: image contains foreign object
+    ┌─ ../docs/index.typ:159:34
+    │
+159 │     let (width, height) = measure(image(..args))
+    │                                   ^^^^^^^^^^^^^
+    │
+    = hint: SVG images with foreign objects might render incorrectly in typst
+    = hint: see https://github.com/typst/typst/issues/1421 for more information
+
+warning: image contains foreign object
+    ┌─ ../docs/index.typ:174:6
+    │
+174 │       image(..args, width: new_width, height: new_height)
+    │       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    │
+    = hint: SVG images with foreign objects might render incorrectly in typst
+    = hint: see https://github.com/typst/typst/issues/1421 for more information
+
+'../docs/index.pdf' -> '../docs/WT-181-release-2.19-147.pdf'
+make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-alpha/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'

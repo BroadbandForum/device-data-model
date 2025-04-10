@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-routing"
-    file="tr-181-2-18-0-routing.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-routing"
+    file="tr-181-2-19-0-routing.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -164,7 +164,7 @@
 
         In addition to statically configured routes, this table MUST include
         dynamic routes learned through layer 3 routing protocols, including RIP
-        (i.e. RIP version 2), OSPF, DHCPv4, 3GPP-NAS and IPCP. The CPE MAY reject
+        (i.e. RIP version 2), OSPF, DHCPv4, 3GPP-NAS (3GPP Non Access Stratum) and IPCP. The CPE MAY reject
         attempts to delete or modify a dynamic route entry.
 
         For each incoming packet, the layer 3 forwarding decision is
@@ -1974,7 +1974,7 @@
           <boolean/>
         </syntax>
       </parameter>
-      <parameter name="KeyValue" access="writeOnceReadOnly">
+      <parameter name="KeyValue" access="readWrite">
         <description>
           The value of the MAC key. This value is immutable, once written. This
           value is of a length suitable for the associated
@@ -2053,7 +2053,7 @@
         <parameter ref="Alias"/>
       </uniqueKey>
       <component ref="Alias"/>
-      <parameter name="CertValue" access="writeOnceReadOnly">
+      <parameter name="CertValue" access="readWrite">
         <description>
           The DTLS certificate in PEM format {{bibref|RFC7468}}. This value is
           immutable, once written.
@@ -2076,7 +2076,7 @@
           </string>
         </syntax>
       </parameter>
-      <parameter name="CertPrivateKey" access="writeOnceReadOnly">
+      <parameter name="CertPrivateKey" access="readWrite">
         <description>
           The private key of the certificate. {{param}} is only given a value
           if the certificate belongs to this device. If {{param}} is non-empty,
@@ -2176,7 +2176,7 @@
     </profile>
   </component>
 
-  <model name="Routing:2.18">
+  <model name="Routing:2.19">
     <component ref="Root"/>
     <component ref="Routing"/>
     <component ref="BabelRoutingProtocol"/>

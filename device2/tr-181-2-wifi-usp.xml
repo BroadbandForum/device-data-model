@@ -58,8 +58,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi-usp"
-    file="tr-181-2-18-0-wifi-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi-usp"
+    file="tr-181-2-19-0-wifi-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,7 +73,7 @@
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-19-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
     <component name="SpatialReuse"/>
@@ -99,7 +99,7 @@
 
       <parameter name="OperatingClass" mandatory="true" access="readOnly">
         <description>
-          The Operating Class per {{bibref|802.11-2020|Table E-4}} of the
+          The Operating Class per {{bibref|802.11ax|Table E-4}} of the
           OpClass and Channel tuple scanned by the Radio. Note that the
           Operating Class identifies the band and channel width. For 2.4GHz and
           5GHz bands, only 20MHz Operating Classes are valid.
@@ -582,7 +582,7 @@
 
         <parameter name="OpClass">
           <description>
-            The Operating Class per {{bibref|802.11-2020|Table E-4}}. For 2.4GHz
+            The Operating Class per {{bibref|802.11ax|Table E-4}}. For 2.4GHz
             and 5GHz bands, only 20MHz Operating Classes are valid. If this input
             is not provided, then all available opclasses and channels are to
             be scanned.
@@ -839,7 +839,7 @@
 
         <parameter name="OperatingClass" mandatory="true">
           <description>
-            The Operating Class per {{bibref|802.11-2020|Table E-4}} of the
+            The Operating Class per {{bibref|802.11ax|Table E-4}} of the
             radio. Note that the Operating Class identifies the band and
             channel width.
           </description>
@@ -1243,6 +1243,19 @@
           </syntax>
         </parameter>
 
+      <parameter name="Type" version="2.19">
+        <description>
+          Human-readable name for this {{object}}.
+          For example {{param}} could be one of Primary, Home, Guest, Public,
+          Private, Children, Video, or Backhaul.
+
+          This parameter is ignored if it is not provided.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
       </input>
 
       <output>
@@ -1324,7 +1337,7 @@
       <input>
         <parameter name="OpClass" mandatory="true">
           <description>
-            The Operating Class per {{bibref|802.11-2020|Table E-4}}.
+            The Operating Class per {{bibref|802.11ax|Table E-4}}.
 
             Note that the operating class identifies the band and channel
             width.
@@ -1685,7 +1698,7 @@
         <parameter name="TargetBSSOperatingClass">
           <description>
             The Target BSS Operating Class per
-            {{bibref|802.11-2020|Table E-4}}.
+            {{bibref|802.11ax|Table E-4}}.
 
             If the {{param|TargetBSSID}} is set to "Wildcard BSSID", then this
             is ignored.
@@ -1730,6 +1743,87 @@
           </syntax>
         </parameter>
 
+      </output>
+    </command>
+  </component>
+
+  <component name="ChannelSelectionRequest">
+    <command name="ChannelSelectionRequest()" async="true" version="2.19">
+      <description>
+        Request to set the channel on a radio.
+        This command triggers an EasyMesh controller to send a Channel
+        Selection Request message {{bibref|EasyMesh|Section 8.2}}.
+      </description>
+      <input>
+
+        <object name="Class.{i}." minEntries="1" maxEntries="unbounded"
+            version="2.19">
+          <description>
+            This object contains a table of requested operating classes
+            {{bibref|EasyMesh|17.2.13}}.
+          </description>
+
+          <parameter name="OpClass">
+            <description>
+              The Operating Class per {{bibref|802.11ax|Table E-4}}.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <range maxInclusive="255"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+        </object>
+
+        <object name="Class.{i}.Channel.{i}." minEntries="1" maxEntries="unbounded"
+            version="2.19">
+          <description>
+            This object contains a table of requested 
+            channels and channel preferences {{bibref|EasyMesh|17.2.13}}.
+          </description>
+          <parameter name="Channel">
+            <description>
+              Single channel number of an available channel in the given
+              operating class.
+            </description>
+            <syntax>
+              <list/>
+              <unsignedInt>
+                <range maxInclusive="255"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="Preference">
+            <description>
+              The  preference for this channel,
+              as defined in {{bibref|EasyMesh|17.2.13}}.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <range maxInclusive="15"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+        </object>
+
+      </input>
+
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of this command to send an
+            AP Metrics Query Message. {{enum}}
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Invalid_Input"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
       </output>
     </command>
   </component>
@@ -1785,6 +1879,8 @@
       <description>
         This command represents a request to initiate a throughput (speed)
         test from a BSS to a STA.
+
+        This command should populate {{object|ThroughputTestResult}}.
       </description>
       <input>
         <parameter name="STAMACAddress">
@@ -1879,6 +1975,8 @@
         test set from a BSS to a STA. Each latency test set includes a
         number of individual echo tests. Each echo test result provides
         a sample of round-trip time.
+
+        This command should populate {{object|LatencyTestResult}}.
       </description>
       <input>
         <parameter name="STAMACAddress">
@@ -2052,6 +2150,458 @@
     </command>
   </component>
 
+  <component name="SetEHTOperations">
+    <command name="SetEHTOperations()" async="true" version="2.19">
+      <description>
+        This command configures Extremely High Throughput (EHT, aka Wi-Fi 7)
+        operations for this BSS 
+        {{bibref|EasyMesh|Section 17.2.103 EHT Operations TLV}}.
+      </description>
+      <input>
+        <parameter name="EHTDefaultPEDuration">
+          <description>
+            Bit 2 of EHT Operation Parameters field as per
+            {{bibref|802.11be|Figure 9-1001b}}.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range maxInclusive="1"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+        <parameter name="GroupAddressedBUIndicationLimit">
+          <description>
+            Bit 3 of EHT Operation Parameters field as per 
+            {{bibref|802.11be|Figure 9-1001b}}.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range maxInclusive="1"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+        <parameter name="GroupAddressedBUIndicationExponent">
+          <description>
+            Bits 4-5 of EHT Operation Parameters field as per
+            {{bibref|802.11be|Figure 9-1001b}}.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range maxInclusive="4"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+        <parameter name="BasicEHTMCSAndNssSet">
+          <description>
+            See EHT Operation element Basic EHT-MCS And Nss Set as per
+            {{bibref|802.11be|Figure 9-1001a}}.
+          </description>
+          <syntax>
+            <hexBinary>
+              <size minLength="4" maxLength="4"/>
+            </hexBinary>
+          </syntax>
+        </parameter>
+        <parameter name="Control">
+          <description>
+            See EHT Operation Information field as per
+            {{bibref|802.11be|Figure 9-1001c}}.
+          </description>
+          <syntax>
+            <hexBinary>
+              <size minLength="1" maxLength="1"/>
+            </hexBinary>
+          </syntax>
+        </parameter>
+        <parameter name="CCFS0">
+          <description>
+            See EHT Operation Information field as per 
+            {{bibref|802.11be|Figure 9-1001c}}.
+          </description>
+          <syntax>
+            <hexBinary>
+              <size minLength="1" maxLength="1"/>
+            </hexBinary>
+          </syntax>
+        </parameter>
+        <parameter name="CCFS1">
+          <description>
+            See EHT Operation Information field as per 
+            {{bibref|802.11be|Figure 9-1001c}}.
+          </description>
+          <syntax>
+            <hexBinary>
+              <size minLength="1" maxLength="1"/>
+            </hexBinary>
+          </syntax>
+        </parameter>
+        <parameter name="DisabledSubchannelBitmap">
+          <description>
+            Disabled Subchannel Bitmap subfield in EHT Operation Information
+            field as per {{bibref|802.11be|Figure 9-1001c}}.
+            This enables subchannel puncturing.
+          </description>
+          <syntax>
+            <hexBinary>
+              <size minLength="1" maxLength="1"/>
+            </hexBinary>
+          </syntax>
+        </parameter>
+      </input>
+
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of this command to configure
+            Extremely High Throughput (EHT, aka Wi-Fi 7). {{enum}}
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Invalid_Input"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+
+  <component name="RefreshAPMetrics">
+    <command name="RefreshAPMetrics()" async="true" version="2.19">
+      <description>
+        This command triggers an EasyMesh controller to send a AP Metrics
+        Query Message to an EasyMesh Agent, which triggers the EasyMesh
+        Agent to send AP metrics and (optionally) radio metrics back.
+        {{bibref|EasyMesh|Section 10.2.1}}.
+      </description>
+      <input>
+        <parameter name="RUID">
+          <description>
+            Radio unique identifier (RUID).
+            Inclusion of this parameter indicates that radio metrics
+            are requested.
+          </description>
+          <syntax>
+            <base64/>
+          </syntax>
+        </parameter>
+      </input>
+
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of this command to send an
+            AP Metrics Query Message. {{enum}}
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Invalid_Input"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+
+  <component name="SetQoSManagement">
+    <command name="SetQoSManagement()" async="true" version="2.19">
+      <description>
+        This command configures the Wi-Fi QoS Management settings of this BSS.
+        {{bibref|EasyMesh|Section 20}}.
+
+        This command should populate {{object|SetQoSManagementInput}}.
+      </description>
+
+      <input>
+        <parameter name="QosMapEnable">
+          <description>
+            Indicates whether QoS Map is enabled on this BSS.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="MSCSEnable">
+          <description>
+            Indicates whether Mirrored Stream Classification Service (MSCS)
+            is enabled on this BSS.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="SCSEnable">
+          <description>
+            Indicates whether Stream Classification Service (SCS)
+            is enabled on this BSS.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="DSCPPolicyEnable">
+          <description>
+            Indicates whether DSCP Policy is enabled on this BSS.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="SCSTrafficDescriptionEnable">
+          <description>
+            Indicates whether the extensions to SCS using Traffic Descriptions
+            is enabled on this BSS.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+      </input>
+
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of this command to configure the
+            Wi-Fi QoS Management settings of this BSS.{{enum}}
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Invalid_Input"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+
+  </component>
+
+  <component name="AgentOnboard">
+
+      <event name="AgentOnboard!" version="2.19">
+        <description>
+          This reports an EasyMesh Agent Onboarding event
+          {{bibref|EasyMesh|Section 5}}.
+        </description>
+
+      <parameter name="DeviceID">
+        <description>
+          A unique identifier for this onboarded device within the Wi-Fi
+          network.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BackhaulSta">
+        <description>
+          The MAC address of the interface on this onboarded device providing
+          backhaul to this device.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BackhaulMACAddress">
+        <description>
+          The MAC address of the interface on the network that is providing
+          the backhaul for this EasyMesh Agent. For Wi-Fi backhaul, this
+          is the BSSID or AP MLD address of the backhaul BSS.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BackhaulALID">
+        <description>
+          The IEEE 1905 {{bibref|IEEE1905.1a}} Abstraction-Layer ID (ALID)
+          of the EasyMesh Agent on the network that is
+          providing the backhaul for this EasyMesh Agent.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+    </event>
+  </component>
+
+  <component name="SteeringBTMReport">
+
+    <event name="ControllerBTMSteer!" version="2.19">
+      <description>
+        This event provides a steering BTM report, due to a
+        controller-initiated BTM client steer
+        {{bibref|EasyMesh|Section 17.2.30, Steering BTM Report TLV}}.
+      </description>
+
+      <parameter name="BSSID">
+        <description>
+          Unique identifier of the source BSS or AP_MLD_MAC_Addr for which
+          the steering BTM report applies.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="STAMAC">
+        <description>
+          STA MAC address or STA MLD MAC address for which the steering BTM
+          report applies.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BTMStatusCode">
+        <description>
+          Indicates the value of the BTM Status Code as reported by the STA
+          in the BTM Response {{bibref|802.11-2020|Table 9-42}}.
+          {{enum}}
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Accept">
+              <description>Accept (note that the STA may not have actually
+              reassociated with this code)</description>
+            </enumeration>
+            <enumeration value="Reject_Unspecified">
+              <description>Reject—Unspecified reject reason</description>
+            </enumeration>
+            <enumeration value="Reject_Insufficient_Response">
+              <description>Reject—Insufficient Beacon or Probe Response frames
+              received from all candidates</description>
+            </enumeration>
+            <enumeration value="Reject_Insufficient_Capacity">
+              <description>Reject—Insufficient available capacity from all
+              candidates.</description>
+            </enumeration>
+            <enumeration value="Reject_Undesired">
+              <description>Reject—BSS termination undesired.</description>
+            </enumeration>
+           <enumeration value="Reject_Delay">
+              <description>Reject—BSS termination delay requested.</description>
+            </enumeration>
+           <enumeration value="Reject_STA_List">
+              <description>Reject—STA BSS Transition Candidate List provided.
+              </description>
+            </enumeration>
+           <enumeration value="Reject_No_BSS">
+              <description>Reject—No suitable BSS transition candidates.
+              </description>
+          </enumeration>
+           <enumeration value="Reject_Leaving_ESS">
+              <description>Reject—Leaving ESS.</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+    </event>
+  </component>
+
+  <component name="BackhaulChange">
+
+    <event name="BackhaulChange!" version="2.19">
+      <description>
+       Event containing the response to a Backhaul Steering Request.
+       {{bibref|EasyMesh}}
+      </description>
+        
+      <parameter name="MACAddress">
+        <description>
+          The MAC address of the associated backhaul STA or bSTA MLD operated
+          by the Multi-AP Agent {{bibref|EasyMesh|Section 17.2.33, Backhaul
+          steering response TLV}}.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TargetBSSID">
+        <description>
+          The BSSID of the target BSS or the AP Multi-Link Device (MLD)
+          MAC Address {{bibref|EasyMesh|Section 17.2.33, Backhaul
+          steering response TLV}}.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ResultCode">
+        <description>
+          Indicates the value of the Result Code
+          {{bibref|EasyMesh|Section 17.2.33, Backhaul steering response TLV}}.
+          {{enum}} 
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Success"/>
+            <enumeration value="Failure"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ReasonCode">
+        <description>
+          Indicates the value of the Reason Code
+          {{bibref|EasyMesh|Section 17.2.36, Error Code TLV}}.
+          {{enum}}
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Associated">
+              <description>STA associated with a BSS operated by
+                the Multi-AP Agent.</description>
+            </enumeration>
+            <enumeration value="Not_Associated">
+              <description>STA not associated with any BSS operated
+                by the Multi-AP Agent.</description>
+            </enumeration>
+            <enumeration value="Capability_Report_Failure">
+              <description>Client capability report unspecified failure.
+              </description>
+            </enumeration>
+            <enumeration value="Reject_Channel">
+              <description>Backhaul steering request rejected because the
+                backhaul STA cannot operate on the channel specified.
+              </description>
+            </enumeration>
+            <enumeration value="Reject_Weak">
+              <description>Backhaul steering request rejected because the
+                target BSS signal is too weak or not found.
+              </description>
+            </enumeration>
+            <enumeration value="Reject_Association">
+              <description>Backhaul steering request authentication or
+                association rejected by the target BSS.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+    </event>
+  </component>
+
   <component name="WiFiUSP">
 
     <component ref="PreferredBackhauls"/>
@@ -2064,6 +2614,8 @@
       <component ref="SetSSID"/>
       <component ref="SetMSCSDisallowed"/>
       <component ref="SetSCSDisallowed"/>
+      <component ref="SteeringBTMReport"/>
+      <component ref="AgentOnboard"/>
     </object>
 
     <object base="Device.WiFi.DataElements.Network.Device.{i}."
@@ -2072,6 +2624,8 @@
       <component ref="SetDFSState"/>
       <component ref="SetAnticipatedChannelPreference"/>
       <component ref="InitiateWPSPBC"/>
+      <component ref="RefreshAPMetrics"/>
+      <component ref="BackhaulChange"/>
     </object>
 
     <object base="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}."
@@ -2081,6 +2635,7 @@
       <component ref="SetTxPowerLimit"/>
       <component ref="SetSpatialReuse"/>
       <component ref="WiFiRestart"/>
+      <component ref="ChannelSelectionRequest"/>
     </object>
 
     <object
@@ -2089,6 +2644,8 @@
       <component ref="SetQMDescriptors"/>
       <component ref="ThroughputTest"/>
       <component ref="LatencyTest"/>
+      <component ref="SetEHTOperations"/>
+      <component ref="SetQoSManagement"/>
     </object>
 
     <object
@@ -2506,6 +3063,7 @@
       </command>
 
     </object>
+
   </component>
 
   <model name="WiFiUSP:2.16">

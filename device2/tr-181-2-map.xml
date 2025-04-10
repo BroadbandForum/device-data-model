@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-map"
-    file="tr-181-2-18-0-map.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-map"
+    file="tr-181-2-19-0-map.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -72,6 +72,29 @@
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="BaseInterfaceParams"/>
+    <component name="BaseInterfaceParamsAddDefaults"/>
+    <component name="Layer3InterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer3InterfaceStats"/>
+  </import>
+
+  <component name="Layer3InterfaceSingleInstance">
+    <object name="Interface." version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
+      <component ref="Layer3InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer3InterfaceStats"/>
+    </object>
+  </component>
 
   <component name="MAP">
 
@@ -391,6 +414,8 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+
+      <component ref="Layer3InterfaceSingleInstance" version="2.8"/>
     </object>
 
     <object name="Device.MAP.Domain.{i}.Rule.{i}." access="readWrite"
@@ -604,302 +629,24 @@
       </parameter>
     </object>
 
-    <object name="Device.MAP.Domain.{i}.Interface." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.8">
-      <description>
+    <object base="Device.MAP.Domain.{i}.Interface.">
+      <description action="replace">
         MAP interface (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). This models the LAN side MAP domain
         interface.
       </description>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
       <parameter base="Alias" status="deprecated">
         <description action="append">
           {{deprecated|2.18|because {{object|#}} already has an Alias parameter.}}
         </description>
       </parameter>
 
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface as assigned by the CPE.
+      <parameter base="LowerLayers">
+        <description action="append">
+          Note: Since this interface object is a MAP domain interface, it is expected that
+          {{param}} will not be used.
         </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since this interface object is a MAP domain interface, it is
-          expected that {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-    </object>
-
-    <object name="Device.MAP.Domain.{i}.Interface.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.8">
-      <description>
-        Throughput statistics for this MAP domain interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
-          will never cause this counter to increment.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
-          will never cause this counter to increment.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
     </object>
 
@@ -952,7 +699,7 @@
     </profile>
   </component>
 
-  <model name="MAP:2.18">
+  <model name="MAP:2.19">
     <component ref="Root"/>
     <component ref="MAP"/>
   </model>

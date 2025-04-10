@@ -1,4 +1,8 @@
 # 5G Theory of Operation {.appendix .same-file}
+::: note
+The theory of operation defined in this Appendix is DEPRECATED in favor of the “3GPP NAS” theory of operation defined in Appendix XXV.
+The 3GPP NAS theory of operation takes a more wholistic approach and is inclusive of 3G, 4G and 5G rather than the previous focus on 5G WWC
+:::
 
 This section discusses the Theory of Operation for 5G Wireline Wireless Convergence using CWMP or USP and the supporting Device.WWC, Device.PDU and Device.FWE objects.
 

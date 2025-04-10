@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-leds"
-    file="tr-181-2-18-0-leds.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-leds"
+    file="tr-181-2-19-0-leds.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -115,6 +115,15 @@
       </uniqueKey>
 
       <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite" version="2.19">
+        <description>
+          Switches on or off the power of the LED.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -213,6 +222,17 @@
           bottom (y) as the user looks at the device from the orientation
           identified in the {{param|Location}} parameter in its typical
           orientation (e.g., on-end, flat).
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxBrightness" access="readOnly" version="2.19">
+        <description>
+          The maximum allowed brightness level for the LED.
+
+          This value is determined by the hardware capabilities.
         </description>
         <syntax>
           <unsignedInt/>
@@ -320,6 +340,19 @@
         <syntax>
           <unsignedInt>
             <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Brightness" access="readWrite" version="2.19">
+        <description>
+          The desired brightness level for this element of the cycle period, expressed as a {{units}},
+          relative to the maximum allowed brightness value specified in {{param|#.MaxBrightness}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="100"/>
+            <units value="percentage"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -435,7 +468,7 @@
     </profile>
   </component>
 
-  <model name="LEDs:2.18">
+  <model name="LEDs:2.19">
     <component ref="Root"/>
     <component ref="LEDs"/>
   </model>

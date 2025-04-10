@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [MQTT]
 
-  Copyright (c) 2010-2021,2024, Broadband Forum
+  Copyright (c) 2010-2021,2024 Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-mqtt"
-    file="tr-181-2-18-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-mqtt"
+    file="tr-181-2-19-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -609,6 +609,26 @@
           <string>
             <size minLength="0" maxLength="256"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ALPN" access="readWrite" version="2.19">
+        <description>
+          The supported protocol(s) to be advertised in a TLS handshake
+          using the `Application-Layer Protocol Negotiation (ALPN)`
+          extension as defined in {{bibref|RFC7301}}.
+
+          If the parameter is empty, that is an indication that ALPN is not
+          being used.
+
+          {{template|MQTTReconnect}}
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size minLength="0" maxLength="256"/>
+          </string>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
       <!-- MQTT Connect payload -->
@@ -2299,7 +2319,7 @@
     </profile>
   </component>
 
-  <model name="MQTT:2.18">
+  <model name="MQTT:2.19">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-1-dns"
-    file="tr-181-2-18-1-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-dns"
+    file="tr-181-2-19-0-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -344,7 +344,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           The mechanism via which the Zone was created.
 
@@ -429,7 +429,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           Indicates the owner of the {{object}} instance.
 
@@ -531,7 +531,7 @@
       <description>
         This table contains the DNS Server IP address to be used by the DNS
         Client (it does ''not'' model a DNS Server). Entries are either
-        automatically created as result of DHCP (v4 or v6), IPCP, 3GPP-NAS, or RA
+        automatically created as result of DHCP (v4 or v6), IPCP, 3GPP-NAS (3GPP Non Access Stratum), or RA
         received DNS server information, or are statically configured by the
         Controller.
       </description>
@@ -635,7 +635,7 @@
               <description>
                 Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
                 e.g. PDU Session Establishment Request using the extended Protocol Configuration Options,
-                PDN Connectivity Request using the Protocol Configuration Options, 
+                PDN Connectivity Request using the Protocol Configuration Options,
                 PDP Context Activation Request using the Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}}, ...
                 This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
               </description>
@@ -793,7 +793,7 @@
         minEntries="0" maxEntries="unbounded" version="2.0">
       <description>
         DNS Server forwarding policy to be used by the DNS Relay. Entries are
-        either automatically created as result of DHCP (v4 or v6), IPCP, or RA
+        either automatically created as result of DHCP (v4 or v6), IPCP, 3GPP-NAS (3GPP Non Access Stratum) or RA
         received DNS server information, or are statically configured by the
         Controller.
 
@@ -842,7 +842,7 @@
 
           Note: {{param}} is only writable when {{param|Type}} is
           {{enum|Static|Type}}; otherwise, {{param}} is automatically
-          configured as result of DHCP, IPCP, or RA received DNS server
+          configured as result of DHCP, IPCP, 3GPP-NAS or RA received DNS server
           information.
         </description>
         <syntax>
@@ -859,7 +859,7 @@
 
           Note: {{param}} is only writable when {{param|Type}} is
           {{enum|Static|Type}}; otherwise, {{param}} is automatically
-          configured as result of DHCP, IPCP, or RA received DNS server
+          configured as result of DHCP, IPCP, 3GPP-NAS or RA received DNS server
           information.
         </description>
         <syntax>
@@ -877,8 +877,8 @@
           Method used to assign the {{param|DNSServer}} address. {{enum}}
 
           Table entries that are automatically created as result of DHCP, IPCP,
-          or RA received DNS server information will have {{param}} set to
-          {{enum|DHCPv4}}, {{enum|DHCPv6}}, {{enum|IPCP}}, or
+          3GPP-NAS, or RA received DNS server information will have {{param}} set to
+          {{enum|DHCPv4}}, {{enum|DHCPv6}}, {{enum|IPCP}}, {{enum|3GPP-NAS}}, or
           {{enum|RouterAdvertisement}}, as the case may be. Manually created
           table entries will have their {{param}} set to {{enum|Static}}.
         </description>
@@ -896,6 +896,15 @@
             <enumeration value="DHCPv6"/>
             <enumeration value="RouterAdvertisement"/>
             <enumeration value="IPCP"/>
+            <enumeration value="3GPP-NAS" version="2.19">
+              <description>
+                Assigned by the core network (fixed or cellular) using 3GPP NAS signalling methods.
+                e.g. PDU Session Establishment Request using the extended Protocol Configuration Options,
+                PDN Connectivity Request using the Protocol Configuration Options,
+                PDP Context Activation Request using the Protocol Configuration Options {{bibref|3GPP-TS.24.008|clause 10.5.6.3}}, ...
+                This information is available from the AT commands {{bibref|3GPP-TS.27.007|Clause 10.1.23}} PDP context read dynamic parameters +CGCONTRDP.
+              </description>
+            </enumeration>
             <enumeration value="Static"/>
           </string>
           <default type="object" value="Static"/>
@@ -919,7 +928,7 @@
         devices.
 
         Upon reboot the the contents of the service table are repopulated. When
-        the DNS.SD service is disabled, the contents of the service table is
+        the DNS-SD service is disabled, the contents of the service table is
         implementation specific.
       </description>
 
@@ -930,6 +939,29 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly" version="2.19">
+        <description>The status of the DNS service discovery.</description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                Indicates that the DNS-SD service is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>
+                Indicates that the DNS-SD service is enabled.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                MAY be used to define an error condition.
+              </description>
+            </enumeration>
+          </string>
         </syntax>
       </parameter>
 
@@ -951,7 +983,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="AdvertisedInterfaces" access="readWrite" status="deprecated" version="2.12">
+      <parameter name="AdvertisedInterfaces" access="readWrite" status="obsoleted" version="2.12">
         <description>
           {{reference|the {{object|##.IP.Interface}} object instance from which
           DNS-SD services are advertised}}
@@ -960,6 +992,8 @@
           services are advertised on all LAN interfaces.
 
           {{deprecated|2.17|in favor of {{param|Advertise.{i}.Interface}}}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <list/>
@@ -1491,7 +1525,7 @@
     </profile>
   </component>
 
-  <model name="DNS:2.18">
+  <model name="DNS:2.19">
     <component ref="Root"/>
     <component ref="DNS"/>
   </model>

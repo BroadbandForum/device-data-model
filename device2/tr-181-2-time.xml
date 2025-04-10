@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-time"
-    file="tr-181-2-18-0-time.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-time"
+    file="tr-181-2-19-0-time.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,6 +69,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-ip.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-ip">
+    <component name="IPVersion"/>
   </import>
 
   <component name="Time">
@@ -123,12 +128,14 @@
                 configure the time of the CPE.
               </description>
             </enumeration>
-            <enumeration value="Error_FailedToSynchronize" status="obsoleted">
+            <enumeration value="Error_FailedToSynchronize" status="deleted">
               <description>
                 {{deprecated|2.16|due to the introduction of
                 {{object|Client}}}}
 
                 {{obsoleted|2.18}}
+
+                {{deleted|2.19}}
               </description>
             </enumeration>
             <enumeration value="Error" optional="true">
@@ -142,13 +149,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer1" access="readWrite" status="obsoleted">
+      <parameter name="NTPServer1" access="readWrite" status="deleted">
         <description>
           First NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -157,13 +166,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer2" access="readWrite" status="obsoleted">
+      <parameter name="NTPServer2" access="readWrite" status="deleted">
         <description>
           Second NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -172,13 +183,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer3" access="readWrite" status="obsoleted">
+      <parameter name="NTPServer3" access="readWrite" status="deleted">
         <description>
           Third NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -187,13 +200,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer4" access="readWrite" status="obsoleted">
+      <parameter name="NTPServer4" access="readWrite" status="deleted">
         <description>
           Fourth NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -202,13 +217,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="NTPServer5" access="readWrite" status="obsoleted">
+      <parameter name="NTPServer5" access="readWrite" status="deleted">
         <description>
           Fifth NTP timeserver. Either a host name or IP address.
 
           {{deprecated|2.16|due to the introduction of {{object|Client}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -303,6 +320,11 @@
                 time; its current time is accurate.
               </description>
             </enumeration>
+            <enumeration value="Error_FailedToSynchronize" version="2.19">
+              <description>
+                The NTP client attempted to contact the remote NTP server but failed to acquire accurate absolute time. The current time remains inaccurate.
+              </description>
+            </enumeration>
             <enumeration value="Error" optional="true">
               <description>
                 MAY be used by the time client to indicate a locally defined
@@ -355,6 +377,21 @@
             <range minInclusive="1" maxInclusive="65535"/>
           </unsignedInt>
           <default type="object" value="123"/>
+        </syntax>
+      </parameter>
+
+      <component ref="IPVersion" version="2.19"/>
+
+      <parameter name="ServerInUse" access="readOnly" version="2.19">
+        <description>
+          Specifies the server currently used for time synchronization.
+          The value reported is the exact server entry as configured in the {{param|Servers}} parameter.
+
+          If the server is specified as a Fully Qualified Domain Name (FQDN) in the {{param|Servers}} parameter,
+          the configured FQDN will be reported here, not the resolved IP address or CNAME.
+        </description>
+        <syntax>
+          <string/>
         </syntax>
       </parameter>
 
@@ -879,14 +916,14 @@
     </object>
 
 
-    <profile name="Time:1" version="2.0" status="obsoleted">
+    <profile name="Time:1" version="2.0" status="deleted">
       <object ref="Device.Time." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Status" requirement="readOnly"/>
         <parameter ref="NTPServer1" requirement="readWrite"
-            status="obsoleted"/>
+            status="deleted"/>
         <parameter ref="NTPServer2" requirement="readWrite"
-            status="obsoleted"/>
+            status="deleted"/>
         <parameter ref="CurrentLocalTime" requirement="readOnly"/>
         <parameter ref="LocalTimeZone" requirement="readWrite"/>
       </object>
@@ -902,7 +939,7 @@
     </profile>
   </component>
 
-  <model name="Time:2.18">
+  <model name="Time:2.19">
     <component ref="Root"/>
     <component ref="Time"/>
   </model>

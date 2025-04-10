@@ -1350,3 +1350,184 @@ Example:
       SourcePrefix = ""
       Enable = 1
 ~~~~~~~
+
+## Firewall logging {.new-page}
+Firewalls monitor network traffic and enforce security policies. To aid in debugging and troubleshooting potential issues, it's possible to capture specific information when certain rules are triggered. These captured details, known as traces, are then written to the kernel log for further analysis.
+
+~~~~~~~
+      [ 1605.521070] Service:IN=eth1 OUT=
+        MAC=ac:91:9b:3a:5d:0c:ba:97:fc:3e:8b:fa:86:dd SRC=fe80:0000:0000:0000:b897:fcff:fe3e:8bfa
+        DST=fe80:0000:0000:0000:ae91:9bff:fe3a:5d0c
+        LEN=200
+        TC=0
+        HOPLIMIT=64
+        FLOWLBL=343962
+        PROTO=UDP
+        SPT=547
+        DPT=546
+        LEN=160
+~~~~~~~
+
+### Logging control in firewall rules
+In modern operating systems firewall rules can be configured to generate log entries when triggered. This section details the mechanism that controls logging behaviour:
+
+1. Log table: Each type of firewall rule (Chain Rule, Service Rule, etc.) can have one or more  `Firewall.Log.{i}.` instances associated. These objects contain configuration options and an `Enable` parameter.
+2. Firewall rule: Each firewall rule also possesses its own "Log" enable parameter that controls if a firewall rule needs to generate a log message or not.
+
+### Enabling firewall logging
+
+For a `Firewall.Log.{i}.` entry to take effect, both of these settings must be `true`:
+
+1.  `Firewall.Log.{i}.Enable`: The `Enable` parameter for the specific log instance.
+2.  `Firewall.Chain.{i}.Rule.{i}.Log`: The `Log` parameter for the specific rule instance.
+
+### Log filtering
+
+The `Firewall.Log` table describes additional filtering and logging policies, that can dynamically add or remove firewall logging statements to and from the operating system.
+
+* `Firewall.Log.{i}.Filter.Policy`: When set to `Denied`, logs are only generated for rules with a `Drop` or `Reject` target. Logs are included regardless of the target when set to `All`.
+* `Firewall.Log.{i}.Filter.SourceInterface`: Matches the source interface specified in the firewall rule (e.g. `Firewall.Chain.{i}.Rule.{i}.SourceInterface`). An empty string means that the source interface will be ignored from a filtering perspective.
+* `Firewall.Log.{i}.Filter.DestinationInterface`: Similar to `Firewall.Log.{i}.Filter.SourceInterface` but filters based on the firewall rule's destination interface (e.g. `Firewall.Chain.{i}.Rule.{i}.DestinationInterface`).
+
+Example:
+Firewall Service instance 22 (Alias: "cpe-httpaccess-Device-IP-Interface-2-v4-8090") is enabled and accepts IPv4 TCP traffic on port 8090 of interface `Device.IP.Interface.2`. Logging is enabled for this service and is configured to use log table instance 2 (Alias: "cpe-logrule1") as additional logging criteria.
+
+~~~~~~~
+      Firewall.Service.22.
+      Firewall.Service.22.Action="Accept"
+      Firewall.Service.22.Alias="cpe-httpaccess-Device-IP-Interface-2-v4-8090"
+      Firewall.Service.22.DestPort="8090"
+      Firewall.Service.22.Enable=1
+      Firewall.Service.22.ICMPType=-1
+      Firewall.Service.22.IPVersion=4
+      Firewall.Service.22.Interface="Device.IP.Interface.2"
+      Firewall.Service.22.Protocol="6"
+      Firewall.Service.22.SourcePrefixes=""
+      Firewall.Service.22.Status="Enabled"
+      Firewall.Service.22.Log=1
+      Firewall.Service.22.LogRef="Firewall.Log.2"
+~~~~~~~
+Log table instance 2 (Alias: "cpe-logrule1") is enabled and logs all allowed traffic originating from interface `Device.IP.Interface.2` with no destination interface restrictions. Log messages are prefixed with "Rule" and have a severity level of "Debug".
+
+~~~~~~~
+      Firewall.Log.2.Alias="cpe-logrule1"
+      Firewall.Log.2.Description="Logs all allowed from interface IP.Interface.2"
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Filter.DestinationInterface=""
+      Firewall.Log.2.Filter.Policy="Allowed"
+      Firewall.Log.2.Filter.SourceInterface="Device.IP.Interface.2"
+      Firewall.Log.2.Severity="Debug"
+      Firewall.Log.2.Prefix="Rule"
+~~~~~~~
+
+### Policy Filtering
+
+Firewall log statements are added to the operating system only when the `Policy` parameter in the Log table matches the policy specified by the firewall rule.
+
+The specific parameter used to represent the firewall policy depends on the firewall concept being configured (e.g., PortMapping, PortTrigger, Policy, Pinhole, DMZ, Service). While this parameter might not always be explicitly defined in the data model, its value is determined by the system's implementation.
+
+For example, firewall rules for PortMapping, PortTrigger, Pinhole and DMZ concepts typically have an implicit "Allow" policy.
+
+#### Firewall Service rules
+For firewall Service rules, the policy is determined by the
+ `Firewall.Service.{i}.Action` parameter.
+
+#### Firewall Policy rules
+For firewall Policy rules, the policy is determined by either `Firewall.Policy.{i}.TargetChain` or `Firewall.Policy.{i}.ReverseTargetChain`, depending on the specified `SourceInterface` and `DestinationInterface`.
+
+#### Firewall Chain rules
+For firewall chain rules, the policy is determined by the `Firewall.Chain.{i}.Rule.{i}.Target` parameter.
+
+### Interface Filtering
+
+Firewall log statements are added to the operating system only when the `SourceInterface` and/or `DestinationInterface` parameters in the Log table match the interface parameters specified by the INTERNAL firewall rule.
+
+The specific interface parameters used for matching depend on the firewall concept being configured (e.g., PortMapping, PortTrigger, Policy, Pinhole, DMZ, Service). While these parameters might not always be explicitly defined in the data model, their values are determined by the system's implementation.
+
+**Note:** The following descriptions provide typical matching patterns. Actual implementations may vary.
+
+#### NAT PortMapping rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.NAT.PortMapping.{i}.Interface` (usually the WAN interface).
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the interface where `Device.NAT.PortMapping.{i}.InternalClient` resides.
+
+#### NAT PortTrigger rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches the LAN interface.
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the WAN interface.
+
+#### Firewall Policy rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.Firewall.Policy.{i}.SourceInterface`.
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches `Device.Firewall.Policy.{i}.DestinationInterface`.
+
+#### Firewall Chain rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.Firewall.Chain.{i}.Rule.{i}.SourceInterface`.
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches `Device.Firewall.Chain.{i}.Rule.{i}.DestinationInterface`.
+
+#### Firewall Pinhole rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.Firewall.Pinhole.{i}.Interface` (usually the WAN interface).
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the interface where `Device.Firewall.Pinhole.{i}.DestIP` resides.
+
+#### Firewall DMZ rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.Firewall.DMZ.{i}.Interface` (usually the WAN interface).
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the interface where `Device.Firewall.DMZ.{i}.DestIP` resides.
+
+#### Firewall Service rules
+* `Firewall.Log.{i}.Filter.SourceInterface` typically matches `Device.Firewall.Service.{i}.Interface` (usually the LAN interface).
+* `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the LAN interface.
+
+
+### Multiple log table reference
+A firewall rule can reference one or more `Firewall.Log.{i}.` instances.
+
+~~~~~~~
+      Firewall.Chain.1.Rule.1.LogRef="Firewall.Log.2, Firewall.Log.3"
+~~~~~~~
+
+The firewall log statements will be activated when either or both Log table references are enabled and when the `Log` parameter on the firewall rule is enabled.
+
+Example: `Firewall.Chain.1.Rule.1.Log` AND ( `Firewall.Log.2.Enable` OR `Firewall.Log.3.Enable`) MUST be `true`.
+
+
+***Syslog level***
+When both Log table references are active and all the filter policies match, the Syslog severity that will be used is determined by the `Severity` parameter. This severity will be the lower of the two severities specified in `Firewall.Log.2` and `Firewall.Log.3`.
+
+Possible Syslog severity levels:
+0. Emergency (Indicates that the system is unusable)
+1. Alert (Indicating that an action must be taken immediately)
+2. Critical (Indicates a critical condition)
+3. Error (Indicates an error condition)
+4. Warning (Indicates a warning condition)
+5. Notice (Indicates a normal but important message)
+6. Informational (Indicates an information message)
+7. Debug (Indicates a debug-level message)
+
+~~~~~~~
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Severity="Warning"
+      ...
+      Firewall.Log.3.Enable=1
+      Firewall.Log.3.Severity="Debug"
+      ...
+~~~~~~~
+
+In the above example the Syslog severity defined in instance `Log.2` is lower than the Syslog severity specified in instance `Log.3` therefore the Syslog severity used for logging is ''Warning''.
+
+***Firewall prefix***
+
+When both Log table references are active, the prefixes can be aggregated.
+
+~~~~~~~
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Prefix="Rule2"
+      ...
+      Firewall.Log.3.Enable=1
+      Firewall.Log.3.Prefix="Rule3"
+      ...
+~~~~~~~
+
+Aggregation example:
+
+~~~~~~~
+
+      "[FW][Rule2,Rule3]:"...
+
+~~~~~~~

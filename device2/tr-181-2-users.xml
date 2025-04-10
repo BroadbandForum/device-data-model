@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-users"
-    file="tr-181-2-18-0-users.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-users"
+    file="tr-181-2-19-0-users.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -230,7 +230,7 @@
       </parameter>
 
       <parameter name="RemoteAccessCapable" access="readWrite"
-          status="obsoleted">
+          status="deleted">
         <description>
           Allows this user to remotely access the UserInterface via the
           mechanism defined in {{object|##.UserInterface.HTTPAccess}}
@@ -240,6 +240,8 @@
           {{param|RoleParticipation}}}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <boolean/>

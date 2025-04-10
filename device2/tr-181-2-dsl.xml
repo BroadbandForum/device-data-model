@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-dsl"
-    file="tr-181-2-18-0-dsl.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-dsl"
+    file="tr-181-2-19-0-dsl.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,6 +68,67 @@
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <import file="tr-181-2-interface.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Line"/>
+    <component name="BaseInterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <component name="Channel">
+    <parameter name="ChannelNumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="Channel.{i}." access="readOnly" numEntriesParameter="ChannelNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+    </object>
+  </component>
+
+  <component name="BondingGroup">
+    <parameter name="BondingGroupNumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="BondingGroup.{i}." access="readOnly" numEntriesParameter="BondingGroupNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
 
   <dataType name="UERComplex">
     <description>
@@ -1191,168 +1252,23 @@
         above the {{object|Channel}} instances within its group.
       </description>
 
-      <parameter name="LineNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ChannelNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BondingGroupNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Line"/>
+      <component ref="Channel"/>
+      <component ref="BondingGroup"/>
     </object>
 
-    <object name="Device.DSL.Line.{i}." access="readOnly"
-        numEntriesParameter="LineNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.DSL.Line.{i}.">
+      <description action="replace">
         DSL Line table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}).
 
         This table models physical DSL lines.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the DSL line.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="EnableDataGathering" access="readWrite" version="2.8">
+      <parameter name="EnableDataGathering" access="readWrite" version="2.8"
+          dmr:previousParameter="Enable">
         <description>
           Enables or disables data gathering on the DSL line.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the DSL line (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the DSL line as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the DSL line entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since {{object}} is a layer 1 interface, it is expected that
-          {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Upstream" access="readOnly">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
         </description>
         <syntax>
           <boolean/>
@@ -2595,108 +2511,7 @@
       </parameter>
     </object>
 
-    <object name="Device.DSL.Line.{i}.Stats." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
+    <object base="Device.DSL.Line.{i}.Stats.">
       <parameter name="TotalStart" access="readOnly" activeNotify="canDeny">
         <description>
           DSL-specific statistic. The Number of {{units}} since the beginning
@@ -3493,112 +3308,15 @@
       </parameter>
     </object>
 
-    <object name="Device.DSL.Channel.{i}." access="readOnly"
-        numEntriesParameter="ChannelNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.DSL.Channel.{i}.">
+      <description action="replace">
         DSL Channel table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}).
 
         This table models DSL channel(s) on top of physical DSL lines.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the channel.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the channel (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the channel as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the channel entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readOnly">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
+      <parameter base="LowerLayers" access="readOnly"/>
 
       <parameter name="LinkEncapsulationSupported" access="readOnly">
         <description>
@@ -3855,108 +3573,7 @@
       </parameter>
     </object>
 
-    <object name="Device.DSL.Channel.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
+    <object base="Device.DSL.Channel.{i}.Stats.">
       <parameter name="TotalStart" access="readOnly" activeNotify="canDeny">
         <description>
           DSL-specific statistic. The Number of {{units}} since the beginning
@@ -4516,10 +4133,8 @@
       </parameter>
     </object>
 
-    <object name="Device.DSL.BondingGroup.{i}." access="readOnly"
-        numEntriesParameter="BondingGroupNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.DSL.BondingGroup.{i}.">
+      <description action="replace">
         DSL bonding group table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Each instance is a bonding group, and
         is expected to be stacked above a {{object|#.Channel}} instance or a
@@ -4532,108 +4147,15 @@
         The DSL bonding data model is closely aligned with {{bibref|TR-159}}.
         Corresponds to {{bibref|TR-159}} ''oBondingGroup''.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
       <uniqueKey functional="true">
         <parameter ref="GroupID"/>
       </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the bonding group.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the bonding group (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the bonding group as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the bonding group entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readOnly">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          {{param}} is read-only for this object because bonding is expected to
+      <parameter base="LowerLayers" access="readOnly">
+        <description action="append">
+         {{param}} is read-only for this object because bonding is expected to
           be configured by the CPE, not by the Controller.
         </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
 
       <parameter name="GroupStatus" access="readOnly">
@@ -4989,191 +4511,7 @@
       </parameter>
     </object>
 
-    <object name="Device.DSL.BondingGroup.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
+    <object base="Device.DSL.BondingGroup.{i}.Stats.">
       <parameter name="TotalStart" access="readOnly" activeNotify="canDeny">
         <description>
           DSL-specific statistic. The Number of {{units}} since the beginning
@@ -6492,7 +5830,7 @@
     </profile>
   </component>
 
-  <model name="DSL:2.18">
+  <model name="DSL:2.19">
     <component ref="Root"/>
     <component ref="DSL"/>
   </model>

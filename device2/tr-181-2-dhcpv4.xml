@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-dhcpv4"
-    file="tr-181-2-18-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-dhcpv4"
+    file="tr-181-2-19-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,6 +70,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-19-stats">
+    <component name="ObjectStatsResetCWMP"/>
+    <component name="ObjectStatsResetUSP"/>
   </import>
 
   <component name="DHCPv4">
@@ -299,6 +304,41 @@
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AuthenticationProtocol" access="readWrite" version="2.19">
+        <description>
+          Specifies the authentication mechanism to be used.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="None"/>
+            <enumeration value="ConfigurationToken">
+              <description>
+                Includes configuration token information in all DHCP messages,
+                as defined in {{bibref|RFC3118|Section 4, Configuration Token}}.
+              </description>
+            </enumeration>
+            <enumeration value="DelayedAuthentication">
+              <description>
+                Uses delayed authentication, as specified in {{bibref|RFC3118|Chapter 5 Delayed Authentication}}.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="None"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DSCPMark" access="readWrite" version="2.19">
+        <description>
+          Diffserv code point to be used for outgoing DHCP messages.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="63"/>
+          </unsignedInt>
+          <default type="object" value="48"/>
         </syntax>
       </parameter>
 
@@ -867,6 +907,17 @@
         </syntax>
       </parameter>
 
+      <parameter name="WINSServers" access="readWrite" version="2.19">
+        <description>
+          Represent the WINS servers offered to DHCP clients.
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="IPv4Address"/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
       <parameter name="LeaseTime" access="readWrite">
         <description>
           Specifies the lease time in {{units}} of client assigned addresses. A
@@ -878,6 +929,18 @@
             <units value="seconds"/>
           </int>
           <default type="object" value="86400"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DSCPMark" access="readWrite" version="2.19">
+        <description>
+          Diffserv code point to be used for outgoing DHCP messages.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="63"/>
+          </unsignedInt>
+          <default type="object" value="48"/>
         </syntax>
       </parameter>
 
@@ -1153,6 +1216,139 @@
           <hexBinary>
             <size minLength="0" maxLength="255"/>
           </hexBinary>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DHCPv4.Server.Stats." access="readOnly" version="2.19">
+      <description>
+        Provide statistics for the embedded DHCP Server.
+      </description>
+
+      <parameter name="Discover" access="readOnly">
+        <description>
+          The total number of DHCPDISCOVER messages received by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Offer" access="readOnly">
+        <description>
+          The total number of DHCPOFFER messages sent by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Request" access="readOnly">
+        <description>
+          The total number of DHCPREQUEST messages received by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ACK" access="readOnly">
+        <description>
+          The total number of DHCPACK messages sent by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NACK" access="readOnly">
+        <description>
+          The total number of DHCPNACK messages sent by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Decline" access="readOnly">
+        <description>
+          The total number of DHCPDECLINE messages received by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Release" access="readOnly">
+        <description>
+          The total number of DHCPRELEASE messages received by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Inform" access="readOnly">
+        <description>
+          The total number of DHCPINFORM messages received by the server,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ForceRenew" access="readOnly">
+        <description>
+          The total number of DHCPFORCERNEW messages sent by the server,
+          as defined in {{bibref|RFC3203|DHCP reconfigure extension}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscardedPackets" access="readOnly">
+        <description>
+          The total number of DHCP packets discarded by the server.
+          Packets can be discarded due to illegal message format and content, incorrect received bytes, etc.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TransmitFailure" access="readOnly">
+        <description>
+          The total number of DHCP messages that failed to transmit.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RelayOptionDropped" access="readOnly">
+        <description>
+          The total number of DHCP messages with dropped relay options.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecondServerDetected" access="readOnly">
+        <description>
+          The total number of times a second DHCP server was detected.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
         </syntax>
       </parameter>
     </object>
@@ -1570,6 +1766,121 @@
       </parameter>
     </object>
 
+    <object name="Device.DHCPv4.Client.{i}.Stats." access="readOnly" version="2.19">
+      <description>
+        Provide statistis for the embedded DHCP Client.
+      </description>
+
+      <parameter name="Discover" access="readOnly">
+        <description>
+          The total number of DHCPDISCOVER messages sent by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Offer" access="readOnly">
+        <description>
+          The total number of DHCPOFFER messages received by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Request" access="readOnly">
+        <description>
+          The total number of DHCPREQUEST messages sent by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Decline" access="readOnly">
+        <description>
+          The total number of DHCPDECLINE messages sent by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Release" access="readOnly">
+        <description>
+          The total number of DHCPRELEASE messages sent by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Inform" access="readOnly">
+        <description>
+          The total number of DHCPINFORM messages sent by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ACK" access="readOnly">
+        <description>
+          The total number of DHCPACK messages received by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NACK" access="readOnly">
+        <description>
+          The total number of DHCPNACK messages received by the client,
+          as defined in {{bibref|RFC2132|DHCP Message Type}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ForceRenew" access="readOnly">
+        <description>
+          The total number of DHCPFORCERNEW messages received by the client,
+          as defined in {{bibref|RFC3203|DHCP reconfigure extension}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscardedPackets" access="readOnly">
+        <description>
+          The total number of DHCP packets discarded by the client.
+          Packets can be discarded due to illegal message format and content, incorrect received bytes, etc.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TransmitFailure" access="readOnly">
+        <description>
+          The total number of DHCP messages that failed to transmit.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="DHCPv4Server:1" version="2.0">
       <object ref="Device.DHCPv4." requirement="present"/>
       <object ref="Device.DHCPv4.Server." requirement="present">
@@ -1654,7 +1965,139 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.18">
+  <component name="DHCPv4USP">
+    <object base="Device.DHCPv4.Client.{i}." access="readWrite" minEntries="1"
+        maxEntries="unbounded">
+
+      <command name="Renew()" dmr:previousParameter="DHCPStatus"
+          version="2.12" async="false">
+        <description>
+          The DHCP client will renew its DHCP lease.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DHCPv4.Client.{i}.Stats.">
+      <component ref="ObjectStatsResetUSP"/>
+    </object>
+
+    <object base="Device.DHCPv4.Server.Stats.">
+      <component ref="ObjectStatsResetUSP"/>
+    </object>
+
+    <profile name="DHCPv4Client:1" version="2.0"
+        dmr:previousProfile="IEEE8021xAuthentication:2">
+      <object ref="Device.DHCPv4." requirement="present">
+        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}." requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Interface" requirement="readWrite"/>
+        <parameter ref="Status" requirement="readOnly"/>
+        <command ref="Renew()"/>
+        <parameter ref="IPAddress" requirement="readOnly"/>
+        <parameter ref="SubnetMask" requirement="readOnly"/>
+        <parameter ref="IPRouters" requirement="readOnly"/>
+        <parameter ref="DNSServers" requirement="readOnly"/>
+        <parameter ref="LeaseTimeRemaining" requirement="readOnly"/>
+        <parameter ref="DHCPServer" requirement="readOnly"/>
+        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
+        <parameter ref="ReqOptionNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}.SentOption.{i}."
+          requirement="createDelete">
+        <description>
+          This table is REQUIRED to support sending of option 60 (Vendor Class
+          Identifier) and option 77 (User Class Identifier) values.
+        </description>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readWrite"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}.ReqOption.{i}."
+          requirement="createDelete">
+        <description>
+          This table is REQUIRED to support requesting of option 60 (Vendor
+          Class Identifier), option 61 (Client Identifier) and option 77 (User
+          Class Identifier) values.
+        </description>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Order" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readOnly"/>
+      </object>
+    </profile>
+  </component>
+
+  <component name="DHCPv4CWMP">
+    <object base="Device.DHCPv4.Client.{i}." access="readWrite" minEntries="1"
+      maxEntries="unbounded">
+
+      <parameter name="Renew" access="readWrite"
+        dmr:previousParameter="DHCPStatus">
+        <description>
+          When set to {{true}}, the DHCP client will renew its DHCP lease.
+        </description>
+        <syntax command="true">
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object base="Device.DHCPv4.Client.{i}.Stats.">
+      <component ref="ObjectStatsResetCWMP"/>
+    </object>
+
+    <object base="Device.DHCPv4.Server.Stats.">
+      <component ref="ObjectStatsResetCWMP"/>
+    </object>
+
+    <profile name="DHCPv4Client:1" version="2.0"
+        dmr:previousProfile="IEEE8021xAuthentication:2">
+      <object ref="Device.DHCPv4." requirement="present">
+        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}." requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Interface" requirement="readWrite"/>
+        <parameter ref="Status" requirement="readOnly"/>
+        <parameter ref="Renew" requirement="readWrite"/>
+        <parameter ref="IPAddress" requirement="readOnly"/>
+        <parameter ref="SubnetMask" requirement="readOnly"/>
+        <parameter ref="IPRouters" requirement="readOnly"/>
+        <parameter ref="DNSServers" requirement="readOnly"/>
+        <parameter ref="LeaseTimeRemaining" requirement="readOnly"/>
+        <parameter ref="DHCPServer" requirement="readOnly"/>
+        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
+        <parameter ref="ReqOptionNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}.SentOption.{i}."
+          requirement="createDelete">
+        <description>
+          This table is REQUIRED to support sending of option 60 (Vendor Class
+          Identifier) and option 77 (User Class Identifier) values.
+        </description>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readWrite"/>
+      </object>
+      <object ref="Device.DHCPv4.Client.{i}.ReqOption.{i}."
+          requirement="createDelete">
+        <description>
+          This table is REQUIRED to support requesting of option 60 (Vendor
+          Class Identifier), option 61 (Client Identifier) and option 77 (User
+          Class Identifier) values.
+        </description>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Order" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readOnly"/>
+      </object>
+    </profile>
+  </component>
+
+  <model name="DHCPv4:2.19">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

@@ -1,11 +1,5 @@
-// Some definitions presupposed by pandoc's typst output.
-#let horizontalrule = [
-  #line(start: (25%,0%), end: (75%,0%))
-]
+#let horizontalrule = line(start: (25%,0%), end: (75%,0%))
 
-#let endnote(num, contents) = [
-  #stack(dir: ltr, spacing: 3pt, super[#num], contents)
-]
 #show terms: it => {
   it.children
     .map(child => [
@@ -15,13 +9,31 @@
     .join()
 }
 
+#set table(
+  inset: 6pt,
+  stroke: none
+)
+
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
+#show figure.where(
+  kind: image
+): set figure.caption(position: bottom)
+
 #import "typst-template.typ": *
+
+#set smartquote(enabled: false)
 
 #show: doc => conf(
   title: [TR\-181 –
 Device Data Model for CWMP Endpoints and USP Agents],
-  date: [Issue Date: September 2024],
+  subtitle: [Issue: 2 Amendment 19 #bbf-release[]],
+  date: [Issue Date: April 2025],
+  pagenumbering: none,
   cols: 1,
+  linenumbering: none,
   info: (
     PYTHONDIR: [..\/..\/..\/install\/pandoc\/\/..\/python],
     analyticstag: [],
@@ -35,20 +47,20 @@ Device Data Model for CWMP Endpoints and USP Agents],
     bbfIssue: [Issue],
     bbfMajor: [2],
     bbfMicro: [0],
-    bbfMinor: [18],
-    bbfMonth: [September],
+    bbfMinor: [19],
+    bbfMonth: [April],
     bbfNumber: [TR\-181],
-    bbfPatch: [1],
+    bbfPatch: [0],
     bbfProjectStream: [],
     bbfStatus: [],
     bbfTitle: [Device Data Model for CWMP Endpoints and USP Agents],
     bbfType: [Technical Report],
-    bbfVersion: [2 Amendment 18 Corrigendum 1],
+    bbfVersion: [2 Amendment 19],
     bbfWorkArea: [],
-    bbfYear: [2024],
+    bbfYear: [2025],
     citation-style: [bbf.csl],
-    copydate: [2024],
-    date: [Issue Date: September 2024],
+    copydate: [2025],
+    date: [Issue Date: April 2025],
     description: [TR\-181 Issue 2 defines version 2 of the Device data
 model (Device:2). The Device:2 data model applies to all types of
 TR\-069 or USP enabled devices, including End Devices, Residential
@@ -108,8 +120,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     shortname: [TR\-181],
     siteurl: [index.html],
     status: [],
-    subtitle: [Issue: 2 Amendment 18 Corrigendum 1
-#bbf-release[]<section>],
+    subtitle: [Issue: 2 Amendment 19 #bbf-release[]],
     summary: [See
 #link("https://device-data-model.broadband-forum.org")[https:\/\/device\-data\-model.broadband\-forum.org]
 for the current TR\-181 specification.
@@ -124,7 +135,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     titleDelim: [ –],
     titleid: [title],
     toc: [false],
-    version: [TR\-181 Issue 2 Amendment 18 Corrigendum 1],
+    version: [TR\-181 Issue 2 Amendment 19],
     website: [https:\/\/device\-data\-model.broadband\-forum.org],
     ),
   doc,
@@ -140,12 +151,12 @@ Device Data Model for CWMP Endpoints and USP Agents],
 
 // scale = 1 will size the image at 1px = 1pt
 #let bbf-image-scale = 1
-#let bbf-image(scale: bbf-image-scale, ..args) = style(styles => {
+#let bbf-image(scale: bbf-image-scale, ..args) = context {
   let named = args.named()
   if "width" in named or "height" in named {
     image(..args)
   } else {
-    let (width, height) = measure(image(..args), styles)
+    let (width, height) = measure(image(..args))
     layout(page => {
       // XXX should allow control over this hard-coded (1.0, 0.9)
       let (max_width, max_height) = (1.0 * page.width, 0.9 * page.height)
@@ -163,7 +174,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
       image(..args, width: new_width, height: new_height)
     })
   }
-})
+}
 
 #bbf-new-page[
 #heading(level: 3, outlined: false)[
@@ -250,6 +261,8 @@ the notices, legends, and other provisions set forth on this page.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto),
     align: (left, left, left),
@@ -433,6 +446,16 @@ the notices, legends, and other provisions set forth on this page.
     [September 2024
     ],
     [- Document not updated
+    ],
+    [#link("https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19.pdf")[Issue
+    2 Amendment 19]
+    ],
+    [April 2025
+    ],
+    [- Improved firewall configuration appendix
+    - Introduced new 3GPP NAS Theory of Operation appendix
+    - Deprecated 5G Theory of Operation appendix in favor of the new
+      appendix
     ]
   )
 ]
@@ -441,17 +464,12 @@ Comments or questions about this Broadband Forum Technical Report should
 be directed to
 #link("mailto:info@broadband-forum.org")[info\@broadband\-forum.org].
 
-#bbf-nobreak[
-
 #heading(level: 3, outlined: false)[
   Work Area Directors
 ] <sec:bbfworkarea-work-area-directors>
 
 - Jason Walls, QA Cafe
 - John Blackford, Vantiva
-]
-
-#bbf-nobreak[
 
 #heading(level: 3, outlined: false)[
   Project Stream Leaders
@@ -459,21 +477,14 @@ be directed to
 
 - Daniel Egger, Axiros
 - Matthieu Anne, Orange
-]
-
-#bbf-nobreak[
 
 #heading(level: 3, outlined: false)[
   Editors
 ] <sec:editors>
 
-- Steve Nicolai, Arris
 - Klaus Wich, Huawei
 - David Woolley, Telstra
 - William Lupton, Broadband Forum
-]
-
-#bbf-nobreak[
 
 #heading(level: 3, outlined: false)[
   Acknowledgments
@@ -499,7 +510,6 @@ be directed to
 - Richard Holme, Vantiva
 - Tim Spets, Nokia
 - William Lupton, BBF
-]
 
 #pagebreak()
 
@@ -671,6 +681,8 @@ More information can be found in RFC 2119 #link(<ref-RFC2119>)[\[23\]].
 #bbf-borderless[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -749,17 +761,17 @@ to Ethernet\-Based Broadband Aggregation]];, Broadband Forum, 2011]
 ] <ref-TR-101>
 
 #bbf-csl-entry[
-#bbf-csl-left-margin[\[4\] ]#bbf-csl-right-inline[TR\-106 Amendment 13,
-#emph[#link("https://www.broadband-forum.org/download/TR-106_Amendment-13.pdf")[Data
+#bbf-csl-left-margin[\[4\] ]#bbf-csl-right-inline[TR\-106 Amendment 14,
+#emph[#link("https://www.broadband-forum.org/download/TR-106_Amendment-14.pdf")[Data
 Model Template for CWMP Endpoints and USP Agents]];, Broadband Forum,
 2024]
 ] <ref-TR-106>
 
 #bbf-csl-entry[
-#bbf-csl-left-margin[\[5\] ]#bbf-csl-right-inline[TR\-124 Issue 8,
-#emph[#link("https://www.broadband-forum.org/download/TR-124_Issue-8.pdf")[Functional
+#bbf-csl-left-margin[\[5\] ]#bbf-csl-right-inline[TR\-124 Issue 9,
+#emph[#link("https://www.broadband-forum.org/download/TR-124_Issue-9.pdf")[Functional
 Requirements for Broadband Residential Gateway Devices]];, Broadband
-Forum, 2022]
+Forum, 2024]
 ] <ref-TR-124>
 
 #bbf-csl-entry[
@@ -796,10 +808,9 @@ Access Service Attributes and Performance Metrics]];, Broadband Forum,
 ] <ref-TR-304>
 
 #bbf-csl-entry[
-#bbf-csl-left-margin[\[11\] ]#bbf-csl-right-inline[TR\-369 Amendment 3
-Corrigendum 1,
-#emph[#link("https://www.broadband-forum.org/download/TR-369_Amendment-3_Corrigendum-1.pdf")[User
-Services Platform (USP)]];, Broadband Forum, 2023]
+#bbf-csl-left-margin[\[11\] ]#bbf-csl-right-inline[TR\-369 Amendment 4,
+#emph[#link("https://www.broadband-forum.org/download/TR-369_Amendment-4.pdf")[User
+Services Platform (USP)]];, Broadband Forum, 2024]
 ] <ref-TR-369>
 
 #bbf-csl-entry[
@@ -1184,7 +1195,7 @@ technology \- #[Open] #[Systems] #[Interconnection] \- #[Basic]
 #bbf-csl-left-margin[\[69\] ]#bbf-csl-right-inline[Data Elements
 Specification,
 #emph[#link("https://www.wi-fi.org/discover-wi-fi/specifications")[Wi\-fi
-#[Data] #[Elements] #[Specification]]];, Wi\-Fi Alliance, 2021]
+#[Data] #[Elements] #[Specification]]];, Wi\-Fi Alliance, 2024]
 ] <ref-DataElements>
 
 #bbf-csl-entry[
@@ -1202,6 +1213,8 @@ The following terminology is used throughout this Technical Report.
 #bbf-borderless[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -1401,6 +1414,8 @@ This Technical Report uses the following abbreviations:
 #bbf-borderless[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -1644,21 +1659,20 @@ This Technical Report uses the following abbreviations:
 
 == 3.1 Energy Efficiency <sec:energy-efficiency>
 
-TR\-181 Issue 2 Amendment 18 Corrigendum 1 has no impact on Energy
-Efficiency.
+TR\-181 Issue 2 Amendment 19 has no impact on Energy Efficiency.
 
 == 3.2 IPv6 <sec:ipv6>
 
-TR\-181 Issue 2 Amendment 18 Corrigendum 1 defines IPv6 extensions
-(introduced in Issue 2 Amendment 2) to the Device:2 data model.
+TR\-181 Issue 2 Amendment 19 defines IPv6 extensions (introduced in
+Issue 2 Amendment 2) to the Device:2 data model.
 
 == 3.3 Security <sec:security>
 
-TR\-181 Issue 2 Amendment 18 Corrigendum 1 has no impact on Security.
+TR\-181 Issue 2 Amendment 19 has no impact on Security.
 
 == 3.4 Privacy <sec:privacy>
 
-TR\-181 Issue 2 Amendment 18 Corrigendum 1 has no impact on Privacy.
+TR\-181 Issue 2 Amendment 19 has no impact on Privacy.
 
 #bbf-new-page[
 = 4 Architecture <sec:architecture>]
@@ -1731,6 +1745,8 @@ The core set of parameters consists of:
 #bbf-borderless[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -1777,6 +1793,8 @@ sub\-object consists of:
 #bbf-borderless[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -2123,6 +2141,8 @@ will likely differ.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto),
     align: (auto, auto, auto),
@@ -2270,6 +2290,8 @@ corresponding LowerLayers parameter value.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -2793,6 +2815,8 @@ three bits of the DSCP value, i.e., on DSCP & 111000.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto),
     align: (auto, auto, auto, auto),
@@ -2810,15 +2834,15 @@ three bits of the DSCP value, i.e., on DSCP & 111000.
     ],
     [BK
     ],
-    [#bbf-gray[000000 (0x00)]<000000-0x00>
+    [#bbf-gray[000000 (0x00)]
     ],
-    [#bbf-gray[Default]<default>
+    [#bbf-gray[Default]
     ],
     [010 (2)
     ],
     [spare
     ],
-    [#bbf-gray[000000 (0x00)]<000000-0x00-1>
+    [#bbf-gray[000000 (0x00)]
     ], [],
     [000 (0)
     ],
@@ -2872,9 +2896,9 @@ three bits of the DSCP value, i.e., on DSCP & 111000.
     AF31 \
     CS3
     ],
-    [#bbf-gray[110 (6)]<110-6>
+    [#bbf-gray[110 (6)]
     ],
-    [#bbf-gray[VO]<vo>
+    [#bbf-gray[VO]
     ],
     [100110 (0x26) \
     100100 (0x24) \
@@ -2927,6 +2951,8 @@ forming URNs.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -3010,6 +3036,8 @@ specifies the defined TypeParameter values.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -3503,6 +3531,8 @@ for this situation are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -3522,6 +3552,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3547,6 +3579,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3573,6 +3607,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3602,6 +3638,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3628,6 +3666,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3691,6 +3731,8 @@ for this situation are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -3716,6 +3758,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3738,6 +3782,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3762,6 +3808,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3790,6 +3838,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3819,6 +3869,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3848,6 +3900,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3877,6 +3931,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3902,6 +3958,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -3957,6 +4015,8 @@ for this situation are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -3976,6 +4036,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4000,6 +4062,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4028,6 +4092,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4053,6 +4119,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4082,6 +4150,8 @@ for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4137,6 +4207,8 @@ rules for this situation are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -4156,6 +4228,8 @@ rules for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4226,6 +4300,8 @@ while the configuration rules for this situation are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -4248,6 +4324,8 @@ while the configuration rules for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4274,6 +4352,8 @@ while the configuration rules for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4303,6 +4383,8 @@ while the configuration rules for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4329,6 +4411,8 @@ while the configuration rules for this situation are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4378,6 +4462,8 @@ egress traffic on the upstream interface are summarized in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -4401,6 +4487,8 @@ egress traffic on the upstream interface are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4423,6 +4511,8 @@ egress traffic on the upstream interface are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4445,6 +4535,8 @@ egress traffic on the upstream interface are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4463,6 +4555,8 @@ egress traffic on the upstream interface are summarized in
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4536,6 +4630,8 @@ for the global configuration.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #block(
     width: 97.62%)[
     #table(
@@ -4560,6 +4656,8 @@ for the global configuration.
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4578,6 +4676,8 @@ for the global configuration.
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4596,6 +4696,8 @@ for the global configuration.
         #show table.cell.where(y: 0): strong
         #set par(justify: false)
         #set text(hyphenate: true)
+        #show regex("\>,"): "," + sym.zws
+        #show regex("\>\."): "." + sym.zws
         #table(
           columns: (auto, auto),
           align: (auto, auto),
@@ -4902,6 +5004,8 @@ corresponding object or parameter in WiFi.DataElements.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -5123,6 +5227,8 @@ corresponding object or parameter in WiFi.DataElements.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -5665,6 +5771,8 @@ A DHCP Client object is created and configured as follows:
 #[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -5704,6 +5812,8 @@ A DHCP Server object is created and configured as follows:
 #[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -6661,6 +6771,8 @@ will be, if they intend to supply multiple BR addresses.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -8296,6 +8408,282 @@ Example:
       Protocol = "6,17"
       SourcePrefix = ""
       Enable = 1
+```
+
+#bbf-new-page[
+#bbf-appendix2[
+== VIII.6 Firewall logging <sec:firewall-logging>]]
+
+Firewalls monitor network traffic and enforce security policies. To aid
+in debugging and troubleshooting potential issues, it’s possible to
+capture specific information when certain rules are triggered. These
+captured details, known as traces, are then written to the kernel log
+for further analysis.
+
+```
+      [ 1605.521070] Service:IN=eth1 OUT=
+        MAC=ac:91:9b:3a:5d:0c:ba:97:fc:3e:8b:fa:86:dd SRC=fe80:0000:0000:0000:b897:fcff:fe3e:8bfa
+        DST=fe80:0000:0000:0000:ae91:9bff:fe3a:5d0c
+        LEN=200
+        TC=0
+        HOPLIMIT=64
+        FLOWLBL=343962
+        PROTO=UDP
+        SPT=547
+        DPT=546
+        LEN=160
+```
+
+#bbf-appendix3[
+=== VIII.6.1 Logging control in firewall rules <sec:logging-control-in-firewall-rules>]
+
+In modern operating systems firewall rules can be configured to generate
+log entries when triggered. This section details the mechanism that
+controls logging behaviour:
+
++ Log table: Each type of firewall rule (Chain Rule, Service Rule, etc.)
+  can have one or more `Firewall.Log.{i}.` instances associated. These
+  objects contain configuration options and an `Enable` parameter.
++ Firewall rule: Each firewall rule also possesses its own "Log" enable
+  parameter that controls if a firewall rule needs to generate a log
+  message or not.
+
+#bbf-appendix3[
+=== VIII.6.2 Enabling firewall logging <sec:enabling-firewall-logging>]
+
+For a `Firewall.Log.{i}.` entry to take effect, both of these settings
+must be `true`:
+
++ `Firewall.Log.{i}.Enable`: The `Enable` parameter for the specific log
+  instance.
++ `Firewall.Chain.{i}.Rule.{i}.Log`: The `Log` parameter for the
+  specific rule instance.
+
+#bbf-appendix3[
+=== VIII.6.3 Log filtering <sec:log-filtering>]
+
+The `Firewall.Log` table describes additional filtering and logging
+policies, that can dynamically add or remove firewall logging statements
+to and from the operating system.
+
+- `Firewall.Log.{i}.Filter.Policy`: When set to `Denied`, logs are only
+  generated for rules with a `Drop` or `Reject` target. Logs are
+  included regardless of the target when set to `All`.
+- `Firewall.Log.{i}.Filter.SourceInterface`: Matches the source
+  interface specified in the firewall rule
+  (e.g.~`Firewall.Chain.{i}.Rule.{i}.SourceInterface`). An empty string
+  means that the source interface will be ignored from a filtering
+  perspective.
+- `Firewall.Log.{i}.Filter.DestinationInterface`: Similar to
+  `Firewall.Log.{i}.Filter.SourceInterface` but filters based on the
+  firewall rule’s destination interface
+  (e.g.~`Firewall.Chain.{i}.Rule.{i}.DestinationInterface`).
+Example: Firewall Service instance 22 (Alias:
+"cpe\-httpaccess\-Device\-IP\-Interface\-2\-v4\-8090") is enabled and
+accepts IPv4 TCP traffic on port 8090 of interface
+`Device.IP.Interface.2`. Logging is enabled for this service and is
+configured to use log table instance 2 (Alias: "cpe\-logrule1") as
+additional logging criteria.
+
+```
+      Firewall.Service.22.
+      Firewall.Service.22.Action="Accept"
+      Firewall.Service.22.Alias="cpe-httpaccess-Device-IP-Interface-2-v4-8090"
+      Firewall.Service.22.DestPort="8090"
+      Firewall.Service.22.Enable=1
+      Firewall.Service.22.ICMPType=-1
+      Firewall.Service.22.IPVersion=4
+      Firewall.Service.22.Interface="Device.IP.Interface.2"
+      Firewall.Service.22.Protocol="6"
+      Firewall.Service.22.SourcePrefixes=""
+      Firewall.Service.22.Status="Enabled"
+      Firewall.Service.22.Log=1
+      Firewall.Service.22.LogRef="Firewall.Log.2"
+```
+Log table instance 2 (Alias: "cpe\-logrule1") is enabled and logs all
+allowed traffic originating from interface `Device.IP.Interface.2` with
+no destination interface restrictions. Log messages are prefixed with
+"Rule" and have a severity level of "Debug".
+
+```
+      Firewall.Log.2.Alias="cpe-logrule1"
+      Firewall.Log.2.Description="Logs all allowed from interface IP.Interface.2"
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Filter.DestinationInterface=""
+      Firewall.Log.2.Filter.Policy="Allowed"
+      Firewall.Log.2.Filter.SourceInterface="Device.IP.Interface.2"
+      Firewall.Log.2.Severity="Debug"
+      Firewall.Log.2.Prefix="Rule"
+```
+
+#bbf-appendix3[
+=== VIII.6.4 Policy Filtering <sec:policy-filtering>]
+
+Firewall log statements are added to the operating system only when the
+`Policy` parameter in the Log table matches the policy specified by the
+firewall rule.
+
+The specific parameter used to represent the firewall policy depends on
+the firewall concept being configured (e.g., PortMapping, PortTrigger,
+Policy, Pinhole, DMZ, Service). While this parameter might not always be
+explicitly defined in the data model, its value is determined by the
+system’s implementation.
+
+For example, firewall rules for PortMapping, PortTrigger, Pinhole and
+DMZ concepts typically have an implicit "Allow" policy.
+
+#bbf-appendix4[
+==== VIII.6.4.1 Firewall Service rules <sec:firewall-service-rules>]
+
+For firewall Service rules, the policy is determined by the
+`Firewall.Service.{i}.Action` parameter.
+
+#bbf-appendix4[
+==== VIII.6.4.2 Firewall Policy rules <sec:firewall-policy-rules>]
+
+For firewall Policy rules, the policy is determined by either
+`Firewall.Policy.{i}.TargetChain` or
+`Firewall.Policy.{i}.ReverseTargetChain`, depending on the specified
+`SourceInterface` and `DestinationInterface`.
+
+#bbf-appendix4[
+==== VIII.6.4.3 Firewall Chain rules <sec:firewall-chain-rules>]
+
+For firewall chain rules, the policy is determined by the
+`Firewall.Chain.{i}.Rule.{i}.Target` parameter.
+
+#bbf-appendix3[
+=== VIII.6.5 Interface Filtering <sec:interface-filtering>]
+
+Firewall log statements are added to the operating system only when the
+`SourceInterface` and\/or `DestinationInterface` parameters in the Log
+table match the interface parameters specified by the INTERNAL firewall
+rule.
+
+The specific interface parameters used for matching depend on the
+firewall concept being configured (e.g., PortMapping, PortTrigger,
+Policy, Pinhole, DMZ, Service). While these parameters might not always
+be explicitly defined in the data model, their values are determined by
+the system’s implementation.
+
+#strong[Note:]; The following descriptions provide typical matching
+patterns. Actual implementations may vary.
+
+#bbf-appendix4[
+==== VIII.6.5.1 NAT PortMapping rules <sec:nat-portmapping-rules>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.NAT.PortMapping.{i}.Interface` (usually the WAN interface).
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the
+  interface where `Device.NAT.PortMapping.{i}.InternalClient` resides.
+
+#bbf-appendix4[
+==== VIII.6.5.2 NAT PortTrigger rules <sec:nat-porttrigger-rules>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches the LAN
+  interface.
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the
+  WAN interface.
+
+#bbf-appendix4[
+==== VIII.6.5.3 Firewall Policy rules <sec:firewall-policy-rules-1>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.Firewall.Policy.{i}.SourceInterface`.
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches
+  `Device.Firewall.Policy.{i}.DestinationInterface`.
+
+#bbf-appendix4[
+==== VIII.6.5.4 Firewall Chain rules <sec:firewall-chain-rules-1>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.Firewall.Chain.{i}.Rule.{i}.SourceInterface`.
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches
+  `Device.Firewall.Chain.{i}.Rule.{i}.DestinationInterface`.
+
+#bbf-appendix4[
+==== VIII.6.5.5 Firewall Pinhole rules <sec:firewall-pinhole-rules>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.Firewall.Pinhole.{i}.Interface` (usually the WAN interface).
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the
+  interface where `Device.Firewall.Pinhole.{i}.DestIP` resides.
+
+#bbf-appendix4[
+==== VIII.6.5.6 Firewall DMZ rules <sec:firewall-dmz-rules>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.Firewall.DMZ.{i}.Interface` (usually the WAN interface).
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the
+  interface where `Device.Firewall.DMZ.{i}.DestIP` resides.
+
+#bbf-appendix4[
+==== VIII.6.5.7 Firewall Service rules <sec:firewall-service-rules-1>]
+
+- `Firewall.Log.{i}.Filter.SourceInterface` typically matches
+  `Device.Firewall.Service.{i}.Interface` (usually the LAN interface).
+- `Firewall.Log.{i}.Filter.DestinationInterface` typically matches the
+  LAN interface.
+
+#bbf-appendix3[
+=== VIII.6.6 Multiple log table reference <sec:multiple-log-table-reference>]
+
+A firewall rule can reference one or more `Firewall.Log.{i}.` instances.
+
+```
+      Firewall.Chain.1.Rule.1.LogRef="Firewall.Log.2, Firewall.Log.3"
+```
+The firewall log statements will be activated when either or both Log
+table references are enabled and when the `Log` parameter on the
+firewall rule is enabled.
+
+Example: `Firewall.Chain.1.Rule.1.Log` AND ( `Firewall.Log.2.Enable` OR
+`Firewall.Log.3.Enable`) MUST be `true`.
+
+#strong[#emph[Syslog level];]; When both Log table references are active
+and all the filter policies match, the Syslog severity that will be used
+is determined by the `Severity` parameter. This severity will be the
+lower of the two severities specified in `Firewall.Log.2` and
+`Firewall.Log.3`.
+
+Possible Syslog severity levels: 0. Emergency (Indicates that the system
+is unusable) 1. Alert (Indicating that an action must be taken
+immediately) 2. Critical (Indicates a critical condition) 3. Error
+(Indicates an error condition) 4. Warning (Indicates a warning
+condition) 5. Notice (Indicates a normal but important message) 6.
+Informational (Indicates an information message) 7. Debug (Indicates a
+debug\-level message)
+
+```
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Severity="Warning"
+      ...
+      Firewall.Log.3.Enable=1
+      Firewall.Log.3.Severity="Debug"
+      ...
+```
+In the above example the Syslog severity defined in instance `Log.2` is
+lower than the Syslog severity specified in instance `Log.3` therefore
+the Syslog severity used for logging is '’Warning'’.
+
+#strong[#emph[Firewall prefix];];
+
+When both Log table references are active, the prefixes can be
+aggregated.
+
+```
+      Firewall.Log.2.Enable=1
+      Firewall.Log.2.Prefix="Rule2"
+      ...
+      Firewall.Log.3.Enable=1
+      Firewall.Log.3.Prefix="Rule3"
+      ...
+```
+Aggregation example:
+
+```
+
+      "[FW][Rule2,Rule3]:"...
 ```
 
 #bbf-appendix1[
@@ -10153,6 +10541,8 @@ There are four types of alarm event handling:
 #[
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -10192,6 +10582,8 @@ objects for FM to manage the alarm events.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto),
     align: (auto, auto, auto, auto),
@@ -10469,6 +10861,8 @@ parameters map to Device:2 data model parameters as shown in
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -10614,6 +11008,13 @@ different name based on the specification behind the RegistryEntry URN.
 #bbf-appendix[
 = Appendix XXI: 5G Theory of Operation <sec:g-theory-of-operation>]]]
 
+#bbf-note[
+The theory of operation defined in this Appendix is DEPRECATED in favor
+of the "3GPP NAS" theory of operation defined in Appendix XXV. The 3GPP
+NAS theory of operation takes a more wholistic approach and is inclusive
+of 3G, 4G and 5G rather than the previous focus on 5G WWC
+]
+
 This section discusses the Theory of Operation for 5G Wireline Wireless
 Convergence using CWMP or USP and the supporting Device.WWC, Device.PDU
 and Device.FWE objects.
@@ -10690,6 +11091,8 @@ the network functions and interfaces relevant to supporting a 5G\-RG.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto),
     align: (auto, auto, auto),
@@ -10980,6 +11383,8 @@ are intended for service assurance purposes.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -11066,6 +11471,8 @@ session.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -11138,6 +11545,8 @@ whenever a PDU is established.
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -11771,6 +12180,8 @@ type is `IP.Interface` the logical interface must resolve to an existing
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (center, center),
@@ -11819,6 +12230,8 @@ configuration.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto),
     align: (auto, auto, auto, auto),
@@ -11874,6 +12287,8 @@ configuration.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -11898,6 +12313,8 @@ configuration.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto),
     align: (auto, auto, auto, auto),
@@ -11961,6 +12378,8 @@ configuration.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -11994,6 +12413,8 @@ example the IPv4 and IPv6 addresses are on different network interfaces.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto, auto),
     align: (center+top, center+top, center+top, center+top, center+top),
@@ -12049,6 +12470,8 @@ example the IPv4 and IPv6 addresses are on different network interfaces.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (auto, auto),
@@ -12102,6 +12525,8 @@ size of 1500 bytes.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (left, left),
@@ -12156,6 +12581,8 @@ processing overhead on routers and switches.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto),
     align: (left, left),
@@ -12195,6 +12622,8 @@ processing overhead on routers and switches.
   #show table.cell.where(y: 0): strong
   #set par(justify: false)
   #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
   #table(
     columns: (auto, auto, auto, auto),
     align: (left, left, auto, auto),
@@ -12254,6 +12683,1090 @@ processing overhead on routers and switches.
 
 #bbf-spacer[
 ]
+
+#bbf-appendix1[
+#bbf-same-file[
+#bbf-appendix[
+= Appendix XXV: 3GPP NAS Theory of Operation <sec:gpp-nas-theory-of-operation>]]]
+
+This section discusses the Theory of Operation for RGs using 3GPP NAS
+signalling. This includes both the cellular and 5G fixed interfaces
+using CWMP or USP and the supporting `Device.Cellular` and
+`Device.SessionManagement` objects.
+
+#bbf-appendix2[
+== XXV.1 Overview <sec:overview-6>]
+
+The addition of a cellular interface to a residential gateway has become
+more commonplace in recent years. In particular, hybrid and Fixed
+Wireless Access (FWA) devices are increasingly offered by service
+providers. With increased usage comes a more diverse set of use cases,
+all of which drive the need for a set of cellular objects better aligned
+with the overall TR\-181 model.
+
+An RG utilizing interfaces with NAS signalling brings with it a
+completely different way of operation. This is a direct consequence of
+features such as:
+
+- Control User Plane Separation (CUPS)
+- Multiple IP sessions over a PHY
+- 3GPP QoS
+- Hybrid Access (Fixed and Cellular)
+- Network Slicing
+The above features are supported by the TR\-181 data model using new
+data model elements comprising:
+
+- Interface stack layer to support 5G Fixed Encapsulation (5WE)
+- Objects to describe registration and session management.
+- Integration with existing TR\-181 elements
+
+#bbf-appendix2[
+== XXV.2 Concepts <sec:concepts-1>]
+
+#bbf-appendix3[
+=== XXV.2.1 3GPP Generations \- 2, 3, 4 and 5G <sec:gpp-generations---2-3-4-and-5g>]
+
+#[
+  #show table.cell.where(y: 0): strong
+  #set par(justify: false)
+  #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
+  #table(
+    columns: (auto, auto, auto, auto),
+    align: (auto, auto, auto, auto),
+    fill: bbf-table-fill.with(columns: 4, header-rows: 1),
+    table.header(
+    [Generation
+    ],
+    [Standard
+    ],
+    [Features
+    ],
+    [Release year
+    ]),
+    [1G
+    ],
+    [NMT, AMPS
+    ],
+    [Analog voice communication, no data services
+    ],
+    [Early 1980’s
+    ],
+    [2G
+    ],
+    [GSM, CDMA
+    ],
+    [Digital voice, SMS, basic data services (GPRS, EDGE)
+    ],
+    [Early 1990’s
+    ],
+    [3G
+    ],
+    [UMTS (W\-CDMA), CDMA2000
+    ],
+    [Enhanced data services, mobile internet, video calls
+    ],
+    [Early 2000’s
+    ],
+    [4G
+    ],
+    [LTE
+    ],
+    [High\-speed internet, HD video streaming, VoIP
+    ],
+    [Late 2000’s
+    ],
+    [5G
+    ],
+    [NR
+    ],
+    [Ultra\-fast internet, low latency, IoT, enhanced mobile broadband
+    ],
+    [Late 2010’s
+    ]
+  )
+]
+
+#bbf-appendix3[
+=== XXV.2.2 Control User Plane Separation (CUPS) \- 4G and 5G <sec:control-user-plane-separation-cups---4g-and-5g>]
+
+CUPS is integral to the 4G and 5G architectures. It starts with the
+segregation of control and user plane traffic at the RG and continues
+through to the physical separation of control and user plane network
+functions. The main driver for separation is to centralize control plane
+functions while distributing user plane functions deeper into the
+network. CUPS as it impacts Wireless Wireline Convergernce is documented
+in TR\-470 Section 5.2 #link(<ref-TR-470>)[\[12\]] whilst TS 23.501
+#link(<ref-3GPP-TS.23.501>)[\[14\]] details the architectural elements.
+From the perspective of a 5G\-RG, CUPS has the following impacts:
+
+- Control plane communications move from transient (DHCP and PPP LCP )
+  to persistent (NAS). As a result, the operator can now modify a
+  customer session at any time rather than at the point of
+  authorization.
+- Traffic for control and user planes uses separate sessions over a
+  common PHY.
+- DHCP and DHCPv6 technically move from the control to the user plane
+  (UPF responsibility). However, both protocols can and need to be used
+  to deliver configuration via their options.
+
+#bbf-appendix3[
+=== XXV.2.3 Multiple Sessions \- 3, 4 and 5G <sec:multiple-sessions---3-4-and-5g>]
+
+One of the more significant features of using NAS signalling is the
+support of multiple user plane sessions. Each session can be considered
+a virtual circuit between the RG and the operator’s network core. The
+terminology varies with each generation starting with PDP context for 3G
+through to PDU session for 5G. Each session instance can be assigned IP
+addresses, QoS rules and even guaranteed bit rates. This leads to
+applications requiring:
+
+- Separate IP sessions.
+- Preferential data paths within the operator’s network.
+- Traffic separation for security.
+- Guaranteed bit rates for a given application.
+TR\-470 Section 6.2 #link(<ref-TR-470>)[\[12\]] provides examples of
+multiple PDU scenarios for a 5G\-RG.
+
+#bbf-appendix3[
+=== XXV.2.4 Quality of Service (QoS) \- 3G, 4G and 5G <sec:quality-of-service-qos---3g-4g-and-5g>]
+
+QoS as implemented in a 3GPP based system is heavily influenced by the
+needs of the radio bearer. In particular the familiar packet marking
+techniques such as DSCP and PCP are ineffective over radio. Instead a
+focus on packet prioritization is the foundation of 3GPP QoS.
+
+#bbf-appendix4[
+==== XXV.2.4.1 3G QoS <sec:g-qos-1>]
+
+Capabilities: \* Guaranteed and non\-guaranteed bit rates \* Packets in
+a PDP context are mapped to a single traffic class (e.g.,
+conversational, streaming, interactive, and background) \* Each PDP
+Context has its own bearer
+
+#bbf-appendix4[
+==== XXV.2.4.2 4G QoS <sec:g-qos-2>]
+
+Capabilities: \* Guaranteed and non\-guaranteed bit rates \* Increased
+granularity with QCI offering predefined QoS capabilities such as
+priorty, packet delay and error rate. In addition to the standard 3GPP
+defined values, operators can define their own QCI capabilities. \*
+Allocation and Retention Policy (ARP). \* Traffic for each QCI and ARP
+combination within a PDN will be mapped to its own bearer.
+
+#bbf-appendix4[
+==== XXV.2.4.3 5G QoS <sec:g-qos-3>]
+
+Unlike the previous generations, 5G QoS marking is merely a label called
+a QoS Flow Indicator (QFI). End\-to\-end QoS as documented in TR\-470
+Section 5.1 #link(<ref-TR-470>)[\[12\]] is a key outcome of policy. As
+part of PDU establishment, a set of QoS rules is supplied specific to
+that PDU. Consequently, the access network specifies not only the
+supported QFI labels but also the properties of the QoS profile. A QoS
+profile consists of the following properties:
+
+- 5G QoS Identifier (5QI). Unlike a QFI, 5QI does have a defined set of
+  properties such as priority and whether its bit rate is guaranteed.
+- Allocation and Retention Policy (ARP).
+- For Guaranteed Bit Rate (GBR) profiles the guaranteed and maximum
+  upload and download bit rates.
+- GBR profiles may also specify a maximum packet loss.
+
+#bbf-appendix3[
+=== XXV.2.5 Multiple Access Networks \-5G <sec:multiple-access-networks--5g>]
+
+Whilst FN\-RGs are perfectly capable of supporting multiple access
+networks, each access network operates independently with separate IP
+addresses and an inability to seamlessly switch traffic between them. A
+5G\-RG can modify a PDU and switch traffic to another supported access
+network and maintain all the PDU properties including IP addresses. An
+operator can optimize its network usage by sending policy rules to a
+5G\-RG, indicating the preferred access and data networks. TR\-470
+Section 4.4 #link(<ref-TR-470>)[\[12\]] provides a more in\-depth
+description of hybrid access.
+
+#bbf-appendix3[
+=== XXV.2.6 Network Slicing \- 5G <sec:network-slicing---5g>]
+
+An operator may choose to partition their network infrastructure for the
+purposes of resiliency or merely to optimize for a particular function
+such as IoT. Each instance of the partitioned network is called a
+network slice. Operators will provide slice information as part of URSP
+policy rules. Every PDU at the time of establishment must specify a
+network slice. Slicing is further documented in TS 23.501 Clause 5.15
+#link(<ref-3GPP-TS.23.501>)[\[14\]].
+
+#bbf-appendix2[
+== XXV.3 Data Model elements <sec:data-model-elements-1>]
+
+#bbf-appendix3[
+=== XXV.3.1 Data Model <sec:data-model-1>]
+
+#bbf-appendix4[
+==== XXV.3.1.1 Device.SessionManagement \- 3G, 4G and 5G <sec:device.sessionmanagement---3g-4g-and-5g>]
+
+The logical connection between an RG and a data network using 3GPP
+technologies (FN\-RG cellular and 5G\-RG ALL) are considered data
+sessions. The Device.SessionManagement subtree describes each sessions
+properties together with the QoS rules specific to that access
+technology.
+
+#figure(
+  kind: table,
+  caption: [Table 21 – Device.SessionManagement objects
+    ])[
+  #show table.cell.where(y: 0): strong
+  #align(left)[#set par(justify: false)
+  #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
+  #table(
+    columns: (auto, auto),
+    align: (auto, auto),
+    fill: bbf-table-fill.with(columns: 2, header-rows: 1),
+    table.header(
+    [Object
+    ],
+    [Description
+    ]),
+    [Device.SessionManagement
+    ],
+    [Base object for 3GPP sessions.
+    ],
+    [Device.SessionManagement.Session.{i}
+    ],
+    [Contains all the properties of a 3GPP session instance common to
+    all generations.
+    ],
+    [Device.SessionManagement.Session.{i}.PCO
+    ], [],
+    [Device.SessionManagement.Session.{i}.PDP
+    ],
+    [Contains all 3G specific attributes needed to establish a PDP
+    context.
+    ],
+    [Device.SessionManagement.Session.{i}.PDN
+    ],
+    [Contains all 4G specific attributes needed to establish a PDN
+    session.
+    ],
+    [Device.SessionManagement.Session.{i}.PDU
+    ],
+    [Contains all 5G specific attributes needed to establish a PDU
+    session.
+    ],
+    [Device.SessionManagement.Session.{i}.PDU.NetworkSlice
+    ],
+    [Describes all the components of a Single \-Network Slice Selection
+    Assistance Information (S\-NSSAI). The S\-NSSAI identifies the
+    network slice a PDU session has been established on.
+    ],
+    [Device.SessionManagement.Session.{i}.PDU.QoSFlow.{i}
+    ],
+    [Table of all QoS Flow Indicators (QFI) and their properties
+    supported by the access network for this particular PDU.
+    ],
+    [Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}
+    ],
+    [Set of rules used to select the QFI label for a given packet.
+    ],
+    [Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}.QoSRuleFilter.{i}
+    ],
+    [Table of filters to select a QoS rule. Typical filters include
+    destination IP and ports.
+    ]
+  )]
+] <tbl:device.sessionmanagement-objects>
+
+#figure(
+  caption: [Figure 89 – Device.WWC objects
+    ])[
+  #bbf-image("images/device.sessionmanagement-objects.png")<img:device.wwc-objects-1>
+] <fig:device.wwc-objects-1>
+
+#bbf-appendix4[
+==== XXV.3.1.2 Device.WWC \- 5G <sec:device.wwc---5g>]
+
+The relationship between a 5G\-RG and the available access networks is
+represented by the Device.WWC object tree. All objects are read only and
+are intended for service assurance purposes.
+
+#figure(
+  kind: table,
+  caption: [Table 22 – Device.WWC objects
+    ])[
+  #show table.cell.where(y: 0): strong
+  #align(left)[#set par(justify: false)
+  #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
+  #table(
+    columns: (auto, auto),
+    align: (auto, auto),
+    fill: bbf-table-fill.with(columns: 2, header-rows: 1),
+    table.header(
+    [Object
+    ],
+    [Description
+    ]),
+    [Device.WWC
+    ],
+    [Base object for Wireline Wireless Convergence. The controller can
+    use this object to learn the supported 5G features and whether the
+    5G\-RG is operating in 5G mode
+    ],
+    [Device.WWC.AccessNetwork
+    ],
+    [Each table entry describes a single access network. The entire
+    table is built by the 5G\-RG upon startup. The primary purpose is to
+    show the registration and connectivity status of each access
+    network. Typically, a 5G\-RG would register on each available access
+    network. A minimum of one access network must be in the
+    CM\-CONNECTED state in order to support N1 messaging
+    ],
+    [Device.WWC.AccessNetwork.GUTI
+    ],
+    [A 5G Globally Unique Temporary Identity (GUTI) securely identifies
+    an CPE by keeping the permanent User Equipment (UE identifier (IMSI)
+    hidden. This identity is globally unique and assigned by the AMF at
+    the time of registration.
+    ],
+    [Device.WWC.URSP
+    ],
+    [User equipment Route Selection Policy (URSP) is a table of rules
+    used to determine which network slice and data network to route a
+    PDU over. Typically, a 5G\-RG would search the URSP table in
+    precedence order matching the traffic descriptor types against the
+    service it was setting up. For example, a 5G\-RG would search for
+    'connection capabilities' matching 'ims' in order to establish a
+    dedicated PDU session for telephony
+    ],
+    [Device.WWC.URSP.{i}.TrafficDescriptor
+    ],
+    [A set of rules for a given precedence that must be matched in order
+    to select a router in the form of data network and slice. Selection
+    criteria range from destination IP addresses to connection
+    capabilities
+    ],
+    [Device.WWC.URSP.{i}.TrafficDescriptor.{i}.RouteSelectionDescriptor
+    ],
+    [Provides a table of data networks and network slices used in PDU
+    establishment. Table entries are used in precedence order until a
+    successful PDU session is established. See TS 23.503 Annex A
+    #link(<ref-3GPP-TS.23.503>)[\[13\]] for an example URSP rule
+    traversal
+    ],
+    [Device.WWC.URSP.{i}.TrafficDescriptor.{i}.RouteSelectionDescriptor.{i}.NetworkSlice
+    ],
+    [Describes all the components of a Single\-Network Slice Selection
+    Assistance Information (S\-NSSAI). A S\-NSSAI identifies the network
+    slice a PDU session will be established on
+    ]
+  )]
+] <tbl:device.wwc-objects-1>
+
+#figure(
+  caption: [Figure 90 – Device.WWC objects
+    ])[
+  #bbf-image("images/device.wwc-objects.png")<img:device.wwc-objects-2>
+] <fig:device.wwc-objects-2>
+
+#bbf-appendix4[
+==== XXV.3.1.3 Device.FWE \- 5G <sec:device.fwe---5g>]
+
+5G Wireless Wireline Convergence User Plane Encapsulation
+#link(<ref-RFC8822>)[\[66\]] is used to separate each PDU session when
+multiplexed over a PHY. A Device.FWE.Link object is inserted into the
+interface stack, providing PDU session id as well as 5G QoS markings
+(QFI, RQI). This is also the level at which fixed QoS rules are applied
+in order to traverse access networks that do not natively support 5G QoS
+(QFI) markings. An instance of this object will be created by a 5G\-RG
+whenever a PDU is established.
+
+#figure(
+  kind: table,
+  caption: [Table 23 – Device.FWE objects
+    ])[
+  #show table.cell.where(y: 0): strong
+  #align(left)[#set par(justify: false)
+  #set text(hyphenate: true)
+  #show regex("\>,"): "," + sym.zws
+  #show regex("\>\."): "." + sym.zws
+  #table(
+    columns: (auto, auto),
+    align: (auto, auto),
+    fill: bbf-table-fill.with(columns: 2, header-rows: 1),
+    table.header(
+    [Object
+    ],
+    [Description
+    ]),
+    [Device.FWE
+    ],
+    [Base object for 5WE.
+    ],
+    [Device.FWE.Link.{i}
+    ],
+    [5WE link layer table describing the link layer supporting the 5WE
+    protocol.
+    ],
+    [Device.FWE.Link.{i}.Stats
+    ],
+    [Throughput statistics for this link layer
+    ]
+  )]
+] <tbl:device.fwe-objects-1>
+
+#figure(
+  caption: [Figure 91 – Device.FWE objects
+    ])[
+  #bbf-image("images/device.fwe-objects.png")<img:device.fwe-objects-1>
+] <fig:device.fwe-objects-1>
+
+#bbf-appendix3[
+=== XXV.3.2 Interface Stack \- 3G, 4G and 5G <sec:interface-stack---3g-4g-and-5g>]
+
+The ability to provide multiple user sessions using 3GPP NAS signalling
+makes some subtle changes to how the interface stack is viewed. The most
+significant are the multiple PDP\/PDN\/PDU sessions shown in parallel
+but linked to a common access technology. This is not to be confused
+with features such as bonding as the traffic for each session is
+segregated on the radio interface.
+
+All 3GPP based interface stacks require an OSI layer to segregate
+multiplexed traffic. The OSI layer model (see
+#link(<fig:osi-layers-and-interface-objects>)[Figure 10]) represents all
+3GPP technologies (Cellular and 5G fixed) at 'L2\-\-\-' and the previous
+'L2\-\-' pushed down to 'L2\-\-\-'.
+
+The scenarios below show 5G PDU examples. However, the cellular
+interface mapping is equally applicable for 3G PDP and 4G PDN sessions.
+
+#bbf-appendix4[
+==== XXV.3.2.1 Scenario \#1 \- Fixed access network only <sec:scenario-1---fixed-access-network-only-2>]
+
+This example shows two PDU sessions using a VDSL access network. As this
+is a fixed service, the 5WE protocol is used to multiplex the PDU
+traffic over the VDSL service. NAS traffic is separate from the PDU
+traffic and is carried as PPPoE over the VDSL service. All LAN traffic
+remains unchanged on a 5G\-RG.
+
+#figure(
+  caption: [Figure 92 – Fixed access only example
+    ])[
+  #bbf-image("images/fixed-access-only-example.png")<img:fixed-access-only-example-1>
+] <fig:fixed-access-only-example-1>
+
+#bbf-appendix4[
+==== XXV.3.2.2 Scenario \#2 \- Cellular access network only <sec:scenario-2---cellular-access-network-only-2>]
+
+This example shows two PDU sessions using a cellular access network. In
+this case the 5G\-RG does not to need to multiplex the PDU traffic as
+the cellular module handles that internally. NAS traffic does not appear
+in this diagram as the requests are made directly to the cellular
+module. Depending on the cellular module, each PDU may need to be
+carried over a VLAN (this has been omitted for the moment). All LAN
+traffic remains unchanged on a 5G\-RG.
+
+#figure(
+  caption: [Figure 93 – Cellular access only example
+    ])[
+  #bbf-image("images/cellular-access-only-example.png")<img:cellular-access-only-example-1>
+] <fig:cellular-access-only-example-1>
+
+#bbf-appendix4[
+==== XXV.3.2.3 Scenario \#3 \- Hybrid (Fixed and Cellular) access <sec:scenario-3---hybrid-fixed-and-cellular-access-2>]
+
+This example shows two PDU sessions using both VDSL and cellular access
+networks. Either access network is capable for carrying either PDU or
+both. A PDU in this situation can only be carried on a single access
+network at a time. Fixed traffic is multiplexed using 5WE (even if only
+one PDU is present) whilst PDU traffic to the cellular network is
+multiplexed by the cellular module. NAS traffic using the PPP interface
+is for the fixed component only as cellular requests are made directly
+to the cellular module. Depending on the cellular module, each PDU may
+need to be carried over a VLAN (this has been omitted for the moment).
+All LAN traffic remains unchanged on a 5G\-RG.
+
+#figure(
+  caption: [Figure 94 – Hybrid access example
+    ])[
+  #bbf-image("images/hybrid-access-example.png")<img:hybrid-access-example-1>
+] <fig:hybrid-access-example-1>
+
+#bbf-appendix3[
+=== XXV.3.3 Examples <sec:examples-2>]
+
+There are a multitude of combinations of 3GPP generations and access
+technologies. The following scenarios will be explored: \* 3G PDP \-
+Cellular \- General purpose internet traffic. \* 4G PDN \- Cellular \-
+General purpose internet traffic, IMS VoIP \* 5G PDU \- Cellular \-
+General purpose internet traffic, IMS VoIP, traffic marking for VoWiFi
+\* 5G PDU \- Fixed \- General purpose internet traffic \* 5G PDU \- WWC
+\- General purpose internet traffic, IMS VoIP, traffic marking for
+VoWiFi
+
+#bbf-appendix4[
+==== XXV.3.3.1 Scenario \#1 \- 3G PDP \- Cellular \- General purpose internet traffic <sec:scenario-1---3g-pdp---cellular---general-purpose-internet-traffic>]
+
+```
+Device.SessionManagement.
+    SessionNumberOfEntries = 1
+Device.SessionManagement.1.
+    Alias = "cpe-pdp1"
+    Interface = Device.IP.Interface.1
+    SessionID = 1
+    SessionType = IPv4v6
+    APN = "provider.internet"
+Device.SessionManagement.1.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.1.PDP
+    TrafficClass = "Interactive"
+    DownstreamMaxBitRate = 1000
+    UpstreamMaxBitRate = 1000
+```
+
+#bbf-appendix4[
+==== XXV.3.3.2 Scenario \#2 \- 4G PDN \- Cellular \- General purpose internet traffic, IMS VoIP <sec:scenario-2---4g-pdn---cellular---general-purpose-internet-traffic-ims-voip>]
+
+```
+Device.SessionManagement.
+    SessionNumberOfEntries = 3
+Device.SessionManagement.1.
+    Alias = "cpe-pdn1"
+    Interface = Device.IP.Interface.1
+    SessionID = 1
+    SessionType = IPv4v6
+    APN = "provider.internet"
+Device.SessionManagement.1.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.1.PDN
+    QCI = 9
+    DownstreamMaxBitRate = 1000
+    UpstreamMaxBitRate = 1000
+Device.SessionManagement.2.
+    Alias = "cpe-pdn2"
+    Interface = Device.IP.Interface.2
+    SessionID = 2
+    SessionType = IPv4v6
+    APN = "provider.ims"
+Device.SessionManagement.2.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.2.PDN
+    QCI = 1
+    DownstreamMaxBitRate = 1000
+    UpstreamMaxBitRate = 1000
+Device.SessionManagement.3.
+    Alias = "cpe-pdn3"
+    Interface = Device.IP.Interface.2
+    SessionID = 3
+    SessionType = IPv4v6
+    APN = "provider.ims"
+Device.SessionManagement.2.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.2.PDN
+    QCI = 5
+    DownstreamMaxBitRate = 1000
+    UpstreamMaxBitRate = 1000
+```
+
+#bbf-appendix4[
+==== XXV.3.3.3 Scenario \#3 \- 5G PDU \- Cellular \- General purpose internet traffic, IMS VoIP, traffic marking for VoWiFi <sec:scenario-3---5g-pdu---cellular---general-purpose-internet-traffic-ims-voip-traffic-marking-for-vowifi>]
+
+```
+Device.WWC.
+    Capabilities = "FN-RG,5G-RG,NG-RAN,E-UTRAN"
+    Mode = "5G-RG"
+    Status = "5G-RG"
+    AccessNetworkNumberOfEntries = 1
+    URSPNumberOfEntries = 2
+Device.WWC.AccessNetwork.1.
+    Alias = "cpe-cellular"
+    Name = "cellular"
+    Interface = Device.Cellular.Interface.1
+    RegistrationStatus = "RM-REGISTERED"
+    ConnectionStatus = "CM_CONNECTED"
+    AccessNetworkType = "NG-RAN"
+Device.WWC.AccessNetwork.1.GUTI
+    PLMN = 50501
+    AMFid = 131137
+    TMSI = 54678959
+Device.WWC.URSP.1.             # Default traffic rule
+    Alias = "cpe-ursp1"
+    Precedence = 100
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.
+    Alias = "cpe-ursp11"
+    Type = 1                   # Match all traffic
+    Value = ""
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp111"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.internet"
+    PDUSessionType = "IPv4v6"
+    AccessType = "3GPP access"
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.WWC.URSP.2.             # VoUP traffic rule
+    Alias = "cpe-ursp2"
+    Precedence = 10
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.
+    Alias = "cpe-ursp21"
+    Type = 144                 # Connection Capability Type
+    Value = "1"                # IMS
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp211"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.ims"
+    PDUSessionType = "IPv6"
+    AccessType = "3GPP access"
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.SessionManagement.
+    SessionNumberOfEntries = 2
+Device.SessionManagement.Session.1.
+    Alias = "cpe-pdu1"
+    Interface = Device.IP.Interface.1
+    SessionType = IPv4v6
+    SessionId = 1
+    APN = "provider.internet"
+Device.SessionManagement.Session.1.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.Session.1.PDU
+    PTI = 63
+    SSC = 1
+    SessionAMBRDownlink = 100000000
+    SessionAMBRUplink = 40000000
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 2
+Device.SessionManagement.Session.1.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Alias = "cpe-pdu11"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 1
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu111"
+    Direction = "bidirectional"
+    Type = 1                   # Match all
+Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Alias = "cpe-pdu12"
+    Identifier = 2
+    Precedence = 10
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Alias = "cpe-pdu121"
+    Direction = "bidirectional"
+    Type = 33                  # Destination IPv6
+    Value = "2001:db8::2:1"    # VoWiFi ePDG
+Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Alias = "cpe-pdu11"
+    QFI = 1
+    FiveQI = 8
+Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Alias = "cpe-pdu11"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+Device.SessionManagement.Session.2.
+    Alias = "cpe-pdu2"
+    Interface = Device.IP.Interface.2
+    SessionType = IPv4v6
+    SessionId = 6
+    DNN = "provider.ims"
+Device.SessionManagement.Session.2.PDU.
+    PTI = 34
+    SSC = 1
+    SessionAMBRDownlink = 150000
+    SessionAMBRUplink = 150000
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 1
+Device.SessionManagement.Session.2.PCO.
+    IPv6PCSCF = "2001:db8::1:1"
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+    IPv4PCSCF = "203.0.113.100"
+Device.SessionManagement.Session.2.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Alias = "cpe-pdu21"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu211"
+    Direction = "bidirectional"
+    Type = 1            # Match all
+Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Alias = "cpe-pdu21"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+```
+
+#bbf-appendix4[
+==== XXV.3.3.4 Scenario \#4 \- 5G PDU \- Fixed \- General purpose internet traffic <sec:scenario-4---5g-pdu---fixed---general-purpose-internet-traffic>]
+
+```
+Device.WWC.
+    Capabilities = "FN-RG,5G-RG,W-5GAN"
+    Mode = "5G-RG"
+    Status = "5G-RG"
+    AccessNetworkNumberOfEntries = 1
+    URSPNumberOfEntries = 2
+Device.WWC.AccessNetwork.1.
+    Alias = "cpe-fixed"
+    Name = "fixed"
+    Interface = Device.Ethernet.5
+    RegistrationStatus = "RM-REGISTERED"
+    ConnectionStatus = "CM_CONNECTED"
+    AccessNetworkType = "W-5GAN"
+Device.WWC.AccessNetwork.1.GUTI
+    PLMN = 50501
+    AMFid = 65601
+    TMSI = 60340039
+Device.WWC.URSP.1.          # Default traffic rule
+    Alias = "cpe-ursp1"
+    Precedence = 100
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.
+    Alias = "cpe-ursp11"
+    Type = 1                # Match all traffic
+    Value = ""
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp111"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.internet"
+    PDUSessionType = "IPv4v6"
+    AccessType = "Non-3GPP access"
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.WWC.URSP.2.           # VoUP traffic rule
+    Alias = "cpe-ursp2"
+    Precedence = 10
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.
+    Alias = "cpe-ursp21"
+    Type = 144               # Connection Capability Type
+    Value = "1"              # IMS
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp211"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.ims"
+    PDUSessionType = "IPv6"
+    AccessType = "Non-3GPP access"
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.SessionManagement.
+    SessionNumberOfEntries = 2
+Device.SessionManagement.Session.1
+    Alias = "cpe-pdu1"
+    Interface = Device.IP.Interface.1
+    SessionId = 1
+    SessionType = IPv4v6
+Device.PDU.Session.1.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.Session.1.PDU
+    PTI = 63
+    SSC = 1
+    SessionAMBRDownlink = 100000000
+    SessionAMBRUplink = 40000000
+    DNN = "provider.internet"
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 2
+Device.SessionManagement.Session.1.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Alias = "cpe-pdu11"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 1
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu111"
+    Direction = "bidirectional"
+    Type = 1                  # Match all
+Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Alias = "cpe-pdu12"
+    Identifier = 2
+    Precedence = 10
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Alias = "cpe-pdu121"
+    Direction = "bidirectional"
+    Type = 33                  # Destination IPv6
+    Value = "2001:db8::2:1"    # VoWiFi ePDG
+Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Alias = "cpe-pdu11"
+    QFI = 1
+    FiveQI = 8
+Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Alias = "cpe-pdu11"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+Device.SessionManagement.Session.2.
+    Alias = "cpe-pdu2"
+    Interface = Device.IP.Interface.2
+    SessionId = 6
+    SessionType = IPv4v6
+Device.SessionManagement.Session.2.PCO
+    IPv6PCSCF = "2001:db8::1:1"
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+    IPv4PCSCF = "203.0.113.100"
+Device.SessionManagement.Session.2.PDU
+    PTI = 34
+    SSC = 1
+    SessionAMBRDownlink = 150000
+    SessionAMBRUplink = 150000
+    DNN = "provider.ims"
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 1
+Device.SessionManagement.Session.2.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Alias = "cpe-pdu21"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu211"
+    Direction = "bidirectional"
+    Type = 1            # Match all
+Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Alias = "cpe-pdu21"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+Device.FWE.
+    LinkNumberOfEntries = 1
+Device.FWE.Link.1.
+    Alias = "cpe-fwe1"
+    Name = "cpe-fwe1"
+    Status = "Up"
+    LowerLayers = "Device.Ethernet.5"
+Device.FWE.Link.1.Stats
+    BytesSent = 478945789
+    BytesReceived = 589545478
+```
+
+#bbf-appendix4[
+==== XXV.3.3.5 Scenario \#5 \- 5G PDU \- WWC \- General purpose internet traffic, IMS VoIP, traffic marking for VoWiFi <sec:scenario-5---5g-pdu---wwc---general-purpose-internet-traffic-ims-voip-traffic-marking-for-vowifi>]
+
+```
+Device.WWC.
+    Capabilities = "FN-RG,5G-RG,W-5GAN"
+    Mode = "5G-RG"
+    Status = "5G-RG"
+    AccessNetworkNumberOfEntries = 2
+    URSPNumberOfEntries = 2
+Device.WWC.AccessNetwork.1.
+    Alias = "cpe-fixed"
+    Name = "fixed"
+    Interface = Device.Ethernet.5
+    RegistrationStatus = "RM-REGISTERED"
+    ConnectionStatus = "CM_CONNECTED"
+    AccessNetworkType = "W-5GAN"
+Device.WWC.AccessNetwork.1.GUTI
+    PLMN = 50501
+    AMFid = 65601
+    TMSI = 60340039
+Device.WWC.AccessNetwork.2.
+    Alias = "cpe-cellular"
+    Name = "cellular"
+    Interface = Device.Cellular.Interface.1
+    RegistrationStatus = "RM-REGISTERED"
+    ConnectionStatus = "CM_CONNECTED"
+    AccessNetworkType = "NG-RAN"
+Device.WWC.AccessNetwork.2.GUTI
+    PLMN = 50501
+    AMFid = 131137
+    TMSI = 54678959
+Device.WWC.URSP.1.             # Default traffic rule
+    Alias = "cpe-ursp1"
+    Precedence = 100
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.
+    Alias = "cpe-ursp11"
+    Type = 1                   # Match all traffic
+    Value = ""
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp111"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.internet"
+    PDUSessionType = "IPv4v6"
+    AccessType = "Non-3GPP access"
+Device.WWC.URSP.1.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.WWC.URSP.2.             # VoUP traffic rule
+    Alias = "cpe-ursp2"
+    Precedence = 10
+    TrafficDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.
+    Alias = "cpe-ursp21"
+    Type = 144                 # Connection Capability Type
+    Value = "1"                # IMS
+    RouteSelectionDescriptorNumberOfEntries = 1
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
+    Alias = "cpe-ursp211"
+    Precedence = 100
+    SSC = 1
+    DNN = "provider.ims"
+    PDUSessionType = "IPv6"
+    AccessType = "Non-3GPP access"
+Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
+    SliceServiceType = "eMBB"
+Device.SessionManagement.
+    SessionNumberOfEntries = 2
+Device.SessionManagement.Session.1.
+    Alias = "cpe-pdu1"
+    Interface = Device.IP.Interface.1
+    SessionType = IPv4v6
+    SessionId = 1
+    APN = "provider.internet"
+Device.SessionManagement.Session.1.PCO
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.Session.1.PDU
+    PTI = 63
+    SSC = 1
+    SessionAMBRDownlink = 100000000
+    SessionAMBRUplink = 40000000
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 2
+Device.SessionManagement.Session.1.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Alias = "cpe-pdu11"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 1
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu111"
+    Direction = "bidirectional"
+    Type = 1                   # Match all
+Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Alias = "cpe-pdu12"
+    Identifier = 2
+    Precedence = 10
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Alias = "cpe-pdu121"
+    Direction = "bidirectional"
+    Type = 33                  # Destination IPv6
+    Value = "2001:db8::2:1"    # VoWiFi ePDG
+Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Alias = "cpe-pdu11"
+    QFI = 1
+    FiveQI = 8
+Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Alias = "cpe-pdu11"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+Device.SessionManagement.Session.2.
+    Alias = "cpe-pdu2"
+    Interface = Device.IP.Interface.2
+    SessionType = IPv4v6
+    SessionId = 6
+    DNN = "provider.ims"
+Device.SessionManagement.Session.2.PDU.
+    PTI = 34
+    SSC = 1
+    SessionAMBRDownlink = 150000
+    SessionAMBRUplink = 150000
+    QoSRuleNumberOfEntries = 2
+    QoSFlowNumberOfEntries = 1
+Device.SessionManagement.Session.2.PCO.
+    IPv6PCSCF = "2001:db8::1:1"
+    IPv6DNS = "2001:db8::1,2001:db8::2"
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+    IPv4PCSCF = "203.0.113.100"
+Device.SessionManagement.Session.2.PDU.NetworkSlice
+    SliceServiceType = "eMBB"
+    SliceDifferentiator = 4
+Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Alias = "cpe-pdu21"
+    Identifier = 1
+    Precedence = 100
+    Segregation = false
+    QFI = 32
+    DQR = true
+    FilterNumberOfEntries = 1
+Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Alias = "cpe-pdu211"
+    Direction = "bidirectional"
+    Type = 1            # Match all
+Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Alias = "cpe-pdu21"
+    QFI = 32
+    FiveQI = 1
+    GFBRUplink = 150000
+    GFBRDownlink = 150000
+Device.FWE.
+    LinkNumberOfEntries = 1
+Device.FWE.Link.1.
+    Alias = "cpe-fwe1"
+    Name = "cpe-fwe1"
+    Status = "Up"
+    LowerLayers = Device.Ethernet.5
+Device.FWE.Link.1.Stats
+    BytesSent = 478945789
+    BytesReceived = 589545478
+```
 
 #bbf-note[
 End of Broadband Forum Technical Report TR\-181

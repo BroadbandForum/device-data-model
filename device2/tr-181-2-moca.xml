@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-moca"
-    file="tr-181-2-18-0-moca.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-moca"
+    file="tr-181-2-19-0-moca.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,6 +71,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer12Interface"/>
   </import>
 
   <dataType name="MocaChannelMask">
@@ -271,37 +276,6 @@
     </string>
   </dataType>
 
-  <bibliography>
-    <reference id="MoCAv2.0">
-      <name>MoCA v2.0</name>
-      <title>MoCA MAC/PHY Specification v2.0</title>
-      <organization>MoCA Alliance</organization>
-      <date>2017</date>
-      <hyperlink>https://www.mocalliance.org</hyperlink>
-    </reference>
-    <reference id="MoCAv2.5">
-      <name>MoCA v2.5</name>
-      <title>MoCA MAC/PHY Specification v2.5</title>
-      <organization>MoCA Alliance</organization>
-      <date>2017</date>
-      <hyperlink>https://www.mocalliance.org</hyperlink>
-    </reference>
-    <reference id="MOCA20-MIB">
-      <name>MOCA20-MIB</name>
-      <title>Remote Management of MoCA Interfaces using SNMP MIB v2.0</title>
-      <organization>MoCA Alliance</organization>
-      <date>2020</date>
-      <hyperlink>https://www.mocalliance.org</hyperlink>
-    </reference>
-    <reference id="MOCA25-MIB">
-      <name>MOCA25-MIB</name>
-      <title>Remote Management of MoCA Interfaces using SNMP MIB v2.5 (Approved draft)</title>
-      <organization>MoCA Alliance</organization>
-      <date>2018</date>
-      <hyperlink>https://www.mocalliance.org</hyperlink>
-    </reference>
-  </bibliography>
-
   <component name="MoCAAcaInput">
     <parameter name="NodeID" access="readWrite" id="mocaIfAcaNodeID/1.3.6.1.4.1.31621.1.2.1.5.1.1">
         <description>
@@ -375,30 +349,22 @@
         {{bibref|MoCAv1.0}} {{bibref|MoCAv1.1}}.
       </description>
 
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Layer12Interface"/>
     </object>
 
-    <object name="Device.MoCA.Interface.{i}." access="readOnly"
-        numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.MoCA.Interface.{i}.">
+      <description action="replace">
         MoCA interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Each table entry models the PHY and
         MAC levels of a MoCA interface {{bibref|MoCAv1.0}} {{bibref|MoCAv1.1}}.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
+
+      <parameter base="Enable">
+        <syntax>
+          <boolean/>
+          <default type="factory" value="true"/>
+        </syntax>
+      </parameter>
 
       <!-- component MoCATraps is defined separately for CWMP and USP -->
       <parameter name="AccessControlNumberOfEntries" access="readOnly" version="2.17">
@@ -455,120 +421,18 @@
         </syntax>
       </parameter>
 
-      <parameter name="Enable" access="readWrite" id="mocaIfEnable/1.3.6.1.4.1.31621.1.2.1.1.1.1">
-        <description>
-          Enables or disables the interface.
+      <parameter base="Enable" id="mocaIfEnable/1.3.6.1.4.1.31621.1.2.1.1.1.1"/>
 
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
+      <parameter base="Status" id="mocaIfStatus/1.3.6.1.4.1.31621.1.2.1.7.1.1"/>
+
+      <parameter base="Name" id="mocaIfName/1.3.6.1.4.1.31621.1.2.1.7.1.8"/>
+
+      <parameter base="LastChange" id="mocaIfStatus/1.3.6.1.4.1.31621.1.2.1.7.1.1"/>
+
+      <parameter base="MaxBitRate">
+        <description action="append">
+          This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
         </description>
-        <syntax>
-          <boolean/>
-          <default type="factory" value="true"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly" id="mocaIfStatus/1.3.6.1.4.1.31621.1.2.1.7.1.1">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly" id="mocaIfName/1.3.6.1.4.1.31621.1.2.1.7.1.8">
-        <description>
-          The textual name of the interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny" id="mocaIfStatus/1.3.6.1.4.1.31621.1.2.1.7.1.1">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since {{object}} is a layer 1 interface, it is expected that
-          {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Upstream" access="readOnly">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
       </parameter>
 
       <parameter name="MACAddress" access="readOnly" id="mocaIfMacAddress/1.3.6.1.4.1.31621.1.2.1.7.1.6">
@@ -596,19 +460,6 @@
           <string>
             <size maxLength="64"/>
           </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="MaxBitRate" access="readOnly">
-        <description>
-          The maximum MoCA PHY bit rate (expressed in {{units}}).
-
-          This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="Mbps"/>
-          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -769,7 +620,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PrivacyEnabled" access="readOnly" status="deprecated" id="mocaIfPrivacyEnable/1.3.6.1.4.1.31621.1.2.1.1.1.7">
+      <parameter name="PrivacyEnabled" access="readOnly" status="obsoleted" id="mocaIfPrivacyEnable/1.3.6.1.4.1.31621.1.2.1.1.1.7">
         <description>
           Indicates whether link-layer security is enabled or disabled.
 
@@ -777,6 +628,8 @@
           {{bibref|MOCA11-MIB}}.
 
           {{deprecated|2.17|because it and {{param|PrivacyEnabledSetting}} are associated with the same underlying MIB object and it is therefore unnecessary. If implemented, it MUST return the same value as {{param|PrivacyEnabledSetting}}}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <boolean/>
@@ -1609,7 +1462,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="BeaconPowerLimit" access="readWrite" status="deprecated" id="mocaIfBeaconPowerBackoff/1.3.6.1.4.1.31621.1.2.1.1.1.5">
+      <parameter name="BeaconPowerLimit" access="readWrite" status="obsoleted" id="mocaIfBeaconPowerBackoff/1.3.6.1.4.1.31621.1.2.1.1.1.5">
         <description>
           The value in dB by which to reduce the setting of the transmit power of the Beacon from the maximum transmit power (BEACON_PWR_BACKOFF Managed Parameter). The beacon transmit power SHALL only be changed when {{param|Status}} is not {{enum|Up|Status}}, which means the interface is not part of a MoCA network. If changed, the parameter may not take effect until the MoCA interface is restarted.
 
@@ -1618,6 +1471,8 @@
           Note that this parameter maps to different MIB objects for MoCA 1.0/1.1 and MoCA 2.0.
 
           {{deprecated|2.17|for MoCA 2.5}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
@@ -2338,60 +2193,14 @@
       </parameter>
     </object>
 
-    <object name="Device.MoCA.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface.
+    <object base="Device.MoCA.Interface.{i}.Stats.">
+      <parameter base="BytesSent" id="mocaIfTxBytes/1.3.6.1.4.1.31621.1.2.1.8.1.8"/>
 
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-      </description>
+      <parameter base="BytesReceived" id="mocaIfRxBytes/1.3.6.1.4.1.31621.1.2.1.8.1.9"/>
 
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny" id="mocaIfTxBytes/1.3.6.1.4.1.31621.1.2.1.8.1.8">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
+      <parameter base="PacketsSent" id="mocaIfTxPackets/1.3.6.1.4.1.31621.1.2.1.8.1.1"/>
 
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny" id="mocaIfRxBytes/1.3.6.1.4.1.31621.1.2.1.8.1.9">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny" id="mocaIfTxPackets/1.3.6.1.4.1.31621.1.2.1.8.1.1">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny" id="mocaIfRxPackets/1.3.6.1.4.1.31621.1.2.1.8.1.3">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
+      <parameter base="PacketsReceived" id="mocaIfRxPackets/1.3.6.1.4.1.31621.1.2.1.8.1.3"/>
 
       <parameter name="RxCorrectedErrors" access="readOnly" activeNotify="canDeny" id="mocaIfRxCorrectedErrors/1.3.6.1.4.1.31621.1.2.1.8.1.4" version="2.17">
         <description>
@@ -2402,140 +2211,36 @@
         </syntax>
       </parameter>
 
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
+      <parameter base="ErrorsSent">
+        <description action="append">
+         This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
+        </description>
+      </parameter>
 
+      <parameter base="ErrorsReceived">
+        <description action="append">
           This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
+      <parameter base="UnicastPacketsSent" id="mocaIfTxUnicast/1.3.6.1.4.1.31621.1.2.1.8.1.10"/>
 
+      <parameter base="UnicastPacketsReceived" id="mocaIfRxUnicast/1.3.6.1.4.1.31621.1.2.1.8.1.11"/>
+
+      <parameter base="DiscardPacketsReceived" id="mocaIfRxDrops/1.3.6.1.4.1.31621.1.2.1.8.1.5"/>
+
+      <parameter base="MulticastPacketsSent" id="mocaIfTxMulticast/1.3.6.1.4.1.31621.1.2.1.8.1.12"/>
+
+      <parameter base="MulticastPacketsReceived" id="mocaIfRxMulticast/1.3.6.1.4.1.31621.1.2.1.8.1.13"/>
+
+      <parameter base="BroadcastPacketsSent" id="mocaIfTxBroadcast/1.3.6.1.4.1.31621.1.2.1.8.1.14"/>
+
+      <parameter base="BroadcastPacketsReceived" id="mocaIfRxBroadcast/1.3.6.1.4.1.31621.1.2.1.8.1.15"/>
+
+      <parameter base="UnknownProtoPacketsReceived">
+        <description action="append">
           This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny" id="mocaIfTxUnicast/1.3.6.1.4.1.31621.1.2.1.8.1.10">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny" id="mocaIfRxUnicast/1.3.6.1.4.1.31621.1.2.1.8.1.11">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny" id="mocaIfRxDrops/1.3.6.1.4.1.31621.1.2.1.8.1.5">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny" id="mocaIfTxMulticast/1.3.6.1.4.1.31621.1.2.1.8.1.12">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny" id="mocaIfRxMulticast/1.3.6.1.4.1.31621.1.2.1.8.1.13">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny" id="mocaIfTxBroadcast/1.3.6.1.4.1.31621.1.2.1.8.1.14">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny" id="mocaIfRxBroadcast/1.3.6.1.4.1.31621.1.2.1.8.1.15">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-
-          This parameter MUST NOT be implemented for MoCA 2.0 because it doesn't map to a MIB object.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
     </object>
 
@@ -2897,7 +2602,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxPowerControlReduction" access="readOnly" status="deprecated" id="mocaNodeTxPowerReduction/1.3.6.1.4.1.31621.1.2.1.11.1.6">
+      <parameter name="TxPowerControlReduction" access="readOnly" status="obsoleted" id="mocaNodeTxPowerReduction/1.3.6.1.4.1.31621.1.2.1.11.1.6">
         <description>
           The reduction in transmitter level due to power
           control.
@@ -2906,13 +2611,15 @@
           {{bibref|MOCA11-MIB}}.
 
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.PowerReduction}}. See {{bibref|MOCA20-MIB}}}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
         </syntax>
       </parameter>
 
-      <parameter name="RxPowerLevel" access="readOnly" activeNotify="canDeny" status="deprecated" id="mocaNodeRxPower/1.3.6.1.4.1.31621.1.2.1.11.1.7">
+      <parameter name="RxPowerLevel" access="readOnly" activeNotify="canDeny" status="obsoleted" id="mocaNodeRxPower/1.3.6.1.4.1.31621.1.2.1.11.1.7">
         <description>
           The power level (in {{units}}) received at the MoCA interface from
           this remote device.
@@ -2921,6 +2628,8 @@
           {{bibref|MOCA11-MIB}}.
 
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.Power}}. See {{bibref|MOCA20-MIB}}}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3052,7 +2761,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="RxSNR" access="readOnly" status="deprecated" id="mocaNodeSNR/1.3.6.1.4.1.31621.1.2.1.11.1.14">
+      <parameter name="RxSNR" access="readOnly" status="obsoleted" id="mocaNodeSNR/1.3.6.1.4.1.31621.1.2.1.11.1.14">
         <description>
           The signal to noise level received at this interface
           from this remote device.
@@ -3061,6 +2770,8 @@
           {{bibref|MOCA11-MIB}}.
 
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.RxSNR}}. See {{bibref|MOCA20-MIB}}}}
+
+          {{obsoleted|2.19}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
@@ -3603,7 +3314,7 @@
       </parameter>
     </object>
 
-    <profile name="MoCA:1" version="2.0" status="deprecated">
+    <profile name="MoCA:1" version="2.0" status="obsoleted">
       <object ref="Device.MoCA." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -3621,7 +3332,7 @@
         <parameter ref="CurrentVersion" requirement="readOnly"/>
         <parameter ref="NetworkCoordinator" requirement="readOnly"/>
         <parameter ref="PrivacyEnabledSetting" requirement="readWrite"/>
-        <parameter ref="PrivacyEnabled" requirement="readOnly" status="deprecated"/>
+        <parameter ref="PrivacyEnabled" requirement="readOnly" status="obsoleted"/>
         <parameter ref="FreqCapabilityMask" requirement="readOnly"/>
         <parameter ref="FreqCurrentMaskSetting" requirement="readWrite"/>
         <parameter ref="FreqCurrentMask" requirement="readOnly"/>
@@ -3915,7 +3626,7 @@
     </profile>
   </component>
 
-  <model name="MoCA:2.18">
+  <model name="MoCA:2.19">
     <component ref="Root"/>
     <component ref="MoCA"/>
   </model>

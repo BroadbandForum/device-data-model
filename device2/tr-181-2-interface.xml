@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-interface"
-    file="tr-181-2-18-0-interface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-interface"
+    file="tr-181-2-19-0-interface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -83,7 +83,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Status" access="readOnly">
+    <parameter name="Status">
       <description>
         The current operational state of the interface (see
         {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
@@ -125,7 +125,7 @@
 
     <component ref="Alias"/>
 
-    <parameter name="Name" access="readOnly">
+    <parameter name="Name">
       <description>
         The textual name of the interface as assigned by the CPE.
       </description>
@@ -136,7 +136,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
+    <parameter name="LastChange" activeNotify="canDeny">
       <description>
         The accumulated time in {{units}} since the interface entered its
         current operational state.
@@ -188,7 +188,45 @@
     </parameter>
   </component>
 
+  <component name="BaseInterfaceParamsMaxBitRateReadOnly">
+    <parameter name="MaxBitRate">
+      <description>
+        The maximum upstream and downstream PHY bit rate supported by this
+        interface (expressed in {{units}}).
+      </description>
+      <syntax>
+        <unsignedInt>
+          <units value="Mbps"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="BaseInterfaceParamsMaxBitRateReadWrite">
+    <parameter name="MaxBitRate" access="readWrite">
+      <description>
+        The maximum upstream and downstream PHY bit rate supported by this
+        interface (expressed in {{units}}).
+
+        A value of -1 indicates automatic selection of the maximum bit rate.
+      </description>
+      <syntax>
+        <int>
+          <range minInclusive="-1"/>
+          <units value="Mbps"/>
+        </int>
+      </syntax>
+    </parameter>
+  </component>
+
   <component name="Layer1InterfaceParams">
+    <parameter base="Status">
+      <description action="append">
+        Because the interface includes layer 1, the {{enum|LowerLayerDown}}
+        value SHOULD never be used.
+      </description>
+    </parameter>
+
     <parameter base="LowerLayers">
       <description action="append">
         Note: Since {{object}} is a layer 1 interface, it is expected that
@@ -196,7 +234,7 @@
       </description>
     </parameter>
 
-    <parameter name="Upstream" access="readOnly">
+    <parameter name="Upstream">
       <description>
         Indicates whether the interface points towards the Internet
         ({{true}}) or towards End Devices ({{false}}).
@@ -216,33 +254,16 @@
         <boolean/>
       </syntax>
     </parameter>
-
-    <parameter name="MaxBitRate" access="readWrite">
-      <description>
-        The maximum upstream and downstream PHY bit rate supported by this
-        interface (expressed in {{units}}).
-
-        A value of -1 indicates automatic selection of the maximum bit rate.
-      </description>
-      <syntax>
-        <int>
-          <range minInclusive="-1"/>
-          <units value="Mbps"/>
-        </int>
-      </syntax>
-    </parameter>
   </component>
 
   <component name="Layer2InterfaceParams">
-    <component ref="BaseInterfaceParamsAddDefaults"/>
   </component>
 
   <component name="Layer3InterfaceParams">
-    <component ref="BaseInterfaceParamsAddDefaults"/>
   </component>
 
   <component name="InterfaceStatsReset" virtual="true">
-    <parameter name="Reset" access="readWrite" version="2.18">
+    <parameter name="Reset" access="readWrite">
       <description>
         Set this to {{true}} to reset all this object's statistics counters to zero.
       </description>
@@ -253,7 +274,7 @@
   </component>
 
   <component name="InterfaceStatsResetCWMP">
-    <parameter name="Reset" access="readWrite" version="2.18">
+    <parameter name="Reset" access="readWrite">
       <description>
         Set this to {{true}} to reset all this object's statistics counters to zero.
       </description>
@@ -264,7 +285,7 @@
   </component>
 
   <component name="InterfaceStatsResetUSP">
-    <command name="Reset()" async="false" version="2.18">
+    <command name="Reset()" async="false">
       <description>
         Reset all this object's statistics counters to zero.
       </description>
@@ -272,7 +293,7 @@
   </component>
 
   <component name="BaseInterfaceStats">
-    <object name="Stats." access="readOnly"
+    <object name="Stats."
       minEntries="1" maxEntries="1" version="2.0">
       <description>
         Throughput statistics for this interface.
@@ -290,89 +311,101 @@
 
       <component ref="InterfaceStatsReset"/>
 
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="BytesSent" activeNotify="canDeny">
         <description>
-          The total number of bytes transmitted out of the interface, including
+          The total number of {{units}} transmitted out of the interface, including
           framing characters.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="bytes"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
+      <parameter name="BytesReceived" activeNotify="canDeny">
         <description>
-          The total number of bytes received on the interface, including
+          The total number of {{units}} received on the interface, including
           framing characters.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="bytes"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="PacketsSent" activeNotify="canDeny">
         <description>
-          The total number of packets transmitted out of the interface.
+          The total number of {{units}} transmitted out of the interface.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="PacketsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="PacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of packets received on the interface.
+          The total number of {{units}} received on the interface.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
+      <parameter name="ErrorsSent" activeNotify="canDeny">
         <description>
-          The total number of outbound packets that could not be transmitted
+          The total number of outbound {{units}} that could not be transmitted
           because of errors.
         </description>
         <syntax>
-          <dataType ref="StatsCounter32"/>
+          <dataType ref="StatsCounter32">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="ErrorsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="ErrorsReceived" activeNotify="canDeny">
         <description>
-          The total number of inbound packets that contained errors preventing
+          The total number of inbound {{units}} that contained errors preventing
           them from being delivered to a higher-layer protocol.
         </description>
         <syntax>
-          <dataType ref="StatsCounter32"/>
+          <dataType ref="StatsCounter32">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="DiscardPacketsSent" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="DiscardPacketsSent" activeNotify="canDeny">
         <description>
-          The total number of outbound packets which were chosen to be
+          The total number of outbound {{units}} which were chosen to be
           discarded even though no errors had been detected to prevent their
           being transmitted. One possible reason for discarding such a packet
           could be to free up buffer space.
         </description>
         <syntax>
-          <dataType ref="StatsCounter32"/>
+          <dataType ref="StatsCounter32">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="DiscardPacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of inbound packets which were chosen to be discarded
+          The total number of inbound {{units}} which were chosen to be discarded
           even though no errors had been detected to prevent their being
           delivered. One possible reason for discarding such a packet could be
           to free up buffer space.
         </description>
         <syntax>
-          <dataType ref="StatsCounter32"/>
+          <dataType ref="StatsCounter32">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
     </object>
@@ -380,84 +413,95 @@
 
   <component name="HigherLayerInterfaceStats">
     <object base="Stats.">
-      <parameter name="UnicastPacketsSent" access="readOnly"
-        activeNotify="canDeny" dmr:previousParameter="ErrorsReceived">
+      <parameter name="UnicastPacketsSent" activeNotify="canDeny"
+        dmr:previousParameter="ErrorsReceived">
         <description>
-          The total number of packets requested for transmission which were not
+          The total number of {{units}} requested for transmission which were not
           addressed to a multicast or broadcast address at this layer,
           including those that were discarded or not sent.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="UnicastPacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of received packets, delivered by this layer to a
+          The total number of received {{units}}, delivered by this layer to a
           higher layer, which were not addressed to a multicast or broadcast
           address at this layer.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="MulticastPacketsSent" access="readOnly"
-        activeNotify="canDeny" dmr:previousParameter="DiscardPacketsReceived">
+      <parameter name="MulticastPacketsSent" activeNotify="canDeny"
+        dmr:previousParameter="DiscardPacketsReceived">
         <description>
-          The total number of packets that higher-level protocols requested for
+          The total number of {{units}} that higher-level protocols requested for
           transmission and which were addressed to a multicast address at this
           layer, including those that were discarded or not sent.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="MulticastPacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of received packets, delivered by this layer to a
+          The total number of received {{units}}, delivered by this layer to a
           higher layer, which were addressed to a multicast address at this
           layer.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="BroadcastPacketsSent" access="readOnly">
+      <parameter name="BroadcastPacketsSent" activeNotify="canDeny">
         <description>
-          The total number of packets that higher-level protocols requested for
+          The total number of {{units}} that higher-level protocols requested for
           transmission and which were addressed to a broadcast address at this
           layer, including those that were discarded or not sent.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="BroadcastPacketsReceived" access="readOnly">
+      <parameter name="BroadcastPacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of received packets, delivered by this layer to a
+          The total number of received {{units}}, delivered by this layer to a
           higher layer, which were addressed to a broadcast address at this
           layer.
         </description>
         <syntax>
-          <dataType ref="StatsCounter64"/>
+          <dataType ref="StatsCounter64">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
 
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-        activeNotify="canDeny">
+      <parameter name="UnknownProtoPacketsReceived" activeNotify="canDeny">
         <description>
-          The total number of packets received via the interface which were
+          The total number of {{units}} received via the interface which were
           discarded because of an unknown or unsupported protocol.
         </description>
         <syntax>
-          <dataType ref="StatsCounter32"/>
+          <dataType ref="StatsCounter32">
+            <units value="packets"/>
+          </dataType>
         </syntax>
       </parameter>
     </object>
@@ -467,14 +511,14 @@
     <object base="Stats.">
       <parameter base="BroadcastPacketsSent">
         <description action="append">
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
+          Note that IPv6 does not define broadcast addresses, so IPv6 {{units}}
           will never cause this counter to increment.
         </description>
       </parameter>
 
       <parameter base="BroadcastPacketsReceived">
         <description action="append">
-          Note that IPv6 does not define broadcast addresses, so IPv6 packets
+          Note that IPv6 does not define broadcast addresses, so IPv6 {{units}}
           will never cause this counter to increment.
         </description>
       </parameter>
@@ -493,8 +537,8 @@
     <component ref="HigherLayerInterfaceStatsIPv6Note"/>
   </component>
 
-  <component name="BaseInterface">
-    <parameter name="InterfaceNumberOfEntries" access="readOnly">
+  <component name="Layer1InterfaceNoMaxBitRate">
+    <parameter name="InterfaceNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -502,35 +546,7 @@
         <unsignedInt/>
       </syntax>
     </parameter>
-    <object name="Interface.{i}." access="readOnly"
-      numEntriesParameter="InterfaceNumberOfEntries"
-      minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
-        {{object}} table (a stackable interface object as described in
-        {{bibref|TR-181i2|Section 4.2}}).
-      </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-      <component ref="BaseInterfaceParams"/>
-      <component ref="BaseInterfaceStats"/>
-    </object>
-  </component>
-
-  <component name="Layer1Interface">
-    <parameter name="InterfaceNumberOfEntries" access="readOnly">
-      <description>
-        {{numentries}}
-      </description>
-      <syntax>
-        <unsignedInt/>
-      </syntax>
-    </parameter>
-    <object name="Interface.{i}." access="readOnly"
-        numEntriesParameter="InterfaceNumberOfEntries"
+    <object name="Interface.{i}." numEntriesParameter="InterfaceNumberOfEntries"
         minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
       <description>
         {{object}} table (a stackable interface object as described in
@@ -549,8 +565,26 @@
     </object>
   </component>
 
-  <component name="Layer12Interface">
-    <parameter name="InterfaceNumberOfEntries" access="readOnly">
+  <component name="Layer1InterfaceMaxBitRateReadOnly">
+    <component ref="Layer1InterfaceNoMaxBitRate"/>
+    <object base="Interface.{i}.">
+      <component ref="BaseInterfaceParamsMaxBitRateReadOnly"/>
+    </object>
+  </component>
+
+  <component name="Layer1InterfaceMaxBitRateReadWrite">
+    <component ref="Layer1InterfaceNoMaxBitRate"/>
+    <object base="Interface.{i}.">
+      <component ref="BaseInterfaceParamsMaxBitRateReadWrite"/>
+    </object>
+  </component>
+
+  <component name="Layer1Interface">
+    <component ref="Layer1InterfaceMaxBitRateReadOnly"/>
+  </component>
+
+  <component name="Layer12InterfaceNoMaxBitRate">
+    <parameter name="InterfaceNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -558,8 +592,7 @@
         <unsignedInt/>
       </syntax>
     </parameter>
-    <object name="Interface.{i}." access="readOnly"
-      numEntriesParameter="InterfaceNumberOfEntries"
+    <object name="Interface.{i}." numEntriesParameter="InterfaceNumberOfEntries"
       minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
       <description>
         {{object}} table (a stackable interface object as described in
@@ -573,15 +606,33 @@
       </uniqueKey>
       <component ref="BaseInterfaceParams"/>
       <component ref="Layer1InterfaceParams"/>
-      <!-- <component ref="Layer2InterfaceParams"/> -->
+      <component ref="Layer2InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer1InterfaceStats"/>
       <component ref="Layer2InterfaceStats"/>
     </object>
   </component>
 
-  <component name="Layer2Interface">
-    <parameter name="InterfaceNumberOfEntries" access="readOnly">
+  <component name="Layer12InterfaceMaxBitRateReadOnly">
+    <component ref="Layer12InterfaceNoMaxBitRate"/>
+    <object base="Interface.{i}.">
+      <component ref="BaseInterfaceParamsMaxBitRateReadOnly"/>
+    </object>
+  </component>
+
+  <component name="Layer12InterfaceMaxBitRateReadWrite">
+    <component ref="Layer12InterfaceNoMaxBitRate"/>
+    <object base="Interface.{i}.">
+      <component ref="BaseInterfaceParamsMaxBitRateReadWrite"/>
+    </object>
+  </component>
+
+  <component name="Layer12Interface">
+    <component ref="Layer12InterfaceMaxBitRateReadOnly"/>
+  </component>
+
+  <component name="Layer2InterfaceReadOnly">
+    <parameter name="InterfaceNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -589,9 +640,8 @@
         <unsignedInt/>
       </syntax>
     </parameter>
-    <object name="Interface.{i}." access="readWrite"
-      numEntriesParameter="InterfaceNumberOfEntries" enableParameter="Enable"
-      minEntries="0" maxEntries="unbounded" version="2.0">
+    <object name="Interface.{i}." numEntriesParameter="InterfaceNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
       <description>
         {{object}} table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}).
@@ -609,8 +659,8 @@
     </object>
   </component>
 
-  <component name="Layer3Interface">
-    <parameter name="InterfaceNumberOfEntries" access="readOnly">
+  <component name="Layer2InterfaceReadWrite">
+    <parameter name="InterfaceNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -632,6 +682,41 @@
         <parameter ref="Name"/>
       </uniqueKey>
       <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
+
+  <component name="Layer2Interface">
+    <component ref="Layer2InterfaceReadOnly"/>
+  </component>
+
+  <component name="Layer3Interface">
+    <parameter name="InterfaceNumberOfEntries">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="Interface.{i}." access="readWrite"
+      numEntriesParameter="InterfaceNumberOfEntries" enableParameter="Enable"
+      minEntries="0" maxEntries="unbounded" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
       <component ref="Layer3InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer3InterfaceStats"/>
@@ -640,7 +725,7 @@
 
   <!-- Layer 1 interface in which the interface table is called "Line" -->
   <component name="Line">
-    <parameter name="LineNumberOfEntries" access="readOnly">
+    <parameter name="LineNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -648,7 +733,7 @@
         <unsignedInt/>
       </syntax>
     </parameter>
-    <object name="Line.{i}." access="readOnly" numEntriesParameter="LineNumberOfEntries"
+    <object name="Line.{i}." numEntriesParameter="LineNumberOfEntries"
       minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
       <description>
         {{object}} table (a stackable interface object as described in
@@ -667,9 +752,37 @@
     </object>
   </component>
 
-  <!-- Layer 2 interface in which the interface table is called "Link" -->
-  <component name="Link">
-    <parameter name="LinkNumberOfEntries" access="readOnly">
+  <!-- Layer 2 interfaces in which the interface table is called "Link" -->
+  <component name="LinkReadOnly">
+    <parameter name="LinkNumberOfEntries">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="Link.{i}." numEntriesParameter="LinkNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
+
+  <component name="LinkReadWrite">
+    <parameter name="LinkNumberOfEntries">
       <description>
         {{numentries}}
       </description>
@@ -690,35 +803,52 @@
         <parameter ref="Name"/>
       </uniqueKey>
       <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
       <component ref="Layer2InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer2InterfaceStats"/>
     </object>
   </component>
 
-  <model name="Interface:2.18">
+  <component name="Link">
+    <component ref="LinkReadOnly"/>
+  </component>
+
+  <model name="Interface:2.19">
     <component ref="Root"/>
-    <object name="Device.Layer1." version="2.18">
+    <object name="Device.Layer1A." version="2.19">
       <description>
         {{object}}.
       </description>
       <component ref="Layer1Interface"/>
       <component ref="Line"/>
     </object>
-    <object name="Device.Layer2." version="2.18">
+    <object name="Device.Layer1B." version="2.19">
+      <description>
+        {{object}}.
+      </description>
+      <component ref="Layer1InterfaceMaxBitRateReadOnly"/>
+    </object>
+    <object name="Device.Layer1C." version="2.19">
+      <description>
+        {{object}}.
+      </description>
+      <component ref="Layer1InterfaceMaxBitRateReadWrite"/>
+    </object>
+    <object name="Device.Layer2." version="2.19">
       <description>
         {{object}}.
       </description>
       <component ref="Layer2Interface"/>
       <component ref="Link"/>
     </object>
-    <object name="Device.Layer12." version="2.18">
+    <object name="Device.Layer12." version="2.19">
       <description>
         {{object}}.
       </description>
       <component ref="Layer12Interface"/>
     </object>
-    <object name="Device.Layer3." version="2.18">
+    <object name="Device.Layer3." version="2.19">
       <description>
         {{object}}.
       </description>

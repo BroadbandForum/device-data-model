@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-logical"
-    file="tr-181-2-18-0-logical.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-logical"
+    file="tr-181-2-19-0-logical.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,6 +67,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer3Interface"/>
   </import>
 
   <component name="Logical">
@@ -89,311 +94,26 @@
         WAN interface changes must then only care about rewriting the
         LowerLayers parameter of the Logical Interface Objects.
       </description>
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Layer3Interface" version="2.16"/>
     </object>
-    <object name="Device.Logical.Interface.{i}." access="readWrite"
-        numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.16">
-      <description>
+    <object base="Device.Logical.Interface.{i}.">
+      <description action="replace">
         Logical interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). This table models only logical
         interfaces.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface. This parameter is based on
-          ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the logical interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}} This parameter is based
-          on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up">
-              <description>
-                When {{param|Enable}} is changed to {{true}} then {{param}}
-                SHOULD change to {{enum|Up}} if and only if all the active
-                lower layer interfaces are able to transmit and receive network
-                traffic
-              </description>
-            </enumeration>
-            <enumeration value="Down">
-              <description>
-                When {{param|Enable}} is {{false}} then {{param}} SHOULD
-                normally be {{enum|Down}}
-              </description>
-            </enumeration>
-            <enumeration value="Unknown">
-              <description>
-                It SHOULD change to {{enum|Unknown}} if the state of one or
-                more of the active lower interfaces can not be determined for
-                some reason
-              </description>
-            </enumeration>
-            <enumeration value="Dormant">
-              <description>
-                It SHOULD change to {{enum|Dormant}} if and only if one ore
-                more of the active lower interfaces is operable but is waiting
-                for external actions before it can transmit and receive network
-                traffic (and subsequently change to {{enum|Up}} if still
-                operable when the expected actions have completed)
-              </description>
-            </enumeration>
-            <enumeration value="NotPresent">
-              <description>
-                It SHOULD remain in the {{enum|NotPresent}} state if the
-                interface, or one or more of the active lower interfaces has
-                missing (typically hardware) components
-              </description>
-            </enumeration>
-            <enumeration value="LowerLayerDown">
-              <description>
-                It SHOULD change to {{enum|LowerLayerDown}} if and only if one
-                or more of the active lower interfaces is prevented from
-                entering the {{enum|Up}} state because one or more of the
-                interfaces beneath it is down
-              </description>
-            </enumeration>
-            <enumeration value="Error" optional="true">
-              <description>
-                It SHOULD remain in the {{enum|Error}} state if there is an
-                error or other fault condition detected with one more of the
-                active lower layer interfaces
-              </description>
-          </enumeration>
-          </string>
-          <default type="object" value="Down"/>
-        </syntax>
-      </parameter>
-      <component ref="Alias"/>
-      <parameter name="Name" access="readWrite">
+      <parameter base="Name" access="readWrite">
         <description>
           The textual name of the logical interface as assigned by a static
           configuration file or dynamically by a controller.
         </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the logical interface entered
-          its current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
       </parameter>
     </object>
-    <object name="Device.Logical.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.16">
-      <description>
-        Throughput statistics for this interface. The CPE MUST reset the
-        interface's Stats parameters (unless otherwise stated in individual
-        object or parameter descriptions) either when the interface becomes
-        operationally down due to a previous administrative down (i.e. the
-        interface's {{param|#.Status}} parameter transitions to a down state
-        after the interface is disabled) or when the interface becomes
-        administratively up (i.e. the interface's {{param|#.Enable}} parameter
-        transitions from {{false}} to {{true}}). Administrative and operational
-        interface status is discussed in {{bibref|TR-181i2|section 4.2.2}}.
-
+    <object base="Device.Logical.Interface.{i}.Stats.">
+      <description action="append">
         This information SHOULD be mirrored or aggregated from the active
         underlying interfaces.
       </description>
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="BroadcastPacketsSent" access="readOnly">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent. Note that
-          IPv6 does not define broadcast addresses, so IPv6 packets will never
-          cause this counter to increment.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="BroadcastPacketsReceived" access="readOnly">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer. Note that IPv6 does not define broadcast addresses, so IPv6
-          packets will never cause this counter to increment.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
     </object>
     <profile name="Logical:1" version="2.16">
       <object ref="Device.Logical." requirement="present">
@@ -418,7 +138,7 @@
     </profile>
   </component>
 
-  <model name="Logical:2.18">
+  <model name="Logical:2.19">
     <component ref="Root"/>
     <component ref="Logical"/>
   </model>

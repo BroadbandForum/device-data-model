@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi"
-    file="tr-181-2-18-0-wifi.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi"
+    file="tr-181-2-19-0-wifi.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -75,7 +75,7 @@
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-19-wifi-base">
     <component name="WiFiRoot"/>
     <component name="WiFiBase"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
@@ -83,7 +83,7 @@
   </import>
 
   <import file="tr-181-2-wifi-de.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-wifi-de">
+      spec="urn:broadband-forum-org:tr-181-2-19-wifi-de">
     <component name="WiFiAllianceDataElements"/>
     <component name="SpatialReuse"/>
     <component name="DEScanResultNumberOfEntries"/>
@@ -426,6 +426,8 @@
           <string/>
         </syntax>
       </parameter>
+
+
 
       <parameter name="ManufacturerOUI" access="readOnly">
         <description>
@@ -1739,6 +1741,7 @@
     <component ref="WiFiAllianceDataElements"/>
     <component ref="WiFiBase"/>
   </component>
+
 
   <model name="WiFi:2.16">
     <component ref="Root"/>

@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-userinterface"
-    file="tr-181-2-18-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-userinterface"
+    file="tr-181-2-19-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,9 +67,18 @@ directed to <info@broadband-forum.org>.
     <dataType name="URL"/>
   </import>
 
+  <import file="tr-181-2-security.xml">
+    <component name="ServerCerts"/>
+  </import>
+
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-ip.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-ip">
+    <component name="IPAccessControl"/>
   </import>
 
   <component name="UserInterface">
@@ -473,25 +482,15 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Certificate" access="readWrite">
-        <description>
-          Points to the server certificate to be presented by the web
-          interface. Only required when {{param|Protocol}} is set to ''HTTPS''.
-        </description>
-        <syntax>
-          <string>
-            <pathRef refType="strong" targetParent=".Security.Certificate."
-                targetType="row"/>
-          </string>
-          <default type="object" value=""/>
-        </syntax>
-      </parameter>
+      <component ref="ServerCerts"/>
 
-      <parameter name="CACertificate" access="readWrite">
+      <parameter name="CACertificate" access="readWrite" status="deprecated">
         <description>
           Points to the CA certificate that must be used by the web interface.
           The {{param}} is used to validate the web client certificate.
-          {{param|Protocol}} MUST be set to ''HTTPS''.
+          {{param|Protocol}} MUST be set to ''HTTPS''
+
+          {{deprecated|2.19|Replaced by {{param|CABundle}} which can now contain one or more reference.}}
         </description>
         <syntax>
           <string>
@@ -575,55 +574,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="AllowAllIPv4" access="readWrite" version="2.18">
-        <description>
-          Allow access from any IPv4 address. The source prefixes defined in
-          {{param|IPv4AllowedSourcePrefix}} will be ignored.
-        </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="IPv4AllowedSourcePrefix" access="readWrite" version="2.18">
-        <description>
-          Allow only access from the provided list of IPv4 prefixes.
-
-          When {{param}} is set to {{empty}} and {{param|AllowAllIPv4}} is set to ''false'', no incoming connections are allowed. When {{param|AllowAllIPv4}} is set ''true'', {{param}} is ignored.
-        </description>
-        <syntax>
-          <list>
-            <size/>
-          </list>
-          <string/>
-        </syntax>
-      </parameter>
-
-      <parameter name="AllowAllIPv6" access="readWrite" version="2.18">
-        <description>
-          Allow access from any IPv6 address. The source prefixes defined in
-          {{param|IPv6AllowedSourcePrefix}} will be ignored.
-        </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="IPv6AllowedSourcePrefix" access="readWrite" version="2.18">
-        <description>
-          Allow only access from the provided list of IPv6 prefixes.
-
-          When {{param}} is set to {{empty}} and {{param|AllowAllIPv6}} is set to ''false'', no incoming connections are allowed. When {{param|AllowAllIPv6}} is set ''true'', {{param}} is ignored.
-        </description>
-        <syntax>
-          <list>
-            <size/>
-          </list>
-          <string/>
-        </syntax>
-      </parameter>
+      <component ref="IPAccessControl" version="2.18"/>
 
       <parameter name="AutoDisableDuration" access="readWrite">
         <description>
@@ -762,7 +713,7 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.UserInterface.RemoteAccess." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0" status="obsoleted">
+        minEntries="1" maxEntries="1" version="2.0" status="deleted">
       <description>
         This object contains parameters relating to remotely accessing the
         CPE's user interface.
@@ -777,6 +728,8 @@ directed to <info@broadband-forum.org>.
         {{deprecated|2.16|due to the introduction of {{object|#.HTTPAccess}}}}
 
         {{obsoleted|2.18}}
+
+        {{deleted|2.19}}
       </description>
 
       <parameter name="Enable" access="readWrite">

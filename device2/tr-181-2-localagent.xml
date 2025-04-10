@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-localagent"
-    file="tr-181-2-18-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-localagent"
+    file="tr-181-2-19-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -1214,7 +1214,7 @@
         related to how this Controller communicates with the MQTT broker.
       </description>
 
-      <parameter name="Reference" access="readWrite" status="obsoleted">
+      <parameter name="Reference" access="readWrite" status="deleted">
         <description>
           A reference to the MQTT Client used by this Controller when
           communicating via the MQTT MTP.
@@ -1222,6 +1222,8 @@
           {{deprecated|2.16|because {{param|AgentMTPReference}} was added}}
 
           {{obsoleted|2.18}}
+
+          {{deleted|2.19}}
         </description>
         <syntax>
           <string>
@@ -1724,10 +1726,7 @@
           Instantiated Object type of Targets:
 
           # Read: Grants the capability to read the instance numbers and unique
-            keys of the Instantiated Object via GetInstances and read the value
-            of Parameters related to the Instantiated Object via a Get
-            containing a search expression or wildcard in place of the instance
-            identifier.
+            keys of the Instantiated Object via GetInstances.
 
           # Write: Grants the capability to remove an existing instance of an
             Instantiated Object via Delete (e.g.

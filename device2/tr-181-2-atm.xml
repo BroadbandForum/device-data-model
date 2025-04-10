@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-atm"
-    file="tr-181-2-18-0-atm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-atm"
+    file="tr-181-2-19-0-atm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,8 +70,8 @@
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-interface">
-    <component name="Link"/>
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="LinkReadWrite"/>
   </import>
 
   <component name="ATMF5LoopbackDiagnosticsInput">
@@ -194,7 +194,7 @@
         diagnostics.
       </description>
 
-      <component ref="Link"/>
+      <component ref="LinkReadWrite"/>
     </object>
 
     <object base="Device.ATM.Link.{i}.">

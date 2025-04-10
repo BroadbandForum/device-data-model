@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-nat"
-    file="tr-181-2-18-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-nat"
+    file="tr-181-2-19-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,6 +67,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-firewall.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-0-firewall.xml">
+    <component name="FirewallLog"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
@@ -357,7 +362,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly" version="2.17">
+      <parameter name="Origin" access="readOnly" version="2.17">
         <description>
           Indicates the Origin of the {{object}} instance.
 
@@ -440,12 +445,8 @@
           (non-static) port mappings is OPTIONAL. That is, the only value for
           {{param}} that MUST be supported is 0.
 
-          For a dynamic (non-static) port mapping, when this parameter is read,
-          the value represents the time remaining on the port mapping lease.
-          That is, for a dynamic port mapping, the value counts down toward 0.
-          When a dynamic port mapping lease expires, the CPE MUST automatically
-          terminate that port mapping, and MUST automatically delete the
-          corresponding {{object}} table entry.
+          For a dynamic (non-static) port mapping, when this parameter is read, the value is the same as when the {{object}} was created.
+          Note: the Device:2.19 version of the data model moved the dynamic countdown behavior, when reading the {{param}}, to the {{param|RemainingLeaseTime}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -586,6 +587,14 @@
 
           When {{param|ExternalPortEndRange}} is utilized, this range will also
           be applied accordingly, starting from the {{param}} number.
+
+          Example:
+          ExternalPort=3000 and ExternalPortEndRange=3010 with InternalPort=5000 means the ports are mapped as follows:
+          * External port 3000 maps to internal port 5000
+          * External port 3001 maps to internal port 5001
+          * External port 3002 maps to internal port 5002
+          * ...
+          * External port 3010 maps to internal port 5010
         </description>
         <syntax>
           <unsignedInt>
@@ -654,6 +663,7 @@
       </parameter>
 
       <component ref="ScheduleRef"/>
+      <component ref="FirewallLog"/>
     </object>
 
     <object name="Device.NAT.PortTrigger.{i}." access="readWrite"
@@ -714,7 +724,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="writeOnceReadOnly">
+      <parameter name="Origin" access="readOnly">
         <description>
           Indicates the owner of the {{object}} instance.
 
@@ -846,6 +856,7 @@
       </parameter>
 
       <component ref="ScheduleRef"/>
+      <component ref="FirewallLog"/>
 
       <parameter name="RuleNumberOfEntries" access="readOnly" version="2.16">
         <description>
@@ -945,7 +956,7 @@
     </profile>
   </component>
 
-  <model name="NAT:2.18">
+  <model name="NAT:2.19">
     <component ref="Root"/>
     <component ref="NAT"/>
   </model>

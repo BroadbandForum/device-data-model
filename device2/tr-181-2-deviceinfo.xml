@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-deviceinfo"
-    file="tr-181-2-18-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-deviceinfo"
+    file="tr-181-2-19-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -1167,6 +1167,129 @@
       </parameter>
     </object>
 
+    <object name="Device.DeviceInfo.PowerStatus." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.19">
+      <description>
+        Status of the power consumption of the device.
+      </description>
+
+      <parameter name="PowerSensorNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.PowerStatus.PowerSensor.{i}."
+      access="readOnly" minEntries="0" maxEntries="unbounded"
+      numEntriesParameter="PowerSensorNumberOfEntries" version="2.19">
+      <description>
+        Represents the power sensor parameters including voltage, current, and power measurements.
+      </description>
+
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Indicates whether or not the power sensor is enabled.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this power sensor.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                The sensor is not currently sampling the power.
+              </description>
+            </enumeration>
+            <enumeration value="Enabled">
+              <description>
+                The sensor is currently sampling the power.
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                The sensor error currently prevents sampling the power.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readOnly">
+        <description>
+          Name of this power sensor. This text MUST be sufficient to
+          distinguish this power sensor from other power sensors.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpdate" access="readOnly" activeNotify="canDeny">
+        <description>
+          The time at which this power sensor's last good reading was
+          obtained.
+
+          The Unknown Time value, as defined in {{bibref|TR-106}}, indicates a
+          good reading has not been obtained since last reset.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Voltage" access="readOnly">
+        <description>
+          The voltage measured by the sensor, in {{units}}.
+        </description>
+        <syntax>
+          <int>
+            <units value="mV"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="Current" access="readOnly">
+        <description>
+          The current measured by the sensor, in {{units}}.
+        </description>
+        <syntax>
+          <int>
+            <units value="mA"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="Power" access="readOnly">
+        <description>
+          The power measured by the sensor, in {{units}}.
+        </description>
+        <syntax>
+          <int>
+            <units value="mW"/>
+          </int>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Device.DeviceInfo.TemperatureStatus." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0">
       <description>
@@ -2148,12 +2271,26 @@
         </syntax>
       </parameter>
 
+      <parameter name="RotateKernelFaultEntries" access="readWrite" version="2.19">
+        <description>
+          When enabled and once the maximum {{object|KernelFault}} entries as
+          indicated by {{param|MaxKernelFaultEntries}} are reached,
+          the oldest entry, determined by {{param|KernelFault.{i}.TimeStamp}},
+          is removed to make space for a new one, which is assigned a new
+          instance identifier and a new {{param|KernelFault.{i}.Alias}}.
+
+          This setting does not affect the counting of Kernel faults.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
       <parameter name="MaxKernelFaultEntries" access="readWrite">
         <description>
           The maximum number of entries available in the {{object|KernelFault}} table.
           Defines the maximum number of {{object|KernelFault}} instances that can be stored on the device.
 
-          If this limit is hit, No new {{object|KernelFault}} instances will be created until sufficient Kernel fault instances are removed.
+          When {{param|RotateKernelFaultEntries}} is {{false}} and this limit is hit, no new {{object|KernelFault}} instances will be created until sufficient Kernel fault instances are removed. When {{param|RotateKernelFaultEntries}} is {{true}} and this limit is hit, the table {{object|KernelFault}} is rotated as specified by {{param|RotateKernelFaultEntries}}.
           Set this parameter to 0 to completely disable the creation of {{object|KernelFault}} instances.
 
           Reducing the {{param}} will cause for the implementation to delete the oldest {{object|KernelFault}} instances.
@@ -2288,12 +2425,27 @@
         </syntax>
       </parameter>
 
+      <parameter name="RotateProcessFaultEntries" access="readWrite" version="2.19">
+        <description>
+          When enabled and once the maximum {{object|ProcessFault}} entries as
+          indicated by {{param|MaxProcessFaultEntries}} are reached,
+          the oldest entry, determined by {{param|ProcessFault.{i}.TimeStamp}},
+          is removed to make space for a new one, which is assigned a new
+          instance identifier and a new {{param|ProcessFault.{i}.Alias}}.
+
+          This setting does not affect the counting of Process faults.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="MaxProcessFaultEntries" access="readWrite">
         <description>
           The maximum number of entries available in the {{object|ProcessFault}} table.
           Defines the maximum number of {{object|ProcessFault}} instances that can be stored on the device.
 
-          If this limit is hit, No new {{object|ProcessFault}} instances will be created until sufficient process fault instances are removed.
+          When {{param|RotateProcessFaultEntries}} is {{false}} and this limit is hit, no new {{object|ProcessFault}} instances will be created until sufficient Process fault instances are removed. When {{param|RotateProcessFaultEntries}} is {{true}} and this limit is hit, the table {{object|ProcessFault}} is rotated as specified by {{param|RotateProcessFaultEntries}}.
           Set this parameter to 0 to completely disable the creation of {{object|ProcessFault}} instances.
 
           Reducing the {{param}} will cause for the implementation to delete the oldest {{object|ProcessFault}} instances.
@@ -2850,7 +3002,7 @@
     </object>
   </component>
 
-  <model name="DeviceInfo:2.18">
+  <model name="DeviceInfo:2.19">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

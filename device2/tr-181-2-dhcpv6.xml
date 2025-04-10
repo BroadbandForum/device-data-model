@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-dhcpv6"
-    file="tr-181-2-18-0-dhcpv6.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-dhcpv6"
+    file="tr-181-2-19-0-dhcpv6.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -72,8 +72,12 @@
     <component name="Root"/>
   </import>
 
-  <component name="DHCPv6">
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-19-stats">
+    <component name="ObjectStatsResetCWMP"/>
+    <component name="ObjectStatsResetUSP"/>
+  </import>
 
+  <component name="DHCPv6">
     <object name="Device.DHCPv6." access="readOnly" minEntries="1"
         maxEntries="1" version="2.2">
       <description>
@@ -292,6 +296,46 @@
         <syntax>
           <list/>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AuthenticationProtocol" access="readWrite" version="2.19">
+        <description>
+          Specifies the authentication protocol to be used,
+          as explained in {{bibref|RFC8415|Chapter 20.2 Summary of DHCP Authentication}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="None"/>
+            <enumeration value="ConfigurationToken">
+              <description>
+                Uses delayed authentication, as specified in {{bibref|RFC3118|Chapter 4 Configuration Token}}.
+              </description>
+            </enumeration>
+            <enumeration value="DelayedAuthentication">
+              <description>
+                Uses delayed authentication, as specified in {{bibref|RFC3315|Chapter 21.4 Delayed Authentication}}.
+              </description>
+            </enumeration>
+            <enumeration value="ReconfigureKeyAuthentication">
+              <description>
+                Uses delayed authentication, as specified in {{bibref|RFC8415|Chapter 20.4 Reconfiguration Key Authentication Protocol}}.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="None"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DSCPMark" access="readWrite" version="2.19">
+        <description>
+          Diffserv code point to be used for outgoing DHCP messages.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="63"/>
+          </unsignedInt>
+          <default type="object" value="48"/>
         </syntax>
       </parameter>
 
@@ -823,6 +867,141 @@
       </parameter>
     </object>
 
+    <object name="Device.DHCPv6.Client.{i}.Stats." access="readOnly" version="2.19">
+      <description>
+        Provide statistics for the embedded DHCPv6 Client.
+      </description>
+
+      <parameter name="Solicit" access="readOnly">
+        <description>
+          The total number of SOLICIT messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Advertise" access="readOnly">
+        <description>
+          The total number of ADVERTISE messages received by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Request" access="readOnly">
+        <description>
+          The total number of REQUEST messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Confirm" access="readOnly">
+        <description>
+          The total number of CONFIRM messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Renew" access="readOnly">
+        <description>
+          The total number of RENEW messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Rebind" access="readOnly">
+        <description>
+          The total number of REBIND messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reply" access="readOnly">
+        <description>
+          The total number of REPLY messages received by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Release" access="readOnly">
+        <description>
+          The total number of RELEASE packets sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Decline" access="readOnly">
+        <description>
+          The total number of DECLINE messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reconfigure" access="readOnly">
+        <description>
+          The total number of RECONFIGURE messages received by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRequest" access="readOnly">
+        <description>
+          The total number of INFORMATION-REQUEST messages sent by the client,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscardedPackets" access="readOnly">
+        <description>
+          The total number of DHCP packets discarded by the client.
+          Packets can be discarded due to illegal message format and content, incorrect received bytes, etc.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TransmitFailure" access="readOnly">
+        <description>
+          The total number of DHCP messages that failed to transmit.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Device.DHCPv6.Server." access="readOnly" minEntries="1"
         maxEntries="1" version="2.2">
       <description>
@@ -1243,6 +1422,18 @@
         </syntax>
       </parameter>
 
+      <parameter name="DSCPMark" access="readWrite" version="2.19">
+        <description>
+          Diffserv code point to be used for outgoing DHCP messages.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="63"/>
+          </unsignedInt>
+          <default type="object" value="48"/>
+        </syntax>
+      </parameter>
+
       <parameter name="ClientNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -1535,6 +1726,161 @@
       </parameter>
     </object>
 
+    <object name="Device.DHCPv6.Server.Stats." access="readOnly" version="2.19">
+      <description>
+        Provide statistics for the embedded DHCPv6 Server.
+      </description>
+
+      <parameter name="Solicit" access="readOnly">
+        <description>
+          The total number of SOLICIT messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Advertise" access="readOnly">
+        <description>
+          The total number of ADVERTISE messages sent by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Request" access="readOnly">
+        <description>
+          The total number of REQUEST messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Confirm" access="readOnly">
+        <description>
+          The total number of CONFIRM messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Renew" access="readOnly">
+        <description>
+          The total number of RENEW messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Rebind" access="readOnly">
+        <description>
+          The total number of REBIND messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reply" access="readOnly">
+        <description>
+          The total number of REPLY messages sent by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Release" access="readOnly">
+        <description>
+          The total number of RELEASE packets received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Decline" access="readOnly">
+        <description>
+          The total number of INFORM messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Reconfigure" access="readOnly">
+        <description>
+          The total number of RECONFIGURE messages sent by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InformationRequest" access="readOnly">
+        <description>
+          The total number of INFORMATION-REQUEST messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RelayForward" access="readOnly">
+        <description>
+          The total number of RELAY-FORW messages received by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RelayReply" access="readOnly">
+        <description>
+          The total number of RELAY-REPL messages sent by the server,
+          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DiscardedPackets" access="readOnly">
+        <description>
+          The total number of DHCP packets discarded by the server.
+          Packets can be discarded due to illegal message format and content, incorrect received bytes, etc.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TransmitFailure" access="readOnly">
+        <description>
+          The total number of DHCP messages that failed to transmit.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="DHCPv6Server:1" version="2.2">
       <object ref="Device.DHCPv6." requirement="present"/>
       <object ref="Device.DHCPv6.Server." requirement="present">
@@ -1602,7 +1948,160 @@
     </profile>
   </component>
 
-  <model name="DHCPv6:2.18">
+  <component name="DHCPv6USP">
+    <object base="Device.DHCPv6.Client.{i}." access="readWrite" minEntries="1"
+        maxEntries="unbounded">
+
+      <command name="Renew()" dmr:previousParameter="RapidCommit"
+          version="2.12" async="false">
+        <description>
+          The {{object}} will renew its DHCPv6-supplied information (i.e. the
+          Agent will do a renew or information request as needed, updating both
+          stateful and stateless parameter values discovered by this Client
+          instance).
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.DHCPv6.Client.{i}.Stats.">
+      <component ref="ObjectStatsResetUSP"/>
+    </object>
+
+    <object base="Device.DHCPv6.Server.Stats.">
+      <component ref="ObjectStatsResetUSP"/>
+    </object>
+
+    <profile name="DHCPv6Client:1"
+        dmr:previousProfile="DHCPv4ServerClientInfo:1" version="2.2">
+      <object ref="Device.DHCPv6." requirement="present">
+        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Status" requirement="readOnly"/>
+        <parameter ref="Interface" requirement="readWrite"/>
+        <parameter ref="DUID" requirement="readOnly"/>
+        <parameter ref="RequestAddresses" requirement="readWrite"/>
+        <parameter ref="RequestPrefixes" requirement="readWrite"/>
+        <parameter ref="RapidCommit" requirement="readWrite"/>
+        <command ref="Renew()"/>
+        <parameter ref="SuggestedT1" requirement="readWrite"/>
+        <parameter ref="SuggestedT2" requirement="readWrite"/>
+        <parameter ref="SupportedOptions" requirement="readOnly"/>
+        <parameter ref="RequestedOptions" requirement="readWrite"/>
+        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
+        <parameter ref="ReceivedOptionNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.SentOption.{i}."
+          requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readWrite"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
+          requirement="present">
+        <parameter ref="Tag" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="DHCPv6ClientServerIdentity:1" extends="DHCPv6Client:1"
+        dmr:previousProfile="DHCPv6Client:1" version="2.2">
+      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
+        <parameter ref="ServerNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.Server.{i}." requirement="present">
+        <parameter ref="SourceAddress" requirement="readOnly"/>
+        <parameter ref="DUID" requirement="readOnly"/>
+        <parameter ref="InformationRefreshTime" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
+          requirement="present">
+        <parameter ref="Server" requirement="readOnly"/>
+      </object>
+    </profile>
+  </component>
+
+  <component name="DHCPv6CWMP">
+    <object base="Device.DHCPv6.Client.{i}.Stats.">
+      <component ref="ObjectStatsResetCWMP"/>
+    </object>
+
+    <object base="Device.DHCPv6.Server.Stats.">
+      <component ref="ObjectStatsResetCWMP"/>
+    </object>
+
+
+    <object base="Device.DHCPv6.Client.{i}." access="readWrite" minEntries="1"
+        maxEntries="unbounded">
+
+      <parameter name="Renew" access="readWrite"
+          dmr:previousParameter="RapidCommit" version="2.2">
+        <description>
+          When set to {{true}}, the {{object}} will renew its DHCPv6-supplied
+          information (i.e. the CPE will do a renew or information request as
+          needed, updating both stateful and stateless parameter values
+          discovered by this Client instance).
+        </description>
+        <syntax command="true">
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <profile name="DHCPv6Client:1"
+        dmr:previousProfile="DHCPv4ServerClientInfo:1" version="2.2">
+      <object ref="Device.DHCPv6." requirement="present">
+        <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Status" requirement="readOnly"/>
+        <parameter ref="Interface" requirement="readWrite"/>
+        <parameter ref="DUID" requirement="readOnly"/>
+        <parameter ref="RequestAddresses" requirement="readWrite"/>
+        <parameter ref="RequestPrefixes" requirement="readWrite"/>
+        <parameter ref="RapidCommit" requirement="readWrite"/>
+        <parameter ref="Renew" requirement="readWrite"/>
+        <parameter ref="SuggestedT1" requirement="readWrite"/>
+        <parameter ref="SuggestedT2" requirement="readWrite"/>
+        <parameter ref="SupportedOptions" requirement="readOnly"/>
+        <parameter ref="RequestedOptions" requirement="readWrite"/>
+        <parameter ref="SentOptionNumberOfEntries" requirement="readOnly"/>
+        <parameter ref="ReceivedOptionNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.SentOption.{i}."
+          requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Tag" requirement="readWrite"/>
+        <parameter ref="Value" requirement="readWrite"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
+          requirement="present">
+        <parameter ref="Tag" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="DHCPv6ClientServerIdentity:1" extends="DHCPv6Client:1"
+        dmr:previousProfile="DHCPv6Client:1" version="2.2">
+      <object ref="Device.DHCPv6.Client.{i}." requirement="createDelete">
+        <parameter ref="ServerNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.Server.{i}." requirement="present">
+        <parameter ref="SourceAddress" requirement="readOnly"/>
+        <parameter ref="DUID" requirement="readOnly"/>
+        <parameter ref="InformationRefreshTime" requirement="readOnly"/>
+      </object>
+      <object ref="Device.DHCPv6.Client.{i}.ReceivedOption.{i}."
+          requirement="present">
+        <parameter ref="Server" requirement="readOnly"/>
+      </object>
+    </profile>
+  </component>
+
+  <model name="DHCPv6:2.19">
     <component ref="Root"/>
     <component ref="DHCPv6"/>
   </model>

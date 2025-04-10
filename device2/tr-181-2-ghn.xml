@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-ghn"
-    file="tr-181-2-18-0-ghn.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-ghn"
+    file="tr-181-2-19-0-ghn.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,6 +70,11 @@
   <import file="tr-181-2-root.xml"
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer12Interface"/>
   </import>
 
   <dataType name="PSMBreakPointIndexAndLevel">
@@ -280,7 +285,7 @@
         </syntax>
       </parameter>
     </object>
-    
+
     <object base="Channels." access="readOnly" minEntries="1" maxEntries="1">
       <parameter name="ChannelNumberOfEntries" access="readOnly">
         <description>
@@ -739,145 +744,15 @@
         media such as power line, phone line and coaxial cable.
       </description>
 
-      <parameter name="InterfaceNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Layer12Interface" version="2.4"/>
     </object>
 
-    <object name="Device.Ghn.Interface.{i}." access="readOnly"
-        numEntriesParameter="InterfaceNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.4">
-      <description>
+    <object base="Device.Ghn.Interface.{i}.">
+      <description action="replace">
         G.hn interface table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). Each table entry models the PHY
         {{bibref|G.9960}} and MAC {{bibref|G.9961}} layers of a G.hn interface.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
-
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the interface.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since {{object}} is a layer 1 interface, it is expected that
-          {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Upstream" access="readOnly">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
 
       <parameter name="MACAddress" access="readOnly">
         <description>
@@ -996,18 +871,6 @@
         </description>
         <syntax>
           <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MaxBitRate" access="readOnly">
-        <description>
-          The maximum PHY bit rate supported by this interface (expressed in
-          {{units}}).
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="Mbps"/>
-          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -1270,9 +1133,8 @@
       </parameter>
     </object>
 
-    <object name="Device.Ghn.Interface.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.4">
-      <description>
+    <object base="Device.Ghn.Interface.{i}.Stats.">
+      <description action="replace">
         Throughput statistics for this interface at the different G.hn
         reference points described in {{bibref|G.9961|Clause 8.1}}.
 
@@ -1287,11 +1149,8 @@
         4.2.2}}.
       </description>
 
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-
+      <parameter base="BytesSent">
+        <description action="append">
           More specifically, this is the total number of MPDU bytes transmitted
           or retransmitted by the node through a physical medium (i.e., PMI
           defined in {{bibref|G.9960|Clause 5.2.1}}), which correspond to data
@@ -1302,16 +1161,10 @@
 
           Note: LPDUs in mixed LLC frame blocks are considered data LPDUs.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-
+      <parameter base="BytesReceived">
+        <description action="append">
           More specifically, this is the total number of MPDU bytes received by
           the node through a physical medium, which correspond to data LPDUs
           and framing overhead. It does not include received bytes contributed
@@ -1319,63 +1172,39 @@
 
           Note: LPDUs in mixed LLC frame blocks are considered data LPDUs.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-
+      <parameter base="PacketsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs requested for
           transmission by a higher layer (i.e., outbound APDUs at the x1
           reference point defined in {{bibref|G.9960|Clause 5.2.1}}) that were
           transmitted by the node through the physical medium. It does not
           include transmitted LCDUs.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-
+      <parameter base="PacketsReceived">
+        <description action="append">
           More specifically, this is the total number of APDUs delivered to a
           higher layer (i.e., inbound APDUs at the x1 reference point) that
           were received by the node through the physical medium. It does not
           include received LCDUs.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
+       </description>
       </parameter>
 
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-
+      <parameter base="ErrorsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs that were
           requested for transmission by a higher layer (i.e., outbound APDUs at
           the x1 reference point defined in {{bibref|G.9960|Clause 5.2.1}}) but
           could not be transmitted because of errors (e.g., APDUs containing
           CRC errors).
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-
+      <parameter base="ErrorsReceived">
+        <description action="append">
           More specifically, this is the total number of received APDUs that
           contained errors preventing them from being delivered to a higher
           layer (i.e., inbound APDUs at the x1 reference point defined in
@@ -1383,164 +1212,88 @@
           incorrect CRC, incorrect MIC, incorrect MIC size, and incorrect size
           of packet.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-
+      <parameter base="UnicastPacketsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs that were
           requested for transmission by a higher layer (i.e., outbound APDUs at
           the x1 reference point) and which were addressed to a unicast address
           at this layer. It includes APDUs that were discarded or not sent.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-
+      <parameter base="UnicastPacketsReceived">
+        <description action="append">
           More specifically, this is the total number of received APDUs that
           were delivered to a higher layer (i.e., inbound APDUs at the x1
           reference point) and which were addressed to a unicast address at
           this layer.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-
+      <parameter base="DiscardPacketsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs that were
           requested for transmission by a higher layer (i.e., outbound APDUs at
           the x1 reference point) but chosen to be discarded even though no
           errors had been detected to prevent their being transmitted (e.g.,
           buffer overflow).
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-
+      <parameter base="DiscardPacketsReceived">
+        <description action="append">
           More specifically, this is the total number of received APDUs that
           were chosen to be discarded even though no errors had been detected
           to prevent their being delivered.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-
+      <parameter base="MulticastPacketsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs that were
           requested for transmission by a higher layer (i.e., outbound APDUs at
           the x1 reference point) and which were addressed to a multicast
           address at this layer. It includes APDUs that were discarded or not
           sent.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-
+      <parameter base="MulticastPacketsReceived">
+        <description action="append">
           More specifically, this is the total number of received APDUs that
           were delivered to a higher layer (i.e., inbound APDUs at the x1
           reference point) and which were addressed to a multicast address at
           this layer.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-
+      <parameter base="BroadcastPacketsSent">
+        <description action="append">
           More specifically, this is the total number of APDUs that were
           requested for transmission by a higher layer (i.e., outbound APDUs at
           the x1 reference point) and which were addressed to a broadcast
           address at this layer. It includes APDUs that were discarded or not
           sent.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-
+      <parameter base="BroadcastPacketsReceived">
+        <description action="append">
           More specifically, this is the total number of received APDUs that
           were delivered to a higher layer (i.e., inbound APDUs at the x1
           reference point) and which were addressed to a broadcast address at
           this layer.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
       </parameter>
 
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
-
+      <parameter base="UnknownProtoPacketsReceived">
+        <description action="append">
           More specifically, this is the total number of APDUs received by the
           management that were discarded because of an unknown or unsupported
           protocol.
         </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
       </parameter>
 
       <parameter name="MgmtBytesSent" access="readOnly" activeNotify="canDeny"
@@ -2033,7 +1786,7 @@
     </profile>
   </component>
 
-  <model name="Ghn:2.18">
+  <model name="Ghn:2.19">
     <component ref="Root"/>
     <component ref="Ghn"/>
   </model>

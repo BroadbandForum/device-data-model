@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-iot"
-    file="tr-181-2-18-0-iot.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-iot"
+    file="tr-181-2-19-0-iot.xml">
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
   </import>
@@ -253,6 +253,21 @@
           Liters per second
         </description>
       </enumeration>
+      <enumeration value="dB">
+        <description>
+          The decibel (symbol: dB) is a relative unit of measurement equal to one tenth of a bel (B). It expresses the ratio of two values of a power or root-power quantity on a logarithmic scale. 
+        </description>
+      </enumeration>
+      <enumeration value="dBm">
+        <description>
+          dBm or dBmW (decibel-milliwatts) is a unit of power level expressed using a logarithmic decibel (dB) scale respective to one milliwatt (mW). 
+        </description>
+      </enumeration>
+      <enumeration value="eV" version="2.19">
+        <description>
+          Electron Volt
+        </description>
+      </enumeration>
     </string>
   </dataType>
 
@@ -317,6 +332,7 @@
       <enumeration value="Weight"/>
       <enumeration value="Depth"/>
       <enumeration value="Counter"/>
+      <enumeration value="Duration" version="2.19"/>
     </string>
   </dataType>
 
@@ -351,6 +367,31 @@
       <enumeration value="ThermostatFanState"/>
     </string>
   </dataType>
+  
+  <dataType name="IoTBlobSensorType">
+    <description>
+     Describes the type of IoT Blob Sensor that the {{object}}
+     instance is representing.These are examples to identify a "string of bytes" that has been sent by a Sensor {{enum}}
+    </description>
+    <string>
+        <enumeration value="ascii"/>
+        <enumeration value="base64"/>
+        <enumeration value="id"/>
+        <enumeration value="gif"/>
+        <enumeration value="jpeg"/>
+        <enumeration value="json"/>
+        <enumeration value="numberplate"/>
+        <enumeration value="text"/>
+        <enumeration value="url"/>
+        <enumeration value="raw"/>
+        <enumeration value="utf-8"/>
+        <enumeration value="utf-16"/>
+        <enumeration value="utf-32"/>
+        <enumeration value="uuid"/>
+        <enumeration value="xml"/>
+        <enumeration value="yaml"/>
+    </string>
+ </dataType>
 
   <component name="IoT_NodeComponent">
 
@@ -548,6 +589,7 @@
             <enumeration value="LevelSensor"/>
             <enumeration value="MultiLevelSensor"/>
             <enumeration value="EnumSensor"/>
+            <enumeration value="BlobSensor" version="2.19"/>
           </string>
         </syntax>
       </parameter>
@@ -1166,6 +1208,69 @@
         </syntax>
       </parameter>
     </object>
+
+    <object name="IoTCapability.{i}.BlobSensor." access="readOnly"
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.19">
+        <description>
+          BlobSensor is a sensor that is able to send specific data as a "string of bytes" depending on its use. For example in case of traffic control Sensors,
+          A Sensor can forward an image, a numberplate. RFID-Sensors forward an RFID. They have all in common that a "string of bytes" have been sent. To identify
+          the type of bytes, the IoTBlobSensorType provides information about this "string of bytes".
+        </description>
+
+        <parameter name="Type" access="readOnly">
+            <description>
+               {{datatype|expand}}
+            </description>
+            <syntax>
+              <dataType ref="IoTBlobSensorType"/>
+            </syntax>
+        </parameter>
+
+        <parameter name="Description" access="readOnly">
+            <description>
+               Human-readable description of the {{object}}. e.g. a more detailed
+               description of {{param|Type}}.
+               A Blob value is to be considered as a "string of bytes". The {{param|Type}} of this "string of bytes" is intended to be explained by {{param|Type}}.
+               Examples do exist for Sensors used in traffic control, such as an image, numberplate, and face recognition, RFID readers and other areas where Sensors produce bytes.
+            </description>
+            <syntax>
+                <string>
+                   <size maxLength="256"/>
+                </string>
+            </syntax>
+        </parameter>
+
+        <parameter name="LastChange" access="readOnly">
+            <description>
+               The date and time in UTC when {{param|Value}} has been changed to the
+               current value.
+            </description>
+            <syntax>
+               <dateTime/>
+            </syntax>
+        </parameter>
+
+      <parameter name="LastContactTime" access="readOnly">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+        <parameter name="Value" access="readOnly">
+            <description>
+               The Value is typically a string of bytes and its meaning is described by {{param|Type}}. A string of bytes will use the base64 type.
+               The current value reading of this {{object}}.
+            </description>
+            <syntax>
+              <base64/>
+            </syntax>
+        </parameter>
+    </object>
+
     <!-- Profiles -->
 
     <profile name="BinaryControl:1" version="2.13">
@@ -1277,9 +1382,20 @@
         <parameter ref="ValidValues" requirement="readOnly"/>
       </object>
     </profile>
+
+    <profile name="BlobSensor:1" version="2.19">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.BlobSensor." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readOnly"/>
+      </object>
+    </profile>
   </component>
 
-  <model name="IoT:2.18">
+  <model name="IoT:2.19">
     <component ref="Root"/>
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>

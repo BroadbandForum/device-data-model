@@ -51,16 +51,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-wifi-base"
-    file="tr-181-2-18-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi-base"
+    file="tr-181-2-19-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -76,6 +76,78 @@
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="BaseInterfaceParams"/>
+    <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
+    <component name="BaseInterfaceParamsAddDefaults"/>
+    <component name="Layer1InterfaceParams"/>
+    <component name="Layer2InterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer1InterfaceStats"/>
+    <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <component name="Radio">
+    <parameter name="RadioNumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="Radio.{i}." access="readOnly"
+      numEntriesParameter="RadioNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsMaxBitRateReadOnly"/>
+      <component ref="Layer1InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer1InterfaceStats"/>
+    </object>
+  </component>
+
+  <component name="SSID">
+    <parameter name="SSIDNumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="SSID.{i}." access="readWrite"
+      numEntriesParameter="SSIDNumberOfEntries" enableParameter="Enable"
+      minEntries="0" maxEntries="unbounded" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="BaseInterfaceParamsAddDefaults"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
 
   <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries">
     <parameter name="ResultNumberOfEntries" access="readOnly">
@@ -421,23 +493,9 @@
     <object base="Device.WiFi." access="readOnly" minEntries="1"
         maxEntries="1">
 
-      <parameter name="RadioNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="Radio"/>
 
-      <parameter name="SSIDNumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="SSID"/>
 
       <parameter name="AccessPointNumberOfEntries" access="readOnly">
         <description>
@@ -498,10 +556,8 @@
       </parameter>
     </object>
 
-    <object name="Device.WiFi.Radio.{i}." access="readOnly"
-        numEntriesParameter="RadioNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
-      <description>
+    <object base="Device.WiFi.Radio.{i}.">
+      <description action="replace">
         This object models an 802.11 wireless radio on a device (a stackable
         interface object as described in {{bibref|TR-181i2|Section 4.2}}).
 
@@ -516,128 +572,18 @@
         Therefore, a single {{object}} instance is used even for a dual-band
         radio.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the radio.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-
+      <parameter base="Enable">
+        <description action="append">
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}}},
           then this parameter is the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.Enabled}}.
         </description>
-        <syntax>
-          <boolean/>
-        </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the radio (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the radio as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the radio entered its current
-          operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readWrite">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: Since {{object}} is a layer 1 interface, it is expected that
-          {{param}} will not be used.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="Upstream" access="readOnly">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
-
+      <parameter base="Upstream">
+        <description action="append">
           An interface might have some SSIDs pointing towards the Internet and
           other SSIDs pointing towards End Devices. This is indicated by the
           associated {{param|#.SSID.{i}.Upstream}} parameters. This interface's
@@ -649,21 +595,6 @@
           because it couldn't describe all multi-SSID use cases. It has now
           been restored, and its multi-SSID behavior has been clarified.
         </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MaxBitRate" access="readOnly">
-        <description>
-          The maximum PHY bit rate supported by this interface (expressed in
-          {{units}}).
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="Mbps"/>
-          </unsignedInt>
-        </syntax>
       </parameter>
 
       <parameter name="SupportedFrequencyBands" access="readOnly">
@@ -1538,20 +1469,10 @@
       </parameter>
     </object>
 
-    <object name="Device.WiFi.Radio.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface. Packet counters here count
-        802.11 WiFi frames. See {{bibref|TR-181i2|Appendix III}} for further
-        details. The CPE MUST reset the interface's Stats parameters (unless
-        otherwise stated in individual object or parameter descriptions) either
-        when the interface becomes operationally down due to a previous
-        administrative down (i.e. the interface's {{param|#.Status}} parameter
-        transitions to a down state after the interface is disabled) or when
-        the interface becomes administratively up (i.e. the interface's
-        {{param|#.Enable}} parameter transitions from {{false}} to {{true}}).
-        Administrative and operational interface status is discussed in
-        {{bibref|TR-181i2|Section 4.2.2}}.
+    <object base="Device.WiFi.Radio.{i}.Stats." >
+      <description action="append">
+        Packet counters here count 802.11 WiFi frames. See
+        {{bibref|TR-181i2|Appendix III}} for further details.
       </description>
 
       <parameter name="CtsReceived" access="readOnly" version="2.14">
@@ -1650,92 +1571,6 @@
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
         </syntax>
       </parameter>
 
@@ -1887,10 +1722,8 @@
       </parameter>
     </object>
 
-    <object name="Device.WiFi.SSID.{i}." access="readWrite"
-        numEntriesParameter="SSIDNumberOfEntries" enableParameter="Enable"
-        minEntries="0" maxEntries="unbounded" version="2.0">
-      <description>
+    <object base="Device.WiFi.SSID.{i}." >
+      <description action="replace">
         WiFi SSID table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}), where table entries model the MAC
         layer. A WiFi SSID entry is typically stacked on top of a
@@ -1899,117 +1732,50 @@
         WiFi SSID is also a multiplexing layer, i.e. more than one {{object}}
         can be stacked above a single {{object|#.Radio}}.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
+
       <uniqueKey functional="true">
         <parameter ref="BSSID"/>
       </uniqueKey>
 
-      <parameter name="Enable" access="readWrite">
-        <description>
-          Enables or disables the SSID entry.
-
-          This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
-
+      <parameter base="Enable">
+        <description action="append">
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.}},
           then this parameter is the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.Enabled}}.
         </description>
-        <syntax>
-          <boolean/>
-          <default type="object" value="false"/>
-        </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the SSID entry (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
-          change to {{enum|Up}} if and only if the interface is able to
-          transmit and receive network traffic; it SHOULD change to
-          {{enum|Dormant}} if and only if the interface is operable but is
-          waiting for external actions before it can transmit and receive
-          network traffic (and subsequently change to {{enum|Up}} if still
-          operable when the expected actions have completed); it SHOULD change
-          to {{enum|LowerLayerDown}} if and only if the interface is prevented
-          from entering the {{enum|Up}} state because one or more of the
-          interfaces beneath it is down; it SHOULD remain in the {{enum|Error}}
-          state if there is an error or other fault condition detected on the
-          interface; it SHOULD remain in the {{enum|NotPresent}} state if the
-          interface has missing (typically hardware) components; it SHOULD
-          change to {{enum|Unknown}} if the state of the interface can not be
-          determined for some reason.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-          <default type="object" value="Down"/>
-        </syntax>
-      </parameter>
-
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the SSID entry as assigned by the CPE.
-        </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
-      </parameter>
-
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the SSID entered its current
-          operational state.
-
+      <parameter base="LastChange">
+        <description action="append">
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.}},
           then this parameter is the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.LastChange}}.
         </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
       </parameter>
 
-      <parameter name="LowerLayers" access="readWrite">
+      <parameter name="Upstream" access="readOnly" version="2.12">
         <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
+          Indicates whether the interface points towards the Internet
+          ({{true}}) or towards End Devices ({{false}}).
+
+          For example:
+
+          * For an Internet Gateway Device, {{param}} will be {{true}} for all
+          WAN interfaces and {{false}} for all LAN interfaces.
+
+          * For a standalone WiFi Access Point that is connected via Ethernet
+          to an Internet Gateway Device, {{param}} will be {{true}} for the
+          Ethernet interface and {{false}} for the WiFi Radio interface.
+
+          * For an End Device, {{param}} will be {{true}} for all interfaces.
+
+          See {{param|#.Radio.{i}.Upstream}} for details of how the two
+          ''Upstream'' parameters interact.
         </description>
         <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-          <default type="object" value="[]"/>
+          <boolean/>
         </syntax>
       </parameter>
 
@@ -2083,30 +1849,6 @@
         </syntax>
       </parameter>
 
-      <parameter name="Upstream" access="readOnly" version="2.12">
-        <description>
-          Indicates whether the interface points towards the Internet
-          ({{true}}) or towards End Devices ({{false}}).
-
-          For example:
-
-          * For an Internet Gateway Device, {{param}} will be {{true}} for all
-            WAN interfaces and {{false}} for all LAN interfaces.
-
-          * For a standalone WiFi Access Point that is connected via Ethernet
-            to an Internet Gateway Device, {{param}} will be {{true}} for the
-            Ethernet interface and {{false}} for the WiFi Radio interface.
-
-          * For an End Device, {{param}} will be {{true}} for all interfaces.
-
-          See {{param|#.Radio.{i}.Upstream}} for details of how the two
-          ''Upstream'' parameters interact.
-        </description>
-        <syntax>
-          <boolean/>
-        </syntax>
-      </parameter>
-
       <parameter name="ATFEnable" access="readWrite" version="2.14">
         <description>
           Enables or disables Air Time Fairness (ATF).
@@ -2141,70 +1883,17 @@
       </parameter>
     </object>
 
-    <object name="Device.WiFi.SSID.{i}.Stats." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
-      <description>
-        Throughput statistics for this interface. Packet counters here count
-        802.11 WiFi frames. See {{bibref|TR-181i2|Appendix III}} for further
-        details. The CPE MUST reset the interface's Stats parameters (unless
-        otherwise stated in individual object or parameter descriptions) either
-        when the interface becomes operationally down due to a previous
-        administrative down (i.e. the interface's {{param|#.Status}} parameter
-        transitions to a down state after the interface is disabled) or when
-        the interface becomes administratively up (i.e. the interface's
-        {{param|#.Enable}} parameter transitions from {{false}} to {{true}}).
-        Administrative and operational interface status is discussed in
-        {{bibref|TR-181i2|Section 4.2.2}}.
+    <object base="Device.WiFi.SSID.{i}.Stats.">
+      <description action="append">
+        Packet counters here count 802.11 WiFi frames. See
+        {{bibref|TR-181i2|Appendix III}} for further details.
       </description>
 
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
+      <parameter base="ErrorsSent">
+        <description action="append">
+          These can be due to the number of retransmissions exceeding the retry
+          limit, or from other causes.
         </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of packets transmitted out of the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received on the interface.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly">
-        <description>
-          The total number of outbound packets that could not be transmitted
-          because of errors. These can be due to the number of retransmissions
-          exceeding the retry limit, or from other causes.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
       </parameter>
 
       <parameter name="RetransCount" access="readOnly" version="2.7">
@@ -2266,126 +1955,6 @@
         <description>
           The number of aggregated packets that were transmitted. This applies
           only to 802.11n and 802.11ac.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets that contained errors preventing
-          them from being delivered to a higher-layer protocol.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets requested for transmission which were not
-          addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were not addressed to a multicast or broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound packets which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound packets which were chosen to be discarded
-          even though no errors had been detected to prevent their being
-          delivered. One possible reason for discarding such a packet could be
-          to free up buffer space.
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a multicast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a multicast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets that higher-level protocols requested for
-          transmission and which were addressed to a broadcast address at this
-          layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received packets, delivered by this layer to a
-          higher layer, which were addressed to a broadcast address at this
-          layer.
-        </description>
-        <syntax>
-          <unsignedLong/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of packets received via the interface which were
-          discarded because of an unknown or unsupported protocol.
         </description>
         <syntax>
           <unsignedInt/>
@@ -3040,6 +2609,502 @@
         <syntax>
           <boolean/>
           <default type="object" value="true"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.Interworking." version="2.19">
+      <description>
+        This object contains the settings to the interworking element as
+        described in {{bibref|802.11-2020|Section 9.4.2.91}}.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Specifies whether the Interworking element is included in the wireless
+          frames for this access point.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AccessNetworkType" access="readWrite">
+        <description>
+          Type of access network to be specified in Interworking element as per
+          {{bibref|802.11-2020|Table 9-236 Access Network Type}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="PrivateNetwork"/>
+            <enumeration value="PrivateNetworkWithGuestAccess"/>
+            <enumeration value="ChargeablePublicNetwork"/>
+            <enumeration value="FreePublicNetwork"/>
+            <enumeration value="PersonalDeviceNetwork"/>
+            <enumeration value="EmergencyServicesOnlyNetwork"/>
+            <enumeration value="TestOrExperimental"/>
+            <enumeration value="Wildcard"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="InternetAvailable" access="readWrite">
+        <description>
+          Indicates that Internet Access is available at the AP when set to
+          {{true}}. This MUST be set to {{false}} in case of walled-garden
+          environments, where the AP may limit Wi-Fi access to locally
+          available content. See {{bibref|802.11-2020|Section 9.4.2.91}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ASRA" access="readWrite">
+        <description>
+          Additional Step Required For Access as specified in the Interworking
+          element of {{bibref|802.11-2020|Figure 9-484}}. Indicates that the
+          network requires a further step for access when set to {{true}}. The
+          Type of access is determined by {{param|#.ANQP.NetworkAuthTypes}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="VenueGroup" access="readWrite">
+        <description>
+          Specifies the venue group as descriped in
+          {{bibref|802.11-2020|Table 9-65-Venue group codes and descriptions}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unspecified"/>
+            <enumeration value="Assembly"/>
+            <enumeration value="Business"/>
+            <enumeration value="Educational"/>
+            <enumeration value="Factory-Industrial"/>
+            <enumeration value="Institutional"/>
+            <enumeration value="Mercantile"/>
+            <enumeration value="Residential"/>
+            <enumeration value="Storage"/>
+            <enumeration value="Utility-Miscellaneous"/>
+            <enumeration value="Vehicular"/>
+            <enumeration value="Outdoor"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="VenueType" access="readWrite">
+        <description>
+          Specifies the Venue Type as described in
+          {{bibref|802.11-2020|Table 9-66 Venue Type assignments}}.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HESSID" access="readWrite">
+        <description>
+          Specifies the 6-octet MAC address that identifies the homogeneous ESS
+          as described in {{bibref|802.11-2020|Section 9.4.2.91}}.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EmergencyServiceReachable" access="readWrite">
+        <description>
+          ESR (emergency services reachable) field of the Interworking element
+          as described in {{bibref|802.11-2020|Section 9.4.2.91}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="UnauthenticatedEmergencyServiceAvailable"
+        access="readWrite">
+        <description>
+          UESA (unauthenticated emergency service accessible) field of the
+          interworking element as described in
+          {{bibref|802.11-2020|Section 9.4.2.91}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.ANQP." version="2.19">
+      <description>
+        This object contains the settings required for configuring the Access
+        Network Query Protocol Information Elements as described in
+        {{bibref|802.11-2020|Section 9.4.5}}.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Specfies whether ANQP Element is sent as part of the wireless frames.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv4AddressAvailability" access="readWrite">
+        <description>
+          Specifies the IPv4 address availabilty field as described in
+          {{bibref|802.11-2020|Table 9-334-IPv4 Address field values}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="NotAvailable">
+              <description>
+                Address type not available
+              </description>
+            </enumeration>
+            <enumeration value="PublicIPv4">
+              <description>
+                Public IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="PortRestrictedIPv4">
+              <description>
+                Port-restricted IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="SingleNATIPv4">
+              <description>
+                Single NATed private IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="DoubleNATIPv4">
+              <description>
+                Double NATed private IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="PortRestrictSingleNATIPv4">
+              <description>
+                Port-restricted and Single NATed IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="PortRestrictDoubleNATIPv4">
+              <description>
+                Port-restricted and Double NATed IPv4 address available
+              </description>
+            </enumeration>
+            <enumeration value="Unknown">
+              <description>
+                Availability of address type unknown
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6AddressAvailability" access="readWrite">
+        <description>
+          Specifies the IPv6 Address Type Availability ANQP-element
+          as described in
+          {{bibref|802.11-2020|Table 9-333-IPv6 Address field values}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="NotAvailable">
+               <description>
+                Address type not available
+              </description>
+            </enumeration>
+            <enumeration value="Available">
+               <description>
+                Address type available
+              </description>
+            </enumeration>
+            <enumeration value="Unknown">
+               <description>
+                Availability of address type unknown
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="VenueName" access="readWrite">
+        <description>
+          Specifies venue name which can assist a user in selecting the
+          appropriate BSS of which to become a member as described in
+          {{bibref|802.11-2020|Section 9.4.5.4}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="252"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="RoamingConsortiumOIs" access="readWrite">
+        <description>
+          Specifies the list of Roaming Consortiums whose networks are
+          accessible via this AP as described in
+          {{bibref|802.11-2020|Section 9.4.5.7}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NAIRealms" access="readWrite">
+        <description>
+          Specifies the list of network access identifier (NAI) realms
+          corresponding to Subscription Service Provider or other entities
+          whose networks or service are accessible via this AP as described in
+          {{bibref|802.11-2020|Section 9.4.5.10}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+
+      <parameter name="Domains" access="readWrite">
+        <description>
+          Specifies the list of one or more domain names of the entity
+          operating the IEEE 802.11 access network as described in
+          {{bibref|802.11-2020|Section 9.4.5.15}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AdviceOfCharges" access="readWrite">
+        <description>
+          Specifies the list of financial advice of charges related to access as
+          described in {{bibref|802.11-2020|Section 9.4.5.21}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="Time-based"/>
+            <enumeration value="Data-volume-based"/>
+            <enumeration value="Time-and-data-volume-based"/>
+            <enumeration value="Unlimited"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="NetworkAuthTypes" access="readWrite">
+        <description>
+          Specifies the list of authentication types required when
+          {{param|#.Interworking.ASRA}} is set to {{true}} as
+          described in {{bibref|802.11-2020|Section 9.4.5.23}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="0">
+              <description>
+                Acceptance Of Terms and Conditions
+              </description>
+            </enumeration>
+            <enumeration value="1">
+              <description>
+                On-line Enrollment Supported
+              </description>
+            </enumeration>
+            <enumeration value="2">
+              <description>
+                http-https Redirection
+              </description>
+            </enumeration>
+            <enumeration value="3">
+              <description>
+                DNS Redirection
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Cellular3GPPNetworkInfo" access="readWrite">
+        <description>
+          Specifies the Public Land Mobile Network (PLMN) IDs which denote  
+          the country code (MCC) and network code (MNC) as described in
+          {{bibref|802.11-2020|Section 9.4.5.11 3GPP Cellular Network
+          ANQP-element}}. 
+
+          Example:
+          : ''310410, 310026''
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="PLMNId"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.Passpoint." version="2.19">
+      <description>
+        This object describes Passpoint/HotSpot 2.0 elements as
+        defined in {{bibref|Passpoint}}.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or Disables Hotspot 2.0 indication on the access point.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Version" access="readOnly">
+        <description>
+          Passpoint specification version as described in
+          {{bibref|Passpoint|Table 5. Passpoint Specification
+          version number definition}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="R1">
+              <description>
+                Passpoint R1 
+              </description>
+            </enumeration>
+            <enumeration value="R2">
+              <description>
+                Passpoint R2
+              </description>
+            </enumeration>
+            <enumeration value="R3">
+              <description>
+                Passpoint R3
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="OperatorFriendlyName" access="readWrite">
+        <description>
+          Indicates that operator's preferred friendly name used for Online
+          Sign Up purposes to the Passpoint hotspot operator for advertisement
+          as described in {{bibref|Passpoint|Section 4.3}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="252"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DGAFDisable" access="readWrite">
+        <description>
+          Indicates the state of the Downstream group-addressed forwarding
+          Disable bit in the HS2.0 Indication element as described in
+          {{bibref|Passpoint|Section 5.2}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.Passpoint.OSU." version="2.19">
+      <description>
+        This object implements Passpoint Online Sign Up as described in
+        {{bibref|Passpoint|Section 4.3}}.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or Disables Online Sign Up feature on the access
+          point.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SSID" access="readWrite">
+        <description>
+          The SSID that the mobile device uses for Online Sign Up with all the
+          Online Sign Up providers listed in {{param|FriendlyNames}}
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Method" access="readWrite">
+        <description>
+          Specifies the list of protocols supported by the Online Sign Up
+          provider as described in
+          {{bibref|Passpoint|Table 13-OSU Method values}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="Reserved"/>
+            <enumeration value="SOAP_XML_SPP"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="FriendlyNames" access="readWrite">
+        <description>
+          Specifies the list of Online Sign Up Provider names as described in
+          {{bibref|Passpoint|Section 4.8.1.1}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="252"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ServerURIs" access="readWrite">
+        <description>
+          Specifies the list of Online Sign Up Server URI as described in
+          {{bibref|Passpoint|Section 4.8.1.2}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ServiceDescriptions" access="readWrite">
+        <description>
+          Specifies the list of Online Sign Up service description as described
+          in {{bibref|Passpoint|Section 4.8.1.6}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="252"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProviderNAIs" access="readWrite">
+        <description>
+          Specifies the list of the Network Access Identifiers that is used
+          for Online Sign Up as described in {{bibref|Passpoint|Section 4.13}}.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
         </syntax>
       </parameter>
     </object>
@@ -5004,7 +5069,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.18">
+  <model name="WiFiBase:2.19">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

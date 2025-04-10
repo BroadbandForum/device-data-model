@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-softwaremodules"
-    file="tr-181-2-18-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-softwaremodules"
+    file="tr-181-2-19-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -1296,6 +1296,15 @@
         </syntax>
       </parameter>
 
+      <parameter name="Privileged" access="readOnly" version="2.19">
+        <description>
+          The Privileged mode for this {{object}}: {{true}} for Privileged, {{false}} for Unprivileged.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="AllocatedDiskSpace" access="readOnly" version="2.16">
         <description>
           The amount of disk space measured in {{units}} allocated to this
@@ -1735,7 +1744,7 @@
         <syntax>
           <list/>
           <string>
-            <pathRef refType="strong" targetParent=".Logical.Interface." targetType="row"/>
+            <pathRef refType="strong" targetParent=".IP.Interface." targetType="row"/>
           </string>
         </syntax>
       </parameter>

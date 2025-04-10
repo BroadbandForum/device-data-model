@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [XPON]
 
-  Copyright (c) 2022, Broadband Forum
+  Copyright (c) 2022-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-14
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-xpon"
-    file="tr-181-2-18-0-xpon.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-xpon"
+    file="tr-181-2-19-0-xpon.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,6 +70,45 @@
       spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
   </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="BaseInterfaceParams"/>
+    <component name="Layer1InterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer1InterfaceStats"/>
+    <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <component name="EthernetUNI">
+    <parameter name="EthernetUNINumberOfEntries" access="readOnly">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+    <object name="EthernetUNI.{i}." access="readOnly"
+      numEntriesParameter="EthernetUNINumberOfEntries"
+      minEntries="0" maxEntries="unbounded" dmr:fixedObject="true" version="2.0">
+      <description>
+        {{object}} table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer1InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer1InterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+  </component>
 
   <component name="XPON">
 
@@ -165,14 +204,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="EthernetUNINumberOfEntries" access="readOnly">
-        <description>
-          {{numentries}}
-        </description>
-        <syntax>
-          <unsignedInt/>
-        </syntax>
-      </parameter>
+      <component ref="EthernetUNI" version="2.16"/>
 
       <parameter name="ANINumberOfEntries" access="readOnly">
         <description>
@@ -265,10 +297,8 @@
       </parameter>
     </object>
 
-    <object name="Device.XPON.ONU.{i}.EthernetUNI.{i}." access="readOnly"
-        numEntriesParameter="EthernetUNINumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.16">
-      <description>
+    <object base="Device.XPON.ONU.{i}.EthernetUNI.{i}.">
+      <description action="replace">
         Ethernet UNI table (a stackable interface object as described in
         {{bibref|TR-181i2|Section 4.2}}). This object models User Network
         Interfaces carrying Ethernet frames.
@@ -286,15 +316,9 @@
         Ethernet UNI ME instead of a VEIP ME in its OMCI MIB even if the
         EthernetUNI models a virtual UNI.
       </description>
-      <uniqueKey functional="false">
-        <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="false">
-        <parameter ref="Name"/>
-      </uniqueKey>
 
-      <parameter name="Enable" access="readOnly">
-        <description>
+      <parameter base="Enable" access="readOnly">
+        <description action="replace">
           Indicates whether this interface is enabled ({{true}}) or not
           ({{false}}). If the ONU is managed via OMCI, the interface is enabled
           if the OLT set the parameter ''Administrative state'' of the ME
@@ -305,97 +329,24 @@
 
           This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
         </description>
-        <syntax>
-          <boolean/>
-        </syntax>
       </parameter>
 
-      <parameter name="Status" access="readOnly">
-        <description>
-          The current operational state of the interface (see
-          {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
-
-          When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
-          {{enum|Down}} (or {{enum|NotPresent}} or {{enum|Error}} if there is a
-          fault condition on the interface).
-
-          When {{param|Enable}} becomes {{true}} then {{param}} SHOULD change
-          to {{enum|Up}} if and only if the interface is able to transmit and
-          receive network traffic; it SHOULD change to {{enum|Dormant}} if and
-          only if the interface is operable but is waiting for external actions
-          before it can transmit and receive network traffic (and subsequently
-          change to {{enum|Up}} if still operable when the expected actions
-          have completed); it SHOULD change to {{enum|LowerLayerDown}} if and
-          only if the interface is prevented from entering the {{enum|Up}}
-          state because one or more of the interfaces beneath it is down; it
-          SHOULD remain in the {{enum|Error}} state if there is an error or
-          other fault condition detected on the interface; it SHOULD remain in
-          the {{enum|NotPresent}} state if the interface has missing (typically
-          hardware) components; it SHOULD change to {{enum|Unknown}} if the
-          state of the interface can not be determined for some reason.
-
+      <parameter base="Status">
+        <description action="append">
           If the ONU is managed via OMCI, then {{param}} can only be
           {{enum|Up}} if the ONU has been provisioned at OMCI level in such a
           way that this interface is able to pass traffic.
-
-          This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
         </description>
-        <syntax>
-          <string>
-            <enumeration value="Up"/>
-            <enumeration value="Down"/>
-            <enumeration value="Unknown"/>
-            <enumeration value="Dormant"/>
-            <enumeration value="NotPresent"/>
-            <enumeration value="LowerLayerDown"/>
-            <enumeration value="Error" optional="true"/>
-          </string>
-        </syntax>
       </parameter>
 
-      <component ref="Alias"/>
-
-      <parameter name="Name" access="readOnly">
-        <description>
-          The textual name of the interface entry as assigned by the CPE.
+      <parameter base="LowerLayers">
+        <description action="append">
+          If {{object}} models a physical UNI, it represents a layer 1 interface;
+          if {{object}} models a virtual UNI, it virtualizes a layer 1 interface.
         </description>
-        <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
-        </syntax>
       </parameter>
 
-      <parameter name="LastChange" access="readOnly" activeNotify="canDeny">
-        <description>
-          The accumulated time in {{units}} since the interface entered its
-          current operational state.
-        </description>
-        <syntax>
-          <unsignedInt>
-            <units value="seconds"/>
-          </unsignedInt>
-        </syntax>
-      </parameter>
-
-      <parameter name="LowerLayers" access="readOnly">
-        <description>
-          {{list}} {{reference|an interface object that is stacked immediately
-          below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
-
-          Note: it is expected that {{param}} will not be used: if {{object}}
-          models a physical UNI, it represents a layer 1 interface; if
-          {{object}} models a virtual UNI, it virtualizes a layer 1 interface.
-        </description>
-        <syntax>
-          <list>
-            <size maxLength="1024"/>
-          </list>
-          <string>
-            <pathRef refType="strong" targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
+      <parameter base="Upstream" version="2.19"/>
 
       <parameter name="ANIs" access="readOnly">
         <description>
@@ -463,195 +414,14 @@
           </string>
         </syntax>
       </parameter>
+
     </object>
 
-    <object name="Device.XPON.ONU.{i}.EthernetUNI.{i}.Stats."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.16">
-      <description>
-        Throughput statistics for this interface.
-
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
-        stated in individual object or parameter descriptions) either when the
-        interface becomes operationally down due to a previous administrative
-        down (i.e. the interface's {{param|#.Status}} parameter transitions to
-        a down state after the interface is disabled) or when the interface
-        becomes administratively up (i.e. the interface's {{param|#.Enable}}
-        parameter transitions from {{false}} to {{true}}). Administrative and
-        operational interface status is discussed in {{bibref|TR-181i2|section
-        4.2.2}}.
-
+    <object base="Device.XPON.ONU.{i}.EthernetUNI.{i}.Stats.">
+      <description action="append">
         Transmit direction has PON as destination. Receive direction has PON as
         source.
       </description>
-
-      <parameter name="BytesSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes transmitted out of the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BytesReceived" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of bytes received on the interface, including
-          framing characters.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames transmitted out of the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="PacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received on the interface.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsSent" access="readOnly" activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames that could not be
-          transmitted because of errors.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="ErrorsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames that contained errors
-          preventing them from being delivered to the TR-181 domain.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames requested for transmission which
-          were not addressed to a multicast or broadcast address at this layer,
-          including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnicastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames, delivered by this interface to
-          the TR-181 domain, which were not addressed to a multicast or
-          broadcast address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of outbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being transmitted. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="DiscardPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of inbound Ethernet frames which were chosen to be
-          discarded even though no errors had been detected to prevent their
-          being delivered. One possible reason for discarding such a packet
-          could be to free up buffer space.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames requested for transmission and
-          which were addressed to a multicast address at this layer, including
-          those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="MulticastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this
-          interface to the TR-181 domain, which were addressed to a multicast
-          address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsSent" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames that the TR-181 domain requested
-          for transmission and which were addressed to a broadcast address at
-          this layer, including those that were discarded or not sent.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="BroadcastPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of received Ethernet frames, delivered by this
-          interface to the TR-181 domain, which were addressed to a broadcast
-          address at this layer.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter64"/>
-        </syntax>
-      </parameter>
-
-      <parameter name="UnknownProtoPacketsReceived" access="readOnly"
-          activeNotify="canDeny">
-        <description>
-          The total number of Ethernet frames received via the interface which
-          were discarded because of an unknown or unsupported protocol.
-        </description>
-        <syntax>
-          <dataType ref="StatsCounter32"/>
-        </syntax>
-      </parameter>
     </object>
 
     <object name="Device.XPON.ONU.{i}.ANI.{i}." access="readOnly"
@@ -790,6 +560,19 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+      <parameter name="SFPReferenceList" access="readOnly" version="2.19">
+        <description>
+          Small-form Factor Pluggable (SFP) entries associated with this interface.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="###.SFPs.SFPCage."
+                targetType="row"/>
+          </string>
         </syntax>
       </parameter>
     </object>
@@ -2023,7 +1806,7 @@
 
   </component>
 
-  <model name="XPON:2.18">
+  <model name="XPON:2.19">
     <component ref="Root"/>
     <component ref="XPON"/>
   </model>

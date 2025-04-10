@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-moca-cwmp"
-    file="tr-181-2-18-0-moca-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-moca-cwmp"
+    file="tr-181-2-19-0-moca-cwmp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-moca.xml" spec="urn:broadband-forum-org:tr-181-2-18-moca">
+  <import file="tr-181-2-moca.xml" spec="urn:broadband-forum-org:tr-181-2-19-moca">
     <component name="MoCA"/>
     <component name="MoCAAcaInput"/>
     <component name="MoCAAcaOutput"/>

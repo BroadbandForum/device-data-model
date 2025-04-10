@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-uspservices"
-    file="tr-181-2-18-0-uspservices.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-uspservices"
+    file="tr-181-2-19-0-uspservices.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,12 +73,54 @@
         This object contains information related to installed USP Services.
       </description>
 
+      <parameter name="TrustNumberOfEntries" access="readOnly" version="2.19">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="USPServiceNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.USPServices.Trust.{i}." access="readWrite"
+        numEntriesParameter="TrustNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.19">
+      <description>
+        This object contains permissions associated with the set of data model paths that a USP Agent within a USP Service is allowed to Register.
+        If a USP Service's USP Agent is not present in this table then there are no permissions associated for that USP Service and it is not allowed to register any data model paths.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="EndpointID"/>
+      </uniqueKey>
+
+      <parameter name="EndpointID" access="readWrite">
+        <description>
+          The unique USP identifier for the USP Agent associated with these permissions.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TargetPaths" access="readWrite">
+        <description>
+          Each entry in the list is an Object Path, Command Path, Event Path, or Parameter Path that determines the 
+          element(s) of the data model that the USP Service has permission to register.
+          {{empty}} indicates that the USP Agent has no permissions.
+        </description>
+        <syntax>
+          <list maxItems="1024"/>
+          <string/>
         </syntax>
       </parameter>
     </object>
@@ -186,7 +228,7 @@
     </object>
   </component>
 
-  <model name="USPService:2.18">
+  <model name="USPService:2.19">
     <component ref="Root"/>
     <component ref="USPServices"/>
   </model>

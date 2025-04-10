@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-18-0-syslog"
-  file="tr-181-2-18-0-syslog.xml">
+  spec="urn:broadband-forum-org:tr-181-2-19-0-syslog"
+  file="tr-181-2-19-0-syslog.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,6 +68,11 @@ directed to <info@broadband-forum.org>.
   <import file="tr-181-2-root.xml"
     spec="urn:broadband-forum-org:tr-181-2-16-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-security.xml">
+    <component name="ClientCerts"/>
+    <component name="ServerCerts"/>
   </import>
 
   <component name="Syslog">
@@ -345,7 +350,12 @@ directed to <info@broadband-forum.org>.
             </enumeration>
             <enumeration value="Notice">
               <description>
-                Indicates a informational message.
+                Indicates a normal but important message.
+              </description>
+            </enumeration>
+            <enumeration value="Info" version="2.19">
+              <description>
+                Indicates an informational message.
               </description>
             </enumeration>
             <enumeration value="Debug">
@@ -496,7 +506,12 @@ directed to <info@broadband-forum.org>.
             </enumeration>
             <enumeration value="Notice">
               <description>
-                Indicates a informational message.
+                Indicates a normal but important message.
+              </description>
+            </enumeration>
+            <enumeration value="Info" version="2.19">
+              <description>
+                Indicates an informational message.
               </description>
             </enumeration>
             <enumeration value="Debug">
@@ -729,6 +744,23 @@ directed to <info@broadband-forum.org>.
             <default type="object" value="UDP"/>
           </syntax>
         </parameter>
+
+        <component ref="ServerCerts" version="2.19"/>
+
+        <parameter name="PeerVerify" access="readWrite" version="2.19">
+          <description>
+            Ensures authentic and secure connections by validating entity credentials such as certificates or tokens.
+            Only applicable when {{param|Protocol}} is set to {{enum|TLS|Protocol}}.
+
+            In order to validate a certificate, the entire certificate chain,
+            including the CA certificate, must be valid.
+            If any certificate in the chain is found to be invalid, the syslog service must reject the connection.
+          </description>
+          <syntax>
+            <boolean/>
+            <default type="object" value="false"/>
+          </syntax>
+        </parameter>
       </object>
 
       <object name="Device.Syslog.Template.{i}." access="readWrite"
@@ -799,7 +831,7 @@ directed to <info@broadband-forum.org>.
 
             When referencing multiple Filter rules, it is mandatory to execute
             them in the order listed within the parameter.
-            
+
             Example: FilterRef=.Syslog.Filter.3,.Syslog.Filter.1
             First filter rule 3 must be executed and then filter rule 1.
 
@@ -899,6 +931,36 @@ directed to <info@broadband-forum.org>.
             </syntax>
           </parameter>
 
+          <parameter name="Status" access="readOnly" version="2.19">
+            <description>
+              Status of the remote log destination.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="Disabled">
+                  <description>
+                    Indicates that the Syslog remote destination is disabled.
+                  </description>
+                </enumeration>
+                <enumeration value="Enabled">
+                  <description>
+                    Indicates that the Syslog remote destination is enabled.
+                  </description>
+                </enumeration>
+                <enumeration value="Error_Unreachable">
+                  <description>
+                    Indicate that the Syslog remote destination is unreachable.
+                  </description>
+                </enumeration>
+                <enumeration value="Error" optional="true">
+                  <description>
+                    Indicates that the Syslog remote destination is misconfigured or has encountered an error.
+                  </description>
+                </enumeration>
+              </string>
+            </syntax>
+          </parameter>
+
           <parameter name="Address" access="readWrite">
             <description>
               Host name or IP address of the remote server.
@@ -912,7 +974,7 @@ directed to <info@broadband-forum.org>.
           <parameter name="Protocol" access="readWrite">
             <description>
               Protocol to be used to deliver the syslog messages to the remote server.
-              
+
               Note: This parameter was promoted to readWrite in the Device:2.18 version.
             </description>
             <syntax>
@@ -948,22 +1010,12 @@ directed to <info@broadband-forum.org>.
             </syntax>
           </parameter>
 
-          <parameter name="Certificate" access="readWrite">
-            <description>
-              Certificate that must be used by the syslog service.
-            </description>
-            <syntax>
-              <string>
-                <pathRef refType="strong" targetParent=".Security.Certificate." targetType="row"/>
-              </string>
-              <default type="object" value=""/>
-            </syntax>
-          </parameter>
+          <component ref="ClientCerts"/>
 
           <parameter name="PeerVerify" access="readWrite">
             <description>
               Ensures authentic and secure connections by validating entity credentials such as certificates or tokens.
-              Only applicable when {{enum|TLS|Protocol}}
+              Only applicable when {{param|Protocol}} is set to {{enum|TLS|Protocol}}.
 
               In order to validate a certificate, the entire certificate chain,
               including the CA certificate, must be valid.
@@ -998,7 +1050,7 @@ directed to <info@broadband-forum.org>.
         </object>
       </component>
 
-      <model name="Syslog:2.18">
+      <model name="Syslog:2.19">
         <component ref="Root"/>
         <component ref="Syslog"/>
       </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-optical"
-    file="tr-181-2-18-0-optical.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-0-optical"
+    file="tr-181-2-19-0-optical.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,8 +71,8 @@
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-interface">
-    <component name="Layer1Interface"/>
+    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    <component name="Layer1InterfaceMaxBitRateReadWrite"/>
   </import>
 
 
@@ -91,7 +91,8 @@
         Note that this object is not intended to model the optical transceiver
         either.
       </description>
-      <component ref="Layer1Interface" version="2.4"/>
+
+      <component ref="Layer1InterfaceMaxBitRateReadWrite" version="2.4"/>
     </object>
 
     <object base="Device.Optical.Interface.{i}.">
@@ -108,6 +109,21 @@
           This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
         </description>
       </parameter>
+      
+      <parameter name="SFPReferenceList" access="readOnly" version="2.19">
+        <description>
+          Small-form Factor Pluggable (SFP) entries associated with this interface.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.SFPs.SFPCage."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
 
       <parameter name="OpticalSignalLevel" access="readOnly">
         <description>
@@ -291,9 +307,16 @@
         <parameter ref="ErrorsReceived" requirement="readOnly"/>
       </object>
     </profile>
+
+    <profile name="OpticalSFP:1" extends="Optical:1" version="2.19">
+      <object ref="Device.Optical.Interface.{i}." requirement="present">
+        <parameter ref="SFPReferenceList" requirement="readOnly"/>
+      </object>
+    </profile>
+
   </component>
 
-  <model name="Optical:2.18">
+  <model name="Optical:2.19">
     <component ref="Root"/>
     <component ref="Optical"/>
   </model>

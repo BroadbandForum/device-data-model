@@ -121,40 +121,31 @@
   - September 2024
   - * Document not updated
 
+* - [Issue 2 Amendment 19][TR-181 Issue 2 Amendment 19]
+  - April 2025
+  - * Improved firewall configuration appendix
+    * Introduced new 3GPP NAS Theory of Operation appendix
+    * Deprecated 5G Theory of Operation appendix in favor of the new appendix
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
-
-::: nobreak
 
 ### %bbfWorkArea% Work Area Directors {.unnumbered .unlisted}
 
 * Jason Walls, QA Cafe
 * John Blackford, Vantiva
 
-:::
-
-::: nobreak
-
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
 * Daniel Egger, Axiros
 * Matthieu Anne, Orange
 
-:::
-
-::: nobreak
-
 ### Editors {.unnumbered .unlisted}
 
-* Steve Nicolai, Arris
 * Klaus Wich, Huawei
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
-
-:::
-
-::: nobreak
 
 ### Acknowledgments {.unnumbered .unlisted}
 
@@ -179,8 +170,6 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 * Tim Spets, Nokia
 * William Lupton, BBF
 
-:::
-
 [TR-181 Issue 2]: https://www.broadband-forum.org/download/TR-181_Issue-2.pdf
 [TR-181 Issue 2 Amendment 10]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf
 [TR-181 Issue 2 Amendment 11]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf
@@ -191,6 +180,7 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 [TR-181 Issue 2 Amendment 16]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-16.pdf
 [TR-181 Issue 2 Amendment 17]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf
 [TR-181 Issue 2 Amendment 18]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-18.pdf
+[TR-181 Issue 2 Amendment 19]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf

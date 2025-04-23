@@ -159,6 +159,11 @@
     * Introduced new 3GPP NAS Theory of Operation appendix
     * Deprecated 5G Theory of Operation appendix in favor of the new appendix
 
+* - [Issue 2 Amendment 19 Corrigendum 1][TR-181 Issue 2 Amendment 19 Corrigendum 1]
+  - April 2025
+  - * Re-export some SVG images to address rendering artefacts from invalid data
+    * Adjust the data model paths in the examples to match the recent data model changes
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
@@ -175,7 +180,6 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### Editors {.unnumbered .unlisted}
 
-* Klaus Wich, Huawei
 * David Woolley, Telstra
 * William Lupton, Broadband Forum
 
@@ -214,6 +218,7 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 [TR-181 Issue 2 Amendment 17]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf
 [TR-181 Issue 2 Amendment 18]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-18.pdf
 [TR-181 Issue 2 Amendment 19]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19.pdf
+[TR-181 Issue 2 Amendment 19 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf

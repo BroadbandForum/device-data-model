@@ -39,6 +39,17 @@ resources:
     resname: Device
 
 versions:
+  v2.19.1:
+    date: 2025-04-23
+    changes:
+      data-model: |
+        * Fix the order of some datamodel objects in the rendered HTML
+        * Explain permissions behaviour for Get messages
+        * Add missing spec attributes, messing up the diffs from future versions
+      specification: |
+        * Re-export some SVG images to address rendering artefacts from invalid data
+        * Adjust the data model paths in the examples to match the recent data model changes
+
   v2.19.0:
     date: 2025-04-10
     changes:

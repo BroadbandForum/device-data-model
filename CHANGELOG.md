@@ -5,6 +5,20 @@
 See <https://device-data-model.broadband-forum.org> for the
 current TR-181 specification.
 
+## 2025-04-23: [TR-181 Issue 2 Amendment 19 Corrigendum 1]
+
+*Tags: [v2.19.1] (TR-181), 
+       [v1.14.0][TR-106-v1.14.0] (TR-106 didn't change)*
+
+### Data Model
+* Fix the order of some datamodel objects in the rendered HTML
+* Explain permissions behaviour for Get messages
+* Add missing spec attributes, messing up the diffs from future versions
+
+### TR-181 Document
+* Re-export some SVG images to address rendering artefacts from invalid data
+* Adjust the data model paths in the examples to match the recent data model changes
+
 ## 2025-04-10: [TR-181 Issue 2 Amendment 19]
 
 *Tags: [v2.19.0] (TR-181), 
@@ -620,6 +634,7 @@ Incorporated new components from TR-157 Amendment 4
 [TR-181 Issue 2 Amendment 17]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-17.pdf
 [TR-181 Issue 2 Amendment 18]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-18.pdf
 [TR-181 Issue 2 Amendment 19]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19.pdf
+[TR-181 Issue 2 Amendment 19 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
@@ -659,3 +674,4 @@ Incorporated new components from TR-157 Amendment 4
 [v2.18.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.0
 [v2.18.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.1
 [v2.19.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.0
+[v2.19.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.1

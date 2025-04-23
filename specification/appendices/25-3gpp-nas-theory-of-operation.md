@@ -89,18 +89,18 @@ The logical connection between an RG and a data network using 3GPP technologies 
 
 :Device.SessionManagement objects
 
-| Object                  | Description
-|-------------------------|-----------------------------------------------
-| Device.SessionManagement| Base object for 3GPP sessions.
-| Device.SessionManagement.Session.{i}    | Contains all the properties of a 3GPP session instance common to all generations.
-| Device.SessionManagement.Session.{i}.PCO|
-| Device.SessionManagement.Session.{i}.PDP| Contains all 3G specific attributes needed to establish a PDP context.
-| Device.SessionManagement.Session.{i}.PDN| Contains all 4G specific attributes needed to establish a PDN session.
-| Device.SessionManagement.Session.{i}.PDU| Contains all 5G specific attributes needed to establish a PDU session.
-| Device.SessionManagement.Session.{i}.PDU.NetworkSlice              | Describes all the components of a Single -Network Slice Selection Assistance Information (S-NSSAI). The S-NSSAI identifies the network slice a PDU session has been established on.
-| Device.SessionManagement.Session.{i}.PDU.QoSFlow.{i}               | Table of all QoS Flow Indicators (QFI) and their properties supported by the access network for this particular PDU.
-| Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}               | Set of rules used to select the QFI label for a given packet.
-| Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}.QoSRuleFilter.{i} | Table of filters to select a QoS rule. Typical filters include destination IP and ports.
+| Object                                                          | Description
+|-----------------------------------------------------------------|-----------------------------------------------
+| Device.SessionManagement                                        | Base object for 3GPP sessions.
+| Device.SessionManagement.Session.{i}.                           | Contains all the properties of a 3GPP session instance common to all generations.
+| Device.SessionManagement.Session.{i}.PCO                        | Protocol Configuration Options (PCO) for the session, including DNS server addresses and other configuration parameters.
+| Device.SessionManagement.PDP.{i}.                               | Contains all 3G specific attributes needed to establish a PDP context.
+| Device.SessionManagement.PDN.{i}.                               | Contains all 4G specific attributes needed to establish a PDN session.
+| Device.SessionManagement.PDU.{i}.                               | Contains all 5G specific attributes needed to establish a PDU session.
+| Device.SessionManagement.PDU.{i}.NetworkSlice                   | Describes all the components of a Single -Network Slice Selection Assistance Information (S-NSSAI). The S-NSSAI identifies the network slice a PDU session has been established on.
+| Device.SessionManagement.PDU.{i}.QoSFlow.{i}.                   | Table of all QoS Flow Indicators (QFI) and their properties supported by the access network for this particular PDU.
+| Device.SessionManagement.PDU.{i}.QoSRule.{i}.                   | Set of rules used to select the QFI label for a given packet.
+| Device.SessionManagement.PDU.{i}.QoSRule.{i}.QoSRuleFilter.{i}. | Table of filters to select a QoS rule. Typical filters include destination IP and ports.
 
 ![Device.WWC objects](/images/device.sessionmanagement-objects.png)
 
@@ -181,10 +181,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionID = 1
         SessionType = IPv4v6
         APN = "provider.internet"
+        Reference = Device.SessionManagement.PDP.1
     Device.SessionManagement.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.1.PDP
+    Device.SessionManagement.PDP.1
         TrafficClass = "Interactive"
         DownstreamMaxBitRate = 1000
         UpstreamMaxBitRate = 1000
@@ -199,10 +200,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionID = 1
         SessionType = IPv4v6
         APN = "provider.internet"
+        Reference = Device.SessionManagement.PDN.1
     Device.SessionManagement.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.1.PDN
+    Device.SessionManagement.PDN.1
         QCI = 9
         DownstreamMaxBitRate = 1000
         UpstreamMaxBitRate = 1000
@@ -212,10 +214,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionID = 2
         SessionType = IPv4v6
         APN = "provider.ims"
+        Reference = Device.SessionManagement.PDN.2
     Device.SessionManagement.2.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.2.PDN
+    Device.SessionManagement.PDN.2
         QCI = 1
         DownstreamMaxBitRate = 1000
         UpstreamMaxBitRate = 1000
@@ -225,10 +228,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionID = 3
         SessionType = IPv4v6
         APN = "provider.ims"
-    Device.SessionManagement.2.PCO
+        Reference = Device.SessionManagement.PDN.3
+    Device.SessionManagement.3.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.2.PDN
+    Device.SessionManagement.PDN.3
         QCI = 5
         DownstreamMaxBitRate = 1000
         UpstreamMaxBitRate = 1000
@@ -297,20 +301,21 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionType = IPv4v6
         SessionId = 1
         APN = "provider.internet"
+        Reference = Device.SessionManagement.PDU.1
     Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.Session.1.PDU
+    Device.SessionManagement.PDU.1
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
         SessionAMBRUplink = 40000000
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.SessionManagement.Session.1.PDU.NetworkSlice
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -318,11 +323,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                   # Match all
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -330,16 +335,16 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Device.SessionManagement.PDU..1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
@@ -351,7 +356,8 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionType = IPv4v6
         SessionId = 6
         DNN = "provider.ims"
-    Device.SessionManagement.Session.2.PDU.
+        Reference = Device.SessionManagement.PDU.2
+    Device.SessionManagement.PDU.2.
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
@@ -363,10 +369,10 @@ There are a multitude of combinations of 3GPP generations and access technologie
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.SessionManagement.Session.2.PDU.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -374,11 +380,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1
@@ -447,10 +453,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         Interface = Device.IP.Interface.1
         SessionId = 1
         SessionType = IPv4v6
-    Device.PDU.Session.1.PCO
+        Reference = Device.SessionManagement.PDU.1
+    Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.Session.1.PDU
+    Device.SessionManagement.PDU.1.
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
@@ -458,10 +465,10 @@ There are a multitude of combinations of 3GPP generations and access technologie
         DNN = "provider.internet"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.SessionManagement.Session.1.PDU.NetworkSlice
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -469,11 +476,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                  # Match all
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -481,16 +488,16 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Device.SessionManagement.PDU.1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
@@ -501,12 +508,13 @@ There are a multitude of combinations of 3GPP generations and access technologie
         Interface = Device.IP.Interface.2
         SessionId = 6
         SessionType = IPv4v6
+        Reference = Device.SessionManagement.PDU.2
     Device.SessionManagement.Session.2.PCO
         IPv6PCSCF = "2001:db8::1:1"
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.SessionManagement.Session.2.PDU
+    Device.SessionManagement.PDU.2
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
@@ -514,10 +522,10 @@ There are a multitude of combinations of 3GPP generations and access technologie
         DNN = "provider.ims"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 1
-    Device.SessionManagement.Session.2.PDU.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -525,11 +533,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1
@@ -620,20 +628,21 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionType = IPv4v6
         SessionId = 1
         APN = "provider.internet"
+        Reference = Device.SessionManagement.PDU.1
     Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.SessionManagement.Session.1.PDU
+    Device.SessionManagement.PDU.1.
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
         SessionAMBRUplink = 40000000
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.SessionManagement.Session.1.PDU.NetworkSlice
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -641,11 +650,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                   # Match all
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -653,16 +662,16 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+    Device.SessionManagement.PDU.1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
@@ -674,7 +683,8 @@ There are a multitude of combinations of 3GPP generations and access technologie
         SessionType = IPv4v6
         SessionId = 6
         DNN = "provider.ims"
-    Device.SessionManagement.Session.2.PDU.
+        Reference = Device.SessionManagement.PDU.2
+    Device.SessionManagement.PDU.2.
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
@@ -686,10 +696,10 @@ There are a multitude of combinations of 3GPP generations and access technologie
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.SessionManagement.Session.2.PDU.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -697,11 +707,11 @@ There are a multitude of combinations of 3GPP generations and access technologie
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1

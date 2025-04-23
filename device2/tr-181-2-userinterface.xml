@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-userinterface"
-    file="tr-181-2-19-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-1-userinterface"
+    file="tr-181-2-19-1-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,8 @@ directed to <info@broadband-forum.org>.
     <dataType name="URL"/>
   </import>
 
-  <import file="tr-181-2-security.xml">
+  <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-security">
     <component name="ServerCerts"/>
   </import>
 
@@ -1036,7 +1037,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="UserInterface:2.18">
+  <model name="UserInterface:2.19">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

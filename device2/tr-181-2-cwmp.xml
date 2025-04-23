@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-cwmp"
-    file="tr-181-2-19-0-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-1-cwmp"
+    file="tr-181-2-19-1-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -546,7 +546,7 @@
     </object>
 
     <object name="Device.ManagementServer." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.0" dmr:previousObject="Device.DeviceInfo.">
+        maxEntries="1" version="2.0" dmr:previousObject="Device.DeviceInfo.ProxierInfo.">
       <description>
         This object contains parameters relating to the CPE's association with
         an ACS.
@@ -3554,7 +3554,7 @@
 
     <object name="Device.IP.Diagnostics.UploadDiagnostics." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0"
-        dmr:previousObject="Device.IP.Diagnostics.DownloadDiagnostics.">
+        dmr:previousObject="Device.IP.Diagnostics.DownloadDiagnostics.IncrementalResult.">
       <description>
         This object defines the diagnostics configuration for a HTTP or FTP
         UploadDiagnostics test.
@@ -3656,7 +3656,7 @@
 
     <object name="Device.IP.Diagnostics.IPLayerCapacityMetrics."
         access="readOnly" minEntries="1" maxEntries="1"
-        dmr:previousObject="Device.IP.Diagnostics.UDPEchoDiagnostics."
+        dmr:previousObject="Device.IP.Diagnostics.UDPEchoDiagnostics.IndividualPacketResult."
         version="2.14">
       <description>
         This object defines the diagnostics configuration for a IP Layer
@@ -3820,8 +3820,7 @@
     </object>
 
     <object name="Device.SelfTestDiagnostics." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0"
-        dmr:previousObject="Device.DLNA.">
+      minEntries="1" maxEntries="1" version="2.0">
       <description>
         This diagnostics test is vendor-specific and MAY include testing
         hardware, software, and/or firmware.

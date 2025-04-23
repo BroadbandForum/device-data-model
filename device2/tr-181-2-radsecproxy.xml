@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-radsecproxy"
-    file="tr-181-2-19-0-radsecproxy.xml">
+    spec="urn:broadband-forum-org:tr-181-2-19-1-radsecproxy"
+    file="tr-181-2-19-1-radsecproxy.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,7 +71,8 @@
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-security.xml">
+  <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-19-security">
     <component name="ClientCerts"/>
   </import>
 

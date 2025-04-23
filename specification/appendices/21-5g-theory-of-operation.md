@@ -4,7 +4,7 @@ The theory of operation defined in this Appendix is DEPRECATED in favor of the â
 The 3GPP NAS theory of operation takes a more wholistic approach and is inclusive of 3G, 4G and 5G rather than the previous focus on 5G WWC
 :::
 
-This section discusses the Theory of Operation for 5G Wireline Wireless Convergence using CWMP or USP and the supporting Device.WWC, Device.PDU and Device.FWE objects.
+This section discusses the Theory of Operation for 5G Wireline Wireless Convergence using CWMP or USP and the supporting Device.WWC, Device.SessionManagement.PDU and Device.FWE objects.
 
 ## Overview
 
@@ -159,23 +159,21 @@ The relationship between a 5G-RG and the available access networks is represente
 
 ![Device.WWC objects](/images/device.wwc-objects.png)
 
-#### Device.PDU
+#### Device.SessionManagement.PDU
 
-The logical connection between the 5G-RG and data network is the Protocol Data Unit (PDU). The Device.PDU subtree describes each PDU session's properties together with the QoS rules specific to that PDU session.
+The logical connection between the 5G-RG and data network is the Protocol Data Unit (PDU). The Device.SessionManagement.PDU subtree describes each PDU session's properties together with the QoS rules specific to that PDU session.
 
-:Device.PDU objects
+:Device.SessionManagement.PDU objects
 
-| Object                                           | Description
-|--------------------------------------------------|-----------------------------------------------------------------
-| Device.PDU                                       | Base object for PDU sessions.
-| Device.PDU.Session.{i}                           | Contains all the properties of a PDU session instance, ranging from maximum bitrate through to assigned network slice.
-| Device.PDU.Session.{i}.PCO                       | Policy Configuration Options (PCO) is an optional set of configuration parameters supplied by the network at the request of the 5G-RG.
-| Device.PDU.Session.{i}.NetworkSlice              | Describes all the components of a Single -Network Slice Selection Assistance Information (S-NSSAI). The S-NSSAI identifies the network slice a PDU session has been established on.
-| Device.PDU.Session.{i}.QoSFlow.{i}               | Table of all QoS Flow Indicators (QFI) and their properties supported by the access network for this particular PDU.
-| Device.PDU.Session.{i}.QoSRule.{i}               | Set of rules used to select the QFI label for a given packet.
-| Device.PDU.Session.{i}.QoSRule.{i}.QoSRuleFilter.{i} | Table of filters to select a QoS rule. Typical filters include destination IP and ports.
-
-![Device.PDU objects](/images/device.pdu-objects.png)
+| Object                                                         | Description
+|----------------------------------------------------------------|-----------------------------------------------------------------
+| Device.SessionManagement.Session.{i}                           | Base object for all data sessions e.g. PDP, PDN, PDU.
+| Device.SessionManagement.PDU.{i}                               | Contains all the properties of a PDU session instance, ranging from maximum bitrate through to assigned network slice.
+| Device.SessionManagement.Session.{i}.PCO                       | Policy Configuration Options (PCO) is an optional set of configuration parameters supplied by the network at the request of the 5G-RG.
+| Device.SessionManagement.PDU.{i}.NetworkSlice                  | Describes all the components of a Single -Network Slice Selection Assistance Information (S-NSSAI). The S-NSSAI identifies the network slice a PDU session has been established on.
+| Device.SessionManagement.PDU.{i}.QoSFlow.{i}                   | Table of all QoS Flow Indicators (QFI) and their properties supported by the access network for this particular PDU.
+| Device.SessionManagement.PDU.{i}.QoSRule.{i}                   | Set of rules used to select the QFI label for a given packet.
+| Device.SessionManagement.PDU.{i}.QoSRule.{i}.QoSRuleFilter.{i} | Table of filters to select a QoS rule. Typical filters include destination IP and ports.
 
 #### Device.FWE
 
@@ -250,26 +248,30 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         AccessType = "Non-3GPP access"
     Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
         SliceServiceType = "eMBB"
-    Device.PDU.
+    Device.SessionManagement.
         SessionNumberOfEntries = 2
-    Device.PDU.Session.1.
-        Alias = "cpe-pdu1"
-        Interface = Device.IP.Interface.1
+        PDUNumberOfEntries = 2
+    Device.SessionManagement.Session.1.
+        Alias = "cpe-session1"
         SessionId = 1
+        Reference = Device.SessionManagement.PDU.1.
+        Interface = Device.IP.Interface.1.
+        APN = "provider.internet"
+    Device.SessionManagement.PDU.1.
+        Alias = "cpe-pdu1"
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
         SessionAMBRUplink = 40000000
-        DNN = "provider.internet"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.PDU.Session.1.PCO
+    Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
-    IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.PDU.Session.1.NetworkSlice
+        IPv4DNS = "203.0.113.1,203.0.113.2"
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.1.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -277,11 +279,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                  # Match all
-    Device.PDU.Session.1.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -289,41 +291,44 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.PDU.Session.1.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.PDU.Session.1.QoSFlow.2.
+    Device.SessionManagement.PDU.1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
         GFBRUplink = 150000
         GFBRDownlink = 150000
-    Device.PDU.Session.2.
-        Alias = "cpe-pdu2"
-        Interface = Device.IP.Interface.2
+    Device.SessionManagement.Session.2.
+        Alias = "cpe-session2"
         SessionId = 6
+        Reference = Device.SessionManagement.PDU.2.
+        Interface = Device.IP.Interface.2
+        APN = "provider.ims"
+    Device.SessionManagement.PDU.2.
+        Alias = "cpe-pdu2"
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
         SessionAMBRUplink = 150000
-        DNN = "provider.ims"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 1
-    Device.PDU.Session.2.PCO
+    Device.SessionManagement.Session.2.PCO
         IPv6PCSCF = "2001:db8::1:1"
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.PDU.Session.2.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.2.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -331,11 +336,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.2.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.PDU.Session.2.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1
@@ -407,26 +412,30 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         AccessType = "3GPP access"
     Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
         SliceServiceType = "eMBB"
-    Device.PDU.
+    Device.SessionManagement.
         SessionNumberOfEntries = 2
-    Device.PDU.Session.1.
-        Alias = "cpe-pdu1"
-        Interface = Device.IP.Interface.1
+        PDUNumberOfEntries = 2
+    Device.SessionManagement.Session.1.
+        Alias = "cpe-session1"
         SessionId = 1
+        Reference = Device.SessionManagement.PDU.1.
+        Interface = Device.IP.Interface.1.
+        APN = "provider.internet"
+    Device.SessionManagement.PDU.1.
+        Alias = "cpe-pdu1"
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
         SessionAMBRUplink = 40000000
-        DNN = "provider.internet"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.PDU.Session.1.PCO
+    Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.PDU.Session.1.NetworkSlice
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.1.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -434,11 +443,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                   # Match all
-    Device.PDU.Session.1.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -446,41 +455,44 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.PDU.Session.1.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.PDU.Session.1.QoSFlow.2.
+    Device.SessionManagement.PDU.1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
         GFBRUplink = 150000
         GFBRDownlink = 150000
-    Device.PDU.Session.2.
-        Alias = "cpe-pdu2"
-        Interface = Device.IP.Interface.2
+    Device.SessionManagement.Session.2.
+        Alias = "cpe-session2"
         SessionId = 6
+        Reference = Device.SessionManagement.PDU.2.
+        Interface = Device.IP.Interface.2.
+        APN = "provider.ims"
+    Device.SessionManagement.PDU.2.
+        Alias = "cpe-pdu2"
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
         SessionAMBRUplink = 150000
-        DNN = "provider.ims"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 1
-    Device.PDU.Session.2.PCO
+    Device.SessionManagement.Session.2.PCO
         IPv6PCSCF = "2001:db8::1:1"
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.PDU.Session.2.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.2.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -488,11 +500,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.2.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.PDU.Session.2.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1
@@ -565,26 +577,30 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         AccessType = "Non-3GPP access"
     Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
         SliceServiceType = "eMBB"
-    Device.PDU.
+    Device.SessionManagement.
         SessionNumberOfEntries = 2
-    Device.PDU.Session.1.
-        Alias = "cpe-pdu1"
-        Interface = Device.IP.Interface.1
+        PDUNumberOfEntries = 2
+    Device.SessionManagement.Session.1.
+        Alias = "cpe-session1"
         SessionId = 1
+        Reference = Device.SessionManagement.PDU.1.
+        Interface = Device.IP.Interface.1.
+        APN = "provider.internet"
+    Device.SesionManagement.PDU.1.
+        Alias = "cpe-pdu1"
         PTI = 63
         SSC = 1
         SessionAMBRDownlink = 100000000
         SessionAMBRUplink = 40000000
-        DNN = "provider.internet"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 2
-    Device.PDU.Session.1.PCO
+    Device.SessionManagement.Session.1.PCO
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
-    Device.PDU.Session.1.NetworkSlice
+    Device.SessionManagement.PDU.1.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.1.QoSRule.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.
         Alias = "cpe-pdu11"
         Identifier = 1
         Precedence = 100
@@ -592,11 +608,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 1
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
         Alias = "cpe-pdu111"
         Direction = "bidirectional"
         Type = 1                   # Match all
-    Device.PDU.Session.1.QoSRule.2.
+    Device.SessionManagement.PDU.1.QoSRule.2.
         Alias = "cpe-pdu12"
         Identifier = 2
         Precedence = 10
@@ -604,41 +620,44 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.1.QoSRule.2.Filter.1.
+    Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
         Alias = "cpe-pdu121"
         Direction = "bidirectional"
         Type = 33                  # Destination IPv6
         Value = "2001:db8::2:1"    # VoWiFi ePDG
-    Device.PDU.Session.1.QoSFlow.1.
+    Device.SessionManagement.PDU.1.QoSFlow.1.
         Alias = "cpe-pdu11"
         QFI = 1
         FiveQI = 8
-    Device.PDU.Session.1.QoSFlow.2.
+    Device.SessionManagement.PDU..1.QoSFlow.2.
         Alias = "cpe-pdu11"
         QFI = 32
         FiveQI = 1
         GFBRUplink = 150000
         GFBRDownlink = 150000
-    Device.PDU.Session.2.
-        Alias = "cpe-pdu2"
-        Interface = Device.IP.Interface.2
+    Device.SessionManagement.Session.2.
+        Alias = "cpe-session2"
         SessionId = 6
+        Reference = Device.SessionManagement.PDU.2.
+        Interface = Device.IP.Interface.2.
+        APN = "provider.ims"
+    Device.SessionManagement.PDU.2.
+        Alias = "cpe-pdu2"
         PTI = 34
         SSC = 1
         SessionAMBRDownlink = 150000
         SessionAMBRUplink = 150000
-        DNN = "provider.ims"
         QoSRuleNumberOfEntries = 2
         QoSFlowNumberOfEntries = 1
-    Device.PDU.Session.2.PCO
+    Device.SessionManagement.Session.2.PCO
         IPv6PCSCF = "2001:db8::1:1"
         IPv6DNS = "2001:db8::1,2001:db8::2"
         IPv4DNS = "203.0.113.1,203.0.113.2"
         IPv4PCSCF = "203.0.113.100"
-    Device.PDU.Session.2.NetworkSlice
+    Device.SessionManagement.PDU.2.NetworkSlice
         SliceServiceType = "eMBB"
         SliceDifferentiator = 4
-    Device.PDU.Session.2.QoSRule.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.
         Alias = "cpe-pdu21"
         Identifier = 1
         Precedence = 100
@@ -646,11 +665,11 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         QFI = 32
         DQR = true
         FilterNumberOfEntries = 1
-    Device.PDU.Session.2.QoSRule.1.Filter.1.
+    Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
         Alias = "cpe-pdu211"
         Direction = "bidirectional"
         Type = 1            # Match all
-    Device.PDU.Session.2.QoSFlow.1.
+    Device.SessionManagement.PDU.2.QoSFlow.1.
         Alias = "cpe-pdu21"
         QFI = 32
         FiveQI = 1

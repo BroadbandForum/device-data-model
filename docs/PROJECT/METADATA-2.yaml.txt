@@ -4,7 +4,7 @@
 bbfNumber: TR-181
 bbfTitle: Device Data Model for CWMP Endpoints and USP Agents
 bbfIssue: Issue
-bbfVersion: 2 Amendment 19
+bbfVersion: 2 Amendment 19 Corrigendum 1
 bbfMonth: April
 bbfYear: 2025
 bbfType: Technical Report
@@ -12,7 +12,7 @@ bbfStatus: ''
 bbfContrib: ''
 bbfMajor: 2
 bbfMinor: 19
-bbfPatch: 0
+bbfPatch: 1
 bbfMicro: 0
 bbfExtra: 0
 bbfDraft: ''

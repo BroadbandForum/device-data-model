@@ -29,7 +29,7 @@
 #show: doc => conf(
   title: [TR\-181 –
 Device Data Model for CWMP Endpoints and USP Agents],
-  subtitle: [Issue: 2 Amendment 19 #bbf-release[]],
+  subtitle: [Issue: 2 Amendment 19 Corrigendum 1 #bbf-release[]],
   date: [Issue Date: April 2025],
   pagenumbering: none,
   cols: 1,
@@ -50,12 +50,12 @@ Device Data Model for CWMP Endpoints and USP Agents],
     bbfMinor: [19],
     bbfMonth: [April],
     bbfNumber: [TR\-181],
-    bbfPatch: [0],
+    bbfPatch: [1],
     bbfProjectStream: [],
     bbfStatus: [],
     bbfTitle: [Device Data Model for CWMP Endpoints and USP Agents],
     bbfType: [Technical Report],
-    bbfVersion: [2 Amendment 19],
+    bbfVersion: [2 Amendment 19 Corrigendum 1],
     bbfWorkArea: [],
     bbfYear: [2025],
     citation-style: [bbf.csl],
@@ -120,7 +120,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     shortname: [TR\-181],
     siteurl: [index.html],
     status: [],
-    subtitle: [Issue: 2 Amendment 19 #bbf-release[]],
+    subtitle: [Issue: 2 Amendment 19 Corrigendum 1 #bbf-release[]],
     summary: [See
 #link("https://device-data-model.broadband-forum.org")[https:\/\/device\-data\-model.broadband\-forum.org]
 for the current TR\-181 specification.
@@ -135,7 +135,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     titleDelim: [ –],
     titleid: [title],
     toc: [false],
-    version: [TR\-181 Issue 2 Amendment 19],
+    version: [TR\-181 Issue 2 Amendment 19 Corrigendum 1],
     website: [https:\/\/device\-data\-model.broadband\-forum.org],
     ),
   doc,
@@ -456,6 +456,16 @@ the notices, legends, and other provisions set forth on this page.
     - Introduced new 3GPP NAS Theory of Operation appendix
     - Deprecated 5G Theory of Operation appendix in favor of the new
       appendix
+    ],
+    [#link("https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19_Corrigendum-1.pdf")[Issue
+    2 Amendment 19 Corrigendum 1]
+    ],
+    [April 2025
+    ],
+    [- Re\-export some SVG images to address rendering artefacts from
+      invalid data
+    - Adjust the data model paths in the examples to match the recent
+      data model changes
     ]
   )
 ]
@@ -482,7 +492,6 @@ be directed to
   Editors
 ] <sec:editors>
 
-- Klaus Wich, Huawei
 - David Woolley, Telstra
 - William Lupton, Broadband Forum
 
@@ -1659,20 +1668,21 @@ This Technical Report uses the following abbreviations:
 
 == 3.1 Energy Efficiency <sec:energy-efficiency>
 
-TR\-181 Issue 2 Amendment 19 has no impact on Energy Efficiency.
+TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Energy
+Efficiency.
 
 == 3.2 IPv6 <sec:ipv6>
 
-TR\-181 Issue 2 Amendment 19 defines IPv6 extensions (introduced in
-Issue 2 Amendment 2) to the Device:2 data model.
+TR\-181 Issue 2 Amendment 19 Corrigendum 1 defines IPv6 extensions
+(introduced in Issue 2 Amendment 2) to the Device:2 data model.
 
 == 3.3 Security <sec:security>
 
-TR\-181 Issue 2 Amendment 19 has no impact on Security.
+TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Security.
 
 == 3.4 Privacy <sec:privacy>
 
-TR\-181 Issue 2 Amendment 19 has no impact on Privacy.
+TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Privacy.
 
 #bbf-new-page[
 = 4 Architecture <sec:architecture>]
@@ -11016,8 +11026,8 @@ of 3G, 4G and 5G rather than the previous focus on 5G WWC
 ]
 
 This section discusses the Theory of Operation for 5G Wireline Wireless
-Convergence using CWMP or USP and the supporting Device.WWC, Device.PDU
-and Device.FWE objects.
+Convergence using CWMP or USP and the supporting Device.WWC,
+Device.SessionManagement.PDU and Device.FWE objects.
 
 #bbf-appendix2[
 == XXI.1 Overview <sec:overview-5>]
@@ -11457,16 +11467,16 @@ are intended for service assurance purposes.
 ] <fig:device.wwc-objects>
 
 #bbf-appendix4[
-==== XXI.4.2.2 Device.PDU <sec:device.pdu>]
+==== XXI.4.2.2 Device.SessionManagement.PDU <sec:device.sessionmanagement.pdu>]
 
 The logical connection between the 5G\-RG and data network is the
-Protocol Data Unit (PDU). The Device.PDU subtree describes each PDU
-session’s properties together with the QoS rules specific to that PDU
-session.
+Protocol Data Unit (PDU). The Device.SessionManagement.PDU subtree
+describes each PDU session’s properties together with the QoS rules
+specific to that PDU session.
 
 #figure(
   kind: table,
-  caption: [Table 19 – Device.PDU objects
+  caption: [Table 19 – Device.SessionManagement.PDU objects
     ])[
   #show table.cell.where(y: 0): strong
   #align(left)[#set par(justify: false)
@@ -11482,49 +11492,43 @@ session.
     ],
     [Description
     ]),
-    [Device.PDU
+    [Device.SessionManagement.Session.{i}
     ],
-    [Base object for PDU sessions.
+    [Base object for all data sessions e.g.~PDP, PDN, PDU.
     ],
-    [Device.PDU.Session.{i}
+    [Device.SessionManagement.PDU.{i}
     ],
     [Contains all the properties of a PDU session instance, ranging from
     maximum bitrate through to assigned network slice.
     ],
-    [Device.PDU.Session.{i}.PCO
+    [Device.SessionManagement.Session.{i}.PCO
     ],
     [Policy Configuration Options (PCO) is an optional set of
     configuration parameters supplied by the network at the request of
     the 5G\-RG.
     ],
-    [Device.PDU.Session.{i}.NetworkSlice
+    [Device.SessionManagement.PDU.{i}.NetworkSlice
     ],
     [Describes all the components of a Single \-Network Slice Selection
     Assistance Information (S\-NSSAI). The S\-NSSAI identifies the
     network slice a PDU session has been established on.
     ],
-    [Device.PDU.Session.{i}.QoSFlow.{i}
+    [Device.SessionManagement.PDU.{i}.QoSFlow.{i}
     ],
     [Table of all QoS Flow Indicators (QFI) and their properties
     supported by the access network for this particular PDU.
     ],
-    [Device.PDU.Session.{i}.QoSRule.{i}
+    [Device.SessionManagement.PDU.{i}.QoSRule.{i}
     ],
     [Set of rules used to select the QFI label for a given packet.
     ],
-    [Device.PDU.Session.{i}.QoSRule.{i}.QoSRuleFilter.{i}
+    [Device.SessionManagement.PDU.{i}.QoSRule.{i}.QoSRuleFilter.{i}
     ],
     [Table of filters to select a QoS rule. Typical filters include
     destination IP and ports.
     ]
   )]
-] <tbl:device.pdu-objects>
-
-#figure(
-  caption: [Figure 84 – Device.PDU objects
-    ])[
-  #bbf-image("images/device.pdu-objects.png")<img:device.pdu-objects>
-] <fig:device.pdu-objects>
+] <tbl:device.sessionmanagement.pdu-objects>
 
 #bbf-appendix4[
 ==== XXI.4.2.3 Device.FWE <sec:device.fwe>]
@@ -11573,7 +11577,7 @@ whenever a PDU is established.
 ] <tbl:device.fwe-objects>
 
 #figure(
-  caption: [Figure 85 – Device.FWE objects
+  caption: [Figure 84 – Device.FWE objects
     ])[
   #bbf-image("images/device.fwe-objects.png")<img:device.fwe-objects>
 ] <fig:device.fwe-objects>
@@ -11644,26 +11648,30 @@ Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
     AccessType = "Non-3GPP access"
 Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
     SliceServiceType = "eMBB"
-Device.PDU.
+Device.SessionManagement.
     SessionNumberOfEntries = 2
-Device.PDU.Session.1.
-    Alias = "cpe-pdu1"
-    Interface = Device.IP.Interface.1
+    PDUNumberOfEntries = 2
+Device.SessionManagement.Session.1.
+    Alias = "cpe-session1"
     SessionId = 1
+    Reference = Device.SessionManagement.PDU.1.
+    Interface = Device.IP.Interface.1.
+    APN = "provider.internet"
+Device.SessionManagement.PDU.1.
+    Alias = "cpe-pdu1"
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
     SessionAMBRUplink = 40000000
-    DNN = "provider.internet"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.PDU.Session.1.PCO
+Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
-IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.PDU.Session.1.NetworkSlice
+    IPv4DNS = "203.0.113.1,203.0.113.2"
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.1.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -11671,11 +11679,11 @@ Device.PDU.Session.1.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                  # Match all
-Device.PDU.Session.1.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -11683,41 +11691,44 @@ Device.PDU.Session.1.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.PDU.Session.1.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.PDU.Session.1.QoSFlow.2.
+Device.SessionManagement.PDU.1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
     GFBRUplink = 150000
     GFBRDownlink = 150000
-Device.PDU.Session.2.
-    Alias = "cpe-pdu2"
-    Interface = Device.IP.Interface.2
+Device.SessionManagement.Session.2.
+    Alias = "cpe-session2"
     SessionId = 6
+    Reference = Device.SessionManagement.PDU.2.
+    Interface = Device.IP.Interface.2
+    APN = "provider.ims"
+Device.SessionManagement.PDU.2.
+    Alias = "cpe-pdu2"
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
     SessionAMBRUplink = 150000
-    DNN = "provider.ims"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 1
-Device.PDU.Session.2.PCO
+Device.SessionManagement.Session.2.PCO
     IPv6PCSCF = "2001:db8::1:1"
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.PDU.Session.2.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.2.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -11725,11 +11736,11 @@ Device.PDU.Session.2.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.2.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.PDU.Session.2.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1
@@ -11804,26 +11815,30 @@ Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
     AccessType = "3GPP access"
 Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
     SliceServiceType = "eMBB"
-Device.PDU.
+Device.SessionManagement.
     SessionNumberOfEntries = 2
-Device.PDU.Session.1.
-    Alias = "cpe-pdu1"
-    Interface = Device.IP.Interface.1
+    PDUNumberOfEntries = 2
+Device.SessionManagement.Session.1.
+    Alias = "cpe-session1"
     SessionId = 1
+    Reference = Device.SessionManagement.PDU.1.
+    Interface = Device.IP.Interface.1.
+    APN = "provider.internet"
+Device.SessionManagement.PDU.1.
+    Alias = "cpe-pdu1"
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
     SessionAMBRUplink = 40000000
-    DNN = "provider.internet"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.PDU.Session.1.PCO
+Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.PDU.Session.1.NetworkSlice
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.1.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -11831,11 +11846,11 @@ Device.PDU.Session.1.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                   # Match all
-Device.PDU.Session.1.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -11843,41 +11858,44 @@ Device.PDU.Session.1.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.PDU.Session.1.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.PDU.Session.1.QoSFlow.2.
+Device.SessionManagement.PDU.1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
     GFBRUplink = 150000
     GFBRDownlink = 150000
-Device.PDU.Session.2.
-    Alias = "cpe-pdu2"
-    Interface = Device.IP.Interface.2
+Device.SessionManagement.Session.2.
+    Alias = "cpe-session2"
     SessionId = 6
+    Reference = Device.SessionManagement.PDU.2.
+    Interface = Device.IP.Interface.2.
+    APN = "provider.ims"
+Device.SessionManagement.PDU.2.
+    Alias = "cpe-pdu2"
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
     SessionAMBRUplink = 150000
-    DNN = "provider.ims"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 1
-Device.PDU.Session.2.PCO
+Device.SessionManagement.Session.2.PCO
     IPv6PCSCF = "2001:db8::1:1"
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.PDU.Session.2.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.2.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -11885,11 +11903,11 @@ Device.PDU.Session.2.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.2.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.PDU.Session.2.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1
@@ -11965,26 +11983,30 @@ Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.
     AccessType = "Non-3GPP access"
 Device.WWC.URSP.2.TrafficDescriptor.1.RouteSelectionDescriptor.1.NetworkSlice
     SliceServiceType = "eMBB"
-Device.PDU.
+Device.SessionManagement.
     SessionNumberOfEntries = 2
-Device.PDU.Session.1.
-    Alias = "cpe-pdu1"
-    Interface = Device.IP.Interface.1
+    PDUNumberOfEntries = 2
+Device.SessionManagement.Session.1.
+    Alias = "cpe-session1"
     SessionId = 1
+    Reference = Device.SessionManagement.PDU.1.
+    Interface = Device.IP.Interface.1.
+    APN = "provider.internet"
+Device.SesionManagement.PDU.1.
+    Alias = "cpe-pdu1"
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
     SessionAMBRUplink = 40000000
-    DNN = "provider.internet"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.PDU.Session.1.PCO
+Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.PDU.Session.1.NetworkSlice
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.1.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -11992,11 +12014,11 @@ Device.PDU.Session.1.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                   # Match all
-Device.PDU.Session.1.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -12004,41 +12026,44 @@ Device.PDU.Session.1.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.1.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.PDU.Session.1.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.PDU.Session.1.QoSFlow.2.
+Device.SessionManagement.PDU..1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
     GFBRUplink = 150000
     GFBRDownlink = 150000
-Device.PDU.Session.2.
-    Alias = "cpe-pdu2"
-    Interface = Device.IP.Interface.2
+Device.SessionManagement.Session.2.
+    Alias = "cpe-session2"
     SessionId = 6
+    Reference = Device.SessionManagement.PDU.2.
+    Interface = Device.IP.Interface.2.
+    APN = "provider.ims"
+Device.SessionManagement.PDU.2.
+    Alias = "cpe-pdu2"
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
     SessionAMBRUplink = 150000
-    DNN = "provider.ims"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 1
-Device.PDU.Session.2.PCO
+Device.SessionManagement.Session.2.PCO
     IPv6PCSCF = "2001:db8::1:1"
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.PDU.Session.2.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.PDU.Session.2.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -12046,11 +12071,11 @@ Device.PDU.Session.2.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.PDU.Session.2.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.PDU.Session.2.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1
@@ -12096,7 +12121,7 @@ changes then only needs to care about rewriting the `LowerLayers`
 parameter of the `LogicalInterface` Objects.
 
 #figure(
-  caption: [Figure 86 – Logical interfaces problem statement
+  caption: [Figure 85 – Logical interfaces problem statement
     ])[
   #bbf-image("images/logicalinterfaces-problem.png")<img:logical-interfaces-problem-statement>
 ] <fig:logical-interfaces-problem-statement>
@@ -12151,7 +12176,7 @@ of the internal service to retrieve the new lower interface and the
 associated IP address.
 
 #figure(
-  caption: [Figure 87 – Solution using logical interfaces
+  caption: [Figure 86 – Solution using logical interfaces
     ])[
   #bbf-image("images/logicalinterfaces-solution.png", scale: 0.6)<img:solution-using-logical-interfaces>
 ] <fig:solution-using-logical-interfaces>
@@ -12495,7 +12520,7 @@ data model without having to know all the details that come from a
 certain WAN mode or network configuration.
 
 #figure(
-  caption: [Figure 88 – Logical interfaces example: IPv4 and IPv6 are on
+  caption: [Figure 87 – Logical interfaces example: IPv4 and IPv6 are on
     different network interface
     ])[
   #bbf-image("images/logicalinterfaces-example2.png", scale: 0.6)<img:logical-interfaces-example-ipv4-and-ipv6-are-on-different-network-interface>
@@ -12934,44 +12959,47 @@ technology.
     ],
     [Base object for 3GPP sessions.
     ],
-    [Device.SessionManagement.Session.{i}
+    [Device.SessionManagement.Session.{i}.
     ],
     [Contains all the properties of a 3GPP session instance common to
     all generations.
     ],
     [Device.SessionManagement.Session.{i}.PCO
-    ], [],
-    [Device.SessionManagement.Session.{i}.PDP
+    ],
+    [Protocol Configuration Options (PCO) for the session, including DNS
+    server addresses and other configuration parameters.
+    ],
+    [Device.SessionManagement.PDP.{i}.
     ],
     [Contains all 3G specific attributes needed to establish a PDP
     context.
     ],
-    [Device.SessionManagement.Session.{i}.PDN
+    [Device.SessionManagement.PDN.{i}.
     ],
     [Contains all 4G specific attributes needed to establish a PDN
     session.
     ],
-    [Device.SessionManagement.Session.{i}.PDU
+    [Device.SessionManagement.PDU.{i}.
     ],
     [Contains all 5G specific attributes needed to establish a PDU
     session.
     ],
-    [Device.SessionManagement.Session.{i}.PDU.NetworkSlice
+    [Device.SessionManagement.PDU.{i}.NetworkSlice
     ],
     [Describes all the components of a Single \-Network Slice Selection
     Assistance Information (S\-NSSAI). The S\-NSSAI identifies the
     network slice a PDU session has been established on.
     ],
-    [Device.SessionManagement.Session.{i}.PDU.QoSFlow.{i}
+    [Device.SessionManagement.PDU.{i}.QoSFlow.{i}.
     ],
     [Table of all QoS Flow Indicators (QFI) and their properties
     supported by the access network for this particular PDU.
     ],
-    [Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}
+    [Device.SessionManagement.PDU.{i}.QoSRule.{i}.
     ],
     [Set of rules used to select the QFI label for a given packet.
     ],
-    [Device.SessionManagement.Session.{i}.PDU.QoSRule.{i}.QoSRuleFilter.{i}
+    [Device.SessionManagement.PDU.{i}.QoSRule.{i}.QoSRuleFilter.{i}.
     ],
     [Table of filters to select a QoS rule. Typical filters include
     destination IP and ports.
@@ -12980,7 +13008,7 @@ technology.
 ] <tbl:device.sessionmanagement-objects>
 
 #figure(
-  caption: [Figure 89 – Device.WWC objects
+  caption: [Figure 88 – Device.WWC objects
     ])[
   #bbf-image("images/device.sessionmanagement-objects.png")<img:device.wwc-objects-1>
 ] <fig:device.wwc-objects-1>
@@ -13067,7 +13095,7 @@ are intended for service assurance purposes.
 ] <tbl:device.wwc-objects-1>
 
 #figure(
-  caption: [Figure 90 – Device.WWC objects
+  caption: [Figure 89 – Device.WWC objects
     ])[
   #bbf-image("images/device.wwc-objects.png")<img:device.wwc-objects-2>
 ] <fig:device.wwc-objects-2>
@@ -13119,7 +13147,7 @@ whenever a PDU is established.
 ] <tbl:device.fwe-objects-1>
 
 #figure(
-  caption: [Figure 91 – Device.FWE objects
+  caption: [Figure 90 – Device.FWE objects
     ])[
   #bbf-image("images/device.fwe-objects.png")<img:device.fwe-objects-1>
 ] <fig:device.fwe-objects-1>
@@ -13153,7 +13181,7 @@ traffic and is carried as PPPoE over the VDSL service. All LAN traffic
 remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 92 – Fixed access only example
+  caption: [Figure 91 – Fixed access only example
     ])[
   #bbf-image("images/fixed-access-only-example.png")<img:fixed-access-only-example-1>
 ] <fig:fixed-access-only-example-1>
@@ -13170,7 +13198,7 @@ carried over a VLAN (this has been omitted for the moment). All LAN
 traffic remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 93 – Cellular access only example
+  caption: [Figure 92 – Cellular access only example
     ])[
   #bbf-image("images/cellular-access-only-example.png")<img:cellular-access-only-example-1>
 ] <fig:cellular-access-only-example-1>
@@ -13190,7 +13218,7 @@ need to be carried over a VLAN (this has been omitted for the moment).
 All LAN traffic remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 94 – Hybrid access example
+  caption: [Figure 93 – Hybrid access example
     ])[
   #bbf-image("images/hybrid-access-example.png")<img:hybrid-access-example-1>
 ] <fig:hybrid-access-example-1>
@@ -13219,10 +13247,11 @@ Device.SessionManagement.1.
     SessionID = 1
     SessionType = IPv4v6
     APN = "provider.internet"
+    Reference = Device.SessionManagement.PDP.1
 Device.SessionManagement.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.1.PDP
+Device.SessionManagement.PDP.1
     TrafficClass = "Interactive"
     DownstreamMaxBitRate = 1000
     UpstreamMaxBitRate = 1000
@@ -13240,10 +13269,11 @@ Device.SessionManagement.1.
     SessionID = 1
     SessionType = IPv4v6
     APN = "provider.internet"
+    Reference = Device.SessionManagement.PDN.1
 Device.SessionManagement.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.1.PDN
+Device.SessionManagement.PDN.1
     QCI = 9
     DownstreamMaxBitRate = 1000
     UpstreamMaxBitRate = 1000
@@ -13253,10 +13283,11 @@ Device.SessionManagement.2.
     SessionID = 2
     SessionType = IPv4v6
     APN = "provider.ims"
+    Reference = Device.SessionManagement.PDN.2
 Device.SessionManagement.2.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.2.PDN
+Device.SessionManagement.PDN.2
     QCI = 1
     DownstreamMaxBitRate = 1000
     UpstreamMaxBitRate = 1000
@@ -13266,10 +13297,11 @@ Device.SessionManagement.3.
     SessionID = 3
     SessionType = IPv4v6
     APN = "provider.ims"
-Device.SessionManagement.2.PCO
+    Reference = Device.SessionManagement.PDN.3
+Device.SessionManagement.3.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.2.PDN
+Device.SessionManagement.PDN.3
     QCI = 5
     DownstreamMaxBitRate = 1000
     UpstreamMaxBitRate = 1000
@@ -13340,20 +13372,21 @@ Device.SessionManagement.Session.1.
     SessionType = IPv4v6
     SessionId = 1
     APN = "provider.internet"
+    Reference = Device.SessionManagement.PDU.1
 Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.Session.1.PDU
+Device.SessionManagement.PDU.1
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
     SessionAMBRUplink = 40000000
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.SessionManagement.Session.1.PDU.NetworkSlice
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.1.PDU.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -13361,11 +13394,11 @@ Device.SessionManagement.Session.1.PDU.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                   # Match all
-Device.SessionManagement.Session.1.PDU.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -13373,16 +13406,16 @@ Device.SessionManagement.Session.1.PDU.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+Device.SessionManagement.PDU..1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
@@ -13394,7 +13427,8 @@ Device.SessionManagement.Session.2.
     SessionType = IPv4v6
     SessionId = 6
     DNN = "provider.ims"
-Device.SessionManagement.Session.2.PDU.
+    Reference = Device.SessionManagement.PDU.2
+Device.SessionManagement.PDU.2.
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
@@ -13406,10 +13440,10 @@ Device.SessionManagement.Session.2.PCO.
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.SessionManagement.Session.2.PDU.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.2.PDU.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -13417,11 +13451,11 @@ Device.SessionManagement.Session.2.PDU.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1
@@ -13493,10 +13527,11 @@ Device.SessionManagement.Session.1
     Interface = Device.IP.Interface.1
     SessionId = 1
     SessionType = IPv4v6
-Device.PDU.Session.1.PCO
+    Reference = Device.SessionManagement.PDU.1
+Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.Session.1.PDU
+Device.SessionManagement.PDU.1.
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
@@ -13504,10 +13539,10 @@ Device.SessionManagement.Session.1.PDU
     DNN = "provider.internet"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.SessionManagement.Session.1.PDU.NetworkSlice
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.1.PDU.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -13515,11 +13550,11 @@ Device.SessionManagement.Session.1.PDU.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                  # Match all
-Device.SessionManagement.Session.1.PDU.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -13527,16 +13562,16 @@ Device.SessionManagement.Session.1.PDU.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+Device.SessionManagement.PDU.1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
@@ -13547,12 +13582,13 @@ Device.SessionManagement.Session.2.
     Interface = Device.IP.Interface.2
     SessionId = 6
     SessionType = IPv4v6
+    Reference = Device.SessionManagement.PDU.2
 Device.SessionManagement.Session.2.PCO
     IPv6PCSCF = "2001:db8::1:1"
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.SessionManagement.Session.2.PDU
+Device.SessionManagement.PDU.2
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
@@ -13560,10 +13596,10 @@ Device.SessionManagement.Session.2.PDU
     DNN = "provider.ims"
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 1
-Device.SessionManagement.Session.2.PDU.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.2.PDU.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -13571,11 +13607,11 @@ Device.SessionManagement.Session.2.PDU.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1
@@ -13669,20 +13705,21 @@ Device.SessionManagement.Session.1.
     SessionType = IPv4v6
     SessionId = 1
     APN = "provider.internet"
+    Reference = Device.SessionManagement.PDU.1
 Device.SessionManagement.Session.1.PCO
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
-Device.SessionManagement.Session.1.PDU
+Device.SessionManagement.PDU.1.
     PTI = 63
     SSC = 1
     SessionAMBRDownlink = 100000000
     SessionAMBRUplink = 40000000
     QoSRuleNumberOfEntries = 2
     QoSFlowNumberOfEntries = 2
-Device.SessionManagement.Session.1.PDU.NetworkSlice
+Device.SessionManagement.PDU.1.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.1.PDU.QoSRule.1.
+Device.SessionManagement.PDU.1.QoSRule.1.
     Alias = "cpe-pdu11"
     Identifier = 1
     Precedence = 100
@@ -13690,11 +13727,11 @@ Device.SessionManagement.Session.1.PDU.QoSRule.1.
     QFI = 1
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.1.Filter.1.
     Alias = "cpe-pdu111"
     Direction = "bidirectional"
     Type = 1                   # Match all
-Device.SessionManagement.Session.1.PDU.QoSRule.2.
+Device.SessionManagement.PDU.1.QoSRule.2.
     Alias = "cpe-pdu12"
     Identifier = 2
     Precedence = 10
@@ -13702,16 +13739,16 @@ Device.SessionManagement.Session.1.PDU.QoSRule.2.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.1.PDU.QoSRule.2.Filter.1.
+Device.SessionManagement.PDU.1.QoSRule.2.Filter.1.
     Alias = "cpe-pdu121"
     Direction = "bidirectional"
     Type = 33                  # Destination IPv6
     Value = "2001:db8::2:1"    # VoWiFi ePDG
-Device.SessionManagement.Session.1.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.1.QoSFlow.1.
     Alias = "cpe-pdu11"
     QFI = 1
     FiveQI = 8
-Device.SessionManagement.Session.1.PDU.QoSFlow.2.
+Device.SessionManagement.PDU.1.QoSFlow.2.
     Alias = "cpe-pdu11"
     QFI = 32
     FiveQI = 1
@@ -13723,7 +13760,8 @@ Device.SessionManagement.Session.2.
     SessionType = IPv4v6
     SessionId = 6
     DNN = "provider.ims"
-Device.SessionManagement.Session.2.PDU.
+    Reference = Device.SessionManagement.PDU.2
+Device.SessionManagement.PDU.2.
     PTI = 34
     SSC = 1
     SessionAMBRDownlink = 150000
@@ -13735,10 +13773,10 @@ Device.SessionManagement.Session.2.PCO.
     IPv6DNS = "2001:db8::1,2001:db8::2"
     IPv4DNS = "203.0.113.1,203.0.113.2"
     IPv4PCSCF = "203.0.113.100"
-Device.SessionManagement.Session.2.PDU.NetworkSlice
+Device.SessionManagement.PDU.2.NetworkSlice
     SliceServiceType = "eMBB"
     SliceDifferentiator = 4
-Device.SessionManagement.Session.2.PDU.QoSRule.1.
+Device.SessionManagement.PDU.2.QoSRule.1.
     Alias = "cpe-pdu21"
     Identifier = 1
     Precedence = 100
@@ -13746,11 +13784,11 @@ Device.SessionManagement.Session.2.PDU.QoSRule.1.
     QFI = 32
     DQR = true
     FilterNumberOfEntries = 1
-Device.SessionManagement.Session.2.PDU.QoSRule.1.Filter.1.
+Device.SessionManagement.PDU.2.QoSRule.1.Filter.1.
     Alias = "cpe-pdu211"
     Direction = "bidirectional"
     Type = 1            # Match all
-Device.SessionManagement.Session.2.PDU.QoSFlow.1.
+Device.SessionManagement.PDU.2.QoSFlow.1.
     Alias = "cpe-pdu21"
     QFI = 32
     FiveQI = 1

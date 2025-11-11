@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-1-usp"
-    file="tr-181-2-19-1-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-usp"
+    file="tr-181-2-20-0-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -77,19 +77,19 @@
 
 
   <import file="tr-181-2-iot.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-iot">
+      spec="urn:broadband-forum-org:tr-181-2-20-iot">
     <component name="IoT_NodeComponent"/>
     <component name="IoT_ProxiedDeviceExtensionComponent"/>
     <component name="IoT_ObjectComponent"/>
   </import>
 
   <import file="tr-181-2-gatewayinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-gatewayinfo">
+      spec="urn:broadband-forum-org:tr-181-2-20-gatewayinfo">
     <component name="GatewayInfo"/>
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-common">
+      spec="urn:broadband-forum-org:tr-181-2-20-common">
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
     <component name="SELTUERDiagnosticsInput"/>
@@ -129,6 +129,7 @@
     <component name="IPLayerCapacityCapabilities"/>
     <component name="IPLayerCapacityInput"/>
     <component name="IPLayerCapacityOutput"/>
+    <component name="IPLayerCapacityIncrementalResults"/>
     <component name="IPServerSelectionDiagnosticsInput"/>
     <component name="IPServerSelectionDiagnosticsOutput"/>
     <component name="DNSLookupDiagnosticsInput"/>
@@ -145,63 +146,90 @@
     <component name="USPLocalAgent"/>
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
-    <model name="_Device:2.19" ref="Device:2.19"/>
+    <model name="_Device:2.20" ref="Device:2.20"/>
   </import>
 
   <import file="tr-181-2-deviceinfo.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-deviceinfo">
+    spec="urn:broadband-forum-org:tr-181-2-20-deviceinfo">
     <component name="DeviceInfoUSP"/>
     <component name="CauseOfBoot"/>
+    <component name="UploadCommand"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv4">
     <component name="DHCPv4USP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv6">
     <component name="DHCPv6USP"/>
   </import>
 
+  <import file="tr-181-2-hosts.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-hosts">
+    <component name="HostsUSP"/>
+  </import>
+
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetUSP"/>
   </import>
 
   <import file="tr-181-2-wifi-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-wifi-usp">
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-usp">
     <component name="WiFiUSP"/>
   </import>
 
   <import file="tr-181-2-moca-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-moca-usp">
+      spec="urn:broadband-forum-org:tr-181-2-20-moca-usp">
     <component name="MoCAUSP"/>
   </import>
 
   <import file="tr-181-2-softwaremodules-usp.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-softwaremodules-usp">
+    spec="urn:broadband-forum-org:tr-181-2-20-softwaremodules-usp">
     <component name="SoftwareModulesUSP"/>
   </import>
 
   <import file="tr-181-2-syslog.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-syslog">
+      spec="urn:broadband-forum-org:tr-181-2-20-syslog">
     <component name="SyslogUSP"/>
   </import>
 
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-20-collectiondevice">
     <component name="CollectionDeviceUSP"/>
   </import>
 
+  <import file="tr-181-2-periodicfiletransfer.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-periodicfiletransfer">
+    <component name="PeriodicFileTransferUSP"/>
+  </import>
+
   <import file="tr-181-2-thread.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-thread">
+      spec="urn:broadband-forum-org:tr-181-2-20-thread">
     <component name="ThreadUSP"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-security">
+      spec="urn:broadband-forum-org:tr-181-2-20-security">
     <component name="SecurityUSP"/>
+    <component name="ClientCerts"/>
+  </import>
+
+  <import file="tr-181-2-hardware.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-hardware">
+    <component name="HardwareUSP"/>
+  </import>
+
+  <import file="tr-181-2-powermanagement.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    <component name="PowerManagementUSP"/>
+  </import>
+
+  <import file="tr-181-2-users.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-users">
+    <component name="UsersUSP"/>
   </import>
 
   <!-- Templates used in object and/or parameter descriptions -->
@@ -294,7 +322,7 @@
     {{command|Device.IP.Diagnostics.IPLayerCapacity()}}
   </template>
 
-  <model name="Device:2.19" base="_Device:2.19">
+  <model name="Device:2.20" base="_Device:2.20">
     <object base="Device." access="readOnly" minEntries="1" maxEntries="1">
 
       <parameter name="ProxiedDeviceNumberOfEntries" access="readOnly"
@@ -323,14 +351,14 @@
                   <description>
                     A {{object|Device.|absolute}} Event that was the result of a reboot triggered
                     locally on the Device (NOT as a result of a
-                    {{command|.Reboot()|model}}}} Command triggered by a remote trigger, e.g.
+                    {{command|.Reboot()|model}} Command triggered by a remote trigger, e.g.
                     another remote management protocol)
                   </description>
                 </enumeration>
                 <enumeration value="RemoteReboot">
                   <description>
                     A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-                    via the {{command|.Reboot()|model}}} Command or other remote
+                    via the {{command|.Reboot()|model}} Command or other remote
                     trigger, e.g. another remote management protocol
                   </description>
                 </enumeration>
@@ -416,7 +444,7 @@
                   <description>
                     A {{object|Device.|absolute}} Event that was the result of a factory reset
                     triggered locally on the Device (NOT as a result of a
-                    {{command|.FactoryReset()|model}}} Command trigger by a remote trigger,
+                    {{command|.FactoryReset()|model}} Command trigger by a remote trigger,
                     e.g. another remote management protocol)
                   </description>
                 </enumeration>
@@ -1338,13 +1366,10 @@
         {{param|ThresholdParam}} may only reference integer parameters and
         {{param|ThresholdValue}} only uses integer values. For example:
 
-            {{param|ReferencePath}}: Device.Ethernet.Interface.[Enable=="1"].Stats.
-
-            {{param|ThresholdParam}}: BytesSent
-
-            {{param|ThresholdOperator}}: Rise
-
-            {{param|ThresholdValue}}: 100000
+        * {{param|ReferencePath}}: Device.Ethernet.Interface.[Enable=="1"].Stats.
+        * {{param|ThresholdParam}}: BytesSent
+        * {{param|ThresholdOperator}}: Rise
+        * {{param|ThresholdValue}}: 100000
 
         This would trigger a {{event|Triggered!}} Event whenever a value of a
         parameter matching
@@ -2509,7 +2534,7 @@
           model parameter to configure and the value to configure it with.
 
           Each entry in the comma-separated list will use the following format:
-          &lt;Parameter Name&gt;=&lt;Parameter Value&gt;
+          &lt;*Parameter Name*&gt;=&lt;*Parameter Value*&gt;
 
           The Parameter Value will be formatted per the value type, which means
           that string values will be quoted while unsignedInt values will be
@@ -3062,10 +3087,21 @@
       </command>
     </object>
 
+    <object base="Device.LocalAgent.ControllerTrust.Role.{i}.">
+      <description action="append">
+
+        If this object is referenced in {{param|.SoftwareModules.ExecutionUnit.{i}.RequiredRoles}},
+        then the device MAY reject deletion requests, as it could cause instability
+        to the {{object|.SoftwareModules.ExecutionUnit.{i}.}} referencing the Role.
+      </description>
+    </object>
+
     <object name="Device.Standby." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.12">
+        maxEntries="1" version="2.12" status="deprecated">
       <description>
         Capabilities of a Device as it pertains to entering a standby state.
+
+        {{deprecated|2.20|because it has been moved to {{object|Device.Hardware.PowerManagement.Standby.}}}}
       </description>
 
       <parameter name="NetworkAware" access="readOnly">
@@ -3428,66 +3464,7 @@
     <object base="Device.DeviceInfo.VendorLogFile.{i}." access="readOnly"
         minEntries="0" maxEntries="unbounded">
 
-      <command name="Upload()" async="true" version="2.12">
-        <description>
-          This command is issued to upload the log file specified by this
-          Vendor Log File instance.
-
-          All results of the actual upload will be contained within the
-          {{event|##.LocalAgent.TransferComplete!}} event.
-        </description>
-        <input>
-
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the destination file location. The
-              HTTPS transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              This argument specifies only the destination file location, and
-              does not indicate in any way the name or location of the local
-              file to be uploaded.
-
-              If the Agent receives multiple upload requests with the same URL,
-              the Agent MUST perform each upload as requested, and MUST NOT
-              assume that the content of the file to be uploaded is the same
-              each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
-          </parameter>
-
-          <parameter name="Username" mandatory="true">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <parameter name="Password" mandatory="true">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-        </input>
-      </command>
+      <component ref="UploadCommand" version="2.12"/>
     </object>
 
     <object base="Device.DeviceInfo.VendorConfigFile.{i}." access="readOnly"
@@ -3526,11 +3503,13 @@
             </syntax>
           </parameter>
 
-          <parameter name="Username" mandatory="true">
+          <parameter name="Username" mandatory="false">
             <description>
               Username to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
+              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+              authentication (e.g., certificate-based authentication) is required.
+              
+              Note: The mandatory requirement for this parameter was removed in Device:2.20.
             </description>
             <syntax>
               <string>
@@ -3539,11 +3518,13 @@
             </syntax>
           </parameter>
 
-          <parameter name="Password" mandatory="true">
+          <parameter name="Password" mandatory="false">
             <description>
               Password to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
+              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+              authentication (e.g., certificate-based authentication) is required.
+              
+              Note: The mandatory requirement for this parameter was removed in Device:2.20.
             </description>
             <syntax>
               <string>
@@ -3551,6 +3532,8 @@
               </string>
             </syntax>
           </parameter>
+
+          <component ref="ClientCerts" version="2.20"/>
         </input>
       </command>
 
@@ -3583,11 +3566,13 @@
             </syntax>
           </parameter>
 
-          <parameter name="Username" mandatory="true">
+          <parameter name="Username" mandatory="false">
             <description>
               Username to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
+              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+              authentication (e.g., certificate-based authentication) is required.
+              
+              Note: The mandatory requirement for this parameter was removed in Device:2.20.
             </description>
             <syntax>
               <string>
@@ -3596,11 +3581,13 @@
             </syntax>
           </parameter>
 
-          <parameter name="Password" mandatory="true">
+          <parameter name="Password" mandatory="false">
             <description>
               Password to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
+              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+              authentication (e.g., certificate-based authentication) is required.
+              
+              Note: The mandatory requirement for this parameter was removed in Device:2.20.
             </description>
             <syntax>
               <string>
@@ -3608,6 +3595,8 @@
               </string>
             </syntax>
           </parameter>
+
+          <component ref="ClientCerts" version="2.20"/>
 
           <parameter name="FileSize">
             <description>
@@ -4538,6 +4527,15 @@
         </output>
       </command>
 
+      <event name="IPLayerCapacityIncrementalResult!" version="2.20">
+        <description>
+          This event provides a mechanism to deliver IPLayerCapacity incremental
+          results to a USP Controller during the execution of the diagnostics test.
+        </description>
+
+        <component ref="IPLayerCapacityIncrementalResults"/>
+      </event>
+
       <command name="ServerSelectionDiagnostics()" async="true" version="2.12">
         <description>
           This command provides access to a diagnostics test that performs
@@ -4634,43 +4632,6 @@
       </command>
     </object>
     <!-- Commands from common model (converted true parameters) -->
-
-    <object base="Device.Users." access="readOnly" minEntries="1"
-        maxEntries="1">
-      <command name="CheckCredentialsDiagnostics()" async="false"
-          version="2.15">
-        <description>
-          Checks whether the input {{param|Username}} and {{param|Password}}
-          are valid for allowing access to the user interface on the device. If
-          not valid, then an indication of why they are not valid is output.
-        </description>
-
-        <input>
-          <component ref="CheckCredentialsInput"/>
-        </input>
-
-        <output>
-          <parameter name="Status">
-            <description>
-              Indicates the response to request to check whether the
-              credentials are valid and, if not, why not. {{enum}}
-            </description>
-            <syntax>
-              <string>
-                <enumeration value="Credentials_Good"/>
-                <enumeration
-                    value="Credentials_Bad_Requested_Username_Not_Supported"/>
-                <enumeration
-                    value="Credentials_Bad_Requested_Password_Incorrect"/>
-                <enumeration value="Credentials_Missing"/>
-                <enumeration value="Error_Invalid_Input"/>
-                <enumeration value="Error_Other" optional="true"/>
-              </string>
-            </syntax>
-          </parameter>
-        </output>
-      </command>
-    </object>
 
     <object base="Device.FAP.GPS." access="readOnly" minEntries="1"
         maxEntries="1">
@@ -5488,12 +5449,17 @@
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>
 
+    <component ref="HostsUSP"/>
     <component ref="MoCAUSP"/>
     <component ref="SoftwareModulesUSP"/>
     <component ref="SyslogUSP"/>
     <component ref="DeviceInfoUSP"/>
     <component ref="ThreadUSP"/>
     <component ref="SecurityUSP"/>
+    <component ref="PowerManagementUSP"/>
+    <component ref="PeriodicFileTransferUSP"/>
+    <component ref="HardwareUSP"/>
+    <component ref="UsersUSP"/>
 
     <!-- General Commands from common model -->
 

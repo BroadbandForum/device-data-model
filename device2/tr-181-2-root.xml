@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Root]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2025, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-root"
-    file="tr-181-2-16-0-root.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-root"
+    file="tr-181-2-20-0-root.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -80,7 +80,7 @@
         <syntax>
           <string>
             <size maxLength="32"/>
-            <pattern value="2\.\d+"/>
+            <pattern value="2\.\d+(\.\d+)?"/>
           </string>
         </syntax>
       </parameter>
@@ -103,7 +103,7 @@
     </object>
   </component>
 
-  <model name="Root:2.16">
+  <model name="Root:2.20">
     <component ref="Root"/>
   </model>
 </dm:document>

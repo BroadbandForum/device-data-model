@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-1-cwmp"
-    file="tr-181-2-19-1-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-cwmp"
+    file="tr-181-2-20-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-common">
+      spec="urn:broadband-forum-org:tr-181-2-20-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -143,37 +143,42 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.19" ref="Device:2.19"/>
+    <model name="_Device:2.20" ref="Device:2.20"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetCWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv4">
     <component name="DHCPv4CWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv6">
     <component name="DHCPv6CWMP"/>
   </import>
 
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-cwmp">
     <component name="WiFiCWMP"/>
   </import>
 
   <import file="tr-181-2-moca-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-moca-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-20-moca-cwmp">
     <component name="MoCACWMP"/>
   </import>
 
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-20-collectiondevice">
     <component name="CollectionDeviceCWMP"/>
+  </import>
+
+  <import file="tr-181-2-ip.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+    <component name="IPAccessControl"/>
   </import>
 
   <!-- Templates used in object and/or parameter descriptions -->
@@ -256,11 +261,15 @@
 
   <template id="IP-DIAGNOSTICS-PARENT"/>
 
+  <template id="IP-LAYER-CAPACITY-DIAG-PARENT">
+    #.
+  </template>
+
   <template id="IPLAYERCAPACITY">
     {{object|Device.IP.Diagnostics.IPLayerCapacityMetrics}}
   </template>
 
-  <model name="Device:2.19" base="_Device:2.19">
+  <model name="Device:2.20" base="_Device:2.20">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -695,6 +704,61 @@
         </description>
         <syntax>
           <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PendingScheduleInforms" access="readOnly" version="2.20">
+        <description>
+          Each entry in the list represents the absolute time at which the CPE is going to send a ScheduleInform RPC to the ACS. 
+          {{empty}} means that there are no pending ScheduledInform RPCs requested by the ACS. 
+        </description>
+        <syntax>
+          <list/>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="UpgradePending" access="readOnly" version="2.20">
+        <description>
+          Indicates whether a firmware upgrade is scheduled or in progress. A value of {{true}}
+          signifies that an upgrade is pending (e.g., scheduled after a delay) or is actively being
+          performed. A value of {{false}} indicates no upgrade is scheduled or in progress.
+
+          The device MUST NOT enter a low-power state (I.e. Deep Standby) that could interrupt
+          network connectivity or break the firmware upgrade process while this parameter is {{true}}.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="DeliveredEvents" access="readOnly" version="2.20">
+          <description>
+          Each entry represents an Event Code and its associated Command Key, where applicable
+          as defined in {{bibref|TR-069|Section 3.7.1.5}}, that was delivered to the ACS during the last session.
+          The format for each entry is the Event Code itself followed by the Command Key in parentheses with an empty set of parentheses if the Command Key is not applicable.
+          Furthermore, any spaces in the values MUST be percent encoded as defined in {{bibref|TR-106|Chapter 3.2.2 Comma-separated Lists}}.
+          E.g. {{param}} = "4%20VALUE%20CHANGE,7%20TRANSFER%20COMPLETE,M%20Download(20326379)".
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SessionStatus" access="readOnly" version="2.20">
+        <description>
+          This parameter indicates the session status of the CWMP Agent.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Idle">
+              <description>No session is ongoing, the CWMP Agent is waiting for an event or Connection Request.</description>
+            </enumeration>
+            <enumeration value="InProgress">
+              <description>The CWMP Agent has an ongoing session with the ACS.</description>
+            </enumeration>
+          </string>
         </syntax>
       </parameter>
 
@@ -1476,6 +1540,20 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="IPAccessControl" version="2.20"/>
+      <parameter base="AllowAllIPv4">
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="true"/>
+        </syntax>
+      </parameter>
+      <parameter base="AllowAllIPv6">
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="true"/>
         </syntax>
       </parameter>
 
@@ -4749,7 +4827,7 @@
     </profile>
 
     <profile name="IPLayerCapacityTest:1"
-        dmr:previousProfile="IPLayerCapacity:1" version="2.15" status="obsoleted">
+        dmr:previousProfile="IPLayerCapacity:1" version="2.15" status="deleted">
       <object ref="Device.IP.Diagnostics." requirement="present">
         <parameter ref="IPLayerCapacitySupported" requirement="readOnly"/>
       </object>
@@ -4762,7 +4840,7 @@
             requirement="readOnly"/>
         <parameter ref="IPLayerCapSupportedMetrics" requirement="readOnly"/>
         <parameter ref="Role" requirement="readWrite"/>
-        <parameter ref="Host" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="Host" requirement="readOnly" status="deleted"/>
         <parameter ref="JumboFramesPermitted" requirement="readOnly"/>
         <parameter ref="DSCP" requirement="readWrite"/>
         <parameter ref="TestType" requirement="readWrite"/>

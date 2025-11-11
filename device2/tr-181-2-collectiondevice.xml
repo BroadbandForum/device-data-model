@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-19-0-collectiondevice"
-  file="tr-181-2-19-0-collectiondevice.xml">
+  spec="urn:broadband-forum-org:tr-181-2-20-0-collectiondevice"
+  file="tr-181-2-20-0-collectiondevice.xml">
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>

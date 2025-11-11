@@ -5235,6 +5235,8 @@ The logical connection between the 5G-RG and data network is the Protocol Data U
 | Device.SessionManagement.PDU.{i}.QoSRule.{i}                   | Set of rules used to select the QFI label for a given packet.
 | Device.SessionManagement.PDU.{i}.QoSRule.{i}.QoSRuleFilter.{i} | Table of filters to select a QoS rule. Typical filters include destination IP and ports.
 
+![Device.PDU objects](images/device.pdu-objects.png)
+
 #### Device.FWE
 
 5G Wireless Wireline Convergence User Plane Encapsulation [@RFC8822] is used to separate each PDU session when multiplexed over a PHY. A Device.FWE.Link object is inserted into the interface stack, providing PDU session id as well as 5G QoS markings (QFI, RQI). This is also the level at which fixed QoS rules are applied in order to traverse access networks that do not natively support 5G QoS (QFI) markings. An instance of this object will be created by a 5G-RG whenever a PDU is established.

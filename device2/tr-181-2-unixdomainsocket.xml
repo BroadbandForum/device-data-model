@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-unixdomainsocket"
-    file="tr-181-2-18-0-unixdomainsocket.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-unixdomainsocket"
+    file="tr-181-2-20-0-unixdomainsocket.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -84,6 +84,56 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AuthenticationNumberOfEntries" access="readOnly" version="2.20">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.UnixDomainSockets.Authentication.{i}."
+        access="readWrite" numEntriesParameter="AuthenticationNumberOfEntries"
+        enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object contains the authentication details for USP Endpoints connecting to Unix Domain Sockets requiring authentication.
+        Endpoints not present in this table will be unable to authenticate successsfully on Unix Domain Sockets requiring authentication.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="EndpointID"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enable/Disable this {{object}} instance.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EndpointID" access="readWrite">
+        <description>
+          The unique USP identifier of the USP Endpoint.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Password" access="readWrite">
+        <description>
+          Expected password to be used by the USP Endpoint to authenticate.
+          If set to an empty string, the USP Endpoint will be unable to authenticate successsfully on Unix Domain Sockets requiring authentication.
+        </description>
+        <syntax secured="true">
+          <string/>
         </syntax>
       </parameter>
     </object>
@@ -132,10 +182,29 @@
           </string>
         </syntax>
       </parameter>
+
+      <parameter name="AuthRequired" access="readOnly" version="2.20">
+        <description>
+          When {{true}}, USP Endpoints connecting to this Unix Domain Socket MUST authenticate themselves.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RegistrationRestricted" access="readOnly" version="2.20">
+        <description>
+          When {{true}}, USP Agents connecting to this Unix Domain Socket are only allowed to register data model paths permitted by the {{object|##.USPServices.Trust}} table.
+          When {{false}}, USP Agents connecting to this Unix Domain Socket may register any data model paths (subject to the rules affecting USP Services).
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
     </object>
   </component>
 
-  <model name="UnixDomainSocket:2.18">
+  <model name="UnixDomainSocket:2.20">
     <component ref="Root"/>
     <component ref="UnixDomainSockets"/>
   </model>

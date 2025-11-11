@@ -29,13 +29,13 @@
 #show: doc => conf(
   title: [TR\-181 –
 Device Data Model for CWMP Endpoints and USP Agents],
-  subtitle: [Issue: 2 Amendment 19 Corrigendum 1 #bbf-release[]],
-  date: [Issue Date: April 2025],
+  subtitle: [Issue: 2 Amendment 20 #bbf-release[]],
+  date: [Issue Date: November 2025],
   pagenumbering: none,
   cols: 1,
   linenumbering: none,
   info: (
-    PYTHONDIR: [..\/..\/..\/install\/pandoc\/\/..\/python],
+    PYTHONDIR: [..\/..\/install\/pandoc\/\/..\/python],
     analyticstag: [],
     autoSectionLabels: [true],
     bbfBuild: [],
@@ -47,20 +47,20 @@ Device Data Model for CWMP Endpoints and USP Agents],
     bbfIssue: [Issue],
     bbfMajor: [2],
     bbfMicro: [0],
-    bbfMinor: [19],
-    bbfMonth: [April],
+    bbfMinor: [20],
+    bbfMonth: [November],
     bbfNumber: [TR\-181],
-    bbfPatch: [1],
+    bbfPatch: [0],
     bbfProjectStream: [],
     bbfStatus: [],
     bbfTitle: [Device Data Model for CWMP Endpoints and USP Agents],
     bbfType: [Technical Report],
-    bbfVersion: [2 Amendment 19 Corrigendum 1],
+    bbfVersion: [2 Amendment 20],
     bbfWorkArea: [],
     bbfYear: [2025],
     citation-style: [bbf.csl],
     copydate: [2025],
-    date: [Issue Date: April 2025],
+    date: [Issue Date: November 2025],
     description: [TR\-181 Issue 2 defines version 2 of the Device data
 model (Device:2). The Device:2 data model applies to all types of
 TR\-069 or USP enabled devices, including End Devices, Residential
@@ -120,7 +120,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     shortname: [TR\-181],
     siteurl: [index.html],
     status: [],
-    subtitle: [Issue: 2 Amendment 19 Corrigendum 1 #bbf-release[]],
+    subtitle: [Issue: 2 Amendment 20 #bbf-release[]],
     summary: [See
 #link("https://device-data-model.broadband-forum.org")[https:\/\/device\-data\-model.broadband\-forum.org]
 for the current TR\-181 specification.
@@ -135,7 +135,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     titleDelim: [ –],
     titleid: [title],
     toc: [false],
-    version: [TR\-181 Issue 2 Amendment 19 Corrigendum 1],
+    version: [TR\-181 Issue 2 Amendment 20],
     website: [https:\/\/device\-data\-model.broadband\-forum.org],
     ),
   doc,
@@ -466,6 +466,13 @@ the notices, legends, and other provisions set forth on this page.
       invalid data
     - Adjust the data model paths in the examples to match the recent
       data model changes
+    ],
+    [#link("https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf")[Issue
+    2 Amendment 20]
+    ],
+    [November 2025
+    ],
+    [- Recreate session management SVG images to match current state
     ]
   )
 ]
@@ -485,14 +492,13 @@ be directed to
   Project Stream Leaders
 ] <sec:bbfprojectstream-project-stream-leaders>
 
-- Daniel Egger, Axiros
+- Daniel Egger
 - Matthieu Anne, Orange
 
 #heading(level: 3, outlined: false)[
   Editors
 ] <sec:editors>
 
-- David Woolley, Telstra
 - William Lupton, Broadband Forum
 
 #heading(level: 3, outlined: false)[
@@ -502,22 +508,35 @@ be directed to
 - Al Morton, AT&T
 - Alexandre Abdo, Sagemcom
 - André\-Jean Côté, Snom
+- Arun Jayaraman, AT&T
 - Barbara Stark, AT&T
 - Charles Foster, BT
 - Chen Li, AT&T
 - Chris Gray, Orange
-- Daniel Egger, Axiros
+- Daniel Egger
 - David Cluytens, Orange
+- David Wooley, Telstra
+- Gene Wang, Wistron NeWeb Corp.
+- Jan Michielsens
 - Jason Walls, QA Cafe
+- Jef Maerien, Orange
 - Johan Jacobs, Orange
 - John Blackford, Vantiva
-- Ken Kerpez, DZS
+- Ken Kerpez, Futurewei
 - Laurent Alarcon, Sagemcom
+- Marc Sabater, MoCA Alliance
 - Matthieu Anne, Orange
+- Mike Talbert, Wistron NeWeb Corp.
+- Nabil Bizid, Orange
 - Patrick Rogier, Orange
 - Ramesh Rajasekaran, Nokia
 - Richard Holme, Vantiva
+- Samuel Chen, Broadcom
+- Srinivas Pappu, AT&T
+- Stephen \[kiwin\] Palm, Broadcom
+- Thales Fragoso, Axiros
 - Tim Spets, Nokia
+- Vimal Kumar, Capgemini
 - William Lupton, BBF
 
 #pagebreak()
@@ -770,10 +789,10 @@ to Ethernet\-Based Broadband Aggregation]];, Broadband Forum, 2011]
 ] <ref-TR-101>
 
 #bbf-csl-entry[
-#bbf-csl-left-margin[\[4\] ]#bbf-csl-right-inline[TR\-106 Amendment 14,
-#emph[#link("https://www.broadband-forum.org/download/TR-106_Amendment-14.pdf")[Data
+#bbf-csl-left-margin[\[4\] ]#bbf-csl-right-inline[TR\-106 Amendment 15,
+#emph[#link("https://www.broadband-forum.org/download/TR-106_Amendment-15.pdf")[Data
 Model Template for CWMP Endpoints and USP Agents]];, Broadband Forum,
-2024]
+2025]
 ] <ref-TR-106>
 
 #bbf-csl-entry[
@@ -1668,21 +1687,20 @@ This Technical Report uses the following abbreviations:
 
 == 3.1 Energy Efficiency <sec:energy-efficiency>
 
-TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Energy
-Efficiency.
+TR\-181 Issue 2 Amendment 20 has no impact on Energy Efficiency.
 
 == 3.2 IPv6 <sec:ipv6>
 
-TR\-181 Issue 2 Amendment 19 Corrigendum 1 defines IPv6 extensions
-(introduced in Issue 2 Amendment 2) to the Device:2 data model.
+TR\-181 Issue 2 Amendment 20 defines IPv6 extensions (introduced in
+Issue 2 Amendment 2) to the Device:2 data model.
 
 == 3.3 Security <sec:security>
 
-TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Security.
+TR\-181 Issue 2 Amendment 20 has no impact on Security.
 
 == 3.4 Privacy <sec:privacy>
 
-TR\-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Privacy.
+TR\-181 Issue 2 Amendment 20 has no impact on Privacy.
 
 #bbf-new-page[
 = 4 Architecture <sec:architecture>]
@@ -11530,6 +11548,12 @@ specific to that PDU session.
   )]
 ] <tbl:device.sessionmanagement.pdu-objects>
 
+#figure(
+  caption: [Figure 84 – Device.PDU objects
+    ])[
+  #bbf-image("images/device.pdu-objects.png")<img:device.pdu-objects>
+] <fig:device.pdu-objects>
+
 #bbf-appendix4[
 ==== XXI.4.2.3 Device.FWE <sec:device.fwe>]
 
@@ -11577,7 +11601,7 @@ whenever a PDU is established.
 ] <tbl:device.fwe-objects>
 
 #figure(
-  caption: [Figure 84 – Device.FWE objects
+  caption: [Figure 85 – Device.FWE objects
     ])[
   #bbf-image("images/device.fwe-objects.png")<img:device.fwe-objects>
 ] <fig:device.fwe-objects>
@@ -12121,7 +12145,7 @@ changes then only needs to care about rewriting the `LowerLayers`
 parameter of the `LogicalInterface` Objects.
 
 #figure(
-  caption: [Figure 85 – Logical interfaces problem statement
+  caption: [Figure 86 – Logical interfaces problem statement
     ])[
   #bbf-image("images/logicalinterfaces-problem.png")<img:logical-interfaces-problem-statement>
 ] <fig:logical-interfaces-problem-statement>
@@ -12176,7 +12200,7 @@ of the internal service to retrieve the new lower interface and the
 associated IP address.
 
 #figure(
-  caption: [Figure 86 – Solution using logical interfaces
+  caption: [Figure 87 – Solution using logical interfaces
     ])[
   #bbf-image("images/logicalinterfaces-solution.png", scale: 0.6)<img:solution-using-logical-interfaces>
 ] <fig:solution-using-logical-interfaces>
@@ -12520,7 +12544,7 @@ data model without having to know all the details that come from a
 certain WAN mode or network configuration.
 
 #figure(
-  caption: [Figure 87 – Logical interfaces example: IPv4 and IPv6 are on
+  caption: [Figure 88 – Logical interfaces example: IPv4 and IPv6 are on
     different network interface
     ])[
   #bbf-image("images/logicalinterfaces-example2.png", scale: 0.6)<img:logical-interfaces-example-ipv4-and-ipv6-are-on-different-network-interface>
@@ -13008,7 +13032,7 @@ technology.
 ] <tbl:device.sessionmanagement-objects>
 
 #figure(
-  caption: [Figure 88 – Device.WWC objects
+  caption: [Figure 89 – Device.WWC objects
     ])[
   #bbf-image("images/device.sessionmanagement-objects.png")<img:device.wwc-objects-1>
 ] <fig:device.wwc-objects-1>
@@ -13095,7 +13119,7 @@ are intended for service assurance purposes.
 ] <tbl:device.wwc-objects-1>
 
 #figure(
-  caption: [Figure 89 – Device.WWC objects
+  caption: [Figure 90 – Device.WWC objects
     ])[
   #bbf-image("images/device.wwc-objects.png")<img:device.wwc-objects-2>
 ] <fig:device.wwc-objects-2>
@@ -13147,7 +13171,7 @@ whenever a PDU is established.
 ] <tbl:device.fwe-objects-1>
 
 #figure(
-  caption: [Figure 90 – Device.FWE objects
+  caption: [Figure 91 – Device.FWE objects
     ])[
   #bbf-image("images/device.fwe-objects.png")<img:device.fwe-objects-1>
 ] <fig:device.fwe-objects-1>
@@ -13181,7 +13205,7 @@ traffic and is carried as PPPoE over the VDSL service. All LAN traffic
 remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 91 – Fixed access only example
+  caption: [Figure 92 – Fixed access only example
     ])[
   #bbf-image("images/fixed-access-only-example.png")<img:fixed-access-only-example-1>
 ] <fig:fixed-access-only-example-1>
@@ -13198,7 +13222,7 @@ carried over a VLAN (this has been omitted for the moment). All LAN
 traffic remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 92 – Cellular access only example
+  caption: [Figure 93 – Cellular access only example
     ])[
   #bbf-image("images/cellular-access-only-example.png")<img:cellular-access-only-example-1>
 ] <fig:cellular-access-only-example-1>
@@ -13218,7 +13242,7 @@ need to be carried over a VLAN (this has been omitted for the moment).
 All LAN traffic remains unchanged on a 5G\-RG.
 
 #figure(
-  caption: [Figure 93 – Hybrid access example
+  caption: [Figure 94 – Hybrid access example
     ])[
   #bbf-image("images/hybrid-access-example.png")<img:hybrid-access-example-1>
 ] <fig:hybrid-access-example-1>

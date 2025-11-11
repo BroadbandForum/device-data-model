@@ -45,7 +45,6 @@
   Comments or questions about this Broadband Forum data model should be
   directed to <info@broadband-forum.org>.
 -->
-
 <dm:document
     xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
@@ -55,8 +54,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-softwaremodules"
-    file="tr-181-2-19-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-softwaremodules"
+    file="tr-181-2-20-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <template id="DUStopped">
-    all ExecutionUnits which were created by the DeploymentUnit are stopped
+    all ExecutionUnits which were created by the Deployment Unit are stopped
   </template>
 
   <template id="RetainDataTrue">
@@ -197,7 +196,7 @@
          <description>
            The object identifier by which the object may be accessed by the
            ExecutionUnit. This object identifier MUST be valid in the context of
-           the Execution Environment in which the ExecutionUnit is installed.
+           the Execution Environment in which the Execution Unit is installed.
          </description>
          <syntax>
            <string>
@@ -303,7 +302,7 @@
     <object name="Device.SoftwareModules." access="readOnly" minEntries="1"
         maxEntries="1" version="2.1">
       <description>
-        Top level object for dynamically managed software applications.
+        Top level object for dynamically managed applications.
       </description>
 
       <parameter name="ExecEnvClassNumberOfEntries" access="readOnly"
@@ -403,7 +402,7 @@
 
       <parameter name="DeploymentUnitRef" access="readOnly">
         <description>
-          A reference to the DeploymentUnit (if any) by which this {{object}}
+          A reference to the Deployment Unit (if any) by which this {{object}}
           was created.
         </description>
         <syntax>
@@ -714,12 +713,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="ProcessorRefList" access="readOnly" status="deprecated">
+      <parameter name="ProcessorRefList" access="readOnly"
+        status="obsoleted">
         <description>
           Represents the processors that this {{object}} has available to it.
 
           {{deprecated|2.18|because the referenced object,{{object|##.DeviceInfo.Processor.}},
           is deprecated.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <list/>
@@ -1397,8 +1399,8 @@
         <description>
           This parameter is allocated by the host system. This is the user identifier
           within the execution unit's environment. This UID is local to the execution 
-          unit and is used by the EU's internal processes to manage permissions. By default,
-          processes within the EU execute as root (UID 0) unless otherwise specified. 
+          unit and is used by the Execution Unit's internal processes to manage permissions. By default,
+          processes within the Execution Unit execute as root (UID 0) unless otherwise specified. 
         </description>
         <syntax>
           <unsignedInt/>
@@ -1409,7 +1411,7 @@
         <description>
           This parameter is allocated by the host system. This is the group identifier
           within the execution unit's environment. This GID is local to the execution 
-          unit and is used by the EU's internal processes to manage permissions. 
+          unit and is used by the Execution Unit's internal processes to manage permissions. 
         </description>
         <syntax>
           <string/>
@@ -1419,7 +1421,7 @@
       <parameter name="AllocatedHostUID" access="readOnly" version="2.18">
         <description>
           This parameter is allocated by the host system. This is the user identifier
-          on the host system where this EU is running. This UID is system wide and is 
+          on the host system where this Execution Unit is running. This UID is system wide and is 
           managed by the kernel.
         </description>
         <syntax>
@@ -1430,7 +1432,7 @@
       <parameter name="AllocatedHostGID" access="readOnly" version="2.18">
         <description>
           This parameter is allocated by the host system. This is the group identifier
-          on the host system where this EU is running. This GID is system wide and is 
+          on the host system where this Execution Unit is running. This GID is system wide and is 
           managed by the kernel.
         </description>
         <syntax>
@@ -1440,7 +1442,7 @@
 
       <parameter name="CreationTime" access="readOnly" version="2.18">
         <description>
-          The date and time when the EU was created.
+          The date and time when the Execution Unit was created.
         </description>
         <syntax>
           <dateTime/>
@@ -1449,7 +1451,7 @@
 
       <parameter name="Uptime" access="readOnly" version="2.18">
         <description>
-          The amount of time in {{units}} that this EU has been up and running since it was activated.
+          The amount of time in {{units}} that this Execution Unit has been up and running since it was activated.
         </description>
         <syntax>
           <unsignedInt>
@@ -1603,12 +1605,12 @@
         access="readOnly" minEntries="1" maxEntries="1" version="2.16">
       <description>
         Configures the parameters of the auto-restart algorithm for this
-        EU.
+        Execution Unit.
 
-        An auto-restart may be triggered if the Agent determines that the EU
-        has terminated abnormally. An exponential backoff algorithm is applied
-        (increasing each time the delay before the EU is re-launched) in order
-        to prevent continual re-starting of the EU.
+        An auto-restart may be triggered if the Agent determines that the Execution
+        Unit has terminated abnormally. An exponential backoff algorithm is applied
+        (increasing each time the delay before the Execution Unit is re-launched) in order
+        to prevent continual re-starting of the Execution Unit.
 
         The retry interval range is controlled by two Parameters,
         {{param|RetryMinimumWaitInterval}} and
@@ -1617,19 +1619,19 @@
         Let ''m'' be the value of {{param|RetryMinimumWaitInterval}}, ''k'' the
         value of {{param|RetryIntervalMultiplier}}, and ''n'' the current value
         of {{param|RetryCount}}. Then on the next occasion that the Agent
-        determines that the EU has terminated abnormally, the delay before
-        re-starting the EU must lie between ''m * (k/1000)^n^'' and ''m *
+        determines that the Execution Unit has terminated abnormally, the delay before
+        re-starting the Execution Unit must lie between ''m * (k/1000)^n^'' and ''m *
         (k/1000)^(n+1)^'' seconds, so long as ''m * (k/1000)^n^'' evaluates to a
         value less than {{param|RetryMaximumWaitInterval}}. Once this point has
         been reached, on all subsequent occasion that the Agent determines that
-        the EU has terminated abnormally the delay before re-starting the EU
-        must lie between {{param|RetryMaximumWaitInterval}}'' * (1000/k)'' and
+        the Execution Unit has terminated abnormally the delay before re-starting the Execution
+        Unit must lie between {{param|RetryMaximumWaitInterval}}'' * (1000/k)'' and
         {{param|RetryMaximumWaitInterval}} seconds.
       </description>
 
       <parameter name="Enable" access="readWrite">
         <description>
-          Enable the auto-restart feature for this EU.
+          Enable the auto-restart feature for this Execution Unit.
         </description>
         <syntax>
           <boolean/>
@@ -1640,7 +1642,7 @@
       <parameter name="RetryMinimumWaitInterval" access="readWrite">
         <description>
           Configures the initial delay in {{units}} between detecting that the
-          EU has terminated abnormally and re-starting it.
+          Execution Unit has terminated abnormally and re-starting it.
         </description>
         <syntax>
           <unsignedInt>
@@ -1652,7 +1654,7 @@
       <parameter name="RetryMaximumWaitInterval" access="readWrite">
         <description>
           Configures the maximum delay in {{units}} between detecting that the
-          EU has terminated abnormally and re-starting it.
+          Execution Unit has terminated abnormally and re-starting it.
         </description>
         <syntax>
           <unsignedInt>
@@ -1685,7 +1687,7 @@
 
       <parameter name="ResetPeriod" access="readWrite">
         <description>
-          If the EU runs for this number of {{units}} without
+          If the Execution Unit runs for this number of {{units}} without
           terminating abnormally the Agent MAY reset the {{param|RetryCount}}
           to zero, thereby resetting the exponential backoff algorithm. A value
           of zero disables this behavior.
@@ -1699,7 +1701,7 @@
 
       <parameter name="RetryCount" access="readWrite">
         <description>
-          The number times the EU has terminated abnormally and a restart has
+          The number times the Execution Unit has terminated abnormally and a restart has
           been attempted.  Resetting this parameter to zero has the effect of
           re-initialising the exponential back-off algorithm.
         </description>
@@ -1734,12 +1736,12 @@
       <description>
         Parameters of the network configuration for this ExecutionUnit.
 
-        When no network configuration is provided, the EU will not have any network access.
+        When no network configuration is provided, the Execution Unit will not have any network access.
       </description>
 
       <parameter name="AccessInterfaceRefList" access="readOnly">
         <description>
-          Represents the network interface through which the traffic from the EU will be allowed.
+          Represents the network interface through which the traffic from the Execution Unit will be allowed.
         </description>
         <syntax>
           <list/>
@@ -1751,7 +1753,7 @@
 
       <parameter name="PortMappingRefList" access="readOnly">
         <description>
-          Represents the list of Port mappings associated with this EU.
+          Represents the list of Port mappings associated with this Execution Unit.
         </description>
         <syntax>
           <list/>
@@ -1802,7 +1804,7 @@
     </object>
   </component>
 
-  <model name="SoftwareModules:2.18">
+  <model name="SoftwareModules:2.20">
     <component ref="Root"/>
     <component ref="SoftwareModules"/>
   </model>

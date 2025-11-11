@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-localagent"
-    file="tr-181-2-19-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-localagent"
+    file="tr-181-2-20-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -1316,7 +1316,7 @@
 
         <parameter name="UnixDomainSocketRef" access="readWrite">
           <description>
-            A reference to the Unix Domain Socket used by this Agent when
+            A reference to the Unix Domain Socket used by the Controller when
             communicating via the UDS MTP.
           </description>
           <syntax>
@@ -1727,7 +1727,9 @@
           Instantiated Object type of Targets:
 
           # Read: Grants the capability to read the instance numbers and unique
-            keys of the Instantiated Object via GetInstances.
+            keys of the Instantiated Object via GetInstances, and
+            to read the meta-information of the Object via GetSupportedDM when an 
+            Instantiated Data Model Object Path is being used.
 
           # Write: Grants the capability to remove an existing instance of an
             Instantiated Object via Delete (e.g.
@@ -2085,7 +2087,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.18">
+  <model name="LocalAgent:2.20">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

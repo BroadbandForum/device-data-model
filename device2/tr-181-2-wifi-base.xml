@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi-base"
-    file="tr-181-2-19-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-base"
+    file="tr-181-2-20-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,12 +73,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -87,6 +87,17 @@
     <component name="BaseInterfaceStats"/>
     <component name="Layer1InterfaceStats"/>
     <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <import file="tr-181-2-powermanagement.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    <component name="PowerManagement"/>
+  </import>
+
+  <import file="tr-181-2-wifi-de-base.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-wifi-de-base">
+    <component name="WiFi7Capabilities"/>
+    <component name="MLOFreqSeparation"/>
   </import>
 
   <component name="Radio">
@@ -116,6 +127,7 @@
       <component ref="Layer1InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer1InterfaceStats"/>
+      <component ref="PowerManagement" version="2.20"/>
     </object>
   </component>
 
@@ -259,6 +271,9 @@
 
           The {{enum|WPA2-PSK-WPA3-SAE}} value is the same as
           WPA3-Personal-Transition.
+
+          The {{enum|WPA2-PSK-WPA3-SAE-RSNO}} value is the same as
+          WPA3-Personal-Compatibility.
         </description>
         <syntax>
           <string>
@@ -274,6 +289,7 @@
             <enumeration value="WPA2-PSK-WPA3-SAE"/>
             <enumeration value="WPA3-Enterprise"/>
             <enumeration value="OWE" version="2.16"/>
+            <enumeration value="WPA2-PSK-WPA3-SAE-RSNO" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -285,6 +301,7 @@
           When {{param|SecurityModeEnabled}} is one of
           {{enum|WPA3-SAE|SecurityModeEnabled}},
           {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}}, or
+          {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}}, or
           {{enum|WPA3-Enterprise|SecurityModeEnabled}}, {{enum|TKIP}} is not
           valid, and should not be in the list.
         </description>
@@ -1218,8 +1235,8 @@
           either " " (all environments), "O" (outside) or "I" (inside).
 
           If the instance of this {{object|##}} is the same as
-          {{object|Device.WiFi.DataElements.Network.Device.{i}.}}, then this
-          parameter is the same as
+          {{object|Device.WiFi.DataElements.Network.Device.{i}.}}, then
+          the first two octets of this parameter are the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.CountryCode}}.
         </description>
         <syntax>
@@ -1465,6 +1482,170 @@
           <unsignedInt>
             <units value="kbps"/>
           </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfiguredReceiveAntennas" access="readWrite" version="2.20">
+        <description>
+          The bit pattern of the configured receive antennas that need to be activated.
+
+          This parameter uses a bitmap to specify which receive antennas need to be enabled. Each bit in
+          the unsigned integer corresponds to a specific antenna. If a bit is set to '1', the
+          corresponding antenna is activated for reception. If a bit is set to '0', the antenna is
+          deactivated.
+
+          How the Bitmap Works:
+          * Bit 0 (LSB): Corresponds to Antenna 0. If the value is odd (e.g., 1, 3, 5...),
+          Antenna 0 is enabled.
+          * Bit 1: Corresponds to Antenna 1.
+          * Bit 2: Corresponds to Antenna 2.
+          * And so on...
+          * Bit N: Corresponds to Antenna N.
+
+          Examples:
+          * `0`: No receive antennas are activated.
+          * `1`: Only Antenna 0 is activated for reception. 
+          * `2`: Only Antenna 1 is activated for reception. 
+          * `3`: Antenna 0 and Antenna 1 are activated for reception. 
+          * `255`: All 8 possible receive antennas (Antenna 0 through Antenna 7) are activated.
+
+          The value MUST be within the range of {{param|SupportedReceiveAntennas}}, meaning you
+          cannot attempt to activate an antenna that is not physically supported by the device.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' indicates the automatic selection of the receive antennas.
+              </description>
+            </range>
+            <range minInclusive="0" maxInclusive="255"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfiguredTransmitAntennas" access="readWrite" version="2.20">
+        <description>
+          The bit pattern of the configured transmit antennas that need to be activated.
+
+          This parameter uses a bitmap to specify which receive antennas need to be enabled. Each bit in
+          the unsigned integer corresponds to a specific antenna. If a bit is set to '1', the
+          corresponding antenna is activated for reception. If a bit is set to '0', the antenna is
+          deactivated.
+
+          How the Bitmap Works:
+          * Bit 0 (LSB): Corresponds to Antenna 0. If the value is odd (e.g., 1, 3, 5...),
+          Antenna 0 is enabled.
+          * Bit 1: Corresponds to Antenna 1.
+          * Bit 2: Corresponds to Antenna 2.
+          * And so on...
+          * Bit N: Corresponds to Antenna N.
+
+          Examples:
+          * `0`: No receive antennas are activated.
+          * `1`: Only Antenna 0 is activated for reception. 
+          * `2`: Only Antenna 1 is activated for reception. 
+          * `3`: Antenna 0 and Antenna 1 are activated for reception. 
+          * `255`: All 8 possible receive antennas (Antenna 0 through Antenna 7) are activated.
+
+          The value MUST be within the range of {{param|SupportedReceiveAntennas}}, meaning you
+          cannot attempt to activate an antenna that is not physically supported by the device.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' indicates the automatic selection of the transmit antennas.
+              </description>
+            </range>
+            <range minInclusive="0" maxInclusive="255"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="SupportedReceiveAntennas" access="readOnly" version="2.20">
+        <description>
+          Specifies the maximum number of antennas, used for receiving on this radio.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="0" maxInclusive="8"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' means that this feature is not supported.
+              </description>
+            </range>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="SupportedTransmitAntennas" access="readOnly" version="2.20">
+        <description>
+          Specifies the maximum number of antennas, used for receiving on this radio.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="0" maxInclusive="8"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' means that this feature is not supported.
+              </description>
+            </range>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActiveReceiveAntennas" access="readOnly" version="2.20">
+        <description>
+          The bit pattern of the receive antennas actively in use.
+
+          This parameter uses a bitmap to specify which receive antennas are enabled. Each bit in
+          the unsigned integer corresponds to a specific antenna. If a bit is set to '1', the
+          corresponding antenna is activated for reception. If a bit is set to '0', the antenna is
+          deactivated.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="0" maxInclusive="255"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' means that this feature is not supported.
+              </description>
+            </range>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActiveTransmitAntennas" access="readOnly" version="2.20">
+        <description>
+          The bit pattern of the transmit antennas actively in use.
+
+          This parameter uses a bitmap to specify which transmit antennas are enabled. Each bit in
+          the unsigned integer corresponds to a specific antenna. If a bit is set to '1', the
+          corresponding antenna is activated for reception. If a bit is set to '0', the antenna is
+          deactivated.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="0" maxInclusive="255"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of ''-1'' means that this feature is not supported.
+              </description>
+            </range>
+          </int>
         </syntax>
       </parameter>
     </object>
@@ -1722,6 +1903,171 @@
       </parameter>
     </object>
 
+    <object name="Device.WiFi.Radio.{i}.Capabilities."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.20">
+      <description>
+        This object represents the capabilities of the radio which may be
+        different from the current operational configuration.
+      </description>
+    </object>
+
+    <object name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole."
+      access="readOnly" minEntries="1" maxEntries="1" version="2.20">
+      <description>
+        This object describes the Wi-Fi 7 capabilities for the AP role.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+        </description>
+
+        <component ref="WiFi7Capabilities"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLMRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="EMLMRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Enhanced Multi-Link Multi-Radio (EMLMR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.EMLSRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="EMLSRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Enhanced Multi-Link Single-Radio (EMLSR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.STRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="STRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Simultaneous Transmit and Receive (STR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole.NSTRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="NSTRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Non-Simultaneous Transmit and Receive (NSTR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object name="Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole."
+      access="readOnly" minEntries="1" maxEntries="1" version="2.20">
+      <description>
+        This object describes the Wi-Fi 7 capabilities for the backhaul
+        Station (bSTA) role.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+        </description>
+
+        <component ref="WiFi7Capabilities"/>
+    </object>
+
+     <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLMRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="EMLMRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Enhanced Multi-Link Multi-Radio (EMLMR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.EMLSRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="EMLSRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Enhanced Multi-Link Single-Radio (EMLSR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.STRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="STRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Simultaneous Transmit and Receive (STR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
+    <object
+      name="Device.WiFi.Radio.{i}.Capabilities.WiFi7STARole.NSTRFreqSeparation.{i}."
+      access="readOnly" numEntriesParameter="NSTRFreqSeparationNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object describes the required frequency separation from the
+        specified radio {{param|RUID}} for MLO
+        Non-Simultaneous Transmit and Receive (NSTR) operation.
+        {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
+      </description>
+      <uniqueKey functional="true">
+        <parameter ref="RUID"/>
+      </uniqueKey>
+
+      <component ref="MLOFreqSeparation"/>
+    </object>
+
     <object base="Device.WiFi.SSID.{i}." >
       <description action="replace">
         WiFi SSID table (a stackable interface object as described in
@@ -1811,6 +2157,18 @@
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MTU" access="readWrite" version="2.20">
+        <description>
+          Maximum Transmission Unit for this interface (expressed in
+          {{units}}).
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+          </unsignedInt>
         </syntax>
       </parameter>
 
@@ -2317,6 +2675,9 @@
 
           The {{enum|WPA3-Personal-Transition}} value is the same as
           WPA2-PSK-WPA3-SAE.
+
+          The {{enum|WPA3-Personal-Compatibility}} value is the same as
+          WPA2-PSK-WPA3-SAE-RSNO.
         </description>
         <syntax>
           <list/>
@@ -2334,6 +2695,7 @@
             <enumeration value="WPA3-Enterprise"/>
             <enumeration value="WPA-WPA2-Enterprise"/>
             <enumeration value="OWE" version="2.16"/>
+            <enumeration value="WPA3-Personal-Compatibility" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -2567,6 +2929,29 @@
             <enumeration value="Required"/>
           </string>
           <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SAEGroupDependantHashEnable" access="readWrite" version="2.20">
+        <description>
+          Enable SAE with group dependant hash usage in WPA3 security modes.
+          This flag enables or disables the use of SAE with group dependant hash instead of simple SAE
+          applicable when {{param|ModeEnabled}} is set to {{enum|WPA3-Personal|ModeEnabled}},
+          {{enum|WPA3-Personal-Transition|ModeEnabled}}, or
+          {{enum|WPA3-Enterprise|ModeEnabled}}.
+          If {{param}} is set to {{enum|Disabled}}, then only AKM8 shall be used.
+          If it is set to {{enum|Transition}}, then both AKM8 and AKM24 shall be used.
+          Finally, if {{param}} is set to {{enum|Enabled}}, then only AKM24 shall be used.
+          {{enum|Enabled}} is invalid when {{param|ModeEnabled}} is set to 
+          {{enum|WPA3-Personal-Transition|ModeEnabled}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Transition"/>
+            <enumeration value="Enabled"/>
+          </string>
+          <default type="object" value="Transition"/>
         </syntax>
       </parameter>
 
@@ -2935,10 +3320,10 @@
 
       <parameter name="Cellular3GPPNetworkInfo" access="readWrite">
         <description>
-          Specifies the Public Land Mobile Network (PLMN) IDs which denote  
+          Specifies the Public Land Mobile Network (PLMN) IDs which denote
           the country code (MCC) and network code (MNC) as described in
           {{bibref|802.11-2020|Section 9.4.5.11 3GPP Cellular Network
-          ANQP-element}}. 
+          ANQP-element}}.
 
           Example:
           : ''310410, 310026''
@@ -2976,7 +3361,7 @@
           <string>
             <enumeration value="R1">
               <description>
-                Passpoint R1 
+                Passpoint R1
               </description>
             </enumeration>
             <enumeration value="R2">
@@ -3415,7 +3800,7 @@
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}},
           then this parameter is the same as
-          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise|deprecated}}.
+          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise|obsoleted}}.
         </description>
         <syntax>
           <int>
@@ -4268,6 +4653,7 @@
             <enumeration value="WPA3-Enterprise"/>
             <enumeration value="WPA-WPA2-Enterprise"/>
             <enumeration value="OWE" version="2.16"/>
+            <enumeration value="WPA3-Personal-Compatibility" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -4482,6 +4868,29 @@
             <enumeration value="Required"/>
           </string>
           <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SAEGroupDependantHashEnable" access="readWrite" version="2.20">
+        <description>
+          Enable SAE with group dependant hash usage in WPA3 security modes.
+          This flag enables or disables the use of SAE with group dependant hash instead of simple SAE
+          applicable when {{param|ModeEnabled}} is set to {{enum|WPA3-Personal|ModeEnabled}},
+          {{enum|WPA3-Personal-Transition|ModeEnabled}}, or
+          {{enum|WPA3-Enterprise|ModeEnabled}}.
+          If {{param}} is set to {{enum|Disabled}}, then only AKM8 shall be used.
+          If it is set to {{enum|Transition}}, then both AKM8 and AKM24 shall be used.
+          Finally, if {{param}} is set to {{enum|Enabled}}, then only AKM24 shall be used.
+          {{enum|Enabled}} is invalid when {{param|ModeEnabled}} is set to 
+          {{enum|WPA3-Personal-Transition|ModeEnabled}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Transition"/>
+            <enumeration value="Enabled"/>
+          </string>
+          <default type="object" value="Transition"/>
         </syntax>
       </parameter>
     </object>
@@ -5069,7 +5478,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.19">
+  <model name="WiFiBase:2.20">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

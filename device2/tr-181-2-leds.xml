@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-leds"
-    file="tr-181-2-19-0-leds.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-leds"
+    file="tr-181-2-20-0-leds.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -76,6 +76,26 @@
       <description>
         This object describes the LEDs on the device.
       </description>
+
+      <parameter name="BrightnessLimiter" access="readWrite" version="2.20">
+        <description>
+          The maximum allowed brightness level for all LEDs, expressed as a {{units}}.
+
+          This value is relative to the maximum allowed brightness value of each LED, which is specified in {{param|LED.{i}.MaxBrightness}}.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="100">
+              <description>
+                The value 0 indicates that all LEDs are turned off, while the value 100 indicates the maximum brightness.
+              </description>
+            </range>
+            <units value="percentage"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
 
       <parameter name="LEDNumberOfEntries" access="readOnly">
         <description>
@@ -348,6 +368,9 @@
         <description>
           The desired brightness level for this element of the cycle period, expressed as a {{units}},
           relative to the maximum allowed brightness value specified in {{param|#.MaxBrightness}}.
+
+          The value should not exceed the maximum brightness level
+          specified in {{param|##.BrightnessLimiter}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -468,7 +491,7 @@
     </profile>
   </component>
 
-  <model name="LEDs:2.19">
+  <model name="LEDs:2.20">
     <component ref="Root"/>
     <component ref="LEDs"/>
   </model>

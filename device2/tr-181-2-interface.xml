@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-interface"
-    file="tr-181-2-19-0-interface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-interface"
+    file="tr-181-2-20-0-interface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <component name="BaseInterfaceParams">
-    <parameter name="Enable" access="readWrite">
+    <parameter name="Enable" access="readWrite" version="2.0">
       <description>
         Enables or disables the interface.
 
@@ -83,7 +83,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Status">
+    <parameter name="Status" version="2.0">
       <description>
         The current operational state of the interface (see
         {{bibref|TR-181i2|Section 4.2.2}}). {{enum}}
@@ -125,7 +125,7 @@
 
     <component ref="Alias"/>
 
-    <parameter name="Name">
+    <parameter name="Name" version="2.0">
       <description>
         The textual name of the interface as assigned by the CPE.
       </description>
@@ -136,7 +136,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="LastChange" activeNotify="canDeny">
+    <parameter name="LastChange" activeNotify="canDeny" version="2.0">
       <description>
         The accumulated time in {{units}} since the interface entered its
         current operational state.
@@ -148,7 +148,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="LowerLayers" access="readWrite">
+    <parameter name="LowerLayers" access="readWrite" version="2.0">
       <description>
         {{list}} {{reference|an interface object that is stacked immediately
         below this interface object}} See {{bibref|TR-181i2|Section 4.2.1}}.
@@ -814,7 +814,7 @@
     <component ref="LinkReadOnly"/>
   </component>
 
-  <model name="Interface:2.19">
+  <model name="Interface:2.20">
     <component ref="Root"/>
     <object name="Device.Layer1A." version="2.19">
       <description>

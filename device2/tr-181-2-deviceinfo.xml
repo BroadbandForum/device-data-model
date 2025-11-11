@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-deviceinfo"
-    file="tr-181-2-19-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-deviceinfo"
+    file="tr-181-2-20-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,8 +65,13 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-security">
+    <component name="ClientCerts"/>
   </import>
 
   <component name="CauseOfBoot">
@@ -80,14 +85,14 @@
             <description>
               A {{object|Device.|absolute}} Event that was the result of a reboot triggered
               locally on the Device (NOT as a result of a
-              {{command|.Reboot()|model}}}} Command triggered by a remote trigger, e.g.
+              {{command|.Reboot()|model}} Command triggered by a remote trigger, e.g.
               another remote management protocol)
             </description>
           </enumeration>
           <enumeration value="RemoteReboot">
             <description>
               A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-              via the {{command|.Reboot()|model}}} Command or other remote
+              via the {{command|.Reboot()|model}} Command or other remote
               trigger, e.g. another remote management protocol
             </description>
           </enumeration>
@@ -95,7 +100,7 @@
             <description>
               A {{object|Device.|absolute}} Event that was the result of a factory reset
               triggered locally on the Device or remotely (as a result of a
-              {{command|.FactoryReset()|model}}} Command or other remote trigger,
+              {{command|.FactoryReset()|model}} Command or other remote trigger,
               e.g. another remote management protocol), which is to be used
               when the Agent cannot differentiate between local and remote
             </description>
@@ -104,7 +109,7 @@
             <description>
               A {{object|Device.|absolute}} Event that was the result of a factory reset
               triggered locally on the Device (NOT as a result of a
-              {{command|.FactoryReset()|model}}} Command triggered by a remote trigger,
+              {{command|.FactoryReset()|model}} Command triggered by a remote trigger,
               e.g. another remote management protocol)
             </description>
           </enumeration>
@@ -422,12 +427,14 @@
       </parameter>
 
       <parameter name="ProcessorNumberOfEntries" access="readOnly"
-          version="2.1" status="deprecated">
+          version="2.1" status="obsoleted">
         <description>
           {{numentries}}
 
           {{deprecated|2.18|because the only contained parameter, {{param|Processor.{i}.Architecture}},
           is no longer relevant for modern devices.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -830,9 +837,9 @@
         numEntriesParameter="CPUNumberOfEntries" minEntries="0"
         maxEntries="unbounded" dmr:fixedObject="true" version="2.18">
       <description>
-        Each instance in the table represents a CPU on this device. Here CPU can imply
-        main CPU (where system software is executed) or hardware/network acceleration CPU (responsible for
-        data plane traffic).
+        This object describes the utilization metrics for each CPU on the device. It also defines
+        the monitoring actions that are automatically triggered when specific utilization thresholds
+        are crossed.
       </description>
       <uniqueKey functional="true">
         <parameter ref="Name"/>
@@ -1622,13 +1629,15 @@
 
     <object name="Device.DeviceInfo.Processor.{i}." access="readOnly"
         numEntriesParameter="ProcessorNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.1" status="deprecated">
+        maxEntries="unbounded" version="2.1" status="obsoleted">
       <description>
         Each table entry represents a hardware or virtual processor that
         resides on this device.
 
         {{deprecated|2.18|because the only contained parameter, {{param|Architecture}},
         is no longer relevant for modern devices.}}
+
+        {{obsoleted|2.20}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -2587,7 +2596,7 @@
       </object>
     </profile>
 
-    <profile name="Processors:1" version="2.1" status="deprecated">
+    <profile name="Processors:1" version="2.1" status="obsoleted">
       <object ref="Device.DeviceInfo.Processor.{i}." requirement="present">
         <parameter ref="Architecture" requirement="readOnly"/>
       </object>
@@ -2627,6 +2636,50 @@
   </component>
 
   <component name="DeviceInfoUSP">
+    <object base="Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.">
+      <event name="HighTemperatureAlarm!" version="2.20">
+        <description>
+          This event is triggered when the temperature sensor detects a high temperature.
+          If the {{param|Enable}} parameter is {{true}}, the event is triggered exactly once when the
+          {{param|Value}} value rises above {{param|HighAlarmValue}}.
+        </description>
+
+        <parameter name="Value">
+          <description>
+            The current temperature value that triggered the event.
+            This value is in {{units}}.
+          </description>
+          <syntax>
+            <int>
+              <units value="degrees celsius"/>
+              <range minInclusive="-274"/>
+            </int>
+          </syntax>
+        </parameter>
+      </event>
+
+      <event name="LowTemperatureAlarm!" version="2.20">
+        <description>
+          This event is triggered when the temperature sensor detects a low temperature.
+          If the {{param|Enable}} parameter is {{true}}, the event is triggered exactly once when the
+          {{param|Value}} value falls below {{param|LowAlarmValue}}.
+        </description>
+
+        <parameter name="Value">
+          <description>
+            The current temperature value that triggered the event.
+            This value is in {{units}}.
+          </description>
+          <syntax>
+            <int>
+              <units value="degrees celsius"/>
+              <range minInclusive="-274"/>
+            </int>
+          </syntax>
+        </parameter>
+      </event>
+    </object>
+
     <object base="Device.DeviceInfo.KernelFaults." access="readOnly">
       <command name="RemoveAllKernelFaults()" async="true" version="2.17">
         <description>
@@ -2636,67 +2689,9 @@
     </object>
 
     <object base="Device.DeviceInfo.KernelFaults.KernelFault.{i}." access="readOnly" minEntries="0" maxEntries="unbounded">
-      <command name="Upload()" async="true" version="2.17">
-        <description>
-          This command is issued to upload the Kernel fault information specified by this
-          KernelFault instance.
-
-          All results of the actual upload will be contained within the
-          {{event|.LocalAgent.TransferComplete!}} event.
-        </description>
-        <input>
-
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the destination file location. The
-              HTTPS transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              This argument specifies only the destination file location, and
-              does not indicate in any way the name or location of the local
-              file to be uploaded.
-
-              If the Agent receives multiple upload requests with the same URL,
-              the Agent MUST perform each upload as requested, and MUST NOT
-              assume that the content of the file to be uploaded is the same
-              each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
-          </parameter>
-
-          <parameter name="Username" mandatory="true">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <parameter name="Password" mandatory="true">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-        </input>
-      </command>
-
+      
+      <component ref="UploadCommand" version="2.17"/>
+      
       <command name="Remove()" async="true" version="2.17">
         <description>
           Remove this row from the table, together with the associated Kernel fault data stored on the device.
@@ -2713,67 +2708,9 @@
     </object>
 
     <object base="Device.DeviceInfo.ProcessFaults.ProcessFault.{i}." access="readOnly" minEntries="0" maxEntries="unbounded">
-      <command name="Upload()" async="true" version="2.17">
-        <description>
-          This command is issued to upload the Fault information specified by this
-          Fault instance.
-
-          All results of the actual upload will be contained within the
-          {{event|.LocalAgent.TransferComplete!}} event.
-        </description>
-        <input>
-
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the destination file location. The
-              HTTPS transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              This argument specifies only the destination file location, and
-              does not indicate in any way the name or location of the local
-              file to be uploaded.
-
-              If the Agent receives multiple upload requests with the same URL,
-              the Agent MUST perform each upload as requested, and MUST NOT
-              assume that the content of the file to be uploaded is the same
-              each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
-          </parameter>
-
-          <parameter name="Username" mandatory="true">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <parameter name="Password" mandatory="true">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. This string is set to {{empty}} if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-        </input>
-      </command>
-
+      
+      <component ref="UploadCommand" version="2.17"/>
+      
       <command name="Remove()" async="true" version="2.17">
         <description>
           Remove this row from the table, together with the associated faulty data stored on the device.
@@ -2815,6 +2752,36 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentBootCycle" access="readOnly" version="2.20">
+        <description>
+          The current boot cycle of the device (e.g. Warm or Cold).
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>
+                The device's boot cycle could not be determined.
+              </description>
+            </enumeration>
+            <enumeration value="Warm">
+              <description>
+                The device performed a warm boot.
+
+                This typically occurs during a restart without a full power cycle (e.g. a
+                software-initiated restart).
+              </description>
+            </enumeration>
+            <enumeration value="Cold">
+              <description>
+                The device performed a cold boot.
+                
+                This indicates that power was applied to the device from a completely off state.
+              </description>
+            </enumeration>
+          </string>
         </syntax>
       </parameter>
 
@@ -3002,7 +2969,75 @@
     </object>
   </component>
 
-  <model name="DeviceInfo:2.19">
+  <component name="UploadCommand">
+    <command name="Upload()" async="true" version="2.12">
+      <description>
+        This command is issued to upload the log information specified by this
+        {{object}} instance.
+
+        All results of the actual upload will be contained within the
+        {{event|.LocalAgent.TransferComplete!}} event.
+      </description>
+      <input>
+        <parameter name="URL" mandatory="true">
+          <description>
+            The {{datatype}} specifying the destination file location. The
+            HTTPS transport MUST be supported, and the HTTP transport MAY be
+            supported.
+
+            This argument specifies only the destination file location, and
+            does not indicate in any way the name or location of the local
+            file to be uploaded.
+
+            If the Agent receives multiple upload requests with the same URL,
+            the Agent MUST perform each upload as requested, and MUST NOT
+            assume that the content of the file to be uploaded is the same
+            each time.
+
+            This URL MUST NOT include the "userinfo" component, as defined in
+            {{bibref|RFC3986}}.
+          </description>
+          <syntax>
+           <dataType ref="URL"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Username" mandatory="false">
+          <description>
+            Username to be used by the Agent to authenticate with the file
+            server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+            authentication (e.g., certificate-based authentication) is required.
+
+            Note: The mandatory requirement for this parameter was removed in Device:2.20.
+          </description>
+          <syntax>
+            <string>
+               <size maxLength="256"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="Password" mandatory="false">
+          <description>
+            Password to be used by the Agent to authenticate with the file
+            server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
+            authentication (e.g., certificate-based authentication) is required.
+
+            Note: The mandatory requirement for this parameter was removed in Device:2.20.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="256"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <component ref="ClientCerts" version="2.20"/>
+      </input>
+    </command>
+  </component>
+
+  <model name="DeviceInfo:2.20">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

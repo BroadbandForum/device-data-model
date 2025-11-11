@@ -55,15 +55,15 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-security"
-    file="tr-181-2-19-0-security.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-security"
+    file="tr-181-2-20-0-security.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106"/>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -327,6 +327,42 @@
   </component>
 
   <component name="SecurityUSP">
+    <object base="Device.Security.Certificate.{i}." >
+      <command name="GetCertificateURI()" async="false" version="2.20">
+        <description>
+          Returns the path to the X.509 certificate and its corresponding private key that is
+          associated with the entry of the {{object}} table.
+        </description>
+        <output>
+          <parameter name="CertificateURI">
+            <description>
+              The absolute or relative path to the certificate file,
+              specified as an {{bibref|RFC8089}} (The file URI Scheme).
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+
+          <parameter name="PrivateKeyURI">
+            <description>
+              The URI for the private key associated with this certificate, formatted according to
+              {{bibref|RFC7512}}. This URI should point to the key's location on a hardware security
+              module (HSM) or other cryptographic token.
+
+              For security reasons, the URI MUST NOT include any PIN information (e.g.,`pin-value`). The
+              service responsible for managing the token should inject the required PIN at runtime. This
+              practice prevents unauthorized access and malicious reuse of the private key by other
+              services. 
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+    </object>
+
     <object base="Device.Security.CABundle.{i}.">
       <command name="CADir()" async="false">
         <description>
@@ -379,7 +415,7 @@
     </object>
   </component>
 
-  <model name="Security:2.19">
+  <model name="Security:2.20">
     <component ref="Root"/>
     <component ref="Security"/>
   </model>

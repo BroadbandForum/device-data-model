@@ -39,6 +39,48 @@ resources:
     resname: Device
 
 versions:
+  v2.20.0:
+    date: 2025-11-11
+    changes:
+      data-model: |
+        * Added support for periodic file uploads via Device.PeriodicFileTransfer.
+        * Added support for hardware specific information under Device.Hardware.
+        * Added support for configuring device internal connection monitoring mechanisms and automatic remedies under Device.ConnectionMonitoring.
+        * Various features allow to specify a Certificate and a CABundle for mutual TLS authentication
+        * Added support for low and high temperature events in Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.
+        * Added support for the Wi-Fi Data Elements feature "Wi-Fi Configuration Templates" under Device.WiFi.Templates.
+        * Added Device.DeviceInfo.Reboots.CurrentBootCycle
+        * Added peripheral power management for
+          - Ethernet to Device.Ethernet.Interface.{i}.
+          - USB to Device.USB.Port.{i}.
+          - Wi-Fi to Device.WiFi.Radio.{i}.
+          - Thread to Device.Thread.Radio.{i}.
+          - XPON to Device.XPON.ONU.{i}.PowerManagement.
+        * Added USB device state reporting and the ability to configure which USB devices are allowed to connect via the Device.USB.USBHosts.AllowedDevice.{i}. table
+        * Added Type and Interface parameters to Device.HomePlug.Interface.{i}.
+        * Marked Wi-Fi commands FullScan(), ChannelScan(), Disassociate(), and BTMRequest() obsoleted
+        * Added antenna configuration to Device.WiFi.Radio.{i}.
+        * Added a full WireGuard VPN datamodel under Device.WireGuard.
+        * Added Device.WiFi.Radio.{i}.Capabilities. tree
+        * Added MTU parameter to Device.WiFi.SSID.{i}.
+        * Added IPLayerCapacityIncrementalResult! event to Device.IP.Diagnostics.
+        * Improved Device.Routing.Router.{i}. support and added Device.Routing.Policy.{i}.
+        * Added host table cleanup support to Device.Hosts.
+        * Added Device.DNS.RebindProtection.
+        * Added Release() command to Device.DHCPv4.Client.{i}. and Device.DHCPv6.Client.{i}.
+        * Added the configuration of the UPnP IGD service via Device.UPnP.Device.IGD.
+        * Added FloodLimit and BurstLimit parameters to Device.Firewall.Chain.{i}.Rule.{i}.
+        * Added support for GetCertificateURI() under Device.Security.Certificate.{i}.
+        * Added Role configuration to Device.SoftwareModules.ExecutionUnit.{i}.
+        * Added authentication to UDS MTP via Device.UnixDomainSockets.Authentication.{i}.
+        * Added interface stack and IP address support to Device.SessionManagement.Session.{i}.
+        * Added support for Device.IoTCapability.{i}.PulseControl. and Device.IoTCapability.{i}.Binding.{i}.
+        * Improved descriptions of some parameters with ranged types
+        * Added support for setting the transport mode in the MQTT Broker configuration
+        * Miscellaneous spelling corrections and markup improvements
+      specification: |
+        * Recreate session management SVG images to match current state
+
   v2.19.1:
     date: 2025-04-23
     changes:
@@ -698,7 +740,7 @@ WADs:
 
 # Project Stream Leaders
 PSLs:
-  - Daniel Egger, Axiros
+  - Daniel Egger
   - Matthieu Anne, Orange
 
 # this lists recent editors in a separate 'Editors' table
@@ -708,20 +750,33 @@ acknowledgments:
   - Al Morton, AT&T
   - Alexandre Abdo, Sagemcom
   - André-Jean Côté, Snom
+  - Arun Jayaraman, AT&T
   - Barbara Stark, AT&T
   - Charles Foster, BT
   - Chen Li, AT&T
   - Chris Gray, Orange
-  - Daniel Egger, Axiros
+  - Daniel Egger
   - David Cluytens, Orange
+  - David Wooley, Telstra
+  - Gene Wang, Wistron NeWeb Corp.
+  - Jan Michielsens
   - Jason Walls, QA Cafe
+  - Jef Maerien, Orange
   - Johan Jacobs, Orange
   - John Blackford, Vantiva
-  - Ken Kerpez, DZS
+  - Ken Kerpez, Futurewei
   - Laurent Alarcon, Sagemcom
+  - Marc Sabater, MoCA Alliance
   - Matthieu Anne, Orange
+  - Mike Talbert, Wistron NeWeb Corp.
+  - Nabil Bizid, Orange
   - Patrick Rogier, Orange
   - Ramesh Rajasekaran, Nokia
   - Richard Holme, Vantiva
+  - Samuel Chen, Broadcom
+  - Srinivas Pappu, AT&T
+  - Stephen [kiwin] Palm, Broadcom
+  - Thales Fragoso, Axiros
   - Tim Spets, Nokia
+  - Vimal Kumar, Capgemini
   - William Lupton, BBF

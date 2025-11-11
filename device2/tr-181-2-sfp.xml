@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-sfp"
-    file="tr-181-2-19-0-sfp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-sfp"
+    file="tr-181-2-20-0-sfp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -390,7 +390,7 @@
           its specifications (BR, max) is specified in units of 1% above the
           nominal bit rate. A value of zero indicates that this field is not specified.  However this 
           field may contain the nominal bit rate in units of 250MBd if the value in {{param|BRNominal}} is 255. 
-          See {{bibref|SFF-8472|Section 8.4}}} - Address 0xA0, Byte 66.
+          See {{bibref|SFF-8472|Section 8.4}} - Address 0xA0, Byte 66.
         </description>
         <syntax>
           <unsignedInt>
@@ -405,7 +405,7 @@
           its specifications (BR, min) is specified in units of 1{{units}} below the
           nominal bit rate. A value of zero indicates that this field is not specified.  However this 
           field may also specify range of signaling rates specified in units of +/- 1{{units}} around the nominal
-          signaling rate. See {{bibref|SFF-8472|Section 8.5}}} - Address 0xA0, Byte 67.
+          signaling rate. See {{bibref|SFF-8472|Section 8.5}} - Address 0xA0, Byte 67.
         </description>
         <syntax>
           <unsignedInt>
@@ -463,18 +463,18 @@
 
       <parameter name="LengthSMF" access="readOnly">
         <description>
-          This value specifies link length that is supported by the transceiver
-          while operating in compliance with applicable standards using 50 micron
-          multimode OM2 [500MHz*km at 850nm] fiber. The value is in units of {{units}}.
+          This value specifies the link length that is supported by the
+          transceiver while operating in compliance with the applicable
+          standards using single-mode fiber. The value is in units of {{units}}.
           A value of 255 means that the transceiver supports a link length
-          greater than 2.54 km A value of zero means that the transceiver does not
-          support 50 micron multimode fiber or that the length information must be
+          greater than 25.4 km. A value of zero means that the transceiver does
+          not support single-mode fiber or that the length information must be
           determined from the transceiver technology.
         </description>
         <syntax>
           <unsignedInt>
             <range minInclusive="0" maxInclusive="255"/>
-            <units value="10 meters"/>
+            <units value="100 meters"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -485,9 +485,9 @@
           while operating in compliance with applicable standards using 50 micron
           multimode OM2 [500MHz*km at 850nm,] fiber. The value is in units of {{units}}.
           A value of 255 means that the transceiver supports a link length
-          greater than 2.54 km A value of zero means that the transceiver does not support
-          50 micron multimode fiber or that the length information must be determined from
-          the transceiver technology.
+          greater than 2.54 km. A value of zero means that the transceiver does not support
+          50 micron multimode OM2 fiber or that the length information must be determined
+          from the transceiver technology.
         </description>
         <syntax>
           <unsignedInt>
@@ -501,7 +501,7 @@
         <description>
           This value specifies link length that is supported by the transceiver
           while operating in compliance with applicable standards using 62.5 micron
-          multimode OM1 [200 MHzkm at 850nm, 500 MHzkm at 1310nm] fiber.
+          multimode OM1 [200 MHz*km at 850nm, 500 MHz*km at 1310nm] fiber.
           The value is in units of {{units}} . A value of 255 means that the transceiver
           supports a link length greater than 2.54 km. A value of zero means that the
           transceiver does not support 62.5 micron multimode fiber or that the length
@@ -522,8 +522,8 @@
           multimode OM3 [2000 MHz*km] fiber. The value is in units of {{units}}.
           A value of 255 means that the transceiver supports a link length
           greater than 2.54 km. A value of zero means that the transceiver
-          does not support 50 micron multimode fiber or that the length information
-          must be determined from the transceiver Technology.
+          does not support 50 micron multimode OM3 fiber or that the length
+          information must be determined from the transceiver technology.
         </description>
         <syntax>
           <unsignedInt>
@@ -1539,7 +1539,7 @@
     </profile>
   </component>
 
-  <model name="SFP:2.19">
+  <model name="SFP:2.20">
     <component ref="Root"/>
     <component ref="SFP"/>
   </model>

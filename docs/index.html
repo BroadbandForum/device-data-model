@@ -273,7 +273,7 @@ Operations"/>
     </h1>
     <h2 class="project-tagline">TR-181 Documentation and Theory of
 Operations</h2>
-    <p>TR-181 Issue 2 Amendment 19 Corrigendum 1</p>
+    <p>TR-181 Issue 2 Amendment 20</p>
     <p></p>
     <div class="project-buttons">
       <a class="btn" href="index.htm" title="TR-181 Single-file
@@ -292,9 +292,9 @@ Model Template</a>
     <header id="title-block-header" class="cover-only">
       <h1 class="title auto-hoverlink" id="title">TR-181 – Device Data
 Model for CWMP Endpoints and USP Agents</h1>
-      <p class="subtitle">Issue: 2 Amendment 19 Corrigendum 1 <span
+      <p class="subtitle">Issue: 2 Amendment 20 <span
 class="release"></span></p>
-      <p class="date">Issue Date: April 2025</p>
+      <p class="date">Issue Date: November 2025</p>
     </header>
     <nav id="NAVTOP" role="doc-toc">
 <p><a href="#sec:cover-page">Cover Page</a> | <a
@@ -1478,6 +1478,7 @@ example</a></li>
 example</a></li>
 <li><a href="#fig:hybrid-access-example">Hybrid access example</a></li>
 <li><a href="#fig:device.wwc-objects">Device.WWC objects</a></li>
+<li><a href="#fig:device.pdu-objects">Device.PDU objects</a></li>
 <li><a href="#fig:device.fwe-objects">Device.FWE objects</a></li>
 <li><a href="#fig:logical-interfaces-problem-statement">Logical
 interfaces problem statement</a></li>
@@ -1868,6 +1869,15 @@ invalid data</li>
 model changes</li>
 </ul></td>
 </tr>
+<tr>
+<td style="text-align: left;"><a
+href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf">Issue
+2 Amendment 20</a></td>
+<td style="text-align: left;">November 2025</td>
+<td style="text-align: left;"><ul>
+<li>Recreate session management SVG images to match current state</li>
+</ul></td>
+</tr>
 </tbody>
 </table>
 <p>Comments or questions about this Broadband Forum Technical Report
@@ -1883,13 +1893,12 @@ id="sec:bbfworkarea-work-area-directors"> Work Area Directors</h3>
 id="sec:bbfprojectstream-project-stream-leaders"> Project Stream
 Leaders</h3>
 <ul>
-<li>Daniel Egger, Axiros</li>
+<li>Daniel Egger</li>
 <li>Matthieu Anne, Orange</li>
 </ul>
 <h3 class="unnumbered unlisted auto-hoverlink" data-info="header"
 id="sec:editors">Editors</h3>
 <ul>
-<li>David Woolley, Telstra</li>
 <li>William Lupton, Broadband Forum</li>
 </ul>
 <h3 class="unnumbered unlisted auto-hoverlink" data-info="header"
@@ -1898,22 +1907,35 @@ id="sec:acknowledgments">Acknowledgments</h3>
 <li>Al Morton, AT&amp;T</li>
 <li>Alexandre Abdo, Sagemcom</li>
 <li>André-Jean Côté, Snom</li>
+<li>Arun Jayaraman, AT&amp;T</li>
 <li>Barbara Stark, AT&amp;T</li>
 <li>Charles Foster, BT</li>
 <li>Chen Li, AT&amp;T</li>
 <li>Chris Gray, Orange</li>
-<li>Daniel Egger, Axiros</li>
+<li>Daniel Egger</li>
 <li>David Cluytens, Orange</li>
+<li>David Wooley, Telstra</li>
+<li>Gene Wang, Wistron NeWeb Corp.</li>
+<li>Jan Michielsens</li>
 <li>Jason Walls, QA Cafe</li>
+<li>Jef Maerien, Orange</li>
 <li>Johan Jacobs, Orange</li>
 <li>John Blackford, Vantiva</li>
-<li>Ken Kerpez, DZS</li>
+<li>Ken Kerpez, Futurewei</li>
 <li>Laurent Alarcon, Sagemcom</li>
+<li>Marc Sabater, MoCA Alliance</li>
 <li>Matthieu Anne, Orange</li>
+<li>Mike Talbert, Wistron NeWeb Corp.</li>
+<li>Nabil Bizid, Orange</li>
 <li>Patrick Rogier, Orange</li>
 <li>Ramesh Rajasekaran, Nokia</li>
 <li>Richard Holme, Vantiva</li>
+<li>Samuel Chen, Broadcom</li>
+<li>Srinivas Pappu, AT&amp;T</li>
+<li>Stephen [kiwin] Palm, Broadcom</li>
+<li>Thales Fragoso, Axiros</li>
 <li>Tim Spets, Nokia</li>
+<li>Vimal Kumar, Capgemini</li>
 <li>William Lupton, BBF</li>
 </ul>
 </section>
@@ -2188,10 +2210,10 @@ to Ethernet-Based Broadband Aggregation</a></em>, Broadband Forum,
 </div>
 <div id="ref-TR-106" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[4] </div><div
-class="csl-right-inline">TR-106 Amendment 14, <em><a
-href="https://www.broadband-forum.org/download/TR-106_Amendment-14.pdf">Data
+class="csl-right-inline">TR-106 Amendment 15, <em><a
+href="https://www.broadband-forum.org/download/TR-106_Amendment-15.pdf">Data
 Model Template for CWMP Endpoints and USP Agents</a></em>, Broadband
-Forum, 2024</div>
+Forum, 2025</div>
 </div>
 <div id="ref-TR-124" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[5] </div><div
@@ -3143,20 +3165,17 @@ Impact</h1>
 </ul>
 <h2 class="auto-hoverlink" data-info="header"
 id="sec:energy-efficiency">3.1 Energy Efficiency</h2>
-<p>TR-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on Energy
-Efficiency.</p>
+<p>TR-181 Issue 2 Amendment 20 has no impact on Energy Efficiency.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:ipv6">3.2
 IPv6</h2>
-<p>TR-181 Issue 2 Amendment 19 Corrigendum 1 defines IPv6 extensions
-(introduced in Issue 2 Amendment 2) to the Device:2 data model.</p>
+<p>TR-181 Issue 2 Amendment 20 defines IPv6 extensions (introduced in
+Issue 2 Amendment 2) to the Device:2 data model.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:security">3.3
 Security</h2>
-<p>TR-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on
-Security.</p>
+<p>TR-181 Issue 2 Amendment 20 has no impact on Security.</p>
 <h2 class="auto-hoverlink" data-info="header" id="sec:privacy">3.4
 Privacy</h2>
-<p>TR-181 Issue 2 Amendment 19 Corrigendum 1 has no impact on
-Privacy.</p>
+<p>TR-181 Issue 2 Amendment 20 has no impact on Privacy.</p>
 </section>
 <section id="sec:architecture"
 class="new-page auto-hoverlink new-section hidden" data-info="header">
@@ -13279,6 +13298,14 @@ destination IP and ports.</td>
 </tr>
 </tbody>
 </table>
+<figure id="fig:device.pdu-objects">
+<img src="images/device.pdu-objects.png" id="img:device.pdu-objects"
+alt="Device.PDU objects" />
+<figcaption><div class="auto-hoverlink"
+data-anchor="fig:device.pdu-objects">
+Figure 84 – Device.PDU objects
+</div></figcaption>
+</figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
 id="sec:device.fwe">XXI.4.2.3 Device.FWE</h4>
 <p>5G Wireless Wireline Convergence User Plane Encapsulation <span
@@ -13326,7 +13353,7 @@ protocol.</td>
 alt="Device.FWE objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.fwe-objects">
-Figure 84 – Device.FWE objects
+Figure 85 – Device.FWE objects
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -13857,7 +13884,7 @@ id="img:logical-interfaces-problem-statement"
 alt="Logical interfaces problem statement" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:logical-interfaces-problem-statement">
-Figure 85 – Logical interfaces problem statement
+Figure 86 – Logical interfaces problem statement
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -13907,7 +13934,7 @@ id="img:solution-using-logical-interfaces" data-typst-scale="0.6"
 alt="Solution using logical interfaces" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:solution-using-logical-interfaces">
-Figure 86 – Solution using logical interfaces
+Figure 87 – Solution using logical interfaces
 </div></figcaption>
 </figure>
 <h2 class="appendix2 auto-hoverlink" data-info="header"
@@ -14184,7 +14211,7 @@ data-typst-scale="0.6"
 alt="Logical interfaces example: IPv4 and IPv6 are on different network interface" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:logical-interfaces-example-ipv4-and-ipv6-are-on-different-network-interface">
-Figure 87 – Logical interfaces example: IPv4 and IPv6 are on different
+Figure 88 – Logical interfaces example: IPv4 and IPv6 are on different
 network interface
 </div></figcaption>
 </figure>
@@ -14619,7 +14646,7 @@ destination IP and ports.</td>
 id="img:device.wwc-objects-1" alt="Device.WWC objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.wwc-objects-1">
-Figure 88 – Device.WWC objects
+Figure 89 – Device.WWC objects
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -14704,7 +14731,7 @@ a PDU session will be established on</td>
 alt="Device.WWC objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.wwc-objects-2">
-Figure 89 – Device.WWC objects
+Figure 90 – Device.WWC objects
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -14754,7 +14781,7 @@ protocol.</td>
 alt="Device.FWE objects" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:device.fwe-objects-1">
-Figure 90 – Device.FWE objects
+Figure 91 – Device.FWE objects
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"
@@ -14787,7 +14814,7 @@ remains unchanged on a 5G-RG.</p>
 id="img:fixed-access-only-example-1" alt="Fixed access only example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:fixed-access-only-example-1">
-Figure 91 – Fixed access only example
+Figure 92 – Fixed access only example
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -14806,7 +14833,7 @@ id="img:cellular-access-only-example-1"
 alt="Cellular access only example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:cellular-access-only-example-1">
-Figure 92 – Cellular access only example
+Figure 93 – Cellular access only example
 </div></figcaption>
 </figure>
 <h4 class="appendix4 auto-hoverlink" data-info="header"
@@ -14827,7 +14854,7 @@ moment). All LAN traffic remains unchanged on a 5G-RG.</p>
 id="img:hybrid-access-example-1" alt="Hybrid access example" />
 <figcaption><div class="auto-hoverlink"
 data-anchor="fig:hybrid-access-example-1">
-Figure 93 – Hybrid access example
+Figure 94 – Hybrid access example
 </div></figcaption>
 </figure>
 <h3 class="appendix3 auto-hoverlink" data-info="header"

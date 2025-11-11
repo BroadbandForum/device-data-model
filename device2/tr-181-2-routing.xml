@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-routing"
-    file="tr-181-2-19-0-routing.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-routing"
+    file="tr-181-2-20-0-routing.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,12 +71,16 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
-  <component name="Routing">
+  <import file="tr-181-2-ip.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-ip">
+    <component name="IPVersion"/>
+  </import>
 
+  <component name="Routing">
     <object name="Device.Routing." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
@@ -93,6 +97,16 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+
+      <parameter name="PolicyNumberOfEntries" access="readOnly" version="2.20">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
     </object>
 
     <object name="Device.Routing.Router.{i}." access="readWrite"
@@ -102,9 +116,38 @@
         This object allows the handling of the routing and forwarding
         configuration of the device.
       </description>
+
+      <uniqueKey functional="true">
+        <parameter ref="ID"/>
+      </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <parameter name="ID" access="readOnly" version="2.20">
+        <description>
+          The identifier of the routing table, as defined by the system upon creation.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="255"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite" version="2.20">
+        <description>
+          The name of the routing table.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
 
       <parameter name="Enable" access="readWrite">
         <description>
@@ -199,6 +242,8 @@
       <uniqueKey functional="true">
         <parameter ref="DestIPAddress"/>
         <parameter ref="DestSubnetMask"/>
+        <parameter ref="SourceIPAddress"/>
+        <parameter ref="SourceSubnetMask"/>
         <parameter ref="ForwardingPolicy"/>
         <parameter ref="GatewayIPAddress"/>
         <parameter ref="Interface"/>
@@ -323,6 +368,33 @@
         </syntax>
       </parameter>
 
+      <parameter name="SourceIPAddress" access="readWrite" version="2.20">
+        <description>
+          Source IPv4 address is a filter to the packets for which the route applies. {{empty}}
+          indicates no source address is specified.
+        </description>
+        <syntax>
+          <dataType ref="IPv4Address"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceSubnetMask" access="readWrite" version="2.20">
+        <description>
+          Source subnet mask. {{empty}} indicates no source subnet mask
+          is specified.
+
+          If a source subnet mask is specified, the {{param}} is ANDed
+          with the source address before comparing with the
+          {{param|SourceIPAddress}}. Otherwise, the full source address is
+          used as is.
+        </description>
+        <syntax>
+          <dataType ref="IPv4Address"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
       <parameter name="ForwardingPolicy" access="readWrite">
         <description>
           Identifier of a set of classes or flows that have the corresponding
@@ -421,6 +493,26 @@
             <range minInclusive="-1"/>
           </int>
           <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MTU" access="readWrite" version="2.20">
+        <description>
+          Maximum Transmission Unit for this route (expressed in
+          {{units}}).
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of -1 indicates no {{param}} is specified.
+              </description>
+            </range>
+            <range minInclusive="576"/>
+          </unsignedInt>
         </syntax>
       </parameter>
     </object>
@@ -559,6 +651,42 @@
         </syntax>
       </parameter>
 
+      <parameter name="SourceIPPrefix" access="readWrite" version="2.20">
+        <description>
+          Source IPv6 prefix. {{empty}} indicates that it matches all
+          source prefixes. All bits to the
+          right of the prefix MUST be zero, e.g. 2001:edff:fe6a:f76::/64.
+
+          Routes with a 128-bit prefix length (/128) are host routes for a
+          specific IPv6 source, e.g.
+          2001:db8:28:2:713e:a426:d167:37ab/128.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Prefix"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MTU" access="readWrite" version="2.20">
+        <description>
+          Maximum Transmission Unit for this route (expressed in
+          {{units}}).
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                A value of -1 indicates no {{param}} is specified.
+              </description>
+            </range>
+            <range minInclusive="1280"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
       <parameter name="ForwardingPolicy" access="readWrite">
         <description>
           Identifier of a set of classes or flows that have the corresponding
@@ -680,6 +808,248 @@
         <syntax>
           <dateTime/>
           <default type="object" value="9999-12-31T23:59:59Z"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Routing.Policy.{i}." access="readWrite"
+        numEntriesParameter="PolicyNumberOfEntries" enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        Routing policy table.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this {{object}} table entry.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <component ref="Alias"/>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this {{object}} table entry.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured" optional="true"/>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RouterRef" access="readWrite">
+        <description>
+          {{reference}} Specify the routing table to use for traffic matching
+          criterion.  Example: Device.Routing.Router.1.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="#.Router."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Priority" access="readWrite">
+        <description>
+          The priority of this {{object}} table entry,
+          determining the order in which rules are processed.
+
+          A lower numerical value indicates higher precedence,
+          meaning rules are evaluated in increasing order of priority.
+
+          A value of 0 represents the highest precedence.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <component ref="IPVersion" version="2.20"/>
+
+      <parameter name="Protocol" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          Protocol number. A value of -1 indicates this criterion is not used
+          for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="255"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceInterface" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          {{reference}} Specify the ingress interface the packet is coming
+          from. Example: Device.IP.Interface.1.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestInterface" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          {{reference}} Specify the egress interface the packet is sent
+          to. Example: Device.IP.Interface.1.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.IP.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourceIPPrefix" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          Source IP address prefix, represented as an IP routing prefix
+          using CIDR notation (defined in {{bibref|RFC4632}}).
+
+          The IP version of {{param|IPVersion}} determines whether
+          {{param}} is interpreted as an IPv4 or IPv6 prefix.
+
+          An {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <dataType ref="IPPrefix"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestIPPrefix" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          Destination IP address prefix, represented as an IP routing prefix
+          using CIDR notation (defined in {{bibref|RFC4632}}).
+
+          The IP version of {{param|IPVersion}} determines whether
+          {{param}} is interpreted as an IPv4 or IPv6 prefix.
+
+          An {{empty}} indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <dataType ref="IPPrefix"/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourcePort" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          Source port number. A value of -1 indicates this criterion is not
+          used for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SourcePortRangeMax" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          If specified, indicates the {{object}} criterion is to include the
+          port range from {{param|SourcePort}} through {{param}} (inclusive).
+          If specified, {{param}} MUST be greater than or equal to
+          {{param|SourcePort}}.
+
+          A value of -1 indicates that no port range is specified.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestPort" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          Destination port number. A value of ''-1'' indicates this criterion
+          is not used for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="DestPortRangeMax" access="readWrite">
+        <description>
+          {{object}} criterion.
+
+          If specified, indicates the {{object}} criterion is to include the
+          port range from {{param|DestPort}} through {{param}} (inclusive).
+          If specified, {{param}} MUST be greater than or equal to
+          {{param|DestPort}}.
+
+          A value of -1 indicates that no port range is specified.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ForwardingPolicy" access="readWrite">
+        <description>
+          Identifier of a set of classes or flows that have the corresponding
+          {{param}} value as defined in the {{object|.QoS}} object.
+
+          A value of -1 indicates no {{param}} is specified.
+
+          If specified, this {{object}} entry is to apply only to traffic
+          associated with the specified classes and flows.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
         </syntax>
       </parameter>
     </object>
@@ -2176,7 +2546,7 @@
     </profile>
   </component>
 
-  <model name="Routing:2.19">
+  <model name="Routing:2.20">
     <component ref="Root"/>
     <component ref="Routing"/>
     <component ref="BabelRoutingProtocol"/>

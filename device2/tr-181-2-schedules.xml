@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-18-0-schedules"
-  file="tr-181-2-18-0-schedules.xml">
+  spec="urn:broadband-forum-org:tr-181-2-20-0-schedules"
+  file="tr-181-2-20-0-schedules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,14 +65,14 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-16-root">
+    spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
-  <component name="ScheduleRef">
+  <component name="ScheduleRefNoDefault">
     <parameter name="ScheduleRef" access="readWrite" version="2.18">
       <description>
-        Each reference provides a schedule where time based access can be enabled.
+        Each reference provides a time schedule that controls when the associated feature or resource is active or inactive.
         When {{param}} is {{empty}} the {{object}} is not scheduled, and the {{param|Enable}} defines the operational state.
       </description>
       <syntax>
@@ -80,6 +80,16 @@ directed to <info@broadband-forum.org>.
         <string>
           <pathRef refType="strong" targetParent=".Schedules.Schedule." targetType="row"/>
         </string>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="ScheduleRef">
+    <component ref="ScheduleRefNoDefault"/>
+    <parameter base="ScheduleRef">
+      <syntax>
+        <list/>
+        <string/>
         <default type="object" value="[]"/>
       </syntax>
     </parameter>
@@ -118,8 +128,7 @@ directed to <info@broadband-forum.org>.
       enableParameter="Enable" minEntries="0" maxEntries="unbounded"
       version="2.18">
       <description>
-        Each instance of this object provides a schedule where access is
-        enabled.
+        Represents a schedule that can be applied to a feature or resource.
       </description>
 
       <uniqueKey functional="false">
@@ -171,7 +180,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Day" access="readWrite">
         <description>
-          {{list|the days for which access is enabled}} {{enum}}
+          {{list|the days on which the schedule is active}} {{enum}}
         </description>
         <syntax>
           <list/>
@@ -206,14 +215,14 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Duration" access="readWrite">
         <description>
-          The duration, in {{units}}, which the access is enabled.
+          The duration, in {{units}}, for which the associated schedule is active.
 
-          If the {{param|StartTime}} is not defined, duration is the total time
-          access is allowed during a calendar day.
+          If {{param|StartTime}} is not defined, this duration represents the total time the schedule
+          is active during a calendar day.
 
-          If a {{param|StartTime}} is defined, access is allowed for the
-          {{param}} period starting from {{param|StartTime}}.
-        </description>
+          If {{param|StartTime}} is defined, the schedule is active for the specified
+          duration starting from {{param|StartTime}}.
+          </description>
         <syntax>
           <unsignedInt>
             <range minInclusive="1"/>
@@ -224,9 +233,15 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="InverseMode" access="readWrite">
         <description>
-          When enabled, the Inverse Mode reverses the default behavior of the
-          schedule, creating a dynamic where actions that are typically activated
-          are now deactivated, and vice versa.
+          When enabled, this parameter inverts the behavior of the associated schedule.
+          Actions that would normally be active during the defined schedule are instead inactive,
+          and actions that would normally be inactive are instead active.
+
+          For example: If a schedule defines Internet access on Monday from 16:00 to 17:00:
+          * With {{param}} = {{false}}, Internet access is permitted only between 16:00 and 17:00 on
+          Monday.
+          * With {{param}} = {{true}}, Internet access is permitted at all times except between
+          16:00 and 17:00 on Monday.
         </description>
         <syntax>
           <boolean/>
@@ -262,7 +277,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="GenericSchedules:2.18">
+  <model name="GenericSchedules:2.20">
     <component ref="Root"/>
     <component ref="Schedules"/>
   </model>

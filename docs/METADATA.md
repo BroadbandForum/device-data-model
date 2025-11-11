@@ -164,6 +164,10 @@
   - * Re-export some SVG images to address rendering artefacts from invalid data
     * Adjust the data model paths in the examples to match the recent data model changes
 
+* - [Issue 2 Amendment 20][TR-181 Issue 2 Amendment 20]
+  - November 2025
+  - * Recreate session management SVG images to match current state
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
@@ -175,12 +179,11 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
-* Daniel Egger, Axiros
+* Daniel Egger
 * Matthieu Anne, Orange
 
 ### Editors {.unnumbered .unlisted}
 
-* David Woolley, Telstra
 * William Lupton, Broadband Forum
 
 ### Acknowledgments {.unnumbered .unlisted}
@@ -188,22 +191,35 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 * Al Morton, AT&T
 * Alexandre Abdo, Sagemcom
 * André-Jean Côté, Snom
+* Arun Jayaraman, AT&T
 * Barbara Stark, AT&T
 * Charles Foster, BT
 * Chen Li, AT&T
 * Chris Gray, Orange
-* Daniel Egger, Axiros
+* Daniel Egger
 * David Cluytens, Orange
+* David Wooley, Telstra
+* Gene Wang, Wistron NeWeb Corp.
+* Jan Michielsens
 * Jason Walls, QA Cafe
+* Jef Maerien, Orange
 * Johan Jacobs, Orange
 * John Blackford, Vantiva
-* Ken Kerpez, DZS
+* Ken Kerpez, Futurewei
 * Laurent Alarcon, Sagemcom
+* Marc Sabater, MoCA Alliance
 * Matthieu Anne, Orange
+* Mike Talbert, Wistron NeWeb Corp.
+* Nabil Bizid, Orange
 * Patrick Rogier, Orange
 * Ramesh Rajasekaran, Nokia
 * Richard Holme, Vantiva
+* Samuel Chen, Broadcom
+* Srinivas Pappu, AT&T
+* Stephen [kiwin] Palm, Broadcom
+* Thales Fragoso, Axiros
 * Tim Spets, Nokia
+* Vimal Kumar, Capgemini
 * William Lupton, BBF
 
 [TR-181 Issue 1]: https://www.broadband-forum.org/download/TR-181_Issue-1.pdf
@@ -220,6 +236,7 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 [TR-181 Issue 2 Amendment 19]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19.pdf
 [TR-181 Issue 2 Amendment 19 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
+[TR-181 Issue 2 Amendment 20]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
 [TR-181 Issue 2 Amendment 7]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf

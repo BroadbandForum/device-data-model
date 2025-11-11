@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [UPnP]
 
-  Copyright (c) 2010-2020, Broadband Forum
+  Copyright (c) 2010-2025, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-16-0-upnp"
-    file="tr-181-2-16-0-upnp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-upnp"
+    file="tr-181-2-20-0-upnp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -1286,6 +1286,81 @@
       </parameter>
     </object>
 
+    <object name="Device.UPnP.Device.IGD." access="readOnly" minEntries="1" maxEntries="1"
+      version="2.20">
+      <description>
+        When {{param|#.UPnPIGD}} is set to {{true}}, this object defines the configuration
+        parameters of the UPnP-IGD service embedded in the device.         
+      </description>
+    
+      <parameter name="MaxLeaseLifetime" access="readWrite">
+        <description>
+          Specifies the maximum duration, in {{units}}, for a UPnP-IGD port mapping lease that the
+          UPnP-IGD service will grant. When a UPnP control point requests a lease duration exceeding
+          this value, the UPnP-IGD service will still grant the port mapping request, but the actual
+          lease lifetime will be capped at this value. Once this maximum lifetime expires, the port
+          mapping will be automatically removed.
+          
+          A value of 0 indicates no {{param}} is specified.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+          <default type="implementation" value="86400"/>
+        </syntax>
+      </parameter>
+    
+      <parameter name="CleanupInterval" access="readWrite">
+        <description>
+          Specifies the interval, in {{units}}, at which the Device's UPnP-IGD service
+          automatically cleans up inactive UPnP port mappings.
+
+          A port mapping is typically considered inactive if no network traffic has been observed
+          traversing it for a predefined timeout period, which is an implementation-specific value
+          within the UPnP-IGD service. During the cleanup process, mappings that meet this
+          inactivity criteria are removed.
+
+          A value of ''0'' disables this automatic cleanup mechanism, causing port mappings
+          to persist until explicitly removed by the control point or the UPnP-IGD service restarts.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds" />
+          </unsignedInt>
+          <default type="implementation" value="0" />
+        </syntax>
+      </parameter>
+      
+      <parameter name="AllowReservedAddress" access="readWrite">
+        <description>
+          Indicates whether the Device allows port forwarding requests from
+          UPnP control points even when the external (WAN) interface of the IGD has a private or
+          reserved IPv4 address.
+
+          When set to {{true}}, the IGD service will process and attempt to establish port mappings despite
+          having a non-public IP address on its WAN interface. 
+
+          When set to {{false}}, the IGD will prevent the establishment of port mappings if it
+          detects a private or reserved IP address on its WAN interface. 
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="EnableIPv6" access="readWrite">
+        <description>
+          Enables or disables IPv6 support for the UPnP IGD service. 
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="false" />
+        </syntax>
+       </parameter>
+    </object>
+
     <profile name="UPnPDev:1" version="2.0">
       <object ref="Device.UPnP." requirement="present"/>
       <object ref="Device.UPnP.Device." requirement="present">
@@ -1360,7 +1435,7 @@
     </profile>
   </component>
 
-  <model name="UPnP:2.16">
+  <model name="UPnP:2.20">
     <component ref="Root"/>
     <component ref="UPnP"/>
   </model>

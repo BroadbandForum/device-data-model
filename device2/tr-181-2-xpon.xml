@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-xpon"
-    file="tr-181-2-19-0-xpon.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-xpon"
+    file="tr-181-2-20-0-xpon.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,17 +67,22 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="BaseInterfaceParams"/>
     <component name="Layer1InterfaceParams"/>
     <component name="BaseInterfaceStats"/>
     <component name="Layer1InterfaceStats"/>
     <component name="Layer2InterfaceStats"/>
+  </import>
+
+  <import file="tr-181-2-powermanagement.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    <component name="PowerManagement"/>
   </import>
 
   <component name="EthernetUNI">
@@ -154,6 +159,8 @@
           <boolean/>
         </syntax>
       </parameter>
+
+      <component ref="PowerManagement" version="2.20"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -573,6 +580,186 @@
             <pathRef refType="strong" targetParent="###.SFPs.SFPCage."
                 targetType="row"/>
           </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.XPON.ONU.{i}.PowerManagement." access="readOnly"
+        version="2.20">
+      <description>
+        This object models the power reduction management capabilities of the
+        ONU. It is based on {{bibref|G.988|Section 9.1.14 ONU dynamic power
+        management control}}.
+
+        When {{param|OLTSleepAllow}} is true then the ONU is allowed to enter a low power state.
+      </description>
+
+      <parameter name="PowerReductionManagementCapability" access="readOnly">
+        <description>
+          This parameter indicates the sleep mode capability of the {{object}}. 
+
+          This parameter is based on {{bibref|G.988|Section 9.1.14 ONU dynamic power management control}}.
+
+          An {{empty}} string indicates that no capabilities are supported.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="WatchfulSleepMode"/>
+            <enumeration value="DozeMode"/>
+            <enumeration value="CyclicSleepMode"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="OLTSleepAllow" access="readOnly">
+        <description>
+          This parameter indicates that the ONU is allowed, by the OLT, to apply
+          the power reduction mode.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PowerReductionManagementStatus" access="readOnly">
+        <description>
+            This parameter indicates the current power reduction management status of the ONU.
+
+            The ONU can be in one of the following states: {{enum}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Active">
+                <description>
+                    The ONU is fully operational and not in a low power state
+                </description>
+            </enumeration>
+            <enumeration value="WatchfulSleepMode">
+                <description>
+                    The ONU is in Low Power Watchful Sleep Mode
+                </description>
+            </enumeration>
+            <enumeration value="DozeMode">
+                <description>
+                    The ONU is in Low Power Doze Mode
+                </description>
+            </enumeration>
+            <enumeration value="CyclicSleepMode">
+                <description>
+                    The ONU is in Low Power Sleep Mode
+                </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ITransInit" access="readOnly">
+        <description>
+          Optical Network Unit (ONU) vendor's statement of the complete
+          transceiver initialization time: the worst-case time required for the
+          ONU to regain full functionality when leaving the asleep state (i.e.,
+          turning on both the receiver and the transmitter and acquiring
+          synchronization to the downstream flow), measured in units of
+          {{units}}. The value zero indicates that the sleeping ONU can respond
+          to a bandwidth grant without delay.
+
+          Reference {{bibref|G.988|Section 9.1.14 ONU dynamic power
+          management control}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="ITxInit" access="readOnly">
+        <description>
+          This parameter is the Optical Network Unit (ONU) vendor's
+          statement of the transmitter initialization time: the time
+          required for the ONU to regain full functionality when
+          leaving the listen state (i.e., turning on the
+          transmitter), measured in units of {{units}}.
+          The value zero indicates that the dozing ONU can
+          respond to a bandwidth grant without delay.
+
+          Reference {{bibref|G.988|Section 9.1.14 ONU dynamic power
+          management control}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxSleepInterval" access="readOnly">
+        <description>
+          The Isleep/Ilowpower attribute specifies the maximum time the ONU spends in its asleep,
+          listen, or low-power states, as a count of {{units}}. Local or remote events may
+          truncate the ONU's sojourn in these states. The default value of this attribute is 0. 
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinAwareInterval" access="readOnly">
+        <description>
+          The Iaware attribute specifies the time the ONU spends in its aware state, as a count of
+          {{units}}, before it re-enters asleep or listen states. Local or remote events may
+          independently cause the ONU to enter an active state rather than returning to a sleep
+          state. The default value of this attribute is 0.
+
+          Reference {{bibref|G.988|Section 9.1.14 ONU dynamic power
+          management control}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinActiveHeldInterval" access="readOnly">
+        <description>
+          The Ihold attribute specifies the minimum time during which the ONU remains in the active
+          held state, as a count of {{units}}. Its initial value is zero.
+
+          Reference {{bibref|G.988|Section 9.1.14 ONU dynamic power
+          management control}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxSleepIntervalExtension" access="readOnly">
+        <description>
+          This parameter designates maximum sleep interval values for doze mode and cyclic sleep
+          mode separately. When it supports this attribute, the ONU ignores the value of the maximum
+          sleep interval attribute. Maximum sleep interval for doze mode and cyclic sleep mode are
+          both 4 bytes.
+          Maximum sleep interval for doze mode specifies the maximum time the ONU spends in its
+          listen state, as a count of {{units}}. Local or remote events may truncate the ONU's
+          sojourn in these states. The default value is 0.
+          Maximum sleep interval for cyclic sleep mode specifies the maximum time the ONU spends in
+          its asleep state, as a count of {{units}}. Local or remote events may truncate the
+          ONU's sojourn in these states. The default value is 0. If watchful sleep is enabled, the
+          ONU ignores this attribute. 
+
+          Reference {{bibref|G.988|Section 9.1.14 ONU dynamic power
+          management control}}
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="125 microsecond PHY frames"/>
+          </unsignedLong>
         </syntax>
       </parameter>
     </object>
@@ -1806,7 +1993,7 @@
 
   </component>
 
-  <model name="XPON:2.19">
+  <model name="XPON:2.20">
     <component ref="Root"/>
     <component ref="XPON"/>
   </model>

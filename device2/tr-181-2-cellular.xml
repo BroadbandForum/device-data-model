@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-cellular"
-    file="tr-181-2-19-0-cellular.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-cellular"
+    file="tr-181-2-20-0-cellular.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,17 +67,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="Layer12InterfaceNoMaxBitRate"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-ip">
+    spec="urn:broadband-forum-org:tr-181-2-20-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -213,11 +213,15 @@
       <parameter name="CurrentAccessTechnology" access="readOnly">
         <description>
           Access technology that is currently in use.
+          
+          Note: The ''Unknown'' value was added in Device:2.20.
         </description>
         <syntax>
           <string>
-            <enumerationRef targetParam="SupportedAccessTechnologies"/>
+            <enumerationRef targetParam="SupportedAccessTechnologies"
+              nullValue="Unknown"/>
           </string>
+          <default type="factory" value="Unknown"/>
         </syntax>
       </parameter>
 
@@ -324,6 +328,37 @@
           <int>
             <units value="dBm"/>
           </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="Mode" access="readOnly" version="2.20">
+        <description>
+          The current NR mode being used.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>NR mode is unknown</description>
+            </enumeration>
+            <enumeration value="Standalone">
+              <description>
+                NR is operating in standalone mode.
+
+                This mode is only valid when the
+                {{param|SupportedAccessTechnologies}} is equal to
+                {{enum|NR|SupportedAccessTechnologies}}.
+              </description>
+            </enumeration>
+            <enumeration value="NonStandalone">
+              <description>
+                NR is operating in non-standalone mode.
+
+                This mode is only valid when the
+                {{param|SupportedAccessTechnologies}} is equal to
+                {{enum|NR|SupportedAccessTechnologies}}.
+              </description>
+            </enumeration>
+          </string>
         </syntax>
       </parameter>
 
@@ -1005,7 +1040,7 @@
     </profile>
   </component>
 
-  <model name="Cellular:2.19">
+  <model name="Cellular:2.20">
     <component ref="Root"/>
     <component ref="Cellular"/>
   </model>

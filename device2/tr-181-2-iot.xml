@@ -55,19 +55,19 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-iot"
-    file="tr-181-2-19-0-iot.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-iot"
+    file="tr-181-2-20-0-iot.xml">
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
   </import>
 
-  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-16-root">
+  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <dataType name="IoTUnitType">
     <description>
-      Possible Unit types used for decimal values. {{enum}}
+      Possible Unit types used for decimal values.
     </description>
     <string>
       <!-- Numeric-->
@@ -202,6 +202,10 @@
       <enumeration value="lx">
         <description>Lux [SI]</description>
       </enumeration>
+      <!-- binary multiples -->
+      <enumeration value="byte">
+        <description>1 byte = 8 bits</description>
+      </enumeration>
       <!-- Misc -->
       <enumeration value="mps">
         <description>Meter per second</description>
@@ -266,6 +270,34 @@
       <enumeration value="eV" version="2.19">
         <description>
           Electron Volt
+        </description>
+      </enumeration>
+      <enumeration value="var" version="2.20">
+        <description>
+          var: (IEC symbol): reactive power (volt-ampere-reactive). 
+          It represents the electrical power that flows back and forth between the phase conductors and the neutral conductor of a three-phase network, but does not perform any mechanical work.
+        </description>
+      </enumeration>
+      <enumeration value="VA" version="2.20">
+        <description>
+          VA: (SI symbol) apparent power: unit of measurement for electrical power. 
+          It represents the total available power in a alternating current system. It is made of the active power (W) and the reactive power (var).
+        </description>
+      </enumeration>
+      <enumeration value="PF" version="2.20">
+        <description>
+          PF: (Power Factor: In AC power system it is defined as the ratio of the real power absorbed by the load to the apparent power flowing in the circuit. 
+          It is important the the power factor should be as close to "1.0" as possible. It is generally expressed as a decimal value or as a percentage.
+        </description>
+      </enumeration>
+      <enumeration value="dateTime" version="2.20">
+        <description>
+          A timestamp in dateTime format (the subset of the ISO 8601 date-time format defined by the SOAP dateTime type).
+        </description>
+      </enumeration>
+      <enumeration value="bps" version="2.20">
+        <description>
+          bps: bits per second
         </description>
       </enumeration>
     </string>
@@ -354,8 +386,7 @@
 
   <dataType name="IoTEnumSensorType">
     <description>
-      Describes the type of IoT Enum Sensor that the {{object}} instance is
-      representing. {{enum}}
+      Describes the type of IoT Enum Sensor type the {{object}} instance is representing.
     </description>
     <string>
       <enumeration value="AlarmState"/>
@@ -392,6 +423,19 @@
         <enumeration value="yaml"/>
     </string>
  </dataType>
+ 
+  <dataType name="IoTPulseType">
+   <description>
+     Describes the type of pulse that the {{object}}
+     instance is representing. {{enum}}
+   </description>
+   <string>
+     <enumeration value="PushButton"/>
+     <enumeration value="MagneticContact"/>
+     <enumeration value="ElectronicLock"/>
+     <enumeration value="MotionTrigger"/>
+   </string>
+  </dataType>
 
   <component name="IoT_NodeComponent">
 
@@ -585,14 +629,26 @@
             <enumeration value="BinaryControl"/>
             <enumeration value="LevelControl"/>
             <enumeration value="EnumControl"/>
+            <enumeration value="PulseControl" version="2.20"/>
             <enumeration value="BinarySensor"/>
             <enumeration value="LevelSensor"/>
             <enumeration value="MultiLevelSensor"/>
             <enumeration value="EnumSensor"/>
             <enumeration value="BlobSensor" version="2.19"/>
+            <enumeration value="PulseSensor" version="2.20"/>
           </string>
         </syntax>
       </parameter>
+
+      <parameter name="BindingNumberOfEntries" access="readOnly" version="2.20">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
     </object>
 
     <object name="IoTCapability.{i}.BinaryControl." access="readOnly"
@@ -768,7 +824,7 @@
 
       <parameter name="Description" access="readOnly">
         <description>
-          Human-readable description of the {{object}}. e.g. a more detailed
+          Human-readable description of the {{object}}. For example, a more detailed
           description of {{param|Type}}.
         </description>
         <syntax>
@@ -812,6 +868,113 @@
           enum.
         </description>
       </command>
+    </object>
+
+    <object name="IoTCapability.{i}.PulseControl." access="readOnly"
+       minEntries="0" maxEntries="1" discriminatorParameter="Class"
+       version="2.20">
+      <description>
+        {{object}} provides information to an actuator that sensor changed from one state to another state.
+        In addition to the state change, the {{object}} can provide additional information about the type of transition via {{param|Transition}} and the pulse duration via {{param|Duration}}.
+      </description>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="IoTPulseType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readOnly">
+        <description>
+          Human-readable description of the {{object}}. For example, a more detailed
+          description of {{param|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Duration" access="readWrite" mandatory="true">
+        <description>
+          Some {{object}} instances can provide a duration together with the latest state change.
+          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its orignal state.
+          The original state can be a low state or high state.
+        </description>
+        <syntax>
+            <unsignedInt>
+               <range minInclusive="1"/>
+               <units value="milliseconds"/>
+            </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Transition" access="readWrite" mandatory="true">
+        <description>
+          Indicates the moment a pulse is generated. This can be a
+          {{enum|RisingEdge}} transition: in case the sensor changes from low to high state.
+          {{enum|FallingEdge}} transition: in case the sensor changes from high to low state.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="RisingEdge">
+              <description>
+                The sensor changes from low to high state.
+              </description>
+            </enumeration>
+            <enumeration value="FallingEdge">
+              <description>
+                The sensor changes from high to low state.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <command name="TransitionHigh()" async="false">
+        <description>
+          Generate a Pulse with a {{enum|RisingEdge|Transition}} transition for a duration of {{param|Duration}}.
+        </description>
+        <input>
+          <parameter name="Duration" mandatory="true">
+            <description>
+               Time between the start of the state change and the return to its original state. {{param}} is measured in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <range minInclusive="1"/>
+                    <units value="milliseconds"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="TransitionLow()" async="false">
+        <description>
+          Generate a Pulse with a {{enum|FallingEdge|Transition}} transition for a duration of {{param|Duration}}.
+        </description>
+        <input>
+
+          <parameter name="Duration" mandatory="true">
+            <description>
+                Time between the start of the state change and the return to its original state. {{param}} is measured in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <range minInclusive="1"/>
+                    <units value="milliseconds"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+
+        </input>
+      </command>
+
     </object>
 
     <object name="IoTCapability.{i}.BinarySensor." access="readOnly"
@@ -1271,6 +1434,170 @@
         </parameter>
     </object>
 
+    <object name="IoTCapability.{i}.Binding.{i}." access="readWrite"
+        minEntries="0" maxEntries="unbounded"
+        numEntriesParameter="BindingNumberOfEntries" version="2.20">
+
+      <description>
+        This {{object}} only exists in a Sensor IoTCapability.
+        Adding a {{object}} instance to a Control IoTCapability MUST fail.
+        Each entry in this table describes the link between this Sensor IoTCapability and a specific Control IoTCapability.
+
+        When a Sensor IoT Capability is bound to a Control IoT Capability, then for each Value parameter updates of the Sensor IoTCapability, the Agent evaluates the needs to update the Value parameter of the bound Control IoTCapability.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="FriendlyName" access="readWrite">
+        <description>
+          Friendly name for this binding.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          Description of the binding's intent and function.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          When {{true}}, the binding is active; otherwise, no data flow occurs and the Value parameter of {{param|ControlIoTCapability}} is not updated. 
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ControlIoTCapability" access="readWrite">
+        <description>
+          A valid {{param}} is a reference to a Control IoTCapability in the {{object|##.IoTCapability}} table.
+          Setting {{param}} to a Sensor IoTCapability MUST fail.
+          It references the Control IoTCapability to use as the binding destination on which the Agent updates the Value parameter.
+          As a mountable object {{object|##.IoTCapability}} may also be mounted on one of the following mountpoints:
+          * {{object|##.Node.{i}.}},
+          * {{object|##.ProxiedDevice.{i}.}},
+          * {{object|##.ProxiedDevice.{i}.Node.{i}.}}
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="##.IoTCapability." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="IoTCapability.{i}.PulseSensor." access="readOnly"
+      minEntries="0" maxEntries="1" discriminatorParameter="Class"
+      version="2.20">
+      <description>
+        A {{object}} is used to reflect the functionality of a sensor that changed state from low to high or high to low.
+        A {{object}} provides a trigger on the rising edge of this state change, which is identified by {{param|Transition}}.
+        Some {{object}} instances have the possibility to provide a pulse duration {{param|Duration}} together with the latest state change.       
+      </description>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="IoTPulseType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readOnly">
+        <description>
+          Human-readable description of the {{object}}. For example, a more detailed
+          description of {{param|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastChange" access="readOnly">
+        <description>
+          The date and time in UTC when {{param|Duration}} or {{param|Transition}}has been changed to the
+          current value.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastContactTime" access="readOnly">
+        <description>
+          The date and time in UTC when the {{object}} has received data.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+  
+      <parameter name="Duration" access="readOnly">
+        <description>
+          Some {{object}} instances can provide a duration together with the latest state change.
+          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its orignal state. 
+          The original state can be a low state or high state. 
+        </description>
+        <syntax>
+            <unsignedInt>
+               <units value="milliseconds"/>
+            </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Unit" access="readOnly">
+        <description>
+          Unit in which {{param|Duration}} is expressed in {{units}}.
+        </description>
+        <syntax>
+            <unsignedInt>
+               <units value="milliseconds"/>
+            </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Transition" access="readOnly">
+        <description>
+          Indicates the moment a pulse is generated. This can be a
+          {{enum|RisingEdge}} transition: in case the sensor changes from low to high state.
+          {{enum|FallingEdge}} transition: in case the sensor changes from high to low state.
+         </description>
+        <syntax>
+          <string>
+            <enumeration value="RisingEdge">
+              <description>
+                The sensor changes from low to high state.
+              </description>
+            </enumeration>
+            <enumeration value="FallingEdge">
+              <description>
+                The sensor changes from high to low state.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+  </object>
+
+
     <!-- Profiles -->
 
     <profile name="BinaryControl:1" version="2.13">
@@ -1393,9 +1720,44 @@
         <parameter ref="Value" requirement="readOnly"/>
       </object>
     </profile>
+
+   <profile name="PulseSensor:1" version="2.20">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.PulseSensor." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Duration" requirement="readOnly"/>
+        <parameter ref="Transition" requirement="readOnly"/>
+      </object>
+    </profile>
+
+
+    <profile name="PulseControl:1" version="2.20">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>  
+      <object ref="IoTCapability.{i}.PulseControl." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Duration" requirement="readWrite"/>
+        <parameter ref="Transition" requirement="readWrite"/>
+        <command ref="TransitionHigh()">
+          <input> 
+            <parameter ref="Duration"/>
+          </input>
+        </command> 
+        <command ref="TransitionLow()">
+          <input>
+            <parameter ref="Duration"/>
+          </input>
+        </command> 
+      </object>
+    </profile>
   </component>
 
-  <model name="IoT:2.19">
+  <model name="IoT:2.20">
     <component ref="Root"/>
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>

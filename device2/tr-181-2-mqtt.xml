@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-mqtt"
-    file="tr-181-2-19-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-mqtt"
+    file="tr-181-2-20-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,8 +67,19 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
+  </import>
+
+   <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-security">
+    <component name="ClientCerts"/>
+    <component name="ServerCerts"/>
+  </import>
+
+   <import file="tr-181-2-ip.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+    <component name="IPVersion"/>
   </import>
 
   <template id="MQTTChange">
@@ -349,9 +360,14 @@
         </syntax>
       </parameter>
 
+      <component ref="IPVersion" version="2.20"/>
+
       <parameter name="BrokerAddress" access="readWrite">
         <description>
           Host name or IP address of the MQTT Broker.
+
+          If the value of this parameter is an host name, the resolved IP address will be either
+          IPv4 or IPv6, based on the value of the {{param|IPVersion}} parameter.
         </description>
         <syntax>
           <string>
@@ -793,6 +809,8 @@
           </string>
         </syntax>
       </parameter>
+
+      <component ref="ClientCerts" version="2.20"/>
       <!-- MQTT Publish properties -->
 
       <parameter name="PublishMessageExpiryInterval" access="readWrite"
@@ -1334,6 +1352,22 @@
         </syntax>
       </parameter>
 
+      <component ref="IPVersion" version="2.20"/>
+
+      <parameter name="TransportProtocol" access="readWrite" version="2.20">
+        <description>
+          Indicates the transport protocol to be used for the MQTT broker
+          connection.
+        </description>
+        <syntax>
+          <string>
+            <enumerationRef
+                targetParam="#.Capabilities.TransportProtocolSupported"/>
+          </string>
+          <default type="object" value="TLS"/>
+        </syntax>
+      </parameter>
+
       <parameter name="Port" access="readWrite">
         <description>
           Port used by the MQTT Broker.
@@ -1349,7 +1383,8 @@
       <parameter name="Interface" access="readWrite">
         <description>
           If {{empty}} is specified, the CPE MUST bind the MQTT broker to all
-          available interfaces.
+          available interfaces, which depends on the value of the {{param|IPVersion}} 
+          parameter.  Meaning that the broker will bind to an IPv4 address, an IPv6 address, or both.          
         </description>
         <syntax>
           <string>
@@ -1387,6 +1422,8 @@
           </string>
         </syntax>
       </parameter>
+
+      <component ref="ServerCerts" version="2.20"/>
 
       <parameter name="BridgeNumberOfEntries" access="readOnly">
         <description>
@@ -1627,6 +1664,8 @@
           </string>
         </syntax>
       </parameter>
+
+      <component ref="ClientCerts" version="2.20"/>
       <!-- Other -->
 
       <parameter name="MessageRetryTime" access="readWrite">
@@ -1806,6 +1845,8 @@
         </syntax>
       </parameter>
 
+      <component ref="IPVersion" version="2.20"/>
+
       <parameter name="Address" access="readWrite">
         <description>
           Fully Qualified Domain Name (FQDN) or IP address of the MQTT broker
@@ -1817,6 +1858,9 @@
           addresses are exhausted, in which case the next {{object}} instance
           (based on rules defined over the selected
           {{param|##.Bridge.{i}.ServerSelectionAlgorithm}}) SHOULD be used.
+
+          If the value of this parameter is an host name, the resolved IP address will be either
+          IPv4 or IPv6, based on the value of the {{param|IPVersion}} parameter.
         </description>
         <syntax>
           <string>
@@ -2319,7 +2363,7 @@
     </profile>
   </component>
 
-  <model name="MQTT:2.19">
+  <model name="MQTT:2.20">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

@@ -1,0 +1,90 @@
+@startuml
+
+object "Device.SessionManagement" as SessionManagement {
+  + SessionNumberOfEntries
+  + PDUNumberOfEntries
+}
+
+object "Device.SessionManagement.Session" as Session {
+  + Alias
+  + Interface
+  + SessionId
+  + SessionType
+  + APN
+  + Reference
+}
+
+
+object "Device.SessionManagement.Session.PCO" as PCO {
+  + IPv6P-CSCF
+  + IPv6DNS
+  + IPv4P-CSCF
+  + IPv4DNS
+}
+
+
+object "Device.SessionManagement.PDU" as PDU {
+    + Alias
+    + PTI
+    + SSC
+    + SessionAMBRDownlink
+    + SessionAMBRUplink
+    + LastError
+    + PDUAddressType
+    + PDUIPv4Address
+    + PDUIPv6InterfaceIdentifier
+    + RQTimerValue
+    + AlwaysOn
+    + QoSRuleNumberOfEntries
+    + QoSFlowNumberOfEntries
+}
+
+object "Device.SessionManagement.PDU.NetworkSlice" as NetworkSlice {
+    + SliceServiceType
+    + SliceDifferentiator
+    + HPLMNSliceServiceType
+    + HPLMNSliceDifferentiator
+}
+
+object "Device.SessionManagement.PDU.QosFlow" as QoSFlow {
+    + Alias
+    + QFI
+    + FiveQI
+    + GFBRUplink
+    + GFBRDownlink
+    + MFBRUplink
+    + MFBRDownlink
+    + AveragingWindows
+    + EPSBearer
+}
+
+object "Device.SessionManagement.PDU.QoSRule" as QoSRule {
+    + Alias
+    + Identifier
+    + Precedence
+    + Segregation
+    + QFI
+    + DQR
+    + QoSFilterNumberOfEntries
+}
+    
+object "Device.SessionManagement.PDU.QoSRule.QoSRuleFilter" as QoSRuleFilter {
+  + Alias
+  + Direction
+  + Type
+  + Value
+}
+
+object "Device.IP.Interface" as IP {
+  + Interface
+}
+
+SessionManagement -right--> Session
+Session -right--> PCO
+IP -right--> Session:Interface
+SessionManagement -down-> PDU
+PDU -right--> NetworkSlice
+PDU --> QoSFlow
+PDU --> QoSRule
+QoSRule -right--> QoSRuleFilter
+@enduml

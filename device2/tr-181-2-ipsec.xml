@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-18-0-ipsec"
-    file="tr-181-2-18-0-ipsec.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-ipsec"
+    file="tr-181-2-20-0-ipsec.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -291,8 +291,20 @@
             <enumeration value="AES-192-GMAC"/>
             <enumeration value="AES-256-GMAC"/>
             <enumeration value="HMAC-SHA2-256-128"/>
-            <enumeration value="HMAC-SHA2-256-192"/>
-            <enumeration value="HMAC-SHA2-256-256"/>
+            <enumeration value="HMAC-SHA2-256-192" status="deprecated">
+              <description>
+                {{deprecated|2.20|because the correct value is
+                {{enum|HMAC-SHA2-384-192}}
+              </description>
+            </enumeration>
+            <enumeration value="HMAC-SHA2-256-256" status="deprecated">
+              <description>
+                {{deprecated|2.20|because the correct value is
+                {{enum|HMAC-SHA2-512-256}}
+              </description>
+            </enumeration>
+            <enumeration value="HMAC-SHA2-384-192" version="2.20"/>
+            <enumeration value="HMAC-SHA2-512-256" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -1799,7 +1811,7 @@
           to decryption errors.
 
           Note that this refers to IKEv2 protocol {{units}}, and not to
-          {units}} carried by other SAs.
+          {{units}} carried by other SAs.
         </description>
         <syntax>
           <dataType ref="StatsCounter32">
@@ -2200,7 +2212,7 @@
     </profile>
   </component>
 
-  <model name="IPsec:2.18">
+  <model name="IPsec:2.20">
     <component ref="Root"/>
     <component ref="IPsec"/>
   </model>

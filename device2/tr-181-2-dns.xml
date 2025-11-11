@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-dns"
-    file="tr-181-2-19-0-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-dns"
+    file="tr-181-2-20-0-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -983,7 +983,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="AdvertisedInterfaces" access="readWrite" status="obsoleted" version="2.12">
+      <parameter name="AdvertisedInterfaces" access="readWrite" status="deleted" version="2.12">
         <description>
           {{reference|the {{object|##.IP.Interface}} object instance from which
           DNS-SD services are advertised}}
@@ -994,6 +994,8 @@
           {{deprecated|2.17|in favor of {{param|Advertise.{i}.Interface}}}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <list/>
@@ -1480,6 +1482,8 @@
       </parameter>
     </object>
 
+    <component ref="DNSRebindProtection"/>
+
     <profile name="DNSRelay:1" version="2.0">
       <object ref="Device.DNS." requirement="present"/>
       <object ref="Device.DNS.Relay." requirement="present">
@@ -1525,7 +1529,50 @@
     </profile>
   </component>
 
-  <model name="DNS:2.19">
+  <component name="DNSRebindProtection">
+    <object name="Device.DNS.RebindProtection." access="readOnly" version="2.20">
+      <description>
+        The DNS Rebind Protection object contains parameters to enable or disable
+        protection against DNS rebind attacks.
+
+        It prevents DNS-based malicious software that tries to bypass the browser’s policies, by
+        filtering or refusing DNS answers that point to private or local IP addresses, it stops external
+        sites from reaching LAN devices.
+      </description>
+      <parameter
+        name="Enable" access="readWrite">
+        <description>Enables or Disables protection against DNS rebind attacks</description>
+        <syntax>
+          <boolean />
+        </syntax>
+      </parameter>
+
+      <parameter name="IPExceptions"
+        access="readWrite">
+        <description>
+          Each item of the list represents an IP address or a CIDR notation
+          that should not be protected against rebind attacks.
+        </description>
+        <syntax>
+          <list />
+          <dataType ref="IPAddress" />
+        </syntax>
+      </parameter>
+      <parameter
+        name="DomainExceptions" access="readWrite">
+        <description>
+          Each item of the list represents a domain name and its subdomain names
+          that should not be protected against rebind attacks.
+        </description>
+        <syntax>
+          <list />
+          <string />
+        </syntax>
+      </parameter>
+    </object>
+  </component>
+
+  <model name="DNS:2.20">
     <component ref="Root"/>
     <component ref="DNS"/>
   </model>

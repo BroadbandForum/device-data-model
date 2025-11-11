@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-15"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-15
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-sessionmanagement"
-    file="tr-181-2-19-0-sessionmanagement.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-sessionmanagement"
+    file="tr-181-2-20-0-sessionmanagement.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,8 +66,13 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-interface.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    <component name="BaseInterfaceParams"/>
   </import>
 
   <dataType name="SST">
@@ -195,7 +200,8 @@
         <parameter ref="SessionID"/>
       </uniqueKey>
 
-      <component ref="Alias"/>
+      <component ref="BaseInterfaceParams" version="2.20"/>
+      <parameter base="Alias" version="2.19"/>
 
       <parameter name="Interface" access="readOnly">
         <description>
@@ -233,6 +239,7 @@
             <enumeration value="IPv6"/>
             <enumeration value="IPv4v6"/>
             <enumeration value="Unstructured"/>
+            <enumeration value="Ethernet" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -267,6 +274,8 @@
           </string>
         </syntax>
       </parameter>
+
+      <component ref="IPAddressInformation" version="2.20"/>
     </object>
 
     <object name="Device.SessionManagement.Session.{i}.PCO." access="readOnly"
@@ -479,7 +488,6 @@
           </unsignedInt>
         </syntax>
       </parameter>
-
     </object>
 
     <object name="Device.SessionManagement.PDN.{i}." access="readOnly"
@@ -995,5 +1003,148 @@
     </object>
   </component>
 
-</dm:document>
+  <component name="IPAddressInformation">
+     <parameter name="IPv4AddressNumberOfEntries" access="readOnly" version="2.20">
+       <description>
+        {{numentries}}
+      </description>
+      <syntax>
+         <unsignedInt/>
+      </syntax>
+    </parameter>
 
+    <parameter name="IPv6AddressNumberOfEntries" access="readOnly" version="2.20">
+      <description>
+        {{numentries}}
+      </description>
+      <syntax>
+         <unsignedInt/>
+       </syntax>
+    </parameter>
+
+    <object name="IPv4Address.{i}." access="readOnly"
+        numEntriesParameter="IPv4AddressNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object models IPv4 network information that the Cellular modem received from the
+        network.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="IPAddress"/>
+        <parameter ref="SubnetMask"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="IPAddress" access="readOnly">
+        <description>
+          IPv4 address.
+        </description>
+        <syntax>
+          <dataType ref="IPv4Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SubnetMask" access="readOnly">
+        <description>
+          Subnet mask.
+        </description>
+        <syntax>
+          <dataType ref="IPv4Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="GatewayIPAddress" access="readOnly">
+        <description>
+          IPv4 address of the gateway.
+        </description>
+        <syntax>
+          <dataType ref="IPv4Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MTU" access="readOnly">
+        <description>
+          Maximum Transmission Unit for this link (expressed in
+          {{units}}).
+
+          {{range}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+            <range minInclusive="576"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="IPv6Address.{i}." access="readOnly"
+        numEntriesParameter="IPv6AddressNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.20">
+      <description>
+        This object models IPv6 network information that the Cellular modem received from the
+        network.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="IPAddress"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="IPAddress" access="readOnly">
+        <description>
+          IPv6 address.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPPrefix" access="readOnly">
+        <description>
+          IPv6 prefix. {{empty}} indicates that it matches all
+          destination prefixes (i.e. equivalent to "::/0"). All bits to the
+          right of the prefix MUST be zero, e.g. 2001:edff:fe6a:f76::/64.
+
+          Routes with a 128-bit prefix length (/128) are host routes for a
+          specific IPv6 destination, e.g. 2001:db8:28:2:713e:a426:d167:37ab/128.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Prefix"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NextHop" access="readOnly">
+        <description>
+          IPv6 address of the next hop.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MTU" access="readOnly">
+        <description>
+          Maximum Transmission Unit for this link (expressed in
+          {{units}}).
+
+          {{range}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="bytes"/>
+            <range minInclusive="1280"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+    </object>
+  </component>
+
+</dm:document>

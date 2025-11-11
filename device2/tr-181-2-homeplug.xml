@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-homeplug"
-    file="tr-181-2-19-0-homeplug.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-homeplug"
+    file="tr-181-2-20-0-homeplug.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -94,6 +94,42 @@
         {{bibref|TR-181i2|Section 4.2}}). Each table entry models the PHY and
         MAC levels of a HomePlug interface {{bibref|HPAV1.1}}.
       </description>
+
+      <parameter name="Type" version="2.20" access="readWrite">
+        <description>
+          The type of HomePlug interface. 
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Embedded">
+              <description>
+                Indicates that this is a physical HomePlug interface embedded in the Device.
+              </description>
+            </enumeration>
+            <enumeration value="Logical">
+              <description>
+                Indicates that this is a logical HomePlug interface that operates
+                over an Ethernet interface.
+
+                It is used for gathering statistics from HomePlug devices in the network and should be used when no embedded HomePlug interface is available in the Device.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interface" access="readWrite" version="2.20">
+        <description>
+          The Layer 2 Ethernet Interface over which the network protocol operates, when the Type
+          parameter is {{enum|Logical|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent=".Ethernet.Link.
+            .Logical.Interface." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
 
       <parameter name="MACAddress" access="readOnly">
         <description>
@@ -283,6 +319,26 @@
         </syntax>
       </parameter>
 
+      <parameter name="Manufacturer" access="readOnly" version="2.20">
+        <description>
+          The manufacturer of the remote HomePlug device.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="FirmwareVersion" access="readOnly" version="2.20">
+        <description>
+          The firmware version of the remote HomePlug device.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
       <parameter name="TxPhyRate" access="readOnly">
         <description>
           The PHY transmit Rate (expressed in {{units}}) to this remote device.
@@ -409,7 +465,7 @@
     </profile>
   </component>
 
-  <model name="HomePlug:2.19">
+  <model name="HomePlug:2.20">
     <component ref="Root"/>
     <component ref="HomePlug"/>
   </model>

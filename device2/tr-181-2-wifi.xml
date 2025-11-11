@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi"
-    file="tr-181-2-19-0-wifi.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi"
+    file="tr-181-2-20-0-wifi.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-base">
     <component name="WiFiRoot"/>
     <component name="WiFiBase"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
@@ -83,7 +83,7 @@
   </import>
 
   <import file="tr-181-2-wifi-de.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-wifi-de">
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-de">
     <component name="WiFiAllianceDataElements"/>
     <component name="SpatialReuse"/>
     <component name="DEScanResultNumberOfEntries"/>
@@ -93,6 +93,11 @@
     <component name="DisassociationEventData"/>
     <component name="DisassociationLinkStats"/>
     <component name="FailedConnectionEventData"/>
+  </import>
+
+  <import file="tr-181-2-wifi-templates.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-templates">
+    <component name="Templates"/>
   </import>
 
   <component name="RemoteMeasurementRequestInput">
@@ -1576,6 +1581,9 @@
 
           The {{enum|WPA2-PSK-WPA3-SAE}} value is the same as
           WPA3-Personal-Transition.
+
+          The {{enum|WPA2-PSK-WPA3-SAE-RSNO}} value is the same as
+          WPA3-Personal-Compatibility.
         </description>
         <syntax>
           <string>
@@ -1591,6 +1599,7 @@
             <enumeration value="WPA2-PSK-WPA3-SAE"/>
             <enumeration value="WPA3-Enterprise"/>
             <enumeration value="OWE" version="2.16"/>
+            <enumeration value="WPA2-PSK-WPA3-SAE-RSNO" version="2.20"/>
           </string>
         </syntax>
       </parameter>
@@ -1602,6 +1611,7 @@
           When {{param|SecurityModeEnabled}} is one of
           {{enum|WPA3-SAE|SecurityModeEnabled}},
           {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}}, or
+          {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}}, or
           {{enum|WPA3-Enterprise|SecurityModeEnabled}}, {{enum|TKIP}} is not
           valid, and should not be in the list.
         </description>
@@ -1739,11 +1749,12 @@
     <component ref="WiFiRoot"/>
     <component ref="BBFEasyMesh"/>
     <component ref="WiFiAllianceDataElements"/>
+    <component ref="Templates"/>
     <component ref="WiFiBase"/>
   </component>
 
 
-  <model name="WiFi:2.16">
+  <model name="WiFi:2.20">
     <component ref="Root"/>
     <component ref="WiFi"/>
   </model>

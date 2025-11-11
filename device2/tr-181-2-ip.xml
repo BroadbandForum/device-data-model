@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-ip"
-    file="tr-181-2-19-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-ip"
+    file="tr-181-2-20-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,12 +71,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="Layer3Interface"/>
   </import>
 
@@ -84,10 +84,14 @@
     #.
   </template>
 
+  <template id="IP-LAYER-CAPACITY-DIAG-PARENT">
+    ##.IPLayerCapacity().Input.
+  </template>
+
   <component name="IPAccessControl">
     <parameter name="AllowAllIPv4" access="readWrite" version="2.16">
       <description>
-        Allow access from any IPv4 address. The source prefixes defined in
+        Allow incoming IP connections from any IPv4 address. The source prefixes defined in
         {{param|IPv4AllowedSourcePrefix}} will be ignored.
       </description>
       <syntax>
@@ -98,10 +102,10 @@
 
     <parameter name="IPv4AllowedSourcePrefix" access="readWrite" version="2.16">
       <description>
-        Allow only access from the provided list of IPv4 prefixes.
+        Allow only incoming IP connections from the provided list of IPv4 prefixes.
 
         When {{param}} is set to {{empty}} and {{param|AllowAllIPv4}} is set to ''false'',
-        no incoming connections are allowed.
+        no incoming IP connections are allowed.
 
         When {{param|AllowAllIPv4}} is set ''true'', {{param}} is ignored.
       </description>
@@ -115,7 +119,7 @@
 
     <parameter name="AllowAllIPv6" access="readWrite" version="2.16">
       <description>
-        Allow access from any IPv6 address. The source prefixes defined in
+        Allow incoming IP connections from any IPv6 address. The source prefixes defined in
         {{param|IPv6AllowedSourcePrefix}} will be ignored.
       </description>
       <syntax>
@@ -126,10 +130,10 @@
 
     <parameter name="IPv6AllowedSourcePrefix" access="readWrite" version="2.16">
       <description>
-        Allow only access from the provided list of IPv6 prefixes.
+        Allow only incoming IP connections from the provided list of IPv6 prefixes.
 
         When {{param}} is set to {{empty}} and {{param|AllowAllIPv6}} is set to ''false'',
-        no incoming connections are allowed.
+        no incoming IP connections are allowed.
 
         When {{param|AllowAllIPv6}} is set ''true'', {{param}} is ignored.
       </description>
@@ -2565,7 +2569,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Host" access="readWrite" status="obsoleted" version="2.14">
+    <parameter name="Host" access="readWrite" status="deleted" version="2.14">
       <description>
         The Fully Qualified Domain Name (FQDN) or IP address of the Test
         Endpoint to perform the UDP Capacity tests with.
@@ -2575,6 +2579,8 @@
         to {{bibref|TR-471}} for details}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
       <syntax>
         <string>
@@ -2604,7 +2610,7 @@
       </syntax>
     </parameter>
 
-    <parameter name="Port" access="readWrite" status="obsoleted"
+    <parameter name="Port" access="readWrite" status="deleted"
         activeNotify="canDeny" version="2.14">
       <description>
         Port on the Test Endpoint host.
@@ -2614,6 +2620,8 @@
         to {{bibref|TR-471}} for details}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
       <syntax>
         <unsignedInt>
@@ -2709,7 +2717,8 @@
       </syntax>
     </parameter>
 
-    <parameter name="NumberOfConnections" access="readWrite" status="obsoleted"
+    <parameter name="NumberOfConnections" access="readWrite"
+      status="deleted"
     version="2.14">
       <description>
         The number of connections to be used in the test. The default value
@@ -2721,6 +2730,8 @@
         related parameters. Refer to {{bibref|TR-471}} for details}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
       <syntax>
         <unsignedInt>
@@ -3741,6 +3752,42 @@
       </syntax>
     </parameter>
 
+    <parameter name="TmaxRTTUsed" access="readOnly" version="2.14">
+      <description>
+        Configured value of {{param|TmaxRTT}} used in the test. This value is
+        expressed in {{units}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <units value="milliseconds"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="TimestampResolutionUsed" access="readOnly" version="2.14">
+      <description>
+        Indicates the timestamp resolution of reported results. This is a
+        function of the measurement protocol, and it is usually determined once
+        the protocol chosen. Value specified in {{units}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <units value="microseconds"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="ActiveFlows" access="readOnly" version="2.17">
+      <description>
+        Number of flows set-up and used for a test.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="0"/>
+        </unsignedInt>
+      </syntax>
+     </parameter>
+
     <object name="ModalResult.{i}." access="readOnly"
         numEntriesParameter="ModalResultNumberOfEntries" minEntries="1"
         maxEntries="unbounded" dmr:noUniqueKeys="true" version="2.15">
@@ -3938,11 +3985,16 @@
         are otherwise cleared.
       </description>
 
+      <component ref="IPLayerCapacityIncrementalResults"/>
+    </object>
+    </component>
+
+    <component name="IPLayerCapacityIncrementalResults">
       <parameter name="IPLayerCapacity" access="readOnly">
         <description>
           Results of measurements using the maximum IP-Layer Capacity metric
           calculation for a single interval from {{bibref|TR-471}} Equation 1,
-          for time interval of duration {{param|#.TestSubInterval}} ending at
+          for time interval of duration {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at
           {{param|TimeOfSubInterval}} across all connections for this test.
           Result is expressed in {{units}} with 2 digits beyond the decimal.
           10^6^ bits/second = 1 {{units}}.
@@ -3958,7 +4010,7 @@
           activeNotify="canDeny">
         <description>
           Time in UTC of end of sub-interval when {{param|IPLayerCapacity}} was
-          measured. Value MUST be specified to {{param|#.TimestampResolution}}
+          measured. Value MUST be specified to {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TimestampResolution}}
           precision. For example: 2008-04-09T15:01:05.123456Z
         </description>
         <syntax>
@@ -3969,7 +4021,7 @@
       <parameter name="LossRatio" access="readOnly">
         <description>
           Ratio of lost packets to total packets, for time interval of duration
-          {{param|#.TestSubInterval}} ending at {{param|TimeOfSubInterval}}
+          {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at {{param|TimeOfSubInterval}}
           across all connections for this test. This value is expressed as a
           decimal to 9 decimal digits.
         </description>
@@ -3981,7 +4033,7 @@
       <parameter name="RTTRange" access="readOnly">
         <description>
           The range of Round Trip Time (RTT), for time interval of duration
-          {{param|#.TestSubInterval}} ending at {{param|TimeOfSubInterval}}
+          {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at {{param|TimeOfSubInterval}}
           across all connections for this test. See {{bibref|TR-471}} for
           description of how value is calculated. This value is expressed in
           {{units}}. This value is expressed as a decimal to 9 decimal digits.
@@ -3996,7 +4048,7 @@
       <parameter name="PDVRange" access="readOnly">
         <description>
           The range of Packet Delay Variation (PDV), for time interval of
-          duration {{param|#.TestSubInterval}} ending at
+          duration {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at
           {{param|TimeOfSubInterval}} across all connections for this test. See
           {{bibref|TR-471}} for description of how value is calculated. This
           value is expressed in {{units}}. This value is expressed as a decimal
@@ -4012,7 +4064,7 @@
       <parameter name="MinOnewayDelay" access="readOnly">
         <description>
           The minimum one-way delay, for time interval of duration
-          {{param|#.TestSubInterval}} ending at {{param|TimeOfSubInterval}}
+          {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at {{param|TimeOfSubInterval}}
           across all connections for this test. The minimum one-way delay is
           calculated at the conclusion of the test and SHALL be calculated
           using the conditional distribution of all packets with a finite
@@ -4030,7 +4082,7 @@
       <parameter name="ReorderedRatio" access="readOnly">
         <description>
           Ratio of reordered packets to total packets, for time interval of
-          duration {{param|#.TestSubInterval}} ending at
+          duration {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at
           {{param|TimeOfSubInterval}} across all connections for this test.
           This value is expressed as a decimal to 9 decimal digits.
         </description>
@@ -4042,7 +4094,7 @@
       <parameter name="ReplicatedRatio" access="readOnly" version="2.15">
         <description>
           Ratio of replicated packets to total packets, for time interval of
-          duration {{param|#.TestSubInterval}} ending at
+          duration {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at
           {{param|TimeOfSubInterval}} across all connections for this test.
           This value is expressed as a decimal to 9 decimal digits.
         </description>
@@ -4053,13 +4105,13 @@
 
        <parameter name="InterfaceEthMbps" access="readOnly" version="2.15">
       <description>
-        The number of bits observed on the {{param|#.Interface}} during an
+        The number of bits observed on the {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}Interface}} during an
         IP-Layer Capacity test for time interval of duration
-        {{param|#.TestSubInterval}} ending at {{param|TimeOfSubInterval}},
-        divided by the duration of {{param|#.TestSubInterval}}. Result is
+        {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}} ending at {{param|TimeOfSubInterval}},
+        divided by the duration of {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}TestSubInterval}}. Result is
         expressed in Mbps with 2 digits beyond the decimal. 10^6^ bits/second
         = 1 {{units}}. This is primarily a diagnostic measurement.
-        Measurement direction follows the {{param|#.Role}}.
+        Measurement direction follows the {{param|{{template|IP-LAYER-CAPACITY-DIAG-PARENT}}Role}}.
       </description>
       <syntax>
         <decimal>
@@ -4067,43 +4119,6 @@
         </decimal>
       </syntax>
     </parameter>
-    </object>
-
-    <parameter name="TmaxRTTUsed" access="readOnly" version="2.14">
-      <description>
-        Configured value of {{param|TmaxRTT}} used in the test. This value is
-        expressed in {{units}}.
-      </description>
-      <syntax>
-        <unsignedInt>
-          <units value="milliseconds"/>
-        </unsignedInt>
-      </syntax>
-    </parameter>
-
-    <parameter name="TimestampResolutionUsed" access="readOnly" version="2.14">
-      <description>
-        Indicates the timestamp resolution of reported results. This is a
-        function of the measurement protocol, and it is usually determined once
-        the protocol chosen. Value specified in {{units}}.
-      </description>
-      <syntax>
-        <unsignedInt>
-          <units value="microseconds"/>
-        </unsignedInt>
-      </syntax>
-    </parameter>
-
-    <parameter name="ActiveFlows" access="readOnly" version="2.17">
-      <description>
-        Number of flows set-up and used for a test.
-      </description>
-      <syntax>
-        <unsignedInt>
-          <range minInclusive="0"/>
-        </unsignedInt>
-      </syntax>
-     </parameter>
   </component>
 
   <component name="IPServerSelectionDiagnosticsInput">
@@ -5960,7 +5975,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.18">
+  <model name="IP:2.20">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

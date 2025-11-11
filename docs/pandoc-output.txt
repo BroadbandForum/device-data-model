@@ -1,225 +1,229 @@
-make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
-yq eval ../../../install/pandoc/metadata/bbf-metadata.yaml
-yq eval ../../../install/pandoc/metadata/no-title-metadata.yaml
-yq eval ../../../install/pandoc/defaults/htm-defaults.yaml
-yq eval ../../../install/pandoc/defaults/html-defaults.yaml
-yq eval ../../../install/pandoc/defaults/_codebraid_preview.yaml
-yq eval ../../../install/pandoc/defaults/codebraid-defaults.yaml
-yq eval ../../../install/pandoc/defaults/common-defaults.yaml
-yq eval ../../../install/pandoc/defaults/typst-defaults.yaml
-yq eval ../../../install/pandoc/defaults/docx-defaults.yaml
-yq eval ../../../install/pandoc/defaults/pdf-defaults.yaml
-yq eval ../../../install/pandoc/defaults/json-defaults.yaml
-yq eval ../../../install/pandoc/csl/itu-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/ansi-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/gsma-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/sff-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/w3c-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/ieee-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/iso-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/iana-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/grpc-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/mef-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/ietf-extra-csl.yaml
-yq eval ../../../install/pandoc/csl/3gpp-extra-csl.yaml
-yq eval ../../../install/projectyaml/WT-135/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-106/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-262/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-098/PROJECT.yaml
-yq eval ../../../install/projectyaml/DTP-069/PROJECT.yaml
-yq eval ../../../install/projectyaml/cwmp-data-models/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-196/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-232/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-104/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-124/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-140/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-181/PROJECT.yaml
-yq eval ../../../install/projectyaml/DTP-469/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-369/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-157/PROJECT.yaml
-yq eval ../../../install/projectyaml/usp-data-models/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-143/PROJECT.yaml
-yq eval ../../../install/projectyaml/WT-069/PROJECT.yaml
-yq eval ../../../install/cwmp/dm-units.yaml
-make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
-make[1]: Entering directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
-'CNAME' -> '../docs/CNAME'
-rm -f ../docs/index.md
-sed -e'<relocate-image-links>' main/00-front-matter.md >>../docs/index.md
-sed -e'<relocate-image-links>' main/02-purpose-and-scope.md >>../docs/index.md
-sed -e'<relocate-image-links>' main/03-references-and-terminology.md >>../docs/index.md
-sed -e'<relocate-image-links>' main/04-bbftype-impact.md >>../docs/index.md
-sed -e'<relocate-image-links>' main/05-architecture.md >>../docs/index.md
-sed -e'<relocate-image-links>' main/06-parameter-definitions.md >>../docs/index.md
-sed -e'<relocate-image-links>' annexes/01-bridging-and-queuing.md >>../docs/index.md
-sed -e'<relocate-image-links>' annexes/02-tunneling.md >>../docs/index.md
-sed -e'<relocate-image-links>' annexes/03-software-module-management-uuid-usage.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/00-appendices.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/01-example-rg-queuing-architecture.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/02-use-of-bridging-objects-for-vlan-tagging.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/03-wi-fi-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/04-use-cases.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/05-ipv6-data-modeling-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/06-6rd-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/07-dual-stack-lite-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/08-advanced-firewall-example-configuration.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/09-ipsec-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/10-etsi-m2m-remote-entity-management-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/11-provider-bridge-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/12-zigbee-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/13-port-control-protocol-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/14-gre-tunnel-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/15-map-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/16-g-fast-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/17-usb-host-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/18-location-management.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/19-fault-management.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/20-basapm-and-lmap-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/21-5g-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/22-data-elements-theory-of-operations.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/23-logical-interfaces-theory-of-operations.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/24-mtu-configuration.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/25-3gpp-nas-theory-of-operation.md >>../docs/index.md
-sed -e'<relocate-image-links>' appendices/99-back-matter.md >>../docs/index.md
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/css/release.css >../docs/release.css
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/json-defaults.yaml >../docs/json-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/docx-defaults.yaml >../docs/docx-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/pdf-defaults.yaml >../docs/pdf-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/defaults/typst-defaults.yaml >../docs/typst-defaults.yaml
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-template.typ >../docs/typst-template.typ
-sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.19-151)"; }|' -e 's|${USERDATA}|../../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|../docs|g' -e 's|${TARGETDIR}|../docs|g' <../../../install/pandoc/custom/typst-stringify.typ >../docs/typst-stringify.typ
-'../../../install/pandoc/css/bbf.css' -> '../docs/bbf.css'
-'../../../install/pandoc/css/bbflogo-bw.png' -> '../docs/bbflogo-bw.png'
-'../../../install/pandoc/css/bbflogo-reverse-dark.png' -> '../docs/bbflogo-reverse-dark.png'
-'../../../install/pandoc/css/bee.png' -> '../docs/bee.png'
-'../../../install/pandoc/css/broadband-forum-logo.png' -> '../docs/broadband-forum-logo.png'
-'../../../install/pandoc/css/extra.css' -> '../docs/extra.css'
-'../../../install/pandoc/css/github.css' -> '../docs/github.css'
-'../../../install/pandoc/css/missing.png' -> '../docs/missing.png'
-'../../../install/pandoc/css/pencil.png' -> '../docs/pencil.png'
-'../../../install/pandoc/css/permalink.png' -> '../docs/permalink.png'
-'../../../install/pandoc/css/right.png' -> '../docs/right.png'
-'../../../install/pandoc/css/tick.png' -> '../docs/tick.png'
-'../../../install/pandoc/css/toc.css' -> '../docs/toc.css'
-'../../../install/pandoc/css/watermark-pdf.css' -> '../docs/watermark-pdf.css'
-'../../../install/pandoc/css/watermark.css' -> '../docs/watermark.css'
-'images/5g-architecture.png' -> '../docs/images/5g-architecture.png'
-'images/5g-converged-core-network.png' -> '../docs/images/5g-converged-core-network.png'
-'images/bridge-1-model-additional-ethernet-interfaces.png' -> '../docs/images/bridge-1-model-additional-ethernet-interfaces.png'
-'images/bridge-1-model.png' -> '../docs/images/bridge-1-model.png'
-'images/bridge-123-model.png' -> '../docs/images/bridge-123-model.png'
-'images/bridge-2-model.png' -> '../docs/images/bridge-2-model.png'
-'images/bridge-3-model.png' -> '../docs/images/bridge-3-model.png'
-'images/cellular-access-only-example.png' -> '../docs/images/cellular-access-only-example.png'
-'images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png' -> '../docs/images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png'
-'images/cwmp-for-pre-configuration.png' -> '../docs/images/cwmp-for-pre-configuration.png'
-'images/cwmp-multi-acs-deployment.png' -> '../docs/images/cwmp-multi-acs-deployment.png'
-'images/cwmp-proxy-device-deployment.png' -> '../docs/images/cwmp-proxy-device-deployment.png'
-'images/device-user-configuration-backup.png' -> '../docs/images/device-user-configuration-backup.png'
-'images/device-user-configuration-restore.png' -> '../docs/images/device-user-configuration-restore.png'
-'images/device.fwe-objects.png' -> '../docs/images/device.fwe-objects.png'
-'images/device.sessionmanagement-objects.png' -> '../docs/images/device.sessionmanagement-objects.png'
-'images/device.wwc-objects.png' -> '../docs/images/device.wwc-objects.png'
-'images/etsi-high-level-functional-architecture.png' -> '../docs/images/etsi-high-level-functional-architecture.png'
-'images/etsi-m2m-data-model-structure.png' -> '../docs/images/etsi-m2m-data-model-structure.png'
-'images/etsi-m2m-devices-and-gateways.png' -> '../docs/images/etsi-m2m-devices-and-gateways.png'
-'images/example-m2m-network.png' -> '../docs/images/example-m2m-network.png'
-'images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png' -> '../docs/images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png'
-'images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png' -> '../docs/images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png'
-'images/example-of-vlan-configuration-in-a-2-box-scenario.png' -> '../docs/images/example-of-vlan-configuration-in-a-2-box-scenario.png'
-'images/example-sequence-diagram-of-zigbee-management-with-tr-069.png' -> '../docs/images/example-sequence-diagram-of-zigbee-management-with-tr-069.png'
-'images/example-usb-host-connections.png' -> '../docs/images/example-usb-host-connections.png'
-'images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png' -> '../docs/images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png'
-'images/firewall-dmz-example.png' -> '../docs/images/firewall-dmz-example.png'
-'images/firewall-dmz-example.svg' -> '../docs/images/firewall-dmz-example.svg'
-'images/firewall-pinhole-example.png' -> '../docs/images/firewall-pinhole-example.png'
-'images/firewall-pinhole-example.svg' -> '../docs/images/firewall-pinhole-example.svg'
-'images/firewall-policy-example.png' -> '../docs/images/firewall-policy-example.png'
-'images/firewall-policy-example.svg' -> '../docs/images/firewall-policy-example.svg'
-'images/firewall-service-example.png' -> '../docs/images/firewall-service-example.png'
-'images/firewall-service-example.svg' -> '../docs/images/firewall-service-example.svg'
-'images/fixed-access-only-example.png' -> '../docs/images/fixed-access-only-example.png'
-'images/general-layer-2-tunneling-interface-stack.png' -> '../docs/images/general-layer-2-tunneling-interface-stack.png'
-'images/general-layer-3-tunneling-from-tunneling-overview.png' -> '../docs/images/general-layer-3-tunneling-from-tunneling-overview.png'
-'images/general-layer-3-tunneling-interface-stack.png' -> '../docs/images/general-layer-3-tunneling-interface-stack.png'
-'images/hybrid-access-example.png' -> '../docs/images/hybrid-access-example.png'
-'images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png' -> '../docs/images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png'
-'images/ignoring-a-vendor-specific-interface-object-in-the-stack.png' -> '../docs/images/ignoring-a-vendor-specific-interface-object-in-the-stack.png'
-'images/integration-of-bulk-data-profiles-with-lmap.png' -> '../docs/images/integration-of-bulk-data-profiles-with-lmap.png'
-'images/interface-lowerlayers.png' -> '../docs/images/interface-lowerlayers.png'
-'images/internal-relationships-of-ipv6-addresses-and-prefixes.png' -> '../docs/images/internal-relationships-of-ipv6-addresses-and-prefixes.png'
-'images/ip-over-ip-gre-encapsulation.png' -> '../docs/images/ip-over-ip-gre-encapsulation.png'
-'images/ipsec-data-model-objects.png' -> '../docs/images/ipsec-data-model-objects.png'
-'images/l2-over-gre-tunnel.png' -> '../docs/images/l2-over-gre-tunnel.png'
-'images/l2tp-interface-stack-example.png' -> '../docs/images/l2tp-interface-stack-example.png'
-'images/l3-over-gre-tunnel.png' -> '../docs/images/l3-over-gre-tunnel.png'
-'images/lmap-framework.png' -> '../docs/images/lmap-framework.png'
-'images/logicalinterfaces-example2.png' -> '../docs/images/logicalinterfaces-example2.png'
-'images/logicalinterfaces-example2.svg' -> '../docs/images/logicalinterfaces-example2.svg'
-'images/logicalinterfaces-problem.png' -> '../docs/images/logicalinterfaces-problem.png'
-'images/logicalinterfaces-problem.svg' -> '../docs/images/logicalinterfaces-problem.svg'
-'images/logicalinterfaces-solution.png' -> '../docs/images/logicalinterfaces-solution.png'
-'images/logicalinterfaces-solution.svg' -> '../docs/images/logicalinterfaces-solution.svg'
-'images/m2m-device-discovery-for-proxy-management.png' -> '../docs/images/m2m-device-discovery-for-proxy-management.png'
-'images/m2m-rem-service-capability.png' -> '../docs/images/m2m-rem-service-capability.png'
-'images/m2m-scl-functional-architecture-framework.png' -> '../docs/images/m2m-scl-functional-architecture-framework.png'
-'images/map-t-architecture.png' -> '../docs/images/map-t-architecture.png'
-'images/osi-layers-and-interface-objects.png' -> '../docs/images/osi-layers-and-interface-objects.png'
-'images/provider-bridge-components.png' -> '../docs/images/provider-bridge-components.png'
-'images/provider-bridge-scenarios.png' -> '../docs/images/provider-bridge-scenarios.png'
-'images/ptm-link-bonding-groups-for-dsl-mode-lines.png' -> '../docs/images/ptm-link-bonding-groups-for-dsl-mode-lines.png'
-'images/ptm-link-bonding-groups-for-fast-mode-lines.png' -> '../docs/images/ptm-link-bonding-groups-for-fast-mode-lines.png'
-'images/ptm-link-for-dsl-mode-line.png' -> '../docs/images/ptm-link-for-dsl-mode-line.png'
-'images/ptm-link-for-fast-mode-line.png' -> '../docs/images/ptm-link-for-fast-mode-line.png'
-'images/queuing-and-scheduling-example-for-rg.png' -> '../docs/images/queuing-and-scheduling-example-for-rg.png'
-'images/queuing-model-of-a-device.png' -> '../docs/images/queuing-model-of-a-device.png'
-'images/relationship-of-protocols-to-data-model.png' -> '../docs/images/relationship-of-protocols-to-data-model.png'
-'images/sample-6rd-routing-and-forwarding.png' -> '../docs/images/sample-6rd-routing-and-forwarding.png'
-'images/sample-ds-lite-routing-and-forwarding.png' -> '../docs/images/sample-ds-lite-routing-and-forwarding.png'
-'images/sample-flow-of-downstream-tunneled-traffic-through-the-device.png' -> '../docs/images/sample-flow-of-downstream-tunneled-traffic-through-the-device.png'
-'images/sample-flow-of-upstream-tunneled-traffic-through-the-device.png' -> '../docs/images/sample-flow-of-upstream-tunneled-traffic-through-the-device.png'
-'images/sample-map-routing-and-forwarding-interface-stack.png' -> '../docs/images/sample-map-routing-and-forwarding-interface-stack.png'
-'images/sample-map-routing-and-forwarding.png' -> '../docs/images/sample-map-routing-and-forwarding.png'
-'images/simple-router-example-interfaces-visualized.png' -> '../docs/images/simple-router-example-interfaces-visualized.png'
-'images/tr-181-2-cwmp-cwmp-management.png' -> '../docs/images/tr-181-2-cwmp-cwmp-management.png'
-'images/tr-181-2-cwmp-cwmp-protocols.png' -> '../docs/images/tr-181-2-cwmp-cwmp-protocols.png'
-'images/tr-181-2-cwmp-device.png' -> '../docs/images/tr-181-2-cwmp-device.png'
-'images/tr-181-2-cwmp-ifstack.png' -> '../docs/images/tr-181-2-cwmp-ifstack.png'
-'images/tr-181-2-cwmp-overview.png' -> '../docs/images/tr-181-2-cwmp-overview.png'
-'images/tr-181-2-cwmp-protocols.png' -> '../docs/images/tr-181-2-cwmp-protocols.png'
-'images/tr-181-2-cwmp-usp-management.png' -> '../docs/images/tr-181-2-cwmp-usp-management.png'
-'images/tr-181-2-cwmp-usp-protocols.png' -> '../docs/images/tr-181-2-cwmp-usp-protocols.png'
-'images/tr-181-2-usp-cwmp-management.png' -> '../docs/images/tr-181-2-usp-cwmp-management.png'
-'images/tr-181-2-usp-cwmp-protocols.png' -> '../docs/images/tr-181-2-usp-cwmp-protocols.png'
-'images/tr-181-2-usp-device.png' -> '../docs/images/tr-181-2-usp-device.png'
-'images/tr-181-2-usp-ifstack.png' -> '../docs/images/tr-181-2-usp-ifstack.png'
-'images/tr-181-2-usp-overview.png' -> '../docs/images/tr-181-2-usp-overview.png'
-'images/tr-181-2-usp-protocols.png' -> '../docs/images/tr-181-2-usp-protocols.png'
-'images/tr-181-2-usp-usp-management.png' -> '../docs/images/tr-181-2-usp-usp-management.png'
-'images/tr-181-2-usp-usp-protocols.png' -> '../docs/images/tr-181-2-usp-usp-protocols.png'
-'images/tr-304-framework.png' -> '../docs/images/tr-304-framework.png'
-'images/tunneling-overview-showing-forwarding-decisions.png' -> '../docs/images/tunneling-overview-showing-forwarding-decisions.png'
-'images/tunneling-overview.png' -> '../docs/images/tunneling-overview.png'
-'images/typical-rg-ipv6-configuration.png' -> '../docs/images/typical-rg-ipv6-configuration.png'
-'images/usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.png' -> '../docs/images/usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.png'
-'images/vlan-termination-model.png' -> '../docs/images/vlan-termination-model.png'
-'images/vlan-traffic-over-gre.png' -> '../docs/images/vlan-traffic-over-gre.png'
-'images/wifi-functions-within-layers.png' -> '../docs/images/wifi-functions-within-layers.png'
-'./local.css' -> '../docs/./local.css'
-pandoc --data-dir=../../../install/pandoc/ --defaults=../docs/json-defaults.yaml --metadata-file=../docs/METADATA-2.yaml ../docs/index.md --output=../docs/index.json
-pandoc --data-dir=../../../install/pandoc/ --defaults=htm-defaults.yaml   --css=toc.css --css=local.css --toc ../docs/index.json --output=../docs/index.htm
-pandoc --data-dir=../../../install/pandoc/ --defaults=html-defaults.yaml   --css=local.css --css=toc.css --toc ../docs/index.json --output=../docs/index.html
-pandoc --data-dir=../../../install/pandoc/ --defaults=../docs/docx-defaults.yaml --toc ../docs/index.json --output=../docs/index.docx
-pandoc --data-dir=../../../install/pandoc/ --defaults=../docs/typst-defaults.yaml ../docs/index.json --output=../docs/index.typ
-typst compile ../docs/index.typ ../docs/index.pdf
+make[1]: Entering directory '/opt/atlassian/pipelines/agent/build/WT-181/specification'
+yq eval ../../install/projectyaml/WT-124/PROJECT.yaml
+yq eval ../../install/projectyaml/cwmp-data-models/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-106/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-135/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-069/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-140/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-262/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-232/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-196/PROJECT.yaml
+yq eval ../../install/projectyaml/DTP-069/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-098/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-157/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-104/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-181/PROJECT.yaml
+yq eval ../../install/projectyaml/DTP-469/PROJECT.yaml
+yq eval ../../install/projectyaml/usp-data-models/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-143/PROJECT.yaml
+yq eval ../../install/projectyaml/WT-369/PROJECT.yaml
+yq eval ../../install/pandoc/csl/iana-extra-csl.yaml
+yq eval ../../install/pandoc/csl/misc-extra-csl.yaml
+yq eval ../../install/pandoc/csl/w3c-extra-csl.yaml
+yq eval ../../install/pandoc/csl/ansi-extra-csl.yaml
+yq eval ../../install/pandoc/csl/3gpp-extra-csl.yaml
+yq eval ../../install/pandoc/csl/gsma-extra-csl.yaml
+yq eval ../../install/pandoc/csl/itu-extra-csl.yaml
+yq eval ../../install/pandoc/csl/ieee-extra-csl.yaml
+yq eval ../../install/pandoc/csl/etsi-extra-csl.yaml
+yq eval ../../install/pandoc/csl/grpc-extra-csl.yaml
+yq eval ../../install/pandoc/csl/sff-extra-csl.yaml
+yq eval ../../install/pandoc/csl/ietf-extra-csl.yaml
+yq eval ../../install/pandoc/csl/bbf-extra-csl.yaml
+yq eval ../../install/pandoc/csl/mef-extra-csl.yaml
+yq eval ../../install/pandoc/csl/iso-extra-csl.yaml
+yq eval ../../install/pandoc/defaults/common-defaults.yaml
+yq eval ../../install/pandoc/defaults/typst-defaults.yaml
+yq eval ../../install/pandoc/defaults/html-defaults.yaml
+yq eval ../../install/pandoc/defaults/_codebraid_preview.yaml
+yq eval ../../install/pandoc/defaults/htm-defaults.yaml
+yq eval ../../install/pandoc/defaults/pdf-defaults.yaml
+yq eval ../../install/pandoc/defaults/json-defaults.yaml
+yq eval ../../install/pandoc/defaults/codebraid-defaults.yaml
+yq eval ../../install/pandoc/defaults/docx-defaults.yaml
+yq eval ../../install/pandoc/metadata/bbf-metadata.yaml
+yq eval ../../install/cwmp/dm-units.yaml
+yq eval ../../install/pandoc/metadata/no-title-metadata.yaml
+make[1]: Leaving directory '/opt/atlassian/pipelines/agent/build/WT-181/specification'
+make[1]: Entering directory '/opt/atlassian/pipelines/agent/build/WT-181/specification'
+'CNAME' -> '/opt/atlassian/pipelines/agent/build/specification/CNAME'
+rm -f /opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' main/00-front-matter.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' main/02-purpose-and-scope.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' main/03-references-and-terminology.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' main/04-bbftype-impact.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/css/release.css >/opt/atlassian/pipelines/agent/build/specification/release.css
+sed -e'<relocate-image-links>' main/05-architecture.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/defaults/json-defaults.yaml >/opt/atlassian/pipelines/agent/build/specification/json-defaults.yaml
+sed -e'<relocate-image-links>' main/06-parameter-definitions.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' annexes/01-bridging-and-queuing.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' annexes/02-tunneling.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/defaults/docx-defaults.yaml >/opt/atlassian/pipelines/agent/build/specification/docx-defaults.yaml
+sed -e'<relocate-image-links>' annexes/03-software-module-management-uuid-usage.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/00-appendices.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/defaults/pdf-defaults.yaml >/opt/atlassian/pipelines/agent/build/specification/pdf-defaults.yaml
+sed -e'<relocate-image-links>' appendices/01-example-rg-queuing-architecture.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/02-use-of-bridging-objects-for-vlan-tagging.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/defaults/typst-defaults.yaml >/opt/atlassian/pipelines/agent/build/specification/typst-defaults.yaml
+sed -e'<relocate-image-links>' appendices/03-wi-fi-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/04-use-cases.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/custom/typst-template.typ >/opt/atlassian/pipelines/agent/build/specification/typst-template.typ
+sed -e'<relocate-image-links>' appendices/05-ipv6-data-modeling-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e '/span\.release::before/s|{ *content:.*; *}|{ content: "(release-2.20)"; }|' -e 's|${USERDATA}|../../install/pandoc/|g' -e 's|${PROJECTYAMLTARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' -e 's|${TARGETDIR}|/opt/atlassian/pipelines/agent/build/specification|g' <../../install/pandoc/custom/typst-stringify.typ >/opt/atlassian/pipelines/agent/build/specification/typst-stringify.typ
+sed -e'<relocate-image-links>' appendices/06-6rd-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/07-dual-stack-lite-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/bbf.css' -> '/opt/atlassian/pipelines/agent/build/specification/bbf.css'
+sed -e'<relocate-image-links>' appendices/08-advanced-firewall-example-configuration.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/09-ipsec-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/10-etsi-m2m-remote-entity-management-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/bbflogo-bw.png' -> '/opt/atlassian/pipelines/agent/build/specification/bbflogo-bw.png'
+'../../install/pandoc/css/bbflogo-reverse-dark.png' -> '/opt/atlassian/pipelines/agent/build/specification/bbflogo-reverse-dark.png'
+'../../install/pandoc/css/bee.png' -> '/opt/atlassian/pipelines/agent/build/specification/bee.png'
+sed -e'<relocate-image-links>' appendices/11-provider-bridge-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/12-zigbee-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/13-port-control-protocol-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/broadband-forum-logo.png' -> '/opt/atlassian/pipelines/agent/build/specification/broadband-forum-logo.png'
+sed -e'<relocate-image-links>' appendices/14-gre-tunnel-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/extra.css' -> '/opt/atlassian/pipelines/agent/build/specification/extra.css'
+sed -e'<relocate-image-links>' appendices/15-map-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/16-g-fast-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/17-usb-host-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/github.css' -> '/opt/atlassian/pipelines/agent/build/specification/github.css'
+sed -e'<relocate-image-links>' appendices/18-location-management.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/missing.png' -> '/opt/atlassian/pipelines/agent/build/specification/missing.png'
+sed -e'<relocate-image-links>' appendices/19-fault-management.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/20-basapm-and-lmap-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/21-5g-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/pencil.png' -> '/opt/atlassian/pipelines/agent/build/specification/pencil.png'
+sed -e'<relocate-image-links>' appendices/22-data-elements-theory-of-operations.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/permalink.png' -> '/opt/atlassian/pipelines/agent/build/specification/permalink.png'
+sed -e'<relocate-image-links>' appendices/23-logical-interfaces-theory-of-operations.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/24-mtu-configuration.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+sed -e'<relocate-image-links>' appendices/25-3gpp-nas-theory-of-operation.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/right.png' -> '/opt/atlassian/pipelines/agent/build/specification/right.png'
+sed -e'<relocate-image-links>' appendices/99-back-matter.md >>/opt/atlassian/pipelines/agent/build/specification/index.md
+'../../install/pandoc/css/tick.png' -> '/opt/atlassian/pipelines/agent/build/specification/tick.png'
+'../../install/pandoc/css/toc.css' -> '/opt/atlassian/pipelines/agent/build/specification/toc.css'
+'../../install/pandoc/css/watermark-pdf.css' -> '/opt/atlassian/pipelines/agent/build/specification/watermark-pdf.css'
+'images/5g-architecture.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/5g-architecture.png'
+'images/5g-converged-core-network.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/5g-converged-core-network.png'
+'images/bridge-1-model-additional-ethernet-interfaces.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/bridge-1-model-additional-ethernet-interfaces.png'
+'images/bridge-1-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/bridge-1-model.png'
+'images/bridge-123-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/bridge-123-model.png'
+'images/bridge-2-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/bridge-2-model.png'
+'images/bridge-3-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/bridge-3-model.png'
+'images/cellular-access-only-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/cellular-access-only-example.png'
+'images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/cwmp-for-control-and-pre-configuration-ipdr-for-reporting.png'
+'images/cwmp-for-pre-configuration.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/cwmp-for-pre-configuration.png'
+'images/cwmp-multi-acs-deployment.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/cwmp-multi-acs-deployment.png'
+'images/cwmp-proxy-device-deployment.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/cwmp-proxy-device-deployment.png'
+'images/device-user-configuration-backup.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device-user-configuration-backup.png'
+'images/device-user-configuration-restore.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device-user-configuration-restore.png'
+'images/device.pdu-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device.pdu-objects.png'
+'images/device.fwe-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device.fwe-objects.png'
+'images/device.pdu-objects.txt' -> '/opt/atlassian/pipelines/agent/build/specification/images/device.pdu-objects.txt'
+'images/device.wwc-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device.wwc-objects.png'
+'images/device.sessionmanagement-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/device.sessionmanagement-objects.png'
+'images/etsi-high-level-functional-architecture.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/etsi-high-level-functional-architecture.png'
+'images/etsi-m2m-data-model-structure.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/etsi-m2m-data-model-structure.png'
+'images/etsi-m2m-devices-and-gateways.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/etsi-m2m-devices-and-gateways.png'
+'images/example-m2m-network.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-m2m-network.png'
+'images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-of-a-pcp-client-embedded-in-a-device-using-cwmp-with-pcp-proxy-in-the-rg.png'
+'images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-of-a-pcp-client-embedded-in-the-rg-using-cwmp.png'
+'images/example-of-vlan-configuration-in-a-2-box-scenario.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-of-vlan-configuration-in-a-2-box-scenario.png'
+'images/example-sequence-diagram-of-zigbee-management-with-tr-069.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-sequence-diagram-of-zigbee-management-with-tr-069.png'
+'images/example-usb-host-connections.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/example-usb-host-connections.png'
+'images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/examples-of-vlan-configuration-based-on-bridging-and-vlan-termination-objects.png'
+'images/firewall-dmz-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-dmz-example.png'
+'images/firewall-pinhole-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-pinhole-example.png'
+'images/firewall-dmz-example.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-dmz-example.svg'
+'images/firewall-pinhole-example.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-pinhole-example.svg'
+'images/firewall-policy-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-policy-example.png'
+'images/firewall-policy-example.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-policy-example.svg'
+'images/firewall-service-example.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-service-example.svg'
+'images/firewall-service-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/firewall-service-example.png'
+'images/general-layer-2-tunneling-interface-stack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/general-layer-2-tunneling-interface-stack.png'
+'images/fixed-access-only-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/fixed-access-only-example.png'
+'images/general-layer-3-tunneling-from-tunneling-overview.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/general-layer-3-tunneling-from-tunneling-overview.png'
+'images/general-layer-3-tunneling-interface-stack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/general-layer-3-tunneling-interface-stack.png'
+'images/hybrid-access-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/hybrid-access-example.png'
+'images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ignoring-a-vendor-specific-interface-object-in-the-stack-multiple-sub-objects.png'
+'images/ignoring-a-vendor-specific-interface-object-in-the-stack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ignoring-a-vendor-specific-interface-object-in-the-stack.png'
+'images/integration-of-bulk-data-profiles-with-lmap.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/integration-of-bulk-data-profiles-with-lmap.png'
+'images/interface-lowerlayers.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/interface-lowerlayers.png'
+'images/internal-relationships-of-ipv6-addresses-and-prefixes.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/internal-relationships-of-ipv6-addresses-and-prefixes.png'
+'images/ip-over-ip-gre-encapsulation.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ip-over-ip-gre-encapsulation.png'
+'images/ipsec-data-model-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ipsec-data-model-objects.png'
+'images/l2-over-gre-tunnel.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/l2-over-gre-tunnel.png'
+'images/l3-over-gre-tunnel.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/l3-over-gre-tunnel.png'
+'images/l2tp-interface-stack-example.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/l2tp-interface-stack-example.png'
+'images/lmap-framework.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/lmap-framework.png'
+'images/logicalinterfaces-example2.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-example2.png'
+'images/logicalinterfaces-example2.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-example2.svg'
+'images/logicalinterfaces-problem.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-problem.png'
+'images/logicalinterfaces-problem.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-problem.svg'
+'images/logicalinterfaces-solution.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-solution.png'
+'images/logicalinterfaces-solution.svg' -> '/opt/atlassian/pipelines/agent/build/specification/images/logicalinterfaces-solution.svg'
+'images/m2m-rem-service-capability.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/m2m-rem-service-capability.png'
+'images/m2m-device-discovery-for-proxy-management.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/m2m-device-discovery-for-proxy-management.png'
+'images/m2m-scl-functional-architecture-framework.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/m2m-scl-functional-architecture-framework.png'
+'images/osi-layers-and-interface-objects.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/osi-layers-and-interface-objects.png'
+'images/provider-bridge-components.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/provider-bridge-components.png'
+'images/map-t-architecture.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/map-t-architecture.png'
+'images/ptm-link-bonding-groups-for-dsl-mode-lines.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ptm-link-bonding-groups-for-dsl-mode-lines.png'
+'images/ptm-link-bonding-groups-for-fast-mode-lines.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ptm-link-bonding-groups-for-fast-mode-lines.png'
+'images/ptm-link-for-dsl-mode-line.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ptm-link-for-dsl-mode-line.png'
+'images/ptm-link-for-fast-mode-line.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/ptm-link-for-fast-mode-line.png'
+'images/provider-bridge-scenarios.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/provider-bridge-scenarios.png'
+'images/queuing-and-scheduling-example-for-rg.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/queuing-and-scheduling-example-for-rg.png'
+'images/relationship-of-protocols-to-data-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/relationship-of-protocols-to-data-model.png'
+'images/queuing-model-of-a-device.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/queuing-model-of-a-device.png'
+'images/sample-6rd-routing-and-forwarding.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-6rd-routing-and-forwarding.png'
+'images/sample-ds-lite-routing-and-forwarding.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-ds-lite-routing-and-forwarding.png'
+'images/sample-flow-of-downstream-tunneled-traffic-through-the-device.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-flow-of-downstream-tunneled-traffic-through-the-device.png'
+'images/sample-flow-of-upstream-tunneled-traffic-through-the-device.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-flow-of-upstream-tunneled-traffic-through-the-device.png'
+'images/sample-map-routing-and-forwarding-interface-stack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-map-routing-and-forwarding-interface-stack.png'
+'images/sample-map-routing-and-forwarding.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/sample-map-routing-and-forwarding.png'
+'images/tr-181-2-cwmp-cwmp-management.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-cwmp-management.png'
+'images/simple-router-example-interfaces-visualized.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/simple-router-example-interfaces-visualized.png'
+'images/tr-181-2-cwmp-cwmp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-cwmp-protocols.png'
+'images/tr-181-2-cwmp-device.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-device.png'
+'images/tr-181-2-cwmp-ifstack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-ifstack.png'
+'images/tr-181-2-cwmp-overview.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-overview.png'
+'images/tr-181-2-cwmp-usp-management.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-usp-management.png'
+'images/tr-181-2-cwmp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-protocols.png'
+'images/tr-181-2-cwmp-usp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-cwmp-usp-protocols.png'
+'images/tr-181-2-usp-cwmp-management.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-cwmp-management.png'
+'images/tr-181-2-usp-cwmp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-cwmp-protocols.png'
+'images/tr-181-2-usp-device.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-device.png'
+'images/tr-181-2-usp-ifstack.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-ifstack.png'
+'images/tr-181-2-usp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-protocols.png'
+'images/tr-181-2-usp-overview.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-overview.png'
+'images/tr-181-2-usp-usp-management.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-usp-management.png'
+'images/tr-304-framework.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-304-framework.png'
+'images/tr-181-2-usp-usp-protocols.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tr-181-2-usp-usp-protocols.png'
+'images/tunneling-overview.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tunneling-overview.png'
+'images/tunneling-overview-showing-forwarding-decisions.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/tunneling-overview-showing-forwarding-decisions.png'
+'images/typical-rg-ipv6-configuration.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/typical-rg-ipv6-configuration.png'
+'images/usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.png'
+'images/vlan-termination-model.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/vlan-termination-model.png'
+'images/wifi-functions-within-layers.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/wifi-functions-within-layers.png'
+'images/vlan-traffic-over-gre.png' -> '/opt/atlassian/pipelines/agent/build/specification/images/vlan-traffic-over-gre.png'
+'./local.css' -> '/opt/atlassian/pipelines/agent/build/specification/./local.css'
+pandoc --data-dir=../../install/pandoc/ --defaults=/opt/atlassian/pipelines/agent/build/specification/json-defaults.yaml --metadata-file=/opt/atlassian/pipelines/agent/build/specification/METADATA-2.yaml /opt/atlassian/pipelines/agent/build/specification/index.md --output=/opt/atlassian/pipelines/agent/build/specification/index.json
+pandoc --data-dir=../../install/pandoc/ --defaults=htm-defaults.yaml   --css=toc.css --css=local.css --toc /opt/atlassian/pipelines/agent/build/specification/index.json --output=/opt/atlassian/pipelines/agent/build/specification/index.htm
+pandoc --data-dir=../../install/pandoc/ --defaults=html-defaults.yaml   --css=local.css --css=toc.css --toc /opt/atlassian/pipelines/agent/build/specification/index.json --output=/opt/atlassian/pipelines/agent/build/specification/index.html
+pandoc --data-dir=../../install/pandoc/ --defaults=/opt/atlassian/pipelines/agent/build/specification/docx-defaults.yaml --toc /opt/atlassian/pipelines/agent/build/specification/index.json --output=/opt/atlassian/pipelines/agent/build/specification/index.docx
+pandoc --data-dir=../../install/pandoc/ --defaults=/opt/atlassian/pipelines/agent/build/specification/typst-defaults.yaml /opt/atlassian/pipelines/agent/build/specification/index.json --output=/opt/atlassian/pipelines/agent/build/specification/index.typ
+typst compile /opt/atlassian/pipelines/agent/build/specification/index.typ /opt/atlassian/pipelines/agent/build/specification/index.pdf
 warning: unknown font family: arial
-    ┌─ ../docs/typst-template.typ:379:17
+    ┌─ ../../specification/typst-template.typ:379:17
     │
 379 │            font: font,
     │                  ^^^^
 
 warning: image contains foreign object
-    ┌─ ../docs/index.typ:159:34
+    ┌─ ../../specification/index.typ:159:34
     │
 159 │     let (width, height) = measure(image(..args))
     │                                   ^^^^^^^^^^^^^
@@ -228,7 +232,7 @@ warning: image contains foreign object
     = hint: see https://github.com/typst/typst/issues/1421 for more information
 
 warning: image contains foreign object
-    ┌─ ../docs/index.typ:174:6
+    ┌─ ../../specification/index.typ:174:6
     │
 174 │       image(..args, width: new_width, height: new_height)
     │       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -236,5 +240,4 @@ warning: image contains foreign object
     = hint: SVG images with foreign objects might render incorrectly in typst
     = hint: see https://github.com/typst/typst/issues/1421 for more information
 
-'../docs/index.pdf' -> '../docs/WT-181-release-2.19-151.pdf'
-make[1]: Leaving directory '/mnt/ebs/bamboo-agent-home-bravo/xml-data/build-dir/BUSDM-DEV2DMREL-JOB1/project/bbf/specification'
+make[1]: Leaving directory '/opt/atlassian/pipelines/agent/build/WT-181/specification'

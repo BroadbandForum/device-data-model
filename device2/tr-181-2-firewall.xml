@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-firewall"
-    file="tr-181-2-19-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-firewall"
+    file="tr-181-2-20-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,17 +71,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-18-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-20-schedules">
     <component name="ScheduleRef"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-ip">
+      spec="urn:broadband-forum-org:tr-181-2-20-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -1395,6 +1395,34 @@
         <syntax>
           <boolean/>
           <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FloodLimit" access="readWrite" version="2.20">
+        <description>
+          Specifies the number of packets that can be processed
+          per unit of time. A value of -1 indicates this criterion is not used
+          for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BurstLimit" access="readWrite" version="2.20">
+        <description>
+          Specifies the maximum number of packets that can be processed in a
+          short burst before the {{param|FloodLimit}} is enforced again.
+          A value of -1 indicates this criterion is not used for matching.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="65535"/>
+          </int>
+          <default type="object" value="-1"/>
         </syntax>
       </parameter>
     </object>
@@ -3036,7 +3064,7 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.19">
+  <model name="Firewall:2.20">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

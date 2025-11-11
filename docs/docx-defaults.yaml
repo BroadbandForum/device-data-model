@@ -2,11 +2,11 @@
 
 # XXX environment variable substitution only works for file paths, and doesn't
 #     work for PDF engine options, so in fact we preprocess this file to
-#     substitute ../../../install/pandoc/ etc.
+#     substitute ../../install/pandoc/ etc.
 
 standalone: true
 
 # XXX this shouldn't be necessary, but the DOCX writer appears to fetch all
 #     resources mentioned in the metadata regardless of whether they're used
 resource-path:
-  - ../docs
+  - /opt/atlassian/pipelines/agent/build/specification

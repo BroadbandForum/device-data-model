@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-wifi-de"
-    file="tr-181-2-19-0-wifi-de.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-de"
+    file="tr-181-2-20-0-wifi-de.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -74,13 +74,19 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-20-wifi-base">
     <component name="WiFiRoot"/>
+  </import>
+
+  <import file="tr-181-2-wifi-de-base.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-wifi-de-base">
+    <component name="WiFi7Capabilities"/>
+    <component name="MLOFreqSeparation"/>
   </import>
 
   <component name="TIDLinkMap">
@@ -209,6 +215,20 @@
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="APMLDTemplateRef" access="readOnly" version="2.20">
+        <description>
+          {{param}} is a reference to the APMLDTemplate selected for this
+          {{object}}.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                targetParent="####.Templates.APMLDTemplate."
+                targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -1193,125 +1213,6 @@
 
       <component ref="MLDConfig"/>
     </object>
-
-  </component>
-
-  <component name="WiFi7Capabilities">
-
-    <parameter name="EMLMRSupport" access="readOnly">
-      <description>
-        Indicates if the Enhanced Multi-Link Multi-Radio (EMLMR) operation
-        is supported.
-      </description>
-      <syntax>
-        <boolean/>
-      </syntax>
-    </parameter>
-
-    <parameter name="EMLSRSupport" access="readOnly">
-      <description>
-        Indicates if Enhanced Multi-Link Single-Radio (EMLSR) operation
-        is supported.
-      </description>
-      <syntax>
-        <boolean/>
-      </syntax>
-    </parameter>
-
-    <parameter name="STRSupport" access="readOnly">
-      <description>
-        Indicates if Simultaneous Transmit and Receive (STR) operation
-        is supported.
-      </description>
-      <syntax>
-        <boolean/>
-      </syntax>
-    </parameter>
-
-    <parameter name="NSTRSupport" access="readOnly">
-      <description>
-        Indicates if Non-Simultaneous Transmit and Receive (NSTR)
-        operation is supported.
-      </description>
-      <syntax>
-        <boolean/>
-      </syntax>
-    </parameter>
-
-    <parameter name="TIDLinkMapNegotiation" access="readOnly">
-      <description>
-        Indicates if Traffic Identifier (TID) to Link Mapping Negotiation
-        is supported.
-      </description>
-      <syntax>
-        <boolean/>
-      </syntax>
-    </parameter>
-
-    <parameter name="EMLMRFreqSeparationNumberOfEntries" access="readOnly">
-      <description>
-        {{numentries}}
-      </description>
-      <syntax>
-        <unsignedInt/>
-      </syntax>
-    </parameter>
-
-    <parameter name="EMLSRFreqSeparationNumberOfEntries" access="readOnly">
-      <description>
-        {{numentries}}
-      </description>
-      <syntax>
-        <unsignedInt/>
-      </syntax>
-    </parameter>
-
-    <parameter name="STRFreqSeparationNumberOfEntries" access="readOnly">
-      <description>
-        {{numentries}}
-      </description>
-      <syntax>
-        <unsignedInt/>
-      </syntax>
-    </parameter>
-
-    <parameter name="NSTRFreqSeparationNumberOfEntries" access="readOnly">
-      <description>
-        {{numentries}}
-      </description>
-      <syntax>
-        <unsignedInt/>
-      </syntax>
-    </parameter>
-  </component>
-
-  <component name="MLOFreqSeparation">
-
-    <parameter name="RUID" access="readOnly">
-      <description>
-        The Radio unique identifier (RUID) of another radio to which
-        the specified frequency separation gap applies.
-      </description>
-      <syntax>
-        <base64/>
-      </syntax>
-    </parameter>
-
-    <parameter name="FreqSeparation" access="readOnly">
-      <description>
-       Frequency separation to the specified radio for the
-       particular MLO operation mode.
-       A value of 0 indicates that no frequency separation
-       information is provided.
-       Set to a nonzero value to indicate the required frequency gap
-       is ({{param}} - 1) x {{units}}.
-      </description>
-      <syntax>
-        <unsignedInt>
-          <units value="80 MHz"/>
-         </unsignedInt>
-      </syntax>
-    </parameter>
 
   </component>
 
@@ -3253,7 +3154,8 @@
           UTF-8.
 
           If the instance of this {{object|##}} is the same as
-          {{object|Device.WiFi.Radio.{i}.}}, then this parameter is the same as
+          {{object|Device.WiFi.Radio.{i}.}}, then this parameter is the same
+          as the first two octets of
           {{param|Device.WiFi.Radio.{i}.RegulatoryDomain}}.
         </description>
         <syntax>
@@ -4091,7 +3993,7 @@
         anticipated channel preference.
 
         Operating Class contains an enumerated value from
-        {{bibref|802.11ax|Table E-4}}}.
+        {{bibref|802.11ax|Table E-4}}.
       </description>
       <uniqueKey functional="true">
         <parameter ref="OpClass"/>
@@ -4414,7 +4316,7 @@
         This object represents an individual Access Point device.
       </description>
 
-      <parameter name="ManufacturerOUI" access="readOnly" status="deprecated">
+      <parameter name="ManufacturerOUI" access="readOnly" status="obsoleted">
         <description>
           Organizationally unique identifier of the Access Point device
           manufacturer. Represented as a six hexadecimal-digit value using all
@@ -4431,6 +4333,8 @@
 
           {{deprecated|2.18|because it was essentially the same as
           {{param|#.Manufacturer}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <string>
@@ -4467,13 +4371,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="EasyMeshControllerOperationMode" access="readOnly" status="deprecated">
+      <parameter name="EasyMeshControllerOperationMode" access="readOnly" status="obsoleted">
         <description>
           This parameter represents the status of Wi-Fi CERTIFIED EasyMeshTM
           controller functionality. {{enum}}
 
           {{deprecated|2.18|because it was the same as
           {{param|#.ControllerOperationMode}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <string>
@@ -4527,15 +4433,15 @@
         The endpoints of the backhaul interface are represented by the
         (Device's ID and interface MAC Address). This object represents the
         upward view of the backhaul interface. The two endpoints of the
-        backhaul interface are - ({{param|BackhaulDeviceID|deprecated}},
-        {{param|BackhaulMACAddress|deprecated}}) of the uplinked Backhaul
-        Device - {{param|MACAddress|deprecated}} of this Access Point Device.
+        backhaul interface are - ({{param|BackhaulDeviceID|obsoleted}},
+        {{param|BackhaulMACAddress|obsoleted}}) of the uplinked Backhaul
+        Device - {{param|MACAddress|obsoleted}} of this Access Point Device.
 
         {{empty}} is reserved for the {{object}} instance that represents the
         Multi-AP Controller.
       </description>
 
-      <parameter name="LinkType" access="readOnly" status="deprecated">
+      <parameter name="LinkType" access="readOnly" status="obsoleted">
         <description>
           The medium being used to backhaul this Access Point Device to the
           Backhaul Access Point Device. The {{enum|None}} value is reserved for
@@ -4544,6 +4450,8 @@
 
           {{deprecated|2.18|because it was essentially the same as
           {{param|##.BackhaulMediaType}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <string>
@@ -4559,11 +4467,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulMACAddress" access="readOnly" status="deprecated">
+      <parameter name="BackhaulMACAddress" access="readOnly" status="obsoleted">
         <description>
           The MAC Address at the far end of the backhaul link of the interface
           on the network that is providing a backhaul for this Access Point
-          Device. This along with {{param|BackhaulDeviceID|deprecated}}, helps
+          Device. This along with {{param|BackhaulDeviceID|obsoleted}}, helps
           to identify the backhaul interface endpoint.
 
           {{empty}} is reserved for the {{object}} instance that represents the
@@ -4571,26 +4479,30 @@
 
           {{deprecated|2.18|because it was the same as
           {{param|##.BackhaulMACAddress}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulDeviceID" access="readOnly" status="deprecated">
+      <parameter name="BackhaulDeviceID" access="readOnly" status="obsoleted">
         <description>
           The Device's ID of the Device on the network that is providing a
           Backhaul Link for this Access Point Device.
 
           {{deprecated|2.18|because it was essentially the same as
           {{param|##.BackhaulALID}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="MACAddress" access="readOnly" status="deprecated">
+      <parameter name="MACAddress" access="readOnly" status="obsoleted">
         <description>
           The MAC Address at the near end of the backhaul link of this Access
           Point Device's backhaul interface that is connecting via
@@ -4599,6 +4511,8 @@
 
           {{deprecated|2.18|because it was the same as
           {{param|##.Radio.{i}.BackhaulSta.MACAddress}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -4694,7 +4608,7 @@
       <parameter name="BytesSent" access="readOnly">
         <description>
           The total number of bytes transmitted across the backhaul medium (as
-          identified by the value of the {{param|###.BackhaulMediaType}}}}
+          identified by the value of the {{param|###.BackhaulMediaType}}
           parameter), including framing characters.
         </description>
         <syntax>
@@ -4857,6 +4771,20 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RadioTemplateRef" access="readOnly" version="2.20">
+        <description>
+          {{param}} is a reference to the RadioTemplate selected for this
+          {{object}}.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                targetParent="####.Templates.RadioTemplate."
+                targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -6199,6 +6127,34 @@
         </syntax>
       </parameter>
 
+      <parameter name="BSSTemplateRef" access="readOnly" version="2.20">
+        <description>
+          {{param}} is a reference to the BSSTemplate selected for this
+          {{object}}.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                targetParent="#####.Templates.BSSTemplate."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecurityTemplateRef" access="readOnly" version="2.20">
+        <description>
+          {{param}} is a reference to the SecurityTemplate selected for this
+          {{object}}.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                targetParent="#####.Templates.SecurityTemplate."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
       <parameter name="LastChange" access="readOnly">
         <description>
           Time in {{units}} since the last change to the {{param|Enabled}}
@@ -6700,7 +6656,7 @@
         network.
       </description>
 
-      <parameter name="RadarDetections" access="readOnly" status="deprecated">
+      <parameter name="RadarDetections" access="readOnly" status="obsoleted">
         <description>
           {{list}} List items represent channels in the non-occupancy list due
           to radars detected by Dynamic Frequency Selection (DFS) Channel
@@ -6708,6 +6664,8 @@
 
           {{deprecated|2.18|because it was superseded by
           {{object|##.CACStatus.{i}.}}.}}
+
+          {{obsoleted|2.20}}
         </description>
         <syntax>
           <list>
@@ -7638,7 +7596,7 @@
           The counters contained in {{object}} are all reset on reboot.
         </description>
 
-        <parameter name="AssociationTime" access="readOnly" status="deprecated">
+        <parameter name="AssociationTime" access="readOnly" status="obsoleted">
           <description>
             Date and time in UTC when the device was associated.
 
@@ -7649,13 +7607,15 @@
 
             {{deprecated|2.18|because it was essentially the same as
             {{param|#.LastConnectTime}}.}}
+
+            {{obsoleted|2.20}}
           </description>
           <syntax>
             <dateTime/>
           </syntax>
         </parameter>
 
-        <parameter name="Noise" access="readOnly" status="deprecated">
+        <parameter name="Noise" access="readOnly" status="obsoleted">
           <description>
             An indicator of the average radio noise plus interference power
             measured on the uplink from the Associated Device (STA) to the Access
@@ -7671,6 +7631,8 @@
 
             {{deprecated|2.18|because it should be the same as
             {{param|###.Noise}}.}}
+
+            {{obsoleted|2.20}}
           </description>
           <syntax>
             <unsignedInt>
@@ -8018,13 +7980,15 @@
         BSS.
       </description>
 
-      <parameter name="AssociationEventDataNumberOfEntries" access="readOnly" status="obsoleted">
+      <parameter name="AssociationEventDataNumberOfEntries" access="readOnly" status="deleted">
         <description>
           {{numentries}}
 
           {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -8037,7 +8001,7 @@
         access="readOnly"
         numEntriesParameter="AssociationEventDataNumberOfEntries"
         minEntries="0" maxEntries="unbounded" dmr:noUniqueKeys="true"
-        version="2.13" status="obsoleted">
+        version="2.13" status="deleted">
       <description>
         The events generated when an Associated Device (STA) associates to a
         BSS.
@@ -8045,6 +8009,8 @@
         {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
 
       <component ref="AssociationEventData"/>
@@ -8052,13 +8018,15 @@
 
     <object
         name="Device.WiFi.DataElements.AssociationEvent.AssociationEventData.{i}.WiFi6Capabilities."
-        access="readOnly" minEntries="1" maxEntries="1" version="2.15" status="obsoleted">
+        access="readOnly" minEntries="1" maxEntries="1" version="2.15" status="deleted">
       <description>
         Describes the Wi-Fi 6 capabilities of the Associated Device (STA).
 
         {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
 
       <component ref="WiFi6"/>
@@ -8072,13 +8040,15 @@
       </description>
 
       <parameter name="DisassociationEventDataNumberOfEntries"
-          access="readOnly" status="obsoleted">
+          access="readOnly" status="deleted">
         <description>
           {{numentries}}
 
           {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -8092,7 +8062,7 @@
         access="readOnly"
         numEntriesParameter="DisassociationEventDataNumberOfEntries"
         minEntries="0" maxEntries="unbounded" dmr:noUniqueKeys="true"
-        version="2.13" status="obsoleted">
+        version="2.13" status="deleted">
       <description>
         The events generated when an Associated Device (STA) disassociates from
         a BSS.
@@ -8100,6 +8070,8 @@
         {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
 
       <component ref="DisassociationEventData"/>
@@ -8114,13 +8086,15 @@
       </description>
 
       <parameter name="FailedConnectionEventDataNumberOfEntries"
-          access="readOnly" status="obsoleted">
+          access="readOnly" status="deleted">
         <description>
           {{numentries}}
 
           {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -8133,13 +8107,15 @@
         access="readOnly"
         numEntriesParameter="FailedConnectionEventDataNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.15"
-        dmr:noUniqueKeys="true" status="obsoleted">
+        dmr:noUniqueKeys="true" status="deleted">
       <description>
         This object describes the data provided with a failed connection event
 
         {{deprecated|2.17|because a corresponding USP event is defined instead}}
 
         {{obsoleted|2.19}}
+
+        {{deleted|2.20}}
       </description>
 
       <component ref="FailedConnectionEventData"/>
@@ -9032,7 +9008,7 @@
     </parameter>
   </component>
 
-  <model name="WiFiDE:2.18">
+  <model name="WiFiDE:2.20">
     <component ref="Root"/>
     <component ref="WiFiRoot"/>
     <component ref="WiFiAllianceDataElements"/>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-hosts"
-    file="tr-181-2-19-0-hosts.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-hosts"
+    file="tr-181-2-20-0-hosts.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,14 +70,52 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-    spec="urn:broadband-forum-org:tr-181-2-18-schedules">
+    spec="urn:broadband-forum-org:tr-181-2-20-schedules">
     <component name="ScheduleRef"/>
   </import>
+
+  <component name="HostsUSP">
+    <object base="Device.Hosts.">
+      <command name="RemoveInactiveHosts()" async="false" version="2.20">
+        <description>
+          Removes Host entries where {{param|Host.{i}.Active}} is {{false}}, and the Host has been
+          inactive for longer than {{param|MinimumInactiveTime}}.
+
+          The inactivity duration is calculated based on the {{param|Host.{i}.ActiveLastChange}}
+          timestamp.
+        </description>
+        <input>
+          <parameter name="MinimumInactiveTime" mandatory="false">
+            <description>
+              Specifies the minimum duration, in {{units}}, for which a Host must be inactive before being removed.
+              
+              When {{param}} is not specified, all inactive Host entries are removed.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="seconds"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="NumberOfRemovedHosts">
+            <description>
+              Indicates the total number of hosts successfully removed.
+            </description>
+            <syntax>
+              <unsignedInt/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+    </object>
+  </component>
 
   <component name="Hosts">
 
@@ -96,6 +134,25 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CleanupHostsThreshold" access="readWrite" version="2.20">
+        <description>
+          Specifies the threshold related to the number of Host entries that are retained in the
+          {{object|Device.Hosts.Host.{i}.}} table.
+
+          If this threshold is exceeded, the device removes the inactive Host entry with the oldest
+          {{param|Host.{i}.ActiveLastChange}} timestamp that is, the Host entry for which
+          {{param|Host.{i}.Active}} is {{false}} and the host entry for which has been inactive the
+          longest.
+
+          A value of '-1' disables this mechanism.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
         </syntax>
       </parameter>
 
@@ -396,7 +453,8 @@
 
           Entries in Device.Hosts.Host SHOULD NOT be removed when they become
           inactive if there are {{object|WANStats}} statistics collected for
-          the entry in the past seven days.
+          the entry in the past seven days, unless requested by a Controller
+          or if the {{param|#.CleanupHostsThreshold}} parameter value is reached.
         </description>
         <syntax>
           <boolean/>
@@ -416,7 +474,8 @@
 
           Entries in Device.Hosts.Host SHOULD NOT be removed when they become
           inactive if there are {{object|WANStats}} statistics collected for
-          the entry in the past seven days.
+          the entry in the past seven days, unless requested by a Controller
+          or if the {{param|#.CleanupHostsThreshold}} parameter value is reached.
         </description>
         <syntax>
           <dateTime/>
@@ -695,9 +754,11 @@
 
       <component ref="ScheduleRef"/>
 
-      <parameter name="ScheduleNumberOfEntries" access="readOnly" status="deprecated">
+      <parameter name="ScheduleNumberOfEntries" access="readOnly" status="obsoleted">
         <description>
           {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
+
+          {{obsoleted|2.20}}
 
           {{numentries}}
         </description>
@@ -710,9 +771,11 @@
     <object name="Device.Hosts.AccessControl.{i}.Schedule.{i}."
       access="readWrite" numEntriesParameter="ScheduleNumberOfEntries"
       enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-      version="2.14" status="deprecated">
+      version="2.14" status="obsoleted">
       <description>
         {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
+
+        {{obsoleted|2.20}}
 
         Each instance of this object provides a schedule where access is
         enabled.
@@ -876,7 +939,7 @@
       </object>
     </profile>
 
-    <profile name="AccessControl:1" status="deprecated" version="2.14">
+    <profile name="AccessControl:1" status="obsoleted" version="2.14">
       <object ref="Device.Hosts." requirement="present">
         <parameter ref="AccessControlNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -884,10 +947,10 @@
         <parameter ref="PhysAddress" requirement="readWrite"/>
         <parameter ref="AccessPolicy" requirement="readWrite"/>
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly" status="deprecated"/>
+        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly" status="obsoleted"/>
       </object>
       <object ref="Device.Hosts.AccessControl.{i}.Schedule.{i}."
-          requirement="present" status="deprecated">
+          requirement="present" status="obsoleted">
         <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Day" requirement="readWrite"/>
@@ -909,7 +972,7 @@
     </profile>
   </component>
 
-  <model name="Hosts:2.19">
+  <model name="Hosts:2.20">
     <component ref="Root"/>
     <component ref="Hosts"/>
   </model>

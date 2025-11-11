@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-19-0-thread"
-  file="tr-181-2-19-0-thread.xml">
+  spec="urn:broadband-forum-org:tr-181-2-20-0-thread"
+  file="tr-181-2-20-0-thread.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -81,8 +81,13 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-16-root">
-    <component name="Root"/>
+    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    <component name="Root" />
+  </import>
+
+  <import file="tr-181-2-powermanagement.xml"
+    spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    <component name="PowerManagement" />
   </import>
 
   <dataType name="ThreadLinkQuality">
@@ -250,6 +255,7 @@ directed to <info@broadband-forum.org>.
       <component ref="Layer1InterfaceParams"/>
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer1InterfaceStats"/>
+      <component ref="PowerManagement" version="2.20"/>
 
       <parameter name="TransmitPowerSupported">
         <description>
@@ -1254,7 +1260,7 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
-  <model name="Thread:2.19">
+  <model name="Thread:2.20">
     <component ref="Root"/>
     <component ref="Thread"/>
   </model>

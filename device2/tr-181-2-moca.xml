@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-moca"
-    file="tr-181-2-19-0-moca.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-moca"
+    file="tr-181-2-20-0-moca.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,12 +69,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -620,7 +620,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PrivacyEnabled" access="readOnly" status="obsoleted" id="mocaIfPrivacyEnable/1.3.6.1.4.1.31621.1.2.1.1.1.7">
+      <parameter name="PrivacyEnabled" access="readOnly" status="deleted" id="mocaIfPrivacyEnable/1.3.6.1.4.1.31621.1.2.1.1.1.7">
         <description>
           Indicates whether link-layer security is enabled or disabled.
 
@@ -630,6 +630,8 @@
           {{deprecated|2.17|because it and {{param|PrivacyEnabledSetting}} are associated with the same underlying MIB object and it is therefore unnecessary. If implemented, it MUST return the same value as {{param|PrivacyEnabledSetting}}}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <boolean/>
@@ -1462,7 +1464,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="BeaconPowerLimit" access="readWrite" status="obsoleted" id="mocaIfBeaconPowerBackoff/1.3.6.1.4.1.31621.1.2.1.1.1.5">
+      <parameter name="BeaconPowerLimit" access="readWrite" status="deleted" id="mocaIfBeaconPowerBackoff/1.3.6.1.4.1.31621.1.2.1.1.1.5">
         <description>
           The value in dB by which to reduce the setting of the transmit power of the Beacon from the maximum transmit power (BEACON_PWR_BACKOFF Managed Parameter). The beacon transmit power SHALL only be changed when {{param|Status}} is not {{enum|Up|Status}}, which means the interface is not part of a MoCA network. If changed, the parameter may not take effect until the MoCA interface is restarted.
 
@@ -1473,6 +1475,8 @@
           {{deprecated|2.17|for MoCA 2.5}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
@@ -2602,7 +2606,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="TxPowerControlReduction" access="readOnly" status="obsoleted" id="mocaNodeTxPowerReduction/1.3.6.1.4.1.31621.1.2.1.11.1.6">
+      <parameter name="TxPowerControlReduction" access="readOnly" status="deleted" id="mocaNodeTxPowerReduction/1.3.6.1.4.1.31621.1.2.1.11.1.6">
         <description>
           The reduction in transmitter level due to power
           control.
@@ -2613,13 +2617,15 @@
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.PowerReduction}}. See {{bibref|MOCA20-MIB}}}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
         </syntax>
       </parameter>
 
-      <parameter name="RxPowerLevel" access="readOnly" activeNotify="canDeny" status="obsoleted" id="mocaNodeRxPower/1.3.6.1.4.1.31621.1.2.1.11.1.7">
+      <parameter name="RxPowerLevel" access="readOnly" activeNotify="canDeny" status="deleted" id="mocaNodeRxPower/1.3.6.1.4.1.31621.1.2.1.11.1.7">
         <description>
           The power level (in {{units}}) received at the MoCA interface from
           this remote device.
@@ -2630,6 +2636,8 @@
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.Power}}. See {{bibref|MOCA20-MIB}}}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <unsignedInt>
@@ -2761,7 +2769,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="RxSNR" access="readOnly" status="obsoleted" id="mocaNodeSNR/1.3.6.1.4.1.31621.1.2.1.11.1.14">
+      <parameter name="RxSNR" access="readOnly" status="deleted" id="mocaNodeSNR/1.3.6.1.4.1.31621.1.2.1.11.1.14">
         <description>
           The signal to noise level received at this interface
           from this remote device.
@@ -2772,6 +2780,8 @@
           {{deprecated|2.17|since it is replaced by {{param|Device.MoCA.Interface.{i}.Mesh.{i}.RxSNR}}. See {{bibref|MOCA20-MIB}}}}
 
           {{obsoleted|2.19}}
+
+          {{deleted|2.20}}
         </description>
         <syntax>
           <dataType ref="MocaDB"/>
@@ -3314,7 +3324,7 @@
       </parameter>
     </object>
 
-    <profile name="MoCA:1" version="2.0" status="obsoleted">
+    <profile name="MoCA:1" version="2.0" status="deleted">
       <object ref="Device.MoCA." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -3332,7 +3342,8 @@
         <parameter ref="CurrentVersion" requirement="readOnly"/>
         <parameter ref="NetworkCoordinator" requirement="readOnly"/>
         <parameter ref="PrivacyEnabledSetting" requirement="readWrite"/>
-        <parameter ref="PrivacyEnabled" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="PrivacyEnabled" requirement="readOnly"
+          status="deleted"/>
         <parameter ref="FreqCapabilityMask" requirement="readOnly"/>
         <parameter ref="FreqCurrentMaskSetting" requirement="readWrite"/>
         <parameter ref="FreqCurrentMask" requirement="readOnly"/>
@@ -3626,7 +3637,7 @@
     </profile>
   </component>
 
-  <model name="MoCA:2.19">
+  <model name="MoCA:2.20">
     <component ref="Root"/>
     <component ref="MoCA"/>
   </model>

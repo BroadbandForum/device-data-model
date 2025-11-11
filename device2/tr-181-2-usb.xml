@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-usb"
-    file="tr-181-2-19-0-usb.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-usb"
+    file="tr-181-2-20-0-usb.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,13 +66,18 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-19-interface">
+    spec="urn:broadband-forum-org:tr-181-2-20-interface">
     <component name="Layer12Interface"/>
+  </import>
+
+  <import file="tr-181-2-powermanagement.xml"
+      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    <component name="PowerManagement"/>
   </import>
 
   <component name="USB">
@@ -148,6 +153,7 @@
       </uniqueKey>
 
       <component ref="Alias"/>
+      <component ref="PowerManagement" version="2.20"/>
 
       <parameter name="Name" access="readOnly">
         <description>
@@ -260,6 +266,29 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedDeviceNumberOfEntries" access="readOnly" version="2.20">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowAllDevices" access="readWrite" version="2.20">
+        <description>
+          When set to {{true}}, all USB devices are allowed to connect to the Device and the
+          configuration mentioned in {{object|.USB.USBHosts.AllowedDevice.}} is ignored.
+
+          When set to {{false}}, only USB devices listed in
+          {{object|.USB.USBHosts.AllowedDevice.}} are allowed to connect to
+          the Device. Any USB device not explicitly listed will be rendered inactive.
+        </description>
+        <syntax>
+          <boolean/>
         </syntax>
       </parameter>
     </object>
@@ -611,6 +640,80 @@
         </syntax>
       </parameter>
 
+      <parameter name="DeviceState" access="readOnly" version="2.20">
+        <description>
+          Indicates the low-level device state, directly mapping to the "Visible Device States" in
+          {{bibref|USB2.0|Table 9-1 Visible Device States}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Attached">
+              <description>
+                The device is physically connected to the USB port. This is the initial state upon
+                connection, before the host has necessarily detected or powered it.
+                
+                See {{bibref|USB2.0|9.1.1.1 Attached}}.
+              </description>
+            </enumeration>
+            <enumeration value="Powered">
+              <description>
+                The device is receiving power from the host but has not yet been reset. The
+                host is aware of the connection.
+                
+                See {{bibref|USB2.0|9.1.1.2 Powered}}.
+              </description>
+            </enumeration>
+            <enumeration value="Default">
+              <description>
+                The device has been reset by the host and is now communicating on the default
+                address. It is waiting for the host to assign it a unique address.
+                
+                See {{bibref|USB2.0|9.1.1.3 Default}}.
+              </description>
+            </enumeration>
+            <enumeration value="Address">
+              <description>
+                A unique device address has been assigned by the host. The device is now in the
+                Address state, ready for the host to learn about its capabilities by reading its
+                descriptors.
+                
+                See {{bibref|USB2.0|9.1.1.4 Address}}.
+              </description>
+            </enumeration>
+            <enumeration value="Configured">
+              <description>
+                The device has been successfully configured by the host.
+                It is now fully operational and its interfaces are active.
+                
+                See {{bibref|USB2.0|9.1.1.5 Configured}}.
+              </description>
+            </enumeration>
+            <enumeration value="Suspended">
+              <description>
+                The device is in a low-power state to conserve energy. It maintains its address and
+                configuration but is not actively communicating until it receives a resume signal
+                from the host.
+                
+                See {{bibref|USB2.0|9.1.1.6 Suspended}}.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="IsAllowed" access="readOnly" version="2.20">
+        <description>
+          When {{true}}, the associated USB device is allowed to connect to the
+          Device USB Host controller(s) based on the configuration in
+          {{object|.USB.USBHosts.AllowedDevice.}} and {{param|##.AllowAllDevices}}.
+
+          When {{false}}, the associated USB device is not allowed to connect.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="ConfigurationNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -709,6 +812,171 @@
       </parameter>
     </object>
 
+    <object name="Device.USB.USBHosts.AllowedDevice.{i}." access="readWrite"
+      numEntriesParameter="AllowedDeviceNumberOfEntries" minEntries="0"
+      maxEntries="unbounded" enableParameter="Enable" version="2.20">
+      <description>
+        Table of USB devices permitted to connect to the Device USB Host controller(s).
+        Each entry in this table defines an allowed device based on its e.g. USB Vendor ID
+        and Product ID. Only USB devices listed here will be accepted by the Device; any
+        USB device not explicitly listed will be rendered inactive.
+
+        When a USB device is rendered inactive, the parameter value of
+        {{param|#.Host.{i}.Device.{i}.IsAllowed}}
+        is set to {{false}}, which prevents the {{param|#.Host.{i}.Device.{i}.DeviceState}} from reaching
+        the {{enum|Configured|#.Host.{i}.Device.{i}.DeviceState}} status.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias" />
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables whether the corresponding allowed USB device entry is active. 
+          If set to {{true}}, the device defined by this entry is permitted to connect to the system.
+          If {{false}}, the device is ignored even if its identifiers match.
+        </description>
+        <syntax>
+          <boolean />
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          A user-friendly description of the allowed USB device entry.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64" />
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DeviceClass" access="readWrite">
+        <description>
+          Classification criterion.
+
+          Class Code assigned by USB-IF, which can be expressed as a two-digit hexadecimal string
+          (e.g., `00`), but can also include a wildcard character. When `00`, the device
+          specifies its own class code. When `FF`, the class code is vendor-specific. The `*`
+          wildcard may be used to match any value, either fully (e.g., `*`) or partially (e.g.,
+          `F*` or `*3`). When empty, the device is not classified by Device Class.
+        </description>
+        <syntax>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{2}"></pattern>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DeviceSubClass" access="readWrite">
+        <description>
+          Classification criterion.
+
+          Subclass code assigned by USB-IF, expressed as a two-digit hexadecimal string (e.g.,
+          `01`), but can also include a wildcard character. The `*` wildcard may be used to match
+          any value, either fully (e.g., `*`) or partially (e.g., `0*` or `*3`). When empty, the
+          device is not classified by Device Subclass.
+        </description>
+        <syntax>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{2}"></pattern>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DeviceProtocol" access="readWrite">
+        <description>
+          Classification criterion.
+
+          Protocol code assigned by USB-IF, expressed as a two-digit hexadecimal string
+          (e.g., `02`), but can also include a wildcard character. The `*` wildcard may be used to
+          match any value, either fully (e.g., `*`) or partially (e.g., `0*` or `*2`). When
+          empty, the device is not classified by Device Protocol.
+        </description>
+        <syntax>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{2}"></pattern>
+          </string>
+        </syntax>
+      </parameter>
+
+
+      <parameter name="ProductID" access="readWrite">
+        <description>
+          Classification criterion.
+
+          Product ID assigned by the manufacturer, expressed as a two- to four-digit hexadecimal
+          string (e.g., `5678`), but can also include a wildcard character. The `*` wildcard may
+          be used to match any value, either fully (e.g., `*`) or partially (e.g., `5*`). When
+          empty, the device is not classified by Product ID.
+        </description>
+        <syntax>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{4}"></pattern>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="VendorID" access="readWrite">
+        <description>
+          Classification criterion.
+
+          Vendor ID assigned by USB-IF, expressed as a two- to four-digit hexadecimal string (e.g.,
+          `1234`), but can also include a wildcard character. The `*` wildcard may be used to
+          match any value, either fully (e.g., `*`) or partially (e.g., `1*`). When empty, the
+          device is not classified by Vendor ID.
+        </description>
+        <syntax>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{4}"></pattern>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Interfaces" access="readWrite">
+        <description>
+          Each item defines an allowed USB interface in the format
+          'InterfaceClass:InterfaceSubClass:InterfaceProtocol', using two-digit hexadecimal values
+          (e.g., `FF`), but can also include a wildcard character.
+
+          The `*` wildcard may be used to match any value, either fully (e.g., `*`) or partially
+          (e.g., `F*`).
+
+          A connected device is allowed only if all of its interfaces match entries in this list.
+
+          * InterfaceClass: USB Class Code (`00` = per-interface class, `FF` =
+          vendor-specific)
+          * InterfaceSubClass: USB Subclass Code
+          * InterfaceProtocol: USB Protocol Code
+
+          Example: An USB Device might expose two interfaces:
+          * `0xFF:0x02:0x01` for diagnostics
+          * `0xFF:0x02:0x02` for data
+
+          These can be allowed by listing both explicitly, or using patterns like
+          `FF:02:*` or `F*:0*:0*`.
+
+          When empty, the device is not classified by Interfaces.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pattern value=""/>
+            <pattern value="[0-9A-Fa-f*]{2}:[0-9A-Fa-f*]{2}:[0-9A-Fa-f*]{2}"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
     <profile name="USBHostsBasic:1" version="2.0">
       <object ref="Device.USB.USBHosts." requirement="present">
         <parameter ref="HostNumberOfEntries" requirement="readOnly"/>
@@ -789,7 +1057,7 @@
     </profile>
   </component>
 
-  <model name="USB:2.19">
+  <model name="USB:2.20">
     <component ref="Root"/>
     <component ref="USB"/>
   </model>

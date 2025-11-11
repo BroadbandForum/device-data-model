@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-users"
-    file="tr-181-2-19-0-users.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-users"
+    file="tr-181-2-20-0-users.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-16-root">
+      spec="urn:broadband-forum-org:tr-181-2-20-root">
     <component name="Root"/>
   </import>
 
@@ -90,7 +90,6 @@
   </component>
 
   <component name="Users">
-
     <object name="Device.Users." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
@@ -562,7 +561,57 @@
     </profile>
   </component>
 
-  <model name="Users:2.18">
+  <component name="UsersUSP">
+    <object base="Device.Users." access="readOnly" minEntries="1"
+      maxEntries="1">
+      <command name="CheckCredentialsDiagnostics()" async="false"
+          version="2.15">
+        <description>
+          Checks whether the input {{param|Username}} and {{param|Password}}
+          are valid for allowing access to the user interface on the device. If
+          not valid, then an indication of why they are not valid is output.
+        </description>
+
+        <input>
+          <component ref="CheckCredentialsInput"/>
+        </input>
+
+        <output>
+          <parameter name="Status">
+            <description>
+              Indicates the response to request to check whether the
+              credentials are valid and, if not, why not. {{enum}}
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="Credentials_Good"/>
+                <enumeration
+                    value="Credentials_Bad_Requested_Username_Not_Supported"/>
+                <enumeration
+                    value="Credentials_Bad_Requested_Password_Incorrect"/>
+                <enumeration value="Credentials_Missing"/>
+                <enumeration value="Error_Invalid_Input"/>
+                <enumeration value="Error_Other" optional="true"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+    </object>
+
+    <object base="Device.Users.Role.{i}.">
+      <description action="append">
+
+        If this object is referenced by a
+        {{param|.SoftwareModules.ExecutionUnit.{i}.RequiredUserRoles}}, then
+        the device MAY reject deletion requests, as it could cause instability
+        in the environment.
+      </description>
+    </object>
+  </component>
+
+
+  <model name="Users:2.20">
     <component ref="Root"/>
     <component ref="Users"/>
   </model>

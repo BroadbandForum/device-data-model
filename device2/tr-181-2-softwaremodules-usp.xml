@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-19-0-softwaremodules-usp"
-    file="tr-181-2-19-0-softwaremodules-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-20-0-softwaremodules-usp"
+    file="tr-181-2-20-0-softwaremodules-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -76,7 +76,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-19-common">
+      spec="urn:broadband-forum-org:tr-181-2-20-common">
     <component name="SMEEResourceConstraints"/>
     <component name="SMApplicationData"/>
     <component name="SMRetainData"/>
@@ -87,7 +87,7 @@
   <component name="SMDUSignature">
     <parameter name="Signature" version="2.16" access="readWrite">
       <description>
-        The {{datatype}} which can be used to fetch the signature for this DU.
+        The {{datatype}} which can be used to fetch the signature for this Deployment Unit.
         The {{datatype}} may use the "data" scheme defined in
         {{bibref|RFC2397}} in order to incorporate the signature into the
         command directly.
@@ -102,7 +102,7 @@
         HTTPS transport MUST be supported. Other optional transports MAY be
         supported.
 
-        The absence of this parameter indicates that the DU is unsigned. If
+        The absence of this parameter indicates that the Deployment Unit is unsigned. If
         this is contrary to the security policy of the device then the command
         will be rejected.
       </description>
@@ -124,7 +124,7 @@
 
           <parameter name="URL" mandatory="true">
             <description>
-              The {{datatype}} that specifies the location of the DU to be
+              The {{datatype}} that specifies the location of the Deployment Unit to be
               installed.
 
               The URL MUST NOT include the "userinfo" component, as defined in
@@ -140,7 +140,7 @@
 
           <parameter name="UUID">
             <description>
-              The UUID (see {{bibref|RFC4122}}) of the DU to be installed.
+              The UUID (see {{bibref|RFC4122}}) of the Deployment Unit to be installed.
 
               If this parameter is {{empty}} the device MUST generate the UUID
               based on the rules defined in {{bibref|RFC4122}} and
@@ -179,7 +179,7 @@
 
           <parameter name="Privileged" version="2.18">
             <description>
-              This parameter indicates whether the containerized application runs in privileged mode.
+              This parameter indicates whether the application runs in privileged mode.
               {{false}} - Unprivileged Container.
               {{true}}  - Privileged Container.
             </description>
@@ -191,7 +191,7 @@
 
           <parameter name="NumRequiredUIDs" version="2.18" status="deprecated">
             <description>
-              Number of UIDs (EU User Identifiers) that this container will need as part of its
+              Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
               process that is used to determine the allocation and isolation of system resources.
 
@@ -205,7 +205,7 @@
 
           <parameter name="ExecutionEnvRef">
             <description>
-              A reference to the Execution Environment upon which the DU is to
+              A reference to the Execution Environment upon which the Deployment Unit is to
               be installed.
 
               If {{empty}} the device MUST choose the Execution Environment to
@@ -243,7 +243,7 @@
               need to be assigned in order to be able to function at all. If
               any of these roles are not present in the
               {{param|#.ExecEnv.{i}.AvailableRoles}} of the
-              {{object|#.ExecEnv}} into which the DU is to be installed then
+              {{object|#.ExecEnv}} into which the Deployment Unit is to be installed then
               the command will fail. Some Agents may apply further filtering
               for roles which are considered security- or privacy-sensitive.
 
@@ -252,7 +252,7 @@
               such row then the command will fail, as installation requires a
               role which is not available on the Device.
 
-              If this argument is absent or empty then no roles are required in
+              If this argument is absent or empty then no roles are required in 
               order for the application to function.
             </description>
             <syntax>
@@ -265,20 +265,20 @@
 
           <parameter name="OptionalRoles" version="2.16">
             <description>
-              The additional roles which the application installed by this
-              command would need to be assigned in order to be able to provide
+              The additional roles which the application installed by this 
+              command would need to be assigned in order to be able to provide 
               its full functionality.
 
               Each entry in the list is the Name of a row in
               {{object|##.LocalAgent.ControllerTrust.Role}}. If there is no
               such row, or the matching row is not present in the
-              {{param|#.ExecEnv.{i}.AvailableRoles}} of the Execution
-              Environment into which the DU is to be installed, then the entry
-              will be ignored. Some Agents may apply further filtering for
-              roles which are considered security- or privacy-sensitive.
+              {{param|#.ExecEnv.{i}.AvailableRoles}} of the Execution 
+              Environment into which the Deployment Unit is to be installed, then the entry 
+              will be ignored. Some Agents may apply further filtering for 
+              roles which are considered security- or privacy-sensitive. 
 
               If this argument is absent or empty then no additional roles are
-              required in order for the application to be able to provide its
+              required in order for the application to be able to provide its 
               full functionality.
             </description>
             <syntax>
@@ -291,20 +291,23 @@
 
           <parameter name="RequiredUserRoles" version="2.18">
             <description>
-              The User Roles which the application installed by this command will
-              need to be assigned in order to be able to function at all. If
+              The User Roles which the application installed by this command will 
+              need to be assigned in order to be able to function at all. If 
               any of these User Roles are not present in the
               {{param|#.ExecEnv.{i}.AvailableUserRoles}} of the
-              {{object|#.ExecEnv}} into which the DU is to be installed then
-              the command will fail. Some Agents may apply further filtering
-              for User Roles which are considered security- or privacy-sensitive.
+              {{object|#.ExecEnv}} into which the Deployment Unit is to be installed then
+              the command will fail. Some Agents may apply further filtering 
+              for User Roles which are considered security- or privacy-sensitive. 
 
               Each entry in the list is the Name of a row in
               {{object|##.Users.Role}}. If there is no
               such row then the command will fail, as installation requires a
               User Role which is not available on the Device.
 
-              If this argument is absent or empty then no User Roles are required in
+              The resulting capabilities list of the required User Roles 
+              is listed in {{param|##.ExecutionUnit.{i}.AvailableUserRoleCapabilities}}. 
+
+              If this argument is absent or empty then no User Roles are required in 
               order for the application to function.
             </description>
             <syntax>
@@ -318,7 +321,7 @@
           <parameter name="RegisterTrustPaths" version="2.19">
             <description>
               Each entry in the list is an Object Path, Command Path, Event Path, or Parameter Path that determines the
-              element(s) of the data model that the the application installed by this command has permission to register.
+              element(s) of the data model that the application installed by this command has permission to register.
 
               The information provided in this input arguement is placed in the {{object|##.USPServices.Trust}} table.
 
@@ -340,9 +343,9 @@
               command.
 
               An auto-restart may be triggered if the Agent determines that the
-              EU has terminated abnormally. An exponential backoff algorithm is
-              applied (increasing each time the delay before the EU is
-              re-launched) in order to prevent continual re-starting of the EU.
+              Execution Unit has terminated abnormally. An exponential backoff algorithm is
+              applied (increasing each time the delay before the Execution Unit is
+              re-launched) in order to prevent continual re-starting of the Execution Unit.
 
               The retry interval range is controlled by two Parameters,
               {{param|RetryMinimumWaitInterval}} and
@@ -352,14 +355,14 @@
               ''k'' the value of {{param|RetryIntervalMultiplier}}, and ''n''
               the current value of
               {{param|##.ExecutionUnit.{i}.AutoRestart.RetryCount}}. Then on
-              the next occasion that the Agent determines that the EU has
-              terminated abnormally, the delay before re-starting the EU must
+              the next occasion that the Agent determines that the Execution Unit has
+              terminated abnormally, the delay before re-starting the Execution Unit must
               lie between ''m * (k/1000)^n^'' and ''m * (k/1000)^(n+1)^''
               seconds, so long as ''m * (k/1000)^n^'' evaluates to a value less
               than {{param|RetryMaximumWaitInterval}}. Once this point has been
               reached, on all subsequent occasions that the Agent determines
-              that the EU has terminated abnormally the delay before
-              re-starting the EU must lie between
+              that the Execution Unit has terminated abnormally the delay before
+              re-starting the Execution Unit must lie between
               {{param|RetryMaximumWaitInterval}}'' * (1000/k)'' and
               {{param|RetryMaximumWaitInterval}} seconds.
             </description>
@@ -378,7 +381,7 @@
             <parameter name="RetryMinimumWaitInterval" mandatory="true">
               <description>
                 Configures the initial delay in {{units}} between detecting
-                that the EU has terminated abnormally and re-starting it.
+                that the Execution Unit has terminated abnormally and re-starting it.
               </description>
               <syntax>
                 <unsignedInt>
@@ -389,7 +392,7 @@
 
             <parameter name="RetryMaximumWaitInterval" mandatory="true">
               <description>
-                Maximum delay in {{units}} between detecting that the EU has
+                Maximum delay in {{units}} between detecting that the Execution Unit has
                 terminated abnormally and re-starting it.
               </description>
               <syntax>
@@ -425,7 +428,7 @@
 
             <parameter name="ResetPeriod">
               <description>
-                If the EU runs for this number of {{units}} without terminating
+                If the Execution Unit runs for this number of {{units}} without terminating
                 abnormally the Agent MAY reset its
                 {{param|##.ExecutionUnit.{i}.AutoRestart.RetryCount}} to zero,
                 thereby resetting the exponential backoff algorithm. A value of
@@ -444,7 +447,7 @@
               version="2.16">
             <description>
               Defines the resource restrictions for any Execution Unit which is
-              created by installation of the DeploymentUnit. If this object is
+              created by installation of the Deployment Unit. If this object is
               absent then no resource restrictions will be applied.
             </description>
 
@@ -510,7 +513,7 @@
               functioning of the {{object|##.DeploymentUnit}}. The device
               should create these application data volumes and add them to the
               {{object|##.ExecEnv.{i}.ApplicationData}} table, with the UUID of
-              the DU as ApplicationUUID.
+              the Deployment Unit as ApplicationUUID.
             </description>
 
             <parameter base="Name" mandatory="true"/>
@@ -540,7 +543,7 @@
                       or a restart of the {{object|##.DeploymentUnit}}.
 
                       The application data will be lost on removal of the
-                      {{object|##.ExecEnv}} in which the DeploymentUnit is to
+                      {{object|##.ExecEnv}} in which the Deployment Unit is to
                       be installed.
 
                       The application data will be retained on {{command|##.DeploymentUnit.{i}.Update()}} or
@@ -560,7 +563,7 @@
             <description action="replace">
               This parameter describes the {{object|##.ExecutionUnit.{i}.HostObject}} instances
               which should be added to any {{object|##.ExecutionUnit}} created by
-              installation of the DeploymentUnit.
+              installation of the Deployment Unit.
             </description>
           </object>
 
@@ -571,7 +574,7 @@
             <description action="replace">
               This parameter describes the {{object|##.ExecutionUnit.{i}.EnvVariable}} instances
               which should be added to any {{object|##.ExecutionUnit}} created by
-              installation of the DeploymentUnit.
+              installation of the Deployment Unit.
             </description>
           </object>
 
@@ -588,17 +591,34 @@
 
           <object name="NetworkConfig." version="2.17">
             <description>
-              Specifies the network configuration for any ExecutionUnit which is created by the installation of the DeploymentUnit.
+              Specifies the network configuration for any Execution Unit which is created by the installation of the DeploymentUnit.
 
               When this argument or any of its child objects are missing,
               the corresponding absent part is considered unnecessary and will not be available to the ExecutionUnit.
 
              </description>
+
+             <parameter name="ShareParentNetwork" mandatory="false" version="2.20">
+              <description>
+                Specifies whether the resulting Execution Unit will share the
+                same network namespace as its ExecEnv parent or not.
+
+                If this parameter is set to {{true}},
+                both {{param|AccessInterfaces}} list and
+                {{object|NetworkConfig.PortMapping.{i}.}} input arguments will be ignored.
+
+                The default value MUST be {{false}}.
+              </description>
+              <syntax>
+                <boolean/>
+              </syntax>
+            </parameter>
+
              <parameter name="AccessInterfaces" mandatory="false">
                <description>
                  The network interfaces which the application installed by this command will be allowed to send traffic through it.
                  If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
-                 of the ExecEnv into which the DU is to be installed then the command will fail.
+                 of the ExecEnv into which the Deployment Unit is to be installed then the command will fail.
 
                  Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
                  Each entry in the list is the Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}.
@@ -606,7 +626,7 @@
                  {{object|.Logical.Interface.}} must be selected.
                  If there is no such row then the command will fail, as installation requires access to a network, through the interface, which is not available.
 
-                 When this argument is absent or {{empty}} then no outgoing network access is required for the ExecutionUnit to function.
+                 When this argument is absent or {{empty}} then no outgoing network access is required for the Execution Unit to function.
                </description>
                <syntax>
                  <list/>
@@ -619,7 +639,7 @@
 
            <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" version="2.17">
              <description>
-                 Defines the list of required port mapping rules for any ExecutionUnit which
+                 Defines the list of required port mapping rules for any Execution Unit which
                  is created as a result of this command.
                  If this command encounters any issue in providing the requested mapping, such as the port already being used or reserved, then it will fail.
              </description>
@@ -641,7 +661,7 @@
               <description>
                 The external port that the NAT gateway would listen on for traffic to a
                 corresponding InternalPort. Inbound packets to this external port on the selected
-                interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
+                interface MUST be forwarded to the IP address associated with the Execution Unit on the InternalPort.
               </description>
               <syntax>
                 <unsignedInt>
@@ -652,7 +672,7 @@
 
             <parameter name="InternalPort" mandatory="true" >
               <description>
-                The port on ExecutionUnit that the gateway MUST forward traffic to.
+                The port on Execution Unit that the gateway MUST forward traffic to.
               </description>
               <syntax>
                 <unsignedInt>
@@ -715,26 +735,26 @@
       <event name="DUStateChange!" version="2.12">
         <description>
           This event informs a Controller of the completion (successful or
-          unsuccessful) of a DU state change.
+          unsuccessful) of a Deployment Unit state change.
 
           When used, this event MUST be issued after the device has completed
-          any file transfers and carried out all operations related to the DU
+          any file transfers and carried out all operations related to the Deployment Unit
           State Change.
 
-          This event MAY contain the results from multiple DU state changes; it
-          is implementation specific how the device chooses to aggregate the DU
+          This event MAY contain the results from multiple Deployment Unit state changes; it
+          is implementation specific how the device chooses to aggregate the Deployment Unit
           state changes, although the device MUST notify the Controller of any
-          DU state changes within 24 hours of the time the operations were
+          Deployment Unit state changes within 24 hours of the time the operations were
           completed by the device.
 
           The device SHOULD make every attempt to aggregate, as much as
-          possible, the DU State Change notifications to the Controller in the
+          possible, the Deployment Unit State Change notifications to the Controller in the
           interest of scalability.
         </description>
 
         <parameter name="UUID">
           <description>
-            The UUID as defined in {{bibref|RFC4122}} of the DU that affected
+            The UUID as defined in {{bibref|RFC4122}} of the Deployment Unit that affected
             by the state change.
           </description>
           <syntax>
@@ -744,7 +764,7 @@
 
         <parameter name="DeploymentUnitRef">
           <description>
-            A reference to the DU that was affected by the state change.
+            A reference to the Deployment Unit that was affected by the state change.
           </description>
           <syntax>
             <string>
@@ -756,13 +776,13 @@
 
         <parameter name="Version">
           <description>
-            In the case of an Install, this will be the version of the DU
+            In the case of an Install, this will be the version of the Deployment Unit
             created. In the case of an Update, it will be the updated version
-            of the DU. In the case of an Uninstall, it will be the version of
-            the uninstalled DU.
+            of the Deployment Unit. In the case of an Uninstall, it will be the version of
+            the uninstalled Deployment Unit.
 
             This MUST match the {{param|#.DeploymentUnit.{i}.Version}}
-            Parameter contained within the instance of the DeploymentUnit that
+            Parameter contained within the instance of the Deployment Unit that
             is contained within the {{param|DeploymentUnitRef}} argument.
           </description>
           <syntax>
@@ -774,13 +794,13 @@
 
         <parameter name="CurrentState">
           <description>
-            The current state of the created DU.
+            The current state of the created Deployment Unit.
           </description>
           <syntax>
             <string>
               <enumeration value="Installed">
                 <description>
-                  The DU is in an Installed state due to one of the following:
+                  The Deployment Unit is in an Installed state due to one of the following:
                   successful Install, successful Update, failed Update, or
                   failed Uninstall. In the case of a failed Update or failed
                   Uninstall the Fault argument will contain an explanation of
@@ -789,19 +809,19 @@
               </enumeration>
               <enumeration value="UnInstalled" status="deprecated">
                 <description>
-                  The DU was successfully uninstalled from the device.
+                  The Deployment Unit was successfully uninstalled from the device.
 
                   {{deprecated|2.19|due to a typographical error in capitalization}}
                 </description>
               </enumeration>
               <enumeration value="Uninstalled" version="2.19">
                 <description>
-                  The DU was successfully uninstalled from the device.
+                  The Deployment Unit was successfully uninstalled from the device.
                 </description>
               </enumeration>
               <enumeration value="Failed">
                 <description>
-                  The DU could not be installed in which case a DU instance
+                  The Deployment Unit could not be installed in which case a Deployment Unit instance
                   MUST NOT be created in the Data Model.
                 </description>
               </enumeration>
@@ -811,7 +831,7 @@
 
         <parameter name="Resolved">
           <description>
-            Whether or not the DU operation resolved all of its dependencies.
+            Whether or not the Deployment Unit operation resolved all of its dependencies.
 
             In the case of a successful Uninstall, this value is meaningless
             and should be {{true}}.
@@ -825,17 +845,17 @@
           <description>
             The Execution Units affected by this operation.
 
-            In the case of an Install, this will be the list of EUs that were
-            created as a result of the DU’s installation.
+            In the case of an Install, this will be the list of Execution Units that were
+            created as a result of the Deployment Unit’s installation.
 
-            In the case of an Update, this will be the list of all EUs
-            currently associated with the updated DU, including those that were
-            created through the initial DU installation and any updates that
-            had already occurred but not including any EUs that no longer exist
+            In the case of an Update, this will be the list of all Execution Units
+            currently associated with the updated Deployment Unit, including those that were
+            created through the initial Deployment Unit installation and any updates that
+            had already occurred but not including any Execution Units that no longer exist
             on the device because of this or previous updates.
 
-            In the case of an Uninstall, this will be the list of the EUs
-            removed from the device due to the DU being removed.
+            In the case of an Uninstall, this will be the list of the Execution Units
+            removed from the device due to the Deployment Unit being removed.
           </description>
           <syntax>
             <list/>
@@ -874,25 +894,25 @@
 
         <parameter name="OperationPerformed">
           <description>
-            The operation that was performed against the DU causing the DU
+            The operation that was performed against the Deployment Unit causing the Deployment Unit
             state change.
           </description>
           <syntax>
             <string>
               <enumeration value="Install">
                 <description>
-                  The operation attempted was the Installation of a DU.
+                  The operation attempted was the Installation of a Deployment Unit.
                 </description>
               </enumeration>
               <enumeration value="Update">
                 <description>
-                  The operation attempted was the Update of an existing DU.
+                  The operation attempted was the Update of an existing Deployment Unit.
                 </description>
               </enumeration>
               <enumeration value="Uninstall">
                 <description>
                   The operation attempted was the Un-Installation of an
-                  existing DU.
+                  existing Deployment Unit.
                 </description>
               </enumeration>
             </string>
@@ -947,46 +967,46 @@
                Module Management"}}, it SHOULD reject the operation with a 7229
                (Invalid Deployment Unit State) fault code.
 
-              *If a requested operation attempts to Uninstall a DU that caused
+              *If a requested operation attempts to Uninstall a Deployment Unit that caused
                an EE to come into existence, where that EE has at least 1
-               installed DU or at least 1 child EE, then the device SHOULD
+               installed Deployment Unit or at least 1 child EE, then the device SHOULD
                reject the operation with a 7229 (Invalid Deployment Unit State)
                fault code.
 
-              *If a requested operation attempts to Uninstall a DU that caused
+              *If a requested operation attempts to Uninstall a Deployment Unit that caused
                an ExecEnvClass to come into existence, where at least one EE
                exists which instantiates that ExecEnvClass, then the device
                SHOULD reject the operation with a 7229 (Invalid Deployment Unit
                State) fault code.
 
-              *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a Deployment Unit and
                the server specified in the URL is not currently reachable or
                the request times out, then the device SHOULD reject the
                operation with a 7033 (Server Unreachable) fault code.
 
-              *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a Deployment Unit and
                the server specified in the URL fails security checks (e.g. by
                not presenting a valid certificate), then the device SHOULD
                reject the operation with a 7034 (Server Insecure) fault code.
 
-              *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a Deployment Unit and
                the file returned by the server appears to be corrupt, then the
                device SHOULD reject the operation with a 7035 (Corrupt Data)
                fault code.
 
-              *If a requested operation attempts to Install or Update a DU and
+              *If a requested operation attempts to Install or Update a Deployment Unit and
                the file returned by the server does not match the signature
                provided, or a required signature is absent, then the device
                SHOULD reject the operation with a 7036 (Bad Signature) fault
                code.
 
-              *If a requested operation attempts to Install or Update a DU
+              *If a requested operation attempts to Install or Update a Deployment Unit
                and includes a RequestedRole argument which contains at least
                one Role which is not in the EE's AvailableRoles list, then the
                device SHOULD reject the operation with a 7032 (Unavailable
                Role) fault code.
 
-              *If a requested operation attempts to Install or Update a DU
+              *If a requested operation attempts to Install or Update a Deployment Unit
                and includes a RequestedUserRole argument which contains at least
                one User Role which is not in the EE's AvailableUserRoles list, then the
                device SHOULD reject the operation with a 7037 (Unavailable
@@ -1062,9 +1082,9 @@
             <description>
               The roles which are available to Deployment Units installed into
               the new instance. Only the listed roles may be assigned to any
-              DeploymentUnit installed into the instance. If this parameter is
+              Deployment Unit installed into the instance. If this parameter is
               missing or {{empty}} then no roles may be assigned to any
-              DeploymentUnit installed into the instance.
+              Deployment Unit installed into the instance.
 
               Each entry in the list is the Name of a row in
               {{object|###.LocalAgent.ControllerTrust.Role}}. If there is no
@@ -1082,9 +1102,9 @@
             <description>
               The User Roles which are available to Deployment Units installed into
               the new instance. Only the listed User Roles may be assigned to any
-              DeploymentUnit installed into the instance. If this parameter is
+              Deployment Unit installed into the instance. If this parameter is
               missing or {{empty}} then no User Roles may be assigned to any
-              DeploymentUnit installed into the instance.
+              Deployment Unit installed into the instance.
 
               Each entry in the list is the Name of a row in
               {{object|###.Users.Role}}. If there is no
@@ -1269,7 +1289,7 @@
           DeploymentUnit.
 
           If this parameter is missing or {{empty}} then no roles will be
-          assigned to any DeploymentUnit installed into this {{object}}.
+          assigned to any Deployment Unit installed into this {{object}}.
         </description>
         <syntax>
           <list/>
@@ -1283,7 +1303,7 @@
 
       <parameter name="AvailableAccessInterfaces" access="readOnly" version="2.17">
         <description>
-          Represents the network interface through which the outgoing traffic from the ExecutionUnit running in
+          Represents the network interface through which the outgoing traffic from the Execution Unit running in
           this {{object}} may be allowed.
 
           This value can be altered by executing the {{command|ModifyAvailableAccessInterfaces()}}.
@@ -1443,12 +1463,12 @@
            into this {{object}}.
 
            The command will fail if the new list of access interfaces doesn't contain an access interface required
-           for a DeploymentUnit installed previously into the {{object}}.
+           for a Deployment Unit installed previously into the {{object}}.
         </description>
         <input>
           <parameter name="AccessInterfaces" mandatory="true">
             <description>
-              The new list of access interfaces which may be assigned to any DeploymentUnit installed into
+              The new list of access interfaces which may be assigned to any Deployment Unit installed into
               the {{object}} this list replaces the previous value of {{param|#.AvailableAccessInterfaces}}.
               If this parameter is an empty string then no access interface may be assigned to any DeploymentUnit
               installed into the {{object}}.
@@ -1565,15 +1585,15 @@
           <parameter name="Force">
             <description>
               If this parameter is present and is {{true}}, the ExecEnv will be
-              removed even if one or more DU is installed in it. A
+              removed even if one or more Deployment Unit is installed in it. A
               {{event|###.DUStateChange!}} Event with
               {{param|###.DUStateChange!.OperationPerformed}} set to
               {{enum|Uninstall|###.DUStateChange!.OperationPerformed}} will be
-              issued for each DU which is removed as a result of the operation.
-              Any Application Data associated with the DU will be lost.
+              issued for each Deployment Unit which is removed as a result of the operation.
+              Any Application Data associated with the Deployment Unit will be lost.
 
               If this parameter is absent or {{false}}, the operation will fail
-              if any DU is installed in the EE; in the case of such a failure
+              if any Deployment Unit is installed in the EE; in the case of such a failure
               the EE will continue to exist and its Status will not change, nor
               will any Application Data be lost.
             </description>
@@ -1714,7 +1734,7 @@
 
           <parameter name="URL" version="2.12">
             <description>
-              The {{datatype}} that specifies the location of the DU to be
+              The {{datatype}} that specifies the location of the Deployment Unit to be
               installed.
 
               The URL MUST NOT include the "userinfo" component, as defined in
@@ -1761,7 +1781,7 @@
 
           <parameter name="Privileged" version="2.18">
             <description>
-              This parameter determines whether the containerized application runs in privileged mode.
+              This parameter determines whether the application runs in privileged mode.
               {{false}} - Unprivileged Container.
               {{true}}  - Privileged Container.
             </description>
@@ -1773,7 +1793,7 @@
 
           <parameter name="NumRequiredUIDs" version="2.18" status="deprecated">
             <description>
-              Number of UIDs (EU User Identifiers) that this container will need as part of its
+              Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
               process that is used to determine the allocation and isolation of system resources.
 
@@ -1796,7 +1816,7 @@
 
               If any of these roles are not present in the
               {{param|##.ExecEnv.{i}.AvailableRoles}} of the
-              {{object|###.ExecEnv}} in which the DU is installed then the
+              {{object|###.ExecEnv}} in which the Deployment Unit is installed then the
               command will fail. Some Agents may apply further filtering for
               roles which are considered security- or privacy-sensitive.
 
@@ -1827,7 +1847,7 @@
               {{object|###.LocalAgent.ControllerTrust.Role}}. If there is no
               such row, or the matching row is not present in the
               {{param|##.ExecEnv.{i}.AvailableRoles}} of the Execution
-              Environment into which the DU is to be installed, then the entry
+              Environment into which the Deployment Unit is to be installed, then the entry
               will be ignored. Some Agents may apply further filtering, for
               roles which are considered security- or privacy-sensitive.
 
@@ -1852,7 +1872,7 @@
 
               If any of these User Roles are not present in the
               {{param|##.ExecEnv.{i}.AvailableUserRoles}} of the
-              {{object|###.ExecEnv}} in which the DU is installed then the
+              {{object|###.ExecEnv}} in which the Deployment Unit is installed then the
               command will fail. Some Agents may apply further filtering for
               User Roles which are considered security- or privacy-sensitive.
 
@@ -1860,6 +1880,9 @@
               {{object|###.Users.Role}}. If there is no
               such row then the command will fail, as installation requires a
               User Role which is not available on the Device.
+
+              The resulting capabilities list of the required User Roles
+              is listed in {{param|##.ExecutionUnit.{i}.AvailableUserRoleCapabilities}}.
 
               If this argument is {{empty}} then no User Roles are required in
               order for the application to function.
@@ -2093,16 +2116,33 @@
 
           <object name="NetworkConfig." version="2.17">
             <description>
-              Specifies the network configuration for any ExecutionUnit which is created by the update of the DeploymentUnit. The new network configuration supersedes any previous configuration.
+              Specifies the network configuration for any Execution Unit which is created by the update of the DeploymentUnit. The new network configuration supersedes any previous configuration.
 
               When this argument is not present in the {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}},
               the network configuration remains unaltered.
              </description>
+
+             <parameter name="ShareParentNetwork" mandatory="false" version="2.20">
+              <description>
+                Specifies whether the resulting Execution Unit will share the
+                same network namespace as its ExecEnv parent or not.
+
+                If this parameter is set to {{true}},
+                both {{param|AccessInterfaces}} list and
+                {{object|NetworkConfig.PortMapping.{i}.}} input arguments will be ignored.
+
+                The default value MUST be {{false}}.
+              </description>
+              <syntax>
+                <boolean/>
+              </syntax>
+            </parameter>
+
             <parameter name="AccessInterfaces" mandatory="false">
               <description>
                 The network interfaces which the application updated by this command will be allowed to send traffic through it.
                 If any of these access interface are not present in the {{param|.SoftwareModules.ExecEnv.{i}.AvailableAccessInterfaces}}
-                of the ExecEnv into which the DU is to be updated then the command will fail.
+                of the ExecEnv into which the Deployment Unit is to be updated then the command will fail.
 
                 Some Agents may apply further filtering for access interfaces which are considered security- or privacy-sensitive.
                 Each entry in the list is the Name of a row within either {{object|.Logical.Interface.}} or {{object|.IP.Interface.}}.
@@ -2116,7 +2156,7 @@
 
                 When the argument {{object|NetworkConfig}} provided in {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}}, {{param}} configuration supersedes
                 any previous configuration. If {{param}} is absent or {{empty}}, it indicate that no outgoing network access is required for the resulting
-                ExecutionUnit to function.
+                Execution Unit to function.
               </description>
               <syntax>
                 <list/>
@@ -2129,7 +2169,7 @@
 
           <object name="NetworkConfig.PortMapping.{i}." minEntries="0" maxEntries="unbounded" version="2.17">
             <description>
-              Defines the list of required port mapping rules for any ExecutionUnit which
+              Defines the list of required port mapping rules for any Execution Unit which
               is created as a result of this command.
               If this command encounters any issue in providing the requested mapping, such as the port already being used or reserved, then it will fail.
 
@@ -2137,7 +2177,7 @@
               the {{object}} network configuration remains unaltered.
 
               When the argument {{object|NetworkConfig}} provided in {{command|.SoftwareModules.DeploymentUnit.{i}.Update()}}, {{object}} configuration supersedes
-              any previous configuration. If {{object}} is absent or {{empty}}, it indicate that no port mapping is required for the resulting ExecutionUnit to function.
+              any previous configuration. If {{object}} is absent or {{empty}}, it indicate that no port mapping is required for the resulting Execution Unit to function.
             </description>
 
             <parameter name="Interface" mandatory="true" >
@@ -2157,7 +2197,7 @@
               <description>
                 The external port that the NAT gateway would listen on for traffic to a
                 corresponding InternalPort. Inbound packets to this external port on the selected
-                interface MUST be forwarded to the IP address associated with the ExecutionUnit on the InternalPort.
+                interface MUST be forwarded to the IP address associated with the Execution Unit on the InternalPort.
               </description>
               <syntax>
                 <unsignedInt>
@@ -2168,7 +2208,7 @@
 
             <parameter name="InternalPort" mandatory="true" >
               <description>
-                The port on ExecutionUnit that the gateway MUST forward traffic to.
+                The port on Execution Unit that the gateway MUST forward traffic to.
               </description>
               <syntax>
                 <unsignedInt>
@@ -2233,6 +2273,74 @@
           objects) that this {{object}} has caused to come into existence can
           be discovered via the GetSupportedDM and GetInstances USP messages.
         </description>
+      </parameter>
+
+      <parameter name="RequiredRoles" access="readOnly" version="2.20">
+        <description>
+          Each item in the list represents a mandatory ControllerTrust Role that was required by
+          {{param|#.InstallDU().RequiredRoles}} or
+          {{param|#.DeploymentUnit.{i}.Update().RequiredRoles}} when the {{object}}
+          was created or updated.
+
+          Note, the description of the {{object|.LocalAgent.ControllerTrust.Role.}} table indicates
+          that the device MAY reject deletion requests for specific instances of that object, which
+          could cause instability for this {{object}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".LocalAgent.ControllerTrust.Role." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="OptionalRoles" access="readOnly" version="2.20">
+        <description>
+          Each item in the list represents an optional ControllerTrust Role that was required by
+          {{param|#.InstallDU().OptionalRoles}} or
+          {{param|#.DeploymentUnit.{i}.Update().OptionalRoles}} when the {{object}}
+          was created or updated.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".LocalAgent.ControllerTrust.Role." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequiredUserRoles" access="readOnly" version="2.20">
+        <description>
+          Each item in the list represents a User Role that was required by
+          {{param|#.InstallDU().RequiredUserRoles}} or
+          {{param|#.DeploymentUnit.{i}.Update().RequiredUserRoles}} when the {{object}}
+          was created or updated.
+
+          Note, the description of the {{object|.Users.Role.}} table indicates
+          that the device MAY reject deletion requests for specific instances of that object, which
+          could cause instability for this {{object}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".Users.Role." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AvailableUserRoleCapabilities" access="readOnly" version="2.20">
+        <description>
+          This is the list of User Role instances that in turn yields a set of capabilities available to this {{object}}.
+          This list is evaluated only at the start of this {{object}} based on the
+          configuration of {{param|RequiredUserRoles}} and
+          {{param|.Users.Role.{i}.RequiredCapabilities}}.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumerationRef targetParam=".Users.SupportedCapabilities"/>
+          </string>
+        </syntax>
       </parameter>
 
       <command name="SetRequestedState()" async="false">

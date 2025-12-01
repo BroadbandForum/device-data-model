@@ -5,6 +5,21 @@
 See <https://device-data-model.broadband-forum.org> for the
 current TR-181 specification.
 
+## 2025-12-01: [TR-181 Issue 2 Amendment 20 Corrigendum 1]
+
+*Tags: [v2.20.1] (TR-181), 
+       [v1.14.0][TR-106-v1.14.0] (TR-106 didn't change)*
+
+### Data Model
+* Fixed Cellular APN type to be compatible with the 5G Data Network Name
+* Changed Cellular SIM Location parameter to be read-only
+* Added additional bibrefs to PON power safe parameter
+* Changed TrustedElement PIN from being a string with maximum size 4 to be a digit-only string with a size between 4 to 8
+* Changed TrustedElement Status parameter to be read-only
+
+### TR-181 Document
+* No changes
+
 ## 2025-11-11: [TR-181 Issue 2 Amendment 20]
 
 *Tags: [v2.20.0] (TR-181), 
@@ -682,6 +697,7 @@ Incorporated new components from TR-157 Amendment 4
 [TR-181 Issue 2 Amendment 19 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-19_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 20]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf
+[TR-181 Issue 2 Amendment 20 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
 [TR-181 Issue 2 Amendment 7]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf
@@ -722,3 +738,4 @@ Incorporated new components from TR-157 Amendment 4
 [v2.19.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.0
 [v2.19.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.1
 [v2.20.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.0
+[v2.20.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.1

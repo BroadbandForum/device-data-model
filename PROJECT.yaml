@@ -39,6 +39,18 @@ resources:
     resname: Device
 
 versions:
+  v2.20.1:
+    date: 2025-12-01
+    changes:
+      data-model: |
+        * Fixed Cellular APN type to be compatible with the 5G Data Network Name
+        * Changed Cellular SIM Location parameter to be read-only
+        * Added additional bibrefs to PON power safe parameter
+        * Changed TrustedElement PIN from being a string with maximum size 4 to be a digit-only string with a size between 4 to 8
+        * Changed TrustedElement Status parameter to be read-only
+      specification: |
+        * No changes
+
   v2.20.0:
     date: 2025-11-11
     changes:

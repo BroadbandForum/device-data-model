@@ -29,8 +29,8 @@
 #show: doc => conf(
   title: [TR\-181 –
 Device Data Model for CWMP Endpoints and USP Agents],
-  subtitle: [Issue: 2 Amendment 20 #bbf-release[]],
-  date: [Issue Date: November 2025],
+  subtitle: [Issue: 2 Amendment 20 Corrigendum 1 #bbf-release[]],
+  date: [Issue Date: December 2025],
   pagenumbering: none,
   cols: 1,
   linenumbering: none,
@@ -48,19 +48,19 @@ Device Data Model for CWMP Endpoints and USP Agents],
     bbfMajor: [2],
     bbfMicro: [0],
     bbfMinor: [20],
-    bbfMonth: [November],
+    bbfMonth: [December],
     bbfNumber: [TR\-181],
-    bbfPatch: [0],
+    bbfPatch: [1],
     bbfProjectStream: [],
     bbfStatus: [],
     bbfTitle: [Device Data Model for CWMP Endpoints and USP Agents],
     bbfType: [Technical Report],
-    bbfVersion: [2 Amendment 20],
+    bbfVersion: [2 Amendment 20 Corrigendum 1],
     bbfWorkArea: [],
     bbfYear: [2025],
     citation-style: [bbf.csl],
     copydate: [2025],
-    date: [Issue Date: November 2025],
+    date: [Issue Date: December 2025],
     description: [TR\-181 Issue 2 defines version 2 of the Device data
 model (Device:2). The Device:2 data model applies to all types of
 TR\-069 or USP enabled devices, including End Devices, Residential
@@ -120,7 +120,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     shortname: [TR\-181],
     siteurl: [index.html],
     status: [],
-    subtitle: [Issue: 2 Amendment 20 #bbf-release[]],
+    subtitle: [Issue: 2 Amendment 20 Corrigendum 1 #bbf-release[]],
     summary: [See
 #link("https://device-data-model.broadband-forum.org")[https:\/\/device\-data\-model.broadband\-forum.org]
 for the current TR\-181 specification.
@@ -135,7 +135,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     titleDelim: [ –],
     titleid: [title],
     toc: [false],
-    version: [TR\-181 Issue 2 Amendment 20],
+    version: [TR\-181 Issue 2 Amendment 20 Corrigendum 1],
     website: [https:\/\/device\-data\-model.broadband\-forum.org],
     ),
   doc,
@@ -473,6 +473,13 @@ the notices, legends, and other provisions set forth on this page.
     [November 2025
     ],
     [- Recreate session management SVG images to match current state
+    ],
+    [#link("https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20_Corrigendum-1.pdf")[Issue
+    2 Amendment 20 Corrigendum 1]
+    ],
+    [December 2025
+    ],
+    [- No changes
     ]
   )
 ]
@@ -1687,20 +1694,21 @@ This Technical Report uses the following abbreviations:
 
 == 3.1 Energy Efficiency <sec:energy-efficiency>
 
-TR\-181 Issue 2 Amendment 20 has no impact on Energy Efficiency.
+TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Energy
+Efficiency.
 
 == 3.2 IPv6 <sec:ipv6>
 
-TR\-181 Issue 2 Amendment 20 defines IPv6 extensions (introduced in
-Issue 2 Amendment 2) to the Device:2 data model.
+TR\-181 Issue 2 Amendment 20 Corrigendum 1 defines IPv6 extensions
+(introduced in Issue 2 Amendment 2) to the Device:2 data model.
 
 == 3.3 Security <sec:security>
 
-TR\-181 Issue 2 Amendment 20 has no impact on Security.
+TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Security.
 
 == 3.4 Privacy <sec:privacy>
 
-TR\-181 Issue 2 Amendment 20 has no impact on Privacy.
+TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Privacy.
 
 #bbf-new-page[
 = 4 Architecture <sec:architecture>]

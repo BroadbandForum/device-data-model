@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-qos"
-    file="tr-181-2-20-0-qos.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-qos"
+    file="tr-181-2-21-0-qos.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,12 +69,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -407,12 +407,26 @@
         <description>
           {{datatype|expand}}
 
-          For each packet, the highest ordered entry that matches the
-          classification criteria is applied. All lower order entries are
-          ignored.
+          For each packet, the classification entries are processed in descending order of this
+          parameter (higher values mean higher precedence). The matching process can stop either on the
+          first match or continue, as determined by the value of the {{param|StopProcessing}}
+          parameter.
+
+          Note: The requirement for highest-ordered entry precedence in packet classification is
+          removed in Device:2.21.
         </description>
         <syntax>
           <dataType ref="Order"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StopProcessing" access="readWrite" version="2.21">
+        <description>
+          When {{true}}, this indicates that the processing of the classification entries should stop and return.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
         </syntax>
       </parameter>
 
@@ -1461,7 +1475,7 @@
 
           Maximum IP Packet Length (including header) in {{units}}.
 
-          A value of zero indicates that no maximum is specified (an umlimited
+          A value of zero indicates that no maximum is specified (an unlimited
           maximum length).
         </description>
         <syntax>
@@ -1815,6 +1829,18 @@
             <pathRef refType="strong" targetParent="#.App." targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HardwareOffloadEnabled" access="readWrite" version="2.21">
+        <description>
+          If {{true}}, the Device MAY use hardware acceleration for traffic associated with this entry.
+
+          If {{false}}, the Device MUST use the software slow path, bypassing any hardware acceleration for this entry.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
         </syntax>
       </parameter>
     </object>
@@ -3547,7 +3573,7 @@
     </profile>
   </component>
 
-  <model name="QoS:2.20">
+  <model name="QoS:2.21">
     <component ref="Root"/>
     <component ref="QoS"/>
   </model>

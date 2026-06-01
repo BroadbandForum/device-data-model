@@ -5,6 +5,69 @@
 See <https://device-data-model.broadband-forum.org> for the
 current TR-181 specification.
 
+## 2026-06-01: [TR-181 Issue 2 Amendment 21]
+
+*Tags: [v2.21.0] (TR-181), 
+       [v1.14.0][TR-106-v1.14.0] (TR-106 didn't change)*
+
+### Data Model
+* Added a CipherList parameter to configure permissible TLS Ciphers
+* Added a few more datatypes, sensors and controls to IoT datamodel
+* Added AFC Support to native Wi-Fi datamodel
+* Added AllowedChannels parameter to Wi-Fi configuration
+* Added Boot timing information
+* Added certificate and repository provisioning support to Software Modules
+* Added command and extended datamodel to support device shutdown
+* Added ContentType and ResponseTopic parameters to MQTT Publish() command
+* Added CountryCode and DeviceStatus parameters to DeviceInfo
+* Added datamodel support for device hardware buttons
+* Added Description parameter to network interfaces to allow user-friendly labelling
+* Added DNS resolver statistics and resolving strategy configuration
+* Added ForceSolicitPolicy parameter to DHCPv6
+* Added InterruptRate parameter
+* Added Kernel and Process fault information
+* Added LastChange parameter to IPv6 RA
+* Added MLD and IGMP enablement parameters to Bridge
+* Added more commands to handle TLS certificates on the device
+* Added more modes to STP configuration
+* Added more TLS certificate components for easier reuse
+* Added MQTT broker security configuration
+* Added network hardware offloading support
+* Added NetworkDiagnostic() command to Thread
+* Added OnMessage! event to MQTT datamodel
+* Added parameter to show available RAM
+* Added RegisterTrustPaths parameter to limit which datamodel paths can be registered
+* Added signature verification support to Software Modules
+* Added solicitation timing parameters to Neighbor Discovery
+* Added Status to the DHCPv4 lease information
+* Added support for stopping QoS classification rules
+* Added support for a list of known SFPs and the ability to disable certain modules
+* Added support for controlled LEDs
+* Added support for enforced DHCP options
+* Added support for IPv6 Network Prefix Translation
+* Added support for multiple MQTT Broker processes
+* Added support for Software Modules managed locally on the device
+* Added support for TUN/TAP interface configuration
+* Added support for user HomeDirectory
+* Added timestamp for last firmware release and update
+* Clarified and harmonized some descriptions in Software Modules
+* Clarified use of STA parameters in Data Elements
+* Expanded the IEEE1905 data model
+* Expanded interface Upstream parameter description with more examples
+* Expanded IPSec IKEv2 configuration
+* Extended Syslog datamodel with support for Unix domain sockets
+* Improved and reworked the IPLayerCapacity test datamodel
+* Moved AggregateScanDuration and ScanType to ChannelScan object
+* Removed inappropriate character size limitations from lists
+* Restructured Device.NeighborDiscovery object
+* Unified country code parameters to be always exactly 2 uppercase characters
+* Updated MoCA ACA Status with proper enumeration values and descriptions
+
+### TR-181 Document
+* Added log rotate ToO
+* Added MQTT ToO
+* Added certificate management ToO
+
 ## 2025-12-01: [TR-181 Issue 2 Amendment 20 Corrigendum 1]
 
 *Tags: [v2.20.1] (TR-181), 
@@ -20,7 +83,7 @@ current TR-181 specification.
 ### TR-181 Document
 * No changes
 
-## 2025-11-11: [TR-181 Issue 2 Amendment 20]
+## 2025-11-17: [TR-181 Issue 2 Amendment 20]
 
 *Tags: [v2.20.0] (TR-181), 
        [v1.14.0][TR-106-v1.14.0] (TR-106 didn't change)*
@@ -698,6 +761,7 @@ Incorporated new components from TR-157 Amendment 4
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 20]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf
 [TR-181 Issue 2 Amendment 20 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20_Corrigendum-1.pdf
+[TR-181 Issue 2 Amendment 21]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
 [TR-181 Issue 2 Amendment 7]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf
@@ -739,3 +803,4 @@ Incorporated new components from TR-157 Amendment 4
 [v2.19.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.1
 [v2.20.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.0
 [v2.20.1]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.1
+[v2.21.0]: https://github.com/BroadbandForum/device-data-model/releases/tag/v2.21.0

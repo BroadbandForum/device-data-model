@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-16"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-10
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-16
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-mqtt"
-    file="tr-181-2-20-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-mqtt"
+    file="tr-181-2-21-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -64,21 +64,22 @@
     <component name="Alias"/>
     <dataType name="StatsCounter32"/>
     <dataType name="StatsCounter64"/>
+    <dataType name="Order"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
    <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
-    <component name="ClientCerts"/>
-    <component name="ServerCerts"/>
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
+    <component name="TLSClient"/>
+    <component name="TLSServer"/>
   </import>
 
    <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -106,7 +107,6 @@
   </template>
 
   <component name="MQTT">
-
     <object name="Device.MQTT." access="readOnly" minEntries="1"
         maxEntries="1" dmr:fixedObject="true" version="2.10">
       <description>
@@ -128,6 +128,19 @@
         </description>
         <syntax>
           <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LogConnectionMessages" access="readWrite" version="2.21">
+        <description>
+          If set to {{true}}, the log will include entries when any MQTT client 
+          connects or disconnects. These entries are written to the platform’s 
+          default system log facility. This parameter only controls logging of 
+          client connection lifecycle events and does not affect logging of other 
+          broker activities such as publish, subscribe, or authentication events.
+        </description>
+        <syntax>
+          <boolean/>
         </syntax>
       </parameter>
     </object>
@@ -810,7 +823,7 @@
         </syntax>
       </parameter>
 
-      <component ref="ClientCerts" version="2.20"/>
+      <component ref="TLSClient" version="2.20"/>
       <!-- MQTT Publish properties -->
 
       <parameter name="PublishMessageExpiryInterval" access="readWrite"
@@ -1042,6 +1055,261 @@
           <unsignedInt>
             <range minInclusive="0" maxInclusive="2"/>
           </unsignedInt>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.MQTT.BrokerSecurity." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.21">
+      <description>
+        MQTT security configuration, including an Access Control List (ACL) to
+        manage access to MQTT topics.
+      </description>
+      <parameter name="ACLNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ClientNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.MQTT.BrokerSecurity.ACL.{i}." access="readWrite"
+        numEntriesParameter="ACLNumberOfEntries" enableParameter="Enable"
+        minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        An entry in the Access Control List (ACL). Each entry specifies a single
+        permission rule, defining which user or client can perform a specific
+        operation (Publish or Subscribe) on a particular MQTT topic, and whether
+        that action is allowed or denied.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Order"/>
+      </uniqueKey>
+      <component ref="Alias"/>
+
+      <parameter name="Order" access="readWrite">
+        <description>
+          The order in which to evaluate this rule. Lower-ordered rules are
+          evaluated first. Each rule MUST have a unique order value.
+        </description>
+        <syntax>
+          <dataType ref="Order"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this ACL rule.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          A human-readable description of this ACL rule.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowAnonymous" access="readWrite">
+        <description>
+          If {{true}}, this rule allows access to anonymous clients.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ClientList" access="readWrite">
+        <description>
+          The MQTT client identity entries to which this rule applies. If this list is {{empty}},
+          the rule can apply to any client. Whether this rule also applies to anonymous clients is
+          determined by this rule's {{param|AllowAnonymous}} parameter.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent="Device.MQTT.BrokerSecurity.Client." targetType="row"/>
+          </string>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Topics" access="readWrite">
+        <description>
+          Each item specifies an MQTT topic filter to which this rule applies. The filter may include
+          MQTT-standard wildcards (`+` for a single level, `#` for multiple levels).
+          Some brokers may also support implementation-specific keywords. Refer to
+          {{bibref|MQTT50|section 4.7}} for details on topic matching.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Operations" access="readWrite">
+        <description>
+          The MQTT operations that this rule controls. This parameter works in
+          conjunction with {{param|Access}} to determine whether the specified
+          operations are allowed or denied.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="Publish">
+              <description>Allows/denies publishing to the topic.</description>
+            </enumeration>
+            <enumeration value="Subscribe">
+              <description>Allows/denies subscribing to the topic filter.</description>
+            </enumeration>
+          </string>
+          <default type="object" value="[Publish,Subscribe]"/>
+        </syntax>
+      </parameter>
+      
+      <parameter name="Access" access="readWrite">
+        <description>
+          Whether to allow or deny the operations specified in
+          {{param|Operations}} on the configured {{param|Topics}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Allow"/>
+            <enumeration value="Deny"/>
+          </string>
+          <default type="object" value="Deny"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.MQTT.BrokerSecurity.Client.{i}." access="readWrite"
+        enableParameter="Enable" numEntriesParameter="ClientNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        Configuration for an MQTT client identity, which represents an entry in an
+        authorization table that the local broker uses to authorize incoming MQTT client connections. This
+        is different from the {{object|##.Client}} object, which defines the credentials that a
+        specific MQTT client instance on this device should use when connecting to an external or
+        internal MQTT broker.
+
+        {{object}} defines the credentials for a single client, which can be based on a
+        {{param|ClientID}}, a {{param|Username}}/{{param|Password}} pair, or a certificate identity
+        (which is not stored here but verified by the broker against these entries).
+      </description>
+
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this MQTT client identity entry.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          A unique, human-readable name for this MQTT client identity entry.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          A human-readable description of this MQTT client identity entry.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ClientID" access="readWrite">
+        <description>
+          The MQTT protocol-level Client Identifier for this client, sent in the
+          CONNECT packet (see {{bibref|MQTT50|section 3.1.3.1}}).
+
+          It uniquely identifies this client identity and can be used for
+          matching ACL rules, either on its own or in conjunction with the
+          {{param|Username}} from this entry.
+        </description>
+        <syntax>
+          <string/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Username" access="readWrite">
+        <description>
+          Username for this client.
+
+          When {{param|Device.MQTT.Broker.{i}.AuthenticationMethod}} is
+          {{enum|UsernamePassword|Device.MQTT.Broker.{i}.AuthenticationMethod}}, this username is
+          used for authentication, matched against the username provided by the client.
+
+          When certificate-based authentication is used (e.g.,
+          {{enum|CertViaCN|Device.MQTT.Broker.{i}.AuthenticationMethod}}), this username is matched
+          against the username derived from the client's certificate for authorization purposes.
+
+          If {{empty}}, this rule may apply to anonymous clients, provided
+          {{param|Device.MQTT.Broker.{i}.AllowAnonymous}} is {{true}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Password" access="readWrite">
+        <description>
+          The password for this user, to be provided by the client. This parameter is only used for
+          authentication when {{param|Device.MQTT.Broker.{i}.AuthenticationMethod}} is set to
+          {{enum|UsernamePassword|Device.MQTT.Broker.{i}.AuthenticationMethod}}.
+        </description>
+        <syntax secured="true">
+          <string>
+            <size maxLength="256"/>
+          </string>
         </syntax>
       </parameter>
     </object>
@@ -1301,7 +1569,10 @@
         minEntries="0" maxEntries="unbounded"
         version="2.10">
       <description>
-        MQTT broker table. Contains a list of configured MQTT brokers.
+        Each entry in this table configures a single listener for the local MQTT
+        broker. This allows the device to accept incoming MQTT client connections on
+        different ports or with different security protocols (e.g., separate listeners 
+        for encrypted (e.g., TLS) and unencrypted connections).
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1349,6 +1620,62 @@
             <enumeration value="Error_Misconfigured"/>
             <enumeration value="Error" optional="true"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ACLList" access="readWrite" version="2.21">
+        <description>
+          Each item represents an Access Control List (ACL) rule that defines the permissions
+          for clients connected to this broker instance. These rules are evaluated to determine
+          if a client is authorized to publish to or subscribe from specific topics.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong"
+                targetParent="Device.MQTT.BrokerSecurity.ACL." targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AuthenticationMethod" access="readWrite" version="2.21">
+        <description>
+          The authentication method used by the broker to verify client identity. 
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="UsernamePassword">
+              <description>
+                Clients are authenticated using a username and password.
+              </description>
+            </enumeration>
+            <enumeration value="CertViaCN">
+              <description>
+                Clients are authenticated using a client certificate.
+                The Common Name (CN) from the certificate's subject is used as the username for
+                access control.
+              </description>
+            </enumeration>
+            <enumeration value="CertViaSubject">
+              <description>
+                Clients are authenticated using a client certificate.
+                The entire certificate subject is used as the username for access control.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="UsernamePassword"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowAnonymous" access="readWrite" version="2.21">
+        <description>
+          If {{true}}, the broker will allow clients to connect without providing
+          a username and password. If {{false}}, all clients must provide
+          credentials. These anonymous clients can still be subject to ACL rules.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
         </syntax>
       </parameter>
 
@@ -1400,7 +1727,14 @@
           User name used to authenticate the MQTT clients, which connect to the
           MQTT broker.
 
-          If this parameter is {{empty}} no authentication is used.
+          Note: If this parameter is {{empty}}, then {{param|AllowAnonymous}}
+          MUST also be set to {{true}}, or the Client will not be authorized
+          via this mechanism.
+
+          Instead of using a single username and password across multiple
+          devices, it is RECOMMENDED to use the per-client identity and access
+          control lists defined within the {{object|Device.MQTT.BrokerSecurity}}
+          object. Both mechanisms should not be used simultaneously.
         </description>
         <syntax>
           <string>
@@ -1411,10 +1745,19 @@
 
       <parameter name="Password" access="readWrite">
         <description>
-          Password used used to authenticate the MQTT clients, which connect to
+          Password used to authenticate the MQTT clients, which connect to
           the MQTT broker.
 
           This password is only used if {{param|Username}} is not {{empty}}.
+
+          Note: If {{param|Username}} is {{empty}}, then
+          {{param|AllowAnonymous}} MUST also be set to {{true}}, or the Client
+          will not be authorized via this mechanism.
+          
+          Instead of using a single username and password across multiple
+          devices, it is RECOMMENDED to use the per-client identity and access
+          control lists defined within the {{object|Device.MQTT.BrokerSecurity}}
+          object. Both mechanisms should not be used simultaneously.
         </description>
         <syntax secured="true">
           <string>
@@ -1423,7 +1766,54 @@
         </syntax>
       </parameter>
 
-      <component ref="ServerCerts" version="2.20"/>
+      <component ref="TLSServer" version="2.20"/>
+
+      <parameter name="Process" access="readOnly" version="2.21">
+        <description>
+          {{reference}} This parameter identifies the row representing the running
+          process associated with this MQTT broker instance.
+
+          The referenced row contains process details, including the PID.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong"
+                     targetParent="Device.DeviceInfo.ProcessStatus.Process."
+                     targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="BrokerID" access="readWrite" version="2.21">
+        <description>
+          {{param}} is an identifier used to group multiple broker instances (listeners)
+          under a single broker process. Instances with the same {{param}} value share
+          the process; instances with a new {{param}} value result in a new process being
+          created.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConfFile" access="readOnly" version="2.21">
+        <description>
+          {{reference}} This parameter identifies the row in the table that represents the
+          configuration file used by the MQTT broker instance.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+              <pathRef
+                refType="strong"
+                targetParent="Device.DeviceInfo.VendorConfigFile."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
 
       <parameter name="BridgeNumberOfEntries" access="readOnly">
         <description>
@@ -1665,7 +2055,7 @@
         </syntax>
       </parameter>
 
-      <component ref="ClientCerts" version="2.20"/>
+      <component ref="TLSClient" version="2.20"/>
       <!-- Other -->
 
       <parameter name="MessageRetryTime" access="readWrite">
@@ -2216,7 +2606,7 @@
 
     <profile name="MQTTClientCon:1" version="2.13">
       <description>
-        Provides MQTT client control
+        Provides MQTT client control.
       </description>
       <object ref="Device.MQTT." requirement="present">
         <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
@@ -2249,7 +2639,7 @@
 
     <profile name="MQTTClientBase:1" version="2.10">
       <description>
-        Provides basic MQTT client control and statistics
+        Provides basic MQTT client control and statistics.
       </description>
       <object ref="Device.MQTT." requirement="present">
         <parameter ref="ClientNumberOfEntries" requirement="readOnly"/>
@@ -2277,7 +2667,7 @@
     <profile name="MQTTClientSubscribe:1" base="MQTTClientBase:1"
         version="2.10">
       <description>
-        Adds client subscription control and access to received topics
+        Adds client subscription control and access to received topics.
       </description>
       <object ref="Device.MQTT.Client.{i}." requirement="present">
         <parameter ref="SubscriptionNumberOfEntries" requirement="readOnly"/>
@@ -2292,7 +2682,7 @@
 
     <profile name="MQTTBrokerBase:1" version="2.10">
       <description>
-        Provides basic MQTT broker control and statistics
+        Provides basic MQTT broker control and statistics.
       </description>
       <object ref="Device.MQTT." requirement="present">
         <parameter ref="BrokerNumberOfEntries" requirement="readOnly"/>
@@ -2316,7 +2706,7 @@
     <profile name="MQTTBrokerBridgeBase:1" base="MQTTBrokerBase:1"
         version="2.10">
       <description>
-        Adds parameters for MQTT network interconnection with Bridges
+        Adds parameters for MQTT network interconnection with Bridges.
       </description>
       <object ref="Device.MQTT.Broker.{i}." requirement="present">
         <parameter ref="BridgeNumberOfEntries" requirement="readOnly"/>
@@ -2348,7 +2738,7 @@
     <profile name="MQTTBrokerExtended:1" base="MQTTBrokerBase:1"
         version="2.10">
       <description>
-        Adds client authentication and extends statistics
+        Adds client authentication and extends statistics.
       </description>
       <object ref="Device.MQTT.Broker.{i}." requirement="present">
         <parameter ref="Username" requirement="readWrite"/>
@@ -2361,9 +2751,43 @@
         <parameter ref="PublishErrors" requirement="readOnly"/>
       </object>
     </profile>
+
+    <profile name="MQTTBrokerExtended:2" base="MQTTBrokerBase:1" version="2.21">
+      <description>
+        Adds client authentication and extends statistics.
+      </description>
+      <object ref="Device.MQTT.Broker.{i}." requirement="present">
+        <parameter ref="ACLList" requirement="readWrite"/>
+        <parameter ref="AuthenticationMethod" requirement="readWrite"/>
+        <parameter ref="AllowAnonymous" requirement="readWrite"/>
+      </object>
+      <object ref="Device.MQTT.BrokerSecurity.ACL.{i}." requirement="createDelete">
+        <parameter ref="Order" requirement="readWrite"/>
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Description" requirement="readWrite"/>
+        <parameter ref="ClientList" requirement="readWrite"/>
+        <parameter ref="Topics" requirement="readWrite"/>
+        <parameter ref="Operations" requirement="readWrite"/>
+        <parameter ref="Access" requirement="readWrite"/>
+      </object>
+      <object ref="Device.MQTT.BrokerSecurity.Client.{i}." requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Name" requirement="readWrite"/>
+        <parameter ref="Description" requirement="readWrite"/>
+        <parameter ref="ClientID" requirement="readWrite"/>
+        <parameter ref="Username" requirement="readWrite"/>
+        <parameter ref="Password" requirement="readWrite"/>
+      </object>
+      <object ref="Device.MQTT.Broker.{i}.Stats." requirement="present">
+        <parameter ref="NumberOfInactiveClients" requirement="readOnly"/>
+        <parameter ref="PublishSent" requirement="readOnly"/>
+        <parameter ref="PublishReceived" requirement="readOnly"/>
+        <parameter ref="PublishErrors" requirement="readOnly"/>
+      </object>
+    </profile>
   </component>
 
-  <model name="MQTT:2.20">
+  <model name="MQTT:2.21">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

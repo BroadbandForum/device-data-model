@@ -58,8 +58,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-usp"
-    file="tr-181-2-20-0-wifi-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-usp"
+    file="tr-181-2-21-0-wifi-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
     <component name="SpatialReuse"/>
@@ -897,7 +897,7 @@
 
       <parameter name="BackhaulMACAddress" access="readOnly" mandatory="true">
         <description>
-          The MAC address of the BSS, or APMLD, or similar Ethernet
+          The MAC address of the BSS, or AP MLD, or similar Ethernet
           interface, on this preferred backhaul link.
         </description>
         <syntax>
@@ -908,7 +908,7 @@
       <parameter name="bSTAMACAddress" access="readOnly" mandatory="true"
           dmr:noNameCheck="true">
         <description>
-          The MAC address of the backhaul Station STA (bSTA), or bSTAMLD,
+          The MAC address of the backhaul Station STA (bSTA), or bSTA MLD,
           or similar Ethernet interface, on this preferred backhaul link.
         </description>
         <syntax>
@@ -1830,7 +1830,7 @@
 
   <component name="FullScan">
 
-    <command name="FullScan()" async="true" version="2.15" status="obsoleted">
+    <command name="FullScan()" async="true" version="2.15" status="deleted">
       <description>
         This command represents a request to initiate a full scan on this
         radio, including all channels supported by this radio, for a specific
@@ -1843,11 +1843,13 @@
         this command is similar to,
         {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
 
-        {{deprecated|2.18|because is was 
+        {{deprecated|2.18|because it was
         superseded by {{command|#.ChannelScanRequest()}} and performed the
         same function as {{command|#####.Radio.{i}.FullScan()}}.}}
 
         {{obsoleted|2.20}}
+
+        {{deleted|2.21}}
       </description>
       <input>
         <component ref="WiFiScanInput"/>
@@ -2110,7 +2112,7 @@
 
   <component name="ChannelScan">
 
-    <command name="ChannelScan()" async="true" version="2.15" status="obsoleted">
+    <command name="ChannelScan()" async="true" version="2.15" status="deleted">
       <description>
         This parameter represents a request to initiate a channel scan on this
         radio on the given channel using a specific {{param|DwellTime}}. This
@@ -2122,11 +2124,13 @@
         this command is similar to,
         {{command|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.ChannelScanRequest()}}.
 
-        {{deprecated|2.18|because is was 
+        {{deprecated|2.18|because it was
         superseded by {{command|#.ChannelScanRequest()}} and performed the
         same function as {{command|#####.Radio.{i}.ChannelScan()}}.}}
 
         {{obsoleted|2.20}}
+
+        {{deleted|2.21}}
       </description>
       <input>
         <component ref="WiFiChannelScanInput"/>
@@ -2745,7 +2749,7 @@
         base="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA."
         access="readOnly" minEntries="1" maxEntries="1">
 
-      <command name="Disassociate()" async="true" status="obsoleted">
+      <command name="Disassociate()" async="true" status="deleted">
         <description>
           This command represents a request to disassociate this associated
           device.
@@ -2755,6 +2759,8 @@
           (client steering and client blocking).}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <input>
           <component ref="DisassociateInput"/>
@@ -2779,7 +2785,7 @@
         </output>
       </command>
 
-      <command name="BTMRequest()" async="true" status="obsoleted">
+      <command name="BTMRequest()" async="true" status="deleted">
         <description>
           This command requests initiation of a BSS Transition Management (BTM)
           request to influence this client's roaming behavior to another BSS as
@@ -2789,6 +2795,8 @@
           {{command|#.ClientSteer()}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <input>
           <component ref="BTMRequestInput"/>
@@ -3074,7 +3082,7 @@
 
   </component>
 
-  <model name="WiFiUSP:2.20">
+  <model name="WiFiUSP:2.21">
     <component ref="Root"/>
     <component ref="WiFi"/>
     <component ref="WiFiUSP"/>

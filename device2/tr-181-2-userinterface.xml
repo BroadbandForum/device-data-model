@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-userinterface"
-    file="tr-181-2-20-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-userinterface"
+    file="tr-181-2-21-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,17 +68,17 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
     <component name="ServerCerts"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPAccessControl"/>
   </import>
 
@@ -485,13 +485,15 @@ directed to <info@broadband-forum.org>.
 
       <component ref="ServerCerts"/>
 
-      <parameter name="CACertificate" access="readWrite" status="deprecated">
+      <parameter name="CACertificate" access="readWrite" status="obsoleted">
         <description>
           Points to the CA certificate that must be used by the web interface.
           The {{param}} is used to validate the web client certificate.
           {{param|Protocol}} MUST be set to ''HTTPS''
 
           {{deprecated|2.19|Replaced by {{param|CABundle}} which can now contain one or more reference.}}
+
+          {{obsoleted|2.21}}
         </description>
         <syntax>
           <string>
@@ -1037,7 +1039,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="UserInterface:2.20">
+  <model name="UserInterface:2.21">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

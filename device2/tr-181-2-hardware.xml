@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-hardware"
-  file="tr-181-2-20-0-hardware.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-hardware"
+  file="tr-181-2-21-0-hardware.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,14 +65,20 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="DevicePowerManagement"/>
     <component name="DevicePowerManagementUSP"/>
+  </import>
+
+  <import file="tr-181-2-flashdevice.xml"
+    spec="urn:broadband-forum-org:tr-181-2-21-0-flashdevice">
+    <component name="FlashDevice"/>
+    <component name="FlashDeviceUSP"/>
   </import>
 
   <component name="Hardware">
@@ -82,6 +88,337 @@ directed to <info@broadband-forum.org>.
       </description>
       <component ref="HardwareCPUs"/>
       <component ref="DevicePowerManagement"/>
+      <component ref="HardwareButtons"/>
+      <!-- component ref="FlashDevice"/ -->
+    </object>
+  </component>
+
+  <component name="HardwareButtons">
+    <object name="Buttons." access="readOnly" minEntries="1" maxEntries="1" version="2.21">
+      <description>
+        This object contains the configuration and status of physical buttons present on the device.
+      </description>
+
+      <parameter name="ButtonNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Buttons.Button.{i}." access="readOnly" numEntriesParameter="ButtonNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        This object represents an individual physical button of the device.
+        The button is typically discovered automatically from the system (e.g., via DeviceTree).
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Label"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          Name of the button.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Label" access="readOnly">
+        <description>
+          The system-defined label for the button, often referencing its DeviceTree label.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The current operational status of the button.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Pressed">
+              <description>Indicates the state when the button is being held down.</description>
+            </enumeration>
+            <enumeration value="Released">
+              <description>Indicates the default state when the button is not being pressed.</description>
+            </enumeration>
+            <enumeration value="Error_Misconfigured">
+              <description>Indicates that a necessary configuration value is undefined or invalid.</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Location" access="readOnly">
+        <description>
+          The location of the button as the user looks at the front of the device
+          in its typical orientation.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Front"/>
+            <enumeration value="Back"/>
+            <enumeration value="Left"/>
+            <enumeration value="Right"/>
+            <enumeration value="Top"/>
+            <enumeration value="Bottom"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="InputFile" access="readOnly">
+        <description>
+          Specifies the full path of the input device for the button. (Eg: ''file:///dev/input/event0'')
+          Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+        </description>
+        <syntax>
+          <dataType ref="FileURI"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="TriggerConditionNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Buttons.Button.{i}.TriggerCondition.{i}." access="readWrite" numEntriesParameter="TriggerConditionNumberOfEntries"
+      enableParameter="Enable" minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        This object defines the conditions for interpreting physical button presses into specific button events, such as a short press, long press, or release.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables this {{object}} entry.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readWrite">
+        <description>
+          The name of the TriggerCondition.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Type" access="readWrite">
+        <description>
+          The type of trigger condition, which determines when this {{object}} is activated.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Pressed">
+              <description>
+                Indicates that this {{object}} will be activated when the button is pressed.
+              </description>
+            </enumeration>
+            <enumeration value="Released">
+              <description>
+                Indicates that this {{object}} will be activated when the button is released if
+                it was pressed for a duration between {{param|Min}} and {{param|Max}}.
+              </description>
+            </enumeration>
+            <enumeration value="LongPressed">
+              <description>
+                Indicates that this {{object}} will be activated when the button is pressed for a duration longer than {{param|Timeout}}.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Min" access="readWrite">
+        <description>
+          {{param}} and {{param|Max}} have to be set together. Both values MUST be expressed in {{units}}.
+          If the button gets released between {{param}} and {{param|Max}}, this {{object}} is activated.
+          This parameter will only be used when {{param|Type}} is set to {{enum|Released|Type}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Max" access="readWrite">
+        <description>
+          {{param|Min}} and {{param}} have to be set together. Both values MUST be expressed in {{units}}.
+          If the button gets released between {{param|Min}} and {{param}}, this {{object}} is activated.
+          This parameter will only be used when {{param|Type}} is set to {{enum|Released|Type}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Timeout" access="readWrite">
+        <description>
+          This value MUST be expressed in {{units}}.
+          If the button gets pressed for longer than {{param}}, this {{object}} is activated.
+          This parameter will only be used when {{param|Type}} is set to {{enum|LongPressed|Type}}
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Active" access="readOnly">
+        <description>
+          This {{param}} indicates the activation status of the condition.
+          It is set to {{true}} when this {{object}} is activated and will automatically
+          reset to {{false}} after a duration defined by the {{param|ActiveTime}} parameter.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActiveTime" access="readWrite">
+        <description>
+          This {{param}} specifies the duration for which the {{param|Active}} parameter
+          will remain {{true}} after this {{object}} is activated, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+    </object>
+  </component>
+
+  <component name="HardwareButtonsUSP">
+    <object base="Buttons.Button.{i}.">
+      <command name="Push()" async="true">
+        <description>
+          Simulate a button push event for this button.
+          This has only effect when the {{param|Status}} is {{enum|Released|Status}} or {{enum|Error_Misconfigured|Status}}.
+        </description>
+        <input>
+          <parameter name="Duration">
+            <description>
+              Duration of the button press event, expressed in {{units}}.
+              If this parameter is absent or set to '0', the button will be pressed indefinitely
+              and will remain {{enum|Pressed|#.Status}} until the {{command|#.Release()}} is executed.
+              If this parameter is present and set to a value greater than '0', the button
+              will auto-switch to the {{enum|Released|#.Status}} state after the specified duration.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="milliseconds"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="Release()" async="true">
+        <description>
+          Simulate a button release event for this button.
+          This has only effect when the {{param|Status}} is {{enum|Pressed|Status}} or {{enum|Error_Misconfigured|Status}}.
+        </description>
+        <input>
+          <parameter name="Duration">
+            <description>
+              Duration of the button release event, expressed in {{units}}.
+              If this parameter is absent or set to '0', the button will be released indefinitely
+              and will remain {{enum|Released|#.Status}} until the {{command|#.Push()}} is executed.
+              If this parameter is present and set to a value greater than '0', the button
+              will auto-switch to the {{enum|Pressed|#.Status}} state after the specified duration.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="milliseconds"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+    </object>
+
+    <object base="Buttons.Button.{i}.TriggerCondition.{i}.">
+      <event name="Triggered!">
+        <description>
+          Custom event based on the button event that occurred.
+          This event also contains the name and type of the {{object|##.TriggerCondition.{i}}},
+          the name of the {{object|###.Button.{i}}}, and the {{param|Interval}} time.
+        </description>
+
+        <parameter name="Name">
+          <description>
+            Value of the {{param|##.TriggerCondition.{i}.Name}}
+          </description>
+          <syntax>
+            <string/>
+          </syntax>
+        </parameter>
+
+        <parameter name="ButtonName">
+          <description>
+            Value of the {{param|###.Button.{i}.Name}}
+          </description>
+          <syntax>
+            <string/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Type">
+          <description>
+            Value of the {{param|##.TriggerCondition.{i}.Type}}
+          </description>
+          <syntax>
+            <string/>
+          </syntax>
+        </parameter>
+
+        <parameter name="Interval">
+          <description>
+            Interval time from the time the button is pressed until this {{object}} is activated, expressed in {{units}}.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <units value="milliseconds"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+      </event>
     </object>
   </component>
 
@@ -280,11 +617,13 @@ directed to <info@broadband-forum.org>.
 
   <component name="HardwareUSP">
     <object base="Device.Hardware.">
+      <component ref="HardwareButtonsUSP"/>
       <component ref="DevicePowerManagementUSP"/>
+      <!-- component ref="FlashDeviceUSP"/ -->
     </object>
   </component>
 
-  <model name="HardwareCPUs:2.20">
+  <model name="HardwareCPUs:2.21">
     <component ref="Root"/>
     <component ref="HardwareCPUs"/>
   </model>

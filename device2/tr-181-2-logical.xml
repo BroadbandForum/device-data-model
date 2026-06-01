@@ -55,23 +55,30 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-logical"
-    file="tr-181-2-20-0-logical.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-logical"
+    file="tr-181-2-21-0-logical.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
+    <dataType name="FileDescriptorPassing"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    <component name="Layer2Interface"/>
     <component name="Layer3Interface"/>
+    <component name="BaseInterfaceParams"/>
+    <component name="BaseInterfaceParamsAddDefaults"/>
+    <component name="Layer2InterfaceParams"/>
+    <component name="BaseInterfaceStats"/>
+    <component name="Layer2InterfaceStats"/>
   </import>
 
   <component name="Logical">
@@ -90,12 +97,13 @@
         between WAN interfaces. The intention is that the network services are
         configured with a logical interface and that this configuration stays
         unchanged during the switching between WAN interfaces. The software
-        service (For example a WAN mode manger.) responsible for handling the
+        service (For example a WAN mode manager.) responsible for handling the
         WAN interface changes must then only care about rewriting the
         LowerLayers parameter of the Logical Interface Objects.
       </description>
       <component ref="Layer3Interface" version="2.16"/>
     </object>
+
     <object base="Device.Logical.Interface.{i}.">
       <description action="replace">
         Logical interface table (a stackable interface object as described in
@@ -115,6 +123,94 @@
         underlying interfaces.
       </description>
     </object>
+
+    <object name="Device.Logical.TUN." access="readOnly" minEntries="1"
+        maxEntries="1" version="2.21">
+      <description>
+        TUN (network TUNnel) virtual interface container object.
+
+        TUN interfaces are Layer 3 virtual network devices that operate at the IP
+        packet level. They are commonly used for VPN implementations, IP tunneling,
+        and network virtualization scenarios where applications need to handle IP
+        packets directly without dealing with Layer 2 Ethernet framing.
+      </description>
+
+      <parameter name="InterfaceNumberOfEntries">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Logical.TUN.Interface.{i}." access="readOnly"
+      numEntriesParameter="InterfaceNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        TUN virtual interface table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+
+        Each entry represents a Layer 3 virtual network interface that handles IP
+        packets.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+
+    <object name="Device.Logical.TAP." access="readOnly" minEntries="1"
+        maxEntries="1" version="2.21">
+      <description>
+        TAP (network tap) virtual interface container object.
+
+        TAP interfaces are Layer 2 virtual network devices that operate at the
+        Ethernet frame level. They simulate a complete Ethernet adapter and are
+        commonly used for network bridging, virtual machine networking, and scenarios
+        where applications need full access to Ethernet frames including Layer 2
+        protocols.
+      </description>
+
+      <parameter name="InterfaceNumberOfEntries">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Logical.TAP.Interface.{i}." access="readOnly"
+      numEntriesParameter="InterfaceNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.21">
+      <description>
+        TAP virtual interface table (a stackable interface object as described in
+        {{bibref|TR-181i2|Section 4.2}}).
+
+        Each entry represents a Layer 2 virtual network interface that handles
+        Ethernet frames.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="false">
+        <parameter ref="Name"/>
+      </uniqueKey>
+      <component ref="BaseInterfaceParams"/>
+      <component ref="Layer2InterfaceParams"/>
+      <component ref="BaseInterfaceStats"/>
+      <component ref="Layer2InterfaceStats"/>
+    </object>
+
     <profile name="Logical:1" version="2.16">
       <object ref="Device.Logical." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
@@ -138,7 +234,113 @@
     </profile>
   </component>
 
-  <model name="Logical:2.20">
+  <component name="LogicalUSP">
+    <object base="Device.Logical.TUN.">
+      <command name="CreateInterface()" async="false" version="2.21">
+        <description>
+          Creates a network TUN virtual interface.
+
+          This command is primarily used to allow a host system to create the TUN
+          interface on behalf of a sandboxed or containerized application that lacks
+          the necessary privileges to do so itself.
+        </description>
+        <output>
+          <parameter name="FileDescriptor">
+            <description>
+              An open file descriptor for the newly created TUN interface. Packets can 
+              be read from and written to this descriptor.
+            </description>
+            <syntax>
+              <dataType ref="FileDescriptorPassing"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Interface">
+            <description>
+              The path reference of the newly created TUN interface instance.
+            </description>
+            <syntax>
+              <string>
+                <pathRef refType="strong" targetParent=".Logical.TUN.Interface." targetType="row"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+    </object>
+
+    <object base="Device.Logical.TAP.">
+      <command name="CreateInterface()" async="false" version="2.21">
+        <description>
+          Creates a network TAP virtual interface.
+
+          This command is primarily used to allow the host system to create the TAP
+          interface on behalf of a sandboxed or containerized application that lacks
+          the necessary privileges to do so itself.
+        </description>
+        <output>
+          <parameter name="FileDescriptor">
+            <description>
+              An open file descriptor for the newly created TAP interface. Packets can
+              be read from and written to this descriptor.
+            </description>
+            <syntax>
+              <dataType ref="FileDescriptorPassing"/>
+            </syntax>
+          </parameter>
+          
+          <parameter name="Interface">
+            <description>
+              The path reference of the newly created TAP interface instance.
+            </description>
+            <syntax>
+              <string>
+                <pathRef refType="strong" targetParent=".Logical.TAP.Interface." targetType="row"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+    </object>
+
+    <object base="Device.Logical.TUN.Interface.{i}.">
+      <description action="append">
+        TUN interfaces are typically created dynamically via the
+        {{command|#.CreateInterface()}} command and can be deleted via the
+        {{command|Delete()}} command.
+      </description>
+
+      <command name="Delete()" async="false" version="2.21">
+        <description>
+          Deletes this network TUN virtual interface.
+
+          This command is primarily used to allow a host system to delete the TUN
+          interface on behalf of a sandboxed or containerized application that lacks
+          the necessary privileges to do so itself.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.Logical.TAP.Interface.{i}.">
+      <description action="append">
+        TAP interfaces are typically created dynamically via the
+        {{command|#.CreateInterface()}} command and can be deleted via the
+        {{command|Delete()}} command.
+      </description>
+
+      <command name="Delete()" async="false" version="2.21">
+        <description>
+          Deletes this network TAP virtual interface.
+
+          This command is primarily used to allow a host system to delete the TAP
+          interface on behalf of a sandboxed or containerized application that lacks
+          the necessary privileges to do so itself.
+        </description>
+      </command>
+    </object>
+  </component>
+
+  <model name="Logical:2.21">
     <component ref="Root"/>
     <component ref="Logical"/>
   </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-upnp"
-    file="tr-181-2-20-0-upnp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-upnp"
+    file="tr-181-2-21-0-upnp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -887,7 +887,7 @@
         <description>
           The UPnP Device Architecture version extracted from the specVersion
           element in the Device Description Document of the discovered root
-          device. The {{param}} is encoded as "major revison.minor revision".
+          device. The {{param}} is encoded as "major revision.minor revision".
           {{pattern}}
         </description>
         <syntax>
@@ -1274,7 +1274,7 @@
           The value of the UPnP eventSubURL element in the Device Description
           Document for this {{object}} and MUST be an absolute {{datatype}}.
 
-          The way to obtain an absolute URL from the eventSubURLL element is
+          The way to obtain an absolute URL from the eventSubURL element is
           specified in {{bibref|UPnP-DAv1}} and {{bibref|UPnP-DAv11}}.
 
           If the eventSubURL is not provided by the device then this value MUST
@@ -1435,7 +1435,7 @@
     </profile>
   </component>
 
-  <model name="UPnP:2.20">
+  <model name="UPnP:2.21">
     <component ref="Root"/>
     <component ref="UPnP"/>
   </model>

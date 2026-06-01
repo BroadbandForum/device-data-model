@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-dhcpv6"
-    file="tr-181-2-20-0-dhcpv6.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-dhcpv6"
+    file="tr-181-2-21-0-dhcpv6.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,11 +68,11 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-20-stats">
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-21-stats">
     <component name="ObjectStatsResetCWMP"/>
     <component name="ObjectStatsResetUSP"/>
   </import>
@@ -216,6 +216,24 @@
           Enables or disables inclusion of the ''Rapid Commit'' option
           OPTION_RAPID_COMMIT(14) {{bibref|RFC8415|Section 21.14}} in Solicit
           messages.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ForceSolicitPolicy" access="readWrite" version="2.21">
+        <description>
+          Determines whether the DHCPv6 client waits for a Router Advertisement (RA) message
+          {{bibref|RFC4861}} before initiating DHCPv6 negotiation.
+
+          When {{false}}, the DHCPv6 client first waits for a Router Advertisement message to
+          determine if DHCPv6 services are available (via 'M' and 'O' flags). This is the
+          recommended behavior according to {{bibref|RFC8415|Section 18.2.1}}.
+
+          When {{true}}, the client bypasses the wait for Router Advertisements and sends a Solicit message directly based on configured
+          parameters such as {{param|RequestAddresses}} and {{param|RequestPrefixes}}.
         </description>
         <syntax>
           <boolean/>
@@ -534,7 +552,7 @@
 
     <object name="Device.DHCPv6.Client.{i}.Retransmission." access="readOnly" version="2.18">
       <description>
-        This object enables the configurion of the DHCPv6 retransmission behavior according to the guidelines described in {{bibref|RFC8415|Section 7.6}}.
+        This object enables the configuration of the DHCPv6 retransmission behavior according to the guidelines described in {{bibref|RFC8415|Section 7.6}}.
       </description>
 
       <parameter name="SolicitMaxDelay" access="readWrite">
@@ -1652,12 +1670,16 @@
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
         version="2.2">
       <description>
-        This object specifies the DHCPv6 options that MUST, if enabled, be
+        This object specifies the DHCPv6 options that, if enabled, can be
         offered to clients whose DHCPv6 requests are associated with this pool.
+        
         If {{param|PassthroughClient}} is specified, and the referenced client
         has a value for a given option then the {{param|PassthroughClient}}
         option value will be sent instead of {{param|Value}}. Otherwise,
         {{param|Value}} will be sent.
+
+        If {{param|Force}} is specified, it determines that the option is
+        always sent or only when requested by the client.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1722,6 +1744,18 @@
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Force" access="readWrite" version="2.21">
+        <description>
+          When set to {{true}}, the DHCP server will include this option in a DHCP offer, regardless
+          of whether the client requested it in the Option Request Option (DHCP Option 6). This can be used to
+          ensure that clients receive certain options, even if not explicitly requested.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
         </syntax>
       </parameter>
     </object>
@@ -2109,7 +2143,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv6:2.20">
+  <model name="DHCPv6:2.21">
     <component ref="Root"/>
     <component ref="DHCPv6"/>
   </model>

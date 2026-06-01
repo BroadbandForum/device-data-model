@@ -172,6 +172,12 @@
   - December 2025
   - * No changes
 
+* - [Issue 2 Amendment 21][TR-181 Issue 2 Amendment 21]
+  - June 2026
+  - * Added log rotate ToO
+    * Added MQTT ToO
+    * Added certificate management ToO
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
@@ -183,12 +189,8 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
-* Daniel Egger
+* Daniel Egger, BBF
 * Matthieu Anne, Orange
-
-### Editors {.unnumbered .unlisted}
-
-* William Lupton, Broadband Forum
 
 ### Acknowledgments {.unnumbered .unlisted}
 
@@ -197,10 +199,11 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 * André-Jean Côté, Snom
 * Arun Jayaraman, AT&T
 * Barbara Stark, AT&T
+* Boris Vanhoof, Orange
 * Charles Foster, BT
 * Chen Li, AT&T
 * Chris Gray, Orange
-* Daniel Egger
+* Daniel Egger, BBF
 * David Cluytens, Orange
 * David Wooley, Telstra
 * Gene Wang, Wistron NeWeb Corp.
@@ -242,6 +245,7 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 [TR-181 Issue 2 Amendment 2]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf
 [TR-181 Issue 2 Amendment 20]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf
 [TR-181 Issue 2 Amendment 20 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20_Corrigendum-1.pdf
+[TR-181 Issue 2 Amendment 21]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
 [TR-181 Issue 2 Amendment 7]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-hosts"
-    file="tr-181-2-20-0-hosts.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-hosts"
+    file="tr-181-2-21-0-hosts.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-schedules">
+    spec="urn:broadband-forum-org:tr-181-2-21-schedules">
     <component name="ScheduleRef"/>
   </import>
 
@@ -754,11 +754,13 @@
 
       <component ref="ScheduleRef"/>
 
-      <parameter name="ScheduleNumberOfEntries" access="readOnly" status="obsoleted">
+      <parameter name="ScheduleNumberOfEntries" access="readOnly" status="deleted">
         <description>
           {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
 
           {{numentries}}
         </description>
@@ -771,11 +773,13 @@
     <object name="Device.Hosts.AccessControl.{i}.Schedule.{i}."
       access="readWrite" numEntriesParameter="ScheduleNumberOfEntries"
       enableParameter="Enable" minEntries="0" maxEntries="unbounded"
-      version="2.14" status="obsoleted">
+      version="2.14" status="deleted">
       <description>
         {{deprecated|2.18|in favor of {{object|.Schedules.}}}}
 
         {{obsoleted|2.20}}
+
+        {{deleted|2.21}}
 
         Each instance of this object provides a schedule where access is
         enabled.
@@ -939,7 +943,7 @@
       </object>
     </profile>
 
-    <profile name="AccessControl:1" status="obsoleted" version="2.14">
+    <profile name="AccessControl:1" status="deleted" version="2.14">
       <object ref="Device.Hosts." requirement="present">
         <parameter ref="AccessControlNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -947,10 +951,10 @@
         <parameter ref="PhysAddress" requirement="readWrite"/>
         <parameter ref="AccessPolicy" requirement="readWrite"/>
         <parameter ref="Enable" requirement="readWrite"/>
-        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="ScheduleNumberOfEntries" requirement="readOnly" status="deleted"/>
       </object>
       <object ref="Device.Hosts.AccessControl.{i}.Schedule.{i}."
-          requirement="present" status="obsoleted">
+          requirement="present" status="deleted">
         <parameter ref="Alias" requirement="writeOnceReadOnly"/>
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="Day" requirement="readWrite"/>
@@ -972,7 +976,7 @@
     </profile>
   </component>
 
-  <model name="Hosts:2.20">
+  <model name="Hosts:2.21">
     <component ref="Root"/>
     <component ref="Hosts"/>
   </model>

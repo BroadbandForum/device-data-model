@@ -169,47 +169,42 @@ In the table, grayed and bolded items are added to allow two-way mapping between
 
 :Default Layer 2/3 QoS Mapping
 
-| Layer 2 Ethernet Priority | Layer 2 Designation      | Layer 3 DSCP             | Layer 3 Per Hop Behavior
-|---------------------------|--------------------------|--------------------------|--------------------------
-| 001 (1)                   | BK                       | [000000 (0x00)]{.gray}   | [Default]{.gray}
-| 010 (2)                   | spare                    | [000000 (0x00)]{.gray}   |
-| 000 (0)                   | BE                       | 000000 (0x00)\
-**000000 (0x00)** | Default\
-CS0
-| 011 (3)                   | EE                       | 001110 (0x0e)\
-001100 (0x0c)\
-001010 (0x0a)\
-**001000 (0x08)** | AF13\
-AF12\
-AF11\
-CS1
-| 100 (4)                   | CL                       | 010110 (0x16)\
-010100 (0x14)\
-010010 (0x12)\
-**010000 (0x10)** | AF23\
-AF22\
-AF21\
-CS2
-| 101 (5)                   | VI                       | 011110 (0x1e)\
-011100 (0x1c)\
-011010 (0x1a)\
-**011000 (0x18)** | AF33\
-AF32\
-AF31\
-CS3
-| [110 (6)]{.gray}          | [VO]{.gray}              | 100110 (0x26)\
-100100 (0x24)\
-100010 (0x22)\
-**100000 (0x20)** | AF43\
-AF42\
-AF41\
-CS4
-| 110 (6)                   | VO                       | 101110 (0x2e)\
-**101000 (0x28)** | EF\
-CS5
-| 111 (7)                   | NC                       | 110000 (0x30)\
-**111000 (0x38)** | CS6\
-CS7
++---------------------------+--------------------------+--------------------------+--------------------------+
+| Layer 2 Ethernet Priority | Layer 2 Designation      | Layer 3 DSCP             | Layer 3 Per Hop Behavior |
++===========================+==========================+==========================+==========================+
+| 001 (1)                   | BK                       | [000000 (0x00)]{.gray}   | [Default]{.gray}         |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 010 (2)                   | spare                    | [000000 (0x00)]{.gray}   |                          |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 000 (0)                   | BE                       | 000000 (0x00) \          | Default \                |
+|                           |                          | **000000 (0x00)** \      | CS0                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 011 (3)                   | EE                       | 001110 (0x0e) \          | AF13 \                   |
+|                           |                          | 001100 (0x0c) \          | AF12 \                   |
+|                           |                          | 001010 (0x0a) \          | AF11 \                   |
+|                           |                          | **001000 (0x08)** \      | CS1                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 100 (4)                   | CL                       | 010110 (0x16) \          | AF23 \                   |
+|                           |                          | 010100 (0x14) \          | AF22 \                   |
+|                           |                          | 010010 (0x12) \          | AF21 \                   |
+|                           |                          | **010000 (0x10)** \      | CS2                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 101 (5)                   | VI                       | 011110 (0x1e) \          | AF33 \                   |
+|                           |                          | 011100 (0x1c) \          | AF32 \                   |
+|                           |                          | 011010 (0x1a) \          | AF31 \                   |
+|                           |                          | **011000 (0x18)** \      | CS3                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| [110 (6)]{.gray}          | [VO]{.gray}              | 100110 (0x26) \          | AF43 \                   |
+|                           |                          | 100100 (0x24) \          | AF42 \                   |
+|                           |                          | 100010 (0x22) \          | AF41 \                   |
+|                           |                          | **100000 (0x20)** \      | CS4                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 110 (6)                   | VO                       | 101110 (0x2e) \          | EF \                     |
+|                           |                          | **101000 (0x28)** \      | CS5                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
+| 111 (7)                   | NC                       | 110000 (0x30) \          | CS6 \                    |
+|                           |                          | **111000 (0x38)** \      | CS7                      |
++---------------------------+--------------------------+--------------------------+--------------------------+
 
 ## URN Definitions for App and Flow Tables
 
@@ -258,15 +253,19 @@ For the flow type urn:dslforum-org:pppoe, @tbl:flow-typeparameters-values-for-fl
 
 :Flow TypeParameters values for flow type urn:dslforum-org:pppoe
 
-| Name        | Description of Value
-|-------------|-------------------------------------------------------------------
-| ServiceName | The PPPoE service name.\
-If specified, only bridged PPPoE sessions designated for the named service would be considered part of this flow.\
-If this parameter is not specified, or is empty, bridged PPPoE associated with any service considered part of this flow.
-| ACName      | The PPPoE access concentrator name.\
-If specified, only bridged PPPoE sessions designated for the named access concentrator would be considered part of this flow.\
-If this parameter is not specified, or is empty, bridged PPPoE associated with any access concentrator considered part of this flow.
-| PPPDomain   | The domain part of the PPP username.\
-If specified, only bridged PPPoE sessions in which the domain portion of the PPP username matches this value are considered part of this flow.\
-If this parameter is not specified, or is empty, all bridged PPPoE sessions are considered part of this flow.
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name        | Description of Value                                                                                                                                 |
++=============+======================================================================================================================================================+
+| ServiceName | The PPPoE service name.\                                                                                                                             |
+|             | If specified, only bridged PPPoE sessions designated for the named service would be considered part of this flow.\                                   |
+|             | If this parameter is not specified, or is empty, bridged PPPoE associated with any service considered part of this flow.                             |
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ACName      | The PPPoE access concentrator name.\                                                                                                                 |
+|             | If specified, only bridged PPPoE sessions designated for the named access concentrator would be considered part of this flow.\                       |
+|             | If this parameter is not specified, or is empty, bridged PPPoE associated with any access concentrator considered part of this flow.                 |
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PPPDomain   | The domain part of the PPP username.\                                                                                                                |
+|             | If specified, only bridged PPPoE sessions in which the domain portion of the PPP username matches this value are considered part of this flow.\      |
+|             | If this parameter is not specified, or is empty, all bridged PPPoE sessions are considered part of this flow.                                        |
++-------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
 

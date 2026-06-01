@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-de"
-    file="tr-181-2-20-0-wifi-de.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-de"
+    file="tr-181-2-21-0-wifi-de.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -74,17 +74,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-base">
     <component name="WiFiRoot"/>
   </import>
 
   <import file="tr-181-2-wifi-de-base.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-wifi-de-base">
+    spec="urn:broadband-forum-org:tr-181-2-21-wifi-de-base">
     <component name="WiFi7Capabilities"/>
     <component name="MLOFreqSeparation"/>
   </import>
@@ -92,7 +92,7 @@
   <component name="TIDLinkMap">
     <parameter name="Direction" access="readOnly">
       <description>
-        The direction of the traffic flow from the perspective of the APMLD.
+        The direction of the traffic flow from the perspective of the AP MLD.
         {{enum}}
       </description>
       <syntax>
@@ -349,7 +349,7 @@
 
       <parameter name="Direction" access="readWrite">
         <description>
-          The direction of the traffic flow from the perspective the APMLD.
+          The direction of the traffic flow from the perspective the AP MLD.
           {{enum}}
           This {{param}} is a unique key for this table.
         </description>
@@ -395,7 +395,7 @@
 
       <parameter name="LinkID" access="readOnly">
         <description>
-          The Link ID assigned to one of the affiliated APs of this APMLD.
+          The Link ID assigned to one of the affiliated APs of this AP MLD.
           {{bibref|EasyMesh|Section 17.2.96, Agent AP MLD Configuration TLV}}
         </description>
         <syntax>
@@ -504,8 +504,8 @@
 
       <parameter name="UnicastBytesSent" access="readOnly">
         <description>
-          Total number of unicast bytes transmitted to MLD STAs associated
-          with the affiliated AP.
+          Total number of unicast bytes transmitted to affiliated STAs associated
+          with this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -515,8 +515,8 @@
 
       <parameter name="UnicastBytesReceived" access="readOnly">
         <description>
-          Total number of unicast bytes received from MLD STAs associated
-          with the affiliated AP.
+          Total number of unicast bytes received from affiliated STAs associated
+          with this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -539,8 +539,8 @@
 
       <parameter name="MulticastBytesSent" access="readOnly">
         <description>
-          Total multicast bytes transmitted to MLD STAs associated with the
-          affiliated AP.
+          Total multicast bytes transmitted to affiliated STAs associated with
+          this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -550,8 +550,8 @@
 
       <parameter name="MulticastBytesReceived" access="readOnly">
         <description>
-          Total multicast bytes received from MLD STAs associated with
-          the affiliated AP.
+          Total multicast bytes received from affiliated STAs associated with
+          this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -561,8 +561,8 @@
 
       <parameter name="BroadcastBytesSent" access="readOnly">
         <description>
-          Total broadcast bytes transmitted to MLD STAs associated with the
-          affiliated AP.
+          Total broadcast bytes transmitted to affiliated STAs associated with
+          this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -572,8 +572,8 @@
 
       <parameter name="BroadcastBytesReceived" access="readOnly">
         <description>
-          Total broadcast bytes received from MLD STAs associated with
-          the affiliated AP.
+          Total broadcast bytes received from affiliated STAs associated with
+          this affiliated AP.
           {{bibref|EasyMesh}} source: Affiliated AP Metrics TLV.
         </description>
         <syntax>
@@ -650,7 +650,7 @@
 
       <parameter name="MLDMACAddress" access="readOnly">
         <description>
-          The Multi-Link Device (MLD) MAC Address of the client MLD STA.
+          The Multi-Link Device (MLD) MAC Address of the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA MLD Configuration Report
           TLV.
         </description>
@@ -661,7 +661,7 @@
 
       <parameter name="Hostname" access="readOnly">
         <description>
-          The Hostname for the client MLD STA.
+          The Hostname for the STA MLD.
         </description>
         <syntax>
           <string/>
@@ -688,9 +688,9 @@
 
       <parameter name="IsbSTA" access="readOnly">
         <description>
-          Indicates if the client MLD STA is a backhaul MLD STA (bSTAMLD).
-          This is useful when the same AP MLD has both client MLD and bSTAMLDs
-          associated.
+          Indicates if the STA MLD is a backhaul STA MLD (bSTA MLD).
+          This is useful to identify the type of STA MLD when the same
+          AP MLD is used for both Fronthaul and Backhaul operation.
           {{bibref|EasyMesh}} source: Backhaul STA MLD Configuration TLV.
         </description>
         <syntax>
@@ -700,7 +700,7 @@
 
       <parameter name="LastConnectTime" access="readOnly">
         <description>
-          The time in {{units}} since this client MLD STA was associated.
+          The time in {{units}} since this STA MLD was associated.
         </description>
         <syntax>
           <unsignedInt>
@@ -711,7 +711,7 @@
 
       <parameter name="BytesSent" access="readOnly">
         <description>
-          The total number of bytes transmitted to the client MLD STA.
+          The total number of bytes transmitted to the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -721,7 +721,7 @@
 
       <parameter name="BytesReceived" access="readOnly">
         <description>
-          The total number of bytes received from the client MLD STA.
+          The total number of bytes received from the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -731,7 +731,7 @@
 
       <parameter name="PacketsSent" access="readOnly">
         <description>
-          The total number of packets transmitted to the client MLD STA.
+          The total number of packets transmitted to the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -741,7 +741,7 @@
 
       <parameter name="PacketsReceived" access="readOnly">
         <description>
-          The total number of packets received from the client MLD STA.
+          The total number of packets received from the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -752,7 +752,7 @@
       <parameter name="ErrorsSent" access="readOnly">
         <description>
           The number of packets which could not be transmitted to the
-          client MLD STA due to errors.
+          STA MLD due to errors.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -763,7 +763,7 @@
       <parameter name="ErrorsReceived" access="readOnly">
         <description>
           The number of packets which were received with error from the
-          client MLD STA.
+          STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -774,7 +774,7 @@
       <parameter name="RetransCount" access="readOnly">
         <description>
           The number of packets transmitted with the retry flag sent to
-          the client MLD STA.
+          the STA MLD.
           {{bibref|EasyMesh}} source: Associated STA Traffic Stats TLV.
         </description>
         <syntax>
@@ -784,7 +784,7 @@
 
       <parameter name="PairwiseAKM" access="readOnly" version="2.19">
         <description>
-          Pairwise AKM suite selector selected by the STAMLD.
+          Pairwise AKM suite selector selected by the STA MLD.
           The Pairwise AKM suite selector (OUI and type) is encoded as a 4-octet
           hex-encoded value without internal delimiters, e.g. 506F9A02
           {{bibref|802.11-2020|Table 9-151}}.
@@ -798,7 +798,7 @@
 
       <parameter name="PairwiseCipher" access="readOnly" version="2.19">
         <description>
-          Pairwise AKM cipher selector selected by the STAMLD.
+          Pairwise AKM cipher selector selected by the STA MLD.
           The Pairwise AKM cipher selector (OUI and type) is encoded as a 4-octet
           hex-encoded value without internal delimiters, e.g. 506F9A02
           {{bibref|802.11-2020|Table 9-149}}.
@@ -812,7 +812,7 @@
 
       <parameter name="RSNCapabilities" access="readOnly" version="2.19">
         <description>
-          The RSN Capabilities selected by the STAMLD during association
+          The RSN Capabilities selected by the STA MLD during association
           {{bibref|802.11-2020|Section 9.4.2.24.4}}.
         </description>
         <syntax>
@@ -844,7 +844,7 @@
     <object name="Device.WiFi.DataElements.Network.Device.{i}.APMLD.{i}.STAMLD.{i}.WiFi7Capabilities."
         access="readOnly" version="2.17">
       <description>
-        This object describes the Wi-Fi 7 capabilities for this STAMLD
+        This object describes the Wi-Fi 7 capabilities for this STA MLD
         including Multi-Link Operation (MLO) capabilities.
         {{bibref|EasyMesh}} Source: Wi-Fi 7 Agent Capabilities TLV.
       </description>
@@ -852,7 +852,7 @@
       <parameter name="EMLMRSupport" access="readOnly">
         <description>
           Indicates if the Enhanced Multi-Link Multi-Radio (EMLMR) operation
-          is supported by this STAMLD.
+          is supported by this STA MLD.
         </description>
         <syntax>
           <boolean/>
@@ -862,7 +862,7 @@
       <parameter name="EMLSRSupport" access="readOnly">
         <description>
           Indicates if Enhanced Multi-Link Single-Radio (EMLSR) operation
-          is supported by this STAMLD.
+          is supported by this STA MLD.
       </description>
         <syntax>
           <boolean/>
@@ -872,7 +872,7 @@
       <parameter name="STRSupport" access="readOnly">
         <description>
           Indicates if Simultaneous Transmit and Receive (STR) operation
-          is supported by this STAMLD.
+          is supported by this STA MLD.
         </description>
         <syntax>
           <boolean/>
@@ -882,7 +882,7 @@
       <parameter name="NSTRSupport" access="readOnly">
         <description>
           Indicates if Non-Simultaneous Transmit and Receive (NSTR)
-          operation is supported by this STAMLD.
+          operation is supported by this STA MLD.
         </description>
         <syntax>
           <boolean/>
@@ -892,7 +892,7 @@
       <parameter name="TIDLinkMapNegotiation" access="readOnly">
         <description>
           Indicates if Traffic Identifier (TID) to Link Mapping Negotiation
-          is supported by this STAMLD.
+          is supported by this STA MLD.
         </description>
         <syntax>
           <boolean/>
@@ -1136,7 +1136,7 @@
 
       <parameter name="UtilizationReceive" access="readOnly">
         <description>
-          The amount of time in {{units}} that the APMLD Radio has spent on
+          The amount of time in {{units}} that the AP MLD Radio has spent on
           the channel receiving data from the affiliated STA.
         </description>
         <syntax>
@@ -1148,7 +1148,7 @@
 
       <parameter name="UtilizationTransmit" access="readOnly">
         <description>
-          The amount of time in {{units}} that the APMLD Radio has spent on
+          The amount of time in {{units}} that the AP MLD Radio has spent on
           the channel transmitting data to the affiliated STA.
         </description>
         <syntax>
@@ -1181,7 +1181,7 @@
 
       <parameter name="BSSID" access="readOnly">
         <description>
-          The MLD MAC address of the upstream APMLD that this bSTAMLD
+          The MLD MAC address of the upstream AP MLD that this bSTA MLD
           is associated to.
           {{bibref|EasyMesh}} source: Associated Clients TLV.
         </description>
@@ -1192,7 +1192,7 @@
 
       <parameter name="AffiliatedbSTAList" access="readOnly">
         <description>
-          {{list}} backhaul STA MAC addresses affiliated to this bSTAMLD.
+          {{list}} backhaul STA MAC addresses affiliated to this bSTA MLD.
           {{bibref|EasyMesh}} source: Backhaul STA MLD Configuration TLV.
         </description>
         <syntax>
@@ -2955,13 +2955,15 @@
         </syntax>
       </parameter>
 
-      <parameter name="MaxReportingRate" access="readOnly" version="2.15" status="deprecated">
+      <parameter name="MaxReportingRate" access="readOnly" version="2.15" status="obsoleted">
         <description>
           Maximum rate for reporting unsuccessful association attempts in
           {{units}}.
 
           {{deprecated|2.19|because it was the same as
           {{param|MaxUnsuccessfulAssociationReportingRate}}.}}
+
+          {{obsoleted|2.21}}
         </description>
         <syntax>
           <unsignedInt>
@@ -3161,6 +3163,7 @@
         <syntax>
           <string>
             <size minLength="2" maxLength="2"/>
+            <pattern value="[A-Z][A-Z]"/>
           </string>
         </syntax>
       </parameter>
@@ -3359,13 +3362,15 @@
       </parameter>
 
       <parameter name="BackhaulDownMACAddress" access="readOnly"
-          status="deprecated" version="2.17">
+          status="obsoleted" version="2.17">
         <description>
           {{list}} Each MAC address is that of a downstream EasyMesh agent's
           backhaul link.
 
           {{deprecated|2.19|because it was replaced by
           {{param|BackhaulDown.{i}.BackhaulDownMACAddress}}.}}
+
+          {{obsoleted|2.21}}
         </description>
         <syntax>
           <list/>
@@ -3443,7 +3448,7 @@
         </description>
         <syntax>
           <unsignedInt>
-            <units value="Mb/s"/>
+            <units value="Mbps"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -3580,7 +3585,7 @@
 
       <parameter name="APMLDMaxLinks" access="readOnly" version="2.17">
         <description>
-          The maximum number of affiliated APs supported by any APMLD on this
+          The maximum number of affiliated APs supported by any AP MLD on this
           EasyMesh Agent. Set to a value between 0 and 14, which is the number
           of affiliated APs minus 1. The value of 15 is reserved.
           {{bibref|EasyMesh}} source: Wi-Fi 7 Agent Capabilities TLV.
@@ -3595,7 +3600,7 @@
       <parameter name="bSTAMLDMaxLinks" access="readOnly" version="2.17"
           dmr:noNameCheck="true">
         <description>
-          The maximum number of affiliated bSTAs supported by the bSTAMLD on
+          The maximum number of affiliated bSTAs supported by the bSTA MLD on
           this EasyMesh Agent. Set to a value between 0 and 14, which is the
           number of affiliated bSTAs minus 1. The value of 15 is reserved.
           {{bibref|EasyMesh}} source: Wi-Fi 7 Agent Capabilities TLV.
@@ -4294,7 +4299,7 @@
           Available Spectrum Inquiry Request TLV}}.
         </description>
         <syntax>
-          <string/>
+          <dataType ref="JSONObject"/>
         </syntax>
       </parameter>
 
@@ -4305,7 +4310,7 @@
           Available Spectrum Inquiry Response TLV}}.
         </description>
         <syntax>
-          <string/>
+          <dataType ref="JSONObject"/>
         </syntax>
       </parameter>
     </object>
@@ -4316,7 +4321,7 @@
         This object represents an individual Access Point device.
       </description>
 
-      <parameter name="ManufacturerOUI" access="readOnly" status="obsoleted">
+      <parameter name="ManufacturerOUI" access="readOnly" status="deleted">
         <description>
           Organizationally unique identifier of the Access Point device
           manufacturer. Represented as a six hexadecimal-digit value using all
@@ -4335,6 +4340,8 @@
           {{param|#.Manufacturer}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <string>
@@ -4371,7 +4378,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="EasyMeshControllerOperationMode" access="readOnly" status="obsoleted">
+      <parameter name="EasyMeshControllerOperationMode" access="readOnly" status="deleted">
         <description>
           This parameter represents the status of Wi-Fi CERTIFIED EasyMeshTM
           controller functionality. {{enum}}
@@ -4380,6 +4387,8 @@
           {{param|#.ControllerOperationMode}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <string>
@@ -4433,15 +4442,15 @@
         The endpoints of the backhaul interface are represented by the
         (Device's ID and interface MAC Address). This object represents the
         upward view of the backhaul interface. The two endpoints of the
-        backhaul interface are - ({{param|BackhaulDeviceID|obsoleted}},
-        {{param|BackhaulMACAddress|obsoleted}}) of the uplinked Backhaul
-        Device - {{param|MACAddress|obsoleted}} of this Access Point Device.
+        backhaul interface are - ({{param|BackhaulDeviceID|deleted}},
+        {{param|BackhaulMACAddress|deleted}}) of the uplinked Backhaul
+        Device - {{param|MACAddress|deleted}} of this Access Point Device.
 
         {{empty}} is reserved for the {{object}} instance that represents the
         Multi-AP Controller.
       </description>
 
-      <parameter name="LinkType" access="readOnly" status="obsoleted">
+      <parameter name="LinkType" access="readOnly" status="deleted">
         <description>
           The medium being used to backhaul this Access Point Device to the
           Backhaul Access Point Device. The {{enum|None}} value is reserved for
@@ -4452,6 +4461,8 @@
           {{param|##.BackhaulMediaType}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <string>
@@ -4467,11 +4478,11 @@
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulMACAddress" access="readOnly" status="obsoleted">
+      <parameter name="BackhaulMACAddress" access="readOnly" status="deleted">
         <description>
           The MAC Address at the far end of the backhaul link of the interface
           on the network that is providing a backhaul for this Access Point
-          Device. This along with {{param|BackhaulDeviceID|obsoleted}}, helps
+          Device. This along with {{param|BackhaulDeviceID|deleted}}, helps
           to identify the backhaul interface endpoint.
 
           {{empty}} is reserved for the {{object}} instance that represents the
@@ -4481,13 +4492,15 @@
           {{param|##.BackhaulMACAddress}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="BackhaulDeviceID" access="readOnly" status="obsoleted">
+      <parameter name="BackhaulDeviceID" access="readOnly" status="deleted">
         <description>
           The Device's ID of the Device on the network that is providing a
           Backhaul Link for this Access Point Device.
@@ -4496,13 +4509,15 @@
           {{param|##.BackhaulALID}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
         </syntax>
       </parameter>
 
-      <parameter name="MACAddress" access="readOnly" status="obsoleted">
+      <parameter name="MACAddress" access="readOnly" status="deleted">
         <description>
           The MAC Address at the near end of the backhaul link of this Access
           Point Device's backhaul interface that is connecting via
@@ -4513,6 +4528,8 @@
           {{param|##.Radio.{i}.BackhaulSta.MACAddress}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -5373,7 +5390,9 @@
       <parameter name="HTCapabilities" access="readOnly">
         <description>
           Describes the HT capabilities of the radio as defined by the
-          HTCapabilities TLV {{bibref|EasyMesh|Section 17.2.8}}.
+          AP HTCapabilities TLV {{bibref|EasyMesh|Section 17.2.8}}. 
+          Includes all fields in the AP HTCapabilities TLV except tlvType, 
+          tlvLength, tlvValue and RUID.
         </description>
         <syntax>
           <base64>
@@ -5385,7 +5404,9 @@
       <parameter name="VHTCapabilities" access="readOnly">
         <description>
           Describes the VHT capabilities of the radio as defined by the
-          VHTCapabilities TLV {{bibref|EasyMesh|Section 17.2.9}}.
+          AP VHTCapabilities TLV {{bibref|EasyMesh|Section 17.2.9}}.
+          Includes all fields in the AP VHTCapabilities TLV except tlvType, 
+          tlvLength, tlvValue and RUID.
         </description>
         <syntax>
           <base64>
@@ -6656,7 +6677,7 @@
         network.
       </description>
 
-      <parameter name="RadarDetections" access="readOnly" status="obsoleted">
+      <parameter name="RadarDetections" access="readOnly" status="deleted">
         <description>
           {{list}} List items represent channels in the non-occupancy list due
           to radars detected by Dynamic Frequency Selection (DFS) Channel
@@ -6666,6 +6687,8 @@
           {{object|##.CACStatus.{i}.}}.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
         <syntax>
           <list>
@@ -7112,6 +7135,13 @@
         minEntries="0" maxEntries="unbounded" version="2.13">
       <description>
         Object describing a single Associated Device (STA).
+        The Backhaul STAs (bSTAs) with which other 
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.}} connect to this BSS are included
+        in this table.
+        STA MLD and bSTA MLD are not included, and are instead part of 
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.APMLD.{i}.STAMLD.{i}.}}.
+        AffiliatedSTAs and AffiliatedbSTAs are not included, and are instead part of 
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.APMLD.{i}.STAMLD.{i}.AffiliatedSTA.{i}.}}.
       </description>
       <uniqueKey functional="true">
         <parameter ref="MACAddress"/>
@@ -7144,6 +7174,10 @@
       <parameter name="HTCapabilities" access="readOnly">
         <description>
           Describes the HT capabilities of the Associated Device (STA).
+          Uses the format defined by the AP HTCapabilities TLV
+          {{bibref|EasyMesh|Section 17.2.8}}.
+          Includes all fields in the AP HTCapabilities TLV except tlvType, 
+          tlvLength, tlvValue and RUID.
         </description>
         <syntax>
           <base64>
@@ -7155,6 +7189,10 @@
       <parameter name="VHTCapabilities" access="readOnly">
         <description>
           Describes the VHT capabilities of the Associated Device (STA).
+          Uses the format defined by the AP VHTCapabilities TLV
+          {{bibref|EasyMesh|Section 17.2.9}}.
+          Includes all fields in the AP VHTCapabilities TLV except tlvType, 
+          tlvLength, tlvValue and RUID.
         </description>
         <syntax>
           <base64>
@@ -7596,7 +7634,7 @@
           The counters contained in {{object}} are all reset on reboot.
         </description>
 
-        <parameter name="AssociationTime" access="readOnly" status="obsoleted">
+        <parameter name="AssociationTime" access="readOnly" status="deleted">
           <description>
             Date and time in UTC when the device was associated.
 
@@ -7609,13 +7647,15 @@
             {{param|#.LastConnectTime}}.}}
 
             {{obsoleted|2.20}}
+
+            {{deleted|2.21}}
           </description>
           <syntax>
             <dateTime/>
           </syntax>
         </parameter>
 
-        <parameter name="Noise" access="readOnly" status="obsoleted">
+        <parameter name="Noise" access="readOnly" status="deleted">
           <description>
             An indicator of the average radio noise plus interference power
             measured on the uplink from the Associated Device (STA) to the Access
@@ -7633,6 +7673,8 @@
             {{param|###.Noise}}.}}
 
             {{obsoleted|2.20}}
+
+            {{deleted|2.21}}
           </description>
           <syntax>
             <unsignedInt>
@@ -8183,9 +8225,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="AggregateScanDuration" access="readOnly" version="2.17">
+      <parameter name="AggregateScanDuration" access="readOnly" version="2.17"
+        status="deprecated">
         <description>
           Total time spent performing the scan of this channel in {{units}}.
+
+          {{deprecated|2.21|because it is was moved to
+          {{object|OpClassScan.{i}.ChannelScan.{i}}}.}}
         </description>
         <syntax>
           <unsignedInt>
@@ -8194,10 +8240,14 @@
         </syntax>
       </parameter>
 
-      <parameter name="ScanType" access="readOnly" version="2.17">
+      <parameter name="ScanType" access="readOnly" version="2.17"
+        status="deprecated">
         <description>
           Indicates whether the scan was performed passively (false)
           or with active probing (true).
+
+          {{deprecated|2.21|because it is was moved to
+          {{object|OpClassScan.{i}.ChannelScan.{i}}}.}}
         </description>
         <syntax>
           <boolean/>
@@ -8267,6 +8317,27 @@
         </syntax>
       </parameter>
 
+      <parameter name="AggregateScanDuration" access="readOnly" version="2.21">
+        <description>
+          Total time spent performing the scan of this channel in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="milliseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="ScanType" access="readOnly" version="2.21">
+        <description>
+          Indicates the scan method used: {{true}} if active probing was 
+          employed, or {{false}} if the scan was performed passively.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="Utilization" access="readOnly">
         <description>
           The current Channel Utilization measured by the Radio on the scanned
@@ -8330,7 +8401,7 @@
       <description>
         The neighboring BSS discovered by a Radio during a channel scan.
 
-        For MLDs, {{param|MLDMACAddress}} identifies the APMLD for which this
+        For MLDs, {{param|MLDMACAddress}} identifies the AP MLD for which this
         NeighborBSS.{i}. is an affilated AP, other affiliated APs in this
         {{object}} have the same value of {{param|MLDMACAddress}}.
       </description>
@@ -8490,7 +8561,7 @@
 
     <parameter name="MACAddress" access="readOnly">
       <description>
-        If a MLD, the MAC Address of the Client MLD, otherwise
+        If a MLD, the MAC Address of the STA MLD, otherwise
         the MAC Address of the Associated Device (STA).
       </description>
       <syntax>
@@ -8511,6 +8582,10 @@
     <parameter name="HTCapabilities" access="readOnly">
       <description>
         Describes the HT capabilities of the Associated Device (STA).
+        Uses the format defined by the AP HTCapabilities TLV
+        {{bibref|EasyMesh|Section 17.2.8}}.
+        Includes all fields in the AP HTCapabilities TLV except tlvType, 
+        tlvLength, tlvValue and RUID.
       </description>
       <syntax>
         <base64>
@@ -8522,6 +8597,10 @@
     <parameter name="VHTCapabilities" access="readOnly">
       <description>
         Describes the VHT capabilities of the Associated Device (STA).
+        Uses the format defined by the AP VHTCapabilities TLV
+        {{bibref|EasyMesh|Section 17.2.9}}.
+        Includes all fields in the AP VHTCapabilities TLV except tlvType, 
+        tlvLength, tlvValue and RUID.
       </description>
       <syntax>
         <base64>
@@ -8609,7 +8688,7 @@
 
     <parameter name="MACAddress" access="readOnly">
       <description>
-        If a MLD, the MAC Address of the Client MLD, otherwise
+        If a MLD, the MAC Address of the STA MLD, otherwise
         the MAC Address of the Associated Device (STA).
       </description>
       <syntax>
@@ -9008,7 +9087,7 @@
     </parameter>
   </component>
 
-  <model name="WiFiDE:2.20">
+  <model name="WiFiDE:2.21">
     <component ref="Root"/>
     <component ref="WiFiRoot"/>
     <component ref="WiFiAllianceDataElements"/>

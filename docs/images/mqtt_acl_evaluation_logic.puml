@@ -1,0 +1,26 @@
+@startuml
+
+start
+:Client attempts Publish/Subscribe operation;
+:Get all ACL Rules, sorted by Order (lowest to highest);
+
+while (More rules to check?) is (yes)
+    :Get next rule;
+    if (Rule matches Client, Topic, AND Operation?) then (yes)
+        -> First Match Found;
+        if (Rule.Access is 'Allow'?) then (yes)
+            :Permit Operation;
+            stop
+        else (no)
+            :Deny Operation;
+            stop
+        endif
+    endif
+endwhile (no)
+
+-> No Match Found;
+:Apply Default Deny policy;
+:Deny Operation;
+stop
+
+@enduml

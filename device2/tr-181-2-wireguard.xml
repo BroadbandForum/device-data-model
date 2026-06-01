@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wireguard"
-    file="tr-181-2-20-0-wireguard.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wireguard"
+    file="tr-181-2-21-0-wireguard.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer3Interface"/>
   </import>
 
@@ -321,21 +321,32 @@
         
       <parameter name="PublicKey" access="readWrite">
         <description>
-          Public key of the peer.
+          The base64 encoded public key of the peer.
+
+          Note: The min and max length requirements have been changed in Device:2.21 to reflect 
+          the representation as a base64 encoded key of 32 bytes.
         </description>
         <syntax>
-          <string/>
+          <string>
+            <size minLength="44" maxLength="44"/>
+          </string>
         </syntax>
       </parameter>
 
       <parameter name="PresharedKey" access="readWrite">
         <description>
-          The pre-shared key for this WireGuard Peer.
+          The base64 encoded pre-shared key for this WireGuard Peer.
 
           When {{empty}} is provided, no pre-shared key is used.
+
+          Note: The min and max length requirements have been changed in Device:2.21 to reflect 
+          the representation as a base64 encoded key of 32 bytes.
         </description>
         <syntax secured="true">
-          <string/>
+          <string>
+            <size minLength="0" maxLength="0"/>
+            <size minLength="44" maxLength="44"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -406,7 +417,7 @@
     </object>
   </component>
 
-  <model name="WireGuard:2.20">
+  <model name="WireGuard:2.21">
     <component ref="Root"/>
     <component ref="WireGuard"/>
   </model>

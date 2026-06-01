@@ -54,8 +54,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-softwaremodules"
-    file="tr-181-2-20-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-softwaremodules"
+    file="tr-181-2-21-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,8 +66,14 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-21-0-security">
+    <component name="ClientCerts"/>
+    <component name="ClientCertsNoDefault"/>
   </import>
 
   <template id="DUStopped">
@@ -84,12 +90,13 @@
         access="readOnly" version="2.16"
         numEntriesParameter="ApplicationDataNumberOfEntries">
       <description>
-        The ApplicationData volumes which currently exist within this ExecEnv.
+        The application data volumes which currently exist within this
+        Execution Environment.
       </description>
 
       <parameter name="Name" access="readOnly">
         <description>
-          A name which is assigned to the ApplicationData instance at the time
+          A name which is assigned to the application data instance at the time
           of its creation, which distinguishes it from any other application
           data volumes owned by the same application.
         </description>
@@ -125,7 +132,8 @@
 
       <parameter name="Retain" access="readOnly">
         <description>
-          The level of persistency of the volume.
+          The level of persistence for the application data volume and its
+          content.
         </description>
 
         <syntax>
@@ -159,7 +167,7 @@
         {{object|Device.SoftwareModules.ExecEnv.{i}.ApplicationData}} table
         which have the Retain parameter set to
         {{enum|Forever|Device.SoftwareModules.ExecEnv.{i}.ApplicationData.{i}.Retain}}.
-        If this is the case then the data held in these volumes will be
+        If this is the case then the data held in these application data volumes will be
         preserved across the operation if and only if {{param}} is set
         {{true}}.
       </description>
@@ -255,8 +263,16 @@
   <component name="SMEEResourceConstraints">
     <parameter name="AllocatedDiskSpace" access="readOnly">
       <description>
-        The amount of disk space measured in {{units}} allocated to this
-        ExecEnv. A value of -1 indicates that this parameter is not applicable.
+        The amount of persistent physical storage measured in {{units}} allocated
+        to this Execution Environment.
+
+        This constraint applies to persistent physical storage used by the
+        Execution Environment and its child Deployment Units and Execution Units.
+
+        The accounting of in-memory application data volumes is excluded.
+
+        A value of -1 indicates that this parameter is not applicable
+        (i.e., no persistent physical storage constraint is enforced for this {{object}}).
       </description>
       <syntax>
         <int>
@@ -270,7 +286,11 @@
    <parameter name="AllocatedMemory" access="readOnly">
      <description>
        The amount of physical RAM measured in {{units}} allocated to this
-       ExecEnv. A value of -1 indicates that this parameter is not applicable.
+       Execution Environment.
+       
+       The accounting of application data volumes stored in persistent physical storage is excluded.
+
+       A value of -1 indicates that this parameter is not applicable.
      </description>
      <syntax>
        <int>
@@ -647,9 +667,9 @@
       <parameter name="AvailableDiskSpace" access="readOnly"
           activeNotify="canDeny">
         <description>
-          The amount of disk space measured in {{units}} currently available to
+          The amount of persistent physical storage measured in {{units}} currently available to
           this {{object}}. This value changes as the {{object|#.ExecutionUnit}}
-          instances associated with this {{object}} consumes disk space. A
+          instances associated with this {{object}} consumes physical storage space. A
           value of -1 MUST be used for {{object}} instances where this
           parameter is not applicable.
         </description>
@@ -714,14 +734,14 @@
       </parameter>
 
       <parameter name="ProcessorRefList" access="readOnly"
-        status="obsoleted">
+        status="deleted">
         <description>
           Represents the processors that this {{object}} has available to it.
 
           {{deprecated|2.18|because the referenced object,{{object|##.DeviceInfo.Processor.}},
           is deprecated.}}
 
-          {{obsoleted|2.20}}
+          {{deleted|2.21}}
         </description>
         <syntax>
           <list/>
@@ -1309,9 +1329,16 @@
 
       <parameter name="AllocatedDiskSpace" access="readOnly" version="2.16">
         <description>
-          The amount of disk space measured in {{units}} allocated to this
-          {{object}}. A value of -1 MUST be used for {{object}} instances where
-          this parameter is not applicable.
+          The amount of persistent physical storage measured in {{units}} allocated
+          to this Execution Environment.
+
+          This constraint applies to persistent physical storage used by the
+          Execution Environment and its child Deployment Units and Execution Units.
+
+          The accounting of in-memory application data volumes is excluded.
+
+          A value of -1 indicates that this parameter is not applicable
+          (i.e., no persistent physical storage constraint is enforced for this {{object}}).
         </description>
         <syntax>
           <int>
@@ -1324,7 +1351,7 @@
       <parameter name="DiskSpaceInUse" access="readOnly"
           activeNotify="canDeny">
         <description>
-          The amount of disk space measured in {{units}} currently being used
+          The amount of persistent physical storage measured in {{units}} currently being used
           by this {{object}}. A value of -1 MUST be used for {{object}}
           instances where this parameter is not applicable.
         </description>
@@ -1381,7 +1408,7 @@
 
       <parameter name="CPUPercentInUse" access="readOnly" version="2.16">
         <description>
-          The CPU power currently being used by this by this {{object}}, as a
+          The CPU power currently being used by this {{object}}, as a
           fraction (in {{units}}) of the CPU allocation of the
           {{object|#.ExecEnv}} in which this {{object}} resides. A value of -1
           MUST be used for {{object}} instances where this parameter is not
@@ -1802,9 +1829,344 @@
         configuration for this Execution Unit.
       </description>
     </object>
+
+    <object name="Device.SoftwareModules.LocalManagement." access="readOnly" version="2.21">
+      <description>
+        This object records actions on SoftwareModules that are managed
+        locally by the device.
+        Locally managed actions are defined and executed by the device
+        firmware, typically during system upgrade or factory reset
+        procedures.
+
+        These local actions are performed prior to the device accepting any
+        remote action requests on {{object|Device.SoftwareModules}}. As such,
+        they are designed to avoid interference or conflict with remote
+        management operations.
+
+        After the device firmware has completed its boot process following
+        an upgrade or factory reset, no further locally managed actions
+        are performed by the device.
+      </description>
+
+      <parameter name="SystemName" access="readOnly">
+        <description>
+          A descriptive name for this {{object}}, providing information
+          about the local management system used by the device.
+          This parameter is for informational purposes only.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActionNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.SoftwareModules.Config." access="readOnly" minEntries="1"
+        maxEntries="1" version="2.21">
+      <description>
+        This object contains configuration related to Software Modules.
+      </description>
+      <parameter name="RepositoryNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <component ref="ClientCertsNoDefault"/>
+      <parameter base="Certificate">
+        <description action="append">
+          This is a global setting that can be overridden by specifying
+          the {{param|Repository.{i}.Certificate}}
+          parameter in a repository entry.
+        </description>
+      </parameter>
+      <parameter base="CABundle">
+        <description action="append">
+          This is a global setting that can be overridden by specifying
+          the {{param|Repository.{i}.CABundle}}
+          parameter in a repository entry.
+        </description>
+      </parameter>
+
+      <parameter name="SupportedDUSignatureProtocols" access="readOnly" version="2.21">
+        <description>
+          Specifies the protocols that the device is capable of using to
+          retrieve Deployment Unit signatures.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="HTTP"/>
+            <enumeration value="HTTPS"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DUSignatureProtocols" access="readWrite" version="2.21">
+        <description>
+          This indicates the protocols the device is configured to allow for
+          fetching Deployment Unit signatures from a remote server.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumerationRef targetParam="SupportedDUSignatureProtocols"/>
+          </string>
+          <default type="implementation" value="[HTTPS]"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.SoftwareModules.Config.Repository.{i}." access="readWrite"
+        numEntriesParameter="RepositoryNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" enableParameter="Enable" version="2.21">
+      <description>
+        This table contains information about a dedicated configuration for a repository, overriding the
+        the default configuration.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite" version="2.21">
+        <description>
+          Enables or disables this repository entry.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Name" access="readOnly">
+        <description>
+          The name of the repository.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="BaseURL" access="readWrite">
+        <description>
+          Specifies the base URL or server address of the repository. When processing an
+          InstallDU or Update request, the system will attempt to match this {{param}}
+          against the schema (protocol), hostname, and port components of the requested URL
+          (for a Deployment Unit or its signature).
+
+          The matching process proceeds from most specific to least specific:
+          1. Match schema, hostname, and port.
+          2. If no match, match schema and hostname.
+          3. If still no match, match hostname only.
+          4. If no match is found, the system falls back to the default configuration.
+
+          **Example:**
+          - If {{param}} is set to `docker://myservice.com:8080`
+          - And the InstallDU URL is `docker://myservice.com:8080/path/module:version`
+          - Then this parameter will be considered a match.
+
+          This parameter MUST be a valid URL as defined by the {{bibref|RFC3986}}
+          and MUST NOT include the "userinfo" component.
+        </description>
+        <syntax>
+          <dataType ref="URL"/>
+        </syntax>
+      </parameter>
+
+      <component ref="ClientCerts"/>
+      <parameter base="Certificate">
+        <description action="append">
+              This parameter overrides the global
+              {{param|#.Certificate}} setting.
+        </description>
+      </parameter>
+      <parameter base="CABundle">
+        <description action="append">
+              This parameter overrides the global
+              {{param|#.CABundle}} setting.
+        </description>
+      </parameter>
+
+      <parameter name="Type" access="readWrite">
+        <description>
+          Indicates the type of the repository entry.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Repository">
+              <description>
+                This entry points to a software module repository.
+              </description>
+            </enumeration>
+            <enumeration value="Signature">
+              <description>
+                This entry points to a repository for signature files.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.SoftwareModules.LocalManagement.Action.{i}."
+        access="readOnly" minEntries="0" maxEntries="unbounded" 
+        numEntriesParameter="ActionNumberOfEntries" version="2.21">
+      <description>
+        This table lists actions processed by the local management system.
+
+        Each entry represents either a valid action that was recognized
+        and executed by the local management system, or an unknown action
+        resulting from issues such as invalid or corrupted local management
+        configuration at the firmware level. This table facilitates tracking
+        and diagnosis of problems that may affect the execution of locally
+        managed actions on the device.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <component ref="Alias"/>
+
+      <parameter name="Action" access="readOnly">
+        <description>
+          Indicates the type of action performed by the local management system.
+          If the system fails to identify a valid action (i.e., the action or
+          its required information is missing or invalid), the value "Invalid"
+          is used.
+          Supported actions are the same as those defined for a Deployment Unit.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Invalid"/>
+            <enumeration value="Install"/>
+            <enumeration value="Update"/>
+            <enumeration value="Uninstall"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="UUID" access="readOnly">
+        <description>
+          The unique identifier of the {{object|##.DeploymentUnit.{i}}} targeted
+          by the action, corresponding to {{param|##.DeploymentUnit.{i}.UUID}}.
+
+          The value is set to {{empty}} if the {{param|Action}} is {{enum|Invalid|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}
+          and the system is unable to retrieve the {{param}} value from the configuration.
+
+          Note: The referenced {{object|##.DeploymentUnit.{i}}} may no longer
+          be present on the system if the action was {{enum|Uninstall|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="36"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ExecEnvName" access="readOnly">
+        <description>
+          The name of the execution environment ({{param|##.ExecEnv.{i}.Name}})
+          on which the action was performed.
+
+          The value is set to {{empty}} if the {{param|Action}} is {{enum|Invalid|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}
+          and the system is unable to retrieve the {{param}} value from the configuration.
+
+          Note: The referenced {{object|##.ExecEnv.{i}}} may no longer be present
+          on the system if the action was {{enum|Uninstall|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="PreviousModuleVersion" access="readOnly">
+        <description>
+          The version of the {{object|##.DeploymentUnit.{i}}} on
+          which the action was performed.
+
+          The value is set to {{empty}} if the {{param|Action}} is {{enum|Invalid|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}
+          and the system is unable to retrieve the {{param}} value from the configuration.
+
+          Note: The referenced {{object|##.DeploymentUnit.{i}}} may no longer
+          be present on the system if the action was {{enum|Uninstall|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="32"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentModuleVersion" access="readOnly">
+        <description>
+          The new version of the {{object|##.DeploymentUnit.{i}}} after an Update action.
+
+          The value is set to {{empty}} if the {{param|Action}} is {{enum|Invalid|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}
+          and the system is unable to retrieve the {{param}} value from the configuration.
+
+          This parameter MUST be an empty string if the {{param|Action}} is 
+          {{enum|Uninstall|Device.SoftwareModules.LocalManagement.Action.{i}.Action}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="32"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          Indicates the current status of the specified {{param|Action}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="InProgress" optional="true"/>
+            <enumeration value="ValidationError"/>
+            <enumeration value="Success"/>
+            <enumeration value="Error"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="FaultMessage" access="readOnly">
+        <description>
+          A human-readable, detailed description of the fault
+          detected by the local management system.
+          This parameter provides additional information to assist
+          in understanding and diagnosing the reported fault.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+    </object>
+
   </component>
 
-  <model name="SoftwareModules:2.20">
+  <model name="SoftwareModules:2.21">
     <component ref="Root"/>
     <component ref="SoftwareModules"/>
   </model>

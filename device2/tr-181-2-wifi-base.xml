@@ -51,16 +51,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-16"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-14
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-16
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-base"
-    file="tr-181-2-20-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-base"
+    file="tr-181-2-21-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,12 +73,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -90,15 +90,398 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
   <import file="tr-181-2-wifi-de-base.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-wifi-de-base">
+    spec="urn:broadband-forum-org:tr-181-2-21-wifi-de-base">
     <component name="WiFi7Capabilities"/>
     <component name="MLOFreqSeparation"/>
   </import>
+
+  <import file="tr-181-2-security.xml"
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
+    <component name="ClientCertsNoDefault"/>
+  </import>
+
+  <component name="AFC">
+    <object name="AFC." access="readOnly" version="2.21">
+      <description>
+        Object that contains all the information regarding Automated Frequency
+        Coordination (AFC) configuration and status for 6 GHz operation.
+        The object definition is based on specification {{bibref|AFCSDI}},
+        which defines the AFC system for communicating to the AFC server.
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enable or disable the AFC client function. This parameter should be {{true}}
+          if 6GHz AP Type is Standard Power. If the {{param|Device.WiFi.Radio.{i}.PowerType}} for 6GHz is not
+          {{enum|StandardPower|Device.WiFi.Radio.{i}.PowerType}} , this should be set to {{false}}.
+          To enable this parameter, the AFC server URL, {{param|ServerURL}} must be specified.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ServerURL" access="readWrite">
+        <description>
+          The URL for the CPE to connect to the AFC server.
+          This parameter MUST be in the form of a valid HTTP or HTTPS URL.
+          The host portion of this URL is used by the CPE for validating the
+          AFC certificate when using TLS.
+        </description>
+        <syntax>
+          <dataType ref="URI"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readWrite">
+        <description>
+          Specifies the TCP port on which the AFC server is listening for incoming
+          requests from the AFC client.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+          <default type="implementation" value="443"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RequestVersion" access="readWrite">
+        <description>
+          AFC protocol version as defined in {{bibref|AFCSDI|Section 4.1}}.
+          This value MUST match the version used by the
+          AFC server and specification. For example, "1.4".
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="16"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="UseFrequencyRange" access="readWrite">
+        <description>
+          Indicates whether {{param|FrequencyRange}} should be included in the
+          Available Spectrum Inquiry Request.
+
+          If {{true}}, it indicates that the AFC System is to provide Available Spectrum information
+          on the basis of frequency and "inquiredFrequencyRange" field would be included in the 
+          Available Spectrum Inquiry Request message.
+
+          If {{true}}, {{param|FrequencyRange}} should not be empty.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FrequencyRange" access="readWrite">
+        <description>
+          Each entry in the list is a range of frequency for which the AFC request is
+          made, in the form "low:high", for example "5925:6425,6525:6875".
+          This parameter is conditionally required when {{param|UseFrequencyRange}} is {{true}}.
+
+          This parameter contains one or more frequency ranges for which the AP or
+          Fixed Client Device is requesting spectrum availability.
+          If present, it indicates that the AFC System is to provide Available Spectrum information
+          on the basis of frequency. This field would be included in the Available Spectrum Inquiry Request message.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="UseInquiredChannels" access="readWrite">
+        <description>
+          Indicates whether {{param|OperatingClassList}} should be included in the
+          Available Spectrum Inquiry Request.
+
+          If {{true}}, it indicates that the AFC System is to provide Available Spectrum information on the basis of channels,
+          and "inquiredChannels" field would be included in the Available Spectrum Inquiry Request message.
+
+          If {{true}}, {{param|OperatingClassList}} should not be empty.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="OperatingClassList" access="readWrite">
+        <description>
+          Each entry in the list is the global operating classes used to define the
+          channel center frequency indices and operating bandwidth.
+          For example, "131,132,133,134,136".
+
+          This parameter is conditionally required when {{param|UseInquiredChannels}} is {{true}}.
+          This parameter contains one or more lists of channels for which the AP or
+          Fixed Client Device is requesting spectrum availability.
+
+          If present, it indicates that the AFC System is to provide Available Spectrum information on the basis of channels.
+        </description>
+        <syntax>
+          <list/>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IndoorDeployment" access="readOnly">
+        <description>
+          Indicates whether the deployment of the AP or Fixed Client Device is
+          located indoors, outdoors, or is unknown.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown"/>
+            <enumeration value="Indoor"/>
+            <enumeration value="Outdoor"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinDesiredPower" access="readWrite">
+        <description>
+          Indicates the minimum desired EIRP in {{units}}. This
+          field is optionally present in a AFC query by inquiredChannels;
+          otherwise, it is absent.
+
+          If present, the AFC System shall provide all the inquired channels available for
+          use at or above the defined minDesiredPower.
+          If absent, the AFC System shall provide a response for all inquiredChannels which 
+          are available for use at any power.
+        </description>
+        <syntax>
+          <int>
+            <units value="dBm"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="TLSVersion" access="readWrite">
+        <description>
+          Specifies the version of Transport Layer Security (TLS) to be used by AFC client for secure
+          communication with the AFC server. The device must use TLS version 1.2, or a
+          newer version as per {{bibref|AFCSDI|Section 3.4.2}}.
+
+          The selected version must be supported by both the AFC client and server.
+
+          If the CA certificate path is not located in the standard Path of the device, the
+          {{param|CABundle}} parameter must be specified to provide the correct certificate path.
+
+        </description>
+        <syntax>
+          <string>
+          <enumeration value="TLS1_2_Or_Later">
+            <description>
+              Support Transport Layer Security version 1.2 or later version.
+            </description>
+          </enumeration>
+          <enumeration value="TLS1_3_Only">
+            <description>
+              Support Transport Layer Security version 1.3 only.
+            </description>
+          </enumeration>
+          <enumeration value="TLS1_3_Or_Later">
+            <description>
+              Support Transport Layer Security version 1.3 or later version.
+            </description>
+          </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="OCSPEnable" access="readWrite">
+        <description>
+          Enables or disables Online Certificate Status Protocol (OCSP) checking for
+          certificate validation during TLS handshake.
+          When enabled, the AFC client will verify the revocation status of the server
+          certificate using OCSP before establishing a secure connection.
+
+          As per {{bibref|AFCCTP|Section 2.3.1 AFC DUT Test Harness}}, AFC DUT should have
+          OCSP enabled.
+
+          If set to {{false}}, the client will skip OCSP validation, which may reduce security.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="implementation" value="true"/>
+        </syntax>
+      </parameter>
+
+      <component ref="ClientCertsNoDefault"/>
+
+      <parameter name="MTLSEnable" access="readWrite">
+        <description>
+          Enable or disable mutual TLS (mTLS). MTLSEnable is an optional parameter that
+          enables mTLS when required by the AFC server.
+
+          If {{true}}, {{param|Certificate}} should be specified.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="AFC.DeviceDescriptor." access="readOnly" version="2.21">
+        <description>
+          This object contains the information of an AP or Fixed Client Device
+          used by the AFC system.
+        </description>
+
+        <parameter name="SerialNumber" access="readOnly">
+          <description>
+            Device serial number for this AP or Fixed Client Device.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="64"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="CertificationID" access="readWrite">
+          <description>
+            Specifies the certification ID of the AP or Fixed Client Device, as defined in {{bibref|AFCSDI|Table 8. CertificationId object}}.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="128"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="RulesetID" access="readWrite">
+          <description>
+            Identifier for the regulatory ruleset applicable to this device.
+            For example, US_47_CFR_PART_15_SUBPART_E for US, CA_RES_DBS-06 for CA as per {{bibref|AFCSDI|Table 8. CertificationId object}}.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="128"/>
+            </string>
+          </syntax>
+        </parameter>
+      </object>
+
+      <object name="AFC.Location." access="readOnly" version="2.21">
+        <description>
+          Object that contains references to the location of the AP or Fixed
+          Client Device obtained from GPS, Barometer, External or Manual sources.
+        </description>
+
+        <parameter name="GPS" access="readWrite">
+        <description>
+          {{reference}} The value MUST be the path name of a row in Device.DeviceInfo.Location Object,
+          which has the GPS location details, either via GPS, External source or Manual.
+
+          For example: ''Device.DeviceInfo.Location.1''.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".DeviceInfo.Location."
+                targetType="row"/>
+          </string>
+        </syntax>
+        </parameter>
+
+        <parameter name="Barometer" access="readWrite">
+        <description>
+          {{reference}} The value MUST be the path name of a row in Device.DeviceInfo.Location Object,
+          which has the Barometer data details, either via Barometer, External source or Manual.
+
+          For example: ''Device.DeviceInfo.Location.2''.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent=".DeviceInfo.Location."
+                targetType="row"/>
+          </string>
+        </syntax>
+        </parameter>
+      </object>
+
+      <object name="AFC.Stats." access="readOnly" version="2.21">
+        <description>
+          Object that contains information about AFC requests and responses.
+        </description>
+
+        <parameter name="AvailableSpectrumRequest" access="readOnly">
+          <description>
+            Represents the full JSON Available Spectrum Inquiry request payload
+            sent by the AFC client to the AFC server.
+          </description>
+          <syntax>
+            <dataType ref="JSONObject"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="AvailableSpectrumResponse" access="readOnly">
+          <description>
+            Contains the JSON response payload received from the AFC server
+            corresponding to the {{param|AvailableSpectrumRequest}} parameter.
+          </description>
+          <syntax>
+            <dataType ref="JSONObject"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="GrantExpiryTime" access="readOnly">
+          <description>
+            This parameter contains the time when the spectrum availability
+            specified in the response expires. This field SHALL be included if
+            and only if the response code indicates SUCCESS as per {{bibref|AFCSDI|Table 19. AvailableSpectrumInquiryResponse object}}.
+
+            The string value SHALL be represented in UTC and conform to the
+            following format: "YYYY-MM-DDThh:mm:ssZ".
+          </description>
+          <syntax>
+            <dateTime/>
+          </syntax>
+        </parameter>
+
+        <parameter name="GrantStatus" access="readOnly">
+          <description>
+            Indicates the status of the AFC grant request. It indicates the Response Name associated with the
+            Response Code received in the latest Available Inquiry Spectrum Response
+            as defined in {{bibref|AFCSDI|Table 25. Response Code definitions}}.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="GeneralFailure"/>
+              <enumeration value="Success"/>
+              <enumeration value="VersionNotSupported"/>
+              <enumeration value="DeviceDisallowed"/>
+              <enumeration value="MissingParam"/>
+              <enumeration value="InvalidValue"/>
+              <enumeration value="UnexpectedParam"/>
+              <enumeration value="UnsupportedSpectrum"/>
+              <enumeration value="UnsupportedBasis"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="GrantResponse" access="readOnly">
+          <description>
+            Human-readable interpretation of the grant status as defined in {{bibref|AFCSDI|Table 25. Response Code definitions}}.
+
+            For example, "Incompatible interface version number" for response code 100.
+          </description>
+          <syntax>
+            <string>
+              <size maxLength="1024"/>
+            </string>
+          </syntax>
+        </parameter>
+      </object>
+  </component>
 
   <component name="Radio">
     <parameter name="RadioNumberOfEntries" access="readOnly">
@@ -510,6 +893,8 @@
     <object base="Device.WiFi." access="readOnly" minEntries="1"
         maxEntries="1">
 
+      <component ref="AFC"/>
+
       <component ref="Radio"/>
 
       <component ref="SSID"/>
@@ -748,6 +1133,26 @@
           be currently in use (including any that it is using itself).
 
           Ranges in the form "n-m" are permitted.
+        </description>
+        <syntax>
+          <list>
+            <size maxLength="1024"/>
+          </list>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedChannels" access="readWrite" version="2.21">
+        <description>
+          {{list}} List items represent user-defined allowed radio channels
+          for use by Automatic Channel Selection or manual channel selection.
+
+          An empty list means that all channels in {{param|PossibleChannels}} are allowed.
+          A non-empty list means that only the channels in the list are allowed.
+
+          Ranges in the form "n-m" are permitted.
+
+          This list is a subset of {{param|PossibleChannels}}.
         </description>
         <syntax>
           <list>
@@ -1195,6 +1600,57 @@
             <range minInclusive="-1" maxInclusive="100"/>
             <units value="percentage"/>
           </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="PowerType" access="readWrite" version="2.21">
+        <description>
+          Indicates the AP type of 6GHz Radio.
+          This has no impact for operation on other bands. This value will be mapped
+          to he_6ghz_reg_pwr_type in hostapd.conf.
+          {{bibref|802.11-2024|Table E-12}} {{bibref|802.11-2024|Table E-13}}
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Indoor">
+              <description>
+                An AP whose operation does not require control from an external
+                system such as an Automated Frequency Coordination (AFC) system
+                but operates under regulatory rules requiring indoor operation,
+                and is subject to additional regulatory requirements intended to
+                prohibit outdoor operation.
+              </description>
+            </enumeration>
+            <enumeration value="StandardPower">
+              <description>
+                An AP whose operation requires control from an external system
+                such as an AFC system.
+              </description>
+            </enumeration>
+            <enumeration value="VeryLowPower">
+              <description>
+                An AP whose operation does not require control from an external
+                system such as an AFC system, is not subject to additional regulatory
+                requirements intended to prohibit outdoor operation, and is
+                restricted to very low transmit power.
+              </description>
+            </enumeration>
+            <enumeration value="IndoorEnabled">
+              <description>
+                An AP whose operation relies on being able to successfully
+                receive an enabling signal (as defined by the regulatory rules)
+                from an indoor AP or an indoor standard power AP.
+              </description>
+            </enumeration>
+            <enumeration value="IndoorStandard">
+              <description>
+                An AP whose operation requires control from an external system
+                such as an AFC system and also operates under regulatory rules
+                requiring indoor operation, and is subject to additional regulatory
+                requirements intended to prohibit outdoor operation.
+              </description>
+            </enumeration>
+          </string>
         </syntax>
       </parameter>
 
@@ -2989,7 +3445,7 @@
           the AP are not allowed to transition between the security modes
           allowed by the transition mode. Stations capable of the more secure
           security mode allowed by the transition, as defined in
-          {{bibref|WPA3v3.0}}, will always communicate to the AP using it.
+          {{bibref|WPA3}}, will always communicate to the AP using it.
         </description>
         <syntax>
           <boolean/>
@@ -3059,7 +3515,7 @@
 
       <parameter name="VenueGroup" access="readWrite">
         <description>
-          Specifies the venue group as descriped in
+          Specifies the venue group as described in
           {{bibref|802.11-2020|Table 9-65-Venue group codes and descriptions}}.
         </description>
         <syntax>
@@ -3132,7 +3588,7 @@
 
       <parameter name="Enable" access="readWrite">
         <description>
-          Specfies whether ANQP Element is sent as part of the wireless frames.
+          Specifies whether ANQP Element is sent as part of the wireless frames.
         </description>
         <syntax>
           <boolean/>
@@ -3142,7 +3598,7 @@
 
       <parameter name="IPv4AddressAvailability" access="readWrite">
         <description>
-          Specifies the IPv4 address availabilty field as described in
+          Specifies the IPv4 address availability field as described in
           {{bibref|802.11-2020|Table 9-334-IPv4 Address field values}}.
         </description>
         <syntax>
@@ -3800,7 +4256,7 @@
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}},
           then this parameter is the same as
-          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise|obsoleted}}.
+          {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MultiAPSTA.Noise|deleted}}.
         </description>
         <syntax>
           <int>
@@ -5478,7 +5934,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.20">
+  <model name="WiFiBase:2.21">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

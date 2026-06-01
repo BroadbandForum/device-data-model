@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-periodicfiletransfer"
-  file="tr-181-2-20-0-periodicfiletransfer.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-periodicfiletransfer"
+  file="tr-181-2-21-0-periodicfiletransfer.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,15 +66,15 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
     <component name="ClientCerts"/>
   </import>
   <import file="tr-181-2-ip.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-ip">
+    spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPVersion"/>
   </import>
   
@@ -363,7 +363,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="RetryMaximumWaitInterval" access="readWrite">
         <description>
           Configures the data transfer retry maximum wait interval, in {{units}}.
-          If the calculated interval is higher than the specifed {{param}} value then
+          If the calculated interval is higher than the specified {{param}} value then
           {{param}} value should be used.
         </description>
         <syntax>
@@ -855,15 +855,18 @@ directed to <info@broadband-forum.org>.
       <command name="ForceTransfer()" async="true">
         <description>
           This command forces the Device to immediately attempt to transfer the file
-          associated with this transfer task, regardless of the scheduled time; 
+          associated with this transfer task, regardless of the scheduled time;
           The {{param|Status}} is updated to {{enum|Uploading|Status}}, the
           {{param|NextTransferDate}} remains unchanged.
 
           All results of the actual upload will be contained within the
           {{event|.LocalAgent.TransferComplete!}} event.
+
+          Note: The device MUST NOT perform any retries of the forced transfer. If the transfer
+          fails, the USP Controller is responsible for retrying the operation by invoking
+          {{command}} again.
         </description>
       </command>
-
       <event name="Push!">
         <description>
           Push event for delivering a periodic file transfer report within a USP
@@ -882,7 +885,7 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
-  <model name="PeriodicFileTransfer:2.20">
+  <model name="PeriodicFileTransfer:2.21">
     <component ref="Root"/>
     <component ref="PeriodicFileTransfer"/>
   </model>

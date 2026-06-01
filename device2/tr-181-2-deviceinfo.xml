@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DeviceInfo]
 
-  Copyright (c) 2010-2024, Broadband Forum
+  Copyright (c) 2010-2025, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-deviceinfo"
-    file="tr-181-2-20-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-deviceinfo"
+    file="tr-181-2-21-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,14 +65,74 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
     <component name="ClientCerts"/>
   </import>
+
+  <component name="BootStage">
+    <parameter name="BootStage" access="readOnly" version="2.21">
+      <description>
+        The operational state of the device middleware during its boot sequence.
+
+        Represents the possible milestones during the boot process, providing clear indicators
+        of the device's current state and readiness for communication. These stages are used both
+        for real-time operational state tracking and for historical boot performance analysis.
+
+        The transitions between stages provide clear triggers for internal management agents
+        to know exactly when the device is ready for specific operations.
+
+        E.g., the CWMP/USP agents can use these stages to determine communication readiness.
+      </description>
+      <syntax>
+        <string>
+          <enumeration value="Started">
+            <description>
+              Artificial milestone marking the first recorded timestamp of the boot process.
+            </description>
+          </enumeration>
+          <enumeration value="PowerOn">
+            <description>
+              Device has received power and hardware initialization has started.
+            </description>
+          </enumeration>
+          <enumeration value="KernelReady">
+            <description>
+              Core operating system and kernel have been initialized and basic runtime is available.
+            </description>
+          </enumeration>
+          <enumeration value="NetworkReady">
+            <description>
+              Local networking stack (e.g., IPv4/IPv6 interfaces, DHCP) is operational.
+            </description>
+          </enumeration>
+          <enumeration value="ManagementReady">
+            <description>
+              Management protocol agent (TR-069/TR-369) has started and can accept controller sessions.
+
+              E.g., the CWMP Agent can send the ‘1 BOOT’ Inform or the USP Agent can send the
+              ‘Boot!’ Event.
+            </description>
+          </enumeration>
+          <enumeration value="Completed">
+            <description>
+              Device fully operational. All systems initialized, including services, Internet
+              connectivity and remote management.
+            </description>
+          </enumeration>
+          <enumeration value="Stopping">
+            <description>
+              Device is in the process of shutting down.
+            </description>
+          </enumeration>
+        </string>
+      </syntax>
+    </parameter>
+  </component>
 
   <component name="CauseOfBoot">
     <parameter name="Cause">
@@ -83,40 +143,48 @@
         <string>
           <enumeration value="LocalReboot">
             <description>
-              A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-              locally on the Device (NOT as a result of a
-              {{command|.Reboot()|model}} Command triggered by a remote trigger, e.g.
-              another remote management protocol)
+              A reboot triggered locally on the device (NOT as a result of a
+              {{command|.Reboot()|model}} command triggered by a remote trigger, e.g.
+              another remote management protocol).
             </description>
           </enumeration>
           <enumeration value="RemoteReboot">
             <description>
-              A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-              via the {{command|.Reboot()|model}} Command or other remote
-              trigger, e.g. another remote management protocol
+              A reboot triggered via the {{command|.Reboot()|model}} command or other remote
+              trigger, e.g. another remote management protocol.
+            </description>
+          </enumeration>
+          <enumeration value="LocalShutdown" version="2.21">
+            <description>
+              A shutdown triggered locally on the device (NOT as a result of a
+              {{command|.Shutdown()|model}} command triggered by a remote trigger, e.g.
+              another remote management protocol).
+            </description>
+          </enumeration>
+          <enumeration value="RemoteShutdown" version="2.21">
+            <description>
+              A shutdown triggered via the {{command|.Shutdown()|model}} command or other remote
+              trigger, e.g. another remote management protocol.
             </description>
           </enumeration>
           <enumeration value="FactoryReset" version="2.15">
             <description>
-              A {{object|Device.|absolute}} Event that was the result of a factory reset
-              triggered locally on the Device or remotely (as a result of a
-              {{command|.FactoryReset()|model}} Command or other remote trigger,
+              A factory reset triggered locally on the device or remotely (as a result of a
+              {{command|.FactoryReset()|model}} command or other remote trigger,
               e.g. another remote management protocol), which is to be used
               when the Agent cannot differentiate between local and remote
             </description>
           </enumeration>
           <enumeration value="LocalFactoryReset">
             <description>
-              A {{object|Device.|absolute}} Event that was the result of a factory reset
-              triggered locally on the Device (NOT as a result of a
-              {{command|.FactoryReset()|model}} Command triggered by a remote trigger,
+              A factory reset triggered locally on the device (NOT as a result of a
+              {{command|.FactoryReset()|model}} command triggered by a remote trigger,
               e.g. another remote management protocol)
             </description>
           </enumeration>
           <enumeration value="RemoteFactoryReset">
             <description>
-              A {{object|Device.|absolute}} Event that was the result of a factory reset
-              triggered via the {{command|.FactoryReset()|model}} Command or
+              A factory reset triggered via the {{command|.FactoryReset()|model}} command or
               other remote trigger, e.g. another remote management protocol
             </description>
           </enumeration>
@@ -378,6 +446,8 @@
         </syntax>
       </parameter>
 
+      <component ref="BootStage"/>
+
       <parameter name="FirstUseDate" access="readOnly">
         <description>
           Date and time in UTC that the CPE first both successfully established
@@ -393,6 +463,13 @@
         </syntax>
       </parameter>
 
+      <parameter name="LastFirmwareUpdate" access="readOnly" version="2.21">
+        <description>Date and time of when the {{param|SoftwareVersion}} last changed.</description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
       <parameter name="HostName" access="readWrite" version="2.16">
         <description>
           The hostname of the device {{bibref|RFC1123|Section 2 General
@@ -403,6 +480,18 @@
         <syntax>
           <string>
             <size maxLength="255"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="CountryCode" access="readWrite" version="2.21">
+        <description>
+          The two-letter country code in accordance with {{bibref|ISO3166-1}} alpha-2. For example, 'US' for the United States.
+        </description>
+        <syntax>
+          <string>
+            <size minLength="2" maxLength="2"/>
+            <pattern value="[A-Z][A-Z]"/>
           </string>
         </syntax>
       </parameter>
@@ -427,14 +516,14 @@
       </parameter>
 
       <parameter name="ProcessorNumberOfEntries" access="readOnly"
-          version="2.1" status="obsoleted">
+          version="2.1" status="deleted">
         <description>
           {{numentries}}
 
           {{deprecated|2.18|because the only contained parameter, {{param|Processor.{i}.Architecture}},
           is no longer relevant for modern devices.}}
 
-          {{obsoleted|2.20}}
+          {{deleted|2.21}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -598,10 +687,26 @@
         </syntax>
       </parameter>
 
+      <parameter name="Available" access="readOnly" activeNotify="canDeny" version="2.21">
+        <description>
+          The estimated total physical volatile RAM, in {{units}}, that can be allocated
+          without triggering out-of-memory conditions.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="KiB"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
       <parameter name="Free" access="readOnly" activeNotify="canDeny">
         <description>
-          The free physical volatile RAM, in {{units}}, currently available on
-          the device.
+          The free physical volatile RAM, in {{units}}, currently unallocated
+          and unused. This excludes memory that can be reclaimed (e.g. caches,
+          buffers).
+
+          Note: This definition was changed in Device:2.21. Please refer to {{param|Available}} for
+          a guaranteed indication of memory availability, rather than memory that is completely unused.
         </description>
         <syntax>
           <unsignedInt>
@@ -789,7 +894,7 @@
           This file is related to {{param|EnableCriticalLog}}.
         </description>
         <syntax>
-          <string/>
+          <dataType ref="FileURI"/>
         </syntax>
       </parameter>
     </object>
@@ -1088,7 +1193,18 @@
           This file is related to {{param|EnableCriticalLog}}.
         </description>
         <syntax>
-          <string/>
+          <dataType ref="FileURI"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InterruptRate" access="readOnly" version="2.21">
+        <description>
+          The aggregate rate of hardware interrupts (IRQs) handled by this CPU across all interrupt sources, in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="interrupts per second"/>
+          </unsignedInt>
         </syntax>
       </parameter>
     </object>
@@ -1629,7 +1745,7 @@
 
     <object name="Device.DeviceInfo.Processor.{i}." access="readOnly"
         numEntriesParameter="ProcessorNumberOfEntries" minEntries="0"
-        maxEntries="unbounded" version="2.1" status="obsoleted">
+        maxEntries="unbounded" version="2.1" status="deleted">
       <description>
         Each table entry represents a hardware or virtual processor that
         resides on this device.
@@ -1637,7 +1753,7 @@
         {{deprecated|2.18|because the only contained parameter, {{param|Architecture}},
         is no longer relevant for modern devices.}}
 
-        {{obsoleted|2.20}}
+        {{deleted|2.21}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1713,7 +1829,7 @@
           Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
         </description>
         <syntax>
-          <string/>
+          <dataType ref="FileURI"/>
         </syntax>
       </parameter>
 
@@ -1822,9 +1938,7 @@
           Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
         </description>
         <syntax>
-          <string>
-            <size maxLength="64"/>
-          </string>
+          <dataType ref="FileURI"/>
         </syntax>
       </parameter>
 
@@ -1928,6 +2042,7 @@
         <syntax>
           <string>
             <enumeration value="GPS"/>
+            <enumeration value="Barometer" version="2.21"/>
             <enumeration value="AGPS"/>
             <enumeration value="Manual"/>
             <enumeration value="External"/>
@@ -1955,6 +2070,9 @@
 
           If {{param|ExternalProtocol}} has a value of
           {{enum|CWMP|ExternalProtocol}}, this is the URL or IP address of the
+          Controller.
+          If {{param|ExternalProtocol}} has a value of
+          {{enum|USP|ExternalProtocol}}, this is the USP Endpoint of the
           Controller.
         </description>
         <syntax>
@@ -2001,9 +2119,15 @@
           If obtained through the local GPS/AGPS then the location information
           is formatted according to {{bibref|RFC5491}}.
 
+          If obtained through the local Barometer then the location information
+          is formatted according to {{bibref|RFC8428}}.
+
           If manually configured then location information will be
           XML-formatted according to {{bibref|RFC5491}} (geographical
           information) and {{bibref|RFC5139}} (civic addresses).
+
+          If manually configured then location information will be
+          XML-formatted according to {{bibref|RFC8428}} (barometric data).
 
           If obtained by an external source this is the location information as
           received.
@@ -2016,13 +2140,15 @@
           according to {{bibref|RFC5491}} (geographical information) and
           {{bibref|RFC5139}} (civic addresses).
 
+          CWMP or USP configured location information will be XML-formatted
+          according to {{bibref|RFC8428}} (barometric information) for Barometer.
+
           Only zero or one Location object instance with value
-          {{enum|CWMP|ExternalProtocol}} or {{enum|USP|ExternalProtocol}} MUST
-          exist at any given time.
+          {{enum|CWMP|ExternalProtocol}} MUST exist at any given time.
         </description>
         <syntax>
           <string>
-            <size maxLength="1200"/>
+            <size maxLength="2048"/>
           </string>
         </syntax>
       </parameter>
@@ -2215,6 +2341,13 @@
         </syntax>
       </parameter>
 
+      <parameter name="LastUpdate" access="readOnly" version="2.21">
+        <description>Date and time of when {{param|Status}} last changed.</description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
       <parameter name="BootFailureLog" access="readOnly">
         <description>
           If the Agent is unable to boot into this firmware image, when
@@ -2268,6 +2401,15 @@
         </syntax>
       </parameter>
 
+      <parameter name="CurrentBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of Kernel faults which have occurred during the current boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="MinFreeSpace" access="readWrite">
         <description>
           Minimum free space in {{units}} on the device that must be free before attempting to create a {{object|KernelFault}} instance.
@@ -2312,6 +2454,15 @@
       </parameter>
 
       <parameter name="KernelFaultNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StatsNumberOfEntries" access="readOnly" version ="2.21">
         <description>
           {{numentries}}
         </description>
@@ -2387,6 +2538,111 @@
           <string/>
         </syntax>
       </parameter>
+
+    </object>
+
+    <object name="Device.DeviceInfo.KernelFaults.Stats.{i}." access="readOnly"
+        numEntriesParameter="StatsNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.21">
+      <description>
+        Each table entry represents statistics for a particular recorded Kernel Fault Type.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Type"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Type" access="readOnly" version="2.21">
+        <description>
+          The type of the Kernel fault for which this table entry contains the statistics.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>Kernel fault of unknown or unmatched type.</description>
+            </enumeration>
+            <enumeration value="PageFault">
+              <description>Memory page not present or access violation.</description>
+            </enumeration>
+            <enumeration value="GeneralProtectionFault">
+              <description>Illegal access to CPU-protected resource.</description>
+            </enumeration>
+            <enumeration value="InvalidOpcode">
+              <description>Invalid or unsupported instruction encountered.</description>
+            </enumeration>
+            <enumeration value="DivideError">
+              <description>Division by zero or invalid divide operation.</description>
+            </enumeration>
+            <enumeration value="DeviceNotAvailable">
+              <description>Floating-point or SIMD unit not available.</description>
+            </enumeration>
+            <enumeration value="DoubleFault">
+              <description>Second fault occurred during fault handling.</description>
+            </enumeration>
+            <enumeration value="StackSegmentFault">
+              <description>Stack overflow or invalid stack segment.</description>
+            </enumeration>
+            <enumeration value="AlignmentCheck">
+              <description>Misaligned memory access.</description>
+            </enumeration>
+            <enumeration value="MachineCheck">
+              <description>Hardware machine check exception.</description>
+            </enumeration>
+            <enumeration value="MathFault">
+              <description>Floating-point or SIMD arithmetic fault.</description>
+            </enumeration>
+            <enumeration value="Breakpoint">
+              <description>Software breakpoint or trap instruction.</description>
+            </enumeration>
+            <enumeration value="DebugException">
+              <description>Hardware single-step or watchpoint triggered.</description>
+            </enumeration>
+            <enumeration value="NMI">
+              <description>Non-maskable interrupt received.</description>
+            </enumeration>
+            <enumeration value="SecurityException">
+              <description>CPU-detected protection/security fault.</description>
+            </enumeration>
+            <enumeration value="Oops">
+              <description>Recoverable kernel exception resulting in process termination.</description>
+            </enumeration>
+            <enumeration value="Panic">
+              <description>Unrecoverable kernel fault causing system halt.</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpgradeCount" access="readOnly" version="2.21">
+        <description>
+          Total number of Kernel faults, of this type, which occurred since last firmware upgrade.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PreviousBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of Kernel faults, of this type, which occurred during the previous boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of Kernel faults, of this type, which have occurred during the current boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.DeviceInfo.ProcessFaults." access="readOnly" version="2.17">
@@ -2416,6 +2672,15 @@
       <parameter name="PreviousBootCount" access="readOnly">
         <description>
           The number of process faults which occurred during the previous boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of process faults that have occurred during the current boot cycle.
         </description>
         <syntax>
           <unsignedInt/>
@@ -2467,6 +2732,15 @@
       </parameter>
 
       <parameter name="ProcessFaultNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StatsNumberOfEntries" access="readOnly" version ="2.21">
         <description>
           {{numentries}}
         </description>
@@ -2551,6 +2825,93 @@
           <string/>
         </syntax>
       </parameter>
+
+    </object>
+
+    <object name="Device.DeviceInfo.ProcessFaults.Stats.{i}." access="readOnly"
+        numEntriesParameter="StatsNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.21">
+      <description>
+        Each table entry represents statistics for a particular recorded Process Fault Type.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Type"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Type" access="readOnly" version="2.21">
+        <description>
+          The type of the process fault for which this table entry contains the statistics.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>Process fault of unknown or unmatched type.</description>
+            </enumeration>
+            <enumeration value="SegmentationFault">
+              <description>Invalid memory reference (SIGSEGV).</description>
+            </enumeration>
+            <enumeration value="BusError">
+              <description>Invalid physical memory access (SIGBUS).</description>
+            </enumeration>
+            <enumeration value="IllegalInstruction">
+              <description>Invalid or privileged instruction (SIGILL).</description>
+            </enumeration>
+            <enumeration value="FloatingPointException">
+              <description>Arithmetic fault such as divide by zero (SIGFPE).</description>
+            </enumeration>
+            <enumeration value="Abort">
+              <description>Process aborted (SIGABRT).</description>
+            </enumeration>
+            <enumeration value="Trap">
+              <description>Breakpoint or trace trap (SIGTRAP).</description>
+            </enumeration>
+            <enumeration value="BadSystemCall">
+              <description>Invalid or blocked system call (SIGSYS).</description>
+            </enumeration>
+            <enumeration value="OOMKilled">
+              <description>Killed by kernel Out-Of-Memory killer (SIGKILL).</description>
+            </enumeration>
+            <enumeration value="BrokenPipe">
+              <description>Write to a closed pipe or socket (SIGPIPE).</description>
+            </enumeration>
+            <enumeration value="HangUp">
+              <description>Terminal hangup or disconnect (SIGHUP).</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastUpgradeCount" access="readOnly" version="2.21">
+        <description>
+          Total number of process faults, of this type, which occurred since last firmware upgrade.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PreviousBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of process faults, of this type, which occurred during the previous boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentBootCount" access="readOnly" version="2.21">
+        <description>
+          The number of process faults, of this type, which have occurred during the current boot cycle.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
 
     <profile name="MemoryStatus:1" version="2.0">
@@ -2596,7 +2957,7 @@
       </object>
     </profile>
 
-    <profile name="Processors:1" version="2.1" status="obsoleted">
+    <profile name="Processors:1" version="2.1" status="deleted">
       <object ref="Device.DeviceInfo.Processor.{i}." requirement="present">
         <parameter ref="Architecture" requirement="readOnly"/>
       </object>
@@ -2636,6 +2997,20 @@
   </component>
 
   <component name="DeviceInfoUSP">
+    <object base="Device.DeviceInfo.">
+      <parameter name="LastRebootRef" access="readOnly" version="2.21">
+        <description>
+          This parameter specifies the last known reason why the device rebooted, which contains
+          information about the reboot reason, cause and timestamp.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetType="row" targetParent="Reboots.Reboot."/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
     <object base="Device.DeviceInfo.TemperatureStatus.TemperatureSensor.{i}.">
       <event name="HighTemperatureAlarm!" version="2.20">
         <description>
@@ -2883,7 +3258,7 @@
 
       <parameter name="Reason" access="readOnly">
         <description>
-          The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+          The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web user interface, ...).
         </description>
         <syntax>
           <string/>
@@ -2896,6 +3271,82 @@
           Remove this row from the table, together with the associated data stored on the device.
         </description>
       </command>
+    </object>
+
+    <object name="Device.DeviceInfo.BootTiming." access="readOnly" minEntries="1" maxEntries="1" version="2.21">
+      <description>
+        Boot performance metrics for monitoring and analyzing device boot time and milestones.
+
+        This object provides detailed historical timing metrics for the most recent boot cycle,
+        allowing for performance analysis and troubleshooting of boot-related issues.
+      </description>
+
+      <parameter name="BootStartTime" access="readOnly">
+        <description>
+          The timestamp when the boot process started. 
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BootCompleteTime" access="readOnly">
+        <description>
+          The timestamp of when the boot (of all systems) is complete.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BootDuration" access="readOnly">
+        <description>
+          Duration of the most recent boot ({{param|BootCompleteTime}} - {{param|BootStartTime}}), in {{units}}.
+          This value is calculated by the device as a convenience, since it can also be derived by the controller.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastBootMilestoneNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.DeviceInfo.BootTiming.LastBootMilestone.{i}." access="readOnly"
+        numEntriesParameter="LastBootMilestoneNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.21">
+      <description>
+        Each table entry represents a milestone reached during the boot process referenced by
+        {{param|##.LastRebootRef}}. This table is cleared and repopulated on each new boot.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="BootStage"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <component ref="BootStage"/>
+
+      <parameter name="TimeStamp" access="readOnly">
+        <description>
+          The timestamp when this boot milestone was reached.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
     </object>
 
     <object base="Device.DeviceInfo.MemoryStatus.MemoryMonitor." access="readOnly">
@@ -3037,7 +3488,7 @@
     </command>
   </component>
 
-  <model name="DeviceInfo:2.20">
+  <model name="DeviceInfo:2.21">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

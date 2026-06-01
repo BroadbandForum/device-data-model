@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-ipv6rd"
-    file="tr-181-2-20-0-ipv6rd.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-ipv6rd"
+    file="tr-181-2-21-0-ipv6rd.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -319,7 +319,7 @@
     </profile>
   </component>
 
-  <model name="IPv6rd:2.20">
+  <model name="IPv6rd:2.21">
     <component ref="Root"/>
     <component ref="IPv6rd"/>
   </model>

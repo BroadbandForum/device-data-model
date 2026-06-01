@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-1-usp"
-    file="tr-181-2-20-1-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-usp"
+    file="tr-181-2-21-0-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -77,19 +77,19 @@
 
 
   <import file="tr-181-2-iot.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-iot">
+      spec="urn:broadband-forum-org:tr-181-2-21-iot">
     <component name="IoT_NodeComponent"/>
     <component name="IoT_ProxiedDeviceExtensionComponent"/>
     <component name="IoT_ObjectComponent"/>
   </import>
 
   <import file="tr-181-2-gatewayinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-gatewayinfo">
+      spec="urn:broadband-forum-org:tr-181-2-21-gatewayinfo">
     <component name="GatewayInfo"/>
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-common">
+      spec="urn:broadband-forum-org:tr-181-2-21-common">
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
     <component name="SELTUERDiagnosticsInput"/>
@@ -146,107 +146,107 @@
     <component name="USPLocalAgent"/>
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
-    <model name="_Device:2.20" ref="Device:2.20"/>
+    <model name="_Device:2.21" ref="Device:2.21"/>
   </import>
 
   <import file="tr-181-2-deviceinfo.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-deviceinfo">
+    spec="urn:broadband-forum-org:tr-181-2-21-deviceinfo">
     <component name="DeviceInfoUSP"/>
     <component name="CauseOfBoot"/>
     <component name="UploadCommand"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv4">
     <component name="DHCPv4USP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv6">
     <component name="DHCPv6USP"/>
   </import>
 
   <import file="tr-181-2-hosts.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-hosts">
+    spec="urn:broadband-forum-org:tr-181-2-21-hosts">
     <component name="HostsUSP"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetUSP"/>
   </import>
 
+  <import file="tr-181-2-logical.xml"
+    spec="urn:broadband-forum-org:tr-181-2-21-logical">
+    <component name="LogicalUSP"/>
+  </import>
+
   <import file="tr-181-2-wifi-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-usp">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-usp">
     <component name="WiFiUSP"/>
   </import>
 
   <import file="tr-181-2-moca-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-moca-usp">
+      spec="urn:broadband-forum-org:tr-181-2-21-moca-usp">
     <component name="MoCAUSP"/>
   </import>
 
   <import file="tr-181-2-softwaremodules-usp.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-softwaremodules-usp">
+    spec="urn:broadband-forum-org:tr-181-2-21-softwaremodules-usp">
     <component name="SoftwareModulesUSP"/>
   </import>
 
   <import file="tr-181-2-syslog.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-syslog">
+      spec="urn:broadband-forum-org:tr-181-2-21-syslog">
     <component name="SyslogUSP"/>
   </import>
 
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-21-collectiondevice">
     <component name="CollectionDeviceUSP"/>
   </import>
 
   <import file="tr-181-2-periodicfiletransfer.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-periodicfiletransfer">
+    spec="urn:broadband-forum-org:tr-181-2-21-periodicfiletransfer">
     <component name="PeriodicFileTransferUSP"/>
   </import>
 
   <import file="tr-181-2-thread.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-thread">
+      spec="urn:broadband-forum-org:tr-181-2-21-thread">
     <component name="ThreadUSP"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
     <component name="SecurityUSP"/>
     <component name="ClientCerts"/>
   </import>
 
   <import file="tr-181-2-hardware.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-hardware">
+      spec="urn:broadband-forum-org:tr-181-2-21-hardware">
     <component name="HardwareUSP"/>
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="PowerManagementUSP"/>
   </import>
 
   <import file="tr-181-2-users.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-users">
+      spec="urn:broadband-forum-org:tr-181-2-21-users">
     <component name="UsersUSP"/>
   </import>
 
+  <import file="tr-181-2-mqtt.xml"
+      spec="urn:broadband-forum-org:tr-181-2-21-mqtt">
+  </import>
+
+  <import file="tr-181-2-mqtt-usp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-21-mqtt-usp">
+    <component name="MQTTUSP"/>
+  </import>
+
   <!-- Templates used in object and/or parameter descriptions -->
-
-  <template id="MQTTReconnect">
-    {{template|MQTTChange}} If the change needs to be applied immediately, the
-    command {{command|ForceReconnect()}} has to be executed.
-  </template>
-
-  <template id="MQTTWillChange">
-    {{template|MQTTChange}}
-
-    If will handling is enabled (Parameter {{param|WillEnable}} is set to
-    {{true}}) and the change needs to be applied immediately, the command
-    {{command|ForceReconnect()}} has to be executed.
-  </template>
-
   <template id="Reset">
     {{command|Reset()}} command is invoked
   </template>
@@ -322,7 +322,7 @@
     {{command|Device.IP.Diagnostics.IPLayerCapacity()}}
   </template>
 
-  <model name="Device:2.20" base="_Device:2.20">
+  <model name="Device:2.21" base="_Device:2.21">
     <object base="Device." access="readOnly" minEntries="1" maxEntries="1">
 
       <parameter name="ProxiedDeviceNumberOfEntries" access="readOnly"
@@ -349,17 +349,14 @@
               <string>
                 <enumeration value="LocalReboot">
                   <description>
-                    A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-                    locally on the Device (NOT as a result of a
-                    {{command|.Reboot()|model}} Command triggered by a remote trigger, e.g.
+                    The reboot is triggered locally on the device (NOT as a result of a
+                    {{command|.Reboot()|model}} command triggered by a remote trigger, e.g.
                     another remote management protocol)
                   </description>
                 </enumeration>
                 <enumeration value="RemoteReboot">
                   <description>
-                    A {{object|Device.|absolute}} Event that was the result of a reboot triggered
-                    via the {{command|.Reboot()|model}} Command or other remote
-                    trigger, e.g. another remote management protocol
+                    The reboot is triggered remotely by a remote controller.
                   </description>
                 </enumeration>
               </string>
@@ -368,7 +365,49 @@
 
           <parameter name="Reason" mandatory="false" version="2.18">
             <description>
-              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web user interface, ...).
+
+              When absent the implementation must set {{param}} to 'Unknown'.
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="Shutdown()" version="2.21" async="false">
+        <description>
+          Shutdown the entity associated with the containing {{object}}.
+        </description>
+        <input>
+          <parameter name="Cause" mandatory="false">
+            <description>
+              The cause that will be contained within the {{event|#.Boot!}} Event.
+              By default the Device SHOULD set this value to {{enum|RemoteShutdown}}.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="LocalShutdown">
+                  <description>
+                    The shutdown is triggered locally on the device (NOT as a result of a
+                    {{command|.Shutdown()|model}} command triggered by a remote trigger, e.g.
+                    another remote management protocol).
+                  </description>
+                </enumeration>
+                <enumeration value="RemoteShutdown">
+                  <description>
+                    The shutdown is triggered via the {{command|.Shutdown()|model}} command or other remote
+                    trigger, e.g. another remote management protocol.
+                  </description>
+                </enumeration>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Reason" mandatory="false">
+            <description>
+              The reason of the shutdown (e.g. deep standby, power off, user request, ...).
 
               When absent the implementation must set {{param}} to 'Unknown'.
             </description>
@@ -381,7 +420,7 @@
 
       <event name="Boot!" version="2.12">
         <description>
-          Boot event indicating that the {{object}} was rebooted.
+          Boot event indicating that the {{object}} has booted up after recently being rebooted or shutdown.
         </description>
 
         <parameter name="CommandKey">
@@ -398,7 +437,9 @@
 
         <parameter name="Reason" version="2.18">
           <description>
-            The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+            The reason for the Boot! Event related to a reboot or shutdown of the device, providing
+            details such as 'wake up from deep standby', 'power on reset', 'watchdog', 'overheat', 'FAN fault',
+            'web user interface', or 'user request'.
           </description>
           <syntax>
             <string/>
@@ -442,16 +483,14 @@
               <string>
                 <enumeration value="LocalFactoryReset">
                   <description>
-                    A {{object|Device.|absolute}} Event that was the result of a factory reset
-                    triggered locally on the Device (NOT as a result of a
-                    {{command|.FactoryReset()|model}} Command trigger by a remote trigger,
+                    The factory reset is triggered locally on the device (NOT as a result of a
+                    {{command|.FactoryReset()|model}} command trigger by a remote trigger,
                     e.g. another remote management protocol)
                   </description>
                 </enumeration>
                 <enumeration value="RemoteFactoryReset">
                   <description>
-                    A {{object|Device.|absolute}} Event that was the result of a factory reset
-                    triggered via the {{command|.FactoryReset()|model}} Command or
+                    The factory reset is triggered via the {{command|.FactoryReset()|model}} command or
                     other remote trigger, e.g. another remote management protocol
                   </description>
                 </enumeration>
@@ -461,7 +500,7 @@
 
           <parameter name="Reason" mandatory="false" version="2.18">
             <description>
-              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web userinterface, ...).
+              The reason of the boot (e.g. power on reset, watchdog, overheat, FAN fault, web user interface, ...).
 
               When absent the implementation must set {{param}} to 'Unknown'.
             </description>
@@ -4457,7 +4496,7 @@
 
           If {{param|AuthenticationEnabled}} is set to {{true}}, one of the
           following combinations of {{param|AuthenticationCode}},
-          {{param|AuthenticationAlias}} and
+          {{param|AuthenticationKeyID}} and
           {{param|AuthenticationKeyFileLocation}} MUST be met. Otherwise, the
           client returns an error.
 
@@ -4465,33 +4504,33 @@
           the value directly as the key.
 
           If both {{param|AuthenticationCode}} and
-          {{param|AuthenticationAlias}} are provided but
+          {{param|AuthenticationKeyID}} are provided but
           {{param|AuthenticationKeyFileLocation}} is not provided, the client
           uses the {{param|AuthenticationCode}} as the key and the
-          {{param|AuthenticationAlias}} as key ID. The
+          {{param|AuthenticationKeyID}} as key ID. The
           {{object|IPLayerCapacityAuthCode}} table is ignored.
 
-          If only {{param|AuthenticationAlias}} is provided, the client uses
-          the {{object|IPLayerCapacityAuthCode}} table to derive the
-          {{param|IPLayerCapacityAuthCode.{i}.Alias}} to use as key ID,
-          and the
+          If only {{param|AuthenticationKeyID}} is provided,
+          {{param|AuthenticationKeyID}} is used to select the instance to use
+          from the {{object|IPLayerCapacityAuthCode}} table. The client uses
           {{param|IPLayerCapacityAuthCode.{i}.AuthenticationKey}} as
-          the key.
+          the key and {{param|AuthenticationKeyID}} as key ID.
+          If the
+          {{object|IPLayerCapacityAuthCode}} table does not contain the
+          {{param|AuthenticationKeyID}} , the client returns an error.
 
-          If both {{param|AuthenticationAlias}} and
+          If both {{param|AuthenticationKeyID}} and
           {{param|AuthenticationKeyFileLocation}} are provided, but
           {{param|AuthenticationCode}} is not provided, the client uses
-          the {{param|AuthenticationAlias}} as key ID along with
+          the {{param|AuthenticationKeyID}} as key ID along with
           {{param|AuthenticationKeyFileLocation}} as file location. The
           {{object|IPLayerCapacityAuthCode}} table is ignored.
 
-          If only {{param|AuthenticationAlias}} is provided, and the
-          {{object|IPLayerCapacityAuthCode}} does not contain the
-          {{param|AuthenticationAlias}}, the client returns an error.
-
-          If only {{param|AuthenticationKeyFileLocation}} is provided, the file
-          specified MUST contain a single entry. Otherwise, the client returns
-          an error.
+          If only {{param|AuthenticationKeyFileLocation}} is provided, if the file
+          specified contains only a single entry, then it uses that as the key.
+          If the file contains multiple entries, then it uses the key from the entry
+          with Key ID equal to 0. If no entry exists with Key ID equal to 0,
+          the client returns an error.
         </description>
         <input>
           <component ref="IPLayerCapacityInput"/>
@@ -5157,46 +5196,6 @@
       </command>
     </object>
 
-    <object base="Device.MQTT.Client.{i}." access="readWrite" minEntries="0"
-        maxEntries="unbounded">
-
-      <command name="ForceReconnect()" dmr:previousParameter="KeepAliveTime"
-          version="2.12" async="false">
-        <description>
-          Disconnects the MQTT client from the MQTT broker and reconnects it
-          again (toggle connection). It is only effective if the MQTT client is
-          currently connected to the MQTT broker (Parameter {{param|Status|}}
-          is {{enum|Connected|Status}}).
-
-          If the MQTT client is in a different state, the command has no
-          effect.
-
-          This command may be used to immediately apply changes in the MQTT
-          connection settings.
-        </description>
-      </command>
-    </object>
-
-    <object base="Device.MQTT.Broker.{i}.Bridge.{i}." access="readWrite"
-        minEntries="0" maxEntries="unbounded">
-
-      <command name="ForceReconnect()" dmr:previousParameter="KeepAliveTime"
-          version="2.12" async="false">
-        <description>
-          Disconnects the MQTT bridge to the remote MQTT broker and reconnects
-          it again (toggle connection). It is only effective if the MQTT bridge
-          is currently connected to the remote MQTT broker (Parameter
-          {{param|Status|}} is {{enum|Connected|Status}}).
-
-          If the MQTT bridge is in a different state, the command has no
-          effect.
-
-          This command may be used to immediately apply changes in the MQTT
-          connection settings.
-        </description>
-      </command>
-    </object>
-
     <object base="Device.Ethernet.WoL." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -5450,6 +5449,7 @@
     <component ref="IoT_NodeComponent" path="Device."/>
 
     <component ref="HostsUSP"/>
+    <component ref="LogicalUSP"/>
     <component ref="MoCAUSP"/>
     <component ref="SoftwareModulesUSP"/>
     <component ref="SyslogUSP"/>
@@ -5460,6 +5460,7 @@
     <component ref="PeriodicFileTransferUSP"/>
     <component ref="HardwareUSP"/>
     <component ref="UsersUSP"/>
+    <component ref="MQTTUSP"/>
 
     <!-- General Commands from common model -->
 
@@ -6385,37 +6386,6 @@
       </object>
     </profile>
 
-    <profile name="MQTTClientExtended:1" base="MQTTClientBase:1"
-        dmr:previousProfile="MQTTClientSubscribe:1" version="2.10">
-      <description>
-        Adds client authentication, will handling and extends statistics
-      </description>
-      <object ref="Device.MQTT.Client.{i}." requirement="present">
-        <parameter ref="Name" requirement="readWrite"/>
-        <parameter ref="ClientID" requirement="readWrite"/>
-        <parameter ref="Username" requirement="readWrite"/>
-        <parameter ref="Password" requirement="readWrite"/>
-        <parameter ref="TransportProtocol" requirement="readWrite"/>
-        <parameter ref="MessageRetryTime" requirement="readWrite"/>
-        <parameter ref="ConnectRetryTime" requirement="readWrite"/>
-        <command ref="ForceReconnect()"/>
-        <parameter ref="WillEnable" requirement="readWrite"/>
-        <parameter ref="WillTopic" requirement="readWrite"/>
-        <parameter ref="WillValue" requirement="readWrite"/>
-        <parameter ref="WillQoS" requirement="readWrite"/>
-        <parameter ref="WillRetain" requirement="readWrite"/>
-      </object>
-      <object ref="Device.MQTT.Client.{i}.Stats." requirement="present">
-        <parameter ref="LastPublishMessageSent" requirement="readOnly"/>
-        <parameter ref="LastPublishMessageReceived" requirement="readOnly"/>
-        <parameter ref="PublishSent" requirement="readOnly"/>
-        <parameter ref="PublishReceived" requirement="readOnly"/>
-        <parameter ref="SubscribeSent" requirement="readOnly"/>
-        <parameter ref="UnSubscribeSent" requirement="readOnly"/>
-        <parameter ref="PublishErrors" requirement="readOnly"/>
-      </object>
-    </profile>
-
     <profile name="HPNAQoS:1" version="2.0" dmr:previousProfile="HPNA:1">
       <object ref="Device.HPNA.Interface.{i}.QoS." requirement="present">
         <parameter ref="FlowSpecNumberOfEntries" requirement="readOnly"/>
@@ -6601,6 +6571,8 @@
         {{deprecated|2.16|because it now contains a deprecated parameter}}
 
         {{obsoleted|2.18}}
+
+        {{deleted|2.19}}
       </description>
       <object ref="Device.LocalAgent.Controller.{i}.MTP.{i}.MQTT."
           requirement="present">

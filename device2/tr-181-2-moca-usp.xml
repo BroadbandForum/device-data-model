@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-moca-usp"
-    file="tr-181-2-20-0-moca-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-moca-usp"
+    file="tr-181-2-21-0-moca-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,11 +65,11 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-moca.xml" spec="urn:broadband-forum-org:tr-181-2-20-moca">
+  <import file="tr-181-2-moca.xml" spec="urn:broadband-forum-org:tr-181-2-21-moca">
     <dataType name="MocaPhyRate"/>
     <component name="MoCA"/>
     <component name="MoCAAcaInput"/>
@@ -490,18 +490,48 @@
             <description>
               Status of the ACA operation.
 
-              If the value of this parameter is anything other than {{enum|success}}, the values of the other output arguments for this operation are indeterminate.
+              If the value of this parameter is anything other than {{enum|Complete}}, the values of the other output arguments for this operation are indeterminate.
             </description>
             <syntax>
               <string>
-                <enumeration value="success" code="0"/>
-                <enumeration value="failBADCHANNEL" code="1"/>
-                <enumeration value="failNOEVMPROBE" code="2"/>
-                <enumeration value="fail" code="3"/>
-                <enumeration value="inPROGRESS" code="4">
-                  <description>
-                    Not used.
-                  </description>
+                <enumeration value="success" code="0" status="deprecated">
+                  <description>{{deprecated|2.21|in favor of {{enum|Complete}}}}</description>
+                </enumeration>
+                <enumeration value="failBADCHANNEL" code="1" status="deprecated">
+                  <description>{{deprecated|2.21|in favor of {{enum|Error_BadChannel}}}}</description>
+                </enumeration>
+                <enumeration value="failNOEVMPROBE" code="2" status="deprecated">
+                  <description>{{deprecated|2.21|in favor of {{enum|Error_NoEvmProbe}}}}</description>
+                </enumeration>
+                <enumeration value="fail" code="3" status="deprecated">
+                  <description>{{deprecated|2.21|in favor of {{enum|Error}}}}</description>
+                </enumeration>
+                <enumeration value="inPROGRESS" code="4" status="deprecated">
+                  <description>{{deprecated|2.21|in favor of {{enum|InProgress}}}}</description>
+                </enumeration>
+                <enumeration value="Complete" version="2.21">
+                  <description>The operation completed successfully. This corresponds to the previous 'success' value.</description>
+                </enumeration>
+                <enumeration value="Error_BadChannel" version="2.21">
+                  <description>The operation failed due to a bad channel. This corresponds to the previous 'failBADCHANNEL' value, which is aligned with MoCA SNMP MIBs definitions.</description>
+                </enumeration>
+                <enumeration value="Error_NoEvmProbe" version="2.21">
+                  <description>The operation failed because there was no EVM probe. This corresponds to the previous 'failNOEVMPROBE' value, which is aligned with MoCA SNMP MIBs definitions.</description>
+                </enumeration>
+                <enumeration value="Error" version="2.21">
+                  <description>The operation failed. This corresponds to the previous general 'fail' value.</description>
+                </enumeration>
+                <enumeration value="InProgress" version="2.21">
+                  <description>The operation is currently in progress (Not used).</description>
+                </enumeration>
+                <enumeration value="Error_Internal" version="2.21">
+                  <description>The operation failed due to an internal error.</description>
+                </enumeration>
+                <enumeration value="Error_Other" version="2.21">
+                  <description>The operation failed due to an unspecified error.</description>
+                </enumeration>
+                <enumeration value="Canceled" version="2.21">
+                  <description>The operation was canceled.</description>
                 </enumeration>
               </string>
             </syntax>
@@ -581,7 +611,7 @@
     </profile>
   </component>
 
-  <model name="MoCAUSP:2.20">
+  <model name="MoCAUSP:2.21">
     <component ref="Root"/>
     <component ref="MoCA"/>
     <component ref="MoCAUSP"/>

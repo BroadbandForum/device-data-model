@@ -55,19 +55,67 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-security"
-    file="tr-181-2-20-0-security.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-security"
+    file="tr-181-2-21-0-security.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
-  <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106"/>
+  <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
+    <component name="Alias"/>
+  </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
+   <component name="TLSClient">
+    <component ref="ClientCerts"/>
+
+    <parameter name="CipherList" access="readOnly" version="2.21">
+      <description>
+        Each item in this list specifies a cipher that the TLS client is allowed to use.
+        When {{empty}} the system defaults are used.
+      </description>
+      <syntax>
+        <list/>
+        <string/>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="TLSServer">
+    <component ref="ServerCerts"/>
+    
+    <parameter name="CipherList" access="readOnly" version="2.21">
+      <description>
+        Each item in this list specifies a cipher that the TLS server is allowed to use.
+        When {{empty}} the system defaults are used.
+      </description>
+      <syntax>
+        <list/>
+        <string/>
+      </syntax>
+    </parameter>
+  </component>
+
   <component name="ClientCerts">
+    <component ref="ClientCertsNoDefault"/>
+    <parameter base="Certificate">
+      <syntax>
+        <string/>
+        <default type="object" value=""/>
+      </syntax>
+    </parameter>
+    <parameter base="CABundle">
+      <syntax>
+        <string/>
+        <default type="object" value=""/>
+      </syntax>
+    </parameter>
+  </component>
+ 
+  <component name="ClientCertsNoDefault">
     <parameter name="Certificate" access="readWrite" version="2.0">
       <description>
         Specifies the client certificate that must be presented to the remote server for mutual authentication.
@@ -79,7 +127,6 @@
         <string>
           <pathRef refType="strong" targetParent=".Security.Certificate." targetType="row"/>
         </string>
-        <default type="object" value=""/>
       </syntax>
     </parameter>
 
@@ -94,12 +141,27 @@
         <string>
           <pathRef refType="strong" targetParent=".Security.CABundle." targetType="row"/>
         </string>
-        <default type="object" value=""/>
       </syntax>
     </parameter>
   </component>
 
   <component name="ServerCerts">
+    <component ref="ServerCertsNoDefault"/>
+    <parameter base="Certificate">
+      <syntax>
+        <string/>
+        <default type="object" value=""/>
+      </syntax>
+    </parameter>
+    <parameter base="CABundle">
+      <syntax>
+        <string/>
+        <default type="object" value=""/>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="ServerCertsNoDefault">
     <parameter name="Certificate" access="readWrite" version="2.16">
       <description>
         Specifies the server certificate to be presented by the server during the TLS handshake.
@@ -111,7 +173,6 @@
         <string>
           <pathRef refType="strong" targetParent=".Security.Certificate." targetType="row"/>
         </string>
-        <default type="object" value=""/>
       </syntax>
     </parameter>
 
@@ -126,7 +187,6 @@
         <string>
           <pathRef refType="strong" targetParent=".Security.CABundle." targetType="row"/>
         </string>
-        <default type="object" value=""/>
       </syntax>
     </parameter>
   </component>
@@ -165,9 +225,15 @@
         This table provides information about all types of public key-based
         credentials, such as X.509 certificates, see {{bibref|RFC5280}}.
       </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
       <uniqueKey functional="true">
         <parameter ref="SerialNumber"/>
         <parameter ref="Issuer"/>
+      </uniqueKey>
+      <uniqueKey functional="true">
+        <parameter ref="Name"/>
       </uniqueKey>
 
       <parameter name="Enable" access="readWrite">
@@ -176,6 +242,22 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="Alias" version="2.21"/>
+
+      <parameter name="Name" access="readOnly" version="2.21">
+        <description>
+          User-defined name to identify and categorize the certificate (e.g.,
+          "mqtt-broker", "webserver", "vpn-client"). The implementation MAY
+          use this name to determine which secure storage to use and how to
+          persist the key.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -340,7 +422,7 @@
               specified as an {{bibref|RFC8089}} (The file URI Scheme).
             </description>
             <syntax>
-              <string/>
+              <dataType ref="FileURI"/>
             </syntax>
           </parameter>
 
@@ -361,6 +443,12 @@
           </parameter>
         </output>
       </command>
+
+      <command name="Delete()" async="false" version="2.21">
+        <description>
+          Deletes the certificate.
+        </description>
+      </command>
     </object>
 
     <object base="Device.Security.CABundle.{i}.">
@@ -380,10 +468,10 @@
             <description>
               This parameter specifies the absolute or relative path to the
               directory containing the CA certificate bundle,
-              specified as an RFC-8089 URI (The file URI Scheme).
+              specified as an {{bibref|RFC8089}} URI (The file URI Scheme).
             </description>
             <syntax>
-              <string/>
+              <dataType ref="FileURI"/>
             </syntax>
           </parameter>
         </output>
@@ -407,7 +495,273 @@
               CA certificate(s), specified as an {{bibref|RFC8089}} URI (The file URI Scheme).
             </description>
             <syntax>
+              <dataType ref="FileURI"/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="Update()" async="false" version="2.21">
+        <description>
+          Updates the CA bundle with new certificate content. The new
+          bundle completely replaces the existing CA certificates.
+
+          For example, if the current bundle contains 5 CA
+          certificates and the new bundle contains only 3 CA
+          certificates, the 2 CA certificates that are not present in
+          the new bundle will be deleted.
+
+          If the update fails, the previous bundle is kept as-is.
+
+          The device SHOULD reject the operation with the following
+          fault codes for specific error conditions:
+
+          * If the bundle does not contain valid PEM formatted
+           certificates, the device SHOULD reject the operation with a
+           7265 (Invalid PEM Format) fault code.
+
+          * If the bundle could not be imported, the device SHOULD
+           reject the operation with a 7262 (Failed To Import Bundle)
+           fault code.
+
+          * If one or more certificates in the bundle could not be
+           imported, the device SHOULD reject the operation with a 7263
+           (Failed To Import Certificate) fault code.
+
+          * If there is insufficient disk space to store the CA bundle,
+           the device SHOULD reject the operation with a 7266
+           (Insufficient Disk Space) fault code.
+        </description>
+        <input>
+          <parameter name="Bundle" mandatory="true">
+            <description>
+              One or more X.509 CA certificates in PEM format,
+              concatenated into a single PEM file.
+            </description>
+            <syntax>
+              <hexBinary/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="NumberOfCertificates">
+            <description>
+              The number of CA certificates successfully installed
+              from the bundle.
+            </description>
+            <syntax>
+              <unsignedInt/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="Delete()" async="false" version="2.21">
+        <description>
+          Deletes the CA bundle.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.Security.">
+      <parameter name="SupportedBundleFormats" access="readOnly"
+          version="2.21">
+        <description>
+          Each item indicates a bundle format that is supported by the
+          {{command|AddCertificateBundle()}} command.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="PKCS12"/>
+            <enumeration value="PEM"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <command name="AddCertificateBundle()" async="false" version="2.21">
+        <description>
+          The device installs the new bundle and updates the
+          `Device.Security.Certificate.{i}`. The bundle (e.g., PKCS#12,
+          PEM) contains both a certificate and a private key.
+
+          If a certificate with the same
+          {{param|Device.Security.Certificate.{i}.SerialNumber}} and
+          {{param|Device.Security.Certificate.{i}.Issuer}} already
+          exists in the device, the existing certificate is replaced
+          with the new certificate, and the {{param|Certificate}}
+          output parameter references the updated entry.
+
+          The device SHOULD reject the operation with the following
+          fault codes for specific error conditions:
+
+          * If the specified bundle format is not supported, the device
+           SHOULD reject the operation with a 7260 (Bundle Format Not
+           Supported) fault code.
+
+          * If the bundle signature verification fails, the device
+           SHOULD reject the operation with a 7261 (Bundle Signature
+           Failure) fault code.
+
+          * If the bundle could not be imported, the device SHOULD
+           reject the operation with a 7262 (Failed To Import Bundle)
+           fault code.
+
+          * If the certificate in the bundle could not be imported, the
+           device SHOULD reject the operation with a 7263 (Failed To
+           Import Certificate) fault code.
+
+          * If the private key in the bundle could not be imported, the
+           device SHOULD reject the operation with a 7264 (Failed To
+           Import Private Key) fault code.
+
+          * If the certificate has a SerialNumber and Issuer that match an
+           existing certificate with a different Name, the device SHOULD
+           reject the operation with a 7270 (Certificate Identity Conflict)
+           fault code.
+        </description>
+        <input>
+          <parameter name="Alias">
+            <description>
+              An optional input the Controller can use to specify the
+              {{param|.Security.Certificate.{i}.Alias}} value for the added entry. 
+              
+              If provided as an input and the value already exists in
+              {{object|.Security.Certificate.{i}}}, this command will fail.
+            </description>
+            <syntax>
+              <dataType ref="Alias"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Name" mandatory="true">
+            <description>
+              User-defined name to identify the certificate.
+
+              If a certificate with the same Name already exists in
+              {{object|.Security.Certificate.{i}.}}, the existing certificate will be
+              replaced with the certificate from the bundle.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="64"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="BundleFormat" mandatory="true">
+            <description>
+              The format of the bundle.
+            </description>
+            <syntax>
+              <string>
+                <enumerationRef
+                    targetParam="SupportedBundleFormats"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="Bundle" mandatory="true">
+            <description>
+              The bundle containing the certificate and private key.
+              It is good practice for the bundle to be encrypted and
+              signed.
+
+              How the bundle is decrypted, verified, and installed on
+              the system depends on the device design and is
+              considered implementation specific.
+            </description>
+            <syntax>
+              <hexBinary/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="Certificate">
+            <description>
+              Specifies the location where the certificate was
+              installed.
+            </description>
+            <syntax>
+              <string>
+                <pathRef refType="strong"
+                    targetParent=".Security.Certificate."
+                    targetType="row"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="AddCABundle()" async="false" version="2.21">
+        <description>
+          The device installs the new CA bundle and adds an entry to
+          the {{object|Device.Security.CABundle.{i}.}} table.
+
+          If a CA bundle with the same
+          {{param|Device.Security.CABundle.{i}.Name}} already exists
+          in the device, the device SHOULD reject the operation with a
+          7267 (Duplicate CA Bundle Name) fault code.
+
+          The device SHOULD reject the operation with the following
+          fault codes for specific error conditions:
+
+          * If the bundle does not contain valid PEM formatted
+           certificates, the device SHOULD reject the operation with a
+           7265 (Invalid PEM Format) fault code.
+
+          * If the bundle could not be imported, the device SHOULD
+           reject the operation with a 7262 (Failed To Import Bundle)
+           fault code.
+
+          * If one or more certificates in the bundle could not be
+           imported, the device SHOULD reject the operation with a 7263
+           (Failed To Import Certificate) fault code.
+
+          * If there is insufficient disk space to store the CA bundle,
+           the device SHOULD reject the operation with a 7266
+           (Insufficient Disk Space) fault code.
+        </description>
+        <input>
+          <parameter name="Name" mandatory="true">
+            <description>
+              The name of the new CA bundle.
+            </description>
+            <syntax>
               <string/>
+            </syntax>
+          </parameter>
+
+          <parameter name="Bundle" mandatory="true">
+            <description>
+              One or more X.509 CA certificates in PEM format,
+              concatenated into a single PEM file.
+            </description>
+            <syntax>
+              <hexBinary/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="CABundle">
+            <description>
+              Specifies the location where the CA bundle was installed.
+            </description>
+            <syntax>
+              <string>
+                <pathRef refType="strong"
+                    targetParent=".Security.CABundle." targetType="row"/>
+              </string>
+            </syntax>
+          </parameter>
+
+          <parameter name="NumberOfCertificates">
+            <description>
+              The number of CA certificates successfully installed
+              from the bundle.
+            </description>
+            <syntax>
+              <unsignedInt/>
             </syntax>
           </parameter>
         </output>
@@ -415,7 +769,7 @@
     </object>
   </component>
 
-  <model name="Security:2.20">
+  <model name="Security:2.21">
     <component ref="Root"/>
     <component ref="Security"/>
   </model>

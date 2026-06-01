@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-firewall"
-    file="tr-181-2-20-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-firewall"
+    file="tr-181-2-21-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,17 +71,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-21-schedules">
     <component name="ScheduleRef"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -1324,7 +1324,7 @@
           If {{false}}, the rule matches only those packets that match the
           {{param|DSCP}} entry, if specified.
 
-          If {{true}}, the rule matchess all packets except those that match
+          If {{true}}, the rule matches all packets except those that match
           the {{param|DSCP}} entry, if specified.
 
           This parameter can only be modified if the {{object}} is ''Static''
@@ -3064,7 +3064,7 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.20">
+  <model name="Firewall:2.21">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

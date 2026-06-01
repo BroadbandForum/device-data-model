@@ -1,0 +1,40 @@
+@startuml
+
+
+' Force a clear, predictable horizontal layout
+left to right direction
+
+skinparam rectangle {
+    roundCorner 20
+}
+
+rectangle "Device" {
+    ' Using explicit stereotype syntax for max compatibility
+    component "Local MQTT Broker\n(Device.MQTT.Broker)" as LocalBroker
+    component "MQTT Client\n(Device.MQTT.Client)" as LocalClient
+    component "Local Applications" as LocalApps
+    component "Broker Security\n(Device.MQTT.BrokerSecurity)" as BrokerSecurity
+}
+
+cloud "External Cloud Broker" as ExternalBroker
+
+actor "Cloud Services /\nExternal Devices" as ExternalServices
+
+' --- Relationships ---
+
+' Internal relationship: Broker security configures the local broker
+BrokerSecurity ..> LocalBroker : configures
+
+' An MQTT client on the device connects out to a cloud broker
+LocalClient ..> ExternalBroker : (A) Connects to External Broker
+
+' Local applications use the local broker for on-device messaging
+LocalApps <..> LocalBroker : (B) Local Publish/Subscribe
+
+' The local broker can bridge its connection to a cloud broker
+LocalBroker ..> ExternalBroker : (C) Bridge Connection\n(Device.MQTT.Broker.{i}.Bridge)
+
+' External services interact with the cloud broker
+ExternalServices <..> ExternalBroker : (D) Remote Publish/Subscribe
+
+@enduml

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-ip"
-    file="tr-181-2-20-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-ip"
+    file="tr-181-2-21-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,12 +71,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer3Interface"/>
   </import>
 
@@ -2520,10 +2520,15 @@
         Authentication Code table containing list of keys to be used by the
         client when connecting to the server.
       </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="AuthenticationKeyID"/>
+      </uniqueKey>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
       <component ref="Alias"/>
+
       <parameter name="AuthenticationKey" access="readWrite" version="2.19">
         <description>
           A passphrase that is used by the client to authenticate with the
@@ -2533,6 +2538,19 @@
           <string/>
         </syntax>
       </parameter>
+
+      <parameter name="AuthenticationKeyID" access="readWrite" version="2.21">
+        <description>
+          The authentication key ID to use when the client connects to
+          the server using {{param|AuthenticationKey}} as key.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="255"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
     </object>
   </component>
 
@@ -2691,12 +2709,29 @@
       </syntax>
     </parameter>
 
-    <parameter name="AuthenticationAlias" access="readWrite" version="2.19">
+    <parameter name="AuthenticationKeyID" access="readWrite" version="2.21">
+      <description>
+        The authentication key ID to use when the client connects to
+        the server. Refer to {{template|IPLAYERCAPACITY}} for description
+        on how the input arguments are provided to enable authentication
+        for the test.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="0" maxInclusive="255"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="AuthenticationAlias" access="readWrite" version="2.19" status="deprecated">
       <description>
         The reference to {{object|IPLayerCapacityAuthCode}} table
         by Alias. Refer to {{template|IPLAYERCAPACITY}} for description on
         how the input arguments are provided to enable authentication for the
         test.
+
+        {{deprecated|2.21|because it is superseded by {{param|AuthenticationKeyID}} }}
+
       </description>
       <syntax>
         <string/>
@@ -2706,8 +2741,7 @@
     <parameter name="AuthenticationKeyFileLocation" access="readWrite"
         version="2.19">
       <description>
-        The key file location the client uses to derive the
-        {{param|AuthenticationCode}} and {{param|AuthenticationAlias}} to be
+        The key file location the client uses to derive the key and key ID to be
         used for authentication. Refer to {{template|IPLAYERCAPACITY}} for
         description on how the input arguments are provided to enable
         authentication for the test.
@@ -5975,7 +6009,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.20">
+  <model name="IP:2.21">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

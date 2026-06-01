@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-thread"
-  file="tr-181-2-20-0-thread.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-thread"
+  file="tr-181-2-21-0-thread.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -81,12 +81,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root" />
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+    spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="PowerManagement" />
   </import>
 
@@ -924,7 +924,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Type">
         <description>
-          The IPv6 address may by of one the following types. Enumeration of:
+          The IPv6 address may be of one the following types. Enumeration of:
           * LinkLocal (Address reachable by a single radio transmission with
             the prefixes fe80::/16).
           * MeshLocal (Address reachable within the same Thread network with
@@ -1248,8 +1248,9 @@ directed to <info@broadband-forum.org>.
                 * PSKc
                 * Security Policy
 
-                The encoding in {{param}} for the pending Dataset field is defined
-                in the Thread specification (see {{bibref|ThreadSpec}}).
+                The encoding in {{param}} for the pending Dataset field is
+                defined in the Thread specification (see 
+                {{bibref|ThreadSpec}}).
               </description>
               <syntax>
                 <hexBinary/>
@@ -1257,10 +1258,143 @@ directed to <info@broadband-forum.org>.
             </parameter>
         </output>
       </command>
+
+      <command name="NetworkDiagnostic()" version="2.21" async="true">
+        <description>
+          The {{command}} command provides a mechanism to obtain
+          connectivity, topology, and link quality data from all the Thread
+          devices in a Thread network (see {{bibref|ThreadSpec|Section
+          Diagnostic Commands}}).
+
+          On invocation, the agent sends a Thread Get Diagnostic Request to
+          {{param|TargetIPv6Address}} (unicast or multicast address). This
+          command requests the TLVs defined in the {{param|RequestedTLVTypes}}
+          list. For unicast, the command completes on first response or timeout
+          ({{param|RequestTimeout}}); for multicast, the agent aggregates all
+          responses received before the {{param|RequestTimeout}} expires, then
+          returns the set.
+        </description>
+        <input>
+          <parameter name="TargetIPv6Address" mandatory="true">
+            <description>
+              The IPv6 destination address (unicast or multicast). In a Thread
+              network, specific addresses are reserved for multicast use
+              targeting different groups of devices, depending on the scope :
+              * FF02::1 : "Link-Local All Nodes" multicast address, all Full
+              Thread Devices (FTD) and Minimal End Devices (MED);
+              * FF02::2 : "All-Routers" multicast address, all FTDs;
+              * FF03::1 : "Realm-Local All-Nodes" multicast address, all FTDs
+              and MEDs;
+              * FF03::2 : "Realm-Local All-Routers" multicast address, all FTDs;
+            </description>
+            <syntax>
+              <dataType ref="IPv6Address"/>
+            </syntax>
+          </parameter>
+          <parameter name="RequestedTLVTypes" mandatory="true">
+            <description>
+              List of requested TLV IDs as defined in {{bibref|ThreadSpec|Table
+              Diagnostic TLVs}}.
+
+              Examples of TLV IDs extracted from {{bibref|ThreadSpec}}, the
+              number of defined TLV IDs in the Thread specification can increase
+              in future releases:
+              * 0x00 ExtMacAddress (Extended MAC Address (EUI‑64) of the radio
+              interface)
+              * 0x01 Address16 (Node’s 16‑bit RLOC address)
+              * 0x02 Mode (Device mode flags (RX‑on‑when‑idle, FTD/MTD,
+              FullNetData…))
+              * 0x03 Timeout (MLE timeout, notably for children)
+              * 0x04 Connectivity (Connectivity indicators: parent priority,
+              link qualities, cost to Leader…)
+              * 0x05 Route64 (Routing information, router table, in Route64
+              format)
+              * 0x06 LeaderData (Partition/leader data (PartitionId, Weighting,
+              DataVersion…))
+              * 0x07 NetworkData (Full Network Data)
+              * 0x08 IPv6AddressList (Node’s IPv6 address list)
+              * 0x09 MacCounters (MAC counters (Tx/Rx, Retries, CCA failure,
+              FCS error…))
+              * 0x0E BatteryLevel (Battery level if exposed)
+              * 0x0F SupplyVoltage (Supply voltage if exposed)
+              * 0x10 ChildTable (Child table (if Node acts as parent/router))
+              * 0x11 ChannelPages (Supported channel pages)
+              * 0x12 TypeList (List of supported Network Diagnostics TLV types)
+              * 0x13 MaxChildTimeout (Maximum child timeout (Thread 1.2+))
+              * 0x18 Version (Node’s Thread version)
+            </description>
+            <syntax>
+              <list/>
+              <hexBinary>
+                <size minLength="1" maxLength="1"/>
+              </hexBinary>
+            </syntax>
+          </parameter>
+          <parameter name="RequestTimeout">
+            <description>
+              Overall time in {{units}} to wait for responses.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="milliseconds"/>
+              </unsignedInt>
+              <default type="parameter" value="5000"/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <object name="Node.{i}." minEntries="0" maxEntries="unbounded">
+            <description>
+              One entry for each respondent Nodes to the {{command}} request.
+            </description>
+            <uniqueKey functional="false">
+              <parameter ref="SourceAddress"/>
+            </uniqueKey>
+            <parameter name="SourceAddress">
+              <description>
+                Source IPv6 address observed for the response (Mesh‑Local or
+                Link‑Local), as received by the initiator.
+              </description>
+              <syntax>
+                <dataType ref="IPv6Address"/>
+              </syntax>
+            </parameter>
+          </object>
+          <object name="Node.{i}.TLV.{i}." minEntries="0"
+              maxEntries="unbounded">
+            <description>
+              One entry per TLV returned by the Node.
+            </description>
+            <uniqueKey functional="false">
+              <parameter ref="TLVType"/>
+            </uniqueKey>
+            <parameter name="TLVType">
+              <description>
+                TLV ID in hexadecimal, as defined in {{bibref|ThreadSpec}}
+                (also see examples from {{param|RequestedTLVTypes}}).
+              </description>
+              <syntax>
+                <hexBinary>
+                  <size minLength="1" maxLength="1"/>
+                </hexBinary>
+              </syntax>
+            </parameter>
+            <parameter name="RawValue">
+              <description>
+                Raw TLV value encoded in base64 (the Value field only; Type and
+                Length excluded).
+              </description>
+              <syntax>
+                <hexBinary/>
+              </syntax>
+            </parameter>
+          </object>
+        </output>
+      </command>
     </object>
   </component>
 
-  <model name="Thread:2.20">
+  <model name="Thread:2.21">
     <component ref="Root"/>
     <component ref="Thread"/>
   </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-upa"
-    file="tr-181-2-20-0-upa.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-upa"
+    file="tr-181-2-21-0-upa.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -146,7 +146,7 @@
 
     <parameter name="RxGain" access="readOnly" version="2.0">
       <description>
-        Reception gain of the adapter (expresssed in {{units}}).
+        Reception gain of the adapter (expressed in {{units}}).
       </description>
       <syntax>
         <int>
@@ -644,7 +644,7 @@
     </profile>
   </component>
 
-  <model name="UPA:2.20">
+  <model name="UPA:2.21">
     <component ref="Root"/>
     <component ref="UPA"/>
   </model>

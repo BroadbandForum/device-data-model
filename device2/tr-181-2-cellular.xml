@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Cellular]
 
-  Copyright (c) 2010-2025, Broadband Forum
+  Copyright (c) 2010-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-1-cellular"
-    file="tr-181-2-20-1-cellular.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-cellular"
+    file="tr-181-2-21-0-cellular.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,17 +67,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer12InterfaceNoMaxBitRate"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-ip">
+    spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -430,12 +430,14 @@
     </object>
 
     <object name="Device.Cellular.Interface.{i}.USIM." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.8" status="deprecated">
+        minEntries="1" maxEntries="1" version="2.8" status="obsoleted">
       <description>
         USIM (Universal Subscriber Identity Module or SIM card) parameters for
         the interface.
 
         {{deprecated|2.19|because moved to {{object|.TrustedElements.SIM}}}}
+
+        {{obsoleted|2.21}}
       </description>
 
       <parameter name="Status" access="readOnly">
@@ -952,7 +954,7 @@
      </parameter>
     </object>
 
-    <profile name="CellularInterfaceBase:1" version="2.8" status="deprecated">
+    <profile name="CellularInterfaceBase:1" version="2.8" status="obsoleted">
       <object ref="Device.Cellular." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
         <parameter ref="AccessPointNumberOfEntries" requirement="readOnly"/>
@@ -963,9 +965,9 @@
         <parameter ref="NetworkInUse" requirement="readOnly"/>
         <parameter ref="CurrentAccessTechnology" requirement="readOnly"/>
       </object>
-      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="deprecated">
-        <parameter ref="Status" requirement="readOnly" status="deprecated"/>
-        <parameter ref="MSISDN" requirement="readOnly" status="deprecated"/>
+      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="obsoleted">
+        <parameter ref="Status" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="MSISDN" requirement="readOnly" status="obsoleted"/>
       </object>
       <object ref="Device.Cellular.AccessPoint.{i}."
           requirement="createDelete">
@@ -994,7 +996,7 @@
     </profile>
 
     <profile name="CellularInterfaceExtended:1"
-        extends="CellularInterfaceBase:1" version="2.8" status="deprecated">
+        extends="CellularInterfaceBase:1" version="2.8" status="obsoleted">
       <object ref="Device.Cellular." requirement="present">
         <parameter ref="RoamingEnabled" requirement="readWrite"/>
         <parameter ref="RoamingStatus" requirement="readOnly"/>
@@ -1009,9 +1011,9 @@
         <parameter ref="NetworkRequested" requirement="readOnly"/>
         <parameter ref="AvailableNetworks" requirement="readOnly"/>
       </object>
-      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="deprecated">
-        <parameter ref="IMSI" requirement="readOnly" status="deprecated"/>
-        <parameter ref="ICCID" requirement="readOnly" status="deprecated"/>
+      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="obsoleted">
+        <parameter ref="IMSI" requirement="readOnly" status="obsoleted"/>
+        <parameter ref="ICCID" requirement="readOnly" status="obsoleted"/>
       </object>
     </profile>
 
@@ -1045,7 +1047,7 @@
     </profile>
   </component>
 
-  <model name="Cellular:2.20">
+  <model name="Cellular:2.21">
     <component ref="Root"/>
     <component ref="Cellular"/>
   </model>

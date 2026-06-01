@@ -1,0 +1,48 @@
+@startuml
+
+
+' Apply skin parameters for a cleaner look
+skinparam componentStyle uml2
+skinparam linetype ortho
+skinparam arrowThickness 2
+skinparam arrowColor Black
+
+actor "IoT Sensor" as Sensor
+
+' Use database shape for brokers to represent message queuing
+database "Local MQTT Broker" as LocalBroker {
+  component "Secure Bridge" as Bridge
+}
+
+database "Remote Cloud Broker" as RemoteBroker
+actor "Cloud Application" as CloudApp
+
+' First step: Sensor publishes to LocalBroker
+Sensor -[#green]> LocalBroker
+note top on link
+  1. Publish (topic="sensors/temp/A")
+end note
+
+' Second step: Bridge (inside LocalBroker) forwards to RemoteBroker
+Bridge -[#blue]> RemoteBroker
+note top on link
+  2. Forward (via mTLS)
+end note
+
+' Third step: RemoteBroker delivers to CloudApp
+RemoteBroker -[#purple]> CloudApp
+note top on link
+  3. Deliver message
+end note
+
+' Add configuration details to the bridge via a note
+note bottom of Bridge
+  **Bridge Configuration:**
+  - Name: CloudBridge
+  - Protocol: TLS (mTLS)
+  - Remote: cloud.example.com:8883
+  - Topic: sensors/* (wildcard)
+  - Direction: out
+end note
+
+@enduml

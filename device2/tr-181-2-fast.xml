@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-fast"
-    file="tr-181-2-20-0-fast.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-fast"
+    file="tr-181-2-21-0-fast.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,12 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Line"/>
   </import>
 
@@ -289,7 +289,7 @@
 
       <parameter name="LineNumber" access="readOnly">
         <description>
-          Signifies the line pair that the modem is using to connection.
+          Signifies the line pair that the modem is using to connect.
           {{param}} = 1 is the innermost pair.
         </description>
         <syntax>
@@ -615,7 +615,7 @@
           activeNotify="canDeny">
         <description>
           FAST-specific statistic. The Number of {{units}} since the second
-          most recent DSL Showtime-the beginning of the period used for
+          most recent DSL Showtime, i.e. the beginning of the period used for
           collection of {{object|LastShowtime}} statistics.
 
           If the CPE has not retained information about the second most recent
@@ -1686,7 +1686,7 @@
     </profile>
   </component>
 
-  <model name="FAST:2.20">
+  <model name="FAST:2.21">
     <component ref="Root"/>
     <component ref="FAST"/>
   </model>

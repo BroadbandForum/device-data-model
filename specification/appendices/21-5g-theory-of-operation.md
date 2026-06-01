@@ -42,21 +42,14 @@ The complete 5G architecture is documented in the 3GPP 23.501 [@3GPP-TS.23.501] 
 
 | Network Function      | Plane    | Description
 |-----------------------|----------|-----------------------------------------------------------------
-| W-5GAN: Wireline\
-5G Access Network | Both     | Functionally equivalent to a 3GPP RAN. It incorporates both an AGF and one or more TR-101-based access networks. These networks may be owned by the service provider or provided by a third party.
+| W-5GAN: Wireline 5G Access Network | Both     | Functionally equivalent to a 3GPP RAN. It incorporates both an AGF and one or more TR-101-based access networks. These networks may be owned by the service provider or provided by a third party.
 | AUSF: Authentication Server Function | Control  | Support the AMF authentication function by making the actual authentication decisions.
-| AMF: Access and\
-Mobility Management Function | Control  | Can be considered to be the entry point to the control plane. From the perspective of a 5G-RG, the AMF processes all N1 traffic and thus is the frontend for authentication and the establishment of PDU sessions.
-| NSSF: Network\
-Slice Selection Function | Control  | Selects the network slice instance servicing the 5G-RG. The AGF will use the NSSF to choose an AMF at the time of registration.
-| PCF: Policy\
-Control Function | Control  | Responsible for control plane policy rules. In particular, supports the AMF to provide policy rules as part of registration.
-| SMF: Session\
-Management Function | Control  | The SMF acts as a controller for the UPF. Major responsibilities include DHCP (server or relay), QoS handling and user plane policy enforcement (downstream traffic shaping).
-| UDM: Unified Data\
-Management | Control  | Responsible for subscription data used by other network functions to authenticate and provide subscription-based policy.
-| UPF: User Plane\
-Function | User     | Provides the packet routing and forwarding to the data network. Other necessary functions include usage, QoS management, user plane policy and being the anchor point for multipath traffic.
+| AMF: Access and Mobility Management Function | Control  | Can be considered to be the entry point to the control plane. From the perspective of a 5G-RG, the AMF processes all N1 traffic and thus is the frontend for authentication and the establishment of PDU sessions.
+| NSSF: Network Slice Selection Function | Control  | Selects the network slice instance servicing the 5G-RG. The AGF will use the NSSF to choose an AMF at the time of registration.
+| PCF: Policy Control Function | Control  | Responsible for control plane policy rules. In particular, supports the AMF to provide policy rules as part of registration.
+| SMF: Session Management Function | Control  | The SMF acts as a controller for the UPF. Major responsibilities include DHCP (server or relay), QoS handling and user plane policy enforcement (downstream traffic shaping).
+| UDM: Unified Data Management | Control  | Responsible for subscription data used by other network functions to authenticate and provide subscription-based policy.
+| UPF: User Plane Function | User     | Provides the packet routing and forwarding to the data network. Other necessary functions include usage, QoS management, user plane policy and being the anchor point for multipath traffic.
 
 ## Concepts
 

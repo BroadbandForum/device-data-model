@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-l2tpv3"
-    file="tr-181-2-20-0-l2tpv3.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-l2tpv3"
+    file="tr-181-2-21-0-l2tpv3.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer2InterfaceReadWrite"/>
   </import>
 
@@ -434,7 +434,7 @@
         <description>
           The unique Session ID to be used in the L2TPv3 header of the tunnel.
 
-          A Session ID with a value of -1 indicates that he CPE is to generate
+          A Session ID with a value of -1 indicates that the CPE is to generate
           the session ids for this {{object}} instance.
         </description>
         <syntax>
@@ -455,7 +455,7 @@
           <string>
             <enumeration value="Disabled">
               <description>
-                The device does not perform Cooking processing.
+                The device does not perform Cookie processing.
               </description>
             </enumeration>
             <enumeration value="Configured">
@@ -771,7 +771,7 @@
     </profile>
   </component>
 
-  <model name="L2TPv3:2.20">
+  <model name="L2TPv3:2.21">
     <component ref="Root"/>
     <component ref="L2TPv3"/>
   </model>

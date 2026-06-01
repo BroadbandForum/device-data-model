@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-softwaremodules-usp"
-    file="tr-181-2-20-0-softwaremodules-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-softwaremodules-usp"
+    file="tr-181-2-21-0-softwaremodules-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -76,7 +76,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-common">
+      spec="urn:broadband-forum-org:tr-181-2-21-common">
     <component name="SMEEResourceConstraints"/>
     <component name="SMApplicationData"/>
     <component name="SMRetainData"/>
@@ -99,8 +99,12 @@
         The URL MUST NOT include the "userinfo" component, as defined in
         {{bibref|RFC3986}}.
 
-        HTTPS transport MUST be supported. Other optional transports MAY be
-        supported.
+        Only the transport protocols defined by {{param|##.Config.DUSignatureProtocols}} are permitted.
+        If the requested protocol is not in the specified list, the operation MUST fail,
+        and a corresponding error MUST be reported.
+
+        In the event that {{param|##.Config.SupportedDUSignatureProtocols}} and {{param|##.Config.DUSignatureProtocols}}
+        are not supported, the HTTPS transport MUST be supported.
 
         The absence of this parameter indicates that the Deployment Unit is unsigned. If
         this is contrary to the security policy of the device then the command
@@ -108,6 +112,32 @@
       </description>
       <syntax>
         <dataType ref="URL"/>
+      </syntax>
+    </parameter>
+
+    <parameter name="SignatureUsername" version="2.21">
+      <description>
+        Username to be used by the device to authenticate with the signature
+        file server, if authentication is required.
+      </description>
+      <syntax>
+        <string>
+          <size maxLength="256"/>
+        </string>
+        <default type="implementation" value=""/>
+      </syntax>
+    </parameter>
+
+    <parameter name="SignaturePassword" version="2.21">
+      <description>
+        Password to be used by the device to authenticate with the signature
+        file server, if authentication is required.
+      </description>
+      <syntax>
+        <string>
+          <size maxLength="256"/>
+        </string>
+        <default type="implementation" value=""/>
       </syntax>
     </parameter>
   </component>
@@ -153,8 +183,8 @@
 
           <parameter name="Username">
             <description>
-              Username to be used by the device to authenticate with the file
-              server, if authentication is required.
+              Username to be used by the device to authenticate with the
+              Deployment Unit file server, if authentication is required.
             </description>
             <syntax>
               <string>
@@ -166,8 +196,8 @@
 
           <parameter name="Password">
             <description>
-              Password to be used by the device to authenticate with the file
-              server, if authentication is required.
+              Password to be used by the device to authenticate with the
+              Deployment Unit file server, if authentication is required.
             </description>
             <syntax>
               <string>
@@ -182,6 +212,9 @@
               This parameter indicates whether the application runs in privileged mode.
               {{false}} - Unprivileged Container.
               {{true}}  - Privileged Container.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.Privileged}} parameter.
             </description>
             <syntax>
               <boolean/>
@@ -189,13 +222,16 @@
             </syntax>
           </parameter>
 
-          <parameter name="NumRequiredUIDs" version="2.18" status="deprecated">
+          <parameter name="NumRequiredUIDs" version="2.18"
+            status="obsoleted">
             <description>
               Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
               process that is used to determine the allocation and isolation of system resources.
 
               {{deprecated|2.19|because this parameter should not be required.}}
+
+              {{obsoleted|2.21}}
             </description>
             <syntax>
               <unsignedInt/>
@@ -228,6 +264,9 @@
               This delay ensures that the application has enough time to perform any cleanup before
               the Execution Unit transitions to idle state.
               The default value is 10 seconds.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.ShutdownDelay}} parameter.
             </description>
             <syntax>
               <unsignedInt>
@@ -254,6 +293,9 @@
 
               If this argument is absent or empty then no roles are required in 
               order for the application to function.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.RequiredRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -280,6 +322,9 @@
               If this argument is absent or empty then no additional roles are
               required in order for the application to be able to provide its 
               full functionality.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.OptionalRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -309,6 +354,9 @@
 
               If this argument is absent or empty then no User Roles are required in 
               order for the application to function.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.RequiredUserRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -320,12 +368,13 @@
 
           <parameter name="RegisterTrustPaths" version="2.19">
             <description>
-              Each entry in the list is an Object Path, Command Path, Event Path, or Parameter Path that determines the
+              Each item in the list can be an Object Path, Command Path, Event Path, or Parameter Path that determines the
               element(s) of the data model that the application installed by this command has permission to register.
 
-              The information provided in this input arguement is placed in the {{object|##.USPServices.Trust}} table.
+              If this argument is absent or {{empty}} then the application has no permission to register any data model paths.
 
-              If this argument is absent or empty then the application has no permission to register any data model paths.
+              The information provided in this input argument is placed in the {{object|##.USPServices.Trust}} table and in the
+              {{param|##.ExecutionUnit.{i}.RegisterTrustPaths}} parameter.
             </description>
             <syntax>
               <list/>
@@ -453,10 +502,10 @@
 
             <parameter name="AllocatedDiskSpace" version="2.16">
               <description>
-                The amount of disk space measured in {{units}} allocated to any
+                The amount of persistent physical storage measured in {{units}} allocated to any
                 {{object|##.ExecutionUnit}} which is created as a result of
                 this command. If this parameter is omitted or has the value -1
-                then no disk space constraint will be applied.
+                then no persistent physical storage constraint will be applied.
               </description>
               <syntax>
                 <int>
@@ -532,13 +581,13 @@
                 <string>
                   <enumeration value="UntilStopped">
                     <description action="replace">
-                      The application data will be lost when
-                      {{template|DUStopped}}.
+                      The application data volume and its content will be
+                      removed when {{template|DUStopped}}.
                     </description>
                   </enumeration>
                   <enumeration value="Forever">
                     <description action="replace">
-                      The application data will be retained after
+                      The application data volume and its content will be retained after
                       {{template|DUStopped}}, and also across a device reboot
                       or a restart of the {{object|##.DeploymentUnit}}.
 
@@ -807,11 +856,13 @@
                   the failure.
                 </description>
               </enumeration>
-              <enumeration value="UnInstalled" status="deprecated">
+              <enumeration value="UnInstalled" status="obsoleted">
                 <description>
                   The Deployment Unit was successfully uninstalled from the device.
 
                   {{deprecated|2.19|due to a typographical error in capitalization}}
+
+                  {{obsoleted|2.21}}
                 </description>
               </enumeration>
               <enumeration value="Uninstalled" version="2.19">
@@ -846,7 +897,7 @@
             The Execution Units affected by this operation.
 
             In the case of an Install, this will be the list of Execution Units that were
-            created as a result of the Deployment Unit’s installation.
+            created as a result of the Deployment Unit's installation.
 
             In the case of an Update, this will be the list of all Execution Units
             currently associated with the updated Deployment Unit, including those that were
@@ -931,86 +982,90 @@
             <description>
               The numerical fault code. Valid values are:
 
-              *If the operation was successful, the fault code is 0.
+              * If the operation was successful, the fault code is 0.
 
-              *If the device cannot complete the operation for some unknown
+              * If the device cannot complete the operation for some unknown
                reason, it SHOULD reject the operation with a 7002 (Request
                Denied) fault code.
 
-              *If the device detects the presence of the "userinfo" component
+              * If the device detects the presence of the "userinfo" component
                in the file source URL, it SHOULD reject the operation with a
                7004 (Invalid Arguments) fault code.
 
-              *If the device cannot find the Execution Environment specified in
+              * If the device cannot find the Execution Environment specified in
                the Install or Update command, it SHOULD reject the operation
                with a 7223 (Unknown Execution Environment) fault code.
 
-              *If the device determines that the Deployment Unit being
+              * If the device determines that the Deployment Unit being
                installed does not match either the Execution Environment
                specified or any Execution Environment on the device, it SHOULD
                reject the operation with a 7225 (Deployment Unit to Execution
                Environment Mismatch) fault code
 
-              *If the device detects that the Deployment Unit being installed
+              * If the device detects that the Deployment Unit being installed
                already has the same version as one already installed on the
                same Execution Environment, it SHOULD reject the operation with
                a 7226 (Duplicate Deployment Unit) fault code.
 
-              *If the device detects that that there are no more system
-               resources (disk space, memory, etc.) to perform the Install or
+              * If the device detects that that there are no more system
+               resources (storage space, memory, etc.) to perform the Install or
                Update of a Deployment Unit, it SHOULD reject the operation with
                a 7227 (System Resources Exceeded) fault code.
 
-              *If a requested operation attempts to alter the State of a
+              * If a requested operation attempts to alter the State of a
                Deployment Unit in a manner that conflicts with the Deployment
                Unit State Machine Diagram {{bibref|TR-369|Appendix I "Software
                Module Management"}}, it SHOULD reject the operation with a 7229
                (Invalid Deployment Unit State) fault code.
 
-              *If a requested operation attempts to Uninstall a Deployment Unit that caused
+              * If a requested operation attempts to Uninstall a Deployment Unit that caused
                an EE to come into existence, where that EE has at least 1
                installed Deployment Unit or at least 1 child EE, then the device SHOULD
                reject the operation with a 7229 (Invalid Deployment Unit State)
                fault code.
 
-              *If a requested operation attempts to Uninstall a Deployment Unit that caused
+              * If a requested operation attempts to Uninstall a Deployment Unit that caused
                an ExecEnvClass to come into existence, where at least one EE
                exists which instantiates that ExecEnvClass, then the device
                SHOULD reject the operation with a 7229 (Invalid Deployment Unit
                State) fault code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit and
+              * If a requested operation attempts to Install or Update a Deployment Unit and
                the server specified in the URL is not currently reachable or
                the request times out, then the device SHOULD reject the
                operation with a 7033 (Server Unreachable) fault code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit and
+              * If a requested operation attempts to Install or Update a Deployment Unit and
                the server specified in the URL fails security checks (e.g. by
                not presenting a valid certificate), then the device SHOULD
                reject the operation with a 7034 (Server Insecure) fault code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit and
+              * If a requested operation attempts to Install or Update a Deployment Unit and
                the file returned by the server appears to be corrupt, then the
                device SHOULD reject the operation with a 7035 (Corrupt Data)
                fault code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit and
+              * If a requested operation attempts to Install or Update a Deployment Unit and
                the file returned by the server does not match the signature
                provided, or a required signature is absent, then the device
                SHOULD reject the operation with a 7036 (Bad Signature) fault
                code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit
+              * If a requested operation attempts to Install or Update a Deployment Unit
                and includes a RequestedRole argument which contains at least
                one Role which is not in the EE's AvailableRoles list, then the
                device SHOULD reject the operation with a 7032 (Unavailable
                Role) fault code.
 
-              *If a requested operation attempts to Install or Update a Deployment Unit
+              * If a requested operation attempts to Install or Update a Deployment Unit
                and includes a RequestedUserRole argument which contains at least
                one User Role which is not in the EE's AvailableUserRoles list, then the
                device SHOULD reject the operation with a 7037 (Unavailable
                User Role) fault code.
+
+              * If a requested operation attempts to Install or Update a Deployment Unit,
+               and the protocol used to fetch the signature is not in the list of supported protocols,
+               the device SHOULD reject the operation with a 7038 (Bad Protocol) fault code.
             </description>
             <syntax>
               <unsignedInt/>
@@ -1125,7 +1180,7 @@
               and it will immediately transition to Status
               {{enum|Up|##.ExecEnv.{i}.Status}}. Otherwise the ExecEnv will
               initially be Disabled, allowing the Controller to set further
-              parameters before enabling the ExecEnv.
+              parameters before enabling the Execution Environment.
             </description>
             <syntax>
               <boolean/>
@@ -1487,7 +1542,7 @@
 
       <command name="Restart()" async="true" version="2.16">
         <description>
-          Restart this ExecEnv.
+          Restart this Execution Environment.
 
           If the {{object}} is currently disabled, this command will fail and
           the state of the {{object}} will not change.
@@ -1662,12 +1717,13 @@
           <string>
             <enumeration value="UntilStopped">
               <description action="replace">
-                The application data will be lost when {{template|DUStopped}}.
+                The application data volume and its content will be removed
+                when {{template|DUStopped}}.
               </description>
             </enumeration>
             <enumeration value="Forever">
               <description action="replace">
-                The application data will be retained after
+                The application data volume and its content will be retained after
                 {{template|DUStopped}}, and also across a device reboot or a
                 restart of the {{object|###}}.
 
@@ -1755,8 +1811,8 @@
 
           <parameter name="Username" version="2.12">
             <description>
-              Username to be used by the device to authenticate with the file
-              server, if authentication is required.
+              Username to be used by the device to authenticate with the
+              Deployment Unit file server, if authentication is required.
             </description>
             <syntax>
               <string>
@@ -1768,8 +1824,8 @@
 
           <parameter name="Password" version="2.12">
             <description>
-              Password to be used by the device to authenticate with the file
-              server, if authentication is required.
+              Password to be used by the device to authenticate with the
+              Deployment Unit file server, if authentication is required.
             </description>
             <syntax>
               <string>
@@ -1784,6 +1840,9 @@
               This parameter determines whether the application runs in privileged mode.
               {{false}} - Unprivileged Container.
               {{true}}  - Privileged Container.
+
+              The information provided in this input argument is placed in the
+              {{param|###.ExecutionUnit.{i}.Privileged}} parameter.
             </description>
             <syntax>
               <boolean/>
@@ -1791,13 +1850,15 @@
             </syntax>
           </parameter>
 
-          <parameter name="NumRequiredUIDs" version="2.18" status="deprecated">
+          <parameter name="NumRequiredUIDs" version="2.18" status="obsoleted">
             <description>
               Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
               process that is used to determine the allocation and isolation of system resources.
 
               {{deprecated|2.19|because this parameter should not be required.}}
+
+              {{obsoleted|2.21}}
             </description>
             <syntax>
               <unsignedInt/>
@@ -1827,6 +1888,9 @@
 
               If this argument is empty then no roles are required in
               order for the application to function.
+
+              The information provided in this input argument is placed in the
+              {{param|###.ExecutionUnit.{i}.RequiredRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -1854,6 +1918,9 @@
               If this argument is empty then no additional roles are
               required in order for the application to be able to provide its
               full functionality.
+
+              The information provided in this input argument is placed in the
+              {{param|###.ExecutionUnit.{i}.OptionalRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -1886,6 +1953,9 @@
 
               If this argument is {{empty}} then no User Roles are required in
               order for the application to function.
+
+              The information provided in this input argument is placed in the
+              {{param|###.ExecutionUnit.{i}.RequiredUserRoles}} parameter.
             </description>
             <syntax>
               <list/>
@@ -1897,14 +1967,15 @@
 
           <parameter name="RegisterTrustPaths" version="2.19">
             <description>
-              Each entry in the list is an Object Path, Command Path, Event Path, or Parameter Path that determines the 
+              Each item in the list can be an Object Path, Command Path, Event Path, or Parameter Path that determines the
               element(s) of the data model that the application updated by this command has permission to register.
-
-              The information provided in this input argument is placed in the {{object|###.USPServices.Trust}} table,
-              replacing any existing paths that are associated with this application.
 
               If this argument is absent then the registration permissions are unchanged from the previous version.
               If this argument is {{empty}} then the application has no permission to register any data model paths.
+
+              The information provided in this input argument is placed in the {{object|###.USPServices.Trust}} table,
+              replacing any existing paths that are associated with this application, and in the
+              {{param|###.ExecutionUnit.{i}.RegisterTrustPaths}} parameter.
             </description>
             <syntax>
               <list/>
@@ -1925,11 +1996,11 @@
 
             <parameter name="AllocatedDiskSpace" version="2.16">
               <description>
-                The amount of disk space measured in {{units}} allocated to any
+                The amount of persistent physical storage measured in {{units}} allocated to any
                 {{object|###.ExecutionUnit}} created by this command. A value
-                of -1 indicates that no disk space constraint is applicable.
+                of -1 indicates that no persistent physical storage constraint is applicable.
 
-                If this parameter is not present then the allocated disk space
+                If this parameter is not present then the allocated persistent physical storage
                 will remain unchanged.
               </description>
               <syntax>
@@ -2050,11 +2121,14 @@
               <syntax>
                 <string>
                   <enumeration value="UntilStopped">
-                    <description action="replace">Data will be lost when {{template|DUStopped}}.</description>
+                    <description action="replace">
+                      The application data volume and its content will be
+                      removed when {{template|DUStopped}}.
+                    </description>
                   </enumeration>
                   <enumeration value="Forever">
                     <description action="replace">
-                      The application data will be retained after
+                      The application data volume and its content will be retained after
                       {{template|DUStopped}}, and also across a device reboot
                       or a restart of the {{object|###.ExecEnv}}.
 
@@ -2339,6 +2413,21 @@
           <list/>
           <string>
             <enumerationRef targetParam=".Users.SupportedCapabilities"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="RegisterTrustPaths" access="readOnly" version="2.21">
+        <description>
+          Each item in the list can be an Object Path, Command Path, Event Path, or Parameter Path that determines the
+          element(s) of the data model that the application has permission to register.
+
+          If this parameter is {{empty}} then the application has no permission to register any data model paths.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <size maxLength="256"/>
           </string>
         </syntax>
       </parameter>

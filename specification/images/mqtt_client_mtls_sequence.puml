@@ -1,0 +1,29 @@
+@startuml
+
+
+actor "MQTT Client" as Client
+participant "MQTT Broker" as Broker
+participant "Client's CABundle" as ClientCABundle
+participant "Client's Certificate" as ClientCert
+participant "Broker's CABundle" as BrokerCABundle
+participant "Broker's Certificate" as BrokerCert
+
+Client -> Broker: Initiates TLS Handshake
+BrokerCert --> Broker: Prepares Broker's Certificate 
+Broker -> Client: Sends Broker's Certificate (BrokerCert) and Requests Client's Certificate
+Client --> ClientCABundle: Validates BrokerCert
+alt BrokerCert Validated
+    Client --> ClientCert: Prepares Client's Certificate
+    Client -> Broker: Sends Client's Certificate (ClientCert)
+    Broker --> BrokerCABundle: Validates ClientCert
+    alt ClientCert Validated
+        Broker -> Client: Acknowledges and proceeds
+        Broker -> Client: TLS Handshake Completed
+    else ClientCert Invalid
+        Broker -[#red]> Broker: Connection Failed (Invalid Client Certificate)
+    end
+else BrokerCert Invalid
+    Client -[#red]> Client: Connection Failed (Invalid Broker Certificate)
+end
+
+@enduml

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-interface"
-    file="tr-181-2-20-0-interface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-interface"
+    file="tr-181-2-21-0-interface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -132,6 +132,17 @@
       <syntax>
         <string>
           <size maxLength="64"/>
+        </string>
+      </syntax>
+    </parameter>
+
+    <parameter name="Description" access="readWrite" version="2.21">
+      <description>
+        A user-friendly description of the interface.
+      </description>
+      <syntax>
+        <string>
+          <size maxLength="256"/>
         </string>
       </syntax>
     </parameter>
@@ -219,6 +230,52 @@
     </parameter>
   </component>
 
+  <component name="Layer1InterfaceParamsSFPReferenceList">
+    <parameter base="Status">
+      <description action="append">
+        Independent from the value of {{param|Enable}}, {{param}} SHOULD change
+        to {{enum|NotAllowed}} if the interface is not allowed to transmit
+        network traffic, e.g. because of a certain policy. If {{param}} is
+        {{enum|NotAllowed}}, the CPE should block the interface from sending
+        network traffic.
+
+        An example use case for {{enum|NotAllowed}} is the following: if
+        {{param|SFPReferenceList}} has one item referring to an
+        {{object|##.SFPs.SFPCage}} instance whose
+        {{param|##.SFPs.SFPCage.{i}.SFPPresent}} is {{true}}, whose
+        {{param|##.SFPs.SFPCage.{i}.SFPType}} does not warrant
+        {{enum|NotPresent}} as value for {{param}}, but whose
+        {{param|##.SFPs.SFPCage.{i}.IsAllowed}} is {{false}}, then {{param}}
+        should change to {{enum|NotAllowed}}.
+      </description>
+      <syntax>
+        <string>
+          <enumeration value="Up"/>
+          <enumeration value="Down"/>
+          <enumeration value="Unknown"/>
+          <enumeration value="Dormant"/>
+          <enumeration value="NotPresent"/>
+          <enumeration value="LowerLayerDown"/>
+          <enumeration value="Error" optional="true"/>
+          <enumeration value="NotAllowed" version="2.21"/>
+        </string>
+      </syntax>
+    </parameter>
+    <parameter name="SFPReferenceList" access="readOnly" version="2.19">
+      <description>
+        Small-form Factor Pluggable (SFP) entries associated with this interface.
+      </description>
+      <syntax>
+        <list/>
+        <string>
+          <size maxLength="256"/>
+          <pathRef refType="strong" targetParent="##.SFPs.SFPCage."
+              targetType="row"/>
+        </string>
+      </syntax>
+    </parameter>
+  </component>
+
   <component name="Layer1InterfaceParams">
     <parameter base="Status">
       <description action="append">
@@ -239,6 +296,9 @@
         Indicates whether the interface points towards the Internet
         ({{true}}) or towards End Devices ({{false}}).
 
+        The upstream interface is the one that provides connectivity to the Internet or the next hop
+        router.
+
         For example:
 
         * For an Internet Gateway Device, {{param}} will be {{true}} for all
@@ -248,7 +308,17 @@
         to an Internet Gateway Device, {{param}} will be {{true}} for the
         Ethernet interface and {{false}} for the WiFi Radio interface.
 
-        * For an End Device, {{param}} will be {{true}} for all interfaces.
+        * For a WiFi repeater or mesh node, the interface that connects to the main router (the
+        backhaul) is the upstream interface and {{param}} will be {{true}}. The interface that
+        serves local devices is a downstream interface and {{param}} will be {{false}}.
+
+        * For an End Device, {{param}} will be {{true}} for all interfaces that connect to the
+        network.
+
+        * For a hybrid device like a Set-Top Box (STB) that could also act as a repeater, the
+        interface connecting to the gateway is the upstream interface ({{param}} will be {{true}}),
+        while the interface providing the repeated signal is a downstream interface ({{param}} will
+        be {{false}}).
       </description>
       <syntax>
         <boolean/>
@@ -579,6 +649,14 @@
     </object>
   </component>
 
+  <component name="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList">
+    <component ref="Layer1InterfaceNoMaxBitRate"/>
+    <object base="Interface.{i}.">
+      <component ref="BaseInterfaceParamsMaxBitRateReadWrite"/>
+      <component ref="Layer1InterfaceParamsSFPReferenceList"/>
+    </object>
+  </component>
+
   <component name="Layer1Interface">
     <component ref="Layer1InterfaceMaxBitRateReadOnly"/>
   </component>
@@ -814,7 +892,7 @@
     <component ref="LinkReadOnly"/>
   </component>
 
-  <model name="Interface:2.20">
+  <model name="Interface:2.21">
     <component ref="Root"/>
     <object name="Device.Layer1A." version="2.19">
       <description>

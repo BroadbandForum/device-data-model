@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-syslog"
-  file="tr-181-2-20-0-syslog.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-syslog"
+  file="tr-181-2-21-0-syslog.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-security">
+      spec="urn:broadband-forum-org:tr-181-2-21-security">
     <component name="ClientCerts"/>
     <component name="ServerCerts"/>
   </import>
@@ -320,7 +320,7 @@ directed to <info@broadband-forum.org>.
           - else compare message severity with the specified severity according to the default compare rule (all
           messages of the specified severity and greater match).
 
-          This must be used inconjuction with {{param|SeverityCompare}} and {{param|SeverityCompareAction}}.
+          This must be used in conjunction with {{param|SeverityCompare}} and {{param|SeverityCompareAction}}.
         </description>
         <syntax>
           <string>
@@ -764,6 +764,33 @@ directed to <info@broadband-forum.org>.
         </parameter>
       </object>
 
+    <object name="Device.Syslog.Source.{i}.UnixDomainSocket." access="readOnly" version="2.21">
+      <description>
+        This object describes the configuration parameters for receiving syslog information on a Unix Domain Socket (UDS).
+      </description>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the functionality to receive syslog information on a UDS.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Path" access="readWrite">
+        <description>
+          File path of the Unix Domain Socket.
+          Which MUST use the URI scheme file {{bibref|RFC8089|The file URI Scheme}}.
+
+          Example: 'file:///tmp/syslog.sock'
+        </description>
+        <syntax>
+          <dataType ref="FileURI"/>
+        </syntax>
+      </parameter>
+    </object>
+
       <object name="Device.Syslog.Template.{i}." access="readWrite"
         numEntriesParameter="TemplateNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.17">
@@ -912,7 +939,7 @@ directed to <info@broadband-forum.org>.
               Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
             </description>
             <syntax>
-              <string/>
+              <dataType ref="FileURI"/>
             </syntax>
           </parameter>
         </object>
@@ -1051,7 +1078,7 @@ directed to <info@broadband-forum.org>.
         </object>
       </component>
 
-      <model name="Syslog:2.20">
+      <model name="Syslog:2.21">
         <component ref="Root"/>
         <component ref="Syslog"/>
       </model>

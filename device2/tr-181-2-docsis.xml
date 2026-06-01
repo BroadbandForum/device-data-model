@@ -57,11 +57,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
       urn:broadband-forum-org:cwmp:datamodel-1-10
-        http://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-docsis"
-    file="tr-181-2-20-0-docsis.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-docsis"
+    file="tr-181-2-21-0-docsis.xml">
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
@@ -71,12 +71,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadWrite"/>
     <component name="Layer1InterfaceParams"/>
@@ -1929,7 +1929,7 @@
     <component ref="DOCSISLayer2"/>
   </component>
 
-  <model name="DOCSIS:2.20">
+  <model name="DOCSIS:2.21">
     <component ref="Root"/>
     <component ref="DOCSIS"/>
   </model>

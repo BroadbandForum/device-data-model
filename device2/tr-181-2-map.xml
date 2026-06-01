@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-map"
-    file="tr-181-2-20-0-map.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-map"
+    file="tr-181-2-21-0-map.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,12 +69,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
     <component name="Layer3InterfaceParams"/>
@@ -636,11 +636,13 @@
         interface.
       </description>
 
-      <parameter base="Alias" status="obsoleted">
+      <parameter base="Alias" status="deleted">
         <description action="append">
           {{deprecated|2.18|because {{object|#}} already has an Alias parameter.}}
 
           {{obsoleted|2.20}}
+
+          {{deleted|2.21}}
         </description>
       </parameter>
 
@@ -701,7 +703,7 @@
     </profile>
   </component>
 
-  <model name="MAP:2.20">
+  <model name="MAP:2.21">
     <component ref="Root"/>
     <component ref="MAP"/>
   </model>

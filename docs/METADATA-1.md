@@ -54,12 +54,8 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 
 ### %bbfProjectStream% Project Stream Leaders {.unnumbered .unlisted}
 
-* Daniel Egger
+* Daniel Egger, BBF
 * Matthieu Anne, Orange
-
-### Editors {.unnumbered .unlisted}
-
-* William Lupton, Broadband Forum
 
 ### Acknowledgments {.unnumbered .unlisted}
 
@@ -68,10 +64,11 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 * André-Jean Côté, Snom
 * Arun Jayaraman, AT&T
 * Barbara Stark, AT&T
+* Boris Vanhoof, Orange
 * Charles Foster, BT
 * Chen Li, AT&T
 * Chris Gray, Orange
-* Daniel Egger
+* Daniel Egger, BBF
 * David Cluytens, Orange
 * David Wooley, Telstra
 * Gene Wang, Wistron NeWeb Corp.

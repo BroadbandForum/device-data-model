@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-optical"
-    file="tr-181-2-20-0-optical.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-optical"
+    file="tr-181-2-21-0-optical.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,13 +66,13 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
-    <component name="Layer1InterfaceMaxBitRateReadWrite"/>
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    <component name="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList"/>
   </import>
 
 
@@ -92,7 +92,8 @@
         either.
       </description>
 
-      <component ref="Layer1InterfaceMaxBitRateReadWrite" version="2.4"/>
+      <component ref="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList"
+        version="2.4"/>
     </object>
 
     <object base="Device.Optical.Interface.{i}.">
@@ -109,21 +110,6 @@
           This parameter is based on ''ifAdminStatus'' from {{bibref|RFC2863}}.
         </description>
       </parameter>
-      
-      <parameter name="SFPReferenceList" access="readOnly" version="2.19">
-        <description>
-          Small-form Factor Pluggable (SFP) entries associated with this interface.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <size maxLength="256"/>
-            <pathRef refType="strong" targetParent="##.SFPs.SFPCage."
-                targetType="row"/>
-          </string>
-        </syntax>
-      </parameter>
-
 
       <parameter name="OpticalSignalLevel" access="readOnly">
         <description>
@@ -316,7 +302,7 @@
 
   </component>
 
-  <model name="Optical:2.20">
+  <model name="Optical:2.21">
     <component ref="Root"/>
     <component ref="Optical"/>
   </model>

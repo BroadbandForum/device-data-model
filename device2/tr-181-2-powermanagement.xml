@@ -52,18 +52,18 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="urn:broadband-forum-org:cwmp:datamodel-1-10 https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
                       urn:broadband-forum-org:cwmp:datamodel-report-1-0 https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-powermanagement.xml"
-  file="tr-181-2-20-0-powermanagement.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-powermanagement.xml"
+  file="tr-181-2-21-0-powermanagement.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069" />
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-21-schedules">
     <component name="ScheduleRefNoDefault"/>
   </import>
 
@@ -279,7 +279,7 @@
     </object>
   </component>
 
-  <model name="PowerManagement:2.20">
+  <model name="PowerManagement:2.21">
     <component ref="Root"/>
     <object name="Device.Interface." version="2.20">
       <description>

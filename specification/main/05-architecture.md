@@ -9,7 +9,7 @@ The interface object and interface stack are concepts inspired by RFC 2863 [@RFC
 Within the Device:2 data model, interface objects are arbitrarily restricted to definitions that operate at or below the IP network layer (i.e., layers 1 through 3 of the OSI model [@X.200]). However, vendor-specific interface objects MAY be defined which fall outside this restricted scope.
 
 @fig:osi-layers-and-interface-objects lists the interface objects defined in the Device:2 data model.
-The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP.
+The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP. It is highly recommended that the interface stack models the PHY and MAC of the optical Ethernet port, which suggests that an Ethernet Interface not be replaced by an Optical Interface for an optical Ethernet port.
 
 ::: note
 Throughout this %bbfType%, object names are often abbreviated in order to improve readability. For example, Device.Ethernet.VLANTermination.{i}. is the full name of a Device:2 object, but might casually be referred to as Ethernet.VLANTermination.{i} or VLANTermination.{i} or VLANTermination, just so long as the abbreviation is unambiguous (with respect to similarly named objects defined elsewhere within the data model).
@@ -36,6 +36,7 @@ The core set of parameters consists of:
 | Status                      | The operational state of the interface (i.e., Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, Error)
 | Alias                       | An alternate name used to identify the interface, which is assigned an initial value by the CPE but can later be chosen by the Controller
 | Name                        | The textual name used to identify the interface, which is chosen by the CPE
+| Description                 | A user-friendly description of the interface.
 | LastChange                  | The accumulated time in seconds since the interface entered its current operational state
 | LowerLayers                 | A list of path references to interface objects that are stacked immediately below the interface
 :::

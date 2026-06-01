@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-dynamicdns"
-    file="tr-181-2-20-0-dynamicdns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-dynamicdns"
+    file="tr-181-2-21-0-dynamicdns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,8 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
+  </import>
+
+  <import file="tr-181-2-ip.xml" spec="urn:broadband-forum-org:tr-181-2-21-ip">
+    <component name="IPVersion"/>
   </import>
 
   <component name="DynamicDNS">
@@ -230,6 +234,14 @@
                 targetType="row"/>
           </string>
         </syntax>
+      </parameter>
+
+      <component ref="IPVersion" version="2.21"/>
+      <parameter base="IPVersion">
+        <description action="append">
+          This indicates whether to update the A records (4), AAAA
+          records (6) or both (-1).
+        </description>
       </parameter>
 
       <parameter name="Username" access="readWrite">
@@ -492,7 +504,7 @@
     </object>
   </component>
 
-  <model name="DynamicDNS:2.20">
+  <model name="DynamicDNS:2.21">
     <component ref="Root"/>
     <component ref="DynamicDNS"/>
   </model>

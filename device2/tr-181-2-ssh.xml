@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-ssh"
-  file="tr-181-2-20-0-ssh.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-ssh"
+  file="tr-181-2-21-0-ssh.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPAccessControl"/>
   </import>
 
@@ -314,7 +314,7 @@ directed to <info@broadband-forum.org>.
           <description>
             The SSH server instance will be disabled when the the {{param}}
             elapses, and configuration must be done in {{units}}. At the end, the
-            coressponding {{param|Enable}} parameter of the SSH server instance
+            corresponding {{param|Enable}} parameter of the SSH server instance
             is automatically changed to false {{false}}. Any active sessions must
             be forcibly terminated. 0 means the the SSH server instance is always
             active.
@@ -592,7 +592,7 @@ directed to <info@broadband-forum.org>.
           </object>
         </component>
 
-        <model name="SSH:2.20">
+        <model name="SSH:2.21">
           <component ref="Root"/>
           <component ref="SSH"/>
         </model>

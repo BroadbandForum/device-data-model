@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-dhcpv4"
-    file="tr-181-2-20-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-dhcpv4"
+    file="tr-181-2-21-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,11 +68,11 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-20-stats">
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-21-stats">
     <component name="ObjectStatsResetCWMP"/>
     <component name="ObjectStatsResetUSP"/>
   </import>
@@ -985,13 +985,20 @@
         address to the client.
 
         Each instance of this object specifies a hardware address (MAC address)
-        and an IP address within the pool. When serving from this pool, this IP
+        and an IP address within the pool's subnet. When serving from this pool, this IP
         address MUST, if available, be assigned to the DHCP client with this
         hardware address, and MUST NOT be assigned to any other client.
 
         Note that it is possible that an IP address in this table is present in
         one or more of the other conditional serving pools, in which case it is
         possible that such an address will be assigned to a different client.
+
+        For enabled table entries, if the entry is inoperable due to a
+        configuration error (such as {{param|Yiaddr}} being outside the pool's
+        subnet) or a runtime conflict (such as a duplicate address), the device
+        MUST set {{param|Status}} to the appropriate error state. See the
+        {{param|Status}} parameter's enumeration for details on all possible
+        states.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1035,6 +1042,48 @@
           <default type="object" value=""/>
         </syntax>
       </parameter>
+
+      <parameter name="Status" access="readOnly" version="2.21">
+        <description>
+          Operational status of this StaticAddress entry.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                The entry is currently disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Active">
+              <description>
+                The {{param|Yiaddr}} is within the pool's configured subnet and
+                is currently being used for address assignment.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                A general error occurred while attempting to apply this entry.
+              </description>
+            </enumeration>
+            <enumeration value="Error_DuplicateAddress" optional="true">
+              <description>
+                The assigned static IPv4 address ({{param|Yiaddr}}) is already
+                in use by another client or device on the network.
+              </description>
+            </enumeration>
+            <enumeration value="Error_Misconfigured">
+              <description>
+                The entry is invalid if {{param|Yiaddr}} is not part of the
+                network defined by the pool's {{param|#.SubnetMask}}. A static
+                address is considered valid as long as it is part of this
+                network, even if it is outside the pool's dynamic address
+                range (defined by {{param|#.MinAddress}} and
+                {{param|#.MaxAddress}}).
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.DHCPv4.Server.Pool.{i}.Option.{i}."
@@ -1042,8 +1091,9 @@
         enableParameter="Enable" minEntries="0" maxEntries="unbounded"
         version="2.0">
       <description>
-        This object specifies the DHCP options that MUST, if enabled, be
-        returned to clients whose DHCP requests are associated with this pool.
+        This object specifies the DHCP options that, if enabled, can be returned to clients whose
+        DHCP requests are associated with this pool. The {{param|Force}} parameter determines if the
+        option is always sent or only when requested by the client.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1084,6 +1134,18 @@
             <size minLength="0" maxLength="255"/>
           </hexBinary>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Force" access="readWrite" version="2.21">
+        <description>
+          When set to {{true}}, the DHCP server will include this option in a DHCP offer, regardless
+          of whether the client requested it in the Parameter Request List (DHCP Option 55). This can be used to
+          ensure that clients receive certain options, even if not explicitly requested.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
         </syntax>
       </parameter>
     </object>
@@ -1667,12 +1729,12 @@
 
     <object name="Device.DHCPv4.Client.{i}.Retransmission." access="readOnly" version="2.18">
       <description>
-        This object enables the configurion of the DHCPv4 retransmission behavior according to the guidelines described in {{bibref|RFC2131|Chapter 4.1}}.
+        This object enables the configuration of the DHCPv4 retransmission behavior according to the guidelines described in {{bibref|RFC2131|Chapter 4.1}}.
       </description>
 
       <parameter name="DiscoverInitialTimeout" access="readWrite">
         <description>
-          Initial delay, expressed in {{units}}, before initiating the first DCHCPDISCOVER message.
+          Initial delay, expressed in {{units}}, before initiating the first DHCPDISCOVER message.
         </description>
         <syntax>
           <unsignedInt>
@@ -1768,7 +1830,7 @@
 
     <object name="Device.DHCPv4.Client.{i}.Stats." access="readOnly" version="2.19">
       <description>
-        Provide statistis for the embedded DHCP Client.
+        Provide statistics for the embedded DHCP Client.
       </description>
 
       <parameter name="Discover" access="readOnly">
@@ -2105,7 +2167,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.20">
+  <model name="DHCPv4:2.21">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

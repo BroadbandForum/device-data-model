@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-1-cwmp"
-    file="tr-181-2-20-1-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-cwmp"
+    file="tr-181-2-21-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-common">
+      spec="urn:broadband-forum-org:tr-181-2-21-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -143,41 +143,41 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.20" ref="Device:2.20"/>
+    <model name="_Device:2.21" ref="Device:2.21"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetCWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv4">
     <component name="DHCPv4CWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv6">
     <component name="DHCPv6CWMP"/>
   </import>
 
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-cwmp">
     <component name="WiFiCWMP"/>
   </import>
 
   <import file="tr-181-2-moca-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-moca-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-21-moca-cwmp">
     <component name="MoCACWMP"/>
   </import>
 
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-21-collectiondevice">
     <component name="CollectionDeviceCWMP"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-ip">
+      spec="urn:broadband-forum-org:tr-181-2-21-ip">
     <component name="IPAccessControl"/>
   </import>
 
@@ -269,7 +269,7 @@
     {{object|Device.IP.Diagnostics.IPLayerCapacityMetrics}}
   </template>
 
-  <model name="Device:2.20" base="_Device:2.20">
+  <model name="Device:2.21" base="_Device:2.21">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -2590,11 +2590,11 @@
           that prevents it from honoring Scheduled Contacts. This means that,
           whenever the ACS has requested a Scheduled Contact:
 
-          *if {{param|SelfTimerCapable}} is {{true}} and the CPE chooses to go
+          * if {{param|SelfTimerCapable}} is {{true}} and the CPE chooses to go
            into Standby before the Scheduled Contact has been honored, it MUST
            use a Timer-Aware Standby;
 
-          *if {{param|SelfTimerCapable}} is {{false}}, the CPE MUST NOT go into
+          * if {{param|SelfTimerCapable}} is {{false}}, the CPE MUST NOT go into
            Standby before the Scheduled Contact has been honored.
         </description>
         <syntax>
@@ -3741,12 +3741,12 @@
         Capacity test. IP Layer Capacity measurement is specified in
         {{bibref|TR-471}}.
 
-        Files received in the IP Layer Capacity test do not require file
-        storage on the CPE device.
+        Data received in the IP Layer Capacity measurement do not require
+        storage on the device.
 
         If {{param|AuthenticationEnabled}} is set to {{true}}, one of the
         following combinations of {{param|AuthenticationCode}},
-        {{param|AuthenticationAlias}} and
+        {{param|AuthenticationKeyID}} and
         {{param|AuthenticationKeyFileLocation}} MUST be met. Otherwise, the
         client returns an error.
 
@@ -3754,33 +3754,33 @@
         the value directly as the key.
 
         If both {{param|AuthenticationCode}} and
-        {{param|AuthenticationAlias}} are provided but
+        {{param|AuthenticationKeyID}} are provided but
         {{param|AuthenticationKeyFileLocation}} is not provided, the client
         uses the {{param|AuthenticationCode}} as the key and the
-        {{param|AuthenticationAlias}} as key ID. The
+        {{param|AuthenticationKeyID}} as key ID. The
         {{object|IPLayerCapacityAuthCode}} table is ignored.
 
-        If only {{param|AuthenticationAlias}} is provided, the client uses
-        the {{object|IPLayerCapacityAuthCode}} table to derive the
-        {{param|IPLayerCapacityAuthCode.{i}.Alias}} to use as key ID,
-        and the
+        If only {{param|AuthenticationKeyID}} is provided,
+        {{param|AuthenticationKeyID}} is used to select the instance to use
+        from the {{object|IPLayerCapacityAuthCode}} table. The client uses
         {{param|IPLayerCapacityAuthCode.{i}.AuthenticationKey}} as
-        the key.
+        the key and {{param|AuthenticationKeyID}} as key ID.
+        If the
+        {{object|IPLayerCapacityAuthCode}} table does not contain the
+        {{param|AuthenticationKeyID}} , the client returns an error.
 
-        If both {{param|AuthenticationAlias}} and
+        If both {{param|AuthenticationKeyID}} and
         {{param|AuthenticationKeyFileLocation}} are provided, but
         {{param|AuthenticationCode}} is not provided, the client uses
-        the {{param|AuthenticationAlias}} as key ID along with
+        the {{param|AuthenticationKeyID}} as key ID along with
         {{param|AuthenticationKeyFileLocation}} as file location. The
         {{object|IPLayerCapacityAuthCode}} table is ignored.
 
-        If only {{param|AuthenticationAlias}} is provided, and the
-        {{object|IPLayerCapacityAuthCode}} does not contain the
-        {{param|AuthenticationAlias}}, the client returns an error.
-
-        If only {{param|AuthenticationKeyFileLocation}} is provided, the file
-        specified MUST contain a single entry. Otherwise, the client returns
-        an error.
+        If only {{param|AuthenticationKeyFileLocation}} is provided, if the file
+        specified contains only a single entry, then it uses that as the key.
+        If the file contains multiple entries, then it uses the key from the entry
+        with Key ID equal to 0. If no entry exists with Key ID equal to 0,
+        the client returns an error.
       </description>
 
       <parameter name="DiagnosticsState" access="readWrite">
@@ -5775,7 +5775,7 @@
     <profile name="MQTTClientExtended:1" base="MQTTClientBase:1"
         dmr:previousProfile="MQTTClientSubscribe:1" version="2.10">
       <description>
-        Adds client authentication, will handling and extends statistics
+        Adds client authentication, will handling and extends statistics.
       </description>
       <object ref="Device.MQTT.Client.{i}." requirement="present">
         <parameter ref="Name" requirement="readWrite"/>

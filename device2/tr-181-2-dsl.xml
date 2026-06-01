@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-dsl"
-    file="tr-181-2-20-0-dsl.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-dsl"
+    file="tr-181-2-21-0-dsl.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,12 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-interface">
+      spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Line"/>
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceStats"/>
@@ -1963,7 +1963,7 @@
       <parameter name="VirtualNoisePSDus" access="readOnly">
         <description>
           Reports the virtual noise PSD for the upstream direction. Base64
-          encoded of the binary representation defined in G.997.1by the
+          encoded of the binary representation defined in G.997.1 by the
           parameter called TXREFVNus (maximum length is 49 octets, which
           requires 68 bytes for Base64 encoding).
 
@@ -3283,7 +3283,7 @@
 
       <parameter name="EventTraceBufferR" access="readOnly">
         <description>
-          This parameter identifies the log file of the the data gathering
+          This parameter identifies the log file of the data gathering
           event trace buffer containing the event records that originated at
           the VTU-R.
 
@@ -3291,7 +3291,7 @@
           contains the data gathering buffer at the VTU-R in the
           {{object|###.DeviceInfo.VendorLogFile}} table.
 
-          This data gathering buffer MAY be retrieved wia an upload RPC of the
+          This data gathering buffer MAY be retrieved via an upload RPC of the
           identified Vendor Log File.
 
           Note: This parameter is defined as EVENT_TRACE_BUFFER_R in Clause
@@ -5830,7 +5830,7 @@
     </profile>
   </component>
 
-  <model name="DSL:2.20">
+  <model name="DSL:2.21">
     <component ref="Root"/>
     <component ref="DSL"/>
   </model>

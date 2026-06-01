@@ -1,0 +1,15 @@
+@startuml
+
+
+cloud "MQTT Broker" {
+    component "Listener 1 (Broker Instance 1)\n\n**Configuration:**\n- Port: 8883\n- Protocol: TLS\n- Authentication: CertViaCN" as Listener1
+    component "Listener 2 (Broker Instance 2)\n\n**Configuration:**\n- Port: 1883\n- Protocol: TCP/IP\n- Authentication: Username/Password\n- Allow Anonymous: true" as Listener2
+}
+
+actor "Secure Client" as SecureClient
+actor "Standard Client" as StandardClient
+
+SecureClient ..> Listener1 : connects via mTLS
+StandardClient ..> Listener2 : connects via TCP/IP
+
+@enduml

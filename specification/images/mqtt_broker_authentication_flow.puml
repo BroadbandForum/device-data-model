@@ -1,0 +1,56 @@
+@startuml
+
+
+start
+:Client Connection Request;
+
+if (AuthenticationMethod is UsernamePassword?) then
+  -->[yes]
+  if (Client provides Username/Password?) then
+    -->[yes]
+    :Validate credentials;
+    if (Credentials Valid?) then
+      -->[yes]
+      :Authenticated;
+      stop
+    else
+      -->[no]
+      :Reject Connection;
+      stop
+    endif
+  else
+    -->[no]
+    if (AllowAnonymous?) then
+        -->[yes]
+        :Connected as Anonymous;
+        stop
+    else
+        -->[no]
+        :Reject Connection;
+        stop
+    endif
+  endif
+else
+  -->[no, mTLS]
+  :Perform mTLS Handshake;
+  if (mTLS Succeeded?) then
+    -->[yes]
+    if (Method is CertViaCN?) then
+      -->[yes]
+      :Extract CN as username;
+      :Authenticated;
+      stop
+    else
+      -->[no]
+      :Extract Subject as username;
+      :Authenticated;
+      stop
+    endif
+  else
+    -->[no]
+    :Reject Connection;
+    stop
+  endif
+endif
+
+@enduml

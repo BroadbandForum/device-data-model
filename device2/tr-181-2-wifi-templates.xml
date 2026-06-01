@@ -57,8 +57,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="urn:broadband-forum-org:cwmp:datamodel-1-14 https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
                       urn:broadband-forum-org:cwmp:datamodel-report-1-0 https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-20-0-wifi-templates"
-  file="tr-181-2-20-0-wifi-templates.xml">
+  spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-templates"
+  file="tr-181-2-21-0-wifi-templates.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-root">
+    spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-wifi-base">
+    spec="urn:broadband-forum-org:tr-181-2-21-wifi-base">
     <component name="WiFiRoot"/>
   </import>
 
@@ -155,7 +155,7 @@
           Indicates the expected support for Management Frame Protection
           (MFP), aka Protected Management Frame (PMF).
 
-          {{bibref|WPA3v3.0}} and see also the WPA3 and Wi-Fi Enhanced Open
+          {{bibref|WPA3}} and see also the WPA3 and Wi-Fi Enhanced Open
           Deployment Guide v1.1.pdf, Table 3, row PMF.
         </description>
         <syntax>
@@ -260,7 +260,7 @@
 
     <object name="Device.WiFi.Templates.Network."
       access="readOnly" minEntries="1" maxEntries="1"
-	  version="2.20">
+          version="2.20">
       <description>
         This {{object}} either has the Configuration
         Template Manager (CTM) deploy BSS(s) according to the templates,
@@ -340,7 +340,7 @@
       <parameter name="PrimarySSCTemplateReference"
         access="readWrite">
         <description>
-          Incicates the Primary SSCTemplate.
+          Indicates the Primary SSCTemplate.
 
           The PrimaryVLANID in the EasyMesh network is the VLANID of the 
           SSCTemplate referenced by {{param}}. If this value is empty, then
@@ -895,7 +895,7 @@
       version="2.20">
       <description>
         Table of SecurityTemplates for Wi-Fi configuration
-        {{bibref|WPA3v3.0}}.
+        {{bibref|WPA3}}.
       </description>
       <uniqueKey functional="true">
         <parameter ref="SecurityTemplateID"/>
@@ -1051,7 +1051,7 @@
       version="2.20">
       <description>
         Table of SecurityGroups for Wi-Fi configuration
-        {{bibref|WPA3v3.0}}.
+        {{bibref|WPA3}}.
       </description>
       <uniqueKey functional="false">
         <parameter ref="SecurityGroupID"/>
@@ -1343,7 +1343,7 @@
 
   </component>
 
-  <model name="Templates:2.20">
+  <model name="Templates:2.21">
     <component ref="Root"/>
     <component ref="Templates"/>
   </model>

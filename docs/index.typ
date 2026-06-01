@@ -29,8 +29,8 @@
 #show: doc => conf(
   title: [TR\-181 –
 Device Data Model for CWMP Endpoints and USP Agents],
-  subtitle: [Issue: 2 Amendment 20 Corrigendum 1 #bbf-release[]],
-  date: [Issue Date: December 2025],
+  subtitle: [Issue: 2 Amendment 21 #bbf-release[]],
+  date: [Issue Date: June 2026],
   pagenumbering: none,
   cols: 1,
   linenumbering: none,
@@ -47,20 +47,20 @@ Device Data Model for CWMP Endpoints and USP Agents],
     bbfIssue: [Issue],
     bbfMajor: [2],
     bbfMicro: [0],
-    bbfMinor: [20],
-    bbfMonth: [December],
+    bbfMinor: [21],
+    bbfMonth: [June],
     bbfNumber: [TR\-181],
-    bbfPatch: [1],
+    bbfPatch: [0],
     bbfProjectStream: [],
     bbfStatus: [],
     bbfTitle: [Device Data Model for CWMP Endpoints and USP Agents],
     bbfType: [Technical Report],
-    bbfVersion: [2 Amendment 20 Corrigendum 1],
+    bbfVersion: [2 Amendment 21],
     bbfWorkArea: [],
-    bbfYear: [2025],
+    bbfYear: [2026],
     citation-style: [bbf.csl],
-    copydate: [2025],
-    date: [Issue Date: December 2025],
+    copydate: [2026],
+    date: [Issue Date: June 2026],
     description: [TR\-181 Issue 2 defines version 2 of the Device data
 model (Device:2). The Device:2 data model applies to all types of
 TR\-069 or USP enabled devices, including End Devices, Residential
@@ -120,7 +120,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     shortname: [TR\-181],
     siteurl: [index.html],
     status: [],
-    subtitle: [Issue: 2 Amendment 20 Corrigendum 1 #bbf-release[]],
+    subtitle: [Issue: 2 Amendment 21 #bbf-release[]],
     summary: [See
 #link("https://device-data-model.broadband-forum.org")[https:\/\/device\-data\-model.broadband\-forum.org]
 for the current TR\-181 specification.
@@ -135,7 +135,7 @@ Device Data Model for CWMP Endpoints and USP Agents],
     titleDelim: [ –],
     titleid: [title],
     toc: [false],
-    version: [TR\-181 Issue 2 Amendment 20 Corrigendum 1],
+    version: [TR\-181 Issue 2 Amendment 21],
     website: [https:\/\/device\-data\-model.broadband\-forum.org],
     ),
   doc,
@@ -480,6 +480,15 @@ the notices, legends, and other provisions set forth on this page.
     [December 2025
     ],
     [- No changes
+    ],
+    [#link("https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf")[Issue
+    2 Amendment 21]
+    ],
+    [June 2026
+    ],
+    [- Added log rotate ToO
+    - Added MQTT ToO
+    - Added certificate management ToO
     ]
   )
 ]
@@ -499,14 +508,8 @@ be directed to
   Project Stream Leaders
 ] <sec:bbfprojectstream-project-stream-leaders>
 
-- Daniel Egger
+- Daniel Egger, BBF
 - Matthieu Anne, Orange
-
-#heading(level: 3, outlined: false)[
-  Editors
-] <sec:editors>
-
-- William Lupton, Broadband Forum
 
 #heading(level: 3, outlined: false)[
   Acknowledgments
@@ -517,10 +520,11 @@ be directed to
 - André\-Jean Côté, Snom
 - Arun Jayaraman, AT&T
 - Barbara Stark, AT&T
+- Boris Vanhoof, Orange
 - Charles Foster, BT
 - Chen Li, AT&T
 - Chris Gray, Orange
-- Daniel Egger
+- Daniel Egger, BBF
 - David Cluytens, Orange
 - David Wooley, Telstra
 - Gene Wang, Wistron NeWeb Corp.
@@ -1555,6 +1559,10 @@ This Technical Report uses the following abbreviations:
     ],
     [Machine to Machine
     ],
+    [MAC
+    ],
+    [Medium Access Control
+    ],
     [NAS
     ],
     [Non Access Stratum
@@ -1586,6 +1594,10 @@ This Technical Report uses the following abbreviations:
     [PDU
     ],
     [Protocol Data Unit
+    ],
+    [PHY
+    ],
+    [Physical Layer
     ],
     [PPP
     ],
@@ -1694,21 +1706,20 @@ This Technical Report uses the following abbreviations:
 
 == 3.1 Energy Efficiency <sec:energy-efficiency>
 
-TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Energy
-Efficiency.
+TR\-181 Issue 2 Amendment 21 has no impact on Energy Efficiency.
 
 == 3.2 IPv6 <sec:ipv6>
 
-TR\-181 Issue 2 Amendment 20 Corrigendum 1 defines IPv6 extensions
-(introduced in Issue 2 Amendment 2) to the Device:2 data model.
+TR\-181 Issue 2 Amendment 21 defines IPv6 extensions (introduced in
+Issue 2 Amendment 2) to the Device:2 data model.
 
 == 3.3 Security <sec:security>
 
-TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Security.
+TR\-181 Issue 2 Amendment 21 has no impact on Security.
 
 == 3.4 Privacy <sec:privacy>
 
-TR\-181 Issue 2 Amendment 20 Corrigendum 1 has no impact on Privacy.
+TR\-181 Issue 2 Amendment 21 has no impact on Privacy.
 
 #bbf-new-page[
 = 4 Architecture <sec:architecture>]
@@ -1740,7 +1751,10 @@ For example, one CPE stack might exclude DSL Bonding, while another CPE
 stack might include DSL Bonding but exclude Bridging, while still
 another might include VLANTermination under PPP, or VLANTermination
 under IP with no PPP, or even Ethernet Link under IP with no
-VLANTermination and no PPP.
+VLANTermination and no PPP. It is highly recommended that the interface
+stack models the PHY and MAC of the optical Ethernet port, which
+suggests that an Ethernet Interface not be replaced by an Optical
+Interface for an optical Ethernet port.
 
 #bbf-note[
 Throughout this Technical Report, object names are often abbreviated in
@@ -1807,6 +1821,10 @@ The core set of parameters consists of:
     ],
     [The textual name used to identify the interface, which is chosen by
     the CPE
+    ],
+    [Description
+    ],
+    [A user\-friendly description of the interface.
     ],
     [LastChange
     ],
@@ -2853,120 +2871,123 @@ three bits of the DSCP value, i.e., on DSCP & 111000.
   #set text(hyphenate: true)
   #show regex("\>,"): "," + sym.zws
   #show regex("\>\."): "." + sym.zws
-  #table(
-    columns: (auto, auto, auto, auto),
-    align: (auto, auto, auto, auto),
-    fill: bbf-table-fill.with(columns: 4, header-rows: 1),
-    table.header(
-    [Layer 2 Ethernet Priority
-    ],
-    [Layer 2 Designation
-    ],
-    [Layer 3 DSCP
-    ],
-    [Layer 3 Per Hop Behavior
-    ]),
-    [001 (1)
-    ],
-    [BK
-    ],
-    [#bbf-gray[000000 (0x00)]
-    ],
-    [#bbf-gray[Default]
-    ],
-    [010 (2)
-    ],
-    [spare
-    ],
-    [#bbf-gray[000000 (0x00)]
-    ], [],
-    [000 (0)
-    ],
-    [BE
-    ],
-    [000000 (0x00) \
-    #strong[000000 (0x00)];
-    ],
-    [Default \
-    CS0
-    ],
-    [011 (3)
-    ],
-    [EE
-    ],
-    [001110 (0x0e) \
-    001100 (0x0c) \
-    001010 (0x0a) \
-    #strong[001000 (0x08)];
-    ],
-    [AF13 \
-    AF12 \
-    AF11 \
-    CS1
-    ],
-    [100 (4)
-    ],
-    [CL
-    ],
-    [010110 (0x16) \
-    010100 (0x14) \
-    010010 (0x12) \
-    #strong[010000 (0x10)];
-    ],
-    [AF23 \
-    AF22 \
-    AF21 \
-    CS2
-    ],
-    [101 (5)
-    ],
-    [VI
-    ],
-    [011110 (0x1e) \
-    011100 (0x1c) \
-    011010 (0x1a) \
-    #strong[011000 (0x18)];
-    ],
-    [AF33 \
-    AF32 \
-    AF31 \
-    CS3
-    ],
-    [#bbf-gray[110 (6)]
-    ],
-    [#bbf-gray[VO]
-    ],
-    [100110 (0x26) \
-    100100 (0x24) \
-    100010 (0x22) \
-    #strong[100000 (0x20)];
-    ],
-    [AF43 \
-    AF42 \
-    AF41 \
-    CS4
-    ],
-    [110 (6)
-    ],
-    [VO
-    ],
-    [101110 (0x2e) \
-    #strong[101000 (0x28)];
-    ],
-    [EF \
-    CS5
-    ],
-    [111 (7)
-    ],
-    [NC
-    ],
-    [110000 (0x30) \
-    #strong[111000 (0x38)];
-    ],
-    [CS6 \
-    CS7
-    ]
-  )]
+  #block(
+    width: 98.20%)[
+    #table(
+      columns: (auto, auto, auto, auto),
+      align: (auto, auto, auto, auto),
+      fill: bbf-table-fill.with(columns: 4, header-rows: 1),
+      table.header(
+      [Layer 2 Ethernet Priority
+      ],
+      [Layer 2 Designation
+      ],
+      [Layer 3 DSCP
+      ],
+      [Layer 3 Per Hop Behavior
+      ]),
+      [001 (1)
+      ],
+      [BK
+      ],
+      [#bbf-gray[000000 (0x00)]
+      ],
+      [#bbf-gray[Default]
+      ],
+      [010 (2)
+      ],
+      [spare
+      ],
+      [#bbf-gray[000000 (0x00)]
+      ], [],
+      [000 (0)
+      ],
+      [BE
+      ],
+      [000000 (0x00) \
+      #strong[000000 (0x00)]; \
+      ],
+      [Default \
+      CS0
+      ],
+      [011 (3)
+      ],
+      [EE
+      ],
+      [001110 (0x0e) \
+      001100 (0x0c) \
+      001010 (0x0a) \
+      #strong[001000 (0x08)]; \
+      ],
+      [AF13 \
+      AF12 \
+      AF11 \
+      CS1
+      ],
+      [100 (4)
+      ],
+      [CL
+      ],
+      [010110 (0x16) \
+      010100 (0x14) \
+      010010 (0x12) \
+      #strong[010000 (0x10)]; \
+      ],
+      [AF23 \
+      AF22 \
+      AF21 \
+      CS2
+      ],
+      [101 (5)
+      ],
+      [VI
+      ],
+      [011110 (0x1e) \
+      011100 (0x1c) \
+      011010 (0x1a) \
+      #strong[011000 (0x18)]; \
+      ],
+      [AF33 \
+      AF32 \
+      AF31 \
+      CS3
+      ],
+      [#bbf-gray[110 (6)]
+      ],
+      [#bbf-gray[VO]
+      ],
+      [100110 (0x26) \
+      100100 (0x24) \
+      100010 (0x22) \
+      #strong[100000 (0x20)]; \
+      ],
+      [AF43 \
+      AF42 \
+      AF41 \
+      CS4
+      ],
+      [110 (6)
+      ],
+      [VO
+      ],
+      [101110 (0x2e) \
+      #strong[101000 (0x28)]; \
+      ],
+      [EF \
+      CS5
+      ],
+      [111 (7)
+      ],
+      [NC
+      ],
+      [110000 (0x30) \
+      #strong[111000 (0x38)]; \
+      ],
+      [CS6 \
+      CS7
+      ]
+    )
+  ]]
 ] <tbl:default-layer-23-qos-mapping>
 
 #bbf-annex2[
@@ -5006,7 +5027,7 @@ Wi\-Fi networks. These were originally in the Device.WiFi.MultiAP. tree,
 however the Device.WiFi.MultiAP. tree has been deprecated in
 Device:2.15, with some parameters deleted and other parameters moved
 into the structure of Wi\-Fi Data Elements under the
-Device.WiFi.DataElements. tree. Objects whose titles contain "MultiAP"
+Device.WiFi.DataElements. tree. Objects whose titles contain “MultiAP”
 are not Wi\-Fi Data Elements. These MultiAP objects are in the
 Device.WiFi.DataElements. tree to simplify the structure and avoid
 duplication, but they are not specified by the Wi\-Fi Alliance.
@@ -10640,9 +10661,11 @@ objects for FM to manage the alarm events.
     [Static & fixed content
     ],
     [Defines all alarms that the CPE supports. #emph[ReportedMechanism];
-    defines how the alarm is to be handled within the CPE: #emph[0 –
-    Expedited, 1 – Queued, 2 – Logged, 3 – Disabled]; \
-    \
+    defines how the alarm is to be handled within the CPE:
+    - 0 – Expedited
+    - 1 – Queued
+    - 2 – Logged
+    - 3 – Disabled
     The table size is fixed and its content is static in order to drive
     the alarm handling behavior in the CPE.
     ],
@@ -10661,64 +10684,76 @@ objects for FM to manage the alarm events.
     fashion after the table becomes full.
     ],
     [QueuedEvent.{i}.
+
     ],
     [Fixed
+
     ],
     [Dynamically updated
+
     ],
     [Contains all #emph["Queued"]; type alarm events since the last
     device initialization. This includes events that are already
     reported or not yet reported to the Controller. One entry exists for
     each event. In other words, raising and clearing of the same alarm
-    are two separate entries. \
-    \
+    are two separate entries.
+
     As the table size is fixed (vendor defined), new alarm event
     overwrites the oldest entry in FIFO fashion after the table becomes
     full.
+
     ],
     [CurrentAlarm.{i}.
+
     ],
     [Variable
+
     ],
     [Dynamically updated
+
     ],
     [Contains all the currently active alarms (i.e., outstanding alarms
     that are not yet cleared) since the last device initialization. When
     an outstanding alarm is cleared, that entry is deleted from this
-    table. Therefore, only 1 entry exists for a given unique alarm. \
-    \
+    table. Therefore, only 1 entry exists for a given unique alarm.
+
     A Controller can retrieve the content of this table to get the
-    entire view of the currently outstanding alarms. \
-    \
+    entire view of the currently outstanding alarms.
+
     As this is a variable size table, the size changes as alarm event is
-    raised and cleared. \
-    \
+    raised and cleared.
+
     If maximum entries for this table are reached, the next event
     overrides the object with instance number 1. Subsequent entries
     override objects at sequentially increasing instance numbers. This
-    logic provides for automatic "rolling" of records. \
-    \
+    logic provides for automatic "rolling" of records.
+
     When a new alarm replaces an existing alarm, then all parameter
     values for that instance are considered as changed for the purposes
     of value change notifications to the Controller (even if their new
     values are identical to those of the prior alarm).
+
     ],
     [HistoryEvent.{i}.
+
     ],
     [Fixed
+
     ],
     [Dynamically updated
+
     ],
     [Contains all alarm events as a historical record keeping purpose.
     One entry exists for each event. In other words, raising and
-    clearing of the same alarm are two separate entries. \
-    \
+    clearing of the same alarm are two separate entries.
+
     The Controller can retrieve the content of this table to get the
-    entire chronological history of the alarm events on the CPE. \
-    \
+    entire chronological history of the alarm events on the CPE.
+
     As the table size is fixed (vendor defined), new alarm event
     overwrites the oldest entry in FIFO fashion after the table becomes
     full.
+
     ]
   )]
 ] <tbl:fm-object-definition>
@@ -10904,11 +10939,9 @@ parameters map to Device:2 data model parameters as shown in
     align: (auto, auto),
     fill: bbf-table-fill.with(columns: 2, header-rows: 1),
     table.header(
-    [IETF LMAP Information Model \
-    Parameter
+    [IETF LMAP Information Model Parameter
     ],
-    [Device:2 data model parameter \
-    (in Device.LMAP.MeasurementAgent.{i})
+    [Device:2 data model parameter (in Device.LMAP.MeasurementAgent.{i})
     ]),
     [ma\-config\-agent\-id
     ],
@@ -11046,7 +11079,7 @@ different name based on the specification behind the RegistryEntry URN.
 
 #bbf-note[
 The theory of operation defined in this Appendix is DEPRECATED in favor
-of the "3GPP NAS" theory of operation defined in Appendix XXV. The 3GPP
+of the “3GPP NAS” theory of operation defined in Appendix XXV. The 3GPP
 NAS theory of operation takes a more wholistic approach and is inclusive
 of 3G, 4G and 5G rather than the previous focus on 5G WWC
 ]
@@ -11140,8 +11173,7 @@ the network functions and interfaces relevant to supporting a 5G\-RG.
     ],
     [Description
     ]),
-    [W\-5GAN: Wireline \
-    5G Access Network
+    [W\-5GAN: Wireline 5G Access Network
     ],
     [Both
     ],
@@ -11156,8 +11188,7 @@ the network functions and interfaces relevant to supporting a 5G\-RG.
     [Support the AMF authentication function by making the actual
     authentication decisions.
     ],
-    [AMF: Access and \
-    Mobility Management Function
+    [AMF: Access and Mobility Management Function
     ],
     [Control
     ],
@@ -11166,24 +11197,21 @@ the network functions and interfaces relevant to supporting a 5G\-RG.
     thus is the frontend for authentication and the establishment of PDU
     sessions.
     ],
-    [NSSF: Network \
-    Slice Selection Function
+    [NSSF: Network Slice Selection Function
     ],
     [Control
     ],
     [Selects the network slice instance servicing the 5G\-RG. The AGF
     will use the NSSF to choose an AMF at the time of registration.
     ],
-    [PCF: Policy \
-    Control Function
+    [PCF: Policy Control Function
     ],
     [Control
     ],
     [Responsible for control plane policy rules. In particular, supports
     the AMF to provide policy rules as part of registration.
     ],
-    [SMF: Session \
-    Management Function
+    [SMF: Session Management Function
     ],
     [Control
     ],
@@ -11191,16 +11219,14 @@ the network functions and interfaces relevant to supporting a 5G\-RG.
     include DHCP (server or relay), QoS handling and user plane policy
     enforcement (downstream traffic shaping).
     ],
-    [UDM: Unified Data \
-    Management
+    [UDM: Unified Data Management
     ],
     [Control
     ],
     [Responsible for subscription data used by other network functions
     to authenticate and provide subscription\-based policy.
     ],
-    [UPF: User Plane \
-    Function
+    [UPF: User Plane Function
     ],
     [User
     ],
@@ -13837,6 +13863,909 @@ Device.FWE.Link.1.Stats
     BytesSent = 478945789
     BytesReceived = 589545478
 ```
+
+#bbf-appendix1[
+= Appendix XXVI: LogRotate Theory of Operation <sec:logrotate-theory-of-operation>]
+
+#bbf-appendix2[
+== XXVI.1 Introduction <sec:introduction-1>]
+
+This appendix describes the theory of operation for the `LogRotate` data
+model and its relationship with the `VendorLogFile` data model.
+
+The `LogRotate` data model provides a mechanism to rotate
+vendor\-specific log files. This is useful for managing log file sizes
+and preventing them from consuming too much disk space.
+
+The `VendorLogFile` data model defines a list of vendor\-specific log
+files that can be downloaded from the device by a remote management
+system e.g.~USP Controller.
+
+#bbf-appendix2[
+== XXVI.2 How it works <sec:how-it-works>]
+
+The `LogRotate` data model can work independently, but it can also work
+on top of the `VendorLogFile` data model. To use `LogRotate` with
+`VendorLogFile`, you first need to consider the vendor log files that
+you want to rotate using the `VendorLogFile` data model.
+
+Once the vendor log files are defined, you can configure the `LogRotate`
+data model to rotate them. The `LogRotate` data model provides several
+parameters for configuring log rotation, such as the maximum file size,
+the number of files to keep, and the rotation frequency.
+
+When a log file (e.g., `my-log.log`) reaches a configured limit, the
+following rotation process occurs:
+
++ The oldest rotated log file is deleted, only if the number of existing
+  rotated files has reached `NumberOfFiles`. For example, if
+  `NumberOfFiles` is 5, `my-log.log.5` is deleted.
++ The remaining rotated log files are renamed, incrementing their
+  numeric suffix. For example, `my-log.log.4` becomes `my-log.log.5`,
+  `my-log.log.3` becomes `my-log.log.4`, and so on.
++ The current log file is renamed to become the newest rotated log file.
+  For example, `my-log.log` becomes `my-log.log.1`.
++ A new, empty log file is created with the original name (e.g.,
+  `my-log.log`) to receive new log entries.
+The `NumberOfFiles` parameter defines how many archived (rotated) log
+files are retained, not including the active log file itself.
+
+#bbf-appendix2[
+== XXVI.3 Examples <sec:examples-3>]
+
+#bbf-appendix3[
+=== XXVI.3.1 Example 1: Basic Log Rotation <sec:example-1-basic-log-rotation>]
+
+This example shows how to configure `LogRotate` to rotate a vendor log
+file based on its size.
+
++ #strong[Consider the vendor log file:];
+
+  `Device.DeviceInfo.VendorLogFile.1.Name` \= `/var/log/my-log.log`
++ #strong[Configure `LogRotate`:];
+
+  `Device.DeviceInfo.LogRotate.1.Enable` \= `true` \
+  `Device.DeviceInfo.LogRotate.1.Name` \= `file:///var/log/my-log.log` \
+  `Device.DeviceInfo.LogRotate.1.MaxFileSize` \= `1024` \
+  `Device.DeviceInfo.LogRotate.1.NumberOfFiles` \= `5`
+In this example, `my-log.log` will be rotated when it reaches 1024 KB.
+The rotated files will be named `my-log.log.1`, `my-log.log.2`, …,
+`my-log.log.5`. When a new rotated file needs to be created beyond the
+configured limit, `my-log.log.5` will be deleted to make room, ensuring
+that only the 5 most recent rotated log files are kept.
+
+#bbf-appendix3[
+=== XXVI.3.2 Example 2: Time\-based Log Rotation <sec:example-2-time-based-log-rotation>]
+
+This example shows how to configure `LogRotate` to rotate a vendor log
+file based on a time interval.
+
++ #strong[Consider the vendor log file:];
+
+  `Device.DeviceInfo.VendorLogFile.2.Name` \= `/var/log/another-log.log`
++ #strong[Configure `LogRotate`:];
+
+  `Device.DeviceInfo.LogRotate.2.Enable` \= `true` \
+  `Device.DeviceInfo.LogRotate.2.Name` \=
+  `file:///var/log/another-log.log` \
+  `Device.DeviceInfo.LogRotate.2.RollOver` \= `1440` \
+  `Device.DeviceInfo.LogRotate.2.NumberOfFiles` \= `10`
+In this example, `another-log.log` will be rotated every 1440 minutes
+(24 hours), as defined by the `RollOver` parameter which sets the
+maximum age of a log file before rotation. The rotated files will be
+named `another-log.log.1`, `another-log.log.2`, …, `another-log.log.10`.
+When a new rotated file needs to be created beyond the configured limit,
+`another-log.log.10` will be deleted, ensuring that only the 10 most
+recent rotated log files are kept.
+
+#bbf-appendix3[
+=== XXVI.3.3 Example 3: Log Rotation with Retention <sec:example-3-log-rotation-with-retention>]
+
+This example shows how to configure `LogRotate` to rotate a log file and
+delete the rotated files after a certain period of time.
+
++ #strong[Consider the vendor log file:];
+
+  `Device.DeviceInfo.VendorLogFile.3.Name` \= `/var/log/debug-log.log`
++ #strong[Configure `LogRotate`:];
+
+  `Device.DeviceInfo.LogRotate.3.Enable` \= `true` \
+  `Device.DeviceInfo.LogRotate.3.Name` \=
+  `file:///var/log/debug-log.log` \
+  `Device.DeviceInfo.LogRotate.3.MaxFileSize` \= `2048` \
+  `Device.DeviceInfo.LogRotate.3.NumberOfFiles` \= `10` \
+  `Device.DeviceInfo.LogRotate.3.Retention` \= `10080`
+In this example, `debug-log.log` will be rotated when it reaches 2048
+KB. The rotated files will be named `debug-log.log.1`,
+`debug-log.log.2`, …, `debug-log.log.10`. When a new rotated file needs
+to be created beyond the configured limit, `debug-log.log.10` will be
+deleted. The `Retention` parameter, which defines the maximum time in
+minutes to keep rotated log files, will cause files older than 10080
+minutes (7 days) to be deleted, regardless of the number of files.
+
+#bbf-appendix3[
+=== XXVI.3.4 Example 4: Advanced Log Rotation <sec:example-4-advanced-log-rotation>]
+
+This example shows how to configure `LogRotate` to rotate a log file
+based on both size and time, with a retention policy.
+
++ #strong[Consider the vendor log file:];
+
+  `Device.DeviceInfo.VendorLogFile.4.Name` \=
+  `/var/log/advanced-log.log`
++ #strong[Configure `LogRotate`:];
+
+  `Device.DeviceInfo.LogRotate.4.Enable` \= `true` \
+  `Device.DeviceInfo.LogRotate.4.Name` \=
+  `file:///var/log/advanced-log.log` \
+  `Device.DeviceInfo.LogRotate.4.MaxFileSize` \= `4096` \
+  `Device.DeviceInfo.LogRotate.4.RollOver` \= `10080` \
+  `Device.DeviceInfo.LogRotate.4.NumberOfFiles` \= `20` \
+  `Device.DeviceInfo.LogRotate.4.Retention` \= `43200`
+In this example, `advanced-log.log` will be rotated when it reaches 4096
+KB or after 10080 minutes (7 days), whichever comes first. The
+`RollOver` parameter sets this maximum age for rotation. The rotated
+files will be named `advanced-log.log.1`, `advanced-log.log.2`, …,
+`advanced-log.log.20`. When a new rotated file needs to be created
+beyond the configured limit, `advanced-log.log.20` will be deleted.
+Additionally, the `Retention` parameter, which defines the maximum time
+in minutes to keep rotated log files, will ensure that files older than
+43200 minutes (30 days) are deleted, regardless of the number of files.
+
+#bbf-appendix1[
+#bbf-same-file[
+#bbf-appendix[
+= Appendix XXVII: MQTT Theory of Operation <sec:mqtt-theory-of-operation>]]]
+
+This section explains the operation of MQTT within the Device:2 data
+model. The data model manages MQTT clients and a local MQTT broker on
+the device, supporting TLS\-encrypted connections and access control.
+
+#figure(
+  caption: [Figure 95 – MQTT Introduction Overview
+    ])[
+  #bbf-image("images/mqtt_introduction_overview.png")<img:mqtt-introduction-overview>
+] <fig:mqtt-introduction-overview>
+The data model contains three main components:
+
+- #strong[`Device.MQTT.Client.{i}`:]; Configures an MQTT client to
+  connect to an MQTT broker.
+- #strong[`Device.MQTT.Broker.{i}`:]; Configures a local MQTT broker
+  listener on the device for local messaging and bridging to other
+  brokers. Multiple listeners can share a broker process using the
+  `BrokerID` parameter.
+- #strong[`Device.MQTT.BrokerSecurity`:]; Manages security for local
+  MQTT broker processes, including client identities and Access Control
+  Lists (ACLs).
+
+#bbf-appendix2[
+== XXVII.1 Definitions <sec:definitions-2>]
+
+- #strong[MQTT Client:]; Any device or application that runs an MQTT
+  library and connects to an MQTT broker. Clients publish messages to
+  topics and subscribe to topics to receive messages. The
+  `Device.MQTT.Client.{i}` object represents an MQTT client.
+- #strong[MQTT Broker:]; A server that receives messages from publishing
+  clients, filters them, and sends them to subscribed clients. It
+  functions as a central hub for MQTT communication. The
+  `Device.MQTT.Broker.{i}` object represents a local broker running on
+  the device.
+- #strong[MQTT Bridge:]; A connection that allows two or more MQTT
+  brokers to share messages. A bridge forwards messages from topics on
+  one broker to another. The `Device.MQTT.Broker.{i}.Bridge.{i}` object
+  manages the bridge configuration.
+
+#bbf-appendix2[
+== XXVII.2 Securing Connections with TLS <sec:securing-connections-with-tls>]
+
+An MQTT client, broker, or bridge secures its connection using Transport
+Layer Security (TLS) when it is configured for a secure transport (`TLS`
+or `WebSocketTLS`). The data model supports standard TLS (client
+verifies the server via certificate) and Mutual Authentication (mTLS),
+where both client and server verify each other’s identity via
+certificates.
+
+The following parameters configure these secure connections:
+
+- #strong[`Username` and `Password`];: Used for basic authentication
+  with the broker. This mechanism works for both secure TLS and non\-TLS
+  connections. The broker verifies these credentials to control access.
+- #strong[`ClientID`];: A unique identifier used to distinguish each
+  client connected to the broker. The broker can use the `ClientID` to
+  enforce ACLs and manage sessions for both authenticated and anonymous
+  clients.
+- #strong[`Anonymous Connections`];: A client can connect anonymously if
+  the broker permits it.
+- #strong[`Certificate`:]; A reference to an entry in the
+  `Device.Security.Certificate.{i}` table. It specifies the certificate
+  the entity (client or server) presents to the remote party. The server
+  provides a certificate to the client, and the client provides a
+  certificate only if mutual authentication is required.
+- #strong[`CABundle`:]; A reference to an entry in the
+  `Device.Security.CABundle.{i}` table. It specifies the set of
+  Certificate Authority (CA) certificates the entity uses to validate
+  the certificate presented by the remote party. For mutual
+  authentication to succeed, the client uses its `CABundle` to validate
+  the server’s `Certificate`, and the server uses its `CABundle` to
+  validate the client’s `Certificate`.
+- #strong[`CipherList`:]; A comma\-separated list of cipher suites that
+  the TLS client or server is allowed to use. This restricts the
+  connection to strong, modern ciphers and avoids known weak algorithms.
+
+#bbf-appendix2[
+== XXVII.3 MQTT Client Operation <sec:mqtt-client-operation>]
+
+The `Device.MQTT.Client.{i}` object configures an MQTT client. Each
+instance of this object represents a single client and corresponds to a
+separate connection. A client uses TLS to establish a secure connection
+to an MQTT broker, configured with the parameters from the
+#link(<sec:securing-connections-with-tls>)["Securing Connections with
+TLS" section].
+
+#strong[Example of TCP\/IP with anonymous authentication:];
+
+This example shows an MQTT client (`Device.MQTT.Client.1`) that connects
+to a remote broker using an unencrypted TCP connection, and
+authenticates anonymously.
+
+- `Device.MQTT.Client.1.TransportProtocol` \= `TCP/IP`
+- `Device.MQTT.Client.1.Username` \= `""`
+- `Device.MQTT.Client.1.Password` \= `""`
+The client establishes a TCP connection, which is a non\-encrypted
+connection, for anonymous authentication by the broker.
+
+#strong[Example of TCP\/IP with username and password authentication:];
+
+This example shows an MQTT client (`Device.MQTT.Client.2`) that connects
+to a remote broker using an unencrypted TCP connection, and
+authenticates with a username and password.
+
+- `Device.MQTT.Client.2.TransportProtocol` \= `TCP/IP`
+- `Device.MQTT.Client.2.Username` \= `myUser`
+- `Device.MQTT.Client.2.Password` \= `myPassword`
+The client establishes a TCP connection and sends its username and
+password over this non\-encrypted connection for authentication by the
+broker.
+
+#strong[Example of normal TLS (client authenticates server):];
+
+This example shows an MQTT client (`Device.MQTT.Client.3`) that connects
+securely to a remote broker where only the client verifies the broker’s
+identity.
+
+- `Device.MQTT.Client.3.TransportProtocol` \= `TLS`
+- `Device.MQTT.Client.3.Username` \= `myUser`
+- `Device.MQTT.Client.3.Password` \= `myPassword`
+- `Device.MQTT.Client.3.Certificate` \= `""`
+- `Device.MQTT.Client.3.CABundle` \= `Device.Security.CABundle.1` (The
+  CA bundle to validate the broker’s certificate)
+- `Device.MQTT.Client.3.CipherList` \=
+  `TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384`
+#figure(
+  caption: [Figure 96 – MQTT Client Normal TLS
+    ])[
+  #bbf-image("images/mqtt_client_tls_sequence.png")<img:mqtt-client-normal-tls>
+] <fig:mqtt-client-normal-tls>
+The client establishes an encrypted TLS connection, authenticating with
+its username and password sent over this secure channel. Since the
+client does not present its own certificate for authentication, the
+`Certificate` parameter remains empty or unset. Instead, the client
+focuses on validating the broker’s certificate against the provided
+`CABundle` and negotiating one of the two specified cipher suites.
+
+#strong[Example of an anonymous connection over TLS:];
+
+This example shows an MQTT client (`Device.MQTT.Client.4`) that connects
+securely to a remote broker where only the client verifies the broker’s
+identity.
+
+- `Device.MQTT.Client.4.TransportProtocol` \= `TLS`
+- `Device.MQTT.Client.4.Username` \= `""`
+- `Device.MQTT.Client.4.Password` \= `""`
+- `Device.MQTT.Client.4.Certificate` \= `""`
+- `Device.MQTT.Client.4.CABundle` \= `Device.Security.CABundle.1` (The
+  CA bundle to validate the broker’s certificate)
+- `Device.MQTT.Client.4.CipherList` \=
+  `TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384`
+The client does not present its own certificate for authentication, so
+the `Certificate` parameter is empty or not set. The client validates
+the broker’s certificate against the provided `CABundle` and only
+negotiates one of the two specified cipher suites.
+
+#strong[Example of mutual authentication (mTLS):];
+
+This example shows an MQTT client (`Device.MQTT.Client.5`) that connects
+securely to a remote broker using mTLS, where both the client and broker
+authenticate each other.
+
+- `Device.MQTT.Client.5.TransportProtocol` \= `TLS`
+- `Device.MQTT.Client.5.Certificate` \= `Device.Security.Certificate.2`
+  (The client’s own certificate to present to the broker)
+- `Device.MQTT.Client.5.CABundle` \= `Device.Security.CABundle.1` (The
+  CA bundle to validate the broker’s certificate)
+- `Device.MQTT.Client.5.CipherList` \=
+  `TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384`
+The client initiates a TLS connection, presents its client certificate
+(`Device.Security.Certificate.2`), validates the broker’s certificate
+against `CABundle.1`, and negotiates a specified cipher suite. The
+broker must also be configured to request and validate the client’s
+certificate.
+
+#figure(
+  caption: [Figure 97 – MQTT Client Mutual Authentication TLS
+    ])[
+  #bbf-image("images/mqtt_client_mtls_sequence.png")<img:mqtt-client-mutual-authentication-tls>
+] <fig:mqtt-client-mutual-authentication-tls>
+
+#bbf-appendix2[
+== XXVII.4 MQTT broker operation <sec:mqtt-broker-operation>]
+
+The `Device.MQTT.Broker.{i}` object configures a local MQTT broker on
+the device. This broker serves two main purposes:
+
+- It provides a local messaging bus for applications on the device.
+- It acts as a gateway to a larger MQTT network by bridging to other
+  brokers.
+
+#bbf-appendix3[
+=== XXVII.4.1 Authentication <sec:authentication>]
+
+The `AuthenticationMethod` parameter configures how the local broker
+authenticates clients:
+
+- #strong[`UsernamePassword`:]; Clients authenticate using a username
+  and password.
+- #strong[`CertViaCN`:]; Clients authenticate with a client certificate
+  after a successful mTLS handshake. The Common Name (CN) from the
+  certificate’s subject serves as the username for access control.
+- #strong[`CertViaSubject`:]; Clients authenticate with a client
+  certificate after a successful mTLS handshake. The entire certificate
+  subject serves as the username for access control. For example, a
+  certificate subject of `C=US, O=Example Inc, CN=device1` becomes the
+  username for ACL matching.
+If `AllowAnonymous` is `true`, clients can connect without credentials.
+
+#figure(
+  caption: [Figure 98 – MQTT Broker Authentication Flow
+    ])[
+  #bbf-image("images/mqtt_broker_authentication_flow.png")<img:mqtt-broker-authentication-flow>
+] <fig:mqtt-broker-authentication-flow>
+#strong[Example of broker authentication (username and password with
+anonymous):];
+
+A local broker (`Device.MQTT.Broker.1`) allows both username\/password
+authentication and anonymous access:
+
+- `Device.MQTT.Broker.1.AuthenticationMethod` \= `UsernamePassword`
+- `Device.MQTT.Broker.1.AllowAnonymous` \= `true`
+Clients can connect with a valid username and password (checked against
+`Device.MQTT.BrokerSecurity.Client.{i}` entries) or connect anonymously.
+ACL rules can still apply to anonymous clients.
+
+#bbf-appendix3[
+=== XXVII.4.2 Access Control <sec:access-control>]
+
+The `Device.MQTT.BrokerSecurity.ACL.{i}` table manages access control
+for the local broker. Each entry is an ACL rule specifying:
+
+- #strong[`AllowAnonymous`:]; If `true`, this rule allows access to
+  anonymous clients.
+- #strong[`ClientList`:]; A list of clients the rule applies to,
+  identified by their entries in the
+  `Device.MQTT.BrokerSecurity.Client.{i}` table.
+  - #strong[Empty `ClientList` Behavior:]; An empty list means the rule
+    can apply to any authenticated client that has an entry in
+    `Device.MQTT.BrokerSecurity.Client.{i}`. If `AllowAnonymous` is
+    `true`, this rule applies to all clients, including anonymous
+    clients.
+- #strong[`Topics`:]; The MQTT topics the rule applies to.
+- #strong[`Operations`:]; The MQTT operations (`Publish` or `Subscribe`)
+  the rule controls.
+- #strong[`Access`:]; Whether to `Allow` or `Deny` the operation.
+The broker evaluates rules based on the `Order` parameter.
+
+#bbf-appendix4[
+==== XXVII.4.2.1 ACL evaluation logic <sec:acl-evaluation-logic>]
+
+The broker follows an ordered evaluation to determine if an operation is
+permitted.
+
++ #strong[Rule Order:]; Rules are processed sequentially from the lowest
+  `Order` number to the highest.
++ #strong[First Match Wins:]; The first rule that matches the client,
+  topic, and operation determines the outcome. All subsequent rules are
+  ignored.
++ #strong[Allow or Deny:]; If the first matching rule’s `Access` is
+  `Allow`, the operation is permitted. If it is `Deny`, the operation is
+  forbidden.
++ #strong[Default Deny Practice:]; For security, it is good practice to
+  end the ACL set with a final, high\-order "deny\-all" rule (e.g.,
+  `Order` \= `999`, `Topics` \= `#`, `Access` \= `Deny`). This ensures
+  any operation not explicitly allowed by a preceding rule is denied by
+  default.
+#figure(
+  caption: [Figure 99 – MQTT ACL Evaluation Logic
+    ])[
+  #bbf-image("images/mqtt_acl_evaluation_logic.png")<img:mqtt-acl-evaluation-logic>
+] <fig:mqtt-acl-evaluation-logic>
+
+#bbf-appendix3[
+=== XXVII.4.3 MQTT Listeners <sec:mqtt-listeners>]
+
+An MQTT listener defines how the local broker accepts incoming client
+connections. Each `Device.MQTT.Broker.{i}` instance represents a single
+listener that specifies a specific endpoint where clients can connect
+to.
+
+#figure(
+  caption: [Figure 100 – MQTT Broker Listeners
+    ])[
+  #bbf-image("images/mqtt_broker_listeners.png")<img:mqtt-broker-listeners>
+] <fig:mqtt-broker-listeners>
+Multiple listeners can be configured on different ports or with
+different protocols. For example, you could configure one listener on
+port `8883` for highly secure, certificate\-based connections from
+trusted devices, and a second listener on port `1883` that uses a
+simpler username\/password scheme for application access.
+
+The broker’s listener parameters are:
+
+- #strong[`Port`:]; The TCP port number where the broker listens for
+  incoming connections.
+- #strong[`Interface`:]; The IP network interface the broker binds to.
+  If left empty, it will listen on all available interfaces.
+- #strong[`TransportProtocol`:]; The protocol for the connection (e.g.,
+  `TCP/IP`, `TLS`, `WebSocket`). If you choose `TLS` or `WebSocketTLS`,
+  the listener enforces a secure connection using the TLS parameters
+  configured on the broker instance, such as `Certificate` and
+  `CABundle`.
+
+#bbf-appendix3[
+=== XXVII.4.4 Broker Process Management <sec:broker-process-management>]
+
+The `BrokerID` parameter controls how listener instances are grouped
+into broker processes:
+
+- Same BrokerID: Multiple `Device.MQTT.Broker.{i}` instances with the
+  same `BrokerID` value run in the same broker process.
+- Different BrokerID: Instances with different `BrokerID` values run as
+  separate broker processes, providing isolation between different
+  broker processes.
+
+#bbf-appendix3[
+=== XXVII.4.5 End\-to\-End Broker Configuration Example <sec:end-to-end-broker-configuration-example>]
+
+This example demonstrates how to configure a local MQTT broker to manage
+various client types and security requirements. It sets up the broker
+to:
+
+- Listen for secure mTLS connections on port `8883`, specifically for
+  trusted devices like sensors and administrators.
+- Listen for username\/password and anonymous connections on port
+  `1883`, accommodating standard users and guest clients.
+- Authenticate clients based on their certificate’s Common Name (CN) for
+  mTLS connections, or a traditional username\/password for other
+  connections.
+- Control client access to topics using a detailed set of Access Control
+  List (ACL) rules, ensuring each client type has appropriate
+  permissions.
+- Handle various client interactions, such as:
+  - A secure sensor (`my-sensor-1`) publishing data to its designated
+    topic.
+  - An administrator (`admin`) subscribing to all sensor data.
+  - A standard user (`user1`) publishing and subscribing within their
+    personal topic space.
+  - An anonymous client publishing telemetry data to a specific topic.
+  - Rejecting connections from clients with invalid certificates or
+    unauthorized access attempts.
+#strong[1. Broker Listener and Authentication Configuration:];
+
+The first step configures the broker’s listeners and their
+authentication methods. Setting up two listeners on two different broker
+instances shares the same security configuration.
+
+#strong[Listener 1: mTLS on Port 8883];
+
+- `Device.MQTT.Broker.1.Enable` \= `true`
+- `Device.MQTT.Broker.1.Port` \= `8883`
+- `Device.MQTT.Broker.1.TransportProtocol` \= `TLS`
+- `Device.MQTT.Broker.1.AuthenticationMethod` \= `CertViaCN`
+- `Device.MQTT.Broker.1.AllowAnonymous` \= `false`
+- `Device.MQTT.Broker.1.Certificate` \= `Device.Security.Certificate.3`
+  (The broker’s server certificate)
+- `Device.MQTT.Broker.1.CABundle` \= `Device.Security.CABundle.2` (The
+  CA bundle to validate client certificates)
+This configuration makes the broker listen on port 8883 for mTLS
+connections, expect client certificates, and use the certificate’s
+Common Name for authentication.
+
+#strong[Listener 2: Username\/Password and Anonymous on Port 1883];
+
+- `Device.MQTT.Broker.2.Enable` \= `true`
+- `Device.MQTT.Broker.2.Port` \= `1883`
+- `Device.MQTT.Broker.2.TransportProtocol` \= `TCP/IP`
+- `Device.MQTT.Broker.2.AuthenticationMethod` \= `UsernamePassword`
+- `Device.MQTT.Broker.2.AllowAnonymous` \= `true`
+This sets up a second listener on port 1883 for standard TCP\/IP
+connections, allowing both username\/password authentication and
+anonymous access.
+
+#strong[2. Client Identity Definitions:];
+
+Next, define the client identities the broker will recognize. The
+`Username` must match either the CN from the client’s certificate for
+mTLS or the provided username for password authentication.
+
+- #strong[Client Identity for Sensor 1 (mTLS):];
+  - `Device.MQTT.BrokerSecurity.Client.1.Name` \= `SensorClient1`
+  - `Device.MQTT.BrokerSecurity.Client.1.Username` \= `my-sensor-1`
+    (Expected CN)
+  - `Device.MQTT.BrokerSecurity.Client.1.Enable` \= `true`
+- #strong[Client Identity for Admin User (mTLS):];
+  - `Device.MQTT.BrokerSecurity.Client.2.Name` \= `AdminUser`
+  - `Device.MQTT.BrokerSecurity.Client.2.Username` \= `admin` (Expected
+    CN)
+  - `Device.MQTT.BrokerSecurity.Client.2.Enable` \= `true`
+- #strong[Client Identity for User 1 (Username\/Password):];
+  - `Device.MQTT.BrokerSecurity.Client.3.Name` \= `User1`
+  - `Device.MQTT.BrokerSecurity.Client.3.Username` \= `user1`
+  - `Device.MQTT.BrokerSecurity.Client.3.Password` \= `secret`
+  - `Device.MQTT.BrokerSecurity.Client.3.Enable` \= `true`
+#strong[3. Access Control List (ACL) Rules:];
+
+Finally, configure the ACL rules for the defined identities. The rules
+are evaluated by `Order`, from lowest to highest.
+
+- #strong[Rule A (Order 10): Allow `SensorClient1` to publish to its own
+  topic.];
+  - `Device.MQTT.BrokerSecurity.ACL.1.Order` \= `10`
+  - `Device.MQTT.BrokerSecurity.ACL.1.ClientList` \=
+    `Device.MQTT.BrokerSecurity.Client.1`
+  - `Device.MQTT.BrokerSecurity.ACL.1.Topics` \=
+    `sensors/temp/my-sensor-1`
+  - `Device.MQTT.BrokerSecurity.ACL.1.Operations` \= `Publish`
+  - `Device.MQTT.BrokerSecurity.ACL.1.Access` \= `Allow`
+- #strong[Rule B (Order 20): Allow `AdminUser` to subscribe to all
+  sensor data.];
+  - `Device.MQTT.BrokerSecurity.ACL.2.Order` \= `20`
+  - `Device.MQTT.BrokerSecurity.ACL.2.ClientList` \=
+    `Device.MQTT.BrokerSecurity.Client.2`
+  - `Device.MQTT.BrokerSecurity.ACL.2.Topics` \= `sensors/#`
+  - `Device.MQTT.BrokerSecurity.ACL.2.Operations` \= `Subscribe`
+  - `Device.MQTT.BrokerSecurity.ACL.2.Access` \= `Allow`
+- #strong[Rule C (Order 30): Allow `User1` to publish and subscribe to
+  their own topics.];
+  - `Device.MQTT.BrokerSecurity.ACL.3.Order` \= `30`
+  - `Device.MQTT.BrokerSecurity.ACL.3.ClientList` \=
+    `Device.MQTT.BrokerSecurity.Client.3`
+  - `Device.MQTT.BrokerSecurity.ACL.3.Topics` \= `users/user1/#`
+  - `Device.MQTT.BrokerSecurity.ACL.3.Operations` \= `Publish,Subscribe`
+  - `Device.MQTT.BrokerSecurity.ACL.3.Access` \= `Allow`
+- #strong[Rule D (Order 40): Allow anonymous clients to publish
+  telemetry.];
+  - `Device.MQTT.BrokerSecurity.ACL.4.Order` \= `40`
+  - `Device.MQTT.BrokerSecurity.ACL.4.AllowAnonymous` \= `true`
+  - `Device.MQTT.BrokerSecurity.ACL.4.ClientList` \= `"[]"` (Empty list
+    with `AllowAnonymous`\=`true` applies to all clients)
+  - `Device.MQTT.BrokerSecurity.ACL.4.Topics` \= `anonymous/telemetry/#`
+  - `Device.MQTT.BrokerSecurity.ACL.4.Operations` \= `Publish`
+  - `Device.MQTT.BrokerSecurity.ACL.4.Access` \= `Allow`
+- #strong[Rule E (Order 66): Deny all other operations by default.];
+  - `Device.MQTT.BrokerSecurity.ACL.5.Order` \= `66`
+  - `Device.MQTT.BrokerSecurity.ACL.5.AllowAnonymous` \= `true`
+  - `Device.MQTT.BrokerSecurity.ACL.5.ClientList` \= `"[]"` (Empty list
+    with `AllowAnonymous`\=`true` applies to all clients)
+  - `Device.MQTT.BrokerSecurity.ACL.5.Topics` \= `#`
+  - `Device.MQTT.BrokerSecurity.ACL.5.Operations` \= `Publish,Subscribe`
+  - `Device.MQTT.BrokerSecurity.ACL.5.Access` \= `Deny`
+
+#bbf-appendix2[
+== XXVII.5 MQTT bridge operation <sec:mqtt-bridge-operation>]
+
+The `Device.MQTT.Broker.{i}.Bridge.{i}` object lets the local MQTT
+broker connect to other (remote) MQTT brokers. This is necessary for
+distributed MQTT deployments.
+
+Each `Bridge.{i}` instance defines a connection to a remote broker. If
+`TransportProtocol` is `TLS` or `WebSocketTLS`, the connection is
+secured as described in the
+#link(<sec:securing-connections-with-tls>)["Securing Connections with
+TLS" section].
+
+#figure(
+  caption: [Figure 101 – MQTT Broker Bridge
+    ])[
+  #bbf-image("images/mqtt_secure_bridge_diagram.png")<img:mqtt-broker-bridge>
+] <fig:mqtt-broker-bridge>
+#strong[Example of a secure MQTT bridge:];
+
+This bridge configuration sends messages from `Device.MQTT.Broker.1` to
+a remote broker at `cloud.example.com` securely using mTLS:
+
+- `Device.MQTT.Broker.1.Bridge.1.Enable` \= `true`
+- `Device.MQTT.Broker.1.Bridge.1.Name` \= `CloudBridge`
+- `Device.MQTT.Broker.1.Bridge.1.TransportProtocol` \= `TLS`
+- `Device.MQTT.Broker.1.Bridge.1.Server.1.Address` \=
+  `cloud.example.com`
+- `Device.MQTT.Broker.1.Bridge.1.Server.1.Port` \= `8883`
+- `Device.MQTT.Broker.1.Bridge.1.Certificate` \=
+  `Device.Security.Certificate.4` (The bridge’s client certificate)
+- `Device.MQTT.Broker.1.Bridge.1.CABundle` \=
+  `Device.Security.CABundle.3` (The CA bundle to validate the remote
+  cloud broker’s certificate)
+- `Device.MQTT.Broker.1.Bridge.1.Subscription.1.Topic` \= `sensors/#`
+- `Device.MQTT.Broker.1.Bridge.1.Subscription.1.Direction` \= `out`
+This bridge establishes a secure mTLS connection to
+`cloud.example.com:8883`, authenticates itself with `Certificate.4`,
+verifies the cloud broker with `CABundle.3`, and forwards all messages
+from topics matching `sensors/#` to the remote broker.
+
+#bbf-appendix1[
+= Appendix XXVIII: Device Certificates <sec:device-certificates>]
+
+#bbf-appendix2[
+== XXVIII.1 Introduction <sec:introduction-2>]
+
+A device requires a secure storage mechanism for storing cryptographic
+assets such as certificates and private keys.
+
+This secure storage is provisioned during manufacturing. The device
+certificate and its associated private key are used to establish a
+secure management channel, for example via CWMP or USP.
+
+To ensure that the device connects only to an authentic management
+server, the firmware embeds one or more trusted Certificate Authority
+(CA) certificates. These CA certificates are used to validate the
+server’s identity during connection establishment. Mutual authentication
+is achieved when the server, in turn, validates the device’s
+certificate, resulting in a secure, bidirectionally authenticated
+communication channel.
+
+A device may employ multiple certificates and private keys for different
+services. These credentials can be provisioned at manufacturing time as
+part of the firmware image, or they may be securely managed, rotated,
+and updated remotely by the management server throughout the device’s
+operational lifecycle. E.g. the management server installs a new
+certificate bundle on the device or the device can request a new
+certificate by generating a new private key and submitting a Certificate
+Signing Request (CSR) to a Certificate Authority.
+
+#bbf-appendix2[
+== XXVIII.2 Secure Storage of Cryptographic Assets <sec:secure-storage-of-cryptographic-assets>]
+
+The security of a device is dependent on the protection of its
+cryptographic assets. Private keys, in particular, must be stored in a
+way that prevents unauthorized access, even by privileged software
+running on the device’s main processor or by an attacker with physical
+access to the hardware.
+
+The mechanisms for storing these assets have evolved over the years to
+provide progressively stronger security guarantees.
+
+#bbf-appendix3[
+=== XXVIII.2.1 Non\-Encrypted Storage <sec:non-encrypted-storage>]
+
+The most basic approach is to store certificates and private keys as
+files in a standard, non\-encrypted partition of the filesystem. While
+simple, this method is highly insecure. An attacker who gains root
+access to the device or can read its flash memory directly can easily
+steal these sensitive credentials. Such a leak could assist in attacking
+the operator’s servers (e.g.~spoofing a trusted device) and potentially
+be used to gain privileged access to other devices provided by the
+operator.
+
+#bbf-appendix3[
+=== XXVIII.2.2 Encrypted Storage <sec:encrypted-storage>]
+
+A significant improvement is to store cryptographic assets within an
+encrypted partition. This approach ensures that a straightforward
+physical extraction of the flash memory does not directly expose private
+keys or other sensitive material.
+
+The effectiveness of this mechanism, however, depends entirely on the
+protection of the partition’s decryption key. If the decryption key is
+stored elsewhere on the device in a reversible or recoverable form the
+overall security posture is compromised.
+
+To mitigate this risk the decryption key is typically provisioned at
+manufacturing time and stored within the processor’s secure memory
+region, such as hardware\-backed secure storage or one\-time
+programmable (OTP) memory. This prevents software\-level access to the
+key and significantly raises the bar against physical and logical
+attacks.
+
+#bbf-appendix3[
+=== XXVIII.2.3 Secure Cryptographic Storage <sec:secure-cryptographic-storage>]
+
+The industry best practice and most robust approach for protecting
+cryptographic assets is the use of dedicated tamper\-resistant hardware.
+This model ensures that private keys are never exposed in plaintext
+outside a protected execution environment.
+
+Rather than extracting a key to perform a cryptographic operation the
+data to be processed is passed into the secure environment where the
+operation is executed internally. As a result, private keys are never
+present in nor accessible from the main operating system.
+
+Common secure storage implementations:
+
+- Hardware Security Module (HSM): A dedicated cryptographic processor
+  specifically designed to protect the entire lifecycle of cryptographic
+  keys, from generation and storage to usage and destruction.
+- Soft HSM: A software\-based workaround that emulates some
+  functionalities of a Hardware Security Module. Its primary goals are
+  to provide a consistent API (like PKCS\#11) for cryptographic services
+  and to limit the exposure of private keys in memory during runtime.
+  This approach is often used in cost\-sensitive devices that lack
+  dedicated hardware like a TEE or SE. While it does not provide the
+  same security guarantees as a hardware\-based solution, it offers more
+  protection than storing keys as simple plaintext files.
+- Trusted Execution Environment (TEE): A secure area within the main
+  processor that ensures code and data loaded into it are protected with
+  respect to confidentiality and integrity.
+- Trusted Element \/ Secure Element (SE): A tamper\-resistant
+  microcontroller capable of securely hosting applications and sensitive
+  data, isolated from the primary system.
+Access to these secure environments is typically provided through
+standardized APIs such as PKCS\#11. These interfaces allow applications
+to perform cryptographic operations without requiring direct access to
+the underlying keys.
+
+#bbf-appendix2[
+== XXVIII.3 Certificate Management <sec:certificate-management>]
+
+Digital certificates are essential for authenticating services and
+establishing encrypted communication, such as TLS. To prevent service
+disruptions from expired certificates and to mitigate risks like key
+compromise, certificates must be updated regularly.
+
+A primary security requirement for these updates is that the private key
+must never be transmitted and stored in an unencrypted format. It must
+always be transported over a secure channel.
+
+#figure(
+  caption: [Figure 102 – secure\-channel
+    ])[
+  #bbf-image("images/certificate-update.svg")<img:secure-channel>
+] <fig:secure-channel>
+However, as #link(<fig:secure-channel>)[Figure 102 – secure\-channel]
+illustrates, establishing a truly secure channel can be challenging.
+Even with TLS, aspects of the network and device architecture might
+still present opportunities for eavesdropping or interception.
+
+To counter these risks, the certificate and its private key should be
+delivered together as an encrypted and digitally signed bundle.
+
+A bundle is a file package (e.g., PKCS\#12, PEM) that contains a service
+certificate and a private key. The private key within the bundle must be
+encrypted (e.g., password\-protected).
+
+Since the bundle itself may be unpacked in a non\-secure environment on
+the device, it is mandatory that the private key contained within the
+bundle is always encrypted. This ensures that only the trusted
+environment with the correct decryption keys can access and use the
+private key, even if the bundle itself is not encrypted.
+
+The certificate, being public information, does not require this level
+of protection and can be stored in the device certificate store.
+
+Because the bundle itself is encrypted, its contents are protected
+across the entire delivery path. Only a trusted environment on the
+device, such as a Trusted Execution Environment (TEE) or other secure
+element can decrypt it. This secure environment can then safely import
+the private key into its protected storage. The associated public
+certificate can then be added to the device’s certificate store.
+
+This method ensures that the sensitive private key is never exposed in
+an unencrypted state on the operator’s network or within the device’s
+main operating system.
+
+#bbf-appendix2[
+== XXVIII.4 Installing Bundles <sec:installing-bundles>]
+
+The installation process is managed by the USP Controller.
+
+#figure(
+  caption: [Figure 103 – key\-store
+    ])[
+  #bbf-image("images/trusted-key-store.svg")<img:key-store>
+] <fig:key-store>
+The Controller should first query which bundle formats are supported:
+
+```
+Device.Security.SupportedBundleFormats
+{
+    "PKCS12", "PEM"
+}
+```
+The Controller can then install a new bundle by invoking the
+`Device.Security.AddCertificateBundle()` USP command:
+
+```
+Device.Security.AddCertificateBundle(
+    Alias: 'cpe-mABR',
+    Name: 'mABR',
+    BundleFormat: 'PKCS12',
+    Bundle: 'binary bundle payload'
+)
+```
+The device installs the new bundle and updates the
+`Device.Security.Certificate.{i}.` object with the new certificate’s
+information. The command returns a path reference to the installed
+certificate entry.
+
+```
+Device.Security.Certificate.10.
+    Alias               = "cpe-mABR"
+    Name                = "mABR"
+    Enable              = "true"
+    LastModif           = "2025-11-24T12:46:53.375021Z"
+    SerialNumber        = "089233D543C0734BFF61E5680EA63E93"
+    NotAfter            = "2026-09-14T23:59:59Z"
+    NotBefore           = "2025-10-06T00:00:00Z"
+    Subject             = "/C=US/L=ISSY LES MOULINEAUX/O=BBF/CN=mabr.preprod-tv-us-cdn.bbf.org"
+    SubjectAlt          = "DNS:mabr.preprod-tv-us-cdn.bbf.org"
+    SignatureAlgorithm  = "ecdsa-with-SHA384"
+```
+If the operation fails, the device returns a fault code indicating the
+specific error condition (e.g., 7260 for unsupported bundle format, 7261
+for signature verification failure).
+
+The URIs for the new certificate and private key can be retrieved as
+follows:
+
+```
+Device.Security.Certificate.10.GetCertificateURI()
+{
+    CertificateURI = file://foo/bar/mabr.pem
+    PrivateKeyURI  = pkcs11:token=bbf;id=%01
+}
+```
+
+#bbf-appendix2[
+== XXVIII.5 Managing CA Certificate Bundles <sec:managing-ca-certificate-bundles>]
+
+The Controller can manage CA certificate bundles using the following
+operations:
+
+#bbf-appendix3[
+=== XXVIII.5.1 Adding CA Bundles <sec:adding-ca-bundles>]
+
+To add a new CA bundle containing one or more CA certificates:
+
+```
+Device.Security.AddCABundle('TrustedRootCAs', 'PEM bundle payload')
+{
+    CABundle = "Device.Security.CABundle.1."
+    NumberOfCertificates = 3
+}
+```
+This creates a new entry in the `Device.Security.CABundle.{i}.` table.
+The command returns a path reference to the installed CA bundle entry
+and the number of certificates successfully installed.
+
+If the operation fails, the device returns a fault code indicating the
+specific error condition (e.g., 7265 for invalid PEM format, 7267 for
+duplicate CA bundle name).
+
+#bbf-appendix3[
+=== XXVIII.5.2 Updating CA Bundles <sec:updating-ca-bundles>]
+
+To update an existing CA bundle with new certificates:
+
+```
+Device.Security.CABundle.1.Update('new PEM bundle payload')
+{
+    NumberOfCertificates = 5
+}
+```
+The update operation completely replaces the existing CA certificates.
+The command returns the number of certificates successfully installed.
+If the update fails, the previous bundle is kept as\-is.
+
+If the operation fails, the device returns a fault code indicating the
+specific error condition (e.g., 7265 for invalid PEM format, 7266 for
+insufficient disk space).
 
 #bbf-note[
 End of Broadband Forum Technical Report TR\-181

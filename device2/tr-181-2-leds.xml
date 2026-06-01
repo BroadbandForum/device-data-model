@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-leds"
-    file="tr-181-2-20-0-leds.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-leds"
+    file="tr-181-2-21-0-leds.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -120,12 +120,16 @@
 
         When the value of the {{param|Status}} parameter is
         {{enum|Controlled|Status}}, then the value of
-        {{param|CycleElementNumberOfEntries}} and
+        {{param|CyclePeriodRepetitions}} and
         {{param|CycleElementNumberOfEntries}} parameters SHOULD be 0.
 
         When the value of the {{param|RelativeXPosition}} and
         {{param|RelativeYPosition}} parameters are 0, this indicates that the
         position of the LED is unknown.
+
+        When the value of the {{param|ControllingPeripheral}} parameter is specified, the
+        {{param|CyclePeriodRepetitions}}, {{object|CycleElement.{i}.}}, and
+        {{object|CurrentCycleElement.}} objects are not applicable.
       </description>
       <uniqueKey functional="true">
         <parameter ref="Name"/>
@@ -170,8 +174,7 @@
             </enumeration>
             <enumeration value="Controlled">
               <description>
-                Indicates that the LED is controlled from an electronic circuit
-                which cannot be monitored.
+                Indicates that the LED is under the control of the {{param|ControllingPeripheral}}.
               </description>
             </enumeration>
             <enumeration value="Error">
@@ -190,6 +193,18 @@
         </description>
         <syntax>
           <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ControllingPeripheral" access="readOnly" version="2.21">
+        <description>
+          Indicates which interface or peripheral this LED is controlled by. For example, 'Device.Ethernet.Interface.1'.
+          If {{empty}}, the LED is not controlled by a specific peripheral.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -491,7 +506,7 @@
     </profile>
   </component>
 
-  <model name="LEDs:2.20">
+  <model name="LEDs:2.21">
     <component ref="Root"/>
     <component ref="LEDs"/>
   </model>

@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wifi"
-    file="tr-181-2-20-0-wifi.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi"
+    file="tr-181-2-21-0-wifi.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-base">
     <component name="WiFiRoot"/>
     <component name="WiFiBase"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
@@ -83,7 +83,7 @@
   </import>
 
   <import file="tr-181-2-wifi-de.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-de">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-de">
     <component name="WiFiAllianceDataElements"/>
     <component name="SpatialReuse"/>
     <component name="DEScanResultNumberOfEntries"/>
@@ -96,7 +96,7 @@
   </import>
 
   <import file="tr-181-2-wifi-templates.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-wifi-templates">
+      spec="urn:broadband-forum-org:tr-181-2-21-wifi-templates">
     <component name="Templates"/>
   </import>
 
@@ -249,7 +249,7 @@
         Points (Multi-AP) and utilizes software logic to optimize that Wi-Fi
         network (typically via steering STAs, also known as Associated Devices,
         to the best Access Point). This object exposes the view of the Wi-Fi
-        netwtork from the perspective of the Multi-AP Controller. The Wi-Fi
+        network from the perspective of the Multi-AP Controller. The Wi-Fi
         Alliance EasyMesh solution is one example of managing a Multi-AP
         network.
 
@@ -1499,7 +1499,7 @@
 
       <parameter name="TriggerEvent" access="readOnly">
         <description>
-          The type of event that caused the steering to be initiaited. {{enum}}
+          The type of event that caused the steering to be initiated. {{enum}}
 
           NOTE: This might be Unknown for BTM Query Response steers.
         </description>
@@ -1754,7 +1754,7 @@
   </component>
 
 
-  <model name="WiFi:2.20">
+  <model name="WiFi:2.21">
     <component ref="Root"/>
     <component ref="WiFi"/>
   </model>

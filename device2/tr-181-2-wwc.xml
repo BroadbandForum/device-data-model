@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-wwc"
-    file="tr-181-2-20-0-wwc.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-wwc"
+    file="tr-181-2-21-0-wwc.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -114,7 +114,7 @@
       <description>
         The AMFId identifies an AMF instance within a service provider's
         network. In conjunction with the PLMN, it forms a Globally Unique AMF
-        Id (GUAMI) which globally uniquely identifes an AMF.
+        Id (GUAMI) which globally uniquely identifies an AMF.
 
         See {{bibref|3GPP-TS.23.003|Clause 2.10}}.
       </description>
@@ -125,7 +125,7 @@
 
     <parameter name="TMSI" access="readOnly" version="2.14">
       <description>
-        The Temporary Mobile Subscriber Identity (TMSI) is allocatred by the
+        The Temporary Mobile Subscriber Identity (TMSI) is allocated by the
         AMF at the time of registration and uniquely identifies the CPE.
 
         See {{bibref|3GPP-TS.23.003|Clause 2.4}}.
@@ -146,7 +146,7 @@
 
       * ServiceSliceType=eMBB
 
-      * When network slicng is used
+      * When network slicing is used
 
       * ServiceSliceType=eMBB
 
@@ -454,7 +454,7 @@
     <object name="Device.WWC.AccessNetwork.{i}.GUTI." access="readOnly"
         minEntries="1" maxEntries="1" version="2.14">
       <description>
-        A 5G Globally Unique Temporary Identity (GUTI) securely identifes an
+        A 5G Globally Unique Temporary Identity (GUTI) securely identifies an
         CPE by keeping the permanent User Equipment (UE identifier (IMSI)
         hidden. This identity is globally unique and assigned by the AMF at the
         time of registration.
@@ -670,7 +670,7 @@
     </object>
   </component>
 
-  <model name="WWC:2.20">
+  <model name="WWC:2.21">
     <component ref="Root"/>
     <component ref="WWC"/>
   </model>

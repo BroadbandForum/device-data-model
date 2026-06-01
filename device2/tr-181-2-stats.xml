@@ -55,15 +55,15 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-stats"
-    file="tr-181-2-20-0-stats.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-stats"
+    file="tr-181-2-21-0-stats.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106"/>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -86,7 +86,7 @@
     </command>
   </component>
 
-  <model name="Stats:2.20">
+  <model name="Stats:2.21">
     <object base="Device.DHCPv6.Client.{i}.Stats.">
       <component ref="ObjectStatsResetCWMP"/>
     </object>

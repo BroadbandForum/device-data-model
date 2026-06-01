@@ -98,6 +98,7 @@ This %bbfType% uses the following abbreviations:
 | IPsec            | Internet Protocol Security
 | LCP              | Link Control Protocol
 | M2M              | Machine to Machine
+| MAC              | Medium Access Control
 | NAS              | Non Access Stratum
 | NAT              | Network Address Translation
 | NSCL             | Network Service Capability Layer
@@ -106,6 +107,7 @@ This %bbfType% uses the following abbreviations:
 | PCO              | Protocol Configuration Options
 | PCP              | Port Control Protocol
 | PDU              | Protocol Data Unit
+| PHY              | Physical Layer
 | PPP              | Point-to-Point Protocol
 | PPPoE            | Point-to-Point Protocol over Ethernet
 | PTM              | Packet Transfer Mode

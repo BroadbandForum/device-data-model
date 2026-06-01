@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-bridging"
-    file="tr-181-2-20-0-bridging.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-bridging"
+    file="tr-181-2-21-0-bridging.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
     <component name="Layer2InterfaceParams"/>
@@ -456,7 +456,7 @@
 
     <object base="Device.Bridging.Bridge.{i}.Port.{i}." >
       <description action="replace">
-        Bridge Port table, which MUST contain an entry for each bridge port (a
+        Bridge port table, which MUST contain an entry for each bridge port (a
         stackable interface object as described in {{bibref|TR-181i2|Section
         4.2}}).
 
@@ -541,7 +541,7 @@
 
       <parameter name="DefaultUserPriority" access="readWrite">
         <description>
-          Bridge Port Default User Priority.
+          The default user priority for the bridge port.
         </description>
         <syntax>
           <unsignedInt>
@@ -553,7 +553,7 @@
       <parameter name="PriorityRegeneration" access="readWrite">
         <description>
           {{list}} List items represent user priority regeneration values for
-          each ingress user priority on this Bridge Port.
+          each ingress user priority on this bridge port.
         </description>
         <syntax>
           <list minItems="8" maxItems="8">
@@ -568,7 +568,7 @@
 
       <parameter name="PortState" access="readOnly">
         <description>
-          Bridge Port state as defined in 802.1D {{bibref|802.1D-2004}} and
+          Bridge port state as defined in 802.1D {{bibref|802.1D-2004}} and
           802.1Q {{bibref|802.1Q-2011}}.
         </description>
         <syntax>
@@ -626,7 +626,7 @@
       <parameter name="AcceptableFrameTypes" access="readWrite">
         <description>
           Indicates which types of frame arriving on this port will be admitted
-          to the bridge (i.e. Bridge Port acceptable frame types as defined in
+          to the bridge (i.e. bridge port acceptable frame types as defined in
           802.1Q {{bibref|802.1Q-2011}}). {{enum}}
 
           For an 802.1D {{bibref|802.1D-2004}} Bridge, the value of this
@@ -698,7 +698,7 @@
 
       <parameter name="PriorityTagging" access="readWrite">
         <description>
-          Enables or disables priority tagging on this Bridge Port.
+          Enables or disables priority tagging on this bridge port.
 
           When {{true}}, egress frames leaving this interface will be priority
           tagged with the frame's associated priority value, which will either
@@ -751,6 +751,75 @@
         </syntax>
       </parameter>
 
+      <parameter name="STPPointToPointMode" access="readWrite" version="2.21">
+        <description>
+          Configures the point-to-point link status for RSTP. {{enum}}
+
+          If STP is used instead of RSTP, this feature has no effect since rapid
+          transition for P2P links does not exist in regular STP.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Auto">
+              <description>
+                The RSTP implementation will automatically detect whether this
+                port is a point-to-point link.
+              </description>
+            </enumeration>
+            <enumeration value="Yes">
+              <description>
+                The point-to-point status is manually configured to be "Yes".
+              </description>
+            </enumeration>
+            <enumeration value="No">
+              <description>
+                The point-to-point status is manually configured to be "No".
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Auto"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="STPAdminEdgePort" access="readWrite" version="2.21">
+        <description>
+          Configures the administrative edge port status for STP.
+
+          Edge ports do not participate in the STP algorithm, since they are
+          by definition located at the edge of the network and therefore cannot
+          cause any loops.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IGMP" access="readWrite" version="2.21">
+        <description>
+          Enables or disables Internet Group Management Protocol (IGMP) snooping on this bridge
+          port. When enabled, the bridge monitors IGMP messages to determine which hosts are
+          interested in receiving multicast traffic, and forwards multicast traffic only to the
+          appropriate ports. This helps to reduce multicast traffic on the network.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLD" access="readWrite" version="2.21">
+        <description>
+          Enables or disables Multicast Listener Discovery (MLD) snooping on this bridge port. When
+          enabled, the bridge monitors MLD messages to determine which hosts are interested in
+          receiving multicast traffic, and forwards multicast traffic only to the appropriate ports.
+          This helps to reduce multicast traffic on the network.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.Bridging.Bridge.{i}.Port.{i}.PriorityCodePoint."
@@ -1054,7 +1123,7 @@
           The {{enum|Error}} value MAY be used by the CPE to indicate a locally
           defined error condition.
 
-          If the Bridge Port table is supported, but none of its entries
+          If the bridge port table is supported, but none of its entries
           correspond to {{param|Interface}}, or if such an entry exists but is
           disabled, {{param}} MUST NOT indicate {{enum|Enabled}}.
 
@@ -1115,7 +1184,7 @@
           {{reference}} This MUST relate to the same bridge as does
           {{param|Bridge}}.
 
-          Defines the Bridge Port on which ingress frame classification will
+          Defines the bridge port on which ingress frame classification will
           occur.
         </description>
         <syntax>
@@ -2293,7 +2362,7 @@
     </profile>
   </component>
 
-  <model name="Bridging:2.20">
+  <model name="Bridging:2.21">
     <component ref="Root"/>
     <component ref="Bridging"/>
   </model>

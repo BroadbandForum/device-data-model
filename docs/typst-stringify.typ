@@ -3,10 +3,10 @@
 
 #let stringify(value, as_list: false) = {
   let comps = ()
-  if type(value) == "none" {
+  if value == none {
     // ignore
   }
-  else if type(value) == "array" {
+  else if type(value) == array {
     for (i, item) in value.enumerate() {
       // XXX should this add a separator? this one?
       if i > 0 {
@@ -15,7 +15,7 @@
       comps += stringify(item, as_list: true)
     }
   }
-  else if type(value) == "dictionary" {
+  else if type(value) == dictionary {
     for (i, pair) in value.pairs().enumerate() {
       // XXX should this add a separator? this one?
       if i > 0 {
@@ -26,7 +26,7 @@
       comps += stringify(val, as_list: true)
     }
   }
-  else if type(value) != "content" {
+  else if type(value) != content {
     // XXX might need to check some more types
     comps.push(str(value))
   } else if repr(value.func()) in ("space", "linebreak", "parbreak") {

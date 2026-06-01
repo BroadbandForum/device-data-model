@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-fap"
-    file="tr-181-2-20-0-fap.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-fap"
+    file="tr-181-2-21-0-fap.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -434,7 +434,7 @@
           The Unknown Time value defined in {{bibref|TR-106|Section 3.2}} is
           used when {{param|GotFix}} is {{false}}. This applies too after a
           reboot of the device until a valid location is determined and
-          {{param|GotFix}} transsitions to {{true}}.
+          {{param|GotFix}} transitions to {{true}}.
         </description>
         <syntax>
           <dateTime/>
@@ -1892,7 +1892,7 @@
     </profile>
   </component>
 
-  <model name="FAP:2.20">
+  <model name="FAP:2.21">
     <component ref="Root"/>
     <component ref="FAP"/>
   </model>

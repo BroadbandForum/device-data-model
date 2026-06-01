@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-iot"
-    file="tr-181-2-20-0-iot.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-iot"
+    file="tr-181-2-21-0-iot.xml">
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
   </import>
 
-  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-20-root">
+  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -274,20 +274,20 @@
       </enumeration>
       <enumeration value="var" version="2.20">
         <description>
-          var: (IEC symbol): reactive power (volt-ampere-reactive). 
-          It represents the electrical power that flows back and forth between the phase conductors and the neutral conductor of a three-phase network, but does not perform any mechanical work.
+          Reactive power (volt-ampere-reactive) represents the electrical power that flows back and forth between the phase conductors and the neutral conductor of a three-phase network, but does not perform any mechanical work. {{bibref|RFC8798}}
         </description>
       </enumeration>
       <enumeration value="VA" version="2.20">
         <description>
-          VA: (SI symbol) apparent power: unit of measurement for electrical power. 
-          It represents the total available power in a alternating current system. It is made of the active power (W) and the reactive power (var).
+          Apparent power is a unit of measurement for electrical power. It represents the total available power in a alternating current system. 
+          It is made of the active power (W) and the reactive power (var). {{bibref|RFC8798}}
+          The [SI] unit for apparent power is voltampere, VA.
         </description>
       </enumeration>
       <enumeration value="PF" version="2.20">
         <description>
-          PF: (Power Factor: In AC power system it is defined as the ratio of the real power absorbed by the load to the apparent power flowing in the circuit. 
-          It is important the the power factor should be as close to "1.0" as possible. It is generally expressed as a decimal value or as a percentage.
+          In AC power system the Power Factor (PF) is defined as the ratio of the real power absorbed by the load to the apparent power flowing in the circuit. 
+          It is important the power factor should be as close to "1.0" as possible. It is generally expressed as a decimal value or as a percentage. {{bibref|IEC60050-131}}
         </description>
       </enumeration>
       <enumeration value="dateTime" version="2.20">
@@ -365,6 +365,60 @@
       <enumeration value="Depth"/>
       <enumeration value="Counter"/>
       <enumeration value="Duration" version="2.19"/>
+      <enumeration value="Longitude" version="2.21">
+        <description>
+          Longitude is a measurement of location east or west of the prime meridian at Greenwich.
+          Longitude is measured in degrees, minutes, and seconds.        
+        </description>
+      </enumeration>
+      <enumeration value="Latitude" version="2.21">
+        <description>
+          Latitude is a measurement of a location north or south of the Equator.
+          Latitude is measured in degrees, minutes, and seconds.        
+        </description>
+      </enumeration>
+      <enumeration value="Altitude" version="2.21">
+        <description>
+          Altitude is the vertical distance of an object measured from mean sea level.
+        </description>
+      </enumeration>
+      <enumeration value="Voltage" version="2.21">
+      </enumeration>
+      <enumeration value="Current" version="2.21">
+      </enumeration>
+      <enumeration value="Color" version="2.21">
+      </enumeration>
+      <enumeration value="ActivePower" version="2.21">
+         <description>
+          The Active Power is the actual use of electrical energy and is measured in watts (W). It is the amount that is actually used. {{bibref|IEEE1459}}
+        </description>
+      </enumeration>
+      <enumeration value="ReactivePower" version="2.21">
+         <description>
+          Reactive Power is the unconverted energy in a system and is measured in amperes reactive (var). {{bibref|IEEE1459}}
+        </description>
+      </enumeration>
+      <enumeration value="ApparentPower" version="2.21">
+         <description>
+          Apparent power is defined as the vectorial sum of Active Power and Reactive Power and is measured in volts ampere (VA). {{bibref|IEEE1459}}
+        </description>
+      </enumeration>
+      <enumeration value="Hue" version="2.21">
+        <description>
+           This parameter is used by the HSV color model. It represents an angle on the color wheel and ranges from 0 to 360 degrees.
+        </description>
+      </enumeration>
+      <enumeration value="ColorSaturation" version="2.21">
+        <description>
+           This parameter is used by the HSV color model. It represents color purity and ranges from 0 to 100%.
+        </description>
+      </enumeration>
+      <enumeration value="ColorBrightness" version="2.21">
+        <description>
+           This parameter is used by the HSV color model, also called the Value. It ranges from 0 to 100%.
+        </description>
+      </enumeration>
+      <enumeration value="Frequency" version="2.21"/>
     </string>
   </dataType>
 
@@ -435,6 +489,55 @@
      <enumeration value="ElectronicLock"/>
      <enumeration value="MotionTrigger"/>
    </string>
+  </dataType>
+
+  <dataType name="MultiLevelType">
+    <description>
+      Possible Multi Unit types. {{enum}}
+    </description>
+    <string>
+      <enumeration value="Location">
+        <description>Specifies Longitude (deg), Latitude (deg) and Altitude (m).</description>
+      </enumeration>
+      <enumeration value="HSV">
+        <description>
+          HSV (Hue Saturation Value) is a non-standard color model introduced by Smith (1978), defined as a transformation of an RGB color space (commonly sRGB).
+          No international standard defines its encoding or numeric ranges.
+        </description>
+      </enumeration>
+      <enumeration value="MultiPhaseVoltage">
+        <description>Specifies voltage (V) of at least two phases.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseCurrent">
+        <description>Specifies current (A) of at least two phases.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseReactivePower">
+        <description>Specifies reactive power (var) of at least two phases.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseApparentPower">
+        <description>Specifies apparent power (VA) of at least two phases.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseActivePower">
+        <description>Specifies active power (W) of at least two phases.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseVoltageCurrentPower">
+        <description>Specifies voltage (V), current (A) and active power (W) of at least one phase.</description>
+      </enumeration>
+      <enumeration value="MultiPhaseElectric">
+        <description>
+            Specifies MultiPhaseVoltage, MultiPhaseCurrent, MultiPhaseReactivePower, MultiPhaseApparentPower, MultiPhaseActivePower and Frequency (Hz).
+        </description>
+      </enumeration>
+      <enumeration value="sRGB">
+        <description>
+            Specifies a color space with three channels (Red, Green, and Blue). 
+            In typical digital representations, each channel is encoded as an 8-bit integer with values from 0 to 255. {{bibref|IEC61966-2-1}}
+        </description>
+      </enumeration> 
+      <enumeration value="Temperatures">
+        <description>Specifies at least two temperature readings of a multi-temperature sensor.</description>
+      </enumeration>
+    </string>
   </dataType>
 
   <component name="IoT_NodeComponent">
@@ -633,6 +736,7 @@
             <enumeration value="BinarySensor"/>
             <enumeration value="LevelSensor"/>
             <enumeration value="MultiLevelSensor"/>
+            <enumeration value="MultiLevelControl" version="2.21"/>
             <enumeration value="EnumSensor"/>
             <enumeration value="BlobSensor" version="2.19"/>
             <enumeration value="PulseSensor" version="2.20"/>
@@ -902,7 +1006,7 @@
       <parameter name="Duration" access="readWrite" mandatory="true">
         <description>
           Some {{object}} instances can provide a duration together with the latest state change.
-          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its orignal state.
+          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its original state.
           The original state can be a low state or high state.
         </description>
         <syntax>
@@ -1172,7 +1276,7 @@
       <parameter name="LowLevelThreshold" access="readWrite">
         <description>
           The threshold value in for {{param|LowLevel}} expressed in the same
-          units like {{param|Value}}.
+          units as {{param|Value}}.
         </description>
         <syntax>
           <decimal/>
@@ -1192,7 +1296,7 @@
       <parameter name="HighLevelThreshold" access="readWrite">
         <description>
           The threshold value in for {{param|HighLevel}} expressed in the same
-          units like {{param|Value}}.
+          units as {{param|Value}}.
         </description>
         <syntax>
           <decimal/>
@@ -1205,12 +1309,15 @@
         version="2.13">
       <description>
         MultiLevelSensor is used to reflect the functionality of a sensor that
-        reports multiple {{param|Values}} with the same {{param|Unit}}.
+        reports multiple sensor values. Each sensor value can have the same or different sensor units.
       </description>
 
-      <parameter name="Type" access="readOnly">
+      <parameter name="Type" access="readOnly" status="deprecated">
         <description>
           Describes the type of functionality that {{object}} is representing.
+
+          {{deprecated|2.21|because it is replaced by {{param|MultiLevelSensorType}}}}
+
         </description>
         <syntax>
           <string>
@@ -1232,10 +1339,19 @@
         </syntax>
       </parameter>
 
+      <parameter name="MultiLevelSensorType" access="readOnly" version="2.21">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="MultiLevelType"/>
+        </syntax>
+      </parameter>
+
       <parameter name="Description" access="readOnly">
         <description>
           Human-readable description of the {{object}}. e.g. a more detailed
-          description of {{param|Type}}.
+          description of {{param|MultiLevelSensorType}}.
         </description>
         <syntax>
           <string>
@@ -1244,10 +1360,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="Values" access="readOnly">
+      <parameter name="Values" access="readOnly" status="deprecated">
         <description>
           The current value reading of this {{object}} in units defined in
           {{param|Unit}}.
+
+          {{deprecated|2.21|because it is replaced by {{param|Sensor.{i}.Value}}}}
+
         </description>
         <syntax>
           <list minItems="2">
@@ -1257,9 +1376,12 @@
         </syntax>
       </parameter>
   
-      <parameter name="ValueNames" access="readOnly">
+      <parameter name="ValueNames" access="readOnly" status="deprecated">
         <description>
           The names of the values expressed in {{param|Values}}.
+
+          {{deprecated|2.21|because it is replaced by {{param|Sensor.{i}.ValueName}}}}
+
         </description>
         <syntax>
           <list minItems="2">
@@ -1271,8 +1393,7 @@
 
       <parameter name="LastChange" access="readOnly">
         <description>
-          The date and time when {{param|Values}} has been changed to the
-          current values.
+          The date and time when one of the {{param|Sensor.{i}.Value}} has been changed.
         </description>
         <syntax>
           <dateTime/>
@@ -1288,16 +1409,288 @@
         </syntax>
       </parameter>
 
-      <parameter name="Unit" access="readOnly">
+      <parameter name="Unit" access="readOnly" status="deprecated">
         <description>
           {{datatype|expand}}
 
           Unit in which {{param|Values}} are expressed.
+
+          {{deprecated|2.21|because it is replaced by {{param|Sensor.{i}.Unit}}}}
+
         </description>
         <syntax>
           <dataType ref="IoTUnitType"/>
         </syntax>
       </parameter>
+
+      <parameter name="SensorNumberOfEntries" access="readOnly"
+        version="2.21">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="IoTCapability.{i}.MultiLevelSensor.Sensor.{i}." access="readOnly"
+        numEntriesParameter="SensorNumberOfEntries" 
+        minEntries="2" maxEntries="unbounded"  version="2.21">
+      <description>
+        {{object}} represents an {{param|Type}}. At least two {{object}} will be present.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="IoTLevelType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readOnly">
+        <description>
+          Human-readable description of the {{object}}. For example, a more detailed
+          description of {{param|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Value" access="readOnly">
+        <description>
+          The current value reading of this {{object}} in units defined in {{param|Unit}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ValueName" access="readOnly">
+        <description>
+          The name corresponding to the value reported in {{param|Value}}.
+       </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastChange" access="readOnly">
+        <description>
+          The date and time in UTC when {{param|Value}} has been changed to the current value.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Unit" access="readOnly">
+        <description>
+          {{datatype|expand}}
+          Unit in which {{param|Value}} is reported.
+        </description>
+        <syntax>
+          <dataType ref="IoTUnitType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LowLevel" access="readOnly">
+        <description>
+          Low level indicator. Is set to {{true}} if {{param|Value}} is equal
+          or less than the value defined in {{param|LowLevelThreshold}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LowLevelThreshold" access="readWrite">
+        <description>
+          The threshold value in for {{param|LowLevel}} reported in the same
+          units as {{param|Value}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HighLevel" access="readOnly">
+        <description>
+          High level indicator. Is set to {{true}} if {{param|Value}} is equal
+          or higher than the value defined in {{param|HighLevelThreshold}}.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HighLevelThreshold" access="readWrite">
+        <description>
+          The threshold value in for {{param|HighLevel}} expressed in the same
+          units as {{param|Value}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="IoTCapability.{i}.MultiLevelControl." access="readOnly"
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.21">
+      <description>
+        MultiLevelControl is used to model multi level controls.
+      </description>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="MultiLevelType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readOnly">
+        <description>
+          Human-readable description of the {{object}}. For example, a more detailed
+          description of {{param|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ControlNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="IoTCapability.{i}.MultiLevelControl.Control.{i}." access="readOnly"
+        numEntriesParameter="ControlNumberOfEntries" 
+        minEntries="2" maxEntries="unbounded"  version="2.21">
+      <description>
+        {{object}} represents an IoTLevelType. At least two {{object}} will be present.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          {{datatype|expand}}
+        </description>
+        <syntax>
+          <dataType ref="IoTLevelType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readOnly">
+        <description>
+          Human-readable description of the {{object}}. For example, a more detailed
+          description of {{param|Type}}.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Value" access="readWrite">
+        <description>
+          The current value reading of this {{object}} in units defined in {{param|Unit}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ValueName" access="readOnly">
+        <description>
+          The name of the value expressed in {{param|Value}}.
+       </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Unit" access="readOnly">
+        <description>
+          {{datatype|expand}}
+          Unit in which {{param|Value}} is expressed.
+        </description>
+        <syntax>
+          <dataType ref="IoTUnitType"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MinValue" access="readOnly">
+        <description>
+          Minimum allowed value for {{param|Value}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxValue" access="readOnly">
+        <description>
+          Maximum allowed value for {{param|Value}}.
+        </description>
+        <syntax>
+          <decimal/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StepValue" access="readWrite">
+        <description>
+          Number of {{param|Unit}} changes of each {{command|StepUp()}} and
+          {{command|StepDown()}} command.
+        </description>
+        <syntax>
+          <decimal/>
+          <!--<default type="object" value="1"/>-->
+        </syntax>
+      </parameter>
+  
+      <command name="StepUp()" async="true">
+        <description>
+          Step Up the {{param|Value}}.
+        </description>
+      </command>
+
+      <command name="StepDown()" async="true">
+        <description>
+          Step Down the {{param|Value}}.
+        </description>
+      </command>
     </object>
 
     <object name="IoTCapability.{i}.EnumSensor." access="readOnly"
@@ -1357,7 +1750,7 @@
           <dateTime/>
         </syntax>
       </parameter>
-
+ 
       <parameter name="ValidValues" access="readOnly">
         <description>
           List of valid values reported from the sensor represented by this
@@ -1553,7 +1946,7 @@
       <parameter name="Duration" access="readOnly">
         <description>
           Some {{object}} instances can provide a duration together with the latest state change.
-          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its orignal state. 
+          The duration is an indication of the time, measured in {{units}}, between the start of the state change and the end of the state change: i.e., returning to its original state. 
           The original state can be a low state or high state. 
         </description>
         <syntax>
@@ -1685,7 +2078,7 @@
       </object>
     </profile>
 
-    <profile name="MultiLevelSensor:1" version="2.13">
+    <profile name="MultiLevelSensor:1" version="2.13" status="deprecated">
       <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
       <object ref="IoTCapability.{i}." requirement="present">
         <parameter ref="Class" requirement="readOnly"/>
@@ -1695,6 +2088,39 @@
         <parameter ref="Values" requirement="readOnly"/>
         <parameter ref="ValueNames" requirement="readOnly"/>
         <parameter ref="Unit" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="MultiLevelSensor:2" version="2.21">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.MultiLevelSensor." requirement="present">
+        <parameter ref="MultiLevelSensorType" requirement="readOnly"/>
+        <parameter ref="SensorNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.MultiLevelSensor.Sensor.{i}." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readOnly"/>
+        <parameter ref="ValueName" requirement="readOnly"/>
+        <parameter ref="Unit" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="MultiLevelSensorLowThreshold:1" base="MultiLevelSensor:2"
+        dmr:previousProfile="MultiLevelSensor:2" version="2.21">
+      <object ref="IoTCapability.{i}.MultiLevelSensor.Sensor.{i}." requirement="present">
+        <parameter ref="LowLevel" requirement="readOnly"/>
+        <parameter ref="LowLevelThreshold" requirement="readWrite"/>
+      </object>
+    </profile>
+
+    <profile name="MultiLevelSensorHighThreshold:1" base="MultiLevelSensor:2"
+        dmr:previousProfile="MultiLevelSensor:2" version="2.21">
+      <object ref="IoTCapability.{i}.MultiLevelSensor.Sensor.{i}." requirement="present">
+        <parameter ref="HighLevel" requirement="readOnly"/>
+        <parameter ref="HighLevelThreshold" requirement="readWrite"/>
       </object>
     </profile>
 
@@ -1755,9 +2181,38 @@
         </command> 
       </object>
     </profile>
+
+    <profile name="MultiLevelControl:1" version="2.21">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.MultiLevelControl." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="ControlNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.MultiLevelControl.Control.{i}." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readWrite"/>
+        <parameter ref="ValueName" requirement="readOnly"/>
+        <parameter ref="Unit" requirement="readOnly"/>
+        <parameter ref="MinValue" requirement="readOnly"/>
+        <parameter ref="MaxValue" requirement="readOnly"/>
+      </object>
+    </profile>
+
+    <profile name="MultiLevelControlIntensity:1" extends="MultiLevelControl:1"
+        version="2.21">
+      <object ref="IoTCapability.{i}.MultiLevelControl.Control.{i}." requirement="present">
+        <command ref="StepUp()"/>
+        <command ref="StepDown()"/>
+        <parameter ref="StepValue" requirement="readWrite"/>
+      </object>
+    </profile>
+
   </component>
 
-  <model name="IoT:2.20">
+  <model name="IoT:2.21">
     <component ref="Root"/>
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>

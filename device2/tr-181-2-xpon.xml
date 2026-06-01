@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [XPON]
 
-  Copyright (c) 2022-2025, Broadband Forum
+  Copyright (c) 2022-2024, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-1-xpon"
-    file="tr-181-2-20-1-xpon.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-xpon"
+    file="tr-181-2-21-0-xpon.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="BaseInterfaceParams"/>
     <component name="Layer1InterfaceParams"/>
     <component name="BaseInterfaceStats"/>
@@ -81,7 +81,7 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
@@ -501,6 +501,21 @@
           hardware) components; it SHOULD change to {{enum|Unknown}} if the
           state of the interface can not be determined for some reason.
 
+          Independent from the value of {{param|Enable}}, {{param}} SHOULD
+          change to {{enum|NotAllowed}} if the interface is not allowed to
+          transmit network traffic, e.g. because of a certain policy. If
+          {{param}} is {{enum|NotAllowed}}, the CPE should force the ONU state
+          to O1 (Initial state).
+
+          An example use case for {{enum|NotAllowed}} is the following: if
+          {{param|SFPReferenceList}} has one item referring to an
+          {{object|###.SFPs.SFPCage}} instance whose
+          {{param|###.SFPs.SFPCage.{i}.SFPPresent}} is {{true}}, whose
+          {{param|###.SFPs.SFPCage.{i}.SFPType}} does not warrant
+          {{enum|NotPresent}} as value for {{param}}, but whose
+          {{param|###.SFPs.SFPCage.{i}.IsAllowed}} is {{false}}, then {{param}}
+          should change to {{enum|NotAllowed}}.
+
           This parameter is based on ''ifOperStatus'' from {{bibref|RFC2863}}.
         </description>
         <syntax>
@@ -511,6 +526,7 @@
             <enumeration value="Dormant"/>
             <enumeration value="NotPresent"/>
             <enumeration value="Error" optional="true"/>
+            <enumeration value="NotAllowed" version="2.21"/>
           </string>
         </syntax>
       </parameter>
@@ -1997,7 +2013,7 @@
 
   </component>
 
-  <model name="XPON:2.20">
+  <model name="XPON:2.21">
     <component ref="Root"/>
     <component ref="XPON"/>
   </model>

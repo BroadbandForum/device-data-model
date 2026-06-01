@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-nat"
-    file="tr-181-2-20-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-nat"
+    file="tr-181-2-21-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,17 +65,17 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-firewall.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-firewall.xml">
     <component name="FirewallLog"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-21-schedules">
     <component name="ScheduleRef"/>
   </import>
 
@@ -86,7 +86,8 @@
       <description>
         Properties for Network Address Translation (NAT).
 
-        The entire {{object}} object only applies to IPv4.
+        This includes settings for IPv4 NAT within this object, and for IPv6-to-IPv6 Network Prefix
+        Translation (NPTv6).
       </description>
 
       <parameter name="InterfaceSettingNumberOfEntries" access="readOnly">
@@ -929,6 +930,8 @@
       </parameter>
     </object>
 
+    <component ref="NPTv6"/>
+
     <profile name="NAT:1" version="2.0">
       <object ref="Device.NAT." requirement="present">
         <parameter ref="InterfaceSettingNumberOfEntries"
@@ -956,8 +959,128 @@
     </profile>
   </component>
 
-  <model name="NAT:2.20">
+  <component name="NPTv6">
+    <object name="Device.NAT.NPTv6." minEntries="1" maxEntries="1" access="readOnly" version="2.21">
+      <description>
+        Properties for IPv6-to-IPv6 Network Prefix Translation (NPTv6).
+        
+        NPTv6 is defined in {{bibref|RFC6296}}.
+
+        The entire {{object}} object only applies to IPv6.
+      </description>
+
+      <parameter name="InterfaceSettingNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+         <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.NAT.NPTv6.InterfaceSetting.{i}." 
+      numEntriesParameter="InterfaceSettingNumberOfEntries" 
+      enableParameter="Enable" minEntries="0" maxEntries="unbounded" 
+      access="readWrite" version="2.21">
+      <description>
+        NPTv6 settings for an associated IP Interface on which NPTv6 is enabled.
+
+        For enabled table entries, if {{param|Interface}} is not a valid
+        reference, or if {{param|ExternalPrefix}} or {{param|InternalPrefix}} are not configured,
+        then the table entry is inoperable and the device MUST set
+        {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <uniqueKey functional="true">
+        <parameter ref="Interface"/>
+        <parameter ref="ExternalPrefix"/>
+      </uniqueKey>
+
+      <uniqueKey functional="true">
+        <parameter ref="Interface"/>
+        <parameter ref="InternalPrefix"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the {{object}} entry, indicating if NPTv6 is
+          enabled for the referenced IP Interface instance. On creation, an
+          {{object}} entry is disabled by default.
+        </description>
+        <syntax>
+          <boolean />
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this {{object}} instance.
+
+          The status of this entry. 
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured">
+              <description>
+                A necessary configuration value is undefined or invalid.
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                MAY be used by the CPE to indicate a locally defined error condition.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <component ref="Alias"/>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          The associated egress IP interface on which NPTv6 is to be enabled.
+        </description>
+        <syntax>
+          <string>
+            <pathRef targetType="row" refType="strong" targetParent=".IP.Interface."/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ExternalPrefix" access="readWrite">
+        <description>
+          The IPv6 prefix to be used as the external prefix. This is the prefix that is translated to the
+          {{param|InternalPrefix}} and MUST refer to a prefix that is part of the {{param|Interface}}
+          IP Interface instance. {{empty}} is not allowed.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Prefix"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="InternalPrefix" access="readWrite">
+        <description>
+          The IPv6 prefix to be used as the internal prefix. This is the prefix that the {{param|ExternalPrefix}} is
+          translated to. {{empty}} is not allowed.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Prefix"/>
+        </syntax>
+      </parameter>
+    </object>
+  </component>
+
+  <model name="NAT:2.21">
     <component ref="Root"/>
     <component ref="NAT"/>
+    <component ref="NPTv6"/>
   </model>
 </dm:document>

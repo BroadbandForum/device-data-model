@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-zigbee"
-    file="tr-181-2-20-0-zigbee.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-zigbee"
+    file="tr-181-2-21-0-zigbee.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -162,7 +162,7 @@
     </object>
 
     <object base="Device.ZigBee.Interface.{i}.Stats.">
-      <parameter name="UnknownPacketsReceived" access="readOnly" status="deprecated"
+      <parameter name="UnknownPacketsReceived" access="readOnly" status="obsoleted"
         activeNotify="canDeny">
         <description>
           The total number of {{units}} received which were discarded because
@@ -170,6 +170,8 @@
 
           {{deprecated|2.19|because its name is a typo of
           {{param|UnknownProtoPacketsReceived}}}}
+
+          {{obsoleted|2.21}}
         </description>
         <syntax>
           <dataType ref="StatsCounter32">
@@ -1216,7 +1218,7 @@
         <description>
           Specifies the application profile that is supported on this endpoint.
           Application profiles are agreements for messages, message formats,
-          andprocessing actions that enable developers to create an
+          and processing actions that enable developers to create an
           interoperable, distributed application employing application entities
           that reside on separate ZigBee devices. These application profiles
           enable applications to send commands, request data, and process
@@ -1576,7 +1578,7 @@
     </profile>
 
     <profile name="ZigBeeStats:1" extends="ZigBeeInterface:1"
-        status="deprecated" version="2.10">
+        status="obsoleted" version="2.10">
       <object ref="Device.ZigBee.Interface.{i}.Stats." requirement="present">
         <parameter ref="BytesSent" requirement="readOnly"/>
         <parameter ref="BytesReceived" requirement="readOnly"/>
@@ -1617,7 +1619,7 @@
     </profile>
   </component>
 
-  <model name="ZigBee:2.20">
+  <model name="ZigBee:2.21">
     <component ref="Root"/>
     <component ref="ZigBee"/>
   </model>

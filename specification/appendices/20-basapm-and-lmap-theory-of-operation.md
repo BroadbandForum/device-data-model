@@ -62,25 +62,41 @@ The Device.LMAP objects and parameters are mostly described in the IETF LMAP inf
 
 The base Device.LMAP.MeasurementAgent.{i} object contains parameters defined in LMAP information model ma-config-obj, ma-status-obj, and ma-capability-obj. The ma-preconfig-obj parameters are not modeled in Device:2 data model , because there is no need for pre-configuration values in a CWMP/USP-managed Measurement Agent. The information model parameters map to Device:2 data model parameters as shown in @tbl:mapping-lmap-information-model-parameters-to-data-model-parameters:
 
-:Mapping LMAP Information Model Parameters to Data Model Parameters
+::: list-table
+Mapping LMAP Information Model Parameters to Data Model Parameters
 
-| IETF LMAP Information Model\
-Parameter  | Device:2 data model parameter \
-(in Device.LMAP.MeasurementAgent.{i})
-|------------------------------------|-----------------------------------------------------------
-| ma-config-agent-id                 | Identifier
-| ma-config-credentials              | PublicCredential, PrivateCredential
-| ma-config-group-id                 | GroupIdentifier
-| ma-config-measurement-point        | MeasurementPoint
-| ma-config-report-agent-id          | UseAgentIdentifierInReports
-| ma-config-report-group-id          | UseGroupIdentifierInReports
-| ma-config-report-measurement-point | UseMeasurementPointInReports
-| ma-config-controller-timeout       | Controller. ControllerTimeout
-| ma-status-last-started             | LastStarted
-| ma-capability-hardware             | not included in Device.LMAP because it duplicates Device.DeviceInfo.HardwareVersion
-| ma-capability-firmware             | not included in Device.LMAP because it duplicates Device.DeviceInfo.SoftwareVersion
-| ma-capability-version              | Version
-| ma-capability-tags                 | CapabilityTags
+* - IETF LMAP Information Model
+    Parameter
+  - Device:2 data model parameter
+    (in Device.LMAP.MeasurementAgent.{i})
+
+* - ma-config-agent-id
+  - Identifier
+* - ma-config-credentials
+  - PublicCredential, PrivateCredential
+* - ma-config-group-id
+  - GroupIdentifier
+* - ma-config-measurement-point
+  - MeasurementPoint
+* - ma-config-report-agent-id
+  - UseAgentIdentifierInReports
+* - ma-config-report-group-id
+  - UseGroupIdentifierInReports
+* - ma-config-report-measurement-point
+  - UseMeasurementPointInReports
+* - ma-config-controller-timeout
+  - Controller. ControllerTimeout
+* - ma-status-last-started
+  - LastStarted
+* - ma-capability-hardware
+  - not included in Device.LMAP because it duplicates Device.DeviceInfo.HardwareVersion
+* - ma-capability-firmware
+  - not included in Device.LMAP because it duplicates Device.DeviceInfo.SoftwareVersion
+* - ma-capability-version
+  - Version
+* - ma-capability-tags
+  - CapabilityTags
+:::
 
 All of the other IETF LMAP information model parameters can be readily mapped to objects and parameters in Device.LMAP.MeasurementAgent.{i}.
 

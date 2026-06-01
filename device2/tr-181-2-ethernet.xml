@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-ethernet"
-    file="tr-181-2-20-0-ethernet.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-ethernet"
+    file="tr-181-2-21-0-ethernet.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,13 +68,13 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-20-interface">
-    <component name="Layer1InterfaceMaxBitRateReadWrite"/>
+    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    <component name="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList"/>
     <component name="LinkReadWrite"/>
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -84,7 +84,7 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
@@ -175,7 +175,8 @@
     <object name="Device.Ethernet." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
-        Ethernet object. This object models several Ethernet interface objects,
+        Ethernet object, which is any interface implementing the {{bibref|802.3-2015}} family of specifications.
+        This object models several Ethernet interface objects,
         each representing a different stack layer, including:
         {{object|Interface}}, {{object|Link}}, and {{object|VLANTermination}}.
         {{object|Interface}} is media-specific and models a port, the PHY
@@ -205,7 +206,7 @@
         </syntax>
       </parameter>
 
-      <component ref="Layer1InterfaceMaxBitRateReadWrite"/>
+      <component ref="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList"/>
 
       <component ref="LinkReadWrite"/>
 
@@ -227,9 +228,9 @@
     <object base="Device.Ethernet.Interface.{i}.">
       <description action="replace">
         Ethernet interface table (a stackable interface object as described in
-        {{bibref|TR-181i2|Section 4.2}}). This table models physical Ethernet
-        ports, but in terms of the interface stack it only models the PHY and
-        Connection Access Method of the Ethernet interface MAC. A
+        {{bibref|TR-181i2|Section 4.2}}) for any interface implementing the IEEE 802.3 family
+        of specifications. This table models physical Ethernet ports, but in terms of the interface
+        stack it only models the PHY and Connection Access Method of the Ethernet interface MAC. A
         {{object|#.Link}} is also required to model a full Ethernet device.
       </description>
 
@@ -434,7 +435,7 @@
           <string>
             <enumeration value="Disabled">
               <description>
-                Indictes that EDPD is disabled.
+                Indicates that EDPD is disabled.
               </description>
             </enumeration>
             <enumeration value="Enabled">
@@ -476,19 +477,6 @@
             <enumeration value="Unknown"/>
             <enumeration value="On"/>
             <enumeration value="Off"/>
-          </string>
-        </syntax>
-      </parameter>
-      <parameter name="SFPReferenceList" access="readOnly" version="2.19">
-        <description>
-          Small-form Factor Pluggable (SFP) entries associated with this interface.
-        </description>
-        <syntax>
-          <list/>
-          <string>
-            <size maxLength="256"/>
-            <pathRef refType="strong" targetParent="##.SFPs.SFPCage."
-                targetType="row"/>
           </string>
         </syntax>
       </parameter>
@@ -574,10 +562,12 @@
         </syntax>
       </parameter>
 
-      <parameter name="NoARP" access="readWrite" version="2.18">
+      <parameter name="NoARP" access="readWrite" version="2.18" status="deprecated">
         <description>
           Disables or enables sending of ARP messages on the Ethernet link.
           If {{true}}, the kernel will not send ARP requests and won't send ARP replies.
+
+          {{deprecated|2.21|in favor of {{param|##.NeighborDiscovery.InterfaceSetting.{i}.ARP.Enable}}}}
         </description>
         <syntax>
           <boolean/>
@@ -1029,7 +1019,7 @@
           were between 128 and 255 bytes in length inclusive (excluding framing
           bits but including FCS bytes).
 
-          This parameter is based on ''etherStatsPkts6128to255Octets'' from
+          This parameter is based on ''etherStatsPkts128to255Octets'' from
           {{bibref|RFC2819}}.
         </description>
         <syntax>
@@ -1256,7 +1246,7 @@
     </profile>
   </component>
 
-  <model name="Ethernet:2.20">
+  <model name="Ethernet:2.21">
     <component ref="Root"/>
     <component ref="Ethernet"/>
   </model>

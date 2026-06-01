@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-localagent"
-    file="tr-181-2-20-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-localagent"
+    file="tr-181-2-21-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -1448,14 +1448,23 @@
       <parameter name="SecuredRoles" access="readWrite" version="2.16">
         <description>
           {{list|each entry is a Role that is associated with Controllers to
-          indicate their access to secured parameters (e.g.
+          indicate their access to the content of secured parameters (e.g.
           {{param|.WiFi.AccessPoint.{i}.Security.WEPKey}}). The value of the
           {{param}} parameter is appended to the
-          {{param|#.Controller.{i}.AssignedRole}} parameter}}
+          {{param|#.Controller.{i}.AssignedRole}} parameter of the Controller instance
+          that requires access to the content of secured parameters.}}
 
-          Only Controllers with a secured role assigned (and the appropriate
-          permissions set) MUST be able to have access to secured parameters
-          content.
+          A Controller that requires access to the content of secured parameters
+          must possess at least one Role from this list via
+          {{param|#.Controller.{i}.AssignedRole}} or {{param|#.Controller.{i}.InheritedRole}}. 
+          The secured role on a Controller only affects the visibility of the
+          parameter content; that is, if a Controller attempts to access a secured
+          parameter for which it has the appropriate access rights, the content 
+          will only be visible if the Controller also possesses one of the Roles 
+          from the value of this parameter.
+
+          If a Controller attempts to read a secured parameter without being
+          assigned a Role from the value of this parameter, the Agent MUST return an empty string.
         </description>
         <syntax>
           <list/>
@@ -2087,7 +2096,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.20">
+  <model name="LocalAgent:2.21">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

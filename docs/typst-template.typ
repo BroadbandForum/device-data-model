@@ -286,13 +286,12 @@
     if it.element.func() == heading {
       v(12pt, weak: true)
       strong(it)
-    } else [
-      #let location = it.element.location()
-      #link(location)[
-        #if figure-numbering [#it.body] else [#it.element.caption.body]]
-      #box(width: 1fr, repeat[.])
-      #link(location)[#it.page]
-    ]
+    } else {
+      link(
+        it.element.location(),
+        it.indented(if figure-numbering { it.prefix() } else { none }, it.inner())
+      )
+    }
   }
 
   // why aren't figures breakable by default? blocks are

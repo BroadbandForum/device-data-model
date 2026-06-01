@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [Users]
 
-  Copyright (c) 2010-2024, Broadband Forum
+  Copyright (c) 2010-2025, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-16"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-14
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-16
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-20-0-users"
-    file="tr-181-2-20-0-users.xml">
+    spec="urn:broadband-forum-org:tr-181-2-21-0-users"
+    file="tr-181-2-21-0-users.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-20-root">
+      spec="urn:broadband-forum-org:tr-181-2-21-root">
     <component name="Root"/>
   </import>
 
@@ -271,7 +271,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="GroupParticipation" access="readWrite">
+      <parameter name="GroupParticipation" access="readWrite" version="2.15" dmr:noVersionCheck="true">
         <description>
           The Groups of which this User is a member.
         </description>
@@ -286,7 +286,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="RoleParticipation" access="readWrite">
+      <parameter name="RoleParticipation" access="readWrite" version="2.15" dmr:noVersionCheck="true">
         <description>
           The Roles which are assigned to this User.
         </description>
@@ -301,7 +301,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="StaticUser" access="readOnly">
+      <parameter name="StaticUser" access="readOnly" version="2.15" dmr:noVersionCheck="true">
       <description>
         A static user is a fixed user that is always available in the system.
         When set to {{true}}, the user cannot be removed.
@@ -312,7 +312,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Language" access="readWrite">
+      <parameter name="Language" access="readWrite" version="2.15" dmr:noVersionCheck="true">
         <description>
           String describing the default language for the local configuration
           interface, specified according to {{bibref|RFC3066}}.
@@ -327,7 +327,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Shell" access="readWrite">
+      <parameter name="Shell" access="readWrite" version="2.15" dmr:noVersionCheck="true">
         <description>
           {{null}} means Shell access disabled.
         </description>
@@ -337,6 +337,16 @@
                 targetType="row"/>
           </string>
           <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HomeDirectory" access="readWrite" version="2.21">
+        <description>
+          The user's home directory. This parameter MUST contain the path to the
+          user's home directory, specified according to {{bibref|RFC8089}}. For example, 'file:///home/user'.
+        </description>
+        <syntax>
+          <dataType ref="FileURI"/>
         </syntax>
       </parameter>
     </object>
@@ -611,7 +621,7 @@
   </component>
 
 
-  <model name="Users:2.20">
+  <model name="Users:2.21">
     <component ref="Root"/>
     <component ref="Users"/>
   </model>

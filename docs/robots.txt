@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://device-data-model.broadband-forum.org/sitemap.xml

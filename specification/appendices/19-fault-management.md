@@ -10,8 +10,8 @@ There are four types of alarm event handling:
 |-----------------|--------------------------------------------------------------
 | Expedited Event | Alarm event is immediately notified to the Controller with the use of Active Notification mechanism
 | Queued Event    | Alarm event is notified to the Controller at the next opportunity with the use of Passive Notification mechanism
-| Logged Event    | The CPE stores the alarm event locally but does not notify the Controller
-| Disabled Event  | The CPE ignores the alarm event and takes no action
+| Logged Event    | The device stores the alarm event locally but does not notify the Controller
+| Disabled Event  | The device ignores the alarm event and takes no action
 
 Note that all Fault Management tables are cleared when the device reboots.
 
@@ -28,13 +28,13 @@ Note that all Fault Management tables are cleared when the device reboots.
    * - SupportedAlarm.{i}.
      - Fixed 
      - Static & fixed content 
-     - Defines all alarms that the CPE supports. *ReportedMechanism* defines how the alarm is to be handled within the CPE: 
+     - Defines all alarms that the device supports. *ReportedMechanism* defines how the alarm is to be handled within the device: 
        - 0 -- Expedited
        - 1 -- Queued
        - 2 -- Logged
        - 3 -- Disabled
 
-       The table size is fixed and its content is static in order to drive the alarm handling behavior in the CPE.
+       The table size is fixed and its content is static in order to drive the alarm handling behavior in the device.
 
    * - ExpeditedEvent.{i}.
      - Fixed
@@ -66,7 +66,7 @@ Note that all Fault Management tables are cleared when the device reboots.
      - Dynamically updated
      - Contains all alarm events as a historical record keeping purpose. One entry exists for each event. In other words, raising and clearing of the same alarm are two separate entries.
 
-       The Controller can retrieve the content of this table to get the entire chronological history of the alarm events on the CPE.
+       The Controller can retrieve the content of this table to get the entire chronological history of the alarm events on the device.
 
        As the table size is fixed (vendor defined), new alarm event overwrites the oldest entry in FIFO fashion after the table becomes full.
 :::

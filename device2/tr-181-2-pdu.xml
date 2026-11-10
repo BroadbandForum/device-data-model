@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-pdu"
-    file="tr-181-2-21-0-pdu.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-pdu"
+    file="tr-181-2-22-0-pdu.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -111,7 +111,7 @@
       * SliceDifferentiator=3
     </description>
 
-    <parameter name="SliceServiceType" access="readOnly" version="2.14" status="obsoleted">
+    <parameter name="SliceServiceType" access="readOnly" version="2.14" status="deleted">
       <description>
         The Slice Service Type (SST). {{enum}}
 
@@ -121,13 +121,15 @@
         {{object|Device.SessionManagement.PDU.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <syntax>
         <dataType ref="SST"/>
       </syntax>
     </parameter>
 
-    <parameter name="SliceDifferentiator" access="readOnly" version="2.14" status="obsoleted">
+    <parameter name="SliceDifferentiator" access="readOnly" version="2.14" status="deleted">
       <description>
         The Slice differentiator is an optional number used to differentiate
         network slices with the same SST.
@@ -138,6 +140,8 @@
         {{object|Device.SessionManagement.PDU.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <syntax>
         <unsignedInt/>
@@ -147,7 +151,7 @@
 
   <component name="PDU">
 
-    <object name="Device.PDU." access="readOnly" minEntries="1" maxEntries="1" status="obsoleted"
+    <object name="Device.PDU." access="readOnly" minEntries="1" maxEntries="1" status="deleted"
         version="2.14">
       <description>
         The logical connection between the 5G-RG and data network is the
@@ -158,15 +162,19 @@
         {{deprecated|2.19|because it is no longer a top level object}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
 
-      <parameter name="SessionNumberOfEntries" access="readOnly" status="obsoleted">
+      <parameter name="SessionNumberOfEntries" access="readOnly" status="deleted">
         <description>
           {{numentries}}
           
           {{deprecated|2.19|because it is no longer a top level object}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -174,7 +182,7 @@
       </parameter>
     </object>
 
-    <object name="Device.PDU.Session.{i}." access="readOnly" status="obsoleted"
+    <object name="Device.PDU.Session.{i}." access="readOnly" status="deleted"
         numEntriesParameter="SessionNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.14">
       <description>
@@ -186,6 +194,8 @@
         {{object|Device.SessionManagement.PDU.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -193,7 +203,7 @@
 
       <component ref="Alias"/>
 
-      <parameter name="Interface" access="readOnly" status="obsoleted">
+      <parameter name="Interface" access="readOnly" status="deleted">
         <description>
           {{reference}} The IP Interface associated with the ''PDU'' entry.
 
@@ -201,6 +211,8 @@
           {{object|Device.SessionManagement.Session.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -211,7 +223,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SessionID" access="readOnly" status="obsoleted">
+      <parameter name="SessionID" access="readOnly" status="deleted">
         <description>
           PDU session identity. See {{bibref|3GPP-TS.24.501|Clause 9.4}}.
 
@@ -219,6 +231,8 @@
           {{object|Device.SessionManagement.Session.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -227,7 +241,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="PTI" access="readOnly" status="obsoleted">
+      <parameter name="PTI" access="readOnly" status="deleted">
         <description>
           Procedure transaction identity. See {{bibref|3GPP-TS.24.501|Clause
           9.6}}.
@@ -236,6 +250,8 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -244,7 +260,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SessionType" access="readOnly" status="obsoleted">
+      <parameter name="SessionType" access="readOnly" status="deleted">
         <description>
           The PDU session type indicating the protocol the PDU is capable of
           carrying. See {{bibref|3GPP-TS.24.501|Clause 9.11.4.11}}. {{enum}}
@@ -253,6 +269,8 @@
           {{object|Device.SessionManagement.Session.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -264,7 +282,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SSC" access="readOnly" status="obsoleted">
+      <parameter name="SSC" access="readOnly" status="deleted">
         <description>
           Session and Service Continuity (SSC) Mode: Indicates that the traffic
           of the matching application shall be routed via a PDU Session
@@ -275,6 +293,8 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -283,7 +303,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SessionAMBRDownlink" access="readOnly" status="obsoleted">
+      <parameter name="SessionAMBRDownlink" access="readOnly" status="deleted">
         <description>
           Downlink Aggregate Maximum Bit Rate in {{units}}. See
           {{bibref|3GPP-TS.24.501|Clause 9.11.4.14}}.
@@ -292,6 +312,8 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -300,7 +322,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="SessionAMBRUplink" access="readOnly" status="obsoleted">
+      <parameter name="SessionAMBRUplink" access="readOnly" status="deleted">
         <description>
           Uplink Aggregate Maximum Bit Rate in {{units}}. See
           {{bibref|3GPP-TS.24.501|Clause 9.11.4.14}}.
@@ -309,6 +331,8 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -317,20 +341,22 @@
         </syntax>
       </parameter>
 
-      <parameter name="LastError" access="readOnly" status="obsoleted">
+      <parameter name="LastError" access="readOnly" status="deleted">
         <description>
           Error code. See {{bibref|3GPP-TS.24.501|Clause 9.11.4.2}}
 
           {{deprecated|2.19|because it is no longer required}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
         </syntax>
       </parameter>
 
-      <parameter name="PDUIPv4Address" access="readOnly" status="obsoleted">
+      <parameter name="PDUIPv4Address" access="readOnly" status="deleted">
         <description>
           The IPv4 address allocated to the PDU session by the SMF. This
           parameter is only valid if {{param|SessionType}} has a value of
@@ -341,13 +367,15 @@
           {{param|Device.SessionManagement.Session.{i}.Interface}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <dataType ref="IPv4Address"/>
         </syntax>
       </parameter>
 
-      <parameter name="PDUIPv6InterfaceIdentifier" access="readOnly" status="obsoleted">
+      <parameter name="PDUIPv6InterfaceIdentifier" access="readOnly" status="deleted">
         <description>
           The interface identifier for the IPv6 link local address allocated to
           the PDU session by the SMF. This parameter is only valid if
@@ -359,13 +387,15 @@
           {{param|Device.SessionManagement.Session.{i}.Interface}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string/>
         </syntax>
       </parameter>
 
-      <parameter name="RQTimerValue" access="readOnly" status="obsoleted">
+      <parameter name="RQTimerValue" access="readOnly" status="deleted">
         <description>
           Reflective QoS timeout in {{units}}. See
           {{bibref|3GPP-TS.24.501|Clause 9.11.2.3}}.
@@ -374,6 +404,8 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -382,7 +414,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="AlwaysOn" access="readOnly" status="obsoleted">
+      <parameter name="AlwaysOn" access="readOnly" status="deleted">
         <description>
           Always on PDU session indication. The purpose of the Always-on PDU
           session indication information element is to indicate whether a PDU
@@ -394,13 +426,15 @@
           {{object|Device.SessionManagement.PDU.{i}}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <boolean/>
         </syntax>
       </parameter>
 
-      <parameter name="DNN" access="readOnly" status="obsoleted">
+      <parameter name="DNN" access="readOnly" status="deleted">
         <description>
           The Data Network Name used by the PDU. The DNN value may be from the
           optional S-NSSAI specified at the time of PDU establishment or a
@@ -412,6 +446,8 @@
           {{param|Device.SessionManagement.Session.{i}.APN}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -420,7 +456,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="QoSRuleNumberOfEntries" access="readOnly" status="obsoleted">
+      <parameter name="QoSRuleNumberOfEntries" access="readOnly" status="deleted">
         <description>
           {{numentries}}
 
@@ -428,13 +464,15 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRuleNumberOfEntries}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
         </syntax>
       </parameter>
 
-      <parameter name="QoSFlowNumberOfEntries" access="readOnly" status="obsoleted">
+      <parameter name="QoSFlowNumberOfEntries" access="readOnly" status="deleted">
         <description>
           {{numentries}}
 
@@ -442,6 +480,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlowNumberOfEntries}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -449,7 +489,7 @@
       </parameter>
     </object>
 
-    <object name="Device.PDU.Session.{i}.PCO." access="readOnly" status="obsoleted"
+    <object name="Device.PDU.Session.{i}.PCO." access="readOnly" status="deleted"
         minEntries="1" maxEntries="1" version="2.14">
       <description>
         Policy Configuration Options (PCO) is an optional set of configuration
@@ -460,9 +500,11 @@
         {{object|Device.SessionManagement.Session.{i}.PCO}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
 
-      <parameter name="IPv6PCSCF" access="readOnly" status="obsoleted">
+      <parameter name="IPv6PCSCF" access="readOnly" status="deleted">
         <description>
           The IPv6 address of the P-CSCF used for VoLTE telephony.
 
@@ -470,13 +512,15 @@
           {{param|Device.SessionManagement.Session.{i}.PCO.IPv6PCSCF}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <dataType ref="IPv6Address"/>
         </syntax>
       </parameter>
 
-      <parameter name="IPv6DNS" access="readOnly" status="obsoleted">
+      <parameter name="IPv6DNS" access="readOnly" status="deleted">
         <description>
           Each entry is an IPv6 DNS server.
 
@@ -484,6 +528,8 @@
           {{param|Device.SessionManagement.Session.{i}.PCO.IPv6DNS}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <list/>
@@ -493,7 +539,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="IPv4PCSCF" access="readOnly" status="obsoleted">
+      <parameter name="IPv4PCSCF" access="readOnly" status="deleted">
         <description>
           The IPv4 address of the P-CSCF used for VoLTE telephony.
 
@@ -501,13 +547,15 @@
           {{param|Device.SessionManagement.Session.{i}.PCO.IPv4PCSCF}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <dataType ref="IPv4Address"/>
         </syntax>
       </parameter>
 
-      <parameter name="IPv4DNS" access="readOnly" status="obsoleted">
+      <parameter name="IPv4DNS" access="readOnly" status="deleted">
         <description>
           Each entry is an IPv4 DNS server.
 
@@ -515,6 +563,8 @@
           {{param|Device.SessionManagement.Session.{i}.PCO.IPv4DNS}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <list/>
@@ -525,7 +575,7 @@
       </parameter>
     </object>
 
-    <object name="Device.PDU.Session.{i}.NetworkSlice." access="readOnly" status="obsoleted"
+    <object name="Device.PDU.Session.{i}.NetworkSlice." access="readOnly" status="deleted"
         minEntries="1" maxEntries="1" version="2.14">
       <description>
         Describes a S-NSSAI Information element providing network slice
@@ -537,11 +587,13 @@
         {{object|Device.SessionManagement.PDU.{i}.NetworkSlice}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <component ref="s-nssai"/>
     </object>
 
-    <object name="Device.PDU.Session.{i}.QoSRule.{i}." access="readOnly" status="obsoleted"
+    <object name="Device.PDU.Session.{i}.QoSRule.{i}." access="readOnly" status="deleted"
         numEntriesParameter="QoSRuleNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.14">
       <description>
@@ -594,6 +646,8 @@
         {{object|Device.SessionManagement.PDU.{i}.QoSRule.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -604,7 +658,7 @@
 
       <component ref="Alias"/>
 
-      <parameter name="Identifier" access="readOnly" status="obsoleted">
+      <parameter name="Identifier" access="readOnly" status="deleted">
         <description>
           The QoS rule identifier field is used to identify the QoS rule.
 
@@ -612,6 +666,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Identifier}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -620,7 +676,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Precedence" access="readOnly" status="obsoleted">
+      <parameter name="Precedence" access="readOnly" status="deleted">
         <description>
           The QoS rule precedence field is used to specify the precedence of
           the QoS rule among all QoS rules. The higher the value of the QoS
@@ -630,6 +686,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Precedence}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -638,7 +696,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Segregation" access="readOnly" status="obsoleted">
+      <parameter name="Segregation" access="readOnly" status="deleted">
         <description>
           In the UE to network direction the segregation bit indicates whether
           the UE is requesting the network to bind service data flows described
@@ -649,13 +707,15 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Segregation}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <boolean/>
         </syntax>
       </parameter>
 
-      <parameter name="QFI" access="readOnly" status="obsoleted">
+      <parameter name="QFI" access="readOnly" status="deleted">
         <description>
           QoS Flow identifier.
 
@@ -663,6 +723,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.QFI}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -671,7 +733,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="DQR" access="readOnly" status="obsoleted">
+      <parameter name="DQR" access="readOnly" status="deleted">
         <description>
           Default QoS rule flag. When {{true}} this QoS rule is the default QoS
           rule.
@@ -680,6 +742,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.DQR}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <boolean/>
@@ -687,7 +751,7 @@
       </parameter>
 
       <parameter name="FilterNumberOfEntries" access="readOnly"
-        status="obsoleted">
+        status="deleted">
         <description>
           {{numentries}}
 
@@ -695,6 +759,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.FilterNumberOfEntries}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -703,7 +769,7 @@
     </object>
 
     <object name="Device.PDU.Session.{i}.QoSRule.{i}.Filter.{i}."
-      status="obsoleted"
+      status="deleted"
         access="readOnly" numEntriesParameter="FilterNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.14">
       <description>
@@ -715,6 +781,8 @@
         {{object|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Filter.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -722,7 +790,7 @@
 
       <component ref="Alias"/>
 
-      <parameter name="Direction" access="readOnly" status="obsoleted">
+      <parameter name="Direction" access="readOnly" status="deleted">
         <description>
           The packet filter direction field is used to indicate for what
           traffic direction the filter applies. See
@@ -732,6 +800,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Filter.{i}.Direction}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -742,7 +812,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Type" access="readOnly" status="obsoleted">
+      <parameter name="Type" access="readOnly" status="deleted">
         <description>
           Packet filter component type identifier. See
           {{bibref|3GPP-TS.24.501|Clause 9.11.4.13}}.
@@ -751,13 +821,15 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Filter.{i}.Type}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
         </syntax>
       </parameter>
 
-      <parameter name="Value" access="readOnly" status="obsoleted">
+      <parameter name="Value" access="readOnly" status="deleted">
         <description>
           Matching value for the component type. See
           {{bibref|3GPP-TS.24.501|Clause 9.11.4.13}}.
@@ -766,6 +838,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSRule.{i}.Filter.{i}.Value}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -775,7 +849,7 @@
       </parameter>
     </object>
 
-    <object name="Device.PDU.Session.{i}.QoSFlow.{i}." access="readOnly" status="obsoleted"
+    <object name="Device.PDU.Session.{i}.QoSFlow.{i}." access="readOnly" status="deleted"
         numEntriesParameter="QoSFlowNumberOfEntries" minEntries="0"
         maxEntries="unbounded" version="2.14">
       <description>
@@ -802,6 +876,8 @@
         {{object|Device.SessionManagement.PDU.{i}}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -812,7 +888,7 @@
 
       <component ref="Alias"/>
 
-      <parameter name="QFI" access="readOnly" status="obsoleted">
+      <parameter name="QFI" access="readOnly" status="deleted">
         <description>
           QoS Flow Identifier.
 
@@ -820,6 +896,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.QFI}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -828,7 +906,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="FiveQI" access="readOnly" status="obsoleted">
+      <parameter name="FiveQI" access="readOnly" status="deleted">
         <description>
           5G QoS Identifier. See {{bibref|3GPP-TS.23.501|Clause 5.7.4}} for a
           table of standardised 5QI QoS characteristics.
@@ -837,6 +915,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.FiveQI}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -845,7 +925,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="GFBRUplink" access="readOnly" status="obsoleted">
+      <parameter name="GFBRUplink" access="readOnly" status="deleted">
         <description>
           Guaranteed Flow Bitrate - Upstream (expressed in {{units}}).
 
@@ -853,6 +933,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.GFBRUplink}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -861,7 +943,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="GFBRDownlink" access="readOnly" status="obsoleted">
+      <parameter name="GFBRDownlink" access="readOnly" status="deleted">
         <description>
           Guaranteed Flow Bitrate - Downstream (expressed in {{units}}).
 
@@ -869,6 +951,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.GFBRDownlink}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -877,7 +961,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MFBRUplink" access="readOnly" status="obsoleted">
+      <parameter name="MFBRUplink" access="readOnly" status="deleted">
         <description>
           Maximum Flow Bitrate - Upstream (expressed in {{units}}).
 
@@ -885,6 +969,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.MFBRUplink}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -893,7 +979,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="MFBRDownlink" access="readOnly" status="obsoleted">
+      <parameter name="MFBRDownlink" access="readOnly" status="deleted">
         <description>
           Maximum Flow Bitrate - Downstream (expressed in {{units}}).
 
@@ -901,6 +987,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.MFBRDownlink}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedLong>
@@ -909,7 +997,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="AveragingWindow" access="readOnly" status="obsoleted">
+      <parameter name="AveragingWindow" access="readOnly" status="deleted">
         <description>
           Averaging window for both uplink and downlink in {{units}}.
 
@@ -917,6 +1005,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.AveragingWindow}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt>
@@ -925,7 +1015,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="EPSBearer" access="readOnly" status="obsoleted">
+      <parameter name="EPSBearer" access="readOnly" status="deleted">
         <description>
           EPS Bearer Identity. See {{bibref|3GPP-TS.24.301|Clause 9.3.2}}.
 
@@ -933,6 +1023,8 @@
           {{param|Device.SessionManagement.PDU.{i}.QoSFlow.{i}.EPSBearer}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <unsignedInt/>
@@ -941,7 +1033,7 @@
     </object>
   </component>
 
-  <model name="PDU:2.21">
+  <model name="PDU:2.22">
     <component ref="Root"/>
     <component ref="PDU"/>
   </model>

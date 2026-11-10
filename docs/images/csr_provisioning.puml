@@ -1,0 +1,26 @@
+@startuml
+participant "Secure\nStorage" as PKCS11
+participant "Security\nManager" as TR181
+participant "USP\nAgent" as OBUSPA
+participant "Provisioning\nController" as ProvController
+participant "Certificate\nAuthority" as CA
+participant "USP\nController" as USPController
+
+OBUSPA -> OBUSPA: Load provisioning\ncert in SSL context
+OBUSPA -> ProvController: Connect
+ProvController -> OBUSPA: Device.Security.CreateCSR()
+
+OBUSPA -> TR181: Generate_KeyPair()
+TR181 -> PKCS11: Initialize_PIN()
+TR181 -> PKCS11: Generate_KeyPair()
+
+OBUSPA -> ProvController: Device.Security.CSRCreated!(CommandKey: <CommandKey>\nName: <name>\nEncodedCSR: <CSR data>)
+note right: CommandKey is {{empty}} for\nauto-update renewals.\nName identifies the certificate\nto replace in AddCertificate().
+ProvController -> CA: Sign CSR / Certificate
+CA --> ProvController: Sign Complete
+
+ProvController -> OBUSPA: Device.Security.AddCertificate(Name: <name>\nMatchToCSR: true)
+OBUSPA -> OBUSPA: Load new Certificate
+OBUSPA -> USPController: Connect
+
+@enduml

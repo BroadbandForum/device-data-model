@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-basapm"
-    file="tr-181-2-21-0-basapm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-basapm"
+    file="tr-181-2-22-0-basapm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -77,7 +77,7 @@
         This object represents the objects necessary to manage and control the
         functionality for tests that utilize the Broadband Access Service
         Attributes and Performance Metrics measurement test framework as
-        defined in by {{bibref|TR-304}}.
+        defined by {{bibref|TR-304}}.
       </description>
 
       <parameter name="MeasurementEndpointNumberOfEntries" access="readOnly">
@@ -302,7 +302,7 @@
     </profile>
   </component>
 
-  <model name="BASAPM:2.21">
+  <model name="BASAPM:2.22">
     <component ref="Root"/>
     <component ref="BASAPM"/>
   </model>

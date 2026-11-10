@@ -43,7 +43,7 @@ The Data Model in [@ETSIM2MInterfaces] reflects the device management objects an
 The mId reference point in this scenario would support CWMP for the exchange of "mgmtObjs" using the xREM procedures between SCLs while continuing to support the ETSI RESTful procedures (e.g., container management) for the exchange of other resources across the mId reference point.
 :::
 
-Within the ESTI M2M Functional Architecture, the xREM is responsible for the following management functions:
+Within the ETSI M2M Functional Architecture, the xREM is responsible for the following management functions:
 
 * General Management: Provides retrieval of information related to the M2M Device or Gateway that hosts the ETSI M2M Service Capability Layer (SCL).
 * Configuration Management: Provides configuration of the M2M Device or Gateway's capabilities in order to support ETSI M2M Services and Applications.

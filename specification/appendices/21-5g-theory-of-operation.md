@@ -144,7 +144,7 @@ The relationship between a 5G-RG and the available access networks is represente
 |-----------------------------------------|--------------------------------------------------------------------------
 | Device.WWC                              | Base object for Wireline Wireless Convergence. The controller can use this object to learn the supported 5G features and whether the 5G-RG is operating in 5G mode
 | Device.WWC.AccessNetwork                | Each table entry describes a single access network. The entire table is built by the 5G-RG upon startup. The primary purpose is to show the registration and connectivity status of each access network. Typically, a 5G-RG would register on each available access network. A minimum of one access network must be in the CM-CONNECTED state in order to support N1 messaging
-| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies an CPE by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
+| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies a device by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
 | Device.WWC.URSP                         | User equipment Route Selection Policy (URSP) is a table of rules used to determine which network slice and data network to route a PDU over. Typically, a 5G-RG would search the URSP table in precedence order matching the traffic descriptor types against the service it was setting up. For example, a 5G-RG would search for 'connection capabilities' matching 'ims' in order to establish a dedicated PDU session for telephony
 | Device.WWC.URSP.{i}.TrafficDescriptor   | A set of rules for a given precedence that must be matched in order to select a router in the form of data network and slice. Selection criteria range from destination IP addresses to connection capabilities
 | Device.WWC.URSP.{i}.TrafficDescriptor.{i}.RouteSelectionDescriptor | Provides a table of data networks and network slices used in PDU establishment. Table entries are used in precedence order until a successful PDU session is established. See TS 23.503 Annex A [@3GPP-TS.23.503] for an example URSP rule traversal
@@ -581,7 +581,7 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         Reference = Device.SessionManagement.PDU.1.
         Interface = Device.IP.Interface.1.
         APN = "provider.internet"
-    Device.SesionManagement.PDU.1.
+    Device.SessionManagement.PDU.1.
         Alias = "cpe-pdu1"
         PTI = 63
         SSC = 1

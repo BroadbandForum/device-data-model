@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-connectionmonitoring"
-  file="tr-181-2-21-0-connectionmonitoring.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-connectionmonitoring"
+  file="tr-181-2-22-0-connectionmonitoring.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-       spec="urn:broadband-forum-org:tr-181-2-21-ip">
+       spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -83,7 +83,7 @@ directed to <info@broadband-forum.org>.
         It allows the Device to monitor interfaces using ARP (Address Resolution Protocol) or ND (Neighbor Discovery)
         packets, depending on the IP version used by the interface.
         
-        The CPE can enable or disable the connection monitor and configure individual entries for each interface.
+        The device can enable or disable the connection monitor and configure individual entries for each interface.
         Each entry can be enabled or disabled independently, allowing for flexible monitoring configurations.        
       </description>
 
@@ -293,7 +293,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="DestAddress" access="readWrite">
         <description>
           The destination address (IP address or FQDN) to which connectivity test packets are sent.
-          When {{param|IPVersion}} is set to '-1',the implementation will chose and use only one IP
+          When {{param|IPVersion}} is set to '-1', the implementation will choose and use only one IP
           version for testing the connectivity. It will try to use IPv6 first, and if that fails, it
           will fall back to IPv4.
 
@@ -516,7 +516,7 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
-  <model name="ConnectionMonitoring:2.21">
+  <model name="ConnectionMonitoring:2.22">
     <component ref="Root"/>
     <component ref="ConnectionMonitoring"/>
   </model>

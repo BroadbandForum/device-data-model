@@ -13,9 +13,9 @@ Many aspects of the MAP configuration are the same for both MAP-E and MAP-T. [@R
 
 The MAP-T architecture is illustrated in @fig:map-t-architecture. The MAP-E architecture diagram looks very similar, but differs as follows:
 
-* The CPE's MAP function involves 6-4 encapsulation rather than 6-4 translation.
-* The CPE uses a Border Router (BR) IPv6 address rather than a prefix.
-* Non MAP-aware servers (i.e., native IPv6 servers) can't be reached by IPv4 devices behind the CPE (i.e., can't be part of the MAP domain).
+* The device's MAP function involves 6-4 encapsulation rather than 6-4 translation.
+* The device uses a Border Router (BR) IPv6 address rather than a prefix.
+* Non MAP-aware servers (i.e., native IPv6 servers) can't be reached by IPv4 devices behind the device (i.e., can't be part of the MAP domain).
 
 ![MAP-T Architecture](/images/map-t-architecture.png)
 

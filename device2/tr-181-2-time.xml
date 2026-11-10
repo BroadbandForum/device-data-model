@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-time"
-    file="tr-181-2-21-0-time.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-time"
+    file="tr-181-2-22-0-time.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -106,26 +106,26 @@
 
       <parameter name="Status" access="readOnly">
         <description>
-          Reflects the global time synchronisation status of the CPE. {{enum}}
+          Reflects the global time synchronisation status of the device. {{enum}}
         </description>
         <syntax>
           <string>
             <enumeration value="Disabled">
               <description>
-                Indicates that the CPE's time client services are disabled.
+                Indicates that the device's time client services are disabled.
               </description>
             </enumeration>
             <enumeration value="Unsynchronized">
               <description>
-                Indicates that the CPE's absolute time has not yet been set by
+                Indicates that the device's absolute time has not yet been set by
                 any of the configured time clients.
               </description>
             </enumeration>
             <enumeration value="Synchronized">
               <description>
-                Indicates that the CPE has acquired accurate absolute time; its
+                Indicates that the device has acquired accurate absolute time; its
                 current time is accurate. One or more time client was able to
-                configure the time of the CPE.
+                configure the time of the device.
               </description>
             </enumeration>
             <enumeration value="Error_FailedToSynchronize" status="deleted">
@@ -140,7 +140,7 @@
             </enumeration>
             <enumeration value="Error" optional="true">
               <description>
-                MAY be used by the CPE to indicate a locally defined error
+                MAY be used by the device to indicate a locally defined error
                 condition. None of the configured Time clients were able to
                 synchronize the time.
               </description>
@@ -237,7 +237,7 @@
       <parameter name="CurrentLocalTime" access="readOnly"
           activeNotify="canDeny">
         <description>
-          The current date and time in the CPE's local time zone.
+          The current date and time in the device's local time zone.
         </description>
         <syntax>
           <dateTime/>
@@ -281,7 +281,7 @@
         enableParameter="Enable" numEntriesParameter="ClientNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.16">
       <description>
-        This object contains parameters relating to an time client instance.
+        This object contains parameters relating to a time client instance.
       </description>
 
       <uniqueKey functional="false">
@@ -643,7 +643,7 @@
         enableParameter="Enable" numEntriesParameter="ServerNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.16">
       <description>
-        This object contains parameters relating to an time server instance.
+        This object contains parameters relating to a time server instance.
       </description>
 
       <uniqueKey functional="false">
@@ -690,7 +690,7 @@
 
       <parameter name="Mode" access="readWrite">
         <description>
-          Specifies in which mode the NTP server must be ran. {{enum}}
+          Specifies in which mode the NTP server must be run. {{enum}}
         </description>
         <syntax>
           <string>
@@ -759,7 +759,7 @@
 
       <parameter name="BindType" access="readWrite">
         <description>
-          Specifies how the client sockets must be bounded. {{enum}}
+          Specifies how the client sockets must be bound. {{enum}}
         </description>
         <syntax>
           <string>
@@ -939,7 +939,7 @@
     </profile>
   </component>
 
-  <model name="Time:2.21">
+  <model name="Time:2.22">
     <component ref="Root"/>
     <component ref="Time"/>
   </model>

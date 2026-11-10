@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-cellular"
-    file="tr-181-2-21-0-cellular.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-cellular"
+    file="tr-181-2-22-0-cellular.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,19 +67,201 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer12InterfaceNoMaxBitRate"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-ip">
+    spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
+
+  <component name="CellRFData">
+
+    <parameter name="Band" access="readOnly">
+      <description>
+        The frequency band used by the cell as a 3GPP band identifier
+        (e.g. B20, n78). See {{bibref|3GPP-TS.38.104|Section 5.2}} for
+        5G NR bands and {{bibref|3GPP-TS.36.101|Section 5.5}} for LTE bands.
+      </description>
+      <syntax>
+        <string/>
+      </syntax>
+    </parameter>
+
+    <parameter name="UplinkBandwidth" access="readOnly">
+      <description>
+        The channel bandwidth for uplink on this cell, measured in
+        {{units}}. For FDD bands this may differ from
+        {{param|DownlinkBandwidth}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <units value="MHz"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="DownlinkBandwidth" access="readOnly">
+      <description>
+        The channel bandwidth for downlink on this cell, measured in
+        {{units}}. For FDD bands this may differ from
+        {{param|UplinkBandwidth}}.
+      </description>
+      <syntax>
+        <unsignedInt>
+          <units value="MHz"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="UplinkChannel" access="readOnly">
+      <description>
+        The uplink channel number (ARFCN) for this cell, as defined in
+        {{bibref|3GPP-TS.38.104|Section 5.4.2.1}} for 5G NR and
+        {{bibref|3GPP-TS.36.101|Section 5.7.3}} for LTE. For TDD bands
+        the uplink and downlink share the same channel number.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="DownlinkChannel" access="readOnly">
+      <description>
+        The downlink channel number (ARFCN) for this cell, as defined in
+        {{bibref|3GPP-TS.38.104|Section 5.4.2.1}} for 5G NR and
+        {{bibref|3GPP-TS.36.101|Section 5.7.3}} for LTE. For TDD bands
+        the uplink and downlink share the same channel number.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="PCI" access="readOnly">
+      <description>
+        The Physical Cell Identifier (PCI) of this cell.
+        Set to {{maxval}} if the PCI is not known or not discoverable.
+      </description>
+      <syntax>
+        <int/>
+      </syntax>
+    </parameter>
+
+    <parameter name="UplinkPRBCount" access="readOnly">
+      <description>
+        The number of Physical Resource Blocks currently allocated for
+        uplink on this cell, as reported by the modem at the time of
+        read. This is an instantaneous value reflecting the current
+        scheduling grant, not a time-averaged figure.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="DownlinkPRBCount" access="readOnly">
+      <description>
+        The number of Physical Resource Blocks currently allocated for
+        downlink on this cell, as reported by the modem at the time of
+        read. This is an instantaneous value reflecting the current
+        scheduling grant, not a time-averaged figure.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="UplinkMIMOLayers" access="readOnly">
+      <description>
+        The actual number of MIMO (Multiple-Input Multiple-Output)
+        spatial layers currently scheduled for uplink on this cell,
+        i.e. the effective Rank Indicator (RI) as negotiated with the
+        network at the time of read. This does not represent the maximum
+        number of layers supported by the device hardware.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="DownlinkMIMOLayers" access="readOnly">
+      <description>
+        The actual number of MIMO (Multiple-Input Multiple-Output)
+        spatial layers currently scheduled for downlink on this cell,
+        i.e. the effective Rank Indicator (RI) as negotiated with the
+        network at the time of read. This does not represent the maximum
+        number of layers supported by the device hardware.
+      </description>
+      <syntax>
+        <unsignedInt/>
+      </syntax>
+    </parameter>
+
+    <parameter name="RSRP" access="readOnly">
+      <description>
+        The Reference Signal Received Power measured in {{units}}.
+      </description>
+      <syntax>
+        <int>
+          <units value="dBm"/>
+        </int>
+      </syntax>
+    </parameter>
+
+    <parameter name="SINR" access="readOnly">
+      <description>
+        The Signal-to-Interference-plus-Noise Ratio measured in
+        {{units}}.
+      </description>
+      <syntax>
+        <int>
+          <units value="dB"/>
+        </int>
+      </syntax>
+    </parameter>
+
+    <parameter name="RSSI" access="readOnly">
+      <description>
+        The Received Signal Strength Indicator measured in {{units}}.
+      </description>
+      <syntax>
+        <int>
+          <units value="dBm"/>
+        </int>
+      </syntax>
+    </parameter>
+
+    <parameter name="RSRQ" access="readOnly">
+      <description>
+        The Reference Signal Received Quality measured in {{units}}.
+      </description>
+      <syntax>
+        <int>
+          <units value="dB"/>
+        </int>
+      </syntax>
+    </parameter>
+
+    <parameter name="TxPower" access="readOnly">
+      <description>
+        The transmit power of the device on this cell measured in
+        {{units}}.
+      </description>
+      <syntax>
+        <int>
+          <units value="dBm"/>
+        </int>
+      </syntax>
+    </parameter>
+
+  </component>
 
   <component name="Cellular">
 
@@ -430,7 +612,7 @@
     </object>
 
     <object name="Device.Cellular.Interface.{i}.USIM." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.8" status="obsoleted">
+        minEntries="1" maxEntries="1" version="2.8" status="deleted">
       <description>
         USIM (Universal Subscriber Identity Module or SIM card) parameters for
         the interface.
@@ -438,6 +620,8 @@
         {{deprecated|2.19|because moved to {{object|.TrustedElements.SIM}}}}
 
         {{obsoleted|2.21}}
+
+        {{deleted|2.22}}
       </description>
 
       <parameter name="Status" access="readOnly">
@@ -882,7 +1066,7 @@
 
       <parameter name="Username" access="readWrite">
         <description>
-          Username used to authenticate the CPE when making a connection to the
+          Username used to authenticate the device when making a connection to the
           Access Point.
         </description>
         <syntax>
@@ -894,7 +1078,7 @@
 
       <parameter name="Password" access="readWrite">
         <description>
-          Password used to authenticate the CPE when making a connection to the
+          Password used to authenticate the device when making a connection to the
           Access Point.
         </description>
         <syntax secured="true">
@@ -954,7 +1138,460 @@
      </parameter>
     </object>
 
-    <profile name="CellularInterfaceBase:1" version="2.8" status="obsoleted">
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation." access="readOnly" version="2.22">
+      <description>
+        This object models the Carrier Aggregation configuration of the
+        cellular interface. The current configuration is represented in
+        {{object|MasterCellGroup}} and {{object|SecondaryCellGroup}}.
+        Historical configurations are retained in
+        {{object|MasterCellGroup.History}} and
+        {{object|SecondaryCellGroup.History}} instances respectively.
+        When 5G dual connectivity is not active,
+        {{param|SecondaryCellGroup.CurrentAccessTechnology}} reports
+        {{enum|NotApplicable|SecondaryCellGroup.CurrentAccessTechnology}}
+        and the SCG cell counts are 0.
+      </description>
+
+      <parameter name="MaxHistoryEntries" access="readWrite">
+        <description>
+          Defines the maximum number of History instances that can be
+          stored per CellGroup on the device. History retention is
+          entry-based, not time-based. To determine the time span covered,
+          inspect the {{param|MasterCellGroup.History.{i}.StartTime}} and
+          {{param|MasterCellGroup.History.{i}.Duration}} of the oldest
+          retained entry.
+
+          When the maximum is reached, the next History entry will replace
+          the instance with the oldest {{param|MasterCellGroup.History.{i}.StartTime}}.
+
+          Reducing this parameter will cause the implementation to delete
+          the oldest History instances.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Master Cell Group (MCG) represents the primary radio connection
+        for the cellular interface. The MCG is always present and contains
+        exactly one Primary Cell (PCell) and zero or more Secondary Cells
+        (SCells). In LTE-only and 5G SA configurations the MCG is the sole
+        cell group. In dual connectivity configurations such as EN-DC or
+        NR-DC a Secondary Cell Group is also present.
+      </description>
+
+      <parameter name="CurrentAccessTechnology" access="readOnly">
+        <description>
+          The radio access technology currently in use by this Master Cell
+          Group. Allows a controller to determine which radio technology is
+          carrying traffic on this cell group and to correctly interpret the
+          band and channel values in the associated cell objects.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="LTE">
+              <description>Long Term Evolution (4G).</description>
+            </enumeration>
+            <enumeration value="NR">
+              <description>New Radio (5G).</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecondaryCellNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HistoryNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup.PrimaryCell."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Primary Cell (PCell) of the Master Cell Group. The PCell is
+        always present and handles both control signaling and data traffic.
+      </description>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup.SecondaryCell.{i}."
+        access="readOnly" numEntriesParameter="SecondaryCellNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A Secondary Cell (SCell) of the Master Cell Group. SCells carry
+        additional data traffic on top of the PCell. Zero or more SCells
+        may be active at any time.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="DownlinkOnly" access="readOnly">
+        <description>
+          When {{true}}, this Secondary Cell carries downlink traffic only
+          and has no uplink component. When {{false}}, the cell carries
+          both uplink and downlink traffic.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup.History.{i}."
+        access="readOnly" numEntriesParameter="HistoryNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A historical record of a past MCG Carrier Aggregation configuration.
+        Each instance represents a period during which the MCG configuration
+        remained unchanged, defined by {{param|StartTime}} and
+        {{param|Duration}}.
+
+        A new History entry is created only when the set of Component
+        Carriers changes in the UE's RRC Connected state, for example
+        when the network issues an RRC Reconfiguration that adds or removes
+        a cell from the configured set. Transient MAC-layer SCell
+        activations and deactivations do not create new History entries.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="StartTime" access="readOnly">
+        <description>
+          The time at which this MCG configuration became active.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Duration" access="readOnly">
+        <description>
+          The length of time in {{units}} for which this MCG configuration
+          was active and unchanged.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentAccessTechnology" access="readOnly">
+        <description>
+          The radio access technology that was in use by this Master Cell
+          Group during this historical record. Allows a controller to
+          correctly interpret the band and channel values in the associated
+          historical cell objects.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="LTE">
+              <description>Long Term Evolution (4G).</description>
+            </enumeration>
+            <enumeration value="NR">
+              <description>New Radio (5G).</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecondaryCellNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup.History.{i}.PrimaryCell."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Primary Cell (PCell) configuration snapshot for this MCG
+        history record.
+      </description>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.MasterCellGroup.History.{i}.SecondaryCell.{i}."
+        access="readOnly" numEntriesParameter="SecondaryCellNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A Secondary Cell (SCell) configuration snapshot for this MCG
+        history record.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="DownlinkOnly" access="readOnly">
+        <description>
+          When {{true}}, this Secondary Cell carried downlink traffic only
+          during this historical period.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Secondary Cell Group (SCG) represents the secondary radio
+        connection in 5G dual connectivity configurations such as EN-DC
+        (E-UTRA NR Dual Connectivity) or NR-DC (NR Dual Connectivity).
+        When dual connectivity is active, the SCG contains exactly one
+        Primary Secondary Cell (PSCell) and zero or more Secondary Cells.
+        When dual connectivity is not active,
+        {{param|CurrentAccessTechnology}} reports
+        {{enum|NotApplicable|CurrentAccessTechnology}} and
+        {{param|SecondaryCellNumberOfEntries}} is 0.
+      </description>
+
+      <parameter name="CurrentAccessTechnology" access="readOnly">
+        <description>
+          The radio access technology currently in use by this Secondary
+          Cell Group. Allows a controller to determine which radio
+          technology is carrying traffic on this cell group and to correctly
+          interpret the band and channel values in the associated cell
+          objects. Reports {{enum|NotApplicable}} when 5G dual connectivity
+          is not active.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="LTE">
+              <description>Long Term Evolution (4G).</description>
+            </enumeration>
+            <enumeration value="NR">
+              <description>New Radio (5G).</description>
+            </enumeration>
+            <enumeration value="NotApplicable">
+              <description>
+                5G dual connectivity is not active. The Secondary Cell
+                Group is not in use and {{param|SecondaryCellNumberOfEntries}}
+                is 0.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecondaryCellNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="HistoryNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup.PrimaryCell."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Primary Secondary Cell (PSCell) of the Secondary Cell Group.
+        The PSCell handles data traffic for the SCG.
+      </description>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup.SecondaryCell.{i}."
+        access="readOnly" numEntriesParameter="SecondaryCellNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A Secondary Cell (SCell) of the Secondary Cell Group. Zero or more
+        SCells may be active at any time.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="DownlinkOnly" access="readOnly">
+        <description>
+          When {{true}}, this Secondary Cell carries downlink traffic only
+          and has no uplink component. When {{false}}, the cell carries
+          both uplink and downlink traffic.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup.History.{i}."
+        access="readOnly" numEntriesParameter="HistoryNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A historical record of a past SCG Carrier Aggregation configuration.
+        Each instance represents a period during which the SCG configuration
+        remained unchanged, defined by {{param|StartTime}} and
+        {{param|Duration}}.
+
+        A new History entry is created only when the set of Component
+        Carriers changes in the UE's RRC Connected state, for example
+        when the network issues an RRC Reconfiguration that adds or removes
+        a cell from the configured set. Transient MAC-layer SCell
+        activations and deactivations do not create new History entries.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="StartTime" access="readOnly">
+        <description>
+          The time at which this SCG configuration became active.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Duration" access="readOnly">
+        <description>
+          The length of time in {{units}} for which this SCG configuration
+          was active and unchanged.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="CurrentAccessTechnology" access="readOnly">
+        <description>
+          The radio access technology that was in use by this Secondary
+          Cell Group during this historical record. Allows a controller to
+          correctly interpret the band and channel values in the associated
+          historical cell objects.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="LTE">
+              <description>Long Term Evolution (4G).</description>
+            </enumeration>
+            <enumeration value="NR">
+              <description>New Radio (5G).</description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SecondaryCellNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup.History.{i}.PrimaryCell."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        The Primary Secondary Cell (PSCell) configuration snapshot for
+        this SCG history record.
+      </description>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <object name="Device.Cellular.Interface.{i}.CarrierAggregation.SecondaryCellGroup.History.{i}.SecondaryCell.{i}."
+        access="readOnly" numEntriesParameter="SecondaryCellNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        A Secondary Cell (SCell) configuration snapshot for this SCG
+        history record.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="DownlinkOnly" access="readOnly">
+        <description>
+          When {{true}}, this Secondary Cell carried downlink traffic only
+          during this historical period.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <component ref="CellRFData"/>
+
+    </object>
+
+    <profile name="CellularInterfaceBase:1" version="2.8" status="deleted">
       <object ref="Device.Cellular." requirement="present">
         <parameter ref="InterfaceNumberOfEntries" requirement="readOnly"/>
         <parameter ref="AccessPointNumberOfEntries" requirement="readOnly"/>
@@ -965,9 +1602,9 @@
         <parameter ref="NetworkInUse" requirement="readOnly"/>
         <parameter ref="CurrentAccessTechnology" requirement="readOnly"/>
       </object>
-      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="obsoleted">
-        <parameter ref="Status" requirement="readOnly" status="obsoleted"/>
-        <parameter ref="MSISDN" requirement="readOnly" status="obsoleted"/>
+      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="deleted">
+        <parameter ref="Status" requirement="readOnly" status="deleted"/>
+        <parameter ref="MSISDN" requirement="readOnly" status="deleted"/>
       </object>
       <object ref="Device.Cellular.AccessPoint.{i}."
           requirement="createDelete">
@@ -996,7 +1633,7 @@
     </profile>
 
     <profile name="CellularInterfaceExtended:1"
-        extends="CellularInterfaceBase:1" version="2.8" status="obsoleted">
+        extends="CellularInterfaceBase:1" version="2.8" status="deleted">
       <object ref="Device.Cellular." requirement="present">
         <parameter ref="RoamingEnabled" requirement="readWrite"/>
         <parameter ref="RoamingStatus" requirement="readOnly"/>
@@ -1011,9 +1648,9 @@
         <parameter ref="NetworkRequested" requirement="readOnly"/>
         <parameter ref="AvailableNetworks" requirement="readOnly"/>
       </object>
-      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="obsoleted">
-        <parameter ref="IMSI" requirement="readOnly" status="obsoleted"/>
-        <parameter ref="ICCID" requirement="readOnly" status="obsoleted"/>
+      <object ref="Device.Cellular.Interface.{i}.USIM." requirement="present" status="deleted">
+        <parameter ref="IMSI" requirement="readOnly" status="deleted"/>
+        <parameter ref="ICCID" requirement="readOnly" status="deleted"/>
       </object>
     </profile>
 
@@ -1047,7 +1684,7 @@
     </profile>
   </component>
 
-  <model name="Cellular:2.21">
+  <model name="Cellular:2.22">
     <component ref="Root"/>
     <component ref="Cellular"/>
   </model>

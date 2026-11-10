@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-hpna"
-    file="tr-181-2-21-0-hpna.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-hpna"
+    file="tr-181-2-22-0-hpna.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -304,12 +304,12 @@
         Time in {{units}} between automatic collection of performance
         monitoring data. A value of zero disables automatic collection of data.
 
-        The CPE MAY impose a minimum sample interval, in which case an attempt
+        The device MAY impose a minimum sample interval, in which case an attempt
         to set a (non-zero) interval that is less than this minimum MUST set
         the interval to the minimum and MUST NOT be regarded as an error.
 
         If SampleInterval is a simple fraction of a day, e.g. 900 (a quarter of
-        an hour) or 3600 (an hour), the CPE MAY choose to align sample
+        an hour) or 3600 (an hour), the device MAY choose to align sample
         intervals with time of day, but is not required to do so.
       </description>
       <syntax>
@@ -1114,7 +1114,7 @@
         whose {{param|TrafficClasses}} list contains a matching traffic class).
 
         For enabled table entries, if {{param|TrafficClasses}} is {{empty}}
-        then the table entry is inoperable and the CPE MUST set
+        then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -1138,7 +1138,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1399,10 +1399,10 @@
         <description>
           Whether or not this node is currently present in the HPNA network.
 
-          The ability to list inactive nodes is OPTIONAL. If the CPE includes
+          The ability to list inactive nodes is OPTIONAL. If the device includes
           inactive nodes in this table, {{param}} MUST be set to {{false}} for
           each inactive node. The length of time an inactive node remains
-          listed in this table is a local matter to the CPE.
+          listed in this table is a local matter to the device.
         </description>
         <syntax>
           <boolean/>
@@ -1464,7 +1464,7 @@
     </profile>
   </component>
 
-  <model name="HPNA:2.21">
+  <model name="HPNA:2.22">
     <component ref="Root"/>
     <component ref="HPNA"/>
   </model>

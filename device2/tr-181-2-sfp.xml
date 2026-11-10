@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-sfp"
-    file="tr-181-2-21-0-sfp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-sfp"
+    file="tr-181-2-22-0-sfp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -90,7 +90,7 @@
 
       <parameter name="SupportedSFPTypes" access="readOnly" version="2.21">
         <description>
-          Indicates the SFP types supported by the CPE.
+          Indicates the SFP types supported by the device.
         </description>
         <syntax>
           <list/>
@@ -201,17 +201,17 @@
 
       <parameter name="IsAllowed" access="readOnly" version="2.21">
         <description>
-          {{true}} if the CPE allows the SFP, {{false}} if the CPE blocks the
+          {{true}} if the device allows the SFP, {{false}} if the device blocks the
           SFP. See {{object|#.AllowedSFPs}} for what it means for an SFP to be
           blocked or allowed.
 
-          The CPE sets this parameter to {{true}} or {{false}} based on the
+          The device sets this parameter to {{true}} or {{false}} based on the
           configuration in:
           - {{param|#.AllowedSFPs.AllowAllSFPs}}
           - {{object|#.AllowedSFPs.AllowedSFP}}
 
           This parameter is only applicable for pluggable SFPs; it's not
-          applicable for built-in modules/SFPs (the CPE should always allow
+          applicable for built-in modules/SFPs (the device should always allow
           built-in modules/SFPs).
 
           This parameter is also only applicable if {{param|SFPPresent}} is
@@ -1049,7 +1049,7 @@
       <description>
         This object contains real time diagnostic and control values and status fields.
         See {{bibref|SFF-8472|Table 9-16}}.
-        The CPE MUST reset the interface’s Stats parameters
+        The device MUST reset the interface’s Stats parameters
         (unless otherwise stated in individual object or parameter
         descriptions) either when the interface becomes operationally
         down due to a previous administrative down (i.e. the interface’s
@@ -1553,9 +1553,9 @@
     <object name="Device.SFPs.AllowedSFPs." access="readOnly" minEntries="1"
         maxEntries="1" version="2.21">
       <description>
-        Object specifying which pluggable SFPs the CPE should block or allow.
+        Object specifying which pluggable SFPs the device should block or allow.
 
-        The object is not applicable for built-in modules/SFPs (the CPE should
+        The object is not applicable for built-in modules/SFPs (the device should
         always allow built-in modules/SFPs).
 
         When blocking a PON SFP, i.e. an SFP of type "G-PON", "XG-PON",
@@ -1585,12 +1585,12 @@
 
       <parameter name="AllowAllSFPs" access="readWrite">
         <description>
-          When set to {{true}}, the CPE allows all SFPs and the configuration in
+          When set to {{true}}, the device allows all SFPs and the configuration in
           {{object|AllowedSFP}} is ignored.
 
-          When set to {{false}}, the CPE only allows SFPs which match with the
+          When set to {{false}}, the device only allows SFPs which match with the
           classification criteria of at least one entry in
-          {{object|AllowedSFP}}. The CPE blocks each SFP for which there is no
+          {{object|AllowedSFP}}. The device blocks each SFP for which there is no
           match.
         </description>
         <syntax>
@@ -1605,8 +1605,8 @@
         minEntries="0" maxEntries="unbounded" enableParameter="Enable"
         numEntriesParameter="AllowedSFPNumberOfEntries" version="2.21">
       <description>
-        Table of entries to classify pluggable SFPs. The CPE should allow any
-        pluggable SFP which matches at least one of the entries; the CPE should
+        Table of entries to classify pluggable SFPs. The device should allow any
+        pluggable SFP which matches at least one of the entries; the device should
         block any SFP which does not match any entries.
 
         Example 1: allow all optical Ethernet SFPs
@@ -1634,8 +1634,8 @@
       <parameter name="Enable" access="readWrite">
         <description>
           Enables or disables this entry.
-          If {{true}}, the CPE should allow the SFPs which match this entry.
-          If {{false}}, the CPE should not use this entry to determine if
+          If {{true}}, the device should allow the SFPs which match this entry.
+          If {{false}}, the device should not use this entry to determine if
           an SFP is allowed or not.
         </description>
         <syntax>
@@ -1711,12 +1711,12 @@
         <description>
           Classification criterion.
 
-          Fingerprint over certain properties of the SFP. If non-empty, the CPE
+          Fingerprint over certain properties of the SFP. If non-empty, the device
           must take this fingerprint into account when classifying the SFP.
 
           Sometimes the other classification criteria in this {{object}} do not
           suffice to classify an SFP (to determine whether the SFP should be
-          blocked or allowed). Then a CPE can use a fingerprint/CRC/hash
+          blocked or allowed). Then a device can use a fingerprint/CRC/hash
           calculated over other properties of the SFP as extra discriminator.
           E.g. it could calculate a hash over the calibration data.
 
@@ -1729,9 +1729,9 @@
           - Fingerprint = "FP1"
 
           If a user inserts an XGS-PON SFP with "NameA" as vendor name and
-          "PartA" as part number, it depends on the fingerprint whether the CPE
+          "PartA" as part number, it depends on the fingerprint whether the device
           blocks or allows the SFP. If the fingerprint of the SFP is "FP1", the
-          CPE must allow the SFP, else it must block it.
+          device must allow the SFP, else it must block it.
         </description>
         <syntax>
           <string>
@@ -1868,7 +1868,7 @@
     </profile>
   </component>
 
-  <model name="SFP:2.21">
+  <model name="SFP:2.22">
     <component ref="Root"/>
     <component ref="SFP"/>
   </model>

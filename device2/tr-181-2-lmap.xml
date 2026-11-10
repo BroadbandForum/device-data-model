@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-lmap"
-    file="tr-181-2-21-0-lmap.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-lmap"
+    file="tr-181-2-22-0-lmap.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -78,7 +78,7 @@
       <description>
         This object represents the objects necessary to manage and control the
         functionality for Large-Scale Measurement of Broadband
-        Performance{{bibref|RFC7594}} as defined in by {{bibref|LMAPIFM}}.
+        Performance{{bibref|RFC7594}} as defined by {{bibref|LMAPIFM}}.
       </description>
 
       <parameter name="MeasurementAgentNumberOfEntries" access="readOnly">
@@ -409,7 +409,7 @@
     <object name="Device.LMAP.MeasurementAgent.{i}.Controller."
         access="readOnly" minEntries="1" maxEntries="1" version="2.12">
       <description>
-        This objects represents the measurement controller that is assigned to
+        This object represents the measurement controller that is assigned to
         a measurement agent.
       </description>
 
@@ -466,8 +466,7 @@
 
           The measurement agent to measurement controller channel is used for
           conveying results of communication sessions with the configuration,
-          instruction status and logging information elements defined in
-          defined in {{bibref|LMAPIFM}}.
+          instruction status and logging information elements defined in {{bibref|LMAPIFM}}.
         </description>
         <syntax>
           <list/>
@@ -735,7 +734,7 @@
         enableParameter="Enable" numEntriesParameter="ActionNumberOfEntries"
         version="2.12">
       <description>
-        This object represents an action that is associated with the this
+        This object represents an action that is associated with this
         {{object|##.Schedule}} object.
       </description>
       <uniqueKey functional="false">
@@ -977,7 +976,7 @@
         version="2.12">
       <description>
         This object represents an option associated with the Scheduled Action.
-        When an option with the same Name exists between the Seheduled Action's
+        When an option with the same Name exists between the Scheduled Action's
         Option and The Task's option, the option of the Scheduled Action takes
         precedence over the option associated with the Task.
       </description>
@@ -1336,7 +1335,7 @@
       <description>
         The {{object}} object defines the instruction to the measurement agent
         by the measurement controller. At most one {{object}} object for the
-        {{object|##.MeasurementAgent}} instance is enabled at a time. .
+        {{object|##.MeasurementAgent}} instance is enabled at a time.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -1548,7 +1547,7 @@
         instance's data at the time of the action execution.
 
         When a {{object|##.BulkData.Profile.{i}}} object instance is used to
-        communicate a {{object}} instance, the CPE adds a
+        communicate a {{object}} instance, the device adds a
         {{object|##.BulkData.Profile.{i}.Parameter.{i}}} object instance
         referring to this {{object}} object instance.
       </description>
@@ -1847,7 +1846,7 @@
         numEntriesParameter="ResultReportTableNumberOfEntries"
         dmr:noUniqueKeys="true" version="2.12">
       <description>
-        This {{object}} object instances represents a row of results.
+        Instances of this {{object}} represent a row of results.
       </description>
 
       <parameter name="ColumnLabels" access="readOnly">
@@ -1890,7 +1889,7 @@
         numEntriesParameter="ResultReportRowNumberOfEntries"
         dmr:noUniqueKeys="true" version="2.12">
       <description>
-        This {{object}} object instances represents a row of results for the
+        Instances of this {{object}} represent a row of results for the
         report.
       </description>
 
@@ -2058,7 +2057,7 @@
 
       <parameter name="CycleInterval" access="readWrite">
         <description>
-          The duration of the time interval, in {{units}}, that used to
+          The duration of the time interval, in {{units}}, that is used to
           calculate cycle numbers.
         </description>
         <syntax>
@@ -2533,7 +2532,7 @@
     </profile>
   </component>
 
-  <model name="LMAP:2.21">
+  <model name="LMAP:2.22">
     <component ref="Root"/>
     <component ref="LMAP"/>
   </model>

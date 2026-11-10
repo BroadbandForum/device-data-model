@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
+  <meta name="generator" content="pandoc 3.12.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="description" content=" : " />
   <title>BBF –  </title>
@@ -10,10 +10,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     /* The extra [class] is a hack that increases specificity enough to
        override a similar rule in reveal.js */
@@ -24,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="bbf.css" />
 </head>
@@ -38,6 +40,143 @@ Change Log</h1>
 <p>See <a href="https://device-data-model.broadband-forum.org"
 class="uri">https://device-data-model.broadband-forum.org</a> for the
 current TR-181 specification.</p>
+<h2 id="tr-181-issue-2-amendment-22">2026-11-09: <a
+href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-22.pdf">TR-181
+Issue 2 Amendment 22</a></h2>
+<p><em>Tags: <a
+href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.22.0">v2.22.0</a>
+(TR-181), <a
+href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
+(TR-106 didn’t change)</em></p>
+<h3 id="data-model">Data Model</h3>
+<ul>
+<li>Added BrightnessLimiter parameter to Device.LEDs.LED.{i}. to allow
+per-LED brightness limiting</li>
+<li>Added IsStatic parameter to
+Device.DHCPv4.Server.Pool.{i}.Client.{i}.IPv4Address.{i}.</li>
+<li>Added DHCPv6 RENEW/REBIND timestamps, renewal statuses, and binding
+timestamp parameters to Device.DHCPv6.Client.{i}.</li>
+<li>Extended Device.UserInterface.HTTPAccess.{i}. with session limiting
+(MaxSessionEntries), access logging (AccessLog.{i}.,
+MaxAccessLogEntries, AccessLogNumberOfEntries), and updated Session.{i}.
+to reflect active sessions only</li>
+<li>Added StructuredData parameter to
+Device.Syslog.Source.{i}.Network.</li>
+<li>Added MaxNumberOfPinholes parameter to Device.Firewall. to indicate
+the system limit for pinhole table entries</li>
+<li>Added IPv4AcceptUDPTraceroute and IPv6AcceptUDPTraceroute parameters
+to Device.Firewall.InterfaceSetting.{i}. to control acceptance of
+UDP-based traceroute packets (port range 33434-33534)</li>
+<li>Added IsolateInterface parameter to
+Device.Firewall.InterfaceSetting.{i}. to support blocking traffic
+between the associated interface and a configurable list of other IP
+interfaces</li>
+<li>Added MLDCapabilities component with parameters MaxNumMLDs,
+APMLDMaxLinks, and bSTAMLDMaxLinks</li>
+<li>Added TIDLinkMapCapabilities component with parameter
+TIDLinkMapCapability</li>
+<li>Added APMLDTable object and bSTAMLD/bSTAMLDTable objects for
+managing MLO capable APs and backhaul STAs</li>
+<li>Added MLDConfig component with parameters EMLMREnabled,
+EMLSREnabled, STREnabled, NSTREnabled, and TIDLinkMapNegotiation</li>
+<li>Added TIDLinkMap component and associated configuration objects
+APMLD.{i}.TIDLinkMap.{i} and STAMLD.{i}.STATIDLinkMap.{i}.</li>
+<li>Added MaxSupportedBandwidth component and parameter to various STA
+and AP objects</li>
+<li>Added Wi-Fi Sensing support via Device.WiFi.Sensing. object
+tree</li>
+<li>Updated neighbor SSID encryption parameter to replace generic AES
+with specific cipher values CCMP-128, CCMP-256, GCMP-128, and
+GCMP-256</li>
+<li>Marked generic AES enumeration as deprecated in favor of specific
+CCMP/GCMP values</li>
+<li>Updated WPA/WPA3 security mode validation logic to properly handle
+WPA3-SAE, OWE, and mixed-mode transitions</li>
+<li>Added Layer3PathCapabilities parameter with enumerations for
+UDPoverIPv6, TCPoverIPv6, UDPoverIPv4, and TCPoverIPv4</li>
+<li>Added limit descriptions to MaxBridgeEntries,
+MaxProviderBridgeEntries, and MaxFilterEntries parameters to
+Bridging</li>
+<li>Added CellRFData component with parameters Band, UplinkBandwidth,
+DownlinkBandwidth, UplinkChannel, DownlinkChannel, PCI, UplinkPRBCount,
+DownlinkPRBCount, UplinkMIMOLayers, DownlinkMIMOLayers, RSRP, SINR,
+RSSI, RSRQ, and TxPower</li>
+<li>Added CarrierAggregation object with MasterCellGroup and
+SecondaryCellGroup sub-objects for LTE and NR dual connectivity
+support</li>
+<li>Added History tracking for both MasterCellGroup and
+SecondaryCellGroup with StartTime, Duration, and CurrentAccessTechnology
+parameters</li>
+<li>Added PrimaryCell and SecondaryCell objects with DownlinkOnly
+boolean parameter for both current and historical configurations</li>
+<li>Added new functional key to DMZ and PortMapping objects using
+DestIP, SourcePrefix, RemoteHost, ExternalPort, and Protocol</li>
+<li>Updated RFC8415 references to RFC9915 throughout the data model</li>
+<li>Added PriorityMap component with PriorityMapNumberOfEntries and
+associated PriorityMap.{i} firewall objects</li>
+<li>Added Display hardware component with Screen objects containing
+Width, Height, PhysicalWidth, PhysicalHeight, RefreshDuration,
+PixelFormat, Type, PosX, and PosY parameters</li>
+<li>Renamed IoTBlobSensorType dataType to IoTBlobType</li>
+<li>Added BlobControl class enumeration value for IoTCapability.Class
+parameter</li>
+<li>Added IoTCapability.{i}.BlobControl object with Type (IoTBlobType),
+Description, and Value (base64) parameters</li>
+<li>Added BlobControl profile requiring IoTCapability.{i}.BlobControl
+object with Type and Value parameters</li>
+<li>Added DownloadDiagnosticsMaxConnections parameter for connection
+limit configuration</li>
+<li>Added LastChange and StatusChangeCount parameters to
+Device.IP.Interface.{i} objects for change tracking</li>
+<li>Added AllowedEncryptionKeyLengths parameter for IPSec cipher key
+length preferences</li>
+<li>Added Device.QoS.Chain.{i}. table with ChainNumberOfEntries
+parameter for grouping classification entries</li>
+<li>Added Device.QoS.Chain.{i}.Classification.{i}. object with Enable,
+Status, ClassificationRef, and Order parameters</li>
+<li>Added RenewalMode, RenewalInterval and HasPrivateKey parameters to
+Device.Certificate. to control automatic certificate update modes</li>
+<li>Added Device.Security.CADefaults.{i}. table to manage default
+CAs</li>
+<li>Added Device.Security.CSR.{i}. table with to manage certificate
+signing requests</li>
+<li>Added Device.Security.CSRTimeout parameter controlling pending CSR
+entry retention period in seconds</li>
+<li>Added Device.Security.CreateCSR() and
+Device.Security.AddCertificate() commands</li>
+<li>Added Device.Security.CSRCreated! and Device.Security.CSRFailure!
+events with CommandKey, Name, and EncodedCSR output parameters</li>
+<li>Added EnableHostNSCapabilities, DisableAutoStart, RunLevel, and
+NumRequiredUIDs parameters to SMM deployment units</li>
+<li>Added RestartCount, RestartReason, and LastStartTime to SMM
+execution units</li>
+<li>Added Device.Syslog.StructuredData boolean parameter enabling
+RFC5424 structured syslog message support</li>
+<li>Added Device.Thread.BorderAgent.{i}. table to manage border Agents
+in Thread networks</li>
+<li>Deprecated Device.Thread.BorderRouter.BorderAgentID in favor of
+Device.Thread.BorderRouter.BorderAgentReference parameter</li>
+<li>Replaced Device.UserInterface.HTTPAccess.CACertificate parameter by
+Device.UserInterface.HTTPAccess.CABundle</li>
+<li>Added Device.UserInterface.HTTPAccess.AccessLog.{i}. table to
+provide an access log of UI use</li>
+<li>Fixed Device.LocalAgent.Subscription.{i}.ReferenceList access type
+to have write-once semantics and update profile</li>
+<li>Fixed PCP HighestVersion range to maxInclusive=255</li>
+<li>Refactored Origin parameter into a component and use it
+everywhere</li>
+<li>Added EthernetPriorityMark to Device.PPP.Interface.{i}.PPPoE.</li>
+</ul>
+<h3 id="tr-181-document">TR-181 Document</h3>
+<ul>
+<li>Markdown Table reformatting</li>
+<li>Additional and improvements of Advance Firewall Example
+Configuration (PriorityMap, DMZ, Pinhole, Service, PortMapping,
+PortTrigger)</li>
+<li>Extension of the Device certificates ToO with Certificate signing
+Request (CSR) and Advanced Certificate Management</li>
+<li>Added Wi-Fi Sensing ToO chapter</li>
+</ul>
 <h2 id="tr-181-issue-2-amendment-21">2026-06-01: <a
 href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf">TR-181
 Issue 2 Amendment 21</a></h2>
@@ -46,7 +185,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.21.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model">Data Model</h3>
+<h3 id="data-model-1">Data Model</h3>
 <ul>
 <li>Added a CipherList parameter to configure permissible TLS
 Ciphers</li>
@@ -112,7 +251,7 @@ characters</li>
 <li>Updated MoCA ACA Status with proper enumeration values and
 descriptions</li>
 </ul>
-<h3 id="tr-181-document">TR-181 Document</h3>
+<h3 id="tr-181-document-1">TR-181 Document</h3>
 <ul>
 <li>Added log rotate ToO</li>
 <li>Added MQTT ToO</li>
@@ -126,7 +265,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.1">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model-1">Data Model</h3>
+<h3 id="data-model-2">Data Model</h3>
 <ul>
 <li>Fixed Cellular APN type to be compatible with the 5G Data Network
 Name</li>
@@ -136,7 +275,7 @@ Name</li>
 to be a digit-only string with a size between 4 to 8</li>
 <li>Changed TrustedElement Status parameter to be read-only</li>
 </ul>
-<h3 id="tr-181-document-1">TR-181 Document</h3>
+<h3 id="tr-181-document-2">TR-181 Document</h3>
 <ul>
 <li>No changes</li>
 </ul>
@@ -148,7 +287,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.20.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model-2">Data Model</h3>
+<h3 id="data-model-3">Data Model</h3>
 <ul>
 <li>Added support for periodic file uploads via
 Device.PeriodicFileTransfer.</li>
@@ -210,7 +349,7 @@ Device.IoTCapability.{i}.Binding.{i}.</li>
 configuration</li>
 <li>Miscellaneous spelling corrections and markup improvements</li>
 </ul>
-<h3 id="tr-181-document-2">TR-181 Document</h3>
+<h3 id="tr-181-document-3">TR-181 Document</h3>
 <ul>
 <li>Recreate session management SVG images to match current state</li>
 </ul>
@@ -222,14 +361,14 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.1">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model-3">Data Model</h3>
+<h3 id="data-model-4">Data Model</h3>
 <ul>
 <li>Fix the order of some datamodel objects in the rendered HTML</li>
 <li>Explain permissions behaviour for Get messages</li>
 <li>Add missing spec attributes, messing up the diffs from future
 versions</li>
 </ul>
-<h3 id="tr-181-document-3">TR-181 Document</h3>
+<h3 id="tr-181-document-4">TR-181 Document</h3>
 <ul>
 <li>Re-export some SVG images to address rendering artefacts from
 invalid data</li>
@@ -244,14 +383,14 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.19.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="tr-181-document-4">TR-181 Document</h3>
+<h3 id="tr-181-document-5">TR-181 Document</h3>
 <ul>
 <li>Improved firewall configuration appendix</li>
 <li>Introduced new 3GPP NAS Theory of Operation appendix</li>
 <li>Deprecated 5G Theory of Operation appendix in favor of the new
 appendix</li>
 </ul>
-<h3 id="data-model-4">Data Model</h3>
+<h3 id="data-model-5">Data Model</h3>
 <ul>
 <li>Included LinkReadWrite component instead of Link component on all
 networking interfaces and automatically create most of the
@@ -309,7 +448,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.1">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model-5">Data Model</h3>
+<h3 id="data-model-6">Data Model</h3>
 <ul>
 <li>Fixed newly introduced parameter name from
 IPv6PassTroughICMPEchoRequest to IPv6PassThroughICMPEchoRequest</li>
@@ -325,14 +464,14 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.18.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.14.0">v1.14.0</a>
 (TR-106)</em></p>
-<h3 id="tr-181-document-5">TR-181 Document</h3>
+<h3 id="tr-181-document-6">TR-181 Document</h3>
 <ul>
 <li>Fixed logical interface table</li>
 <li>Added ToO chapter about network interface MTU</li>
 <li>Manually resized diagrams to look nice</li>
 <li>Updated all generated diagrams</li>
 </ul>
-<h3 id="data-model-6">Data Model</h3>
+<h3 id="data-model-7">Data Model</h3>
 <ul>
 <li>Added more counter types to IoT</li>
 <li>Improved MoCA network state parameter descriptions</li>
@@ -396,11 +535,11 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.17.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.13.0">v1.13.0</a>
 (TR-106)</em></p>
-<h3 id="tr-181-document-6">TR-181 Document</h3>
+<h3 id="tr-181-document-7">TR-181 Document</h3>
 <ul>
 <li>Refreshed some data model diagrams</li>
 </ul>
-<h3 id="data-model-7">Data Model</h3>
+<h3 id="data-model-8">Data Model</h3>
 <ul>
 <li>Added new parameters for Multi-flow and Multi-server testing
 capability as defined in TR-471 Issue 4</li>
@@ -478,14 +617,14 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.16.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.12.0">v1.12.0</a>
 (TR-106)</em></p>
-<h3 id="tr-181-document-7">TR-181 Document</h3>
+<h3 id="tr-181-document-8">TR-181 Document</h3>
 <ul>
 <li>Refreshed all diagrams</li>
 <li>Added ToO appendix for logical interfaces concept</li>
 <li>Extended advanced firewall appendix</li>
 <li>Updated Wi-Fi theory of operation</li>
 </ul>
-<h3 id="data-model-8">Data Model</h3>
+<h3 id="data-model-9">Data Model</h3>
 <ul>
 <li>Added Device.LocalAgent.Subscription.{i}.TriggerAction parameter to
 control the notification behavior</li>
@@ -552,7 +691,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.15.1">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.11.0">v1.11.0</a>
 (TR-106 didn’t change)</em></p>
-<h3 id="data-model-9">Data Model</h3>
+<h3 id="data-model-10">Data Model</h3>
 <ul>
 <li>Removed items that were erroneously added to the User:1 profile and
 instead added them to a new User:2 profile</li>
@@ -570,12 +709,12 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.15.0">
 (TR-181), <a
 href="https://github.com/BroadbandForum/data-model-template/releases/tag/v1.11.0">v1.11.0</a>
 (TR-106)</em></p>
-<h3 id="tr-181-document-8">TR-181 Document</h3>
+<h3 id="tr-181-document-9">TR-181 Document</h3>
 <ul>
 <li>Converted the document to markdown and extended the Wi-Fi Theory of
 Operation</li>
 </ul>
-<h3 id="data-model-10">Data Model</h3>
+<h3 id="data-model-11">Data Model</h3>
 <ul>
 <li>Split the XML into multiple smaller files (this is just
 housekeeping; it doesn’t affect how the model is used)</li>
@@ -636,7 +775,7 @@ maximum</li>
 Issue 2 Amendment 14 Corrigendum 1</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.14.1">v2.14.1</a></em></p>
-<h3 id="data-model-11">Data Model</h3>
+<h3 id="data-model-12">Data Model</h3>
 <ul>
 <li>Fixed Device.LocalAgent.Subscription.{i}.ID constraints</li>
 <li>Removed duplicate remarks about CWMP BOOTSTRAP from
@@ -648,12 +787,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-14.pdf">
 Issue 2 Amendment 14</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.14.0">v2.14.0</a></em></p>
-<h3 id="tr-181-document-9">TR-181 Document</h3>
+<h3 id="tr-181-document-10">TR-181 Document</h3>
 <ul>
 <li>Added Appendix XXI 5G - Wireline Wireless Convergence and Appendix
 XXII Data Elements</li>
 </ul>
-<h3 id="data-model-12">Data Model</h3>
+<h3 id="data-model-13">Data Model</h3>
 <ul>
 <li>Added WWC (5G Wireline Wireless Convergence), PDU (Protocol Data
 Unit) and FWE (5G Wireline wireless Encapsulation) top-level
@@ -670,12 +809,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-13.pdf">
 Issue 2 Amendment 13</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.13.0">v2.13.0</a></em></p>
-<h3 id="tr-181-document-10">TR-181 Document</h3>
+<h3 id="tr-181-document-11">TR-181 Document</h3>
 <ul>
 <li>Unified text for CWMP and USP support</li>
 <li>Updated references</li>
 </ul>
-<h3 id="data-model-13">Data Model</h3>
+<h3 id="data-model-14">Data Model</h3>
 <ul>
 <li>Added support for WFA Data Elements</li>
 <li>Added support for Multi AP</li>
@@ -690,14 +829,14 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-12.pdf">
 Issue 2 Amendment 12</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.12.0">v2.12.0</a></em></p>
-<h3 id="tr-181-document-11">TR-181 Document</h3>
+<h3 id="tr-181-document-12">TR-181 Document</h3>
 <ul>
 <li>Added Appendix I, II, IV from TR-157a10 as Appendix XVII, XVIII and
 XIX</li>
 <li>Added Appendix XX BASAPM and LMAP Theory of Operations</li>
 <li>Added Annex H from TR-069a5 as Annex C</li>
 </ul>
-<h3 id="data-model-14">Data Model</h3>
+<h3 id="data-model-15">Data Model</h3>
 <ul>
 <li>Added TR-069a6 support</li>
 <li>Added USP Local agent support (TR-369)</li>
@@ -720,11 +859,11 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-11.pdf">
 Issue 2 Amendment 11</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.11.0">v2.11.0</a></em></p>
-<h3 id="tr-181-document-12">TR-181 Document</h3>
+<h3 id="tr-181-document-13">TR-181 Document</h3>
 <ul>
 <li>Added G.fast theory of operation</li>
 </ul>
-<h3 id="data-model-15">Data Model</h3>
+<h3 id="data-model-16">Data Model</h3>
 <ul>
 <li>LED status model</li>
 <li>Layer 2 tunnel support for IP diagnostics model</li>
@@ -748,11 +887,11 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-10.pdf">
 Issue 2 Amendment 10</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.10.0">v2.10.0</a></em></p>
-<h3 id="tr-181-document-13">TR-181 Document</h3>
+<h3 id="tr-181-document-14">TR-181 Document</h3>
 <ul>
 <li>No changes to the specification</li>
 </ul>
-<h3 id="data-model-16">Data Model</h3>
+<h3 id="data-model-17">Data Model</h3>
 <ul>
 <li>MQTT model</li>
 <li>Bulk data over HTTP</li>
@@ -762,7 +901,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.10.0">
 <h2 id="tr-181-amendment-7">2015-11-01: TR-181 Amendment 7</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.7.0">v1.7.0</a></em></p>
-<h3 id="data-model-17">Data Model</h3>
+<h3 id="data-model-18">Data Model</h3>
 <p>Incorporated new components from <a
 href="https://www.broadband-forum.org/download/TR-157_Amendment-10.pdf">TR-157
 Amendment 10</a></p>
@@ -773,7 +912,7 @@ Amendment 10</a></p>
 9</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.9.0">v2.9.0</a></em></p>
-<h3 id="data-model-18">Data Model</h3>
+<h3 id="data-model-19">Data Model</h3>
 <ul>
 <li>Added support for WiFi MAC Address Filtering</li>
 <li>Fixes for Traceroute</li>
@@ -785,12 +924,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-8.pdf">T
 Issue 2 Amendment 8</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.8.0">v2.8.0</a></em></p>
-<h3 id="tr-181-document-14">TR-181 Document</h3>
+<h3 id="tr-181-document-15">TR-181 Document</h3>
 <ul>
 <li>Updated Annex B on tunneling</li>
 <li>Added GRE, MAP and PCP theory of operation</li>
 </ul>
-<h3 id="data-model-19">Data Model</h3>
+<h3 id="data-model-20">Data Model</h3>
 <ul>
 <li>Added LLDP and HTIP home network topology discovery parameters</li>
 <li>Added G.997.1-2012 DSL parameters</li>
@@ -806,7 +945,7 @@ changes</li>
 <h2 id="tr-181-amendment-6">2014-09-01: TR-181 Amendment 6</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.6.0">v1.6.0</a></em></p>
-<h3 id="data-model-20">Data Model</h3>
+<h3 id="data-model-21">Data Model</h3>
 <p>Incorporated new components from TR-157 Amendment 9</p>
 <ul>
 <li>Added Inform Parameters table to ManagementServer</li>
@@ -819,12 +958,12 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf">T
 Issue 2 Amendment 7</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.7.0">v2.7.0</a></em></p>
-<h3 id="tr-181-document-15">TR-181 Document</h3>
+<h3 id="tr-181-document-16">TR-181 Document</h3>
 <ul>
 <li>Added ZigBee and Provider Bridge theory of operation</li>
 <li>Added backup/restore theory of operation</li>
 </ul>
-<h3 id="data-model-21">Data Model</h3>
+<h3 id="data-model-22">Data Model</h3>
 <ul>
 <li>Added ZigBee and Provider Bridge data models</li>
 <li>Also added additional WiFi statistics, and other minor changes</li>
@@ -832,7 +971,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.7.0">v
 <h2 id="tr-181-amendment-5">2013-11-01: TR-181 Amendment 5</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.5.0">v1.5.0</a></em></p>
-<h3 id="data-model-22">Data Model</h3>
+<h3 id="data-model-23">Data Model</h3>
 <p>Incorporated new components from TR-157 Amendment 8</p>
 <ul>
 <li>Addition of <em>MS_StandbyPolicy</em>, <em>XMPP</em> and
@@ -843,15 +982,15 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf">T
 Issue 2 Amendment 6</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.6.0">v2.6.0</a></em></p>
-<h3 id="tr-181-document-16">TR-181 Document</h3>
+<h3 id="tr-181-document-17">TR-181 Document</h3>
 <ul>
 <li>Added support M2M SCL Administration as an Appendix</li>
 </ul>
-<h3 id="data-model-23">Data Model</h3>
+<h3 id="data-model-24">Data Model</h3>
 <h2 id="tr-181-amendment-4">2012-11-01: TR-181 Amendment 4</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.4.0">v1.4.0</a></em></p>
-<h3 id="data-model-24">Data Model</h3>
+<h3 id="data-model-25">Data Model</h3>
 <p>Incorporated new components from TR-157 Amendment 7</p>
 <ul>
 <li>Addition of <em>DNS_SD</em> component; other minor updates</li>
@@ -861,18 +1000,18 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf">T
 Issue 2 Amendment 5</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.5.0">v2.5.0</a></em></p>
-<h3 id="tr-181-document-17">TR-181 Document</h3>
+<h3 id="tr-181-document-18">TR-181 Document</h3>
 <ul>
 <li>Added Tunneling Annex and IPsec Appendix</li>
 </ul>
-<h3 id="data-model-25">Data Model</h3>
+<h3 id="data-model-26">Data Model</h3>
 <ul>
 <li>Added support for IPsec and bulk data collection</li>
 </ul>
 <h2 id="tr-181-amendment-3">2012-05-01: TR-181 Amendment 3</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.3.0">v1.3.0</a></em></p>
-<h3 id="data-model-26">Data Model</h3>
+<h3 id="data-model-27">Data Model</h3>
 <p>Incorporated new components from TR-157 Amendment 6</p>
 <ul>
 <li>Addition of <em>BulkDataCollection</em> component</li>
@@ -881,7 +1020,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.3.0">v
 4</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.4.0">v2.4.0</a></em></p>
-<h3 id="data-model-27">Data Model</h3>
+<h3 id="data-model-28">Data Model</h3>
 <ul>
 <li>Added support for G.hn and Optical interfaces</li>
 <li>Additional WiFi parameters</li>
@@ -889,7 +1028,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.4.0">v
 <h2 id="tr-181-amendment-2">2011-11-01: TR-181 Amendment 2</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.2.0">v1.2.0</a></em></p>
-<h3 id="data-model-28">Data Model</h3>
+<h3 id="data-model-29">Data Model</h3>
 <p>Incorporated new components from <a
 href="https://www.broadband-forum.org/download/TR-157_Amendment-5.pdf">TR-157
 Amendment 5</a></p>
@@ -903,14 +1042,14 @@ href="https://www.broadband-forum.org/download/TR-262.pdf">TR-262</a></p>
 3</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.3.0">v2.3.0</a></em></p>
-<h3 id="data-model-29">Data Model</h3>
+<h3 id="data-model-30">Data Model</h3>
 <ul>
 <li>Added support for proxy management and alias-based addressing</li>
 </ul>
 <h2 id="tr-181-amendment-1">2011-07-01: TR-181 Amendment 1</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.1.0">v1.1.0</a></em></p>
-<h3 id="data-model-30">Data Model</h3>
+<h3 id="data-model-31">Data Model</h3>
 <p>Incorporated new components from TR-157 Amendment 4</p>
 <ul>
 <li>Support for CWMP Proxy Management and Alias-Based Addressing</li>
@@ -920,11 +1059,11 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-2.pdf">T
 Issue 2 Amendment 2</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.2.0">v2.2.0</a></em></p>
-<h3 id="tr-181-document-18">TR-181 Document</h3>
+<h3 id="tr-181-document-19">TR-181 Document</h3>
 <ul>
 <li>Added IPv6 and Firewall Appendices</li>
 </ul>
-<h3 id="data-model-31">Data Model</h3>
+<h3 id="data-model-32">Data Model</h3>
 <ul>
 <li>Added support for IPv6 and Firewall</li>
 </ul>
@@ -932,7 +1071,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.2.0">v
 1</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.1.0">v2.1.0</a></em></p>
-<h3 id="data-model-32">Data Model</h3>
+<h3 id="data-model-33">Data Model</h3>
 <ul>
 <li>Added support for Software Module Management</li>
 </ul>
@@ -940,7 +1079,7 @@ href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.1.0">v
 Corrigendum 1</h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.0.1">v2.0.1</a></em></p>
-<h3 id="data-model-33">Data Model</h3>
+<h3 id="data-model-34">Data Model</h3>
 <ul>
 <li>Fixed various ranges and defaults</li>
 <li>Removed non interface object <em>Alias</em> parameters from
@@ -951,11 +1090,11 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2.pdf">TR-181
 Issue 2</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v2.0.0">v2.0.0</a></em></p>
-<h3 id="tr-181-document-19">TR-181 Document</h3>
+<h3 id="tr-181-document-20">TR-181 Document</h3>
 <ul>
 <li>Original</li>
 </ul>
-<h3 id="data-model-34">Data Model</h3>
+<h3 id="data-model-35">Data Model</h3>
 <ul>
 <li>Original</li>
 </ul>
@@ -964,11 +1103,11 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-1.pdf">TR-181
 Issue 1</a></h2>
 <p><em>Tag: <a
 href="https://github.com/BroadbandForum/device-data-model/releases/tag/v1.0.0">v1.0.0</a></em></p>
-<h3 id="tr-181-document-20">TR-181 Document</h3>
+<h3 id="tr-181-document-21">TR-181 Document</h3>
 <ul>
 <li>Original</li>
 </ul>
-<h3 id="data-model-35">Data Model</h3>
+<h3 id="data-model-36">Data Model</h3>
 <ul>
 <li>Minor clarifications and additions</li>
 </ul>

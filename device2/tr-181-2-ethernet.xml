@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ethernet"
-    file="tr-181-2-21-0-ethernet.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ethernet"
+    file="tr-181-2-22-0-ethernet.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer1InterfaceMaxBitRateReadWriteAndSFPReferenceList"/>
     <component name="LinkReadWrite"/>
     <component name="BaseInterfaceParams"/>
@@ -84,7 +84,7 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
@@ -689,11 +689,11 @@
         individual instances can be configured to collect data associated with
         the entire interface, or with a particular VLAN and/or queue.
 
-        The CPE MUST reset each instances's Stats parameters whenever the
+        The device MUST reset each instances's Stats parameters whenever the
         instance is disabled and re-enabled. Whether this reset occurs when the
         instance becomes operationally disabled ({{param|Status}} =
         {{enum|Disabled|Status}}) or administratively enabled ({{param|Enable}}
-        = {{true}}) is a local matter to the CPE. This is similar to the
+        = {{true}}) is a local matter to the device. This is similar to the
         behavior of interface statistics, e.g. as specified for
         {{object|#.Interface.{i}.Stats}}. Furthermore, this instance's Stats
         parameters MUST be reset whenever the referenced interface's Stats
@@ -705,14 +705,14 @@
         packets, or if {{param|Queue}} references a queue that is not
         instantiated on {{param|Interface}}, or if {{param|Queue}} is not a
         valid reference and {{param|AllQueues}} is {{false}}, the table entry
-        is inoperable and the CPE MUST set {{param|Status}} to
+        is inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes unique key parameters that are
-        strong references. If a strongly referenced object is deleted, the CPE
+        strong references. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -742,7 +742,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -760,7 +760,7 @@
 
       <parameter name="Name" access="readOnly">
         <description>
-          The textual name of the {{object}} entry as assigned by the CPE.
+          The textual name of the {{object}} entry as assigned by the device.
         </description>
         <syntax>
           <string>
@@ -1099,7 +1099,7 @@
         model the Link Aggregation Sub-Layer as defined in
         {{bibref|802.3-2015}} and {{bibref|802.1AX-2014}}. It is expected that
         a {{object}} interface can only be stacked above {{object|#.Interface}}
-        interfaces. The CPE can reject creation of additional LAG instances if
+        interfaces. The device can reject creation of additional LAG instances if
         this would exceed its capabilities.
       </description>
       <uniqueKey functional="true">
@@ -1108,7 +1108,7 @@
       <parameter base="LowerLayers">
         <description action="append">
           {{param}} must reference to Device.Ethernet.Interface instances where
-          Link Aggregation Group is configured by the CPE.
+          Link Aggregation Group is configured by the device.
 
           For example, "Device.Ethernet.Interface.1,
           Device.Ethernet.Interface.2"
@@ -1246,7 +1246,7 @@
     </profile>
   </component>
 
-  <model name="Ethernet:2.21">
+  <model name="Ethernet:2.22">
     <component ref="Root"/>
     <component ref="Ethernet"/>
   </model>

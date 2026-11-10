@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-hosts"
-    file="tr-181-2-21-0-hosts.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-hosts"
+    file="tr-181-2-22-0-hosts.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,13 +70,18 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-schedules">
+    spec="urn:broadband-forum-org:tr-181-2-22-schedules">
     <component name="ScheduleRef"/>
+  </import>
+
+  <import file="tr-181-2-usp-base.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-usp-base">
+    <component name="ParamOriginReadOnly"/>
   </import>
 
   <component name="HostsUSP">
@@ -123,7 +128,7 @@
         maxEntries="1" version="2.0">
       <description>
         This object provides information about each of the hosts on the LAN,
-        including those whose IP address was allocated by the CPE using DHCP as
+        including those whose IP address was allocated by the device using DHCP as
         well as hosts with statically allocated IP addresses. It can also
         include non-IP hosts.
       </description>
@@ -204,7 +209,7 @@
         <description>
           Current IP Address of the host. {{empty}} if no address is available.
 
-          If more than one IP address for this host is known, the CPE will
+          If more than one IP address for this host is known, the device will
           choose a ''primary'' address. All known IP addresses can be listed in
           the {{object|IPv4Address}} and {{object|IPv6Address}} tables.
         </description>
@@ -215,12 +220,12 @@
 
       <parameter name="AddressSource" access="readOnly" status="deleted">
         <description>
-          Indicates whether the IP address of the host was allocated by the CPE
+          Indicates whether the IP address of the host was allocated by the device
           using DHCP, was assigned to the host statically, or was assigned
           using automatic IP address allocation. {{enum}}
 
           {{deprecated|2.11|because only {{enum|None}} and {{enum|DHCP}} made
-          sense (the CPE doesn't know whether the address is {{enum|Static}} or
+          sense (the device doesn't know whether the address is {{enum|Static}} or
           {{enum|AutoIP}}). The {{enum|DHCP}} case is now handled via the
           {{param|DHCPClient}} reference}}
 
@@ -444,12 +449,12 @@
       <parameter name="Active" access="readOnly">
         <description>
           Whether or not the host is currently present on the LAN. The method
-          of presence detection is a local matter to the CPE.
+          of presence detection is a local matter to the device.
 
-          The ability to list inactive hosts is OPTIONAL. If the CPE includes
+          The ability to list inactive hosts is OPTIONAL. If the device includes
           inactive hosts in this table, {{param}} MUST be set to {{false}} for
           each inactive host. The length of time an inactive host remains
-          listed in this table is a local matter to the CPE.
+          listed in this table is a local matter to the device.
 
           Entries in Device.Hosts.Host SHOULD NOT be removed when they become
           inactive if there are {{object|WANStats}} statistics collected for
@@ -470,7 +475,7 @@
 
           The ability to list inactive hosts is OPTIONAL. The length of time an
           inactive host remains listed in this table is a local matter to the
-          CPE.
+          device.
 
           Entries in Device.Hosts.Host SHOULD NOT be removed when they become
           inactive if there are {{object|WANStats}} statistics collected for
@@ -652,35 +657,13 @@
 
       <component ref="Alias"/>
 
-      <parameter name="Origin" access="readOnly" version="2.17">
-        <description>
+      <component ref="ParamOriginReadOnly" version="2.17"/>
+      <parameter base="Origin">
+        <description action="replace">
           Indicates the owner of the {{object}} instance.
 
           Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the access control rule was created by the
-                end-user. For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the access control rule was created by the
-                system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the access control rule was created by a
-                Controller.
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="Controller"/>
-        </syntax>
       </parameter>
 
       <parameter name="PhysAddress" access="readWrite">
@@ -976,7 +959,7 @@
     </profile>
   </component>
 
-  <model name="Hosts:2.21">
+  <model name="Hosts:2.22">
     <component ref="Root"/>
     <component ref="Hosts"/>
   </model>

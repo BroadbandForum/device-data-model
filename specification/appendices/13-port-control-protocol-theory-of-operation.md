@@ -35,9 +35,9 @@ The data model allows for more than one PCP client, but those clients operate in
 
 ## Configuration and monitoring of the PCP Server
 
-Prior to sending its first PCP message, the PCP client determines which server to use as described in [@RFC7488]. To do so the PCP client of the CPE can be configured statically (GUI or CWMP) or via DHCP (v4 or v6).
+Prior to sending its first PCP message, the PCP client determines which server to use as described in [@RFC7488]. To do so the PCP client of the device can be configured statically (GUI or CWMP) or via DHCP (v4 or v6).
 
-* When configured via DHCP, the CPE receives a list (at least one) of PCP server addresses in one or more *OPTION_V4_PCP_SERVER* or *OPTION_V6_PCP_SERVER* DHCP options. Based on the content of these DHCP options, the CPE creates one or more instances of *PCP.Client.{i}.Server* (see [@RFC7291]). The list of addresses provided for each PCP server is stored in the *ServerNameOrAddress* and *AdditionalServerAddresses* parameters and the *Origin* parameter is set to either "DHCPv4" or "DHCPv6".
+* When configured via DHCP, the device receives a list (at least one) of PCP server addresses in one or more *OPTION_V4_PCP_SERVER* or *OPTION_V6_PCP_SERVER* DHCP options. Based on the content of these DHCP options, the device creates one or more instances of *PCP.Client.{i}.Server* (see [@RFC7291]). The list of addresses provided for each PCP server is stored in the *ServerNameOrAddress* and *AdditionalServerAddresses* parameters and the *Origin* parameter is set to either "DHCPv4" or "DHCPv6".
 
 * When statically configured, one instance of *PCP.Client.{i}.Server* is created per server, with the *Origin* parameter set to "Static". The server is defined by either an FQDN or an IP address in *ServerNameOrAddress*.
 

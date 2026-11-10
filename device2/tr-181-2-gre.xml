@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-gre"
-    file="tr-181-2-21-0-gre.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-gre"
+    file="tr-181-2-22-0-gre.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer2InterfaceReadWrite"/>
   </import>
 
@@ -366,7 +366,7 @@
         <description>
           The Protocol ID assigned to this {{object}}. The Protocol Id is the
           EtherType value used to identify the encapsulated payload. When set
-          to {{null}} the CPE determines the Protocol Id.
+          to {{null}} the device determines the Protocol Id.
         </description>
         <syntax>
           <unsignedInt/>
@@ -396,7 +396,7 @@
             <enumeration value="Provisioned"/>
             <enumeration value="CPE_Generated" optional="true">
               <description>
-                The generation of the Key field is CPE specific implementation.
+                The generation of the Key field is device specific implementation.
               </description>
             </enumeration>
           </string>
@@ -500,7 +500,7 @@
 
         For enabled table entries, if {{param|Interface}} is not a valid
         reference and {{param|AllInterfaces}} is {{false}}, then the table
-        entry is inoperable and the CPE MUST set {{param|Status}} to
+        entry is inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -524,7 +524,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -709,7 +709,7 @@
     </profile>
   </component>
 
-  <model name="GRE:2.21">
+  <model name="GRE:2.22">
     <component ref="Root"/>
     <component ref="GRE"/>
   </model>

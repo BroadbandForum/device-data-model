@@ -1,0 +1,45 @@
+@startuml
+participant "Secure Storage" as PKCS11
+participant "Security Manager" as TR181
+participant "USP Agent" as OBUSPA
+participant "Provisioning Controller" as ProvController
+participant "Certificate Authority" as CA
+participant "USP Controller" as USPController
+
+OBUSPA -> OBUSPA: Load provisioning certificate in SSL context
+OBUSPA -> ProvController: Connect (mTLS using pre-embedded certificate)
+
+note over OBUSPA: Acts as a USP Agent
+
+ProvController -> OBUSPA: Device.Security.CreateCSR(KeyType: "RSA"\nKeyLength: 2048\nCN: "mydevice.bbf.org"\nO: "BBF"\nC: "US"\nName: "ServiceA"\nRenewalMode: "Renew"\nRenewalInterval: 30)
+activate OBUSPA
+OBUSPA -> TR181: Device.Security.CreateCSR(KeyType: "RSA"\nKeyLength: 2048\nCN: "mydevice.bbf.org"\nO: "BBF"\nC: "US"\nName: "ServiceA"\nRenewalMode: "Renew"\nRenewalInterval: 30)
+activate TR181
+
+TR181 --> OBUSPA: CreateCSRResponse(CommandKey: <CommandKey>)
+OBUSPA --> ProvController: CreateCSRResponse(CommandKey: <CommandKey>)
+
+TR181 -> PKCS11: Initialize_PIN()
+TR181 -> PKCS11: Generate_KeyPair()
+
+TR181 -> ProvController: CSRCreated!(CommandKey: <CommandKey>\nName: <name>\nEncodedCSR: <CSR data>)
+deactivate TR181
+deactivate OBUSPA
+
+ProvController -> CA: Sign CSR / Certificate
+CA --> ProvController: Sign Complete
+
+ProvController -> OBUSPA: Device.Security.AddCertificate(Certificate: <PEM data>\nName: <name>\nMatchToCSR: true)
+activate OBUSPA
+OBUSPA -> TR181: Device.Security.AddCertificate(Certificate: <PEM data>\nName: <name>\nMatchToCSR: true)
+activate TR181
+TR181 -> TR181: Install Certificate to Secure Storage
+TR181 --> OBUSPA: AddCertificateResponse(CommandKey: <CommandKey>)
+OBUSPA --> ProvController: AddCertificateResponse(CommandKey: <CommandKey>)
+deactivate TR181
+deactivate OBUSPA
+
+OBUSPA -> OBUSPA: Load new Certificate
+OBUSPA -> USPController: Connect
+
+@enduml

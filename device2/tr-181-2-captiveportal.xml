@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-captiveportal"
-    file="tr-181-2-21-0-captiveportal.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-captiveportal"
+    file="tr-181-2-22-0-captiveportal.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -75,9 +75,9 @@
         maxEntries="1" version="2.0">
       <description>
         This object contains parameters relating to the captive portal
-        configuration on the CPE.
+        configuration on the device.
 
-        The captive portal configuration defines the CPE's upstream HTTP (port
+        The captive portal configuration defines the device's upstream HTTP (port
         80) traffic redirect behavior.
 
         When the captive portal is disabled, upstream HTTP (port 80) traffic
@@ -102,7 +102,7 @@
         <description>
           Indicates the status of the captive portal. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -164,7 +164,7 @@
 
           The captive portal URL MUST be an HTTP (not HTTPS) URL.
 
-          The CPE MUST permit the captive portal URL to be set to {{empty}},
+          The device MUST permit the captive portal URL to be set to {{empty}},
           which has the effect of disabling the captive portal (if
           {{param|Enable}} is {{true}} and the captive portal URL is {{empty}},
           {{param|Status}} MUST be {{enum|Error_URLEmpty|Status}}).
@@ -185,7 +185,7 @@
     </profile>
   </component>
 
-  <model name="CaptivePortal:2.21">
+  <model name="CaptivePortal:2.22">
     <component ref="Root"/>
     <component ref="CaptivePortal"/>
   </model>

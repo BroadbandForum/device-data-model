@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-wwc"
-    file="tr-181-2-21-0-wwc.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-wwc"
+    file="tr-181-2-22-0-wwc.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -126,7 +126,7 @@
     <parameter name="TMSI" access="readOnly" version="2.14">
       <description>
         The Temporary Mobile Subscriber Identity (TMSI) is allocated by the
-        AMF at the time of registration and uniquely identifies the CPE.
+        AMF at the time of registration and uniquely identifies the device.
 
         See {{bibref|3GPP-TS.23.003|Clause 2.4}}.
       </description>
@@ -190,7 +190,7 @@
       <parameter name="HwCapabilities" access="readOnly">
         <description>
           {{list}} Wireline Wireless Convergence hardware capabilities
-          supported by the CPE. {{enum}}
+          supported by the device. {{enum}}
         </description>
         <syntax>
           <list/>
@@ -215,7 +215,7 @@
       <parameter name="SwCapabilities" access="readOnly">
         <description>
           {{list}} Wireline Wireless Convergence software capabilities
-          supported by the CPE. {{enum}}
+          supported by the device. {{enum}}
         </description>
         <syntax>
           <list/>
@@ -244,24 +244,24 @@
 
       <parameter name="Mode" access="readWrite">
         <description>
-          Sets the mode the CPE is operating in. Whilst the CPE is expected to
-          auto-negotiate, a service provider may need to lock the CPE in
+          Sets the mode the device is operating in. Whilst the device is expected to
+          auto-negotiate, a service provider may need to lock the device in
           {{enum|FN-RG}} or {{enum|5G-RG}} mode for stability. {{enum}}
         </description>
         <syntax>
           <string>
             <enumeration value="FN-RG">
               <description>
-                The CPE only attempts to authenticate using PPPoE or IPoE
+                The device only attempts to authenticate using PPPoE or IPoE
               </description>
             </enumeration>
             <enumeration value="5G-RG">
               <description>
-                The CPE only attempts to register using 5G NAS
+                The device only attempts to register using 5G NAS
               </description>
             </enumeration>
             <enumeration value="Auto">
-              <description>The CPE may operate in either mode</description>
+              <description>The device may operate in either mode</description>
             </enumeration>
           </string>
           <default value="Auto" type="factory"/>
@@ -270,7 +270,7 @@
 
       <parameter name="Status" access="readOnly">
         <description>
-          The mode the CPE is operating in. A CPE in {{enum|Negotiating}} is
+          The mode the device is operating in. A device in {{enum|Negotiating}} is
           deemed to be auto-negotiating its operational mode. {{enum}}
         </description>
         <syntax>
@@ -323,7 +323,7 @@
 
       <parameter name="Name" access="readOnly">
         <description>
-          The textual name of the Access Network entry as assigned by the CPE.
+          The textual name of the Access Network entry as assigned by the device.
         </description>
         <syntax>
           <string>
@@ -350,7 +350,7 @@
           The registration status of this entry. See
           {{bibref|3GPP-TS.23.501|Clause 5.3.2}}. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -395,7 +395,7 @@
           must change to {{enum|CM_UNDEFINED||ConnectionStatus}}. See
           {{bibref|3GPP-TS.23.501|Clause 5.3.3}}. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -455,7 +455,7 @@
         minEntries="1" maxEntries="1" version="2.14">
       <description>
         A 5G Globally Unique Temporary Identity (GUTI) securely identifies an
-        CPE by keeping the permanent User Equipment (UE identifier (IMSI)
+        device by keeping the permanent User Equipment (UE identifier (IMSI)
         hidden. This identity is globally unique and assigned by the AMF at the
         time of registration.
 
@@ -670,7 +670,7 @@
     </object>
   </component>
 
-  <model name="WWC:2.21">
+  <model name="WWC:2.22">
     <component ref="Root"/>
     <component ref="WWC"/>
   </model>

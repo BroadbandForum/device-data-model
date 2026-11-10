@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-softwaremodules-usp"
-    file="tr-181-2-21-0-softwaremodules-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-softwaremodules-usp"
+    file="tr-181-2-22-0-softwaremodules-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -76,7 +76,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-common">
+      spec="urn:broadband-forum-org:tr-181-2-22-common">
     <component name="SMEEResourceConstraints"/>
     <component name="SMApplicationData"/>
     <component name="SMRetainData"/>
@@ -222,8 +222,28 @@
             </syntax>
           </parameter>
 
+          <parameter name="EnableHostNSCapabilities" version="2.22">
+            <description>
+              This parameter indicates whether an unprivileged container is granted
+              additional capabilities that apply to the host namespaces.
+
+              This parameter is only applicable when {{param|Privileged}} is {{false}}.
+              When {{param|Privileged}} is {{true}}, this parameter is ignored.
+
+              * {{false}} - Standard unprivileged container with no host namespace capabilities.
+              * {{true}}  - Unprivileged container with extra capabilities applying to host namespaces.
+
+              The information provided in this input argument is placed in the
+              {{param|##.ExecutionUnit.{i}.EnableHostNSCapabilities}} parameter.
+            </description>
+            <syntax>
+              <boolean/>
+              <default type="parameter" value="false"/>
+            </syntax>
+          </parameter>
+
           <parameter name="NumRequiredUIDs" version="2.18"
-            status="obsoleted">
+            status="deleted">
             <description>
               Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
@@ -232,6 +252,8 @@
               {{deprecated|2.19|because this parameter should not be required.}}
 
               {{obsoleted|2.21}}
+
+              {{deleted|2.22}}
             </description>
             <syntax>
               <unsignedInt/>
@@ -273,6 +295,55 @@
                 <units value="seconds"/>
               </unsignedInt>
               <default type="parameter" value="10"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="DisableAutoStart" version="2.22">
+            <description>
+              Sets the initial value of
+              {{param|##.ExecutionUnit.{i}.AutoStart}} for any
+              {{object|##.ExecutionUnit}} created as a result of this
+              command.
+
+              If {{false}} and the run level verification is also met,
+              the device will automatically start the
+              {{object|##.ExecutionUnit}} immediately upon successful
+              installation.
+
+              If {{true}}, the {{object|##.ExecutionUnit}} will not be
+              started upon installation and will remain idle until
+              explicitly commanded to do so by the Controller or another
+              Execution Unit.
+
+              If this parameter is absent, the initial value of
+              {{param|##.ExecutionUnit.{i}.AutoStart}} is
+              {{false}}.
+            </description>
+            <syntax>
+              <boolean/>
+            </syntax>
+          </parameter>
+
+          <parameter name="RunLevel" version="2.22">
+            <description>
+              Sets the initial value of
+              {{param|##.ExecutionUnit.{i}.RunLevel}} for any
+              {{object|##.ExecutionUnit}} created as a result of this
+              command.
+
+              Determines when the {{object|##.ExecutionUnit}} will be
+              started. If {{param|DisableAutoStart}} is {{false}} and the
+              {{object|##.ExecEnv}}'s current run level is greater
+              than or equal to {{param}}, then the
+              {{object|##.ExecutionUnit}} will be started.
+
+              If this parameter is absent, the initial value of
+              {{param|##.ExecutionUnit.{i}.RunLevel}} is 0.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <range maxInclusive="65535"/>
+              </unsignedInt>
             </syntax>
           </parameter>
 
@@ -856,13 +927,15 @@
                   the failure.
                 </description>
               </enumeration>
-              <enumeration value="UnInstalled" status="obsoleted">
+              <enumeration value="UnInstalled" status="deleted">
                 <description>
                   The Deployment Unit was successfully uninstalled from the device.
 
                   {{deprecated|2.19|due to a typographical error in capitalization}}
 
                   {{obsoleted|2.21}}
+
+                  {{deleted|2.22}}
                 </description>
               </enumeration>
               <enumeration value="Uninstalled" version="2.19">
@@ -1850,7 +1923,27 @@
             </syntax>
           </parameter>
 
-          <parameter name="NumRequiredUIDs" version="2.18" status="obsoleted">
+          <parameter name="EnableHostNSCapabilities" version="2.22">
+            <description>
+              This parameter indicates whether an unprivileged container is granted
+              additional capabilities that apply to the host namespaces.
+
+              This parameter is only applicable when {{param|Privileged}} is {{false}}.
+              When {{param|Privileged}} is {{true}}, this parameter is ignored.
+
+              * {{false}} - Standard unprivileged container with no host namespace capabilities.
+              * {{true}}  - Unprivileged container with extra capabilities applying to host namespaces.
+
+              The information provided in this input argument is placed in the
+              {{param|###.ExecutionUnit.{i}.EnableHostNSCapabilities}} parameter.
+            </description>
+            <syntax>
+              <boolean/>
+              <default type="parameter" value="false"/>
+            </syntax>
+          </parameter>
+
+          <parameter name="NumRequiredUIDs" version="2.18" status="deleted">
             <description>
               Number of UIDs (Execution Unit User Identifiers) that this container will need as part of its
               user namespace. UIDs are unique identifiers associated with each user and system
@@ -1859,6 +1952,8 @@
               {{deprecated|2.19|because this parameter should not be required.}}
 
               {{obsoleted|2.21}}
+
+              {{deleted|2.22}}
             </description>
             <syntax>
               <unsignedInt/>
@@ -1867,6 +1962,56 @@
           </parameter>
 
           <component ref="SMDUSignature"/>
+
+          <parameter name="DisableAutoStart" version="2.22">
+            <description>
+              Sets the value of
+              {{param|###.ExecutionUnit.{i}.AutoStart}} for any
+              {{object|###.ExecutionUnit}} associated with this
+              {{object}}.
+
+              If {{false}} and the run level verification is also met,
+              the device will automatically start the
+              {{object|###.ExecutionUnit}} upon successful completion
+              of the update.
+
+              If {{true}}, the {{object|###.ExecutionUnit}} will not
+              be started upon completion of the update and will remain
+              idle until explicitly commanded to do so by the
+              Controller.
+
+              If this parameter is absent, the value of
+              {{param|###.ExecutionUnit.{i}.AutoStart}} remains
+              unchanged.
+            </description>
+            <syntax>
+              <boolean/>
+            </syntax>
+          </parameter>
+
+          <parameter name="RunLevel" version="2.22">
+            <description>
+              Sets the value of
+              {{param|###.ExecutionUnit.{i}.RunLevel}} for any
+              {{object|###.ExecutionUnit}} associated with this
+              {{object}}.
+
+              Determines when the {{object|###.ExecutionUnit}} will
+              be started. If {{param|DisableAutoStart}} is {{false}} and the
+              {{object|###.ExecEnv}}'s current run level is greater
+              than or equal to {{param}}, then the
+              {{object|###.ExecutionUnit}} will be started.
+
+              If this parameter is absent, the value of
+              {{param|###.ExecutionUnit.{i}.RunLevel}} remains
+              unchanged.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <range maxInclusive="65535"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
 
           <parameter name="RequiredRoles" version="2.16">
             <description>
@@ -2349,6 +2494,15 @@
         </description>
       </parameter>
 
+      <parameter base="AutoStart" access="readWrite">
+        <description action="append">
+          The initial value of {{param}} may be set by the
+          {{param|#.InstallDU().DisableAutoStart}} input argument. If that
+          argument is absent, the initial value is
+          {{true}}.
+        </description>
+      </parameter>
+
       <parameter name="RequiredRoles" access="readOnly" version="2.20">
         <description>
           Each item in the list represents a mandatory ControllerTrust Role that was required by
@@ -2432,6 +2586,55 @@
         </syntax>
       </parameter>
 
+      <parameter name="RestartCount" access="readOnly" version="2.22">
+        <description>
+          The number of times this ExecutionUnit has restarted. Incremented
+          each time this {{object}} restarts, regardless of cause — including
+          invocations of {{command|Restart()}}, restarts caused by the parent
+          ExecEnv restarting, and automatic restarts initiated by the
+          {{object|AutoRestart}} mechanism or {{command|SetRequestedState()}}.
+
+          This parameter is reset to zero on device boot.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RestartReason" access="readOnly" version="2.22">
+        <description>
+          The reason for the most recent restart of this {{object}}. Set each
+          time this {{object}} restarts.
+
+          When the restart is caused by invocation of {{command|Restart()}},
+          the value is taken from the {{param|Restart().Reason}} input parameter.
+          For all other restart causes the value is implementation-specific.
+
+          Cleared when the ExecutionUnit is stopped for any reason other
+          than a restart.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastStartTime" access="readOnly" version="2.22">
+        <description>
+          The time at which this {{object}} was last started or restarted.
+
+          Initially this parameter is set to the Unknown Time
+          (0001-01-01T00:00:00Z). When {{param}} is Unknown Time, it
+          indicates that the {{object}} has not yet started since the
+          current device boot, or that it started before the device clock
+          was synchronized.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
       <command name="SetRequestedState()" async="false">
         <description>
           Set the state transition that the Controller is requesting for this
@@ -2501,6 +2704,28 @@
 
           If this {{object|##.}} is in any other status then this command has
           no effect.
+        </description>
+        <input>
+          <parameter name="Reason" mandatory="false" version="2.22">
+            <description>
+              Textual description of the reason why this ExecutionUnit is being
+              restarted. This will be copied into the
+              {{param|##.RestartReason}} of the {{object|#}}.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="256"/>
+              </string>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+
+      <command name="ResetRestartCounter()" async="false" version="2.22">
+        <description>
+          Resets {{param|RestartCount}} to zero and clears
+          {{param|RestartReason}} and {{param|LastStartTime}} to their initial
+          values.
         </description>
       </command>
     </object>

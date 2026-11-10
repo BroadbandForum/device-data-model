@@ -67,7 +67,7 @@ This example describes an IP in IP encapsulation where a GRE tunnel takes IPv4 p
 
 @fig:ip-over-ip-gre-encapsulation shows the scenario where an IPv4 LAN network is tunneled in an IPv6 GRE tunnel that uses IPv6 global addresses.
 
-The GRE tunnels use the default IPv6 WAN interface of the CPE.
+The GRE tunnels use the default IPv6 WAN interface of the device.
 
 ![IP over IP GRE Encapsulation](/images/ip-over-ip-gre-encapsulation.png){typst-scale=0.7}
 

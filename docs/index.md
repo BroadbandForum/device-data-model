@@ -108,8 +108,8 @@ The following terminology is used throughout this %bbfType%.
 ::: borderless
 |                   |
 |-------------------|----------------------------------------------------------
-| **5G Residential Gateway** | A CPE that uses native 5G control plane N1 signaling.
-| **ACS**           | Auto-Configuration Server. This is a component in the broadband network responsible for *CWMP* auto-configuration of the *CPE* for advanced services.
+| **5G Residential Gateway** | A device that uses native 5G control plane N1 signaling.
+| **ACS**           | Auto-Configuration Server. This is a component in the broadband network responsible for *CWMP* auto-configuration of the *device* for advanced services.
 | **Agent**         | A generic term that refers (as appropriate) to either a CWMP Endpoint or to a USP Agent.
 | **AGF**           | A function connecting wireline access networks to the 5GC. AGF-CP is the control plane while AGF-UP is the user plane of the AGF.
 | **AMF**           | The AMF is a 5G control plane function that terminates N1 and N2. It is responsible for mobility and access related functions.
@@ -118,20 +118,20 @@ The following terminology is used throughout this %bbfType%.
 | **Component**     | A named collection of *Objects* and/or *Parameters* and/or Profiles that can be included anywhere within a *Data Model*.
 | **Controller**    | A generic term that refers (as appropriate) to either a CWMP ACS or a USP Controller.
 | **CWMP**          | *CPE* WAN Management Protocol. Defined in TR-069 [@TR-069], CWMP is a communication protocol between an *ACS* and a CWMP-enabled *CPE* that defines a mechanism for secure auto-configuration of a *CPE* and other *CPE* management functions in a common framework.
-| **CWMP Endpoint** | A CWMP termination point used by a CWMP-enabled CPE for communication with the ACS*.*
+| **CWMP Endpoint** | A CWMP termination point used by a CWMP-enabled device for communication with the ACS*.*
 | **Data Model**    | A hierarchical set of *Objects,* *Parameters, Commands and/or Events* that define the managed objects accessible via a particular *Agent*.
 | **Device**        | Used here as a synonym for *CPE*.
 | **DM Instance**   | Data Model Schema instance document. This is an XML document that conforms to the *DM Schema* and to any additional rules specified in or referenced by the *DM Schema*.
 | **DM Schema**     | Data Model Schema. This is the XML Schema [@REC-xmlschema-0-20041028] that is used for defining data models for use with *CWMP and USP*.
 | **Downstream Interface** | A physical interface object whose Upstream parameter is set to *false*, or an interface that is associated with such a physical interface via the InterfaceStack. For example, a downstream IP Interface is an IP.Interface object that is associated with an Upstream=false physical layer interface.
 | **Event**         | An indication that something of interest has happened that requires the Agent to notify the Controller.
-| **Fixed Network Residential Gateway** | A CPE connecting a home LAN to the WAN, which does not exchange N1 signaling with the 5GC.
+| **Fixed Network Residential Gateway** | A device connecting a home LAN to the WAN, which does not exchange N1 signaling with the 5GC.
 | **Interface Object** | A type of *Object* that models a network interface or protocol layer. Commonly referred to as an interface. They can be stacked, one on top of the other, using *Path References* in order to dynamically define the relationships between interfaces.
 | **N1**            | Reference point between the 5G-RG and the AMF and between the AGF and AMF in case of FN-RG.
 | **N2**            | Reference point between W-5GAN and AMF. On the W-5GAN side, the termination point is the AGF-CP.
 | **N3**            | Reference point between W-5GAN and UPF. On the W-5GAN side, the termination point is the AGF-UP.
 | **Object**        | An internal node in the name hierarchy, i.e., a node that can have Object, Parameter, Command and/or Event children. An Object name is a Path Name.
-| **Parameter**     | A name-value pair that represents part of a CPE or USP Agent's configuration or status. A Parameter name is a Path Name.
+| **Parameter**     | A name-value pair that represents part of a device or USP Agent's configuration or status. A Parameter name is a Path Name.
 | **Path Name**     | A name that has a hierarchical structure similar to files in a directory, with each level separated by a "." (dot). References an Object, Parameter, Command or Event.
 | **Path Reference** | Describes how a parameter can reference another parameter or object via its path name (A.2.3.4/TR-106 [@TR-106]). Such a reference can be weak or strong (Section A.2.3.6/TR-106 [@TR-106]).
 | **Upstream Interface** | A physical interface object whose Upstream parameter is set to *true*, or an interface that is associated with such a physical interface via the InterfaceStack. For example, an upstream IP Interface is an IP.Interface object that is associated with an Upstream=true physical layer interface.
@@ -242,7 +242,7 @@ The interface object and interface stack are concepts inspired by RFC 2863 [@RFC
 Within the Device:2 data model, interface objects are arbitrarily restricted to definitions that operate at or below the IP network layer (i.e., layers 1 through 3 of the OSI model [@X.200]). However, vendor-specific interface objects MAY be defined which fall outside this restricted scope.
 
 @fig:osi-layers-and-interface-objects lists the interface objects defined in the Device:2 data model.
-The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP. It is highly recommended that the interface stack models the PHY and MAC of the optical Ethernet port, which suggests that an Ethernet Interface not be replaced by an Optical Interface for an optical Ethernet port.
+The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a device need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one device stack might exclude DSL Bonding, while another device stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP. It is highly recommended that the interface stack models the PHY and MAC of the optical Ethernet port, which suggests that an Ethernet Interface not be replaced by an Optical Interface for an optical Ethernet port.
 
 ::: note
 Throughout this %bbfType%, object names are often abbreviated in order to improve readability. For example, Device.Ethernet.VLANTermination.{i}. is the full name of a Device:2 object, but might casually be referred to as Ethernet.VLANTermination.{i} or VLANTermination.{i} or VLANTermination, just so long as the abbreviation is unambiguous (with respect to similarly named objects defined elsewhere within the data model).
@@ -267,8 +267,8 @@ The core set of parameters consists of:
 |-----------------------------|--------------------------------------------------------------------------
 | Enable                      | The administrative state of the interface (i.e., boolean indicating enabled or disabled)
 | Status                      | The operational state of the interface (i.e., Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, Error)
-| Alias                       | An alternate name used to identify the interface, which is assigned an initial value by the CPE but can later be chosen by the Controller
-| Name                        | The textual name used to identify the interface, which is chosen by the CPE
+| Alias                       | An alternate name used to identify the interface, which is assigned an initial value by the device but can later be chosen by the Controller
+| Name                        | The textual name used to identify the interface, which is chosen by the device
 | Description                 | A user-friendly description of the interface.
 | LastChange                  | The accumulated time in seconds since the interface entered its current operational state
 | LowerLayers                 | A list of path references to interface objects that are stacked immediately below the interface
@@ -297,22 +297,22 @@ Also, a core set of statistics parameters is contained within a Stats sub-object
 :::
 
 ::: note
-The CPE MUST reset an interface's Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface's Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface's Enable parameter transitions from false to true). Administrative and operational status are discussed in *[Administrative and Operational Status]*.
+The device MUST reset an interface's Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface's Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface's Enable parameter transitions from false to true). Administrative and operational status are discussed in *[Administrative and Operational Status]*.
 :::
 
 ### Lower Layers
 
 Each interface object can be stacked on top of zero or more other interface objects, which MUST be specified using its LowerLayers parameter. By having each interface object, in turn, reference the interface objects in its lower layer; a logical hierarchy of all interface relationships is built up.
 
-The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the CPE MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).
+The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the device MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).
 
-These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the CPE.
+These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the device.
 
-A CPE MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the CPE MUST indicate this, using the appropriate protocol response.
+A device MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the device MUST indicate this, using the appropriate protocol response.
 
-The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the CPE.
+The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the device.
 
-@fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
+@fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the device would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
 
 ![Interface LowerLayers](images/interface-lowerlayers.png){typst-scale=0.5}
 
@@ -324,9 +324,9 @@ Many of the requirements outlined in this section were derived from Section 3.1.
 
 An interface object's Enable and Status parameters specify the current administrative and operational status of the interface, respectively. Valid values for the Status parameter are: Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, and Error.
 
-The CPE MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior -- it is simply the timing of how long these state transitions take that is implementation specific.
+The device MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior -- it is simply the timing of how long these state transitions take that is implementation specific.
 
-When the Enable parameter is *false* the Status parameter SHOULD normally be *Down* (or *NotPresent* or *Error* if there is a fault condition on the interface). Note that when the Enable parameter transitions to *false*, it is possible that the Status parameter's transition to *Down* might occur after a small time lag if the CPE needs to first complete certain operations (e.g., finish transmitting a packet).
+When the Enable parameter is *false* the Status parameter SHOULD normally be *Down* (or *NotPresent* or *Error* if there is a fault condition on the interface). Note that when the Enable parameter transitions to *false*, it is possible that the Status parameter's transition to *Down* might occur after a small time lag if the device needs to first complete certain operations (e.g., finish transmitting a packet).
 
 When the Enable parameter is changed to *true*, the Status SHOULD do one of the following:
 
@@ -359,7 +359,7 @@ When an interface object is stacked on top of lower-layer interfaces (i.e., is n
 
 Vendor-specific interface objects MAY be defined and used. If such objects are specified by vendors, they MUST be preceded by *X_<VENDOR>_* and follow the syntax for vendor extensions used for parameter names (as defined in Section 3.3/TR-106 [@TR-106]).
 
-If the Controller encounters an unknown vendor-specific interface object within a CPE's interface stack, rather than responding with a fault, the Controller MUST proceed as if this object's upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the [InterfaceStack table] or via an interface object's LowerLayers parameter.
+If the Controller encounters an unknown vendor-specific interface object within a device's interface stack, rather than responding with a fault, the Controller MUST proceed as if this object's upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the [InterfaceStack table] or via an interface object's LowerLayers parameter.
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.
 
@@ -373,7 +373,7 @@ If the Controller encounters an unknown vendor-specific interface object within 
 
 Although the interface stack can be traversed via [LowerLayers parameters][Lower Layers], an alternate mechanism is provided to aid in visualizing the overall stacking relationships and to quickly access objects within the stack.
 
-The InterfaceStack table is a Device:2 data model object, namely *Device.InterfaceStack.{i}*. This is a read-only table whose rows are auto-generated by the CPE based on the current relationships that are configured between interface objects (via each interface instance's LowerLayers parameter). Each table row represents a "link" between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row's HigherLayer and LowerLayer parameters will always both be non-null.
+The InterfaceStack table is a Device:2 data model object, namely *Device.InterfaceStack.{i}*. This is a read-only table whose rows are auto-generated by the device based on the current relationships that are configured between interface objects (via each interface instance's LowerLayers parameter). Each table row represents a "link" between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row's HigherLayer and LowerLayer parameters will always both be non-null.
 
 ::: note
 As a consequence, interface instances that have been stranded will not be represented within the InterfaceStack table. It is also likely that multiple, disjoint groups of stacked interface objects will coexist within the table (for example, each IP interface will be the root of a disjoint group; unused "fragments", e.g., a secondary DSL channel with a configured ATM PVC that isn't attached to anything above, will linger if they remain interconnected; and finally, partially configured "fragments" can be present when an interface stack is being set up).
@@ -383,14 +383,14 @@ As a consequence, interface instances that have been stranded will not be repres
 An interface instance is considered stranded when it has no lower layer references to or from other interface instances. Stranded interface instances will be omitted from the InterfaceStack table until such time as they are stacked, above or below another interface instance, via a LowerLayers parameter reference.
 :::
 
-A CPE MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:
+A device MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:
 
 * An interface's LowerLayers parameter was updated to remove a reference to another interface (i.e., a "link" is being removed from the stack).
 * An interface's LowerLayers parameter was updated to add a reference to another interface (i.e., a "link" is being added to the stack).
 * An interface was deleted that had referenced, or been referenced by, one other interface (i.e., a "link" is being removed from the stack).
 * An interface was deleted that had referenced, or been referenced by, multiple interfaces (i.e., multiple "links" are being removed from the stack).
 
-Once the CPE issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the CPE.
+Once the device issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the device.
 
 As an example, @tbl:simple-router-example-interfacestack-table lists an InterfaceStack table configuration imagined for a fictitious, simple router. Each row in this table corresponds to a row in the InterfaceStack table. The specified objects and instance numbers are manufactured for the sake of this example; real world configurations will likely differ.
 
@@ -499,13 +499,13 @@ The following rules apply to the use and setting of the Order parameter:
 
 * Order goes in order from 1 to n, where n is equal to the number of entries in the Classification table. 1 is the highest precedence, and n the lowest. For example, if entries with Order of 4 and 7 both have rules that match some particular traffic, the traffic will be classified according to the entry with the 4.
 
-* The CPE is responsible for ensuring that all Order values are unique and sequential.
+* The device is responsible for ensuring that all Order values are unique and sequential.
 
-    * If an entry is added (number of entries becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.
+    * If an entry is added (number of entries becomes n+1), and the value specified for Order is greater than n+1, then the device will set Order to n+1.
 
-    * If an entry is added (number of entries becomes n+1), and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing entries with Order equal to or greater than the specified value.
+    * If an entry is added (number of entries becomes n+1), and the value specified for Order is less than n+1, then the device will create the entry with that specified value, and increment the Order value of all existing entries with Order equal to or greater than the specified value.
 
-    * If an entry is deleted, the CPE will decrement the Order value of all remaining entries with Order greater than the value of the deleted entry.
+    * If an entry is deleted, the device will decrement the Order value of all remaining entries with Order greater than the value of the deleted entry.
 
     * If the Order value of an entry is changed, then the value will also be changed for other entries greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of <new value>-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new entry with the new value, followed by a Delete of the entry with the old value.
 
@@ -513,11 +513,11 @@ The following rules apply to the use and setting of the Order parameter:
 
 In some situations, traffic to be classified cannot be identified by a static set of classification criteria. Instead, identification of traffic flows might require explicit application awareness. The model accommodates such situations via the App and Flow tables in the QoS object.
 
-Each entry in the App table is associated with an application-specific protocol handler, identified by the ProtocolIdentifier, which contains a URN. For a particular CPE, the AvailableAppList parameter indicates which protocol handlers that CPE is capable of supporting, if any. A list of standard protocol handlers and their associated URNs is specified in *[URN Definitions for App and Flow Tables]*, though a CPE can also support vendor-specific protocol handlers as well. Multiple App table entries can refer to the same ProtocolIdentifier.
+Each entry in the App table is associated with an application-specific protocol handler, identified by the ProtocolIdentifier, which contains a URN. For a particular device, the AvailableAppList parameter indicates which protocol handlers that device is capable of supporting, if any. A list of standard protocol handlers and their associated URNs is specified in *[URN Definitions for App and Flow Tables]*, though a device can also support vendor-specific protocol handlers as well. Multiple App table entries can refer to the same ProtocolIdentifier.
 
 The role of the protocol handler is to identify and classify flows based on application awareness. For example, a SIP protocol handler might identify a call-control flow, an audio flow, and a video flow. The App and Flow tables are used to specify the classification outcome associated with each such flow.
 
-For each App table entry there can be one or more associated Flow table entries. Each flow table entry identifies a type of flow associated with the protocol handler. The Type parameter is used to identify the specific type of flow associated with each entry. For example, a Flow table entry for a SIP protocol handler might refer only to the audio flows associated with that protocol handler. A list of standard flow type values is given in *[URN Definitions for App and Flow Tables]*, though a CPE can also support vendor-specific flow types.
+For each App table entry there can be one or more associated Flow table entries. Each flow table entry identifies a type of flow associated with the protocol handler. The Type parameter is used to identify the specific type of flow associated with each entry. For example, a Flow table entry for a SIP protocol handler might refer only to the audio flows associated with that protocol handler. A list of standard flow type values is given in *[URN Definitions for App and Flow Tables]*, though a device can also support vendor-specific flow types.
 
 A protocol handler can be defined as being fed from the output of a Classification table entry. That is, a Classification entry can be used to single out control traffic to be passed to the protocol handler, which then subsequently identifies associated flows. Doing so allows more than one instance of a protocol handler associated with distinct traffic. For example, one could define two App table entries associated with SIP protocol handlers. If the classifier distinguished control traffic to feed into each handler based on the destination IP address of the SIP server, this could be used to separately classify traffic for different SIP service providers. In this case, each instance of the protocol handler would identify only those flows associated with a given service. Note that the Classification table entry that feeds each protocol handler wouldn't encompass all of the flows; only the traffic needed by the protocol handler to determine the flows---typically only the control traffic.
 
@@ -550,7 +550,7 @@ Each Policer table entry specifies the packet handling characteristics, includin
 The Queue table specifies the number and types of queues, queue parameters, shaping behavior, and scheduling algorithm to use. Each Queue table entry specifies the TrafficClasses with which it is associated, and a set of egress interfaces for which a queue with the corresponding characteristics needs to exist.
 
 ::: note
-If the CPE can determine that among the interfaces specified for a queue to exist, packets classified into that queue cannot egress to a subset of those interfaces (from knowledge of the current routing and bridging configuration), the CPE can choose not to instantiate the queue on those interfaces.
+If the device can determine that among the interfaces specified for a queue to exist, packets classified into that queue cannot egress to a subset of those interfaces (from knowledge of the current routing and bridging configuration), the device can choose not to instantiate the queue on those interfaces.
 :::
 
 ::: note
@@ -607,13 +607,13 @@ The following rules apply to the use and setting of the Order parameter:
 
 * The Order goes in order from 1 to n, where n is equal to the number of filters. 1 is the highest precedence, and n the lowest.
 
-* The CPE is responsible for ensuring that all Order values among filters are unique and sequential.
+* The device is responsible for ensuring that all Order values among filters are unique and sequential.
 
-* If a filter is added (number of filters becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.
+* If a filter is added (number of filters becomes n+1), and the value specified for Order is greater than n+1, then the device will set Order to n+1.
 
-* If a filter is added (number of entries becomes n+1, and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing filters with Order equal to or greater than the specified value.
+* If a filter is added (number of entries becomes n+1, and the value specified for Order is less than n+1, then the device will create the entry with that specified value, and increment the Order value of all existing filters with Order equal to or greater than the specified value.
 
-* If a filter is deleted, the CPE will decrement the Order value of all remaining filters with Order greater than the value of the deleted entry.
+* If a filter is deleted, the device will decrement the Order value of all remaining filters with Order greater than the value of the deleted entry.
 
 * If the Order value of a filter is changed, then the value will also be changed for other filters greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of <new value>-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new filter with the new value, followed by a Delete of the filter with the old value.
 
@@ -673,9 +673,9 @@ In the table, grayed and bolded items are added to allow two-way mapping between
 
 ### App ProtocolIdentifier
 
-@tbl:protocolidentifer-urns lists the URNs defined for the QoS App table's ProtocolIdentifier parameter. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.
+@tbl:protocolidentifier-urns lists the URNs defined for the QoS App table's ProtocolIdentifier parameter. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.
 
-:ProtocolIdentifer URNs
+:ProtocolIdentifier URNs
 
 | URN                    | Description
 |------------------------|-------------------------------------------------------------------
@@ -767,7 +767,7 @@ A Tunnel is not a stackable interface object, because it breaks the layering ord
 Even though a Tunnel is not an interface, it can be referenced by QoS classification rules. Traffic arriving on a Tunnel instance, i.e., packets that have just been encapsulated, is conceptually similar to locally-generated traffic.
 :::
 
-In summary, the decision to en-tunnel a packet is a forwarding decision to send a packet to an IP interface that is stacked above a *Tunnel* *interface* instance, and the decision to de-tunnel a packet is a consequence of the fact that it is addressed to the CPE and is therefore passed to a *Tunnel* instance. @fig:tunneling-overview-showing-forwarding-decisions extends @fig:tunneling-overview by expanding the tunnel into a *Tunnel IP interface*, a *Tunnel interface*, and the *Tunnel* instance, thereby showing where these two decisions are made.
+In summary, the decision to en-tunnel a packet is a forwarding decision to send a packet to an IP interface that is stacked above a *Tunnel* *interface* instance, and the decision to de-tunnel a packet is a consequence of the fact that it is addressed to the device and is therefore passed to a *Tunnel* instance. @fig:tunneling-overview-showing-forwarding-decisions extends @fig:tunneling-overview by expanding the tunnel into a *Tunnel IP interface*, a *Tunnel interface*, and the *Tunnel* instance, thereby showing where these two decisions are made.
 
 ![Tunneling Overview (Showing Forwarding Decisions)](images/tunneling-overview-showing-forwarding-decisions.png)
 
@@ -937,60 +937,52 @@ The Bridging model is depicted in @fig:bridge-1-model, while the configuration r
 
 ![Bridge 1 model](images/bridge-1-model.png){typst-scale=0.5}
 
----
-bridge1ModelTableSpec:
-  caption: Tagged LAN to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge1ModelTable:
-  - descr: |
-      Bridge between WAN and LAN 1 interfaces with VLANID=*x*
+Tagged LAN to tagged WAN configuration
 
-    config: |
-      [Define VLANx]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.VLAN.1     |
-      |-------------------------------------|-----------------------------------
-      | Name                                | *VLANx*
-      | VLANID                              | *X*
+- - Bridge between WAN and LAN 1 interfaces with VLANID=*x*
 
-      [Define Ingress Port2-3 -- Create an entry for the upstream and
-      downstream port]
+  - [Define VLANx]
 
-      | Device.Bridging.Bridge.1.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.1.VLAN.1     |
+    |-------------------------------------|-----------------------------------
+    | Name                                | *VLANx*
+    | VLANID                              | *X*
 
-      | Device.Bridging.Bridge.1.Port.3     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    [Define Ingress Port2-3 -- Create an entry for the upstream and
+    downstream port]
 
-      [Associate Egress Port2-3 to VLANx -- Create an entry for the upstream
-      and downstream port]
+    | Device.Bridging.Bridge.1.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.1.Port.3     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port3*
-      | Untagged                            | *false*
-...
+    [Associate Egress Port2-3 to VLANx -- Create an entry for the upstream
+    and downstream port]
 
-::: {bbfTable=bridge1ModelTable}
+    | Device.Bridging.Bridge.1.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
+
+    | Device.Bridging.Bridge.1.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port3*
+    | Untagged                            | *false*
+
 :::
 
 ## Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID Translation)
@@ -1003,85 +995,77 @@ The Bridging model is depicted in @fig:bridge-2-model, while the configuration r
 
 ![Bridge 2 model](images/bridge-2-model.png){typst-scale=0.5}
 
----
-bridge2ModelTableSpec:
-  caption: Tagged LAN to tagged WAN configuration (VLAN ID translation)
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge2ModelTable:
-  - descr: |
-      Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)
+Tagged LAN to tagged WAN configuration (VLAN ID translation)
 
-      upstream VLAN-ID=z
+- - Description
+  - Bridging Configuration
 
-      downstream VLAN-ID=y
+- - Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)
 
-    config: |
-      [Define VLANy and VLANz]
+    upstream VLAN-ID=z
 
-      | Device.Bridging.Bridge.2.VLAN.1     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANy*
-      | VLANID                              | *y*
+    downstream VLAN-ID=y
 
-      | Device.Bridging.Bridge.2.VLAN.2     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANz*
-      | VLANID                              | *z*
+  - [Define VLANy and VLANz]
 
-      [Define Ingress Port2 -- Create an entry for upstream port]
+    | Device.Bridging.Bridge.2.VLAN.1     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANy*
+    | VLANID                              | *y*
 
-      | Device.Bridging.Bridge.2.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *Z*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.2.VLAN.2     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANz*
+    | VLANID                              | *z*
 
-      [Define Ingress Port3 -- Create an entry for the downstream port]
+    [Define Ingress Port2 -- Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.2.Port.3     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *y*
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.2.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *Z*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port2 to VLANz - Create an entry for upstream port]
+    [Define Ingress Port3 -- Create an entry for the downstream port]
 
-      | Device.Bridging.Bridge.2.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANz*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.2.Port.3     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *y*
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port3 to VLANy - Create an entry for each downstream port]
+    [Associate Egress Port2 to VLANz - Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.2.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANy*
-      | Port                                | *Port3*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.2.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANz*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
 
-      [Define filter on upstream: ingress from Port 2 is associated with VLANy]
+    [Associate Egress Port3 to VLANy - Create an entry for each downstream port]
 
-      | Device.Bridging.Filter.1.           |
-      |-------------------------------------|------------------------------------
-      | Bridge                              | *VLANy*
-      | Interface                           | *Port2*
+    | Device.Bridging.Bridge.2.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANy*
+    | Port                                | *Port3*
+    | Untagged                            | *false*
 
-      [Define filter on downstream: ingress from Port 3 is associated with VLANz]
+    [Define filter on upstream: ingress from Port 2 is associated with VLANy]
 
-      | Device.Bridging.Filter.2.           |
-      |-------------------------------------|------------------------------------
-      | Bridge                              | *VLANz*
-      | Interface                           | *Port3*
-...
+    | Device.Bridging.Filter.1.           |
+    |-------------------------------------|------------------------------------
+    | Bridge                              | *VLANy*
+    | Interface                           | *Port2*
 
-::: {bbfTable=bridge2ModelTable}
+    [Define filter on downstream: ingress from Port 3 is associated with VLANz]
+
+    | Device.Bridging.Filter.2.           |
+    |-------------------------------------|------------------------------------
+    | Bridge                              | *VLANz*
+    | Interface                           | *Port3*
+
 :::
 
 ## Untagged LAN to Tagged WAN Traffic
@@ -1094,95 +1078,79 @@ The Bridging model is depicted in @fig:bridge-3-model, while the configuration r
 
 ![Bridge 3 model](images/bridge-3-model.png){typst-scale=0.5}
 
----
-bridge3ModelTableSpec:
-  caption: Untagged LAN to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge3ModelTable:
-  - descr: |
-      Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic
+Untagged LAN to tagged WAN configuration
 
-    config: |
-      [Define VLANk]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.3.VLAN.1     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANk*
-      | VLANID                              | *k*
+- - Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic
 
-      [Define Ingress Port2 -- Create an entry for upstream port]
+  - [Define VLANk]
 
-      | Device.Bridging.Bridge.3.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *k*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.3.VLAN.1     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANk*
+    | VLANID                              | *k*
 
-      [Define Ingress Port3 -- Create an entry for the downstream port]
+    [Define Ingress Port2 -- Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.3.Port.3     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitAll
+    | Device.Bridging.Bridge.3.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *k*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port2 to VLANk - Create an entry for upstream port]
+    [Define Ingress Port3 -- Create an entry for the downstream port]
 
-      | Device.Bridging.Bridge.3.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANk*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.3.Port.3     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitAll
 
-      [Associate Egress Port3 to VLANk - Create an entry for each downstream port]
+    [Associate Egress Port2 to VLANk - Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.3.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANk*
-      | Port                                | *Port3*
-      | Untagged                            | *true*
-...
+    | Device.Bridging.Bridge.3.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANk*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
 
-::: {bbfTable=bridge3ModelTable}
+    [Associate Egress Port3 to VLANk - Create an entry for each downstream port]
+
+    | Device.Bridging.Bridge.3.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANk*
+    | Port                                | *Port3*
+    | Untagged                            | *true*
+
 :::
 
 ## Internally Generated to Tagged WAN Traffic
 
-A CPE PPPoE internal session (instance Device.PPP.Interface.1) might be dedicated to Management service and this logical interface would encapsulate/de-encapsulate its outgoing or incoming traffic in the VLAN ID j, dedicated to Management service.
+A device PPPoE internal session (instance Device.PPP.Interface.1) might be dedicated to Management service and this logical interface would encapsulate/de-encapsulate its outgoing or incoming traffic in the VLAN ID j, dedicated to Management service.
 
 To achieve this, instead of using a bridging object, a VLAN Termination interface would be created (Device.Ethernet.VLANTermination.1). The Bridging model is depicted in @fig:vlan-termination-model, while the configuration rules for this situation are summarized in @tbl:internally-generated-to-tagged-wan-configuration.
 
 ![VLAN Termination model](images/vlan-termination-model.png){typst-scale=0.5}
 
----
-vlanTerminationModelTableSpec:
-  caption: Internally generated to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-vlanTerminationModelTable:
-  - descr: |
-      Internal to tagged WAN (VLAN-ID=j) traffic
+Internally generated to tagged WAN configuration
 
-    config: |
-      [DefineVLAN Termination on top of Ethernet Link]
+- - Description
+  - Bridging Configuration
 
-      | Device.Ethernet.VLANTermination.1  |
-      |------------------------------------|-------------------------------------
-      | VLANID                             | *j*
-      | LowerLayers                        | Ethernet.Link.1
-...
+- - Internal to tagged WAN (VLAN-ID=j) traffic
 
-::: {bbfTable=vlanTerminationModelTable}
+  - [Define VLAN Termination on top of Ethernet Link]
+
+    | Device.Ethernet.VLANTermination.1  |
+    |------------------------------------|-------------------------------------
+    | VLANID                             | *j*
+    | LowerLayers                        | Ethernet.Link.1
+
 :::
 
 ## Other Issues
@@ -1203,101 +1171,85 @@ To achieve this, new entries need to be added for interface Eth-3 and Eth-4. The
 
 ![Bridge 1 model (additional Ethernet interfaces)](images/bridge-1-model-additional-ethernet-interfaces.png){typst-scale=0.5}
 
----
-bridge1ModelPlusTableSpec:
-  caption: Configuration to be added to "Tagged LAN to tagged WAN configuration" table
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge1ModelPlusTable:
-  - descr: |
-      Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=*x*
-      *(Configuration to be added to @tbl:tagged-lan-to-tagged-wan-configuration)*
+Configuration to be added to "Tagged LAN to tagged WAN configuration" table
 
-    config: |
-      [Define Ingress Port4-5 -- Create an entry for the other downstream ports]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.Port.4     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port4*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+- - Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=*x*
+    *(Configuration to be added to @tbl:tagged-lan-to-tagged-wan-configuration)*
 
-      | Device.Bridging.Bridge.1.Port.5     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port5*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+  - [Define Ingress Port4-5 -- Create an entry for the other downstream ports]
 
-      [Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]
+    | Device.Bridging.Bridge.1.Port.4     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port4*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.3 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port4*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.1.Port.5     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port5*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.4 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port5*
-      | Untagged                            | *false*
-...
+    [Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]
 
-::: {bbfTable=bridge1ModelPlusTable}
+    | Device.Bridging.Bridge.1.VLANPort.3 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port4*
+    | Untagged                            | *false*
+
+    | Device.Bridging.Bridge.1.VLANPort.4 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port5*
+    | Untagged                            | *false*
+
 :::
 
 ### 802.1D (Re)-marking {#sec:802.1d-re-marking}
 
 The 802.1Q Tag includes the 802.1D user priority bits field. All the previous cases can also be extended to mark (or re-mark) this 802.1D field. To achieve this, there are different configuration options; one of them is to use the DefaultUserPriority or PriorityRegeneration fields in the Bridge Port object. For untagged frames, more complex rules can be defined referring to the QoS Classification, using the PriorityTagging value. The Bridging configuration rules for marking egress traffic on the upstream interface are summarized in @tbl:802.1d-re-marking]. Compare it with @tbl:tagged-lan-to-tagged-wan-configuration.
 
----
-bridgeRemarkingTableSpec:
-  caption: 802.1D (re-)marking
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridgeRemarkingTable:
-  - descr: |
-      802.1D (re-)marking
+802.1D (re-)marking
 
-      Remark all WAN egress traffic
+- - Description
+  - Bridging Configuration
 
-    config: |
-      [Mark the ingress frames with Default user Priority, in this case *0*]
+- - 802.1D (re-)marking
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | DefaultUserPriority                | *0*
+    Remark all WAN egress traffic
 
-      [Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority
-      regeneration string, in this case *(0,0,0,0,4,4,4,4)*]
+  - [Mark the ingress frames with Default user Priority, in this case *0*]
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | PriorityRegeneration               | *0,0,0,0,4,4,4,4*
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | DefaultUserPriority                | *0*
 
-      [In case of ingress untagged frames, for more complex classification, QoS
-      object are referred. In this case remark with *0*]
+    [Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority
+    regeneration string, in this case *(0,0,0,0,4,4,4,4)*]
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | PriorityTagging                    | *true*
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | PriorityRegeneration               | *0,0,0,0,4,4,4,4*
 
-      | Device.QoS.Classification.{i}.     |
-      |------------------------------------|-------------------------------------
-      | EthernetPriorityMark               | *0*
-...
+    [In case of ingress untagged frames, for more complex classification, QoS
+    object are referred. In this case remark with *0*]
 
-::: {bbfTable=bridgeRemarkingTable}
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | PriorityTagging                    | *true*
+
+    | Device.QoS.Classification.{i}.     |
+    |------------------------------------|-------------------------------------
+    | EthernetPriorityMark               | *0*
+
 :::
 
 ### More than one VLAN ID Tag Admitted on the Same Downstream Interface
@@ -1314,41 +1266,33 @@ On the Residential Gateway, this can be achieved using a combination of the Brid
 
 ![Bridge 1,2,3 model](images/bridge-123-model.png){typst-scale=0.5}
 
----
-bridge123ModelTableSpec:
-  caption: More than one VLAN ID tag admitted on the same Downstream interface
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge123ModelTable:
-  - descr: |
-      More than one VLAN ID tag admitted on the same downstream interface
+More than one VLAN ID tag admitted on the same Downstream interface
 
-    config: |
-      The configuration is the sum of *[Tagged LAN to Tagged
-      WAN Traffic VLAN Bridging]* and *[Tagged LAN to Tagged WAN Traffic
-      Special Case with VLAN ID Translation]*, but on the downstream side the
-      lower layer to be configured for each Bridge Port is always:
-      Ethernet.Interface.2
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
+- - More than one VLAN ID tag admitted on the same downstream interface
 
-      | Device.Bridging.Bridge.2.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
+  - The configuration is the sum of *[Tagged LAN to Tagged
+    WAN Traffic VLAN Bridging]* and *[Tagged LAN to Tagged WAN Traffic
+    Special Case with VLAN ID Translation]*, but on the downstream side the
+    lower layer to be configured for each Bridge Port is always:
+    Ethernet.Interface.2
 
-      | Device.Bridging.Bridge.3.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
-...
+    | Device.Bridging.Bridge.1.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
 
-::: {bbfTable=bridge123ModelTable}
+    | Device.Bridging.Bridge.2.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
+
+    | Device.Bridging.Bridge.3.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
+
 :::
 
 # Wi-Fi Theory of Operation {.appendix .same-file}
@@ -1790,6 +1734,185 @@ Wi-Fi Data Elements objects and parameters will be added according to the follow
 
 * YANG "leaf-list" nodes are mapped like "leaf" elements for name and description with syntax of "<list/>". The data type is mapped as described above for leaf nodes.
 
+## Wi-Fi Sensing Service {.appendix .same-file}
+
+Wi-Fi Sensing is a feature that allows sensing of environmental characteristics
+such as presence and motion from changes in RF propagation measured using Wi-Fi
+waveforms. Implementing the functionality spans all layers from the application
+layer down to the MAC and PHY layers. Because of the scope required, a Wi-Fi
+Sensing Service component has been introduced, along with an application
+focused data model (`Device.WiFi.Sensing.`).
+
+The Wi-Fi Sensing Service is a functional component that provides support for
+one or more sensing applications to configure and obtain measurements. When
+present, it acts as a broker between a sensing application and the underlying
+Wi-Fi Sensing functionality.
+
+A sensing measurement contains a representation of RF propagation between two
+Wi-Fi devices, which is processed by a sensing application to estimate changes
+of physical objects within the corresponding environment. Sensing measurements
+are obtained through coordinated "exchanges" that are performed between two
+Wi-Fi devices. An exchange is configured and controlled using Wi-Fi
+EasyMesh [@EasyMesh] features. The Wi-Fi Sensing Service enables grouping
+of one or more exchanges requested by the same sensing application into a
+"session".
+
+A sensing application interacts with the Wi-Fi Sensing Service using the
+objects under the `Device.WiFi.Sensing.` tree. A sensing application may
+first identify itself to the Wi-Fi Sensing Service by invoking the
+`Device.WiFi.Sensing.CreateSession()` (USP) command, which triggers the
+creation of a new session. When triggered, the Wi-Fi Sensing Service will
+assign a unique session identifier (`SessionID`), and create a data socket
+(`DataSocketPath`) that is used to deliver all sensing measurements
+requested by the sensing application. The details of each session are stored
+in `Device.WiFi.Sensing.Session.{i}.`. The interaction between a sensing
+application and the Wi-Fi Sensing Service is shown in @fig:createsession-usage.
+
+![CreateSession usage](images/sensing_CreateSession.svg){typst-scale=0.5}
+
+Once the sensing application has created a session with the Wi-Fi Sensing
+Service, it may begin requesting specific sensing measurements be made by adding
+an exchange to the session by invoking the
+`Device.WiFi.Sensing.Session.{i}.AddExchange()` (USP) command. When called, the
+Wi-Fi Sensing Service will leverage the underlying Wi-Fi sensing features to add
+the exchange (see [Add Exchange](#add-exchange)). Further, where applicable, the
+Wi-Fi Sensing Service will obtain the sensing measurements and deliver them to
+the data socket (`DataSocketPath`) corresponding to the session to which the
+exchange belongs (see
+[Sensing Measurement Delivery](#sensing-measurement-delivery)). The details of
+each exchange are stored in `Device.WiFi.Sensing.Session.{i}.Exchange.{i}.`.
+
+An exchange may be removed explicitly by the sensing application, or
+implicitly through uncontrollable events. A sensing application may inform
+the Wi-Fi Sensing Service that it wishes to explicitly remove an exchange
+by invoking the `Device.WiFi.Sensing.Session.{i}.RemoveExchange()` (USP)
+command (see [Explicit exchange removal](#explicit-exchange-removal)). In the
+case where a previously created exchange no longer has the resources available
+to continue performing measurements (e.g., a device has left the network), then
+the sensing application will need to be informed by the Wi-Fi Sensing Service
+(see [Implicit exchange removal](#implicit-exchange-removal)).
+
+Finally, when the sensing application terminates or no longer needs sensing
+resources allocated, it may communicate this to the Wi-Fi Sensing Service by
+invoking the `Device.WiFi.Sensing.RemoveSession()` USP command. When called, the
+Wi-Fi Sensing Service will remove all corresponding exchanges, and close the
+data socket as illustrated in @fig:removesession-usage.
+
+![RemoveSession usage](images/sensing_RemoveSession.svg){typst-scale=0.5}
+
+### Exchange Management
+
+There are multiple exchange types defined and enabled by Wi-Fi EasyMesh
+[@EasyMesh]. Wi-Fi Data Elements objects and USP commands under the
+`Device.WiFi.DataElements.` tree provide the Wi-Fi Sensing Service access to
+those features to handle requests such as adding a new exchange
+([Add Exchange](#add-exchange)), removing an existing exchange
+([Explicit exchange removal](#explicit-exchange-removal)), and informing the
+Wi-Fi Sensing Service that an exchange has been implicitly removed
+([Implicit exchange removal](#implicit-exchange-removal)).
+
+#### Add Exchange
+
+The Wi-Fi Sensing Service is triggered to add the exchange through
+the `Device.WiFi.Sensing.Session.{i}.AddExchange()` (USP) command. An example
+illustrating how this command may be handled is shown in
+@fig:add-exchange-example. In this figure, the Wi-Fi Sensing Service will first
+generate a new unique exchange identifier (`SensingExchangeID`), and then
+attempt to map the `TransmitterMACAddress` and `ReceiverMACAddress` values to the
+corresponding Wi-Fi Data Elements objects, and invoke the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` (USP)
+command. This command will trigger the EasyMesh Controller to generate and send
+an EasyMesh message to the required EasyMesh Agent to request adding the
+exchange, and ultimately output a result code (`ResultCode`). The result code
+is then provided to the sensing application by the Wi-Fi Sensing Service
+through the asynchronous output of the 
+`Device.WiFi.Sensing.Session.{i}.AddExchange()` USP command.
+
+![Add exchange example](images/sensing_AddExchangeAssociated.svg){typst-scale=0.5}
+
+There is a special case that involves adding a `TriggerBased` exchange where
+either the `TransmitterMACAddress` or `ReceiverMACAddress` is that of an unassociated
+AgentSTA. In this case, the Wi-Fi Sensing Service will need to coordinate
+between two EasyMesh Agents in order to add the exchange. An example
+illustrating how this case may be handled is shown in
+@fig:add-triggerbased-exchange-with-agentsta. In this figure, the Wi-Fi Sensing
+Service will first invoke the appropriate 
+`Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.AgentSTA.{i}.SensingMQ()`
+USP command, which instructs the AgentSTA to begin transmitting a Sensing
+Measurement Query frame to the BSS. Next, the Wi-Fi Sensing Service will invoke
+the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` USP
+command, which instructs the BSS to respond to the Sensing Measurement Query
+frame and create an exchange. The results from both the `SensingMQ()` and
+`SensingExchangeRequest()` (USP) commands are received by the Wi-Fi Sensing
+Service, and used to inform the sensing application of the status through the
+asynchronous output of the `Device.WiFi.Sensing.Session.{i}.AddExchange()`
+(USP) command.
+
+![Add TriggerBased exchange with AgentSTA](images/sensing_AddExchangeTBAgentSTA.svg){typst-scale=0.5}
+
+#### Explicit exchange removal
+
+A sensing application may decide to explicitly remove an exchange from a
+session if the measurements are no longer needed by triggering the Wi-Fi Sensing
+Service using the `Device.WiFi.Sensing.Session.{i}.RemoveExchange()` USP
+command. An example illustrating how this command may be handled is shown in
+@fig:explicit-exchange-removal-example. In this example, the Wi-Fi Sensing
+Service will map the exchange identified by the `SensingExchangeID` parameter
+to the corresponding Wi-Fi Data Elements objects, and invoke the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` (USP)
+command. This command will then trigger the EasyMesh Controller to generate and
+send an EasyMesh message to the appropriate EasyMesh Agent to request removing
+the exchange, and ultimately output a result code (`ResultCode`).  The result
+code is finally provided to the sensing application by the Wi-Fi Sensing Service
+through the notification event
+`Device.WiFi.Sensing.Session.{i}.ExchangeTerminated!` as an indication that the
+exchange was successfully removed.
+
+![Explicit exchange removal example](images/sensing_RemoveExchange.svg){typst-scale=0.5}
+
+#### Implicit exchange removal
+
+In the case where a previously created exchange no longer has the resources
+available to continue performing measurements (e.g., a device has left the
+network), then the Wi-Fi Sensing Service will be notified by receiving a
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeResponse!` event,
+which was generated in response to the EasyMesh Controller receiving an
+unsolicited Sensing Exchange Response TLV. The Wi-Fi Sensing Service will then
+inform the sensing application by generating a 
+`Device.WiFi.Sensing.Session.{i}.ExchangeTerminated!` notification event as
+shown in @fig:implicit-exchange-removal-example.
+
+![Implicit exchange removal example](images/sensing_ImplicitExplicitTermination.svg){typst-scale=0.5}
+
+### Sensing Measurement Delivery
+
+The Wi-Fi Sensing Service is also responsible for delivering the sensing
+measurements to the appropriate sensing application that is listening to the 
+`Device.WiFi.Sensing.Session.{i}.DataSocketPath`. On a system where multiple
+sensing applications may be operating concurrently, it is important that each
+application only receive the sensing measurements from exchanges added to its
+session.
+
+Typically, sensing measurements are received by the EasyMesh Agent, and
+optionally sent in a defined containerized format to a Layer3Path (see
+[@EasyMesh] for more information). The container format includes an
+`SensingExchangeID` field, which matches the unique `SensingExchangeID`
+belonging to each configured exchange. 
+
+Depending on the configured exchanges, the Wi-Fi Sensing Service may need to
+create a new Layer3Path connection with an EasyMesh Agent by invoking the
+`Device.WiFi.DataElements.Network.Device.{i}.SetupLayer3Path()` USP command.
+Once established, the Wi-Fi Sensing Service may connect to the Layer3Path output
+to receive the resulting sensing measurements. Since a single Layer3Path may
+be used to transfer sensing measurements belonging to multiple sessions,
+it is the job of the Wi-Fi Sensing Service to identify the sensing measurements
+from the container's `SensingExchangeID` field, and match that with the
+corresponding session. If there are no longer any exchanges corresponding to a
+specific Layer3Path, the Wi-Fi Sensing Service may remove the unused Layer3Path
+through the `Device.WiFi.DataElements.Network.Device.{i}.RemoveLayer3Path()`
+USP command.
+
 # Use Cases {.appendix .same-file}
 
 This section presents a number of management-related use cases that correspond to typical Controller activities.
@@ -1809,7 +1932,7 @@ The Controller can create the objects in the interface stack bottom-up. Each tim
     * Setting the LowerLayers parameter in PPP.Interface object to link it to the Ethernet.Link object.
     * Setting the LowerLayers parameter in IP.Interface object to link it to the PPP.Interface object.
 
-#. The CPE updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; PPP.Interface &rarr; Ethernet.Link &rarr; ATM.Link &rarr; DSL.Channel &rarr; DSL.Line.
+#. The device updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; PPP.Interface &rarr; Ethernet.Link &rarr; ATM.Link &rarr; DSL.Channel &rarr; DSL.Line.
 
 #. Note that the Controller might also want to update other related objects, including the NAT object, the Routing.Router object, or various QoS and Bridging tables. VLANs might also need to be created.
 
@@ -1825,7 +1948,7 @@ In this use case, the Controller needs to modify an existing WAN connection, in 
     * Setting the LowerLayers parameter in the Ethernet.Link object to refer to the PTM.Link object rather than the ATM.Link object.
     * Setting the LowerLayers parameter in the IP.Interface object to refer to the Ethernet.Link object rather than the PPP.Interface object.
 
-#. The CPE updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; Ethernet.Link &rarr; PTM.Link &rarr; DSL.Channel &rarr; DSL.Line.
+#. The device updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; Ethernet.Link &rarr; PTM.Link &rarr; DSL.Channel &rarr; DSL.Line.
 
 #. Note that the Controller might also want to update other related objects, including the Bridging table. The Controller might also want to delete the existing PPP.Interface and ATM.Link objects.
 
@@ -1839,7 +1962,7 @@ Assume that we want to delete the WAN connection as it is configured in the *[Cr
 
 #. The Controller deletes the Ethernet.Link object.
 
-#. As each of these objects is deleted, the InterfaceStack is adjusted automatically by the CPE.
+#. As each of these objects is deleted, the InterfaceStack is adjusted automatically by the device.
 
 #. Any strong references to the deleted objects, e.g., in Device.QoS classification rules, will automatically be set to empty strings.
 
@@ -1857,7 +1980,7 @@ In order to determine if the device terminates a WAN connection, the Controller 
 
 In order to determine if the device is responsible for providing addresses to other devices in the home, the Controller could check for the existence of the DHCP Server object. The existence of the Host table also indicates that the device is aware of Hosts, by whatever means they're addressed.
 
-For CWMP managed CPEs, the existence of the ManageableDevice table within the ManagementServer object also indicates that the device serves as the DHCP server for the TR-069 managed device exchange defined in TR-069 [@TR-069] Annex F, which is also often an indication of "gateway" functionality.
+For CWMP managed devices, the existence of the ManageableDevice table within the ManagementServer object also indicates that the device serves as the DHCP server for the TR-069 managed device exchange defined in TR-069 [@TR-069] Annex F, which is also often an indication of "gateway" functionality.
 
 In order to determine if the device provides functionality such as NAT or a router, the Controller would check for the existence of an enabled NAT or Routing.Router object.
 
@@ -1867,7 +1990,7 @@ Another use case is to determine the topology of the home network behind the gat
 
 If the operator is interested in UPnP devices in the home network, the UPnP.Discovery tables (RootDevice, Device, and Service) provide that information in addition to the Host table entries that correspond to a particular UPnP Root Device, Device, or Service.
 
-Finally for CWMP enabled CPEs, the ManageableDevice table within the ManagementServer object provides information about the CWMP managed devices that the CPE has learned about through the DHCP message exchange defined in TR-069 [@TR-069] Annex F.
+Finally for CWMP enabled devices, the ManageableDevice table within the ManagementServer object provides information about the CWMP managed devices that the device has learned about through the DHCP message exchange defined in TR-069 [@TR-069] Annex F.
 
 ## Determine Current Interfaces Configuration
 
@@ -1879,7 +2002,7 @@ In the Device:2 data model managed with CWMP, it would work this way:
 
 #. If the ACS is interested in the specifics of an individual interface, it can then go and issue GetParameterNames or GetParameterValues for the interfaces of interest.
 
-If the CPE is managed by USP:
+If the device is managed by USP:
 
 #. The USP Controller would issue a Get request for the InterfaceStack table. This table would provide a list of all the Interface connections. The USP Controller could use this table to build up the general picture of the Interfaces that are part of the current configuration.
 
@@ -1901,7 +2024,7 @@ In this use case the Controller creates a new WLAN connection. For the purposes 
 
 #. The Controller configures the new WiFi.AccessPoint object, including enabling it and sets the value of its SSIDReference parameter to reference the WiFi.SSID object.
 
-#. The CPE updates the InterfaceStack table automatically.
+#. The device updates the InterfaceStack table automatically.
 
 #. Note that the Controller might also want to update other related objects; also, if there were no appropriate existing bridge port to which to connect the SSID, the Controller might need to create that object as well.
 
@@ -1911,7 +2034,7 @@ In this use case the Controller deletes the SSID created in the *[Create a WLAN 
 
 #. The Controller deletes the WiFi.SSID object and the WiFi.AccessPoint object.
 
-#. The CPE automatically updates the InterfaceStack table.
+#. The device automatically updates the InterfaceStack table.
 
 #. Note that if the radio has no other SSIDs configured, this would operationally disable the wireless interface.
 
@@ -1997,11 +2120,11 @@ The Controller would follow these steps to reconfigure the Ethernet.Interface:
 
 #. Reconfigure the LowerLayers parameter of Ethernet.Link.1 such that its value is "Device.Ethernet.Interface.1" instead of "Device.ATM.Link.1".
 
-#. The CPE updates the InterfaceStack table and sets the Upstream parameter to true on the Ethernet.Interface.1 instance automatically.
+#. The device updates the InterfaceStack table and sets the Upstream parameter to true on the Ethernet.Interface.1 instance automatically.
 
 #. Note that the Controller might also want to update other related objects, including the NAT object, the Routing.Router object, or various QoS and Bridging tables. VLANs might also need to be created.
 
-After the CWMP Session is completed and the CPE commits the configuration, the upstream side will look like:
+After the CWMP Session is completed and the device commits the configuration, the upstream side will look like:
 
 * IP.Interface.1 &rarr; Ethernet.Link.1 &rarr; Ethernet.Interface.1
 
@@ -2212,7 +2335,7 @@ To assist in the automated configuration of other devices on the LAN, an RG send
 
 * *RouterAdvertisement.InterfaceSetting* instances whose *Interface* is the related downstream *IP.Interface*, with *Enable=true*, define the content of RA messages that get sent on the downstream IP interface. The *RouterAdvertisement.InterfaceSetting* instance will include references to *IPv6Prefix* entries in the associated downstream IP interface. These are *IPv6Prefix* entries of *Origin=Child* or *Origin=Static*.
 
-* *DHCPv6.Server.Pool* instances whose *Interface* is the related downstream *IP.Interface*, with *Enable=true*, contain information for filtering DHCPv6 client requests, and identify the IPv6 prefix(es) (references to *IPv6Prefix* entries of the associated downstream IP interface) that provide the pool of IPv6 addresses and IPv6 prefixes available for assignment from this pool. Information on soliciting clients (including assigned addresses and prefixes and received option information) is stored in *DHCPv6.Server.Pool*.C*lient*. Additional options that are sent to soliciting clients is stored in *DHCPv6.Server.Pool*.O*ption*. The *PassthroughClient* parameter in this table identifies whether the value of this option is simply passed through from a DHCPv6 client on an upstream interface.
+* *DHCPv6.Server.Pool* instances whose *Interface* is the related downstream *IP.Interface*, with *Enable=true*, contain information for filtering DHCPv6 client requests, and identify the IPv6 prefix(es) (references to *IPv6Prefix* entries of the associated downstream IP interface) that provide the pool of IPv6 addresses and IPv6 prefixes available for assignment from this pool. Information on soliciting clients (including assigned addresses and prefixes and received option information) is stored in *DHCPv6.Server.Pool.Client*. Additional options that are sent to soliciting clients is stored in *DHCPv6.Server.Pool.Option*. The *PassthroughClient* parameter in this table identifies whether the value of this option is simply passed through from a DHCPv6 client on an upstream interface.
 
 As noted above, both *RouterAdvertisement.InterfaceSetting* and *DHCPv6.Server.Pool* have references to *IPv6Prefix* entries. The *ManualPrefixes*, *IANAManualPrefixes* and *IAPDManualPrefixes* parameters allow for configuration (through TR-069 [@TR-069], USP [@TR-369], user interface, or other means) of prefixes that are to be included in RA messages, and to be used in deriving DHCPv6 IA_NA and IA_PD offers, respectively. The *Prefixes*, *IANAPrefixes*, and *IAPDPrefixes* parameters list all of the prefixes that the devices actually does include in these messages. Since the \**ManualPrefixes* entries may point to *IPv6Prefix* entries that are not enabled, it is possible that not all of those will be included in these parameters' lists. In addition to the \**ManualPrefix* entries, these lists may also include references to prefixes that the device creates or uses automatically in RA messages or for deriving DHCPv6 IA_NA or IA_PD offers.
 
@@ -2242,7 +2365,7 @@ Following is an example of how a typical RG (one upstream and one downstream int
 |     IPv6Capable = true
 |     **IPv6Enable = true**
 |     IPv6Status = "Enabled"
-|     ULAPrefix = fd01:2345:6789::/48   # typically generated by CPE
+|     ULAPrefix = fd01:2345:6789::/48   # typically generated by device
 |
 | # Router Solicitation (Upstream IP interface)
 | NeighborDiscovery.
@@ -2398,7 +2521,7 @@ Note that service providers need to be careful when using alternate addresses. I
 
 ## Sending All Traffic to the Border Relay Server
 
-The default behavior of a 6rd client device is that all IPv6 packets are encapsulated in IPv4 packets with destination address of a 6rd border relay server, ***except*** when the IPv6 destination address begins with *SPIPv6Prefix*. When the destination IPv6 address begins with *SPIPv6Prefix*, then the encapsulating IPv4 destination address is derived from the IPv6 destination address by taking the next 32 - *IPv4MaskLength* bits, pre-pending the bits that are masked (as determined by its own WAN IPv4 address), and using the resulting IPv4 address as the encapsulating destination IPv4 address.
+The default behavior of a 6rd client device is that all IPv6 packets are encapsulated in IPv4 packets with destination address of a 6rd border relay server, ***except*** when the IPv6 destination address begins with *SPIPv6Prefix*. When the destination IPv6 address begins with *SPIPv6Prefix*, then the encapsulating IPv4 destination address is derived from the IPv6 destination address by taking the next 32 - *IPv4MaskLength* bits, prepending the bits that are masked (as determined by its own WAN IPv4 address), and using the resulting IPv4 address as the encapsulating destination IPv4 address.
 
 For example, if
 
@@ -2449,7 +2572,7 @@ EndpointAddress is a 128 bit field, containing one IPv6 address. The tunnel Endp
 
 When EndpointName is assigned, the name is looked up (resolved) and the corresponding IPv6 address is set in EndpointAddress.
 
-When DS-Lite is running in the CPE, the NAT function is disabled between the LAN and DSLite interface.
+When DS-Lite is running in the device, the NAT function is disabled between the LAN and DSLite interface.
 
 ## Internal Treatment of IPv4 Packets
 
@@ -3760,28 +3883,131 @@ Firewall.Chain.5.
 
 as they might conflict with the Policy Interface configuration.
 
+## PriorityMap {.new-page}
+
+The `PriorityMap` table defines which `Priority` value the device assigns to a new
+rule entry at creation time, based on the USP Controller that issued the create request.
+
+When a Controller creates a new entry (for example, a `NAT.PortMapping` instance), the
+device looks up the applicable `PriorityMap` table by `Controller` reference. If a
+matching row is found, the `Priority` value from that row is written into the new entry
+as a read-only, auto-populated value. The `TargetPaths` parameter (a list) restricts
+which object types a row applies to.
+
+There are two separate tables:
+
+* `Firewall.PriorityMap.{i}.` — applies to `Firewall.DMZ`, `Firewall.Pinhole`,
+  `Firewall.Policy`, and `Firewall.Service` entries.
+* `NAT.PriorityMap.{i}.` — applies to `NAT.PortMapping` and
+  `NAT.PortTrigger` entries.
+
+The following example shows a `NAT.PriorityMap` configuration for two Controllers,
+applied to PortMapping entries only:
+
+~~~~~~~
+    NAT.PriorityMap.1.
+        Controller  = "Device.LocalAgent.Controller.1."  # VPN App
+        Priority    = 1000
+        TargetPaths = "NAT.PortMapping"
+    NAT.PriorityMap.2.
+        Controller  = "Device.LocalAgent.Controller.2."  # Gaming App
+        Priority    = 2000
+        TargetPaths = "NAT.PortMapping"
+~~~~~~~
+
+When the VPN App creates a `NAT.PortMapping` entry, the device matches row 1 and
+auto-populates `Priority = 1000`. When the Gaming App creates one, the device matches
+row 2 and sets `Priority = 2000`.
+
+Because `Priority` is evaluated in ascending order (lowest value first), the VPN App's
+mappings are always evaluated before the Gaming App's, regardless of which entry was
+created first.
+
 ## DMZ example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to creating a DMZ rule for a DMZ host in the LAN.
+
+A DMZ (De-Militarized Zone) entry forwards all unsolicited inbound traffic arriving on a WAN
+interface to a single designated host on the LAN, providing that host with unrestricted
+external reachability.
+
+`Firewall.DMZ.{i}.` forwards all inbound traffic on an interface to a designated
+internal host (`DestIP`), optionally restricted to a source IPv4 prefix
+(`SourcePrefix`). An empty `SourcePrefix` acts as a wildcard that matches any
+source address. The DMZ engine evaluates entries in ascending `Priority` order
+and applies the first matching entry.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![DMZ example](images/firewall-dmz-example.svg)
 
-Example:
+The following example forwards all inbound traffic from subnet `8.2.1.0/24`
+to a DMZ host:
 
 ~~~~~~~
-    Firewall.DMZ.1
-        Alias = "cpe-dmz-1"
-        DestIP = "192.168.1.50"
-        Interface = "Device.Logical.Interface.2."
+    Firewall.DMZ.1.
+        Alias        = "cpe-dmz-1"
+        DestIP       = "192.168.1.50"
+        Interface    = "Device.Logical.Interface.2."
         SourcePrefix = "8.2.1.0/24"
-        Enable = 1
+        Enable       = true
 ~~~~~~~
+
+### Priority and Firewall.DMZ
+
+A wildcard DMZ entry (empty `SourcePrefix`) at a low `Priority` value will
+absorb all inbound traffic before any source-specific DMZ entry from another
+Controller can be reached. The following example shows two DMZ entries created
+by different Controllers, with `Priority` values auto-populated by the device:
+
+~~~~~~~
+    Firewall.DMZ.1.
+        Description  = "Hosting App: catch-all to public server"
+        Origin       = "Controller"
+        Controller   = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority     = 1000                               # read-only, auto-set
+        Interface    = "Device.IP.Interface.1."
+        SourcePrefix = ""
+        DestIP       = "192.168.1.100"
+        Enable       = true
+    Firewall.DMZ.2.
+        Description  = "CDN App: traffic from CDN origin to cache server"
+        Origin       = "Controller"
+        Controller   = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority     = 2000                               # read-only, auto-set
+        Interface    = "Device.IP.Interface.1."
+        SourcePrefix = "203.0.113.0/24"
+        DestIP       = "192.168.1.200"
+        Enable       = true
+~~~~~~~
+
+Because `DMZ.1` has an empty `SourcePrefix` (wildcard) and the lower `Priority`
+value, it is evaluated first. All inbound traffic — including traffic from the
+CDN origin subnet `203.0.113.0/24` — is forwarded to `192.168.1.100`. `DMZ.2`
+is never reached. To give the CDN App control over its traffic, its
+`PriorityMap` entry must assign it a lower `Priority` value than the
+Hosting App's entry.
 
 ## Pinhole example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to creating a pinhole for an IP camera in the LAN.
+
+A firewall pinhole opens a controlled inbound path through the firewall for a specific
+internal host, identified by destination IP and optionally restricted by port and protocol,
+without requiring NAT.
+
+`Firewall.Pinhole.{i}.` allows inbound traffic to reach a specific internal host
+without NAT. Pinhole entries are evaluated in ascending `Priority` order and the
+first matching entry is applied. A value of `-1` for `DestPort`, `SourcePort`,
+or `Protocol` acts as a wildcard that matches any value.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![Pinhole example](images/firewall-pinhole-example.svg)
 
-Example:
+The following example creates a pinhole for an IP camera in the LAN:
 
 ~~~~~~~
     Firewall.Pinhole.1
@@ -3797,12 +4023,69 @@ Example:
       Enable = 1
 ~~~~~~~
 
+### Priority and Firewall.Pinhole
+
+A broad Pinhole with wildcard criteria at a low `Priority` value will intercept
+traffic before any narrower Pinhole entry from another Controller, even if that
+other entry would have been a more precise match.
+
+Consider two Controllers that each open a Pinhole on the same interface, with
+`Priority` values auto-populated by the device:
+
+~~~~~~~
+    Firewall.Pinhole.1.
+        Description = "Security App: allow all traffic to monitoring host"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority    = 1000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestIP      = "192.168.1.10"
+        DestPort    = -1
+        Protocol    = [-1]
+        Enable      = true
+    Firewall.Pinhole.2.
+        Description = "VoIP App: allow SIP signalling to VoIP adapter"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority    = 2000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestIP      = "192.168.1.20"
+        DestPort    = 5060
+        Protocol    = [17]
+        Enable      = true
+~~~~~~~
+
+`Pinhole.1` opens all traffic to `192.168.1.10` and has the lower `Priority`
+value, so it is evaluated first. Any inbound packet arriving on
+`Device.IP.Interface.1.` destined for `192.168.1.10` matches `Pinhole.1` and
+is allowed through. `Pinhole.2` restricts traffic to UDP port 5060 destined for
+`192.168.1.20` and is only reached if the packet did not match `Pinhole.1`.
+
+If the Security App's Controller should not take precedence over VoIP signalling
+traffic, its `PriorityMap` entry must assign it a higher `Priority` value
+than the VoIP App's entry.
+
 ## Service example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to opening a local port for the DNS service provided by the device.
+
+A firewall service rule controls access to services running on the device itself — for
+example, restricting which interfaces or source addresses may reach the device's management
+plane, DNS resolver, or other locally hosted services.
+
+`Firewall.Service.{i}.` controls access to services running on the device itself
+(as opposed to traffic forwarded to internal hosts). Each entry specifies an
+`Interface`, a list of destination ports (`DestPort`), a list of protocols
+(`Protocol`), and an `Action` (`Accept`, `Drop`, or `Reject`). The Service
+engine evaluates entries in ascending `Priority` order and applies the `Action`
+of the first matching entry.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![Local service example](images/firewall-service-example.svg)
 
-Example:
+The following example opens a local port for the DNS service provided by the device:
 
 ~~~~~~~
     Firewall.Service.1
@@ -3816,6 +4099,342 @@ Example:
       SourcePrefix = ""
       Enable = 1
 ~~~~~~~
+
+### Priority and Firewall.Service
+
+Because Service entries carry an explicit `Action`, the evaluation order
+directly determines whether traffic is accepted or blocked. A blocking rule at a
+low `Priority` value will suppress all matching traffic before any accepting rule
+from another Controller is reached, and vice versa.
+
+The following example shows two Controllers each creating a Service rule for
+the same management interface and port, with `Priority` values auto-populated
+by the device:
+
+~~~~~~~
+    Firewall.Service.1.
+        Description = "Mgmt App: block management from untrusted segment"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority    = 1000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestPort    = [830]
+        Protocol    = [6]
+        Action      = "Drop"
+        Enable      = true
+    Firewall.Service.2.
+        Description = "Ops App: allow NETCONF from operations team"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority    = 2000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestPort    = [830]
+        Protocol    = [6]
+        Action      = "Accept"
+        Enable      = true
+~~~~~~~
+
+`Service.1` has the lower `Priority` value and drops all TCP traffic to port 830
+(NETCONF). It is evaluated before `Service.2`, so the Ops App's Accept rule is
+never reached — all NETCONF traffic on this interface is dropped regardless of
+source. To allow the Ops App to accept NETCONF traffic, its `PriorityMap`
+entry must assign it a lower `Priority` value than the management blocking rule.
+
+## PortMapping example {.new-page}
+
+Static port forwarding maps an external port (or port range) on the WAN interface to a
+specific internal host and port on the LAN, making a LAN-side service reachable from the
+internet.
+
+`NAT.PortMapping.{i}.` models static port forwarding rules. Each entry maps an
+external port (or range of ports) on the WAN interface to an internal host and
+port on the LAN. When an inbound packet arrives on the WAN interface, the NAT
+engine walks the `PortMapping` table in ascending `Priority` order and applies
+the first entry whose criteria match the packet.
+
+The key match criteria are:
+
+- `Protocol` — `TCP` or `UDP`.
+- `ExternalPort` / `ExternalPortEndRange` — the WAN-side port or port range. A
+  value of zero is a wildcard that matches any port not claimed by a more
+  specific entry (within the same `Priority` level).
+- `RemoteHost` — the source IP address on the WAN side. An empty string is a
+  wildcard that matches any remote host (within the same `Priority` level).
+
+The following example forwards inbound TCP traffic on WAN port 8443 from any
+remote host to an internal HTTPS server:
+
+~~~~~~~
+    NAT.PortMapping.1.
+        Alias          = "cpe-pm-https"
+        Description    = "HTTPS server"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 8443
+        RemoteHost     = ""
+        InternalClient = "192.168.1.100"
+        InternalPort   = 443
+~~~~~~~
+
+A second entry forwards all other inbound TCP traffic from a specific remote
+management host to a jump server, using a wildcard external port:
+
+~~~~~~~
+    NAT.PortMapping.2.
+        Alias          = "cpe-pm-mgmt"
+        Description    = "Remote management jump server"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 0
+        RemoteHost     = "203.0.113.1"
+        InternalClient = "192.168.1.200"
+        InternalPort   = 22
+~~~~~~~
+
+Because `PortMapping.1` has an explicit `ExternalPort` and `PortMapping.2` has a
+wildcard (`ExternalPort = 0`), a TCP packet from `203.0.113.1` on port 8443
+matches both entries. Within the same `Priority` level the explicit-port entry
+takes precedence, so the packet is forwarded to the HTTPS server at
+`192.168.1.100:443`. All other TCP traffic from `203.0.113.1` on any port is
+forwarded to the jump server at `192.168.1.200:22`.
+
+Because `Protocol` accepts only a single value per entry, forwarding both TCP
+and UDP on the same external port requires two separate `PortMapping` entries.
+The following example forwards a game server that uses both TCP and UDP on the
+same port:
+
+~~~~~~~
+    NAT.PortMapping.3.
+        Alias          = "cpe-pm-game-tcp"
+        Description    = "Game server (TCP)"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 27015
+        RemoteHost     = ""
+        InternalClient = "192.168.1.50"
+        InternalPort   = 27015
+    NAT.PortMapping.4.
+        Alias          = "cpe-pm-game-udp"
+        Description    = "Game server (UDP)"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "UDP"
+        ExternalPort   = 27015
+        RemoteHost     = ""
+        InternalClient = "192.168.1.50"
+        InternalPort   = 27015
+~~~~~~~
+
+### Controller priority example
+
+When multiple independent Controllers create firewall rules, the
+`Priority` and `Controller` parameters determine evaluation precedence.
+
+The `Firewall.PriorityMap.{i}.` table is configured by the device
+to define the `Priority` value each new firewall entry receives. When a
+Controller creates a new firewall entry, the USP device looks up this
+table by `Controller` reference and auto-populates the `Priority`
+parameter accordingly.
+
+**PriorityMap configuration (set by the device)**
+
+~~~~~~~
+    Firewall.PriorityMap.1.
+        Controller  = "Device.LocalAgent.Controller.1."  # Security App
+        Priority    = 1000
+        TargetPaths = "Firewall.Policy,Firewall.Pinhole"
+    Firewall.PriorityMap.2.
+        Controller  = "Device.LocalAgent.Controller.2."  # Gaming App
+        Priority    = 2000
+        TargetPaths = "Firewall.Policy,Firewall.Pinhole"
+~~~~~~~
+
+**Resulting firewall entries**
+
+~~~~~~~
+    Firewall.Pinhole.1.
+        Description = "Security App: remote monitoring"
+        Origin      = "Controller"
+        Priority    = 1000
+        Controller  = "Device.LocalAgent.Controller.1."
+        DestPort    = "443"
+        Protocol    = "6"
+        Enable      = 1
+    Firewall.Pinhole.2.
+        Description = "Gaming App: game server"
+        Origin      = "Controller"
+        Priority    = 2000
+        Controller  = "Device.LocalAgent.Controller.2."
+        DestPort    = "27015"
+        Protocol    = "17"
+        Enable      = 1
+    Firewall.Pinhole.3.
+        Description = "User: IP camera"
+        Origin      = "User"
+        Priority    = 10000
+        Controller  = ""
+        DestPort    = "3343"
+        Protocol    = "6,17"
+        Enable      = 1
+~~~~~~~
+
+Rules are evaluated in ascending `Priority` value: `Pinhole.1`
+(Priority 1000) is evaluated first, `Pinhole.3` (Priority 10000) last.
+The `Controller` parameter enforces access control: only
+`Device.LocalAgent.Controller.1.` can modify or delete `Pinhole.1`;
+`Device.LocalAgent.Controller.2.` can modify or delete `Pinhole.2`.
+
+### Priority and NAT.PortMapping wildcard precedence
+
+`NAT.PortMapping.{i}.` has built-in precedence rules that apply whenever
+wildcard values are used for `RemoteHost` and/or `ExternalPort`. When multiple
+entries match the same incoming packet, these rules determine which mapping is
+applied (from highest to lowest precedence):
+
+1. Explicit `RemoteHost`, explicit `ExternalPort`
+2. Explicit `RemoteHost`, zero `ExternalPort`
+3. Empty `RemoteHost`, explicit `ExternalPort`
+4. Empty `RemoteHost`, zero `ExternalPort`
+
+When `Priority` is also present, it takes effect before the wildcard-specificity
+rules. The NAT engine evaluates entries in ascending `Priority` order and applies
+the **first matching entry**, regardless of how specific its `RemoteHost` and
+`ExternalPort` values are. The wildcard-specificity rules only apply as a
+tiebreaker between entries that share the same `Priority` value.
+
+This means that a Controller assigning a low `Priority` value to a broad
+(wildcard) mapping will cause that mapping to take effect before any
+higher-`Priority` entry, even if the higher-`Priority` entry would have been a
+more specific match. It is therefore the responsibility of the system — through
+the `NAT.PriorityMap.{i}.` table — to assign `Priority` values that reflect
+the intended evaluation order, taking specificity into account.
+
+Consider the following scenario where two Controllers have each created a
+`PortMapping` entry:
+
+~~~~~~~
+    NAT.PortMapping.1.
+        Description    = "VPN App: catch-all redirect"
+        Origin         = "Controller"
+        Priority       = 1000
+        Controller     = "Device.LocalAgent.Controller.1."
+        RemoteHost     = ""        # wildcard
+        ExternalPort   = 0         # wildcard
+        Protocol       = "TCP"
+        InternalClient = "192.168.1.10"
+        InternalPort   = 1194
+        Enable         = 1
+    NAT.PortMapping.2.
+        Description    = "Gaming App: specific host and port"
+        Origin         = "Controller"
+        Priority       = 2000
+        Controller     = "Device.LocalAgent.Controller.2."
+        RemoteHost     = "203.0.113.5"
+        ExternalPort   = 27015
+        Protocol       = "TCP"
+        InternalClient = "192.168.1.20"
+        InternalPort   = 27015
+        Enable         = 1
+~~~~~~~
+
+For an incoming TCP packet from `203.0.113.5` on port `27015`, both entries
+match. Because `PortMapping.1` has the lower `Priority` value (1000 < 2000), it
+is evaluated first and its mapping is applied — the packet is forwarded to
+`192.168.1.10:1194`. `PortMapping.2` is never reached, even though its
+`RemoteHost` and `ExternalPort` would have been an exact match.
+
+The VPN App's Controller therefore holds effective priority over all TCP traffic,
+regardless of which other Controllers have created more specific rules. To give
+the Gaming App control over traffic from `203.0.113.5:27015`, its `PriorityMap`
+entry would need to assign it a lower `Priority` value than the VPN App's entry.
+
+## PortTrigger example {.new-page}
+
+Port triggering opens inbound ports automatically and temporarily whenever a LAN host
+initiates outbound traffic on a designated trigger port, without requiring a static
+mapping to a fixed internal host.
+
+`NAT.PortTrigger.{i}.` implements dynamic port forwarding. When the device
+detects outbound traffic from a LAN host on the trigger `Port` (or port range),
+it automatically opens the inbound ports defined in the entry's `Rule` table for
+that host for the duration of `AutoDisableDuration`. The `Protocol` parameter
+(single value: `TCP` or `UDP`) specifies the protocol of the trigger traffic.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`NAT.PriorityMap.{i}.` table; `Controller` identifies the USP Controller
+that created the entry.
+
+The following example opens inbound UDP ports 3074–3075 when a LAN host sends
+outbound UDP traffic on port 3074 (a common pattern for game consoles):
+
+~~~~~~~
+    NAT.PortTrigger.1.
+        Alias               = "cpe-pt-game"
+        Description         = "Game console: open lobby ports"
+        Origin              = "User"
+        Enable              = true
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        AutoDisableDuration = 300
+        Rule.1.Port         = 3074
+        Rule.1.PortEndRange = 3075
+        Rule.1.Protocol     = "UDP"
+~~~~~~~
+
+### Priority and NAT.PortTrigger
+
+The PortTrigger engine evaluates entries in ascending `Priority` order. When
+outbound traffic matches the trigger criteria of the first matching entry, that
+entry's inbound rules are activated. Entries with higher `Priority` values
+(lower precedence) are only reached if no lower-`Priority` entry matched.
+
+When multiple Controllers each create a PortTrigger entry that watches the same
+trigger port, the entry with the lower `Priority` value determines which set of
+inbound ports is opened for the triggering host:
+
+~~~~~~~
+    NAT.PortTrigger.1.
+        Description         = "Gaming App: open game lobby ports on UDP trigger"
+        Origin              = "Controller"
+        Controller          = "Device.LocalAgent.Controller.1."  # read-only
+        Priority            = 1000                               # read-only
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        Enable              = true
+        Rule.1.Port         = 3074
+        Rule.1.PortEndRange = 3075
+        Rule.1.Protocol     = "UDP"
+    NAT.PortTrigger.2.
+        Description         = "VPN App: open IPsec ports on UDP trigger"
+        Origin              = "Controller"
+        Controller          = "Device.LocalAgent.Controller.2."  # read-only
+        Priority            = 2000                               # read-only
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        Enable              = true
+        Rule.1.Port         = 500
+        Rule.1.PortEndRange = 0
+        Rule.1.Protocol     = "UDP"
+~~~~~~~
+
+Both entries watch for outbound UDP traffic on port 3074. Because `PortTrigger.1`
+has the lower `Priority` value, it is evaluated first: when a LAN host sends UDP
+traffic on port 3074, the Gaming App's rule fires and opens inbound UDP ports
+3074–3075. `PortTrigger.2` is never evaluated for this trigger event, so the
+VPN App's IPsec ports (UDP 500) are not opened.
+
+If the VPN App's port trigger must take precedence, its `PriorityMap` entry
+must assign it a lower `Priority` value than the Gaming App's entry.
 
 ## Firewall logging {.new-page}
 Firewalls monitor network traffic and enforce security policies. To aid in debugging and troubleshooting potential issues, it's possible to capture specific information when certain rules are triggered. These captured details, known as traces, are then written to the kernel log for further analysis.
@@ -4008,9 +4627,9 @@ The Device:2 data model includes an IPsec (RFC 4301 [@RFC4301]) object that supp
 
 ![IPsec Data Model Objects](images/ipsec-data-model-objects.png)
 
-In the Figure, instances of the colored objects (*Filter.{i}* and *Profile.{i}*) are created and populated by the Controller. Instances of all other objects are handled by the CPE as IPsec tunnels are created and deleted. References between objects are shown:
+In the Figure, instances of the colored objects (*Filter.{i}* and *Profile.{i}*) are created and populated by the Controller. Instances of all other objects are handled by the device as IPsec tunnels are created and deleted. References between objects are shown:
 
-* Solid lines indicate references that are populated by the Controller, and dashed lines indicate references that are handled by the CPE.
+* Solid lines indicate references that are populated by the Controller, and dashed lines indicate references that are handled by the device.
 * A reference marked "(U)" is a unique key, which implies a 1-1 relationship, e.g., only one *Tunnel* instance can reference a given (*Tunnel,Tunneled*) *IP.Interface* pair.
 * Other references imply n-1 relationships, e.g., multiple *Filter* instances can reference a given *Profile* instance.
 
@@ -4018,12 +4637,12 @@ Typical usage is as follows:
 
 * The factory default configuration can contain static instances of the various objects.
 * The Controller creates and configures *Filter* and *Profile* instances. *Filter* instances model IPsec Security Policy Database (SPD) selection criteria and *Profile* instances model SPD processing info. Each *Filter* instance references a *Profile* instance so a single *Profile* instance can, if desired, be shared by several *Filter* instances.
-* When the Controller enables a *Filter* instance, the CPE determines whether a new tunnel is needed in order to carry the traffic that matches that filter. It is possible that an existing tunnel can carry the traffic.
-* If a new tunnel is needed, the CPE immediately creates a *Tunnel* instance that references a newly-created (*Tunnel,Tunneled*) *IP Interface* pair. This corresponds exactly to the general tunneling approach that is described in [Tunneling].
+* When the Controller enables a *Filter* instance, the device determines whether a new tunnel is needed in order to carry the traffic that matches that filter. It is possible that an existing tunnel can carry the traffic.
+* If a new tunnel is needed, the device immediately creates a *Tunnel* instance that references a newly-created (*Tunnel,Tunneled*) *IP Interface* pair. This corresponds exactly to the general tunneling approach that is described in [Tunneling].
 * Each *Tunnel* instance also references all of the currently-enabled *Filter* instances that require it to exist.
 * Classification and forwarding rules can now be defined, regardless of whether the tunnels have yet been established. *ForwardingPolicy* is both a QoS *Classification* result and an IPsec *Filter* result (it's in the *Policy* table), and so can, as explained in [Tunneling], affect the forwarding decision and thus whether or not a given packet will be en-tunneled or de-tunneled.
-* When a tunnel needs to become active, e.g., as a result of traffic that matches one of the *Filter* instances, the CPE will establish it and will create the appropriate *IKEv2SA* and *ChildSA* objects.
-* When a tunnel no longer needs to be active, the CPE will delete the *ChildSA* and *IKEv2SA* objects. This will affect the status of the *Tunnel* instance and (*Tunnel,Tunneled*) *IP Interface* pair but will not delete them.
+* When a tunnel needs to become active, e.g., as a result of traffic that matches one of the *Filter* instances, the device will establish it and will create the appropriate *IKEv2SA* and *ChildSA* objects.
+* When a tunnel no longer needs to be active, the device will delete the *ChildSA* and *IKEv2SA* objects. This will affect the status of the *Tunnel* instance and (*Tunnel,Tunneled*) *IP Interface* pair but will not delete them.
 
 The remainder of this Appendix consists of a brief summary of the various IPsec data model objects.
 
@@ -4039,7 +4658,7 @@ SPD filtering is performed for all packets that might need to cross the IPsec bo
 
 This table is conceptually quite similar to the QoS Classification table in that entries are ordered, associated with an ingress interface, include selection criteria, and specify the action to be taken for matching packets.
 
-Instances of the *Filter* table can be created statically by the CPE, or can be created and deleted by the Controller as needed. Each instance includes the following (this is not a complete list):
+Instances of the *Filter* table can be created statically by the device, or can be created and deleted by the Controller as needed. Each instance includes the following (this is not a complete list):
 
 * *Enable*: to enable and disable the entry.
 * *Status*: to indicate the status of the entry.
@@ -4057,19 +4676,19 @@ Instances of the *Filter* table can be created statically by the CPE, or can be 
 
 The *Profile* table models IPsec Security Policy Database (SPD) processing info. Refer to Section 4.4.1/RFC 4301 [@RFC4301] for further details. Each *Filter* instance references a *Profile* instance. It would be possible to include the processing info directly in each *Filter* instance, but use of a separate table allows *Profile* entries to be shared between *Filter* instances.
 
-Instances of the *Profile* table can be created statically by the CPE, or can be created and deleted by the Controller as needed. Each instance includes the following (this is not a complete list):
+Instances of the *Profile* table can be created statically by the device, or can be created and deleted by the Controller as needed. Each instance includes the following (this is not a complete list):
 
 * *MaxChildSAs*: the maximum number of Child SAs per IKEv2 session (and therefore per IPsec tunnel); this provides a simple way of controlling the extent to which existing tunnels can be re-used.
 * *RemoteEndpoints*: an ordered list of remote tunnel endpoints that are to be used when establishing an IPsec tunnel corresponding to this *Profile* instance.
 * *ForwardingPolicy*: an opaque (Controller-chosen) value that provides a feed-forward mechanism that allows the SPD filtering decision to affect the forwarding decision. QoS classification uses the same mechanism.
 * *Protocol*: the "child" security protocol, i.e., AH or ESP.
-* *IKEv2AuthenticationMethod*: a reference to a CPE certificate or other CPE credentials.
+* *IKEv2AuthenticationMethod*: a reference to a device certificate or other device credentials.
 * *IKEv2AllowedEncryptionAlgorithms* (etc): encryption algorithm that IKEv2 is permitted to negotiate; also several other "allowed" parameters that define acceptable IKEv2, AH and ESP algorithms.
 * *DSCPMarkPolicy* (etc): various settings that govern how packets should be tunneled.
 
 ## IPsec.Tunnel
 
-The *Tunnel* table that models IPsec tunnels. Instances are created and deleted by the CPE as needed. A (*Tunnel,Tunneled*) *IP* *Interface* pair is always created at the same time as an IPsec *Tunnel* instance and has the same lifetime; the *Tunnel IP Interface* contains generic IP interface settings, e.g., *Enable*, *Status* and generic *Stats*, and the IPSec *Tunnel* instance contains IPsec-specific settings, e.g., additional *Stats*.
+The *Tunnel* table that models IPsec tunnels. Instances are created and deleted by the device as needed. A (*Tunnel,Tunneled*) *IP* *Interface* pair is always created at the same time as an IPsec *Tunnel* instance and has the same lifetime; the *Tunnel IP Interface* contains generic IP interface settings, e.g., *Enable*, *Status* and generic *Stats*, and the IPSec *Tunnel* instance contains IPsec-specific settings, e.g., additional *Stats*.
 
 ::: note
 A (*Tunnel,Tunneled*) *IP* *Interface* pair consists of an IP Interface instance with Type = "Tunnel", and another IP Interface instance with Type = "Tunneled".
@@ -4129,7 +4748,7 @@ The Data Model in [@ETSIM2MInterfaces] reflects the device management objects an
 The mId reference point in this scenario would support CWMP for the exchange of "mgmtObjs" using the xREM procedures between SCLs while continuing to support the ETSI RESTful procedures (e.g., container management) for the exchange of other resources across the mId reference point.
 :::
 
-Within the ESTI M2M Functional Architecture, the xREM is responsible for the following management functions:
+Within the ETSI M2M Functional Architecture, the xREM is responsible for the following management functions:
 
 * General Management: Provides retrieval of information related to the M2M Device or Gateway that hosts the ETSI M2M Service Capability Layer (SCL).
 * Configuration Management: Provides configuration of the M2M Device or Gateway's capabilities in order to support ETSI M2M Services and Applications.
@@ -4459,13 +5078,13 @@ This Theory of Operation is explained using CWMP but the same principles also ap
 
 [@fig:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069; @fig:example-sequence-diagram-of-zigbee-management-with-tr-069] present the principle and an example basic sequence for the management of ZigBee devices using the Device:2 ZigBee data model. The ZigBee protocol is specified in [@ZigBee2007].
 
-The ZigBee devices reside behind a CPE proxy and communicate with the ACS via this CPE proxy. The CPE proxy normally resides in a device such as a broadband router, i.e., a home gateway or an enterprise gateway, and it has a proxy function to translate CWMP messages to ZDO (ZigBee Device Object) function invocations based on the ZigBee data model. The proxy function translates the messages by using a mapping of ZigBee data model objects and CWMP methods to ZDO functions and their parameters. A ZigBee device management example using CWMP is shown in @fig:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.
+The ZigBee devices reside behind a device proxy and communicate with the ACS via this device proxy. The device proxy normally resides in a device such as a broadband router, i.e., a home gateway or an enterprise gateway, and it has a proxy function to translate CWMP messages to ZDO (ZigBee Device Object) function invocations based on the ZigBee data model. The proxy function translates the messages by using a mapping of ZigBee data model objects and CWMP methods to ZDO functions and their parameters. A ZigBee device management example using CWMP is shown in @fig:usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.
 
 ![Usage of the data model to manage ZigBee devices with TR-069](images/usage-of-the-data-model-to-manage-zigbee-devices-with-tr-069.png)
 
 ![Example sequence diagram of ZigBee management with TR-069](images/example-sequence-diagram-of-zigbee-management-with-tr-069.png)
 
-This example shows how the ACS gets the network address of a ZigBee device by using TR-069 communication based on the ZigBee data model. The ACS performs a "GetParameterValues" CWMP method call containing the parameter "Device.ZigBee.ZDO.{i}.NetworkAddress" of the ZigBee data model, which refers to the ZigBee network address. The proxy function in the CPE proxy changes the received message to a ZDO message that calls some ZDO function on the ZigBee Coordinator. The ZigBee Coordinator manages the ZigBee devices according to the called ZDO function and sends the result (the searched network address, in this case) to the proxy. The proxy function changes the ZDO management result to a CWMP message which is denoted in @fig:example-sequence-diagram-of-zigbee-management-with-tr-069 as "GetParameterValuesResponse". The parameter name inside the parameter list is "Device.ZigBee.ZDO.{i}.NetworkAddress" and the corresponding value is "0x0fE3" (network address instance).
+This example shows how the ACS gets the network address of a ZigBee device by using TR-069 communication based on the ZigBee data model. The ACS performs a "GetParameterValues" CWMP method call containing the parameter "Device.ZigBee.ZDO.{i}.NetworkAddress" of the ZigBee data model, which refers to the ZigBee network address. The proxy function in the device proxy changes the received message to a ZDO message that calls some ZDO function on the ZigBee Coordinator. The ZigBee Coordinator manages the ZigBee devices according to the called ZDO function and sends the result (the searched network address, in this case) to the proxy. The proxy function changes the ZDO management result to a CWMP message which is denoted in @fig:example-sequence-diagram-of-zigbee-management-with-tr-069 as "GetParameterValuesResponse". The parameter name inside the parameter list is "Device.ZigBee.ZDO.{i}.NetworkAddress" and the corresponding value is "0x0fE3" (network address instance).
 
 ##  CWMP proxying mechanisms and the ZigBee data model
 
@@ -4476,12 +5095,12 @@ The following two issues related to the proxying of ZigBee devices with the stan
 
 However, the following example explains how the main needs of the proxying mechanisms have been taken into account and are covered by the designed data model.
 
-Imagine, for example, a ZigBee coordinator that controls a network which contains, among others, a ZigBee device that is used in a home automation system, i.e., implements the Home Automation Application Profile (0104). Then, the instantiation of the data model for the CPE contains, among others, the following two parameter values (note that "ZC" stands for ZigBee coordinator):
+Imagine, for example, a ZigBee coordinator that controls a network which contains, among others, a ZigBee device that is used in a home automation system, i.e., implements the Home Automation Application Profile (0104). Then, the instantiation of the data model for the device contains, among others, the following two parameter values (note that "ZC" stands for ZigBee coordinator):
 
     Device.ZigBee.ZDO.1.NodeDescriptor.LogicalType = "ZC"
     Device.ZigBee.ZDO.2.ApplicationEndpoint.1.ApplicationProfileId = "0104"
 
-In order to reference and manage these devices with the EmbeddedDevice mechanism, the CPE instance would simply also include, among others, the following entries:
+In order to reference and manage these devices with the EmbeddedDevice mechanism, the device instance would simply also include, among others, the following entries:
 
 `Device.ManagementServer.EmbeddedDevice.1.Reference`
 
@@ -4537,9 +5156,9 @@ The data model allows for more than one PCP client, but those clients operate in
 
 ## Configuration and monitoring of the PCP Server
 
-Prior to sending its first PCP message, the PCP client determines which server to use as described in [@RFC7488]. To do so the PCP client of the CPE can be configured statically (GUI or CWMP) or via DHCP (v4 or v6).
+Prior to sending its first PCP message, the PCP client determines which server to use as described in [@RFC7488]. To do so the PCP client of the device can be configured statically (GUI or CWMP) or via DHCP (v4 or v6).
 
-* When configured via DHCP, the CPE receives a list (at least one) of PCP server addresses in one or more *OPTION_V4_PCP_SERVER* or *OPTION_V6_PCP_SERVER* DHCP options. Based on the content of these DHCP options, the CPE creates one or more instances of *PCP.Client.{i}.Server* (see [@RFC7291]). The list of addresses provided for each PCP server is stored in the *ServerNameOrAddress* and *AdditionalServerAddresses* parameters and the *Origin* parameter is set to either "DHCPv4" or "DHCPv6".
+* When configured via DHCP, the device receives a list (at least one) of PCP server addresses in one or more *OPTION_V4_PCP_SERVER* or *OPTION_V6_PCP_SERVER* DHCP options. Based on the content of these DHCP options, the device creates one or more instances of *PCP.Client.{i}.Server* (see [@RFC7291]). The list of addresses provided for each PCP server is stored in the *ServerNameOrAddress* and *AdditionalServerAddresses* parameters and the *Origin* parameter is set to either "DHCPv4" or "DHCPv6".
 
 * When statically configured, one instance of *PCP.Client.{i}.Server* is created per server, with the *Origin* parameter set to "Static". The server is defined by either an FQDN or an IP address in *ServerNameOrAddress*.
 
@@ -4654,7 +5273,7 @@ This example describes an IP in IP encapsulation where a GRE tunnel takes IPv4 p
 
 @fig:ip-over-ip-gre-encapsulation shows the scenario where an IPv4 LAN network is tunneled in an IPv6 GRE tunnel that uses IPv6 global addresses.
 
-The GRE tunnels use the default IPv6 WAN interface of the CPE.
+The GRE tunnels use the default IPv6 WAN interface of the device.
 
 ![IP over IP GRE Encapsulation](images/ip-over-ip-gre-encapsulation.png){typst-scale=0.7}
 
@@ -4693,9 +5312,9 @@ Many aspects of the MAP configuration are the same for both MAP-E and MAP-T. [@R
 
 The MAP-T architecture is illustrated in @fig:map-t-architecture. The MAP-E architecture diagram looks very similar, but differs as follows:
 
-* The CPE's MAP function involves 6-4 encapsulation rather than 6-4 translation.
-* The CPE uses a Border Router (BR) IPv6 address rather than a prefix.
-* Non MAP-aware servers (i.e., native IPv6 servers) can't be reached by IPv4 devices behind the CPE (i.e., can't be part of the MAP domain).
+* The device's MAP function involves 6-4 encapsulation rather than 6-4 translation.
+* The device uses a Border Router (BR) IPv6 address rather than a prefix.
+* Non MAP-aware servers (i.e., native IPv6 servers) can't be reached by IPv4 devices behind the device (i.e., can't be part of the MAP domain).
 
 ![MAP-T Architecture](images/map-t-architecture.png)
 
@@ -4911,8 +5530,8 @@ There are four types of alarm event handling:
 |-----------------|--------------------------------------------------------------
 | Expedited Event | Alarm event is immediately notified to the Controller with the use of Active Notification mechanism
 | Queued Event    | Alarm event is notified to the Controller at the next opportunity with the use of Passive Notification mechanism
-| Logged Event    | The CPE stores the alarm event locally but does not notify the Controller
-| Disabled Event  | The CPE ignores the alarm event and takes no action
+| Logged Event    | The device stores the alarm event locally but does not notify the Controller
+| Disabled Event  | The device ignores the alarm event and takes no action
 
 Note that all Fault Management tables are cleared when the device reboots.
 
@@ -4929,13 +5548,13 @@ Note that all Fault Management tables are cleared when the device reboots.
    * - SupportedAlarm.{i}.
      - Fixed 
      - Static & fixed content 
-     - Defines all alarms that the CPE supports. *ReportedMechanism* defines how the alarm is to be handled within the CPE: 
+     - Defines all alarms that the device supports. *ReportedMechanism* defines how the alarm is to be handled within the device: 
        - 0 -- Expedited
        - 1 -- Queued
        - 2 -- Logged
        - 3 -- Disabled
 
-       The table size is fixed and its content is static in order to drive the alarm handling behavior in the CPE.
+       The table size is fixed and its content is static in order to drive the alarm handling behavior in the device.
 
    * - ExpeditedEvent.{i}.
      - Fixed
@@ -4967,7 +5586,7 @@ Note that all Fault Management tables are cleared when the device reboots.
      - Dynamically updated
      - Contains all alarm events as a historical record keeping purpose. One entry exists for each event. In other words, raising and clearing of the same alarm are two separate entries.
 
-       The Controller can retrieve the content of this table to get the entire chronological history of the alarm events on the CPE.
+       The Controller can retrieve the content of this table to get the entire chronological history of the alarm events on the device.
 
        As the table size is fixed (vendor defined), new alarm event overwrites the oldest entry in FIFO fashion after the table becomes full.
 :::
@@ -5249,7 +5868,7 @@ The relationship between a 5G-RG and the available access networks is represente
 |-----------------------------------------|--------------------------------------------------------------------------
 | Device.WWC                              | Base object for Wireline Wireless Convergence. The controller can use this object to learn the supported 5G features and whether the 5G-RG is operating in 5G mode
 | Device.WWC.AccessNetwork                | Each table entry describes a single access network. The entire table is built by the 5G-RG upon startup. The primary purpose is to show the registration and connectivity status of each access network. Typically, a 5G-RG would register on each available access network. A minimum of one access network must be in the CM-CONNECTED state in order to support N1 messaging
-| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies an CPE by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
+| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies a device by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
 | Device.WWC.URSP                         | User equipment Route Selection Policy (URSP) is a table of rules used to determine which network slice and data network to route a PDU over. Typically, a 5G-RG would search the URSP table in precedence order matching the traffic descriptor types against the service it was setting up. For example, a 5G-RG would search for 'connection capabilities' matching 'ims' in order to establish a dedicated PDU session for telephony
 | Device.WWC.URSP.{i}.TrafficDescriptor   | A set of rules for a given precedence that must be matched in order to select a router in the form of data network and slice. Selection criteria range from destination IP addresses to connection capabilities
 | Device.WWC.URSP.{i}.TrafficDescriptor.{i}.RouteSelectionDescriptor | Provides a table of data networks and network slices used in PDU establishment. Table entries are used in precedence order until a successful PDU session is established. See TS 23.503 Annex A [@3GPP-TS.23.503] for an example URSP rule traversal
@@ -5686,7 +6305,7 @@ Each example shows a 5G-RG with two PDU sessions. The first is for general purpo
         Reference = Device.SessionManagement.PDU.1.
         Interface = Device.IP.Interface.1.
         APN = "provider.internet"
-    Device.SesionManagement.PDU.1.
+    Device.SessionManagement.PDU.1.
         Alias = "cpe-pdu1"
         PTI = 63
         SSC = 1
@@ -6060,7 +6679,7 @@ The above features are supported by the TR-181 data model using new data model e
 | 5G         | NR | Ultra-fast internet, low latency, IoT, enhanced mobile broadband | Late 2010's
 
 ### Control User Plane Separation (CUPS) - 4G and 5G
-CUPS is integral to the 4G and 5G architectures. It starts with the segregation of control and user plane traffic at the RG and continues through to the physical separation of control and user plane network functions. The main driver for separation is to centralize control plane functions while distributing user plane functions deeper into the network. CUPS as it impacts Wireless Wireline Convergernce is documented in TR-470 Section 5.2 [@TR-470] whilst TS 23.501 [@3GPP-TS.23.501] details the architectural elements. From the perspective of a 5G-RG, CUPS has the following impacts:
+CUPS is integral to the 4G and 5G architectures. It starts with the segregation of control and user plane traffic at the RG and continues through to the physical separation of control and user plane network functions. The main driver for separation is to centralize control plane functions while distributing user plane functions deeper into the network. CUPS as it impacts Wireless Wireline Convergence is documented in TR-470 Section 5.2 [@TR-470] whilst TS 23.501 [@3GPP-TS.23.501] details the architectural elements. From the perspective of a 5G-RG, CUPS has the following impacts:
 
 * Control plane communications move from transient (DHCP and PPP LCP ) to persistent (NAS). As a result, the operator can now modify a customer session at any time rather than at the point of authorization.
 * Traffic for control and user planes uses separate sessions over a common PHY.
@@ -6089,7 +6708,7 @@ Capabilities:
 #### 4G QoS
 Capabilities:
 * Guaranteed and non-guaranteed bit rates
-* Increased granularity with QCI offering predefined QoS capabilities such as priorty, packet delay and error rate. In addition to the standard 3GPP defined values, operators can define their own QCI capabilities.
+* Increased granularity with QCI offering predefined QoS capabilities such as priority, packet delay and error rate. In addition to the standard 3GPP defined values, operators can define their own QCI capabilities.
 * Allocation and Retention Policy (ARP).
 * Traffic for each QCI and ARP combination within a PDN will be mapped to its own bearer.
 
@@ -6142,7 +6761,7 @@ The relationship between a 5G-RG and the available access networks is represente
 |-----------------------------------------|--------------------------------------------------------------------------
 | Device.WWC                              | Base object for Wireline Wireless Convergence. The controller can use this object to learn the supported 5G features and whether the 5G-RG is operating in 5G mode
 | Device.WWC.AccessNetwork                | Each table entry describes a single access network. The entire table is built by the 5G-RG upon startup. The primary purpose is to show the registration and connectivity status of each access network. Typically, a 5G-RG would register on each available access network. A minimum of one access network must be in the CM-CONNECTED state in order to support N1 messaging
-| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies an CPE by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
+| Device.WWC.AccessNetwork.GUTI           | A 5G Globally Unique Temporary Identity (GUTI) securely identifies a device by keeping the permanent User Equipment (UE identifier (IMSI) hidden. This identity is globally unique and assigned by the AMF at the time of registration.
 | Device.WWC.URSP                         | User equipment Route Selection Policy (URSP) is a table of rules used to determine which network slice and data network to route a PDU over. Typically, a 5G-RG would search the URSP table in precedence order matching the traffic descriptor types against the service it was setting up. For example, a 5G-RG would search for 'connection capabilities' matching 'ims' in order to establish a dedicated PDU session for telephony
 | Device.WWC.URSP.{i}.TrafficDescriptor   | A set of rules for a given precedence that must be matched in order to select a router in the form of data network and slice. Selection criteria range from destination IP addresses to connection capabilities
 | Device.WWC.URSP.{i}.TrafficDescriptor.{i}.RouteSelectionDescriptor | Provides a table of data networks and network slices used in PDU establishment. Table entries are used in precedence order until a successful PDU session is established. See TS 23.503 Annex A [@3GPP-TS.23.503] for an example URSP rule traversal
@@ -6756,7 +7375,7 @@ There are a multitude of combinations of 3GPP generations and access technologie
         BytesSent = 478945789
         BytesReceived = 589545478
 
-# LogRotate Theory of Operation
+# LogRotate Theory of Operation {.appendix .same-file}
 
 ## Introduction
 
@@ -7154,7 +7773,7 @@ This bridge configuration sends messages from `Device.MQTT.Broker.1` to a remote
 
 This bridge establishes a secure mTLS connection to `cloud.example.com:8883`, authenticates itself with `Certificate.4`, verifies the cloud broker with `CABundle.3`, and forwards all messages from topics matching `sensors/#` to the remote broker.
 
-# Device Certificates
+# Device Certificates {.appendix .same-file}
 ## Introduction
 
 A device requires a secure storage mechanism for storing cryptographic assets such as certificates and private keys.
@@ -7215,11 +7834,144 @@ Since the bundle itself may be unpacked in a non-secure environment on the devic
 
 The certificate, being public information, does not require this level of protection and can be stored in the device certificate store.
 
-Because the bundle itself is encrypted, its contents are protected across the entire delivery path. Only a trusted environment on the device, such as a Trusted Execution Environment (TEE)  or other secure element can decrypt it. This secure environment can then safely import the private key into its protected storage. The associated public certificate can then be added to the device's certificate store.
+Because the bundle itself is encrypted, its contents are protected across the entire delivery path. Only a trusted environment on the device, such as a Trusted Execution Environment (TEE) or other secure element can decrypt it. This secure environment can then safely import the private key into its protected storage. The associated public certificate can then be added to the device's certificate store.
 
 This method ensures that the sensitive private key is never exposed in an unencrypted state on the operator's network or within the device's main operating system.
 
-## Installing Bundles
+## Certificate Signing Requests (CSRs)
+
+A Certificate Signing Request (CSR) is an encoded request sent from the device to a Certificate Authority (CA) to obtain a digital identity certificate. It serves as a standard method for a device to prove its identity and ownership of a public key without ever exposing the corresponding secret private key. The CSR bundles the public key with specific device details, which the CA validates before signing the request. This process generates a new certificate, ensuring the device is securely authenticated on the network without ever exposing the corresponding private key; the sensitive private keys remain safe on the local hardware.
+
+### What is a CSR?
+
+A CSR is a block of text containing the information required by a Certificate Authority (CA) to verify an identity and issue a digital certificate. This information includes:
+
+*   **The Public Key**: The public portion of a key pair generated by the device.
+*   **The Distinguished Name (DN)**: Information identifying the device, such as its Common Name (e.g., a domain name or serial number), organization, and location.
+*   **The Signature**: The CSR is signed using the corresponding private key, which proves that the applicant possesses the private key.
+
+### Procedure
+
+![CSR Provisioning](images/csr_provisioning_detailed.png)
+
+The process of obtaining a certificate using a CSR typically follows these steps:
+
+#. The device connects to the remote management server using its standard embedded key pair.
+#. The management server requests the device to generate a new CSR.
+#. The device creates a new key pair within its secure storage.
+#. The device creates a CSR that includes its public key and identifying information.
+#. The device signs the CSR with its newly generated private key.
+#. The device notifies and provides the remote management server with the new CSR.
+#. The remote management server will ask the Certificate Authority to generate and sign the new certificate.
+#. The remote management server will install the new certificate on the device.
+#. The device will use the new certificate and private key for its intended purpose.
+
+## Advanced Certificate Management
+
+Next to installing pre-packaged certificate bundles, the device can also support a more granular set of operations for managing the lifecycle of certificates and cryptographic keys. These procedures allow for the creation of Certificate Signing Requests (CSRs), the secure addition and deletion of certificates, and the management of cryptographic keys.
+
+### Creating a Certificate Signing Request (CSR)
+
+The `CreateCSR()` command allows the device to generate a new key pair and a corresponding CSR.
+
+The command takes several input parameters to specify the details of the requested certificate:
+
+*   `KeyType`: The type of asymmetric key pair to create. This is a free-form string. Common examples include `RSA`, `ECDSA with P-256`, `ECDSA with P-384`, `Ed25519`, and `Ed448`.
+*   `KeyLength`: The length of the key in bits. Valid key lengths depend on the chosen `KeyType`. For example, RSA typically uses 2048 or 4096 bits, ECDSA with P-256 uses 256 bits, and Ed25519 uses 256 bits.
+*   `SubjectAlternativeName`, `CommonName`, `OrganizationName`, `OrganizationalUnit`, `Locality`, `State`, `Country`, `Email`: These parameters define the subject identity for the certificate. At least one of `SubjectAlternativeName` or `CommonName` must be specified to identify the certificate subject. The remaining Distinguished Name (DN) fields are optional. Note that which fields are required or recommended may depend on the Certificate Authority's policy.
+*   `BasicConstraints` (optional): Specifies whether the certificate is for a CA (`CA`) or an end-entity (`EndEntity`). This is optional in the CSR, as the CA may apply its own policy.
+*   `KeyUsage` (optional): The cryptographic operations for which the certificate public key may be used. Values include `DigitalSignature`, `KeyEncipherment`, `KeyCertSign`, `CRLSign`, etc. This is optional in the CSR, as the CA may apply its own policy.
+*   `ExtendedKeyUsage` (optional): The purposes for which the certificate public key may be used. This is a list that can include values such as `ServerAuth`, `ClientAuth`, `CodeSigning`, `EmailProtection`, `TimeStamping`, `OCSPSigning`, and `Any`. This is optional in the CSR, as the CA may apply its own policy.
+*   `Name`: User-defined name to identify and categorize the certificate (e.g., "mqtt-broker", "webserver", "vpn-client"). The implementation may use this name to determine which secure storage to use and how to persist the key.
+*   `RenewalInterval`: The number of days before expiration to automatically create a new CSR to update the certificate.
+
+Example of a `CreateCSR()` command:
+```
+Device.Security.CreateCSR(
+  Name: "mqtt-broker",
+  KeyType: "RSA",
+  KeyLength: 2048,
+  CommonName: "mydevice.bbf.org",
+  OrganizationName: "BBF",
+  Country: "US",
+  BasicConstraints: "EndEntity",
+  KeyUsage: ["DigitalSignature", "KeyEncipherment"],
+  ExtendedKeyUsage: ["ServerAuth", "ClientAuth"],
+  RenewalInterval: 30
+)
+```
+Upon successful execution, the command returns a `CommandKey`, which echoes the `command_key` supplied in the USP Operate message. This value can be used to correlate the CSR creation request with the resulting CSR entry, events, and eventually the installed certificate.
+
+#### Concurrent and Overlapping CSR Requests
+
+Several situations can result in multiple CSR operations targeting the same certificate `Name`. The following scenarios describe the expected behavior in each case.
+
+**Controller retries `CreateCSR()`**
+
+If a Controller calls `CreateCSR()` while a CSR with the same `Name` is already pending, the device rejects the new request with a 7005 (Resources Exceeded) fault code, following the concurrent operations rules defined in {{bibref|TR-369|Section 7.7.5}}.
+To replace the pending CSR, the Controller must first cancel the in-progress operation via `Device.LocalAgent.Request.{i}.Cancel()`.
+This causes the device to delete the CSR entry and, if not referenced by an existing certificate entry, its associated private key. The Controller can then call `CreateCSR()` again with the desired parameters.
+
+**Controller calls `CreateCSR()` while auto-update is in progress**
+
+When the device initiates a CSR automatically as part of an auto-update cycle, a pending CSR entry appears in `Device.Security.CSR.{i}.` just as it would for a manually triggered request. 
+If the Controller calls `CreateCSR()` for the same `Name` while this auto-update CSR is pending, the device returns 7005 (Resources Exceeded).
+The Controller can either wait for the auto-update cycle to complete or cancel the pending CSR via `Device.LocalAgent.Request.{i}.Cancel()`, which causes the device to remove the CSR entry and its associated private key (unless already referenced by an existing certificate entry), and then issue its own `CreateCSR()`.
+
+**Auto-update triggers while a Controller's CSR is pending**
+
+If the auto-update timer fires while a Controller-triggered CSR for the same `Name` is already pending, the device MUST NOT generate a new CSR.
+Per R-OPR.3 of {{bibref|TR-369}}, an Agent must not cancel an operation already in progress unless explicitly instructed by the Controller.
+The auto-update trigger is effectively deferred until the pending CSR resolves, either by a successful `AddCertificate()` or by `CSRTimeout` expiry.
+
+**`CSRTimeout` expiry**
+
+If no matching certificate is installed before `Device.Security.CSRTimeout` expires, the CSR entry is deleted.
+Its associated private key is also deleted, unless it is already referenced by an existing certificate entry.
+For example, in `Renew` mode where the existing key pair is reused.
+The existing certificate remains valid and in service throughout.
+For auto-update scenarios, the device re-evaluates the auto-update condition at the next check interval and generates a new CSR if the certificate is still within the `RenewalInterval` window.
+
+### Adding a New Certificate
+
+Once a CSR has been signed by a CA and a new certificate is issued, the `AddCertificate()` command is used to install it on the device.
+
+This command takes the following parameters:
+
+*   `Certificate`: The new certificate in PEM format. The device parses the certificate to extract and populate the Certificate table parameters including BasicConstraints, KeyUsage, and ExtendedKeyUsage extensions.
+*   `Name` (optional): User-defined name to identify the certificate. When `MatchToCSR` is `true`, the name from the matching CSR is used instead. When `MatchToCSR` is `false`, this parameter MUST be specified. If a certificate with the same name already exists, it will be replaced.
+*   `MatchToCSR`: A boolean that, when `true`, indicates that the new certificate is in response to a previously generated CSR. This allows the device to associate the new certificate with the correct private key and name from the matching CSR. The matching CSR is then deleted.
+*   `RenewalMode` (mandatory): The automatic certificate update mode (`None`, `Renew`, or `ReKey`) to apply to the installed certificate.
+*   `RenewalInterval` (mandatory): Number of days before expiry at which the device automatically initiates a new CSR, as determined by `RenewalMode`. A value of 0 disables auto-update.
+
+If a certificate with the same `Name` already exists, the existing certificate entry is replaced with the new certificate. This replacement involves:
+
+#. The old certificate and its associated private key are securely deleted
+#. The new certificate is added with the new private key (from the matching CSR)
+#. The `Name` is assigned to the new certificate entry
+
+If the operation fails, the device returns a fault code indicating the specific error condition:
+
+*   If `MatchToCSR` is `true` and no matching CSR was found, the device returns a 7268 (No Matching CSR) fault code.
+*   If the certificate could not be imported, the device returns a 7263 (Failed To Import Certificate) fault code.
+*   If the certificate has a SerialNumber and Issuer that match an existing certificate with a different `Name`, the device returns a 7270 (Certificate Identity Conflict) fault code. This prevents inconsistencies where the same certificate (identified by SerialNumber and Issuer) would be associated with multiple different names.
+
+### Deleting a Certificate
+
+Certificates can be deleted directly via the object-level `Delete()` command on the specific certificate entry.
+
+Example of deleting a certificate:
+```
+Device.Security.Certificate.10.Delete()
+```
+
+When a certificate is deleted, its associated private key is also securely removed from the device's secure storage.
+
+The device SHOULD immediately prevent the deleted certificate from being used to establish new connections or sessions. Active connections that were established using the deleted certificate MAY be terminated immediately or allowed to complete naturally, depending on the implementation.
+
+The Controller SHOULD ensure a replacement certificate is available before deleting a certificate that is actively in use by a critical service. In particular, deleting the certificate used to authenticate the USP management connection may result in loss of connectivity to the Controller.
+
+## Installing Certificate Bundles
 
 The installation process is managed by the USP Controller.
 
@@ -7243,6 +7995,8 @@ The Controller can then install a new bundle by invoking the `Device.Security.Ad
 
 The device installs the new bundle and updates the `Device.Security.Certificate.{i}.` object with the new certificate's information. The command returns a path reference to the installed certificate entry.
 
+The `Name` parameter allows the controller to assign a name to the certificate. If a certificate with the same `Name` already exists, it will be replaced with the certificate from the bundle.
+
     Device.Security.Certificate.10.
         Alias               = "cpe-mABR"
         Name                = "mABR"
@@ -7255,7 +8009,7 @@ The device installs the new bundle and updates the `Device.Security.Certificate.
         SubjectAlt          = "DNS:mabr.preprod-tv-us-cdn.bbf.org"
         SignatureAlgorithm  = "ecdsa-with-SHA384"
 
-If the operation fails, the device returns a fault code indicating the specific error condition (e.g., 7260 for unsupported bundle format, 7261 for signature verification failure).
+If the operation fails, the device returns a fault code indicating the specific error condition (e.g., 7260 for unsupported bundle format, 7261 for signature verification failure, 7270 if the certificate in the bundle has a SerialNumber and Issuer matching an existing certificate with a different Name).
 
 The URIs for the new certificate and private key can be retrieved as follows:
 
@@ -7295,6 +8049,23 @@ To update an existing CA bundle with new certificates:
 The update operation completely replaces the existing CA certificates. The command returns the number of certificates successfully installed. If the update fails, the previous bundle is kept as-is.
 
 If the operation fails, the device returns a fault code indicating the specific error condition (e.g., 7265 for invalid PEM format, 7266 for insufficient disk space).
+
+## Security Fault Codes
+
+The following table lists all fault codes used by the security-related commands:
+
+| Fault Code | Description | Used By Command(s) |
+|------------|-------------|-------------------|
+| **7260** | Bundle Format Not Supported | AddCertificateBundle() |
+| **7261** | Bundle Signature Failure | AddCertificateBundle() |
+| **7262** | Failed To Import Bundle | AddCertificateBundle(), AddCABundle(), CABundle.{i}.Update() |
+| **7263** | Failed To Import Certificate | AddCertificateBundle(), AddCABundle(), CABundle.{i}.Update(), AddCertificate() |
+| **7264** | Failed To Import Private Key | AddCertificateBundle() |
+| **7265** | Invalid PEM Format | AddCABundle(), CABundle.{i}.Update() |
+| **7266** | Insufficient Disk Space | AddCABundle(), CABundle.{i}.Update() |
+| **7267** | Duplicate CA Bundle Name | AddCABundle() |
+| **7268** | No Matching CSR | AddCertificate() |
+| **7270** | Certificate Identity Conflict | AddCertificate(), AddCertificateBundle() |
 
 !include back-matter.md
 

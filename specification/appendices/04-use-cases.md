@@ -17,7 +17,7 @@ The Controller can create the objects in the interface stack bottom-up. Each tim
     * Setting the LowerLayers parameter in PPP.Interface object to link it to the Ethernet.Link object.
     * Setting the LowerLayers parameter in IP.Interface object to link it to the PPP.Interface object.
 
-#. The CPE updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; PPP.Interface &rarr; Ethernet.Link &rarr; ATM.Link &rarr; DSL.Channel &rarr; DSL.Line.
+#. The device updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; PPP.Interface &rarr; Ethernet.Link &rarr; ATM.Link &rarr; DSL.Channel &rarr; DSL.Line.
 
 #. Note that the Controller might also want to update other related objects, including the NAT object, the Routing.Router object, or various QoS and Bridging tables. VLANs might also need to be created.
 
@@ -33,7 +33,7 @@ In this use case, the Controller needs to modify an existing WAN connection, in 
     * Setting the LowerLayers parameter in the Ethernet.Link object to refer to the PTM.Link object rather than the ATM.Link object.
     * Setting the LowerLayers parameter in the IP.Interface object to refer to the Ethernet.Link object rather than the PPP.Interface object.
 
-#. The CPE updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; Ethernet.Link &rarr; PTM.Link &rarr; DSL.Channel &rarr; DSL.Line.
+#. The device updates the InterfaceStack table automatically. The stack looks like this: IP.Interface &rarr; Ethernet.Link &rarr; PTM.Link &rarr; DSL.Channel &rarr; DSL.Line.
 
 #. Note that the Controller might also want to update other related objects, including the Bridging table. The Controller might also want to delete the existing PPP.Interface and ATM.Link objects.
 
@@ -47,7 +47,7 @@ Assume that we want to delete the WAN connection as it is configured in the *[Cr
 
 #. The Controller deletes the Ethernet.Link object.
 
-#. As each of these objects is deleted, the InterfaceStack is adjusted automatically by the CPE.
+#. As each of these objects is deleted, the InterfaceStack is adjusted automatically by the device.
 
 #. Any strong references to the deleted objects, e.g., in Device.QoS classification rules, will automatically be set to empty strings.
 
@@ -65,7 +65,7 @@ In order to determine if the device terminates a WAN connection, the Controller 
 
 In order to determine if the device is responsible for providing addresses to other devices in the home, the Controller could check for the existence of the DHCP Server object. The existence of the Host table also indicates that the device is aware of Hosts, by whatever means they're addressed.
 
-For CWMP managed CPEs, the existence of the ManageableDevice table within the ManagementServer object also indicates that the device serves as the DHCP server for the TR-069 managed device exchange defined in TR-069 [@TR-069] Annex F, which is also often an indication of "gateway" functionality.
+For CWMP managed devices, the existence of the ManageableDevice table within the ManagementServer object also indicates that the device serves as the DHCP server for the TR-069 managed device exchange defined in TR-069 [@TR-069] Annex F, which is also often an indication of "gateway" functionality.
 
 In order to determine if the device provides functionality such as NAT or a router, the Controller would check for the existence of an enabled NAT or Routing.Router object.
 
@@ -75,7 +75,7 @@ Another use case is to determine the topology of the home network behind the gat
 
 If the operator is interested in UPnP devices in the home network, the UPnP.Discovery tables (RootDevice, Device, and Service) provide that information in addition to the Host table entries that correspond to a particular UPnP Root Device, Device, or Service.
 
-Finally for CWMP enabled CPEs, the ManageableDevice table within the ManagementServer object provides information about the CWMP managed devices that the CPE has learned about through the DHCP message exchange defined in TR-069 [@TR-069] Annex F.
+Finally for CWMP enabled devices, the ManageableDevice table within the ManagementServer object provides information about the CWMP managed devices that the device has learned about through the DHCP message exchange defined in TR-069 [@TR-069] Annex F.
 
 ## Determine Current Interfaces Configuration
 
@@ -87,7 +87,7 @@ In the Device:2 data model managed with CWMP, it would work this way:
 
 #. If the ACS is interested in the specifics of an individual interface, it can then go and issue GetParameterNames or GetParameterValues for the interfaces of interest.
 
-If the CPE is managed by USP:
+If the device is managed by USP:
 
 #. The USP Controller would issue a Get request for the InterfaceStack table. This table would provide a list of all the Interface connections. The USP Controller could use this table to build up the general picture of the Interfaces that are part of the current configuration.
 
@@ -109,7 +109,7 @@ In this use case the Controller creates a new WLAN connection. For the purposes 
 
 #. The Controller configures the new WiFi.AccessPoint object, including enabling it and sets the value of its SSIDReference parameter to reference the WiFi.SSID object.
 
-#. The CPE updates the InterfaceStack table automatically.
+#. The device updates the InterfaceStack table automatically.
 
 #. Note that the Controller might also want to update other related objects; also, if there were no appropriate existing bridge port to which to connect the SSID, the Controller might need to create that object as well.
 
@@ -119,7 +119,7 @@ In this use case the Controller deletes the SSID created in the *[Create a WLAN 
 
 #. The Controller deletes the WiFi.SSID object and the WiFi.AccessPoint object.
 
-#. The CPE automatically updates the InterfaceStack table.
+#. The device automatically updates the InterfaceStack table.
 
 #. Note that if the radio has no other SSIDs configured, this would operationally disable the wireless interface.
 
@@ -205,11 +205,11 @@ The Controller would follow these steps to reconfigure the Ethernet.Interface:
 
 #. Reconfigure the LowerLayers parameter of Ethernet.Link.1 such that its value is "Device.Ethernet.Interface.1" instead of "Device.ATM.Link.1".
 
-#. The CPE updates the InterfaceStack table and sets the Upstream parameter to true on the Ethernet.Interface.1 instance automatically.
+#. The device updates the InterfaceStack table and sets the Upstream parameter to true on the Ethernet.Interface.1 instance automatically.
 
 #. Note that the Controller might also want to update other related objects, including the NAT object, the Routing.Router object, or various QoS and Bridging tables. VLANs might also need to be created.
 
-After the CWMP Session is completed and the CPE commits the configuration, the upstream side will look like:
+After the CWMP Session is completed and the device commits the configuration, the upstream side will look like:
 
 * IP.Interface.1 &rarr; Ethernet.Link.1 &rarr; Ethernet.Interface.1
 

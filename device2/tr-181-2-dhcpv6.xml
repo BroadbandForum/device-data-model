@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-dhcpv6"
-    file="tr-181-2-21-0-dhcpv6.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-dhcpv6"
+    file="tr-181-2-22-0-dhcpv6.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,11 +68,11 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-21-stats">
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-22-stats">
     <component name="ObjectStatsResetCWMP"/>
     <component name="ObjectStatsResetUSP"/>
   </import>
@@ -82,7 +82,7 @@
         maxEntries="1" version="2.2">
       <description>
         The Dynamic Host Configuration Protocol (DHCP) IPv6 object
-        {{bibref|RFC8415}}. This entire object applies to IPv6 only. It
+        {{bibref|RFC9915}}. This entire object applies to IPv6 only. It
         contains the {{object|Client}} and {{object|Server}} objects.
       </description>
 
@@ -105,14 +105,14 @@
 
         For enabled table entries, if {{param|Interface}} is not a valid
         reference to an IPv6-capable interface (that is attached to the IPv6
-        stack), then the table entry is inoperable and the CPE MUST set
+        stack), then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -158,7 +158,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -172,10 +172,167 @@
         </syntax>
       </parameter>
 
+      <parameter name="DHCPStatus" access="readOnly" version="2.22">
+        <description>
+          The DHCPv6 client protocol state as defined in
+          {{bibref|RFC9915|Section 18}}.
+
+          This parameter is only relevant when the DHCPv6 client
+          is operationally enabled (i.e. when {{param|Status}} is
+          {{enum|Enabled|Status}}). When both {{param|RequestAddresses}}
+          and {{param|RequestPrefixes}} are {{false}}, the client operates
+          in stateless mode, {{param}} remains {{enum|Init}}, and
+          {{param|StatelessStatus}} applies instead.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Init">
+              <description>
+                The client has no valid lease and has not yet initiated
+                a DHCPv6 exchange.
+                {{bibref|RFC9915|Section 18.2.1}}
+              </description>
+            </enumeration>
+            <enumeration value="Soliciting">
+              <description>
+                The client has transmitted a Solicit message to
+                the link-local all-DHCP-servers multicast address
+                and is collecting and evaluating Advertise
+                messages from one or more servers. The client
+                retransmits the Solicit with exponential backoff
+                until at least one Advertise is received, at which
+                point it selects the best offer and transitions to
+                {{enum|Requesting}}. When {{param|RapidCommit}} is
+                {{true}} and the server responds with a Reply
+                instead of an Advertise, the client transitions
+                directly to {{enum|Bound}}.
+                {{bibref|RFC9915|Section 18.2.1}}
+              </description>
+            </enumeration>
+            <enumeration value="Requesting">
+              <description>
+                The client has selected a server and transmitted a
+                Request message, and is awaiting a Reply.
+                {{bibref|RFC9915|Section 18.2.2}}
+              </description>
+            </enumeration>
+            <enumeration value="Confirming">
+              <description>
+                The client has restarted or reconnected to a link
+                and is verifying that previously assigned addresses
+                and/or prefixes remain appropriate by sending
+                Confirm messages.
+                {{bibref|RFC9915|Section 18.2.3}}
+              </description>
+            </enumeration>
+            <enumeration value="Bound">
+              <description>
+                The client has a valid lease with one or more
+                assigned addresses and/or prefixes. The lease
+                remains valid until the T1 renewal timer expires
+                or an error condition occurs.
+                {{bibref|RFC9915|Section 18}}
+              </description>
+            </enumeration>
+            <enumeration value="Renewing">
+              <description>
+                The T1 renewal timer has expired. The client
+                transmits Renew messages directly to the server
+                that originally allocated the lease to extend the
+                lifetimes of assigned addresses and/or prefixes.
+                {{bibref|RFC9915|Section 18.2.4}}
+              </description>
+            </enumeration>
+            <enumeration value="Rebinding">
+              <description>
+                The T2 rebinding timer has expired with no Reply
+                received. The client transmits Rebind messages to
+                the link-local all-DHCP-servers multicast address
+                to extend lifetimes from any available
+                server. {{bibref|RFC9915|Section 18.2.5}}
+              </description>
+            </enumeration>
+            <enumeration value="Reconfiguring">
+              <description>
+                The client has received a valid Reconfigure message
+                from the server and is responding by initiating a
+                server-directed Renew or Information-request
+                exchange. This state is server-initiated and is
+                distinct from client-initiated {{enum|Renewing}}.
+                {{bibref|RFC9915|Section 18.2.11}}
+              </description>
+            </enumeration>
+            <enumeration value="Declining">
+              <description>
+                The client has detected that one or more assigned
+                addresses are already in use on the link, e.g.
+                after Duplicate Address Detection (DAD) failure,
+                and is transmitting Decline messages to notify
+                the server. {{bibref|RFC9915|Section 18.2.8}}
+              </description>
+            </enumeration>
+            <enumeration value="Releasing">
+              <description>
+                The client is relinquishing its lease by sending
+                one or more Release messages to the server, e.g.
+                when the interface is administratively disabled or
+                the device is shutting down.
+                {{bibref|RFC9915|Section 18.2.7}}
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Init"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="StatelessStatus" access="readOnly" version="2.22">
+        <description>
+          The status of the most recent stateless DHCPv6 Information-request
+          exchange, as defined in {{bibref|RFC9915|Section 18.2.6}}.
+
+          This parameter is only relevant when the client is operating in
+          stateless mode, i.e. when both {{param|RequestAddresses}} and
+          {{param|RequestPrefixes}} are {{false}}. When the client is not
+          operating in stateless mode, {{param}} remains {{enum|None}} and
+          {{param|DHCPStatus}} applies instead.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="None">
+              <description>
+                No Information-request exchange has been initiated since the
+                client last started.
+              </description>
+            </enumeration>
+            <enumeration value="Requesting">
+              <description>
+                An Information-request message has been sent and the client is
+                awaiting a Reply. {{bibref|RFC9915|Section 18.2.6}}
+              </description>
+            </enumeration>
+            <enumeration value="Success">
+              <description>
+                A Reply was received in response to the most recent
+                Information-request message.
+                {{bibref|RFC9915|Section 18.2.6}}
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                The client did not receive a Reply after exhausting
+                retransmission attempts for the most recent
+                Information-request. {{bibref|RFC9915|Section 18.2.6}}
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="None"/>
+        </syntax>
+      </parameter>
+
       <parameter name="DUID" access="readOnly">
         <description>
-          The client's DHCP Unique Identifier (DUID) {{bibref|RFC8415|Section
-          11}}. {{param}} is set by the CPE.
+          The client's DHCP Unique Identifier (DUID) {{bibref|RFC9915|Section
+          11}}. {{param}} is set by the device.
         </description>
         <syntax>
           <hexBinary>
@@ -188,7 +345,7 @@
         <description>
           Enables or disables inclusion of the ''Identity Association (IA) for
           Non-Temporary Address'' option OPTION_IA_NA(3)
-          {{bibref|RFC8415|Section 21.4}} in Solicit messages.
+          {{bibref|RFC9915|Section 21.4}} in Solicit messages.
         </description>
         <syntax>
           <boolean/>
@@ -199,8 +356,8 @@
       <parameter name="RequestPrefixes" access="readWrite">
         <description>
           Enables or disables inclusion of the ''Identity Association (IA) for
-          Prefix Delegation'' option OPTION_IA_PD(25) {{bibref|RFC8415|Section
-          21.22}} in Solicit messages.
+          Prefix Delegation'' option OPTION_IA_PD(25) {{bibref|RFC9915|Section
+          21.21}} in Solicit messages.
 
           Note that this is only appropriate for an upstream interface on a
           requesting router, e.g. for an RG WAN interface.
@@ -214,7 +371,7 @@
       <parameter name="RapidCommit" access="readWrite">
         <description>
           Enables or disables inclusion of the ''Rapid Commit'' option
-          OPTION_RAPID_COMMIT(14) {{bibref|RFC8415|Section 21.14}} in Solicit
+          OPTION_RAPID_COMMIT(14) {{bibref|RFC9915|Section 21.14}} in Solicit
           messages.
         </description>
         <syntax>
@@ -230,7 +387,7 @@
 
           When {{false}}, the DHCPv6 client first waits for a Router Advertisement message to
           determine if DHCPv6 services are available (via 'M' and 'O' flags). This is the
-          recommended behavior according to {{bibref|RFC8415|Section 18.2.1}}.
+          recommended behavior according to {{bibref|RFC9915|Section 18.2.1}}.
 
           When {{true}}, the client bypasses the wait for Router Advertisements and sends a Solicit message directly based on configured
           parameters such as {{param|RequestAddresses}} and {{param|RequestPrefixes}}.
@@ -244,8 +401,8 @@
       <parameter name="SuggestedT1" access="readWrite">
         <description>
           T1 value, in {{units}}, that the client SHOULD use when sending IA
-          options, e.g. OPTION_IA_NA {{bibref|RFC8415|Section 21.4}} and
-          OPTION_IA_PD {{bibref|RFC8415|Section 10}}.
+          options, e.g. OPTION_IA_NA {{bibref|RFC9915|Section 21.4}} and
+          OPTION_IA_PD {{bibref|RFC9915|Section 21.21}}.
 
           A value of -1 indicates that no T1 value is specified.
         </description>
@@ -260,8 +417,8 @@
       <parameter name="SuggestedT2" access="readWrite">
         <description>
           T2 value, in {{units}}, that the client SHOULD use when sending IA
-          options, e.g. OPTION_IA_NA {{bibref|RFC8415|Section 21.4}} and
-          OPTION_IA_PD {{bibref|RFC8415|Section 21.22}}.
+          options, e.g. OPTION_IA_NA {{bibref|RFC9915|Section 21.4}} and
+          OPTION_IA_PD {{bibref|RFC9915|Section 21.21}}.
 
           A value of -1 indicates that no T2 value is specified.
         </description>
@@ -299,14 +456,14 @@
           {{bibref|RFC3646}} but is not appropriate for OPTION_SERVERID (which
           is part of the protocol), OPTION_IA_NA (which is modeled via
           {{param|RequestAddresses}}) or OPTION_IA_PD (which is modeled via
-          {{param|RequestPrefixes}}). However, the CPE MUST NOT reject an
+          {{param|RequestPrefixes}}). However, the device MUST NOT reject an
           attempt to set this parameter to a value that includes options that
           it regards as inappropriate; instead, it MUST accept the requested
           options and handle them as best it can.
 
           Loosely speaking, these are the options that the client will include
-          in OPTION_ORO {{bibref|RFC8415}} but the client is free to decide (in
-          accordance with {{bibref|RFC8415}}) in which messages to request
+          in OPTION_ORO {{bibref|RFC9915}} but the client is free to decide (in
+          accordance with {{bibref|RFC9915}}) in which messages to request
           which option, whether also to request additional options, whether not
           to request inappropriate options, and in which order to request any
           options that are also in {{param|SupportedOptions}}.
@@ -320,7 +477,7 @@
       <parameter name="AuthenticationProtocol" access="readWrite" version="2.19">
         <description>
           Specifies the authentication protocol to be used,
-          as explained in {{bibref|RFC8415|Chapter 20.2 Summary of DHCP Authentication}}.
+          as explained in {{bibref|RFC9915|Chapter 20.2 Summary of DHCP Authentication}}.
         </description>
         <syntax>
           <string>
@@ -337,7 +494,7 @@
             </enumeration>
             <enumeration value="ReconfigureKeyAuthentication">
               <description>
-                Uses delayed authentication, as specified in {{bibref|RFC8415|Chapter 20.4 Reconfiguration Key Authentication Protocol}}.
+                Uses delayed authentication, as specified in {{bibref|RFC9915|Chapter 20.4 Reconfiguration Key Authentication Protocol}}.
               </description>
             </enumeration>
           </string>
@@ -354,6 +511,73 @@
             <range minInclusive="0" maxInclusive="63"/>
           </unsignedInt>
           <default type="object" value="48"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastRenewSentTime" access="readOnly" version="2.22">
+        <description>
+          The date and time when the last RENEW message was sent to the
+          DHCPv6 server {{bibref|RFC9915|Section 18.2.4}}.
+
+          {{param}} is {{null}} when its value is unknown.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastRebindSentTime" access="readOnly" version="2.22">
+        <description>
+          The date and time when the last REBIND message was sent to the
+          DHCPv6 server {{bibref|RFC9915|Section 18.2.5}}.
+
+          {{param}} is {{null}} when its value is unknown.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastRenewSuccessful" access="readOnly" version="2.22">
+        <description>
+          Indicates whether the last RENEW exchange was successful,
+          i.e., a Reply was received in response to the Renew message
+          {{bibref|RFC9915|Section 18.2.4}}.
+
+          {{false}} if no successful RENEW exchange has occurred since the client
+          last started.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastRebindSuccessful" access="readOnly" version="2.22">
+        <description>
+          Indicates whether the last REBIND exchange was successful,
+          i.e., a Reply was received in response to the Rebind message
+          {{bibref|RFC9915|Section 18.2.5}}.
+
+          {{false}} if no successful REBIND exchange has occurred since the client
+          last started.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastBoundTime" access="readOnly" version="2.22">
+        <description>
+          The date and time when the DHCPv6 client last successfully obtained
+          or extended a lease, whether via initial binding
+          {{bibref|RFC9915|Section 18.2.2}}, RENEW
+          {{bibref|RFC9915|Section 18.2.4}}, or REBIND
+          {{bibref|RFC9915|Section 18.2.5}}.
+
+          {{param}} is {{null}} when its value is unknown.
+        </description>
+        <syntax>
+          <dateTime/>
         </syntax>
       </parameter>
 
@@ -392,7 +616,7 @@
         This is a transitory table that lists the discovered DHCPv6 servers (it
         does ''not'' model a local DHCP server). Table entries are
         automatically created to correspond with these servers. However, it is
-        a local matter to the CPE when to delete old table entries.
+        a local matter to the device when to delete old table entries.
       </description>
       <uniqueKey functional="true">
         <parameter ref="SourceAddress"/>
@@ -410,7 +634,7 @@
 
       <parameter name="DUID" access="readOnly">
         <description>
-          The server's DHCP Unique Identifier (DUID) {{bibref|RFC8415|Section
+          The server's DHCP Unique Identifier (DUID) {{bibref|RFC9915|Section
           11}} as received via OPTION_SERVERID.
         </description>
         <syntax>
@@ -472,7 +696,7 @@
 
       <parameter name="Tag" access="readWrite">
         <description>
-          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
+          Option tag (code) {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -483,10 +707,10 @@
 
       <parameter name="Value" access="readWrite">
         <description>
-          A hexbinary encoded option data {{bibref|RFC8415|Section 21.1}}.
+          A hexbinary encoded option data {{bibref|RFC9915|Section 21.1}}.
 
           Note: The length of the option data is ''option-len'' octets, as
-          specified in {{bibref|RFC8415|Section 21.1}}.
+          specified in {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <hexBinary>
@@ -504,11 +728,11 @@
       <description>
         This is a transitory table that lists all the options received from all
         servers. Table entries are automatically created to correspond with
-        received options. However, it is a local matter to the CPE when to
+        received options. However, it is a local matter to the device when to
         delete old table entries.
 
         If the same option is received multiple times, whether from one or more
-        servers, it is up to the CPE to decide which entries to include (i.e.
+        servers, it is up to the device to decide which entries to include (i.e.
         whether the same option will be present multiple times). In order to
         allow for the same option to be present multiple times within the
         table, this table has no unique key defined.
@@ -516,7 +740,7 @@
 
       <parameter name="Tag" access="readOnly">
         <description>
-          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
+          Option tag (code) {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -527,7 +751,7 @@
 
       <parameter name="Value" access="readOnly">
         <description>
-          A hexbinary encoded option data {{bibref|RFC8415|Section 21.1}}.
+          A hexbinary encoded option data {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <hexBinary>
@@ -552,7 +776,7 @@
 
     <object name="Device.DHCPv6.Client.{i}.Retransmission." access="readOnly" version="2.18">
       <description>
-        This object enables the configuration of the DHCPv6 retransmission behavior according to the guidelines described in {{bibref|RFC8415|Section 7.6}}.
+        This object enables the configuration of the DHCPv6 retransmission behavior according to the guidelines described in {{bibref|RFC9915|Section 7.6}}.
       </description>
 
       <parameter name="SolicitMaxDelay" access="readWrite">
@@ -872,7 +1096,7 @@
       <parameter name="TimeoutRandomize" access="readWrite">
         <description>
           The Randomization factor for the retransmission timeout, in {{units}}, as defined in
-          {{bibref|RFC8415|15 Reliability of Client-Initiated Message Exchanges}}.
+          {{bibref|RFC9915|15 Reliability of Client-Initiated Message Exchanges}}.
 
           E.g. a timeout of 1000ms with a randomization of 100 will end up between 900 and 1100 ms.
         </description>
@@ -893,7 +1117,7 @@
       <parameter name="Solicit" access="readOnly">
         <description>
           The total number of SOLICIT messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -903,7 +1127,7 @@
       <parameter name="Advertise" access="readOnly">
         <description>
           The total number of ADVERTISE messages received by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -913,7 +1137,7 @@
       <parameter name="Request" access="readOnly">
         <description>
           The total number of REQUEST messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -923,7 +1147,7 @@
       <parameter name="Confirm" access="readOnly">
         <description>
           The total number of CONFIRM messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -933,7 +1157,7 @@
       <parameter name="Renew" access="readOnly">
         <description>
           The total number of RENEW messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -943,7 +1167,7 @@
       <parameter name="Rebind" access="readOnly">
         <description>
           The total number of REBIND messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -953,7 +1177,7 @@
       <parameter name="Reply" access="readOnly">
         <description>
           The total number of REPLY messages received by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -963,7 +1187,7 @@
       <parameter name="Release" access="readOnly">
         <description>
           The total number of RELEASE packets sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -973,7 +1197,7 @@
       <parameter name="Decline" access="readOnly">
         <description>
           The total number of DECLINE messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -983,7 +1207,7 @@
       <parameter name="Reconfigure" access="readOnly">
         <description>
           The total number of RECONFIGURE messages received by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -993,7 +1217,7 @@
       <parameter name="InformationRequest" access="readOnly">
         <description>
           The total number of INFORMATION-REQUEST messages sent by the client,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1059,7 +1283,7 @@
 
         For enabled table entries, if {{param|Interface}} is not a valid
         reference to an IPv6-capable interface (that is attached to the IPv6
-        stack) then the table entry is inoperable and the CPE MUST set
+        stack) then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -1086,7 +1310,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1133,7 +1357,7 @@
           Pool association criterion.
 
           A hexbinary string used to identify one or more LAN devices, value of
-          the DHCPv6 Client Identifier (Option 1) {{bibref|RFC8415|Section
+          the DHCPv6 Client Identifier (Option 1) {{bibref|RFC9915|Section
           21.2}}. The option value is binary, so an exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used.
@@ -1169,7 +1393,7 @@
 
           A hexbinary string used to identify one or more LAN devices, value of
           the DHCPv6 Vendor Class Identifier (Option 16)
-          {{bibref|RFC8415|Section 21.16}}. The option value is binary, so an
+          {{bibref|RFC9915|Section 21.16}}. The option value is binary, so an
           exact match is REQUIRED.
 
           {{empty}} indicates this criterion is not used.
@@ -1201,7 +1425,7 @@
           Pool association criterion.
 
           A hexbinary string used to identify one or more LAN devices, value of
-          the DHCPv6 User Class Identifier (Option 15) {{bibref|RFC8415|Section
+          the DHCPv6 User Class Identifier (Option 15) {{bibref|RFC9915|Section
           21.15}}.
 
           {{empty}} indicates this criterion is not used.
@@ -1398,7 +1622,7 @@
             offers.
 
           * Prefixes with {{param|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
-            =
+            \=
             {{enum|PrefixDelegation|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
             or
             {{enum|AutoConfigured|###.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}
@@ -1508,13 +1732,13 @@
       <parameter name="Active" access="readOnly">
         <description>
           Whether or not the DHCPv6 client is currently present on the LAN. The
-          method of presence detection is a local matter to the CPE.
+          method of presence detection is a local matter to the device.
 
-          The ability to list inactive DHCPv6 clients is OPTIONAL. If the CPE
+          The ability to list inactive DHCPv6 clients is OPTIONAL. If the device
           includes inactive DHCPv6 clients in this table, {{param}} MUST be set
           to {{false}} for each inactive DHCPv6 client. The length of time an
           inactive DHCPv6 client remains listed in this table is a local matter
-          to the CPE.
+          to the device.
         </description>
         <syntax>
           <boolean/>
@@ -1644,7 +1868,7 @@
 
       <parameter name="Tag" access="readOnly">
         <description>
-          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
+          Option tag (code) {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -1702,7 +1926,7 @@
 
       <parameter name="Tag" access="readWrite">
         <description>
-          Option tag (code) {{bibref|RFC8415|Section 21.1}}.
+          Option tag (code) {{bibref|RFC9915|Section 21.1}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -1768,7 +1992,7 @@
       <parameter name="Solicit" access="readOnly">
         <description>
           The total number of SOLICIT messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1778,7 +2002,7 @@
       <parameter name="Advertise" access="readOnly">
         <description>
           The total number of ADVERTISE messages sent by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1788,7 +2012,7 @@
       <parameter name="Request" access="readOnly">
         <description>
           The total number of REQUEST messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1798,7 +2022,7 @@
       <parameter name="Confirm" access="readOnly">
         <description>
           The total number of CONFIRM messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1808,7 +2032,7 @@
       <parameter name="Renew" access="readOnly">
         <description>
           The total number of RENEW messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1818,7 +2042,7 @@
       <parameter name="Rebind" access="readOnly">
         <description>
           The total number of REBIND messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1828,7 +2052,7 @@
       <parameter name="Reply" access="readOnly">
         <description>
           The total number of REPLY messages sent by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1838,7 +2062,7 @@
       <parameter name="Release" access="readOnly">
         <description>
           The total number of RELEASE packets received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1848,7 +2072,7 @@
       <parameter name="Decline" access="readOnly">
         <description>
           The total number of INFORM messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1858,7 +2082,7 @@
       <parameter name="Reconfigure" access="readOnly">
         <description>
           The total number of RECONFIGURE messages sent by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1868,7 +2092,7 @@
       <parameter name="InformationRequest" access="readOnly">
         <description>
           The total number of INFORMATION-REQUEST messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1878,7 +2102,7 @@
       <parameter name="RelayForward" access="readOnly">
         <description>
           The total number of RELAY-FORW messages received by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -1888,7 +2112,7 @@
       <parameter name="RelayReply" access="readOnly">
         <description>
           The total number of RELAY-REPL messages sent by the server,
-          as defined in {{bibref|RFC8415|Dynamic Host Configuration Protocol for IPv6}}.
+          as defined in {{bibref|RFC9915|Dynamic Host Configuration Protocol for IPv6}}.
         </description>
         <syntax>
           <dataType ref="StatsCounter64"/>
@@ -2081,7 +2305,7 @@
           dmr:previousParameter="RapidCommit" version="2.2">
         <description>
           When set to {{true}}, the {{object}} will renew its DHCPv6-supplied
-          information (i.e. the CPE will do a renew or information request as
+          information (i.e. the device will do a renew or information request as
           needed, updating both stateful and stateless parameter values
           discovered by this Client instance).
         </description>
@@ -2143,7 +2367,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv6:2.21">
+  <model name="DHCPv6:2.22">
     <component ref="Root"/>
     <component ref="DHCPv6"/>
   </model>

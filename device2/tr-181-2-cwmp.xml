@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-cwmp"
-    file="tr-181-2-21-0-cwmp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-cwmp"
+    file="tr-181-2-22-0-cwmp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -74,7 +74,7 @@
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-common">
+      spec="urn:broadband-forum-org:tr-181-2-22-common">
     <component name="ETSIM2M"/>
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
@@ -143,41 +143,51 @@
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
     <component name="SoftwareModules"/>
-    <model name="_Device:2.21" ref="Device:2.21"/>
+    <model name="_Device:2.22" ref="Device:2.22"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetCWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-22-dhcpv4">
     <component name="DHCPv4CWMP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-22-dhcpv6">
     <component name="DHCPv6CWMP"/>
   </import>
 
   <import file="tr-181-2-wifi-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-cwmp">
     <component name="WiFiCWMP"/>
   </import>
 
   <import file="tr-181-2-moca-cwmp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-moca-cwmp">
+      spec="urn:broadband-forum-org:tr-181-2-22-moca-cwmp">
     <component name="MoCACWMP"/>
   </import>
 
+  <import file="tr-181-2-firewall-cwmp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-0-firewall-cwmp">
+    <component name="FirewallCWMP"/>
+  </import>
+
+  <import file="tr-181-2-nat-cwmp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-0-nat-cwmp">
+    <component name="NATCWMP"/>
+  </import>
+
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-22-collectiondevice">
     <component name="CollectionDeviceCWMP"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPAccessControl"/>
   </import>
 
@@ -269,7 +279,7 @@
     {{object|Device.IP.Diagnostics.IPLayerCapacityMetrics}}
   </template>
 
-  <model name="Device:2.21" base="_Device:2.21">
+  <model name="Device:2.22" base="_Device:2.22">
     <object base="Device.DeviceInfo." access="readOnly" minEntries="1"
         maxEntries="1">
 
@@ -4479,41 +4489,6 @@
         </description>
       </parameter>
     </object>
-    <object base="Device.Firewall.Pinhole.{i}.">
-      <parameter base="Origin">
-        <description action="append">
-          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
-        </description>
-      </parameter>
-    </object>
-    <object base="Device.Firewall.DMZ.{i}.">
-      <parameter base="Origin">
-        <description action="append">
-          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
-        </description>
-      </parameter>
-    </object>
-    <object base="Device.Firewall.Set.{i}.">
-      <parameter base="Origin">
-        <description action="append">
-          Note: This parameter was changed to readOnly in the Device 2.19 version.
-        </description>
-      </parameter>
-    </object>
-    <object base="Device.NAT.PortMapping.{i}.">
-      <parameter base="Origin">
-        <description action="append">
-          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
-        </description>
-      </parameter>
-    </object>
-    <object base="Device.NAT.PortTrigger.{i}.">
-      <parameter base="Origin">
-        <description action="append">
-          Note: This parameter was reverted back to readOnly in the Device 2.19 version.
-        </description>
-      </parameter>
-    </object>
     <object base="Device.Routing.Babel.MACKeySet.{i}.MACKey.{i}.">
       <parameter base="KeyValue">
         <description action="append">
@@ -4645,6 +4620,10 @@
     </object>
 
     <component ref="WiFiCWMP"/>
+
+    <component ref="FirewallCWMP"/>
+
+    <component ref="NATCWMP"/>
 
     <component ref="ETSIM2M"/>
 

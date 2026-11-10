@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-userinterface"
-    file="tr-181-2-21-0-userinterface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-userinterface"
+    file="tr-181-2-22-0-userinterface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,17 +68,17 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="ServerCerts"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPAccessControl"/>
   </import>
 
@@ -88,12 +88,12 @@ directed to <info@broadband-forum.org>.
         maxEntries="1" version="2.0">
       <description>
         This object contains parameters relating to the user interface of the
-        CPE.
+        device.
       </description>
 
       <parameter name="Enable" access="readWrite" version="2.11">
         <description>
-          Enables and disables the CPE's user interface.
+          Enables and disables the device's user interface.
         </description>
         <syntax>
           <boolean/>
@@ -103,7 +103,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="PasswordRequired" access="readWrite">
         <description>
-          Present only if the CPE provides a password-protected LAN-side user
+          Present only if the device provides a password-protected LAN-side user
           interface.
 
           Indicates whether or not the local user interface MUST require a
@@ -117,11 +117,11 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="PasswordUserSelectable" access="readWrite">
         <description>
-          Present only if the CPE provides a password-protected LAN-side user
+          Present only if the device provides a password-protected LAN-side user
           interface and supports LAN-side Auto-Configuration.
 
           Indicates whether or not a password to protect the local user
-          interface of the CPE MAY be selected by the user directly (i.e.
+          interface of the device MAY be selected by the user directly (i.e.
           {{param|#.Users.User.{i}.Password}}), or MUST be equal to the
           password used by the LAN-side Auto-Configuration protocol (i.e.
           {{param|#.LANConfigSecurity.ConfigPassword}}).
@@ -133,7 +133,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="UpgradeAvailable" access="readWrite">
         <description>
-          Indicates that a CPE upgrade is available, allowing the CPE to
+          Indicates that a device upgrade is available, allowing the device to
           display this information to the user.
         </description>
         <syntax>
@@ -144,7 +144,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="WarrantyDate" access="readWrite">
         <description>
           Indicates the date and time in UTC that the warranty associated with
-          the CPE is to expire.
+          the device is to expire.
         </description>
         <syntax>
           <dateTime/>
@@ -287,7 +287,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="AutoUpdateServer" access="readWrite">
         <description>
-          The server the CPE can check to see if an update is available for
+          The server the device can check to see if an update is available for
           direct download to it.
         </description>
         <syntax>
@@ -340,7 +340,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="HTTPAccessSupportedProtocols" access="readOnly"
           version="2.16">
         <description>
-          Indicates the protocols that are supported by the CPE for the purpose
+          Indicates the protocols that are supported by the device for the purpose
           of remotely accessing the user interface.
         </description>
         <syntax>
@@ -485,7 +485,7 @@ directed to <info@broadband-forum.org>.
 
       <component ref="ServerCerts"/>
 
-      <parameter name="CACertificate" access="readWrite" status="obsoleted">
+      <parameter name="CACertificate" access="readWrite" status="deleted">
         <description>
           Points to the CA certificate that must be used by the web interface.
           The {{param}} is used to validate the web client certificate.
@@ -494,6 +494,8 @@ directed to <info@broadband-forum.org>.
           {{deprecated|2.19|Replaced by {{param|CABundle}} which can now contain one or more reference.}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <string>
@@ -623,6 +625,55 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
+      <parameter name="MaxSessionEntries" access="readWrite"
+          version="2.22">
+        <description>
+          The maximum number of concurrent entries in the {{object|Session}}
+          table. When the maximum is reached, new sessions are
+          rejected until an existing session ends.
+
+          When {{param}} is 0, the {{object|Session}} table is
+          disabled. When {{param}} is -1, the number of entries is
+          left to the implementation.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxAccessLogEntries" access="readWrite"
+          version="2.22">
+        <description>
+          The maximum number of entries in the {{object|AccessLog}}
+          table. When the maximum is reached, the oldest entry
+          (determined by {{param|AccessLog.{i}.TimeStamp}}) is
+          deleted to make room for the new entry.
+
+          When {{param}} is 0, the {{object|AccessLog}} table is
+          disabled. When {{param}} is -1, the number of entries is
+          left to the implementation.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AccessLogNumberOfEntries" access="readOnly"
+          version="2.22">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
       <parameter name="SessionNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -637,9 +688,14 @@ directed to <info@broadband-forum.org>.
         access="readOnly" numEntriesParameter="SessionNumberOfEntries"
         minEntries="0" maxEntries="unbounded" version="2.16">
       <description>
-        Web server session list.
+        List of currently active web interface sessions. An entry
+        is created when a session is established and removed when
+        the session ends, regardless of the reason. Login attempts
+        and session termination details are recorded in
+        {{object|#.AccessLog}}.
 
-        Note: This parameter was demoted to readOnly in the Device:2.17 version.
+        Note: This object was demoted to readOnly in the
+        Device:2.17 version.
       </description>
 
       <uniqueKey functional="false">
@@ -713,19 +769,146 @@ directed to <info@broadband-forum.org>.
           <dateTime/>
         </syntax>
       </parameter>
+
+    </object>
+
+    <object name="Device.UserInterface.HTTPAccess.{i}.AccessLog.{i}."
+        access="readOnly"
+        numEntriesParameter="AccessLogNumberOfEntries"
+        minEntries="0" maxEntries="unbounded" version="2.22">
+      <description>
+        Log of web interface access events. Each entry records
+        a login attempt, an authorization failure, or the reason
+        a session ended.
+
+        When the number of entries reaches the maximum specified
+        by {{param|#.MaxAccessLogEntries}}, the oldest entry
+        (determined by {{param|TimeStamp}}) is deleted and a
+        new entry is created.
+      </description>
+
+      <uniqueKey functional="true">
+        <parameter ref="User"/>
+        <parameter ref="IPAddress"/>
+        <parameter ref="Port"/>
+        <parameter ref="Protocol"/>
+        <parameter ref="TimeStamp"/>
+      </uniqueKey>
+
+      <parameter name="User" access="readOnly">
+        <description>
+          The user to whom the session belongs. When the user is
+          unknown, {{empty}} is used.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPAddress" access="readOnly">
+        <description>
+          The IP address of the remote web client, connected to
+          the web interface.
+        </description>
+        <syntax>
+          <dataType ref="IPAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readOnly">
+        <description>
+          The port number of the remote web client connected to
+          the web interface.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Protocol" access="readOnly">
+        <description>
+          The protocol used for the web interface session.
+        </description>
+        <syntax>
+          <string>
+            <enumerationRef
+                targetParam="##.HTTPAccessSupportedProtocols"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="TimeStamp" access="readOnly">
+        <description>
+          Indicates when the event occurred.
+        </description>
+        <syntax>
+          <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The outcome of the access attempt or the reason the
+          session ended.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Closed">
+              <description>
+                The session was closed normally.
+              </description>
+            </enumeration>
+            <enumeration value="IdleTimeout">
+              <description>
+                The session was terminated because it was idle
+                for longer than the allowed idle timeout duration.
+              </description>
+            </enumeration>
+            <enumeration value="AbsoluteTimeout">
+              <description>
+                The session was terminated because the total
+                session duration exceeded the allowed absolute
+                timeout duration.
+              </description>
+            </enumeration>
+            <enumeration value="AuthenticationFailed" optional="true">
+              <description>
+                The login attempt failed due to invalid credentials.
+              </description>
+            </enumeration>
+            <enumeration value="PermissionDenied" optional="true">
+              <description>
+                The login attempt failed because the user does not
+                have sufficient privileges to access the web
+                interface.
+              </description>
+            </enumeration>
+            <enumeration value="Error" optional="true">
+              <description>
+                An unexpected error occurred during the access
+                attempt or session.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.UserInterface.RemoteAccess." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0" status="deleted">
       <description>
         This object contains parameters relating to remotely accessing the
-        CPE's user interface.
+        device's user interface.
 
         Remote access is defined as any entity not of a local subnet attempting
-        to connect to the CPE.
+        to connect to the device.
 
         Remote access requires user authentication. To provide remote access
-        authentication the CPE MUST support a "User" table with at least one
+        authentication the device MUST support a "User" table with at least one
         instance that has "RemoteAccessCapable" set to {{true}}.
 
         {{deprecated|2.16|due to the introduction of {{object|#.HTTPAccess}}}}
@@ -737,7 +920,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Enable" access="readWrite">
         <description>
-          Enables/Disables remotely accessing the CPE's user interface.
+          Enables/Disables remotely accessing the device's user interface.
         </description>
         <syntax>
           <boolean/>
@@ -757,7 +940,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="SupportedProtocols" access="readOnly">
         <description>
-          {{list}} Indicates the protocols that are supported by the CPE for
+          {{list}} Indicates the protocols that are supported by the device for
           the purpose of remotely accessing the user interface.
         </description>
         <syntax>
@@ -786,16 +969,18 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.UserInterface.LocalDisplay." access="readOnly"
-        minEntries="1" maxEntries="1" version="2.0">
+        minEntries="1" maxEntries="1" version="2.0" status="deprecated">
       <description>
         This object describes how to remotely manage the initial positioning of
         a user interface on a device's local display.
+
+        {{deprecated|2.22|Replaced by Device.Hardware.Display to support multiple screens and apps}}
       </description>
 
       <parameter name="Movable" access="readWrite">
         <description>
           Controls whether the user is allowed to change the GUI window
-          position on the local CPE's display.
+          position on the local device's display.
         </description>
         <syntax>
           <boolean/>
@@ -805,7 +990,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="Resizable" access="readWrite">
         <description>
           Controls whether the user is allowed to resize the GUI window on the
-          local CPE's display.
+          local device's display.
         </description>
         <syntax>
           <boolean/>
@@ -815,7 +1000,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="PosX" access="readWrite">
         <description>
           The horizontal position of the User Interface's top left corner
-          within the local CPE's display measured from the top left corner,
+          within the local device's display measured from the top left corner,
           expressed in {{units}}.
         </description>
         <syntax>
@@ -828,7 +1013,7 @@ directed to <info@broadband-forum.org>.
       <parameter name="PosY" access="readWrite">
         <description>
           The vertical position of the User Interface's top left corner within
-          the local CPE's display measured from the top left corner, expressed
+          the local device's display measured from the top left corner, expressed
           in {{units}}.
         </description>
         <syntax>
@@ -840,7 +1025,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Width" access="readWrite">
         <description>
-          The width of the user interface within the local CPE's display,
+          The width of the user interface within the local device's display,
           expressed in {{units}}.
         </description>
         <syntax>
@@ -852,7 +1037,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="Height" access="readWrite">
         <description>
-          The height of the user interface within the local CPE's display,
+          The height of the user interface within the local device's display,
           expressed in {{units}}.
         </description>
         <syntax>
@@ -864,7 +1049,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="DisplayWidth" access="readOnly">
         <description>
-          The width of the local CPE's display, expressed in {{units}}.
+          The width of the local device's display, expressed in {{units}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -875,7 +1060,7 @@ directed to <info@broadband-forum.org>.
 
       <parameter name="DisplayHeight" access="readOnly">
         <description>
-          The height of the local CPE's display, expressed in {{units}}.
+          The height of the local device's display, expressed in {{units}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -1039,7 +1224,7 @@ directed to <info@broadband-forum.org>.
     </profile>
   </component>
 
-  <model name="UserInterface:2.21">
+  <model name="UserInterface:2.22">
     <component ref="Root"/>
     <component ref="UserInterface"/>
   </model>

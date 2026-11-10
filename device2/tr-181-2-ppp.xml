@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ppp"
-    file="tr-181-2-21-0-ppp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ppp"
+    file="tr-181-2-22-0-ppp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer2InterfaceReadWrite"/>
   </import>
 
@@ -178,7 +178,7 @@
       <parameter name="AutoDisconnectTime" access="readWrite">
         <description>
           The time in {{units}} since the establishment of the connection after
-          which connection termination is automatically initiated by the CPE.
+          which connection termination is automatically initiated by the device.
           This occurs irrespective of whether the connection is being used or
           not. A value of 0 (zero) indicates that the connection is not to be
           shut down automatically.
@@ -192,7 +192,7 @@
 
       <parameter name="IdleDisconnectTime" access="readWrite">
         <description>
-          The time in {{units}} that if the connection remains idle, the CPE
+          The time in {{units}} that if the connection remains idle, the device
           automatically terminates the connection. A value of 0 (zero)
           indicates that the connection is not to be shut down automatically.
         </description>
@@ -309,9 +309,9 @@
           Trigger used to establish the PPP connection. {{enum}}
 
           Note that the reason for a PPP connection becoming disconnected to
-          begin with might be either external to the CPE, such as termination
+          begin with might be either external to the device, such as termination
           by the BRAS or momentary disconnection of the physical interface, or
-          internal to the CPE, such as use of the {{param|IdleDisconnectTime}}
+          internal to the device, such as use of the {{param|IdleDisconnectTime}}
           and/or {{param|AutoDisconnectTime}} parameters in this object.
         </description>
         <syntax>
@@ -319,14 +319,14 @@
             <enumeration value="OnDemand">
               <description>
                 If this PPP connection is disconnected for any reason, it is to
-                remain disconnected until the CPE has one or more packets to
-                communicate over this connection, at which time the CPE
+                remain disconnected until the device has one or more packets to
+                communicate over this connection, at which time the device
                 automatically attempts to reestablish the connection.
               </description>
             </enumeration>
             <enumeration value="AlwaysOn">
               <description>
-                If this PPP connection is disconnected for any reason, the CPE
+                If this PPP connection is disconnected for any reason, the device
                 automatically attempts to reestablish the connection (and
                 continues to attempt to reestablish the connection as long it
                 remains disconnected).
@@ -335,8 +335,8 @@
             <enumeration value="Manual">
               <description>
                 If this PPP connection is disconnected for any reason, it is to
-                remain disconnected until the user of the CPE explicitly
-                instructs the CPE to reestablish the connection.
+                remain disconnected until the user of the device explicitly
+                instructs the device to reestablish the connection.
               </description>
             </enumeration>
           </string>
@@ -442,6 +442,24 @@
           <string>
             <size maxLength="256"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="EthernetPriorityMark" access="readWrite" version="2.22">
+        <description>
+          Ethernet priority code (as defined in {{bibref|802.1Q-2011}}) to mark
+          egress PPPoE packets with. 
+
+          A value of -1 indicates no specific (re)marking; the Ethernet
+          priority derived from the underlying VLAN termination interface (if any) is
+          preserved. Any other value supersedes the priority set by the VLAN
+          termination interface.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="7"/>
+          </int>
+          <default type="implementation" value="-1"/>
         </syntax>
       </parameter>
     </object>
@@ -574,7 +592,7 @@
     </object>
   </component>
 
-  <model name="PPP:2.21">
+  <model name="PPP:2.22">
     <component ref="Root"/>
     <component ref="PPP"/>
   </model>

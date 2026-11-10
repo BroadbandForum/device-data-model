@@ -4,14 +4,14 @@
 bbfNumber: TR-181
 bbfTitle: Device Data Model for CWMP Endpoints and USP Agents
 bbfIssue: Issue
-bbfVersion: 2 Amendment 21
-bbfMonth: June
+bbfVersion: 2 Amendment 22
+bbfMonth: November
 bbfYear: 2026
 bbfType: Technical Report
 bbfStatus: ''
 bbfContrib: ''
 bbfMajor: 2
-bbfMinor: 21
+bbfMinor: 22
 bbfPatch: 0
 bbfMicro: 0
 bbfExtra: 0
@@ -44,3 +44,6 @@ website: https://device-data-model.broadband-forum.org
   one on top of the other, into whatever configuration a device might support.
 bbfWorkArea: ''
 bbfProjectStream: ''
+dependsOn:
+  WT-106: v1.14.0
+  WT-157: v1.10.0

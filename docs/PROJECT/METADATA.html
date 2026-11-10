@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
+  <meta name="generator" content="pandoc 3.12.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="description" content=" : " />
   <title>BBF –  </title>
@@ -10,10 +10,13 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     /* The extra [class] is a hack that increases specificity enough to
        override a similar rule in reveal.js */
@@ -24,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="bbf.css" />
 </head>
@@ -372,6 +374,21 @@ href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf">
 <li>Added log rotate ToO</li>
 <li>Added MQTT ToO</li>
 <li>Added certificate management ToO</li>
+</ul></td>
+</tr>
+<tr>
+<td style="text-align: left;"><a
+href="https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-22.pdf">Issue
+2 Amendment 22</a></td>
+<td style="text-align: left;">November 2026</td>
+<td style="text-align: left;"><ul>
+<li>Markdown Table reformatting</li>
+<li>Additional and improvements of Advance Firewall Example
+Configuration (PriorityMap, DMZ, Pinhole, Service, PortMapping,
+PortTrigger)</li>
+<li>Extension of the Device certificates ToO with Certificate signing
+Request (CSR) and Advanced Certificate Management</li>
+<li>Added Wi-Fi Sensing ToO chapter</li>
 </ul></td>
 </tr>
 </tbody>

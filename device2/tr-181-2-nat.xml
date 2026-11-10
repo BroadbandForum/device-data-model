@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Device:2 Root Data Model: Common Object definitions [NAT]
+  Device:2 Root Data Model: Common Object definitions [NAT Base]
 
   Copyright (c) 2010-2024, Broadband Forum
 
@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-nat"
-    file="tr-181-2-21-0-nat.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-nat"
+    file="tr-181-2-22-0-nat.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,22 +65,26 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-firewall.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-firewall.xml">
+      spec="urn:broadband-forum-org:tr-181-2-22-0-firewall">
     <component name="FirewallLog"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-22-schedules">
     <component name="ScheduleRef"/>
   </import>
 
-  <component name="NAT">
+  <import file="tr-181-2-usp-base.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-usp-base">
+    <component name="ParamOriginReadOnly"/>
+  </import>
 
+  <component name="NAT">
     <object name="Device.NAT." access="readOnly" minEntries="1" maxEntries="1"
         version="2.0">
       <description>
@@ -111,9 +115,35 @@
       <parameter name="MaxNumberOfPortMappings" access="readOnly" version="2.17">
         <description>
           The maximum number of port mappings that can exist at any given time.
+          When this limit is reached, creating a new port mapping fails.
 
           If the value of this parameter is 0, then it means that the device
           doesn't have a limit to the number of port mappings that can exist.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProtocolMappingNumberOfEntries" access="readOnly"
+          version="2.22">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxNumberOfProtocolMappings" access="readOnly"
+          version="2.22">
+        <description>
+          The maximum number of protocol mappings that can exist at any given time.
+
+          When this limit is reached, creating a new entry fails.
+
+          If the value of this parameter is 0, then it means that the device
+          doesn't have a limit to the number of protocol mappings that can exist.
         </description>
         <syntax>
           <unsignedInt/>
@@ -133,9 +163,10 @@
       <parameter name="MaxNumberOfPortTriggers" access="readOnly" version="2.17">
         <description>
           The maximum number of port triggers that can exist at any given time.
+          When this limit is reached, creating a new port trigger fails.
 
           If the value of this parameter is 0, then it means that the device
-          doesn't have a limit to the number of port mappings that can exist.
+          doesn't have a limit to the number of port triggers that can exist.
         </description>
         <syntax>
           <unsignedInt/>
@@ -151,14 +182,14 @@
         NAT settings for an associated IP Interface on which NAT is enabled.
 
         For enabled table entries, if {{param|Interface}} is not a valid
-        reference then the table entry is inoperable and the CPE MUST set
+        reference then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -188,7 +219,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -308,22 +339,17 @@
         This table MUST NOT contain dynamic NAT binding entries associated with
         the normal operation of NAT.
 
-        If the CPE hosts a firewall, it is assumed that it will appropriately
+        If the device hosts a firewall, it is assumed that it will appropriately
         configure the firewall for the port mapping.
 
         For enabled table entries, if {{param|InternalClient}} is {{empty}}, or
         if {{param|Interface}} is not a valid reference and
         {{param|AllInterfaces}} is {{false}}, then the table entry is
-        inoperable and the CPE MUST set {{param|Status}} to
+        inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
-      </uniqueKey>
-      <uniqueKey functional="true">
-        <parameter ref="RemoteHost"/>
-        <parameter ref="ExternalPort"/>
-        <parameter ref="Protocol"/>
       </uniqueKey>
 
       <parameter name="Enable" access="readWrite">
@@ -344,7 +370,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -363,39 +389,20 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly" version="2.17">
-        <description>
-          Indicates the Origin of the {{object}} instance.
-
-          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
-        </description>
+      <component ref="ParamOriginReadOnly" version="2.17"/>
+      <parameter base="Origin">
         <syntax>
           <string>
-            <enumeration value="User">
+            <enumeration value="System"/>
+            <enumeration value="User"/>
+            <enumeration value="UPnP" version="2.17">
               <description>
-                Used for indicating that the port mapping entry was created by the
-                end-user. For example through the web user interface.
+                Used for indicating that the {{object}} entry was created by
+                a device using UPnP-IGD.
               </description>
             </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the port mapping entry was created by the
-                system itself.
-              </description>
-            </enumeration>
-            <enumeration value="UPnP">
-              <description>
-                Used for indicating that the port mapping entry was created by a device using UPnP-IGD.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the port mapping entry was created by a
-                Controller.
-              </description>
-            </enumeration>
+            <enumeration value="Controller"/>
           </string>
-          <default type="object" value="Controller"/>
         </syntax>
       </parameter>
 
@@ -479,7 +486,7 @@
         <description>
           This parameter is the IP address of the source of inbound packets.
           {{empty}} indicates a "wildcard", i.e. any IP address (this will be
-          {{empty}} in most cases). CPE are REQUIRED only to support {{empty}}.
+          {{empty}} in most cases). Devices are REQUIRED only to support {{empty}}.
 
           When {{param}} is {{empty}}, all traffic sent to the
           {{param|ExternalPort}} on the WAN interface of the gateway is
@@ -490,7 +497,7 @@
           only forward inbound packets from this {{param}} to the
           {{param|InternalClient}}, all other packets will be dropped.
 
-          If a CPE supports non-empty values for {{param}}, it MAY additionally
+          If a device supports non-empty values for {{param}}, it MAY additionally
           support the ability to have more than one port mapping with the same
           {{param|ExternalPort}} and {{param|Protocol}}, but with differing
           values of {{param}}.
@@ -508,7 +515,7 @@
           # Empty {{param}}, zero {{param|ExternalPort}}
 
           If an incoming packet matches the criteria associated with more than
-          one entry in this table, the CPE MUST apply the port mapping
+          one entry in this table, the device MUST apply the port mapping
           associated with the highest precedence entry.
         </description>
         <syntax>
@@ -545,7 +552,7 @@
           # Empty {{param|RemoteHost}}, zero {{param}}
 
           If an incoming packet matches the criteria associated with more than
-          one entry in this table, the CPE MUST apply the port mapping
+          one entry in this table, the device MUST apply the port mapping
           associated with the highest precedence entry.
         </description>
         <syntax>
@@ -627,7 +634,7 @@
           Support for DNS host names is OPTIONAL. If {{param}} is specified as
           a DNS host name and the LAN device's IP address subsequently changes,
           the port mapping MUST remain associated with this LAN device. In this
-          case, it is the responsibility of the CPE to maintain the
+          case, it is the responsibility of the device to maintain the
           name-to-address mapping in the event of IP address changes. This can
           be accomplished, for example, by assigning the DNS host name via use
           of DHCP option 12 (Host Name) or option 81 (FQDN). Note that the
@@ -654,6 +661,193 @@
       <parameter name="Description" access="readWrite">
         <description>
           User-readable description of this port mapping.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <component ref="ScheduleRef"/>
+      <component ref="FirewallLog"/>
+    </object>
+
+    <object name="Device.NAT.ProtocolMapping.{i}." access="readWrite"
+        numEntriesParameter="ProtocolMappingNumberOfEntries"
+        enableParameter="Enable" minEntries="0" maxEntries="unbounded"
+        version="2.22">
+      <description>
+        Protocol mapping table.
+
+        This table MUST contain all NAT protocol mappings associated with this
+        connection, including static and dynamic protocol mappings programmatically
+        created via local control protocol.
+
+        This table MUST NOT contain dynamic NAT binding entries associated with
+        the normal operation of NAT.
+
+        If the device hosts a firewall, it is assumed that it will appropriately
+        configure the firewall for the protocol mapping.
+
+        For enabled table entries, if {{param|InternalClient}} is {{empty}}, or
+        if {{param|Interface}} is not a valid reference and
+        {{param|AllInterfaces}} is {{false}}, then the table entry is
+        inoperable and the device MUST set {{param|Status}} to
+        {{enum|Error_Misconfigured|Status}}.
+      </description>
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the protocol mapping instance. On creation, an entry
+          is disabled by default.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          The status of this entry. {{enum}}
+
+          The {{enum|Error_Misconfigured}} value indicates that a necessary
+          configuration value is undefined or invalid.
+
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
+          defined error condition.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled"/>
+            <enumeration value="Enabled"/>
+            <enumeration value="Error_Misconfigured"/>
+            <enumeration value="Error" optional="true"/>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <component ref="ParamOriginReadOnly"/>
+
+      <component ref="Alias"/>
+
+      <parameter name="Interface" access="readWrite">
+        <description>
+          {{reference}} Specifies the IP interface to which this protocol mapping
+          applies.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+            <pathRef refType="strong" targetParent="##.IP.Interface.
+                ##.Logical.Interface."
+                targetType="row"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllInterfaces" access="readWrite">
+        <description>
+          Indicates whether this protocol mapping applies to all interfaces that
+          support protocol mappings. If {{true}}, the value of {{param|Interface}}
+          is ignored since all supported IP interfaces are indicated.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="RemoteHost" access="readWrite">
+        <description>
+          This parameter is the IP address of the source of inbound packets.
+          {{empty}} indicates a "wildcard", i.e. any IP address (this will be
+          {{empty}} in most cases). Devices are REQUIRED only to support {{empty}}.
+
+          When {{param}} is {{empty}}, all traffic sent to the
+          WAN interface of the gateway is
+          forwarded to the {{object|##.IP.Interface}} associated with the
+          {{param|InternalClient}}.
+
+          When {{param}} is specified as one external IP address, the NAT will
+          only forward inbound packets from this {{param}} to the
+          {{param|InternalClient}}.
+
+          If a device supports non-empty values for {{param}}, it MAY additionally
+          support the ability to have more than one protocol mapping with the same
+          {{param|ProtocolNumber}}, but with differing values of {{param}}.
+
+          When wildcard values are used for {{param}},
+          the following precedence order applies (with
+          the highest precedence listed first):
+
+          # Explicit {{param}}
+          # Empty {{param}}
+
+          If an incoming packet matches the criteria associated with more than
+          one entry in this table, the device MUST apply the protocol mapping
+          associated with the highest precedence entry.
+        </description>
+        <syntax>
+          <string/>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ProtocolNumber" access="readWrite">
+        <description>
+          The protocol number of the {{object}}. Values are taken from
+          {{bibref|IANA-protocolnumbers}}.
+        </description>
+        <syntax>
+          <list/>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="255"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="InternalClient" access="readWrite">
+        <description>
+          The IP address or DNS host name of an internal client (on the LAN).
+
+          Support for an IP address is mandatory. If {{param}} is specified as
+          an IP address and the LAN device's IP address subsequently changes,
+          the protocol mapping MUST remain associated with the original IP address.
+
+          Support for DNS host names is OPTIONAL. If {{param}} is specified as
+          a DNS host name and the LAN device's IP address subsequently changes,
+          the protocol mapping MUST remain associated with this LAN device. In this
+          case, it is the responsibility of the device to maintain the
+          name-to-address mapping in the event of IP address changes. This can
+          be accomplished, for example, by assigning the DNS host name via use
+          of DHCP option 12 (Host Name) or option 81 (FQDN). Note that the
+          Controller can learn the host name associated with a given LAN device
+          via the {{object|##.Hosts.Host}} table.
+
+          Read access to this parameter MUST always return the exact value that
+          was last set by the Controller. For example, if the internal client
+          is set to a DNS host name, it MUST read back as a DNS host name and
+          not as an IP address.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+          <default type="object" value=""/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Description" access="readWrite">
+        <description>
+          User-readable description of this protocol mapping.
         </description>
         <syntax>
           <string>
@@ -725,34 +919,14 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
-        <description>
-          Indicates the owner of the {{object}} instance.
-
-          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
-        </description>
+      <component ref="ParamOriginReadOnly"/>
+      <parameter base="Origin" access="readOnly">
         <syntax>
           <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the PortTrigger entry was created by
-                the end-user. For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the PortTrigger entry was created by
-                the system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the PortTrigger entry was created by a
-                Controller.
-              </description>
-            </enumeration>
+            <enumeration value="System"/>
+            <enumeration value="Controller"/>
+            <enumeration value="User"/>
           </string>
-          <default type="object" value="Controller"/>
         </syntax>
       </parameter>
 
@@ -833,8 +1007,8 @@
 
       <parameter name="ActivationDate" access="readOnly">
         <description>
-          Indicates when the port trigger was enabled. When the port trigger is
-          no longer active.
+          Indicates when the port trigger was enabled. This parameter is cleared
+          when the port trigger is no longer active.
 
           Note: This parameter was demoted to readOnly in the Device:2.18 version.
         </description>
@@ -959,6 +1133,7 @@
     </profile>
   </component>
 
+
   <component name="NPTv6">
     <object name="Device.NAT.NPTv6." minEntries="1" maxEntries="1" access="readOnly" version="2.21">
       <description>
@@ -1035,7 +1210,7 @@
             </enumeration>
             <enumeration value="Error">
               <description>
-                MAY be used by the CPE to indicate a locally defined error condition.
+                MAY be used by the device to indicate a locally defined error condition.
               </description>
             </enumeration>
           </string>
@@ -1078,9 +1253,5 @@
     </object>
   </component>
 
-  <model name="NAT:2.21">
-    <component ref="Root"/>
-    <component ref="NAT"/>
-    <component ref="NPTv6"/>
-  </model>
+
 </dm:document>

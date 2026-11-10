@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-neighbordiscovery"
-    file="tr-181-2-21-0-neighbordiscovery.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-neighbordiscovery"
+    file="tr-181-2-22-0-neighbordiscovery.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -112,7 +112,7 @@
 
         For this entry to be operational, the {{param|Interface}} parameter MUST be a valid
         reference to an existing IP interface. If the reference is invalid, this entry is
-        inoperable and the CPE MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
+        inoperable and the device MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
@@ -140,7 +140,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -173,7 +173,7 @@
         <description>
           The number of consecutive Neighbor Solicitation messages sent while
           performing Duplicate Address Detection on a tentative address
-          (see{{bibref|RFC4862|5.1}}).
+          (see {{bibref|RFC4862|5.1}}).
 
           A value of zero indicates that Duplicate Address Detection is not
           performed on tentative addresses.
@@ -312,7 +312,7 @@
         <description>
           The number of consecutive Neighbor Solicitation messages sent while
           performing Duplicate Address Detection on a tentative address
-          (see{{bibref|RFC4862|5.1}}).
+          (see {{bibref|RFC4862|5.1}}).
 
           A value of zero indicates that Duplicate Address Detection is not
           performed on tentative addresses.
@@ -415,7 +415,7 @@
           Transmission messages to help the host to conclude that there are no
           routers on the link.
 
-          If {{param|MaxRtrSolicitationInterval}} is configured, This parameter corresponds to the
+          If {{param|MaxRtrSolicitationInterval}} is configured, this parameter corresponds to the
           Max Retransmit Count (MRC), where MRC is set to MAX_RTR_SOLICITATIONS as defined in
           {{bibref|RFC7559}}.
 
@@ -601,7 +601,7 @@
     </profile>
 
    <profile name="NeighborDiscovery:2" version="2.21">
-      <description></description>
+      
       <object ref="Device.NeighborDiscovery." requirement="present">
         <parameter ref="Enable" requirement="readWrite"/>
         <parameter ref="InterfaceSettingNumberOfEntries"
@@ -625,7 +625,7 @@
     </profile>
   </component>
 
-  <model name="NeighborDiscovery:2.21">
+  <model name="NeighborDiscovery:2.22">
     <component ref="Root"/>
     <component ref="NeighborDiscovery"/>
   </model>

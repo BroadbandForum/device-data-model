@@ -2,7 +2,7 @@
 <!--
   Device:2 Root Data Model: Common Object definitions [DSL]
 
-  Copyright (c) 2010-2024, Broadband Forum
+  Copyright (c) 2010-2026, Broadband Forum
 
   Redistribution and use in source and binary forms, with or
   without modification, are permitted provided that the following
@@ -47,16 +47,16 @@
 -->
 
 <dm:document
-    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
+    xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-18"
     xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
-      urn:broadband-forum-org:cwmp:datamodel-1-14
-        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
+      urn:broadband-forum-org:cwmp:datamodel-1-18
+        https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-18.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-dsl"
-    file="tr-181-2-21-0-dsl.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-dsl"
+    file="tr-181-2-22-0-dsl.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,12 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-interface">
+      spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Line"/>
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceStats"/>
@@ -856,7 +856,7 @@
         ({{param|UERScaleFactor}}/(2^31^))*(a(i)+j*b(i))/(2^31^) where Df =
         4.3125 kHz.
 
-        This parameter is defined as CPE SELT uncalibrated echo response
+        This parameter is defined as device SELT uncalibrated echo response
         (SELT-UER-R) in ITU-T Recommendation {{bibref|G.996.2|Clause A.2.2.1}}.
       </description>
       <syntax>
@@ -869,7 +869,7 @@
       <description>
         The Uncalibrated Echo Response (UER) scale factor.
 
-        This parameter is defined as part of the CPE SELT uncalibrated echo
+        This parameter is defined as part of the device SELT uncalibrated echo
         response (SELT-UER-R) in ITU-T Recommendation {{bibref|G.996.2|Clause
         A.2.2.1}}.
 
@@ -887,7 +887,7 @@
         The Uncalibrated Echo Response (UER) group size, UER_G. In units of
         {{units}}.
 
-        This parameter is defined as part of the CPE SELT uncalibrated echo
+        This parameter is defined as part of the device SELT uncalibrated echo
         response (SELT-UER-R) in ITU-T Recommendation {{bibref|G.996.2|Clause
         A.2.2.2}}.
       </description>
@@ -1279,7 +1279,7 @@
         <description>
           A string identifying the version of the modem firmware currently
           installed for this interface. This is applicable only when the modem
-          firmware is separable from the overall CPE software.
+          firmware is separable from the overall device software.
         </description>
         <syntax>
           <string>
@@ -1297,7 +1297,7 @@
           {{enum|EstablishingLink}} or {{enum|NoSignal}} or {{enum|Disabled}},
           {{param|Status}} is expected to be {{enum|Down|Status}}.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1419,7 +1419,7 @@
       <parameter name="LineEncoding" access="readOnly">
         <description>
           The line encoding method used in establishing the Layer 1 DSL
-          connection between the CPE and the DSLAM. {{enum}}
+          connection between the device and the DSLAM. {{enum}}
 
           Note: Generally speaking, this variable does not change after
           provisioning.
@@ -2196,7 +2196,7 @@
 
       <parameter name="UpstreamPower" access="readOnly" activeNotify="canDeny">
         <description>
-          The current output power at the CPE's DSL line (expressed in
+          The current output power at the device's DSL line (expressed in
           {{units}}).
         </description>
         <syntax>
@@ -2209,7 +2209,7 @@
       <parameter name="DownstreamPower" access="readOnly"
           activeNotify="canDeny">
         <description>
-          The current received power at the CPE's DSL line (expressed in
+          The current received power at the device's DSL line (expressed in
           {{units}}).
         </description>
         <syntax>
@@ -2517,7 +2517,7 @@
           DSL-specific statistic. The Number of {{units}} since the beginning
           of the period used for collection of {{object|Total}} statistics.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -2557,7 +2557,7 @@
           recent DSL Showtime-the beginning of the period used for collection
           of {{object|LastShowtime}} statistics.
 
-          If the CPE has not retained information about the second most recent
+          If the device has not retained information about the second most recent
           Showtime (e.g., on reboot), the start of ''LastShowtime'' statistics
           MAY temporarily coincide with the start of ''Showtime'' statistics.
 
@@ -2578,10 +2578,10 @@
           of the period used for collection of {{object|CurrentDay}}
           statistics.
 
-          The CPE MAY align the beginning of each ''CurrentDay'' interval with
+          The device MAY align the beginning of each ''CurrentDay'' interval with
           days in the UTC time zone, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -2601,10 +2601,10 @@
           of the period used for collection of {{object|QuarterHour}}
           statistics.
 
-          The CPE MAY align the beginning of each ''QuarterHour'' interval with
+          The device MAY align the beginning of each ''QuarterHour'' interval with
           real-time quarter-hour intervals, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -3579,7 +3579,7 @@
           DSL-specific statistic. The Number of {{units}} since the beginning
           of the period used for collection of {{object|Total}} statistics.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -3619,7 +3619,7 @@
           recent DSL Showtime-the beginning of the period used for collection
           of {{object|LastShowtime}} statistics.
 
-          If the CPE has not retained information about the second most recent
+          If the device has not retained information about the second most recent
           Showtime (e.g., on reboot), the start of ''LastShowtime'' statistics
           MAY temporarily coincide with the start of ''Showtime'' statistics.
 
@@ -3640,10 +3640,10 @@
           of the period used for collection of {{object|CurrentDay}}
           statistics.
 
-          The CPE MAY align the beginning of each ''CurrentDay'' interval with
+          The device MAY align the beginning of each ''CurrentDay'' interval with
           days in the UTC time zone, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -3663,10 +3663,10 @@
           of the period used for collection of {{object|QuarterHour}}
           statistics.
 
-          The CPE MAY align the beginning of each ''QuarterHour'' interval with
+          The device MAY align the beginning of each ''QuarterHour'' interval with
           real-time quarter-hour intervals, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -4154,7 +4154,7 @@
       <parameter base="LowerLayers" access="readOnly">
         <description action="append">
          {{param}} is read-only for this object because bonding is expected to
-          be configured by the CPE, not by the Controller.
+          be configured by the device, not by the Controller.
         </description>
       </parameter>
 
@@ -4212,7 +4212,7 @@
         <syntax>
           <list/>
           <string>
-            <enumeration value="ATM" dmr:noUnionObject="true">
+            <enumeration value="ATM">
               <description>{{bibref|G.998.1}} ATM-based bonding</description>
             </enumeration>
             <enumeration value="Ethernet">
@@ -4220,7 +4220,7 @@
                 {{bibref|G.998.2}} Ethernet-based bonding
               </description>
             </enumeration>
-            <enumeration value="TDIM" dmr:noUnionObject="true">
+            <enumeration value="TDIM">
               <description>{{bibref|G.998.3}} TDIM-based bonding</description>
             </enumeration>
           </string>
@@ -4370,7 +4370,7 @@
         or FAST line that is bonded.
 
         When a {{object|##.Channel}} or {{object|###.FAST.Line}} is no longer
-        bonded, then the CPE MUST delete the corresponding {{object}} instance.
+        bonded, then the device MUST delete the corresponding {{object}} instance.
         However, when a bonded {{object|##.Channel}} or
         {{object|###.FAST.Line}} becomes disabled, the channel remains bonded
         and so the corresponding {{object}} instance MUST NOT be deleted.
@@ -4389,7 +4389,7 @@
           {{reference}}This is the channel that is being bonded.
 
           This is read-only because bonding is expected to be configured by the
-          CPE, not by the Controller.
+          device, not by the Controller.
         </description>
         <syntax>
           <string>
@@ -4421,7 +4421,7 @@
         These relate to the {{bibref|G.998.2}} PME (Physical Medium Entity)
         Aggregation Function (PAF) lower layer (per-channel) interfaces.
 
-        The CPE MUST reset the Stats parameters either when the interface
+        The device MUST reset the Stats parameters either when the interface
         becomes operationally down due to a previous administrative down (i.e.
         the interface's {{param|###.Status}} parameter transitions to a down
         state after the interface is disabled) or when the interface becomes
@@ -4517,7 +4517,7 @@
           DSL-specific statistic. The Number of {{units}} since the beginning
           of the period used for collection of {{object|Total}} statistics.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -4537,10 +4537,10 @@
           of the period used for collection of {{object|CurrentDay}}
           statistics.
 
-          The CPE MAY align the beginning of each CurrentDay interval with days
+          The device MAY align the beginning of each CurrentDay interval with days
           in the UTC time zone, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -4560,10 +4560,10 @@
           of the period used for collection of {{object|QuarterHour}}
           statistics.
 
-          The CPE MAY align the beginning of each QuarterHour interval with
+          The device MAY align the beginning of each QuarterHour interval with
           real-time quarter-hour intervals, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -5078,7 +5078,7 @@
         layer interface statistics are in the
         {{object|##.BondedChannel.{i}.Ethernet.Stats}} objects.
 
-        The CPE MUST reset the Stats parameters either when the interface
+        The device MUST reset the Stats parameters either when the interface
         becomes operationally down due to a previous administrative down (i.e.
         the interface's {{param|##.Status}} parameter transitions to a down
         state after the interface is disabled) or when the interface becomes
@@ -5830,7 +5830,7 @@
     </profile>
   </component>
 
-  <model name="DSL:2.21">
+  <model name="DSL:2.22">
     <component ref="Root"/>
     <component ref="DSL"/>
   </model>

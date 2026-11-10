@@ -55,13 +55,13 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-iot"
-    file="tr-181-2-21-0-iot.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-iot"
+    file="tr-181-2-22-0-iot.xml">
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
     <component name="Alias"/>
   </import>
 
-  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-21-root">
+  <import file="tr-181-2-root.xml" spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -453,10 +453,9 @@
     </string>
   </dataType>
   
-  <dataType name="IoTBlobSensorType">
+  <dataType name="IoTBlobType">
     <description>
-     Describes the type of IoT Blob Sensor that the {{object}}
-     instance is representing.These are examples to identify a "string of bytes" that has been sent by a Sensor {{enum}}
+     Describes the type of IoT Blob that the {{object}} instance is representing.
     </description>
     <string>
         <enumeration value="ascii"/>
@@ -740,6 +739,7 @@
             <enumeration value="EnumSensor"/>
             <enumeration value="BlobSensor" version="2.19"/>
             <enumeration value="PulseSensor" version="2.20"/>
+            <enumeration value="BlobControl" version="2.22"/>
           </string>
         </syntax>
       </parameter>
@@ -1779,7 +1779,7 @@
                {{datatype|expand}}
             </description>
             <syntax>
-              <dataType ref="IoTBlobSensorType"/>
+              <dataType ref="IoTBlobType"/>
             </syntax>
         </parameter>
 
@@ -1825,6 +1825,45 @@
               <base64/>
             </syntax>
         </parameter>
+    </object>
+
+    <object name="IoTCapability.{i}.BlobControl." access="readOnly"
+        minEntries="0" maxEntries="1" discriminatorParameter="Class"
+        version="2.22">
+      <description>
+          BlobControl provides specific data as a "string of bytes" to a function that it represents.
+          For example, if this instance represents a control function that uses images or a traffic camera that reads number plates, then it will take as input {{param|Value}}, which is a "string of bytes".
+       </description>
+
+       <parameter name="Type" access="readOnly">
+           <description>
+              {{datatype|expand}}
+           </description>
+           <syntax>
+             <dataType ref="IoTBlobType"/>
+           </syntax>
+       </parameter>
+
+       <parameter name="Description" access="readOnly">
+           <description>
+              Human-readable description of this {{object}} instance. For example, a more detailed description of the blob format referenced by {{param|Type}}.
+           </description>
+           <syntax>
+               <string>
+                  <size maxLength="256"/>
+               </string>
+           </syntax>
+       </parameter>
+
+       <parameter name="Value" access="readWrite">
+           <description>
+              The Value is typically a string of bytes and its meaning is described by {{param|Type}}. A string of bytes will use the base64 type.
+              The current value reading of this {{object}}.
+           </description>
+           <syntax>
+             <base64/>
+           </syntax>
+       </parameter>
     </object>
 
     <object name="IoTCapability.{i}.Binding.{i}." access="readWrite"
@@ -2181,7 +2220,6 @@
         </command> 
       </object>
     </profile>
-
     <profile name="MultiLevelControl:1" version="2.21">
       <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
       <object ref="IoTCapability.{i}." requirement="present">
@@ -2210,9 +2248,19 @@
       </object>
     </profile>
 
+    <profile name="BlobControl:1" version="2.22">
+      <parameter ref="IoTCapabilityNumberOfEntries" requirement="readOnly"/>
+      <object ref="IoTCapability.{i}." requirement="present">
+        <parameter ref="Class" requirement="readOnly"/>
+      </object>
+      <object ref="IoTCapability.{i}.BlobControl." requirement="present">
+        <parameter ref="Type" requirement="readOnly"/>
+        <parameter ref="Value" requirement="readWrite"/>
+      </object>
+    </profile>
   </component>
 
-  <model name="IoT:2.21">
+  <model name="IoT:2.22">
     <component ref="Root"/>
     <component ref="IoT_ObjectComponent" path="Device."/>
     <component ref="IoT_NodeComponent" path="Device."/>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-pcp"
-    file="tr-181-2-21-0-pcp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-pcp"
+    file="tr-181-2-22-0-pcp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -188,7 +188,7 @@
         <description>
           The status of the PCP Client. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -244,7 +244,7 @@
         <description>
           Indicates whether THIRD_PARTY Option is enabled or not. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -293,14 +293,14 @@
 
       <parameter name="HighestVersion" access="readOnly">
         <description>
-          A string identifying the highest version of PCP that the proxy
+          The highest version number of PCP that the proxy
           supports.
 
           This parameter is based on Version from {{bibref|RFC6887}}.
         </description>
         <syntax>
           <unsignedInt>
-            <range minInclusive="0" maxInclusive="65535"/>
+            <range minInclusive="0" maxInclusive="255"/>
           </unsignedInt>
         </syntax>
       </parameter>
@@ -309,7 +309,7 @@
         <description>
           The status of the PCP Proxy for this PCP Client. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -344,7 +344,7 @@
           The status of the UPnP IGD-PCP Interworking Function for this PCP
           Client. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -391,7 +391,7 @@
         <description>
           The status of the PCP Server. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -637,7 +637,7 @@
           The {{enum|Error_PCPErrorCodeReceived}} value indicates that the PCP
           Client received an error code from the PCP Server.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -704,7 +704,7 @@
           A value of 0 means that the port mapping is permanent (referred to as
           a static mapping in {{bibref|RFC6887}}).
 
-          When a dynamic Inbound Mapping lease expires, the CPE MUST
+          When a dynamic Inbound Mapping lease expires, the device MUST
           automatically delete the corresponding {{object}} table entry.
         </description>
         <syntax>
@@ -1013,7 +1013,7 @@
           The {{enum|Error_PCPErrorCodeReceived}} value indicates that the PCP
           Client received an error code from the PCP Server.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1080,7 +1080,7 @@
           A value of 0 means that the port mapping is permanent (referred to as
           a static mapping in {{bibref|RFC6887}}).
 
-          When a dynamic Outbound Mapping lease expires, the CPE MUST
+          When a dynamic Outbound Mapping lease expires, the device MUST
           automatically delete the corresponding {{object}} table entry.
         </description>
         <syntax>
@@ -1224,7 +1224,7 @@
     </object>
   </component>
 
-  <model name="PCP:2.21">
+  <model name="PCP:2.22">
     <component ref="Root"/>
     <component ref="PCP"/>
   </model>

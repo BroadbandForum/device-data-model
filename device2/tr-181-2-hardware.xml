@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-hardware"
-  file="tr-181-2-21-0-hardware.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-hardware"
+  file="tr-181-2-22-0-hardware.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,18 +65,18 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+    spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="DevicePowerManagement"/>
     <component name="DevicePowerManagementUSP"/>
   </import>
 
   <import file="tr-181-2-flashdevice.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-flashdevice">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-flashdevice">
     <component name="FlashDevice"/>
     <component name="FlashDeviceUSP"/>
   </import>
@@ -89,6 +89,7 @@ directed to <info@broadband-forum.org>.
       <component ref="HardwareCPUs"/>
       <component ref="DevicePowerManagement"/>
       <component ref="HardwareButtons"/>
+      <component ref="Display"/>
       <!-- component ref="FlashDevice"/ -->
     </object>
   </component>
@@ -615,15 +616,426 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
+  <component name="Display">
+    <object name="Display." access="readOnly"
+    minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        This object describes the displays attached to the device and the sessions that can render on the displays.
+      </description>
+      <parameter name="SessionNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+      <parameter name="ScreenNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Display.Screen.{i}." access="readOnly"
+        numEntriesParameter="ScreenNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.22">
+      <description>
+        This object describes a screen attached to the display device.
+
+        In the case of multiple screens, each screen will be given a unique position within the
+        coordinate space of all screens via {{param|PosX}} and {{param|PosY}}.
+
+        This means that a session can be on zero, one or many screens at once depending on the position and dimensions of the session
+        in the coordinate space.
+      </description>
+
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables/disables the screen.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Width" access="readOnly">
+        <description>
+          The width of this display, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Height" access="readOnly">
+        <description>
+          The height of this display, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PhysicalWidth" access="readOnly">
+        <description>
+          The physical width of this display, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="millimeters"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PhysicalHeight" access="readOnly">
+        <description>
+          The physical height of this display, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="millimeters"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="RefreshDuration" access="readOnly">
+        <description>
+          The current refresh duration (1/refresh rate) of this display, expressed in {{units}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="nanoseconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+     <parameter name="PixelFormat" access="readOnly">
+        <description>
+          The FourCC pixel format of this display.
+        </description>
+        <syntax>
+          <unsignedInt />
+        </syntax>
+      </parameter>
+
+      <parameter name="Type" access="readOnly">
+        <description>
+          The display technology type.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="OLED"/>
+            <enumeration value="LCD"/>
+            <enumeration value="E-INK"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="PosX" access="readOnly">
+        <description>
+          The horizontal position of this screen's top left corner expressed in {{units}}
+          within the coordinate space of all the screens.
+          This acts to position the screen relative to other screens.
+          In the case of a single screen, the position will always be 0.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PosY" access="readOnly">
+        <description>
+          The vertical position of this screen's top left corner expressed in {{units}}
+          within the coordinate space of all the screens.
+          This acts to position the screen relative to other screens.
+          In the case of a single screen, the position will always be 0.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+    </object>
+
+    <object name="Display.Session.{i}." access="readWrite"
+        enableParameter="Enable"
+        numEntriesParameter="SessionNumberOfEntries" minEntries="0"
+        maxEntries="unbounded" version="2.22">
+      <description>
+        Represents sessions that can render and be composited together on screen.
+        Each session has a position, z-order and visibility that can be controlled when the sessions are composited together on the display.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+      <component ref="Alias"/>
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables/disables the session.
+          If disabled, the session will not be shown on the display, and new processes will not be allowed to connect to the session.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Status" access="readOnly">
+        <description>
+          Status of the session.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                The session is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Inactive">
+              <description>
+                The session is enabled, but has nothing to display.
+              </description>
+            </enumeration>
+            <enumeration value="Active">
+              <description>
+                The session has active output to display, but it is either occluded by other sessions or hidden.
+              </description>
+            </enumeration>
+            <enumeration value="Visible">
+              <description>
+                The session output is currently fully visible (i.e. not occluded by another session or hidden).
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                The session is in an error state (e.g. Path is not valid location).
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="Movable" access="readWrite">
+        <description>
+          Controls whether the user is allowed to change the positions of GUI windows
+          associated with this session.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Resizable" access="readWrite">
+        <description>
+          Controls whether the user is allowed to resize the GUI windows
+          associated with this session.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Hidden" access="readWrite">
+        <description>
+          Controls whether a session is hidden. If hidden, any graphics from the session will not be shown on the display.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ExclusiveAccess" access="readWrite">
+        <description>
+          Controls whether this session has exclusive access.
+          When the session is not hidden and {{param}} is {{true}}, all sessions for which {{param}} is not {{true}} will be hidden.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Path" access="readWrite">
+        <description>
+          Path to allow clients to connect to the session to display their UI (for example a Wayland Unix domain socket).
+          The path MUST use the file URI scheme {{bibref|RFC8089|The file URI Scheme}}.
+        </description>
+        <syntax>
+            <dataType ref="FileURI"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ZIndex" access="readWrite">
+        <description>
+          Z-order (draw order) of sessions. Lower numbers will be drawn first, and may be occluded by higher numbers.
+          If two sessions have the same z-order, the session with the earlier index will be drawn first.
+        </description>
+        <syntax>
+            <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PosX" access="readWrite">
+        <description>
+          The horizontal position of this session's top left corner
+          within the coordinate space, expressed in {{units}}.
+          This acts to position the session within one or more screens.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PosY" access="readWrite">
+        <description>
+          The vertical position of this session's top left corner
+          within the coordinate space, expressed in {{units}}.
+          This acts to position the session within one or more screens.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Width" access="readWrite">
+        <description>
+          The maximum width of the session within the coordinate space,
+          expressed in {{units}}.
+          This clips the available area that a session can render to.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Height" access="readWrite">
+        <description>
+          The maximum height of the session within the coordinate space,
+          expressed in {{units}}.
+          This clips the available area that a session can render to.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="pixels"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+    </object>
+  </component>
+
+  <component name="DisplayUSP">
+    <object base="Display.Session.{i}.">
+      <command name="UpdateGeometry()" async="false" version="2.22">
+        <description>
+          Set the geometry of the session.
+        </description>
+        <input>
+          <parameter name="Screen">
+            <description>
+              Specifies the Screen that coordinates provided should be relative to. If no screen is provided the coordinates will be relative to 0.
+            </description>
+            <syntax>
+                <string>
+                    <pathRef refType="strong" targetParent="##.Screen." targetType="row"/>
+                </string>
+            </syntax>
+        </parameter>
+          <parameter name="Fullscreen">
+            <description>
+              Set the session to fullscreen updating the PosX, PosY, Width and Height unless they are provided
+
+              If a Screen is provided the dimensions will be fullscreen to that single screen, otherwise it will be set to cover all screens.
+            </description>
+            <syntax>
+              <boolean />
+            </syntax>
+          </parameter>
+
+          <parameter name="PosX">
+            <description>
+              The updated horizontal position for the session in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <units value="pixels"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="PosY">
+            <description>
+              The updated vertical position for the session in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <units value="pixels"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="Width">
+            <description>
+              The updated width for the session in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <units value="pixels"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="Height">
+            <description>
+              The updated height for the session in {{units}}.
+            </description>
+            <syntax>
+                <unsignedInt>
+                    <units value="pixels"/>
+                </unsignedInt>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+    </object>
+  </component>
+
   <component name="HardwareUSP">
     <object base="Device.Hardware.">
       <component ref="HardwareButtonsUSP"/>
       <component ref="DevicePowerManagementUSP"/>
+      <component ref="DisplayUSP"/>
       <!-- component ref="FlashDeviceUSP"/ -->
     </object>
   </component>
 
-  <model name="HardwareCPUs:2.21">
+  <model name="HardwareCPUs:2.22">
     <component ref="Root"/>
     <component ref="HardwareCPUs"/>
   </model>

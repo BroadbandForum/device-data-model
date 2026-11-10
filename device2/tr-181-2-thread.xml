@@ -47,16 +47,16 @@ directed to <info@broadband-forum.org>.
 -->
 
 <dm:document
-  xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-14"
+  xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-18"
   xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="
-  urn:broadband-forum-org:cwmp:datamodel-1-14
-  https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
+  urn:broadband-forum-org:cwmp:datamodel-1-18
+  https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-18.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-thread"
-  file="tr-181-2-21-0-thread.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-thread"
+  file="tr-181-2-22-0-thread.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -81,12 +81,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root" />
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+    spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="PowerManagement" />
   </import>
 
@@ -104,7 +104,7 @@ directed to <info@broadband-forum.org>.
   </dataType>
 
   <component name="Thread">
-    <object name="Device.Thread." version="2.19">
+    <object name="Device.Thread." access="readOnly" version="2.19">
       <description>
         The Thread object is based on the Thread Group specifications:
         Thread 1.3.0 Specification {{bibref|ThreadSpec}}.
@@ -112,7 +112,7 @@ directed to <info@broadband-forum.org>.
         application object ({{object|BorderRouter}}).
       </description>
 
-      <parameter name="BorderRouterNumberOfEntries">
+      <parameter name="BorderRouterNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -121,7 +121,8 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="RadioNumberOfEntries">
+      <parameter name="BorderAgentNumberOfEntries" access="readOnly"
+        version="2.22">
         <description>
           {{numentries}}
         </description>
@@ -130,7 +131,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="MLENumberOfEntries">
+      <parameter name="RadioNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -139,7 +140,16 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="NodeNumberOfEntries">
+      <parameter name="MLENumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="NodeNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -150,7 +160,7 @@ directed to <info@broadband-forum.org>.
 
     </object>
 
-    <object name="Device.Thread.BorderRouter.{i}."
+    <object name="Device.Thread.BorderRouter.{i}." access="readOnly"
       numEntriesParameter="BorderRouterNumberOfEntries" minEntries="0"
       maxEntries="unbounded" version="2.19">
 
@@ -159,6 +169,10 @@ directed to <info@broadband-forum.org>.
         a non-Thread Network. Each BorderRouter entry is associated with a 
         particular Thread Network (or MLE) instance via the 
         {{param|MLEReference}} parameter.
+
+        Note: the BorderAgentID unique key was deprecated in favor of
+        {{param|BorderAgentReference}} since 2.22 with the introduction of
+        {{object|#.BorderAgent}} representing the Border Agent capabilities.
       </description>
 
       <uniqueKey functional="false">
@@ -166,7 +180,7 @@ directed to <info@broadband-forum.org>.
       </uniqueKey>
 
       <uniqueKey functional="false">
-        <parameter ref="BorderAgentID"/>
+        <parameter ref="BorderAgentReference"/>
       </uniqueKey>
 
       <parameter name="Enable" access="readWrite">
@@ -178,7 +192,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Status">
+      <parameter name="Status" access="readOnly">
         <description>
           Indicates the status of this border router.
         </description>
@@ -193,14 +207,29 @@ directed to <info@broadband-forum.org>.
 
       <component ref="Alias"/>
 
-      <parameter name="BorderAgentID">
+      <parameter name="BorderAgentID" access="readOnly" status="deprecated">
         <description>
           Globally unique ID generated by the Thread Border Router.
+
+          {{deprecated|2.22|because it was moved to
+          {{object|#.BorderAgent.{i}}}.}}
         </description>
         <syntax>
           <hexBinary>
             <size minLength="16" maxLength="16"/>
           </hexBinary>
+        </syntax>
+      </parameter>
+
+      <parameter name="BorderAgentReference" access="readWrite" version="2.22">
+        <description>
+          Reference to the {{object|#.BorderAgent}} entry representing the Border
+          Agent function associated with this Border Router.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="#.BorderAgent." targetType="row"/>
+          </string>
         </syntax>
       </parameter>
 
@@ -233,7 +262,274 @@ directed to <info@broadband-forum.org>.
 
     </object>
 
-    <object name="Device.Thread.Radio.{i}."
+    <object name="Device.Thread.BorderAgent.{i}." access="readOnly"
+      numEntriesParameter="BorderAgentNumberOfEntries" minEntries="0"
+      maxEntries="unbounded" version="2.22">
+      <description>
+        A Border Agent is a Thread device relaying Mesh Commissioning Protocol
+        (MeshCoP) messages between a Thread Network and a Commissioner. The
+        Commissioner may be reachable via either a non-Thread Network (External
+        Commissioner) or a Thread Network (Native Commissioner). The Border
+        Agent requires a Thread Interface to operate and may coexist with any
+        other Thread role except the Joiner.
+
+        Each entry in this table represents a Thread Border Agent service and
+        its Thread Administration Sharing (TAS) capability.
+      </description>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <uniqueKey functional="false">
+        <parameter ref="ID"/>
+      </uniqueKey>
+
+      <component ref="Alias" />
+
+      <parameter name="Enable" access="readWrite">
+        <description>
+          Enables or disables the Border Agent service on the device.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ID" access="readOnly">
+        <description>
+          The globally unique {{param}} generated by the Thread Border Agent that
+          uniquely identifies the device.
+        </description>
+        <syntax>
+          <hexBinary>
+            <size minLength="16" maxLength="16"/>
+          </hexBinary>
+        </syntax>
+      </parameter>
+
+      <parameter name="State" access="readOnly">
+        <description>
+          Current state of the BorderAgent, Mesh Commissioning Protocol
+          (MeshCoP) over Pre-Shared Key for commissioning (PSKc).
+
+          {{enum}}
+
+          When {{param|Enable}} is {{false}} then {{param}} is typically
+          {{enum|Disabled}}.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+              The service is disabled
+              </description>
+            </enumeration>
+            <enumeration value="Inactive">
+              <description>
+                The service is enabled but not yet active
+              </description>
+            </enumeration>
+            <enumeration value="Active">
+              <description>
+                The service is enabled and active, external Commissioner can
+                connect using PSKc
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                The service is enabled but activation failed
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="SessionNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Thread.BorderAgent.{i}.Session.{i}." access="readOnly"
+      numEntriesParameter="SessionNumberOfEntries" minEntries="0"
+      maxEntries="unbounded" version="2.22">
+      <description>
+        Represents current Border Agent sessions used to commission a Thread Device
+        onto the Thread Network using MeshCoP (Mesh Commissioning Protocol).
+        Each entry in the table represents a session as reported by the Border
+        Agent service. The session advertised through the _meshcop-e._udp
+        service for the Thread Administration Sharing (TAS) is not considered
+        here.
+      </description>
+
+      <uniqueKey functional="true">
+        <parameter ref="Address"/>
+        <parameter ref="Port"/>
+      </uniqueKey>
+
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias" />
+
+      <parameter name="Address" access="readOnly">
+        <description>
+          Peer IPv6 address for the session.
+        </description>
+        <syntax>
+          <dataType ref="IPv6Address"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Port" access="readOnly">
+        <description>
+          UDP port of the _meshcop._udp service.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="Connected" access="readOnly">
+        <description>
+          {{param}} is {{true}} if the Border Agent session is currently
+          connected.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IsCommissioner" access="readOnly">
+        <description>
+          {{param}} is {{true}} if the Border Agent session is accepted as the
+          full Commissioner.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="Lifetime" access="readOnly">
+        <description>
+          Session lifetime in {{units}} since the session was established.
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="milliseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Thread.BorderAgent.{i}.TAS." access="readOnly"
+      version="2.22">
+      <description>
+        Controls and monitors Thread Administration Sharing (TAS) session using
+        ephemeral PSKc (ePSKc): start/stop window, state/port reporting, and
+        {{param|PasscodeURI}} for user interactions.
+      </description>
+
+      <parameter name="State" access="readOnly">
+        <description>
+          The TAS state of the Border Agent's Ephemeral Key Manager.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                The manager is unavailable
+              </description>
+            </enumeration>
+            <enumeration value="Stopped">
+              <description>
+                The manager is available but not active
+              </description>
+            </enumeration>
+            <enumeration value="Started">
+              <description>
+                The ePSKc window is advertised
+              </description>
+            </enumeration>
+            <enumeration value="Connected">
+              <description>
+                A DTLS session using ePSKc has been established
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="DefaultPort" access="readWrite">
+        <description>
+          Default UDP port of the _meshcop-e._udp service when TAS is active
+          (distinct from _meshcop._udp port).
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="DefaultTimeout" access="readWrite">
+        <description>
+          Default TAS window duration in {{units}}.  
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="milliseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+
+      <parameter name="DefaultMaxFailedAttempts" access="readWrite">
+        <description>
+          Maximum allowed failed DTLS connection attempts in a TAS window
+          before automatic deactivation.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="255"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="PasscodeLength" access="readWrite">
+        <description>
+          Length of the Thread Administrator Passcode (ePSKc).
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range maxInclusive="255"/>
+          </unsignedInt>
+          <default type="implementation" value="9"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PasscodeURI" access="readOnly">
+        <description>
+          URN {{bibref|RFC8141}} carrying the passcode digits:
+          "urn:thread:pc:\&lt;digits\&gt;". Non-empty only while {{param|State}}
+          is {{enum|Started|State}}. {{param}} is cleared when
+          {{param|State}} transitions to {{enum|Connected|State}} or
+          {{enum|Stopped|State}} or {{enum|Disabled|State}}.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.Thread.Radio.{i}." access="readOnly"
       numEntriesParameter="RadioNumberOfEntries" minEntries="0"
       maxEntries="unbounded" version="2.19">
 
@@ -257,14 +553,14 @@ directed to <info@broadband-forum.org>.
       <component ref="Layer1InterfaceStats"/>
       <component ref="PowerManagement" version="2.20"/>
 
-      <parameter name="TransmitPowerSupported">
+      <parameter name="TransmitPowerSupported" access="readOnly">
         <description>
           {{list}} List items represent supported transmit power levels as 
           {{units}} of full power. For example, "0,25,50,75,100". A -1 item 
-          indicates auto mode (automatic decision by CPE). Auto mode allows the
+          indicates auto mode (automatic decision by device). Auto mode allows the
           {{object}} to adjust transmit power accordingly. For example, this 
           can be useful for power-save modes such as EU-CoC, where the 
-          {{object}} can adjust power according to activity in the CPE.
+          {{object}} can adjust power according to activity in the device.
         </description>
         <syntax>
           <list/>
@@ -290,7 +586,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="HardwareVersion">
+      <parameter name="HardwareVersion" access="readOnly">
         <description>
           This radio's Thread hardware version.
         </description>
@@ -299,7 +595,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="FirmwareVersion">
+      <parameter name="FirmwareVersion" access="readOnly">
         <description>
           This radio's Thread firmware version.
         </description>
@@ -332,7 +628,7 @@ directed to <info@broadband-forum.org>.
       <component ref="BaseInterfaceStats"/>
       <component ref="Layer2InterfaceStats"/>
 
-      <parameter name="SupportedStandards">
+      <parameter name="SupportedStandards" access="readOnly">
         <description>
           The items in the list indicate the supported Thread version. The 
           associated border router can only support one standard at a time.
@@ -349,7 +645,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="OperatingStandard">
+      <parameter name="OperatingStandard" access="readOnly">
         <description>
           The operating standard this {{object}} instance is configured for.
         </description>
@@ -360,7 +656,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="DatasetNumberOfEntries">
+      <parameter name="DatasetNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -369,7 +665,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="AssociatedNodeNumberOfEntries">
+      <parameter name="AssociatedNodeNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -380,12 +676,13 @@ directed to <info@broadband-forum.org>.
 
     </object>
 
-    <object name="Device.Thread.MLE.{i}.LeaderData." version="2.19">
+    <object name="Device.Thread.MLE.{i}.LeaderData." access="readOnly"
+      version="2.19">
       <description>
         Indicates the leader data.
       </description>
 
-      <parameter name="DataVersion">
+      <parameter name="DataVersion" access="readOnly">
         <description>
           The full Network Data Version the Node currently uses.
         </description>
@@ -396,7 +693,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="LeaderRouterID">
+      <parameter name="LeaderRouterID" access="readOnly">
         <description>
           The 8-bit {{param}} the Node attempts to utilize upon becoming a 
           router or leader on the Thread network.
@@ -408,7 +705,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="PartitionID">
+      <parameter name="PartitionID" access="readOnly">
         <description>
           The Thread Leader Partition ID for the Thread network to which the 
           Node is joined.
@@ -418,7 +715,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="StableDataVersion">
+      <parameter name="StableDataVersion" access="readOnly">
         <description>
           The Network Data Version for the stable subset of data the Node 
           currently uses.
@@ -430,7 +727,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Weighting">
+      <parameter name="Weighting" access="readOnly">
         <description>
           The Thread Leader weight used when operating in the Leader role.
         </description>
@@ -443,7 +740,7 @@ directed to <info@broadband-forum.org>.
 
     </object>
 
-    <object name="Device.Thread.MLE.{i}.Dataset.{i}."
+    <object name="Device.Thread.MLE.{i}.Dataset.{i}." access="readOnly"
       numEntriesParameter="DatasetNumberOfEntries" minEntries="0"
       maxEntries="2" version="2.19">
 
@@ -479,7 +776,7 @@ directed to <info@broadband-forum.org>.
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <parameter name="Status">
+      <parameter name="Status" access="readOnly">
         <description>
           Indicates the status of this dataset.
         </description>
@@ -493,7 +790,7 @@ directed to <info@broadband-forum.org>.
 
       <component ref="Alias"/>
 
-      <parameter name="TimeStamp">
+      <parameter name="TimeStamp" access="readOnly">
         <description>
           {{param}} of the dataset, depending status, it represent :
           * Active Timestamp (timestamp of the current dataset)
@@ -504,7 +801,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="DelayTimer">
+      <parameter name="DelayTimer" access="readOnly">
         <description>
           An unsigned 32-bit number in milliseconds indicate the Time Remaining
           when pending Dataset will be activated. This value MUST be 0 for 
@@ -515,7 +812,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Channel">
+      <parameter name="Channel" access="readOnly">
         <description>
           The IEEE 802.15.4 channel value of the interface defined in 
           {{bibref|ThreadSpec}} (Thread specification only supports the 
@@ -529,7 +826,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="NetworkName">
+      <parameter name="NetworkName" access="readOnly">
         <description>
           The name of the network link to the interface.
         </description>
@@ -538,7 +835,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="PanID">
+      <parameter name="PanID" access="readOnly">
         <description>
           The IEEE 802.15.4 PAN ID value link to the interface.
         </description>
@@ -549,7 +846,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="ExtendedPanID">
+      <parameter name="ExtendedPanID" access="readOnly">
         <description>
           The IEEE 802.15.4 ExtPAN ID value link to the interface.
         </description>
@@ -560,7 +857,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="MeshLocalPrefix">
+      <parameter name="MeshLocalPrefix" access="readOnly">
         <description>
           Indicate the mesh-local IPv6 prefix for the Thread network.
         </description>
@@ -569,7 +866,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="ChannelMask">
+      <parameter name="ChannelMask" access="readOnly">
         <description>
           Indicates the channels within channel page 0, in the 2.4GHz ISM band.
           The channels are represented in most significant bit order, 
@@ -582,7 +879,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="PSKc">
+      <parameter name="PSKc" access="readOnly">
         <description>
           Pre-Shared Key Credential for inband commissioning.
         </description>
@@ -593,7 +890,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="NetworkKey">
+      <parameter name="NetworkKey" access="readOnly">
         <description>
           Key of the network.
         </description>
@@ -607,13 +904,13 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.Thread.MLE.{i}.Dataset.{i}.SecurityPolicy."
-      version="2.19">
+      access="readOnly" version="2.19">
       <description>
         The {{object}} provide an administrator a way to enable or disable 
         certain security related behaviors. 
       </description>
 
-      <parameter name="RotationTime">
+      <parameter name="RotationTime" access="readOnly">
         <description>
           The rotation time of the security policy.
         </description>
@@ -624,7 +921,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Flags">
+      <parameter name="Flags" access="readOnly">
         <description>
           The flags indicates the current security policies for the Thread 
           partition of the current dataset. The {{param}} is an ordered
@@ -684,7 +981,7 @@ directed to <info@broadband-forum.org>.
 
     </object>
 
-    <object name="Device.Thread.MLE.{i}.AssociatedNode.{i}."
+    <object name="Device.Thread.MLE.{i}.AssociatedNode.{i}." access="readOnly"
       numEntriesParameter="AssociatedNodeNumberOfEntries" minEntries="0"
       maxEntries="unbounded" version="2.19">
 
@@ -703,7 +1000,7 @@ directed to <info@broadband-forum.org>.
 
       <component ref="Alias"/>
 
-      <parameter name="LastContactTime">
+      <parameter name="LastContactTime" access="readOnly">
         <description>
           The date and time in UTC when associated Thread node on the device
           has received data from remote node.
@@ -713,7 +1010,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="ExtendedMAC">
+      <parameter name="ExtendedMAC" access="readOnly">
         <description>
           Unique MacID of the node.
         </description>
@@ -724,7 +1021,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Rloc16">
+      <parameter name="Rloc16" access="readOnly">
         <description>
           Rloc of the node.
         </description>
@@ -735,7 +1032,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="RoutingRole">
+      <parameter name="RoutingRole" access="readOnly">
         <description>
           The current state of the Thread node. 
         </description>
@@ -754,7 +1051,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="Mode">
+      <parameter name="Mode" access="readOnly">
         <description>
           Thread Device mode value.
         </description>
@@ -767,7 +1064,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="RouteNumberOfEntries">
+      <parameter name="RouteNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -776,7 +1073,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="NeighborNumberOfEntries">
+      <parameter name="NeighborNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -785,7 +1082,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="IPv6AddressNumberOfEntries">
+      <parameter name="IPv6AddressNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
         </description>
@@ -797,8 +1094,8 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.Thread.MLE.{i}.AssociatedNode.{i}.Neighbor.{i}."
-      numEntriesParameter="NeighborNumberOfEntries" minEntries="0"
-      maxEntries="unbounded" version="2.19">
+      access="readOnly" numEntriesParameter="NeighborNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.19">
 
       <description>
         Entries in this table reference nodes that are immediate neighbors of
@@ -811,7 +1108,7 @@ directed to <info@broadband-forum.org>.
         <parameter ref="NodeReference"/>
       </uniqueKey>
 
-      <parameter name="NodeReference">
+      <parameter name="NodeReference" access="readOnly">
         <description>
           References the Thread node that is an immediate neighbor of the
           {{object|##.AssociatedNode}}. By construction the
@@ -826,7 +1123,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="AvgRSSI">
+      <parameter name="AvgRSSI" access="readOnly">
         <description>
           The average Received Signal Strength Indicator (RSSI) is the average
           measurement of the signal strength received by the parent router node
@@ -840,8 +1137,8 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.Thread.MLE.{i}.AssociatedNode.{i}.Route.{i}."
-      numEntriesParameter="RouteNumberOfEntries" minEntries="0"
-      maxEntries="unbounded" version="2.19">
+      access="readOnly" numEntriesParameter="RouteNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.19">
 
       <description>
         Entries in this table depend on the associated node routing capabilities
@@ -861,7 +1158,7 @@ directed to <info@broadband-forum.org>.
         <parameter ref="ID"/>
       </uniqueKey>
 
-      <parameter name="ID">
+      <parameter name="ID" access="readOnly">
         <description>
           Router ID of the route table entry.
         </description>
@@ -872,7 +1169,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="PathCost">
+      <parameter name="PathCost" access="readOnly">
         <description>
           The routing cost advertised by the Next Hop to reach {{param|ID}}.
         </description>
@@ -883,7 +1180,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="LQIn">
+      <parameter name="LQIn" access="readOnly">
         <description>
           Link Quality for messages received from {{param|ID}}, depending on
           the Link Margin value average of the received relative signal
@@ -894,7 +1191,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="LQOut">
+      <parameter name="LQOut" access="readOnly">
         <description>
           Link Quality for messages sent to {{param|ID}}, depending on the Link
           Margin value average of the sent relative signal strength.
@@ -907,8 +1204,8 @@ directed to <info@broadband-forum.org>.
     </object>
 
     <object name="Device.Thread.MLE.{i}.AssociatedNode.{i}.IPv6Address.{i}."
-      numEntriesParameter="IPv6AddressNumberOfEntries" minEntries="0"
-      maxEntries="unbounded" version="2.19">
+      access="readOnly" numEntriesParameter="IPv6AddressNumberOfEntries"
+      minEntries="0" maxEntries="unbounded" version="2.19">
 
       <description>
         This object represents the list of IPv6 addresses associated with the
@@ -922,7 +1219,7 @@ directed to <info@broadband-forum.org>.
 
       <component ref="Alias"/>
 
-      <parameter name="Type">
+      <parameter name="Type" access="readOnly">
         <description>
           The IPv6 address may be of one the following types. Enumeration of:
           * LinkLocal (Address reachable by a single radio transmission with
@@ -937,7 +1234,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="IPAddress">
+      <parameter name="IPAddress" access="readOnly">
         <description>
           Router ID of the route table entry.
         </description>
@@ -947,7 +1244,7 @@ directed to <info@broadband-forum.org>.
       </parameter>
     </object>
 
-    <object name="Device.Thread.Node.{i}."
+    <object name="Device.Thread.Node.{i}." access="readOnly"
       numEntriesParameter="NodeNumberOfEntries" minEntries="0"
       maxEntries="unbounded" version="2.19">
 
@@ -959,7 +1256,7 @@ directed to <info@broadband-forum.org>.
         <parameter ref="ExtendedMAC"/>
       </uniqueKey>
 
-      <parameter name="ExtendedMAC">
+      <parameter name="ExtendedMAC" access="readOnly">
         <description>
           Unique MacID of the node. 
         </description>
@@ -981,7 +1278,7 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
 
-      <parameter name="MLEReference">
+      <parameter name="MLEReference" access="readOnly">
         <description>
           Connect the node to the Thread network managed by the Mesh Link
           Established.
@@ -1008,6 +1305,82 @@ directed to <info@broadband-forum.org>.
       <command name="Stop()" async="false">
         <description>
           Stop the BorderRouter Agent.
+        </description>
+      </command>
+    </object>
+
+    <object base="Device.Thread.BorderAgent.{i}.TAS.">
+      <command name="Start()" async="false">
+        <description>
+          Starts a TAS/ePSKc window:
+          1. generates a Thread Administrator Passcode (digits with Verhoeff
+          check digit)
+          1. derives ePSKc (ASCII of digits)
+          1. advertises _meshcop-e._udp
+          1. sets {{param|#.State}} = {{enum|Started|#.State}}
+          1. updates {{param|#.PasscodeURI}} while {{enum|Started|#.State}}.
+        </description>
+        <input>
+          <parameter name="SessionTimeout">
+            <description>
+              The TAS window duration in {{units}}. If {{param}} is not
+              defined, {{param|#.DefaultTimeout}} is used as default.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <units value="milliseconds"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="SessionPort">
+            <description>
+              UDP port of the _meshcop-e._udp service. If {{param}} is not
+              defined, {{param|#.DefaultPort}} is used as default.
+            </description>
+            <syntax>
+              <unsignedInt>
+                <range minInclusive="1" maxInclusive="65535"/>
+              </unsignedInt>
+            </syntax>
+          </parameter>
+
+          <parameter name="SessionMaxFailedAttempts">
+            <description>
+              Maximum allowed failed DTLS connection attempts in a TAS window
+              before automatic deactivation. If {{param}} is not defined,
+              {{param|#.DefaultMaxFailedAttempts}} is used as default.
+            </description>
+            <syntax>
+              <unsignedInt/>
+            </syntax>
+          </parameter>
+        </input>
+
+        <output>
+          <parameter name="EphemeralPSKc">
+            <description>
+              The one-time generated Thread Administrator Passcode (ePSKc).
+              {{param}} a sequence of cryptographic random numeric digits (0-9)
+              of length {{param|#.PasscodeLength}}-1, to which the Verhoeff
+              check digit is added as the last digit.
+            </description>
+            <syntax>
+              <string/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="Stop()" async="false">
+        <description>
+          Stops the TAS/ePSKc window:
+          * disconnects any session using it;
+          * clears {{param|#.PasscodeURI}};
+          * sets {{param|#.State}} to {{enum|Stopped|#.State}}.
+
+          Idempotent if already {{enum|Stopped|#.State}} or
+          {{enum|Disabled|#.State}}.
         </description>
       </command>
     </object>
@@ -1394,7 +1767,7 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
-  <model name="Thread:2.21">
+  <model name="Thread:2.22">
     <component ref="Root"/>
     <component ref="Thread"/>
   </model>

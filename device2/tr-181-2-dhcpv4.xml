@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-dhcpv4"
-    file="tr-181-2-21-0-dhcpv4.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-dhcpv4"
+    file="tr-181-2-22-0-dhcpv4.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,11 +68,11 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
-  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-21-stats">
+  <import file="tr-181-2-stats.xml" spec="urn:broadband-forum-org:tr-181-2-22-stats">
     <component name="ObjectStatsResetCWMP"/>
     <component name="ObjectStatsResetUSP"/>
   </import>
@@ -106,14 +106,14 @@
         Interface'' indicated by {{param|Interface}}.
 
         For enabled table entries, if {{param|Interface}} is not a valid
-        reference then the table entry is inoperable and the CPE MUST set
+        reference then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -157,7 +157,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -470,7 +470,7 @@
           If no option value has been received, then the value MUST represent
           {{empty}}.
 
-          Received DHCP option values MAY, but need not, persist across CPE
+          Received DHCP option values MAY, but need not, persist across device
           reboots.
         </description>
         <syntax>
@@ -522,7 +522,7 @@
         For enabled table entries, if {{param|Interface}} is not a valid
         reference, or {{param|MinAddress}}, {{param|MaxAddress}}, or
         {{param|SubnetMask}} is not a valid value, then the table entry is
-        inoperable and the CPE MUST set {{param|Status}} to
+        inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -549,7 +549,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1187,13 +1187,13 @@
       <parameter name="Active" access="readOnly">
         <description>
           Whether or not the DHCPv4 client is currently present on the LAN. The
-          method of presence detection is a local matter to the CPE.
+          method of presence detection is a local matter to the device.
 
-          The ability to list inactive DHCPv4 clients is OPTIONAL. If the CPE
+          The ability to list inactive DHCPv4 clients is OPTIONAL. If the device
           includes inactive DHCPv4 clients in this table, {{param}} MUST be set
           to {{false}} for each inactive DHCPv4 client. The length of time an
           inactive DHCPv4 client remains listed in this table is a local matter
-          to the CPE.
+          to the device.
         </description>
         <syntax>
           <boolean/>
@@ -1246,6 +1246,16 @@
         </description>
         <syntax>
           <dateTime/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IsStatic" access="readOnly" version="2.22">
+        <description>
+          {{param}} is {{true}} if and only if {{param|IPAddress}} was assigned from a static
+          reservation ({{object|##.StaticAddress}}).
+        </description>
+        <syntax>
+          <boolean/>
         </syntax>
       </parameter>
     </object>
@@ -1434,7 +1444,7 @@
         <description>
           The status of the DHCP relay. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1464,7 +1474,7 @@
         DHCP Relay Agent Forwarding table.
 
         For enabled table entries, if {{param|Interface}} is not a valid
-        reference then the table entry is inoperable and the CPE MUST set
+        reference then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -1488,7 +1498,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1703,7 +1713,7 @@
 
       <parameter name="LocallyServed" access="readWrite">
         <description>
-          If {{true}}, incoming DHCP requests will be forwarded to the CPE DHCP
+          If {{true}}, incoming DHCP requests will be forwarded to the device DHCP
           Server. If {{false}}, incoming DHCP requests will be forwarded to the
           {{param|DHCPServerIPAddress}} configured for this forwarding entry.
         </description>
@@ -2167,7 +2177,7 @@
     </profile>
   </component>
 
-  <model name="DHCPv4:2.21">
+  <model name="DHCPv4:2.22">
     <component ref="Root"/>
     <component ref="DHCPv4"/>
   </model>

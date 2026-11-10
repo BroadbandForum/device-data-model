@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ip"
-    file="tr-181-2-21-0-ip.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ip"
+    file="tr-181-2-22-0-ip.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -71,12 +71,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer3Interface"/>
   </import>
 
@@ -146,27 +146,50 @@
     </parameter>
   </component>
 
-  <component name="IPVersion">
+  <component name="IPVersionBase">
     <parameter name="IPVersion" access="readWrite" version="2.2">
       <description>
         Specifies the IP protocol version, following the definitions in {{bibref|IANA-ipversionnumbers}}.
         Valid values are: {{range}}.
       </description>
+    </parameter>
+  </component>
+
+  <component name="IPVersion">
+    <component ref="IPVersionBase"/>
+    <parameter base="IPVersion">
       <syntax>
         <int>
+          <range minInclusive="-1" maxInclusive="-1">
+            <description>
+              No specific IP version is required
+            </description>
+          </range>
           <range minInclusive="4" maxInclusive="4">
             <description>IPv4</description>
           </range>
           <range minInclusive="6" maxInclusive="6">
             <description>IPv6</description>
           </range>
-          <range minInclusive="-1" maxInclusive="-1">
-            <description>
-              No specific IP version is required
-            </description>
-          </range>
         </int>
         <default type="object" value="-1"/>
+      </syntax>
+    </parameter>
+  </component>
+
+  <component name="IPVersionFamily">
+    <component ref="IPVersionBase"/>
+    <parameter base="IPVersion" version="2.22">
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="4" maxInclusive="4">
+            <description>IPv4</description>
+          </range>
+          <range minInclusive="6" maxInclusive="6">
+            <description>IPv6</description>
+          </range>
+        </unsignedInt>
+        <default type="object" value="4"/>
       </syntax>
     </parameter>
   </component>
@@ -266,7 +289,7 @@
 
     <parameter name="DSCP" access="readWrite" version="2.0">
       <description>
-        DiffServ codepoint to be used for the test packets. By default the CPE
+        DiffServ codepoint to be used for the test packets. By default the device
         SHOULD set this value to zero.
       </description>
       <syntax>
@@ -455,7 +478,7 @@
     <parameter name="NumberOfTries" access="readWrite" version="2.0">
       <description>
         Number of tries per hop. Set prior to running Diagnostic. By default,
-        the CPE SHOULD set this value to 3.
+        the device SHOULD set this value to 3.
       </description>
       <syntax>
         <unsignedInt>
@@ -467,7 +490,7 @@
     <parameter name="Timeout" access="readWrite" version="2.0">
       <description>
         Timeout in {{units}} for each hop of the trace route test. By default
-        the CPE SHOULD set this value to 5000.
+        the device SHOULD set this value to 5000.
       </description>
       <syntax>
         <unsignedInt>
@@ -480,7 +503,7 @@
     <parameter name="DataBlockSize" access="readWrite" version="2.0">
       <description>
         Size of the data block in bytes to be sent for each trace route. By
-        default, the CPE SHOULD set this value to 38.
+        default, the device SHOULD set this value to 38.
       </description>
       <syntax>
         <unsignedInt>
@@ -491,7 +514,7 @@
 
     <parameter name="DSCP" access="readWrite" version="2.0">
       <description>
-        DiffServ codepoint to be used for the test packets. By default the CPE
+        DiffServ codepoint to be used for the test packets. By default the device
         SHOULD set this value to 0.
       </description>
       <syntax>
@@ -504,7 +527,7 @@
     <parameter name="MaxHopCount" access="readWrite" version="2.0">
       <description>
         The maximum number of hop used in outgoing probe packets (max TTL). By
-        default the CPE SHOULD set this value to 30.
+        default the device SHOULD set this value to 30.
       </description>
       <syntax>
         <unsignedInt>
@@ -621,7 +644,7 @@
 
     <parameter name="DownloadTransports" access="readOnly" version="2.0">
       <description>
-        Supported ''DownloadDiagnostics'' transport protocols for a CPE device.
+        Supported ''DownloadDiagnostics'' transport protocols for a device.
       </description>
       <syntax>
         <list/>
@@ -632,8 +655,8 @@
       </syntax>
     </parameter>
 
-    <parameter name="DownloadDiagnosticMaxConnections" access="readOnly"
-        version="2.9">
+    <parameter name="DownloadDiagnosticsMaxConnections" access="readOnly"
+        version="2.22">
       <description>
         Indicates the maximum number of connections that are supported by
         Download Diagnostics.
@@ -645,10 +668,26 @@
       </syntax>
     </parameter>
 
+    <parameter name="DownloadDiagnosticMaxConnections" access="readOnly"
+        version="2.9" status="deprecated">
+      <description>
+        Indicates the maximum number of connections that are supported by
+        Download Diagnostics.
+
+        {{deprecated|2.22|in favor of
+        {{param|DownloadDiagnosticsMaxConnections}}}}
+      </description>
+      <syntax>
+        <unsignedInt>
+          <range minInclusive="1"/>
+        </unsignedInt>
+      </syntax>
+    </parameter>
+
     <parameter name="DownloadDiagnosticsMaxIncrementalResult"
         access="readOnly" version="2.9">
       <description>
-        The maximum number of rows in {{object|IncrementalResult}} that the CPE
+        The maximum number of rows in {{object|IncrementalResult}} that the device
         will store.
       </description>
       <syntax>
@@ -679,7 +718,7 @@
     <parameter name="DownloadURL" access="readWrite" mandatory="true"
         version="2.0">
       <description>
-        The {{datatype}} for the CPE to perform the download on. This parameter
+        The {{datatype}} for the device to perform the download on. This parameter
         MUST be in the form of a valid HTTP {{bibref|RFC2616}} or FTP
         {{bibref|RFC959}} URL.
 
@@ -808,7 +847,7 @@
       <description>
         The number of connections to be used in the test. The default value
         SHOULD be 1. {{param}} MUST NOT be set to a value greater than
-        {{param|DownloadDiagnosticMaxConnections}}.
+        {{param|DownloadDiagnosticsMaxConnections}}.
       </description>
       <syntax>
         <unsignedInt>
@@ -1324,7 +1363,7 @@
 
     <parameter name="UploadTransports" access="readOnly" version="2.0">
       <description>
-        Supported ''UploadDiagnostics'' transport protocols for a CPE device.
+        Supported ''UploadDiagnostics'' transport protocols for a device.
       </description>
       <syntax>
         <list/>
@@ -1351,7 +1390,7 @@
     <parameter name="UploadDiagnosticsMaxIncrementalResult" access="readOnly"
         version="2.9">
       <description>
-        The maximum number of rows in {{object|IncrementalResult}} that the CPE
+        The maximum number of rows in {{object|IncrementalResult}} that the device
         will store.
       </description>
       <syntax>
@@ -1382,7 +1421,7 @@
     <parameter name="UploadURL" access="readWrite" mandatory="true"
         version="2.0">
       <description>
-        The {{datatype}} for the CPE to Upload to. This parameter MUST be in
+        The {{datatype}} for the device to Upload to. This parameter MUST be in
         the form of a valid HTTP {{bibref|RFC2616}} or FTP {{bibref|RFC959}}
         URL.
 
@@ -1429,7 +1468,7 @@
       <description>
         The size of the file {{units}} to be uploaded to the server.
 
-        The CPE MUST insure the appropriate number of bytes are sent.
+        The device MUST insure the appropriate number of bytes are sent.
       </description>
       <syntax>
         <unsignedLong>
@@ -2043,7 +2082,7 @@
         version="2.9">
       <description>
         The maximum number of rows in {{object|IndividualPacketResult}} that
-        the CPE will store. If a test would create more rows than {{param}}
+        the device will store. If a test would create more rows than {{param}}
         only the first {{param}} rows are present in
         {{object|IndividualPacketResult}}.
       </description>
@@ -2312,7 +2351,7 @@
           Indicates that the response to this UDP Echo Plus packet sent was
           received by the client. When this value is {{true}}, then all the
           remaining parameters in this instance are valid. Otherwise only the
-          values originally set by the CPE client (e.g.
+          values originally set by the device client (e.g.
           {{param|PacketSendTime}} and {{param|TestGenSN}}) MAY be set to valid
           values.
         </description>
@@ -2351,7 +2390,7 @@
       <parameter name="TestGenSN" access="readOnly">
         <description>
           The TestGenSN field in the UDPEcho Plus packet
-          {{bibref|TR-143|Section A.1.4}} sent by the CPE client.
+          {{bibref|TR-143|Section A.1.4}} sent by the device client.
         </description>
         <syntax>
           <unsignedInt/>
@@ -2362,7 +2401,7 @@
         <description>
           The TestRespSN field in the response packet {{bibref|TR-143|Section
           A.1.4}} from the UDP Echo Plus server (i.e. {{param|#.Host}}) for
-          this Echo Plus packet sent by the CPE client. If
+          this Echo Plus packet sent by the device client. If
           {{param|PacketSuccess}} is {{false}}, {{param}} SHOULD be 0.
         </description>
         <syntax>
@@ -2375,7 +2414,7 @@
           The TestRespRcvTimeStamp field in the response packet
           {{bibref|TR-143|Section A.1.4}} from the UDP Echo Plus server (i.e.
           {{param|#.Host}}) to record the reception time in {{units}} of this
-          UDP Echo Plus packet sent from the CPE client. If
+          UDP Echo Plus packet sent from the device client. If
           {{param|PacketSuccess}} is {{false}}, {{param}} SHOULD be 0.
         </description>
         <syntax>
@@ -2390,7 +2429,7 @@
           The TestRespReplyTimeStamp field in the response packet
           {{bibref|TR-143|Section A.1.4}} from the UDP Echo Plus server (i.e.
           {{param|#.Host}}) to record the server reply time in {{units}} of
-          this UDP Echo Plus packet sent from the CPE client.
+          this UDP Echo Plus packet sent from the device client.
 
           That is, the time that the server returned the UDP Echo Plus packet.
           If {{param|PacketSuccess}} is {{false}}, {{param}} SHOULD be 0.
@@ -4361,7 +4400,7 @@
         <description>
           Indicates the status of the IPv4 stack. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -4403,7 +4442,7 @@
         <description>
           Indicates the status of the IPv6 stack. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -4463,7 +4502,7 @@
         might well choose to retain rather than discard it.
 
         Any {{enum|Tunneled|Type}} IP interface instances instantiated by the
-        CPE MUST NOT have any statistics, writable parameters, IP addresses or
+        device MUST NOT have any statistics, writable parameters, IP addresses or
         IPv6 prefixes. Any read-only parameters, e.g. {{param|Status}}, MUST
         return the same information as for the corresponding
         {{enum|Tunnel|Type}} interface. The reason for these rules is that
@@ -4614,8 +4653,8 @@
       <parameter name="Loopback" access="readWrite">
         <description>
           When set to {{true}}, the IP interface becomes a loopback interface
-          and the CPE MUST set {{param|Type}} to {{enum|Loopback|Type}}. In
-          this case, the CPE MUST also set {{param|LowerLayers}} to {{empty}}
+          and the device MUST set {{param|Type}} to {{enum|Loopback|Type}}. In
+          this case, the device MUST also set {{param|LowerLayers}} to {{empty}}
           and fail subsequent attempts at setting {{param|LowerLayers}} until
           the interface is no longer a loopback.
 
@@ -4718,7 +4757,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -4789,6 +4828,29 @@
             </enumeration>
           </string>
           <default type="object" value="Static"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastChange" access="readOnly" activeNotify="canDeny" version="2.22">
+        <description>
+          The accumulated time in {{units}} since this {{object}} entry last changed its
+          {{param|Status}} or {{param|IPAddress}} value.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="StatusChangeCount" access="readOnly" activeNotify="canDeny" version="2.22">
+        <description>
+          The number of times this {{object}} entry has changed its {{param|Status}} or
+          {{param|IPAddress}} value since the last reboot. This includes recovery state
+          changes.
+        </description>
+        <syntax>
+          <unsignedInt/>
         </syntax>
       </parameter>
     </object>
@@ -4936,7 +4998,7 @@
           of link-local addresses (for all types of device) and global
           addresses (for non-router devices).
 
-        * Automatically via DHCPv6 {{bibref|RFC8415}}, which covers generation
+        * Automatically via DHCPv6 {{bibref|RFC9915}}, which covers generation
           of any type of address (subject to the configured DHCP server
           policy).
 
@@ -4981,7 +5043,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -5093,13 +5155,13 @@
                 Automatically generated. For example, a link-local address as
                 specified by SLAAC {{bibref|RFC4862|Section 5.3}}, a global
                 address as specified by SLAAC {{bibref|RFC4862|Section 5.5}},
-                or generated via CPE logic (e.g. from delegated prefix as
-                specified by {{bibref|RFC8415}}), or from ULA /48 prefix as
+                or generated via device logic (e.g. from delegated prefix as
+                specified by {{bibref|RFC9915}}), or from ULA /48 prefix as
                 specified by {{bibref|RFC4193}}.
               </description>
             </enumeration>
             <enumeration value="DHCPv6">
-              <description>Assigned by DHCPv6 {{bibref|RFC8415}}.</description>
+              <description>Assigned by DHCPv6 {{bibref|RFC9915}}.</description>
             </enumeration>
             <enumeration value="IKEv2">
               <description>Assigned by IKEv2 {{bibref|RFC5996}}.</description>
@@ -5207,6 +5269,29 @@
           <default type="object" value="false"/>
         </syntax>
       </parameter>
+
+      <parameter name="LastChange" access="readOnly" activeNotify="canDeny" version="2.22">
+        <description>
+          The accumulated time in {{units}} since this {{object}} entry last changed its
+          {{param|Status}}, {{param|IPAddressStatus}}, or {{param|IPAddress}} value.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="seconds"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="StatusChangeCount" access="readOnly" activeNotify="canDeny" version="2.22">
+        <description>
+          The number of times this {{object}} entry has changed its {{param|Status}},
+          {{param|IPAddressStatus}}, or {{param|IPAddress}} value since the last reboot.
+          This includes recovery state changes.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.IP.Interface.{i}.IPv6Prefix.{i}." access="readWrite"
@@ -5224,10 +5309,10 @@
         * Automatically via {{bibref|RFC4861}} Router Advertisements. See also
           {{object|###.RouterAdvertisement}}.
 
-        * Automatically via DHCPv6 {{bibref|RFC8415}} prefix delegation
-          {{bibref|RFC8415}}. See also {{object|###.DHCPv6.Client}}.
+        * Automatically via DHCPv6 {{bibref|RFC9915}} prefix delegation
+          {{bibref|RFC9915}}. See also {{object|###.DHCPv6.Client}}.
 
-        * Automatically via internal CPE logic, e.g. creation of child prefixes
+        * Automatically via internal device logic, e.g. creation of child prefixes
           derived from a parent prefix.
 
         * Manually via a GUI or some other local management interface.
@@ -5236,7 +5321,7 @@
 
         * By the Controller.
 
-        The CPE MAY choose not to create {{object}} entries for
+        The device MAY choose not to create {{object}} entries for
         {{enum|WellKnown|Origin}} prefixes or for the ULA /48 prefix
         {{bibref|RFC4193}}. If an {{object}} entry exists for the ULA /48
         prefix, it MUST be on a downstream interface (i.e. an interface for
@@ -5267,7 +5352,7 @@
         <description>
           The status of this {{object}} table entry. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -5369,14 +5454,14 @@
           <string>
             <enumeration value="AutoConfigured">
               <description>
-                Generated via internal CPE logic (e.g. the ULA /48 prefix) or
+                Generated via internal device logic (e.g. the ULA /48 prefix) or
                 derived from an internal prefix that is not modeled in any
                 {{object}} table.
               </description>
             </enumeration>
             <enumeration value="PrefixDelegation">
               <description>
-                Delegated via DHCPv6 {{bibref|RFC8415}} or some other protocol,
+                Delegated via DHCPv6 {{bibref|RFC9915}} or some other protocol,
                 e.g. IPv6rd {{bibref|RFC5969}}. Also see {{param|StaticType}}.
               </description>
             </enumeration>
@@ -5398,7 +5483,7 @@
                 Created by the Controller, by some other management entity
                 (e.g. via a GUI), or present in the factory default
                 configuration (but not {{enum|WellKnown}}). Unrelated to any
-                shorter length prefix that might exist on the CPE. Also see
+                shorter length prefix that might exist on the device. Also see
                 {{param|StaticType}}. Can be used for RA (Prefix Information),
                 DHCPv6 address assignment (IA_NA) or DHCPv6 prefix delegation
                 (IA_PD).
@@ -5440,20 +5525,20 @@
             ({{param|Status}} = {{enum|Disabled|Status}}) until it has been
             populated.
 
-          * When a new prefix of of type T is needed, the CPE will look for a
+          * When a new prefix of of type T is needed, the device will look for a
             matching unpopulated instance, i.e. an instance with
             ({{param|Origin}},{{param}},{{param|Prefix}}) =
-            ({{enum|Static|Origin}},T,""). If the CPE finds at least one such
+            ({{enum|Static|Origin}},T,""). If the device finds at least one such
             instance it will choose one and populate it. If already
             administratively enabled it will immediately become operationally
-            enabled. If the CPE finds no such instances, it will create and
+            enabled. If the device finds no such instances, it will create and
             populate a new instance with ({{param|Origin}},{{param}}) = (T,T).
-            If the CPE finds more than one such instance, the algorithm via
+            If the device finds more than one such instance, the algorithm via
             which it chooses which instance to populate is
             implementation-specific.
 
           * When a prefix that was populated via this mechanism becomes
-            invalid, the CPE will reset {{param|Prefix}} to {{empty}}. This
+            invalid, the device will reset {{param|Prefix}} to {{empty}}. This
             does not affect the value of the {{param|Enable}} parameter.
 
           The prefix {{param}} can only be modified if {{param|Origin}} is
@@ -5510,7 +5595,7 @@
         </description>
         <syntax>
           <string>
-            <pathRef refType="strong" targetParent="." targetType="row"/>
+            <pathRef refType="strong" targetParent="#.IPv6Prefix." targetType="row"/>
           </string>
           <default type="object" value=""/>
         </syntax>
@@ -5822,7 +5907,7 @@
     <object name="Device.IP.Diagnostics.UDPEchoConfig." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0">
       <description>
-        This object allows the CPE to be configured to perform the UDP Echo
+        This object allows the device to be configured to perform the UDP Echo
         Service defined in {{bibref|RFC862}} and UDP Echo Plus Service defined
         in {{bibref|TR-143|Appendix A.1}}.
       </description>
@@ -5840,14 +5925,14 @@
 
       <parameter name="Interface" access="readWrite">
         <description>
-          {{reference|IP-layer interface over which the CPE MUST listen and
+          {{reference|IP-layer interface over which the device MUST listen and
           receive UDP echo requests on}}
 
           The value of this parameter MUST be either a valid interface or
           {{empty}}. An attempt to set this parameter to a different value MUST
           be rejected as an invalid parameter value.
 
-          If {{empty}} is specified, the CPE MUST listen and receive UDP echo
+          If {{empty}} is specified, the device MUST listen and receive UDP echo
           requests on all interfaces.
 
           Note: Interfaces behind a NAT MAY require port forwarding rules
@@ -5863,7 +5948,7 @@
 
       <parameter name="SourceIPAddress" access="readWrite">
         <description>
-          The Source IP address of the UDP echo packet. The CPE MUST only
+          The Source IP address of the UDP echo packet. The device MUST only
           respond to a UDP echo from this source IP address.
         </description>
         <syntax>
@@ -5883,7 +5968,7 @@
 
       <parameter name="EchoPlusEnabled" access="readWrite">
         <description>
-          If {{true}} the CPE will perform necessary packet processing for UDP
+          If {{true}} the device will perform necessary packet processing for UDP
           Echo Plus packets.
         </description>
         <syntax>
@@ -6009,7 +6094,7 @@
     </profile>
   </component>
 
-  <model name="IP:2.21">
+  <model name="IP:2.22">
     <component ref="Root"/>
     <component ref="IP"/>
   </model>

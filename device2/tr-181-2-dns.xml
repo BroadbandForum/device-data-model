@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-dns"
-    file="tr-181-2-21-0-dns.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-dns"
+    file="tr-181-2-22-0-dns.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,13 +66,18 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-interface">
     <component name="InterfaceStatsReset"/>
+  </import>
+
+  <import file="tr-181-2-usp-base.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-usp-base">
+    <component name="ParamOriginReadOnly"/>
   </import>
 
   <component name="DNSLookupDiagnosticsInput">
@@ -138,7 +143,7 @@
       <description>
         The number of times the device SHOULD repeat the execution of the
         NSLookup using the same input parameters. If the diagnostics test fails
-        the CPE MAY terminate the test without completing the full number of
+        the device MAY terminate the test without completing the full number of
         repetitions.
 
         Each repetition will use a Result instance to hold the NSLookup result
@@ -349,33 +354,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
-        <description>
+      <component ref="ParamOriginReadOnly"/>
+      <parameter base="Origin">
+        <description action="replace">
           The mechanism via which the Zone was created.
 
           Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the entry was created by the end-user.
-                For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the entry was created by the system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the entry was created by a Controller.
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="System"/>
-        </syntax>
       </parameter>
 
       <parameter name="Interface" access="readWrite">
@@ -434,33 +419,13 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
+      <component ref="ParamOriginReadOnly"/>
+      <parameter base="Origin">
         <description>
           Indicates the owner of the {{object}} instance.
 
           Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
         </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the entry was created by the end-user.
-                For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the entry was created by the system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the entry was created by a Controller.
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="System"/>
-        </syntax>
       </parameter>
 
       <parameter name="Host" access="readWrite">
@@ -508,7 +473,7 @@
         <description>
           The status of the DNS client. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -561,7 +526,7 @@
         <description>
           The status of this entry. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -673,7 +638,7 @@
         <description>
           The status of the DNS relay. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -843,7 +808,7 @@
         <description>
           This parameter applies only when {{param|ForwardingMode}} is set to
           {{enum|StrictOrder|ForwardingMode}}. In this case the entry in the
-          {{param|Forwarders}} list is identify as the primary DNS server.
+          {{param|Forwarders}} list is identified as the primary DNS server.
 
           The parameter {{param}} is the maximum value for the timer, in
           {{units}}, to automatically revert to the primary DNS server.
@@ -873,7 +838,7 @@
 
       <parameter name="CacheMinTTL" access="readOnly">
         <description>
-          Specifies the minimum TTL amount of time, in {{units}},
+          Specifies the minimum TTL, in {{units}},
           that an entry MUST be kept in the cache regardless of what has been specified by the domain owner.
 
           When '0' is specified, then the TTL chosen by the domain owner will be applied.
@@ -888,7 +853,7 @@
 
       <parameter name="CacheMaxTTL" access="readOnly">
         <description>
-          Specifies the maximum TTL amount of time, in {{units}},
+          Specifies the maximum TTL, in {{units}},
           than an entry MUST be kept in the cache regardless of what has been specified by the domain owner.
 
           When '0' is specified, then the TTL chosen by the domain owner will be applied.
@@ -935,7 +900,7 @@
         <description>
           The status of this entry. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -1642,7 +1607,7 @@
         {{bibref|RFC1035}} of the advertised service.
 
         When multiple instances of the {{object}} table have the same value for
-        the {{param|Key}} parameter, the implementation is CPE specific.
+        the {{param|Key}} parameter, the implementation is device specific.
 
         Note: This object was promoted to readWrite in the Device:2.18 version.
       </description>
@@ -1906,7 +1871,7 @@
         {{bibref|RFC1035}} of the discovered service.
 
         When multiple instances of the {{object}} table have the same value for
-        the {{param|Key}} parameter, the implementation is CPE specific.
+        the {{param|Key}} parameter, the implementation is device specific.
       </description>
 
       <parameter name="Key" access="readOnly">
@@ -2022,7 +1987,7 @@
     </object>
   </component>
 
-  <model name="DNS:2.21">
+  <model name="DNS:2.22">
     <component ref="Root"/>
     <component ref="DNS"/>
   </model>

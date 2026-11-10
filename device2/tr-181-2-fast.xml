@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-fast"
-    file="tr-181-2-21-0-fast.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-fast"
+    file="tr-181-2-22-0-fast.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,12 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Line"/>
   </import>
 
@@ -99,7 +99,7 @@
         <description>
           A string identifying the version of the modem firmware currently
           installed for this interface. This is applicable only when the modem
-          firmware is separable from the overall CPE software.
+          firmware is separable from the overall device software.
         </description>
         <syntax>
           <string>
@@ -117,7 +117,7 @@
           {{enum|EstablishingLink}} or {{enum|NoSignal}} or {{enum|Disabled}},
           {{param|Status}} is expected to be {{enum|Down|Status}}.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -353,7 +353,7 @@
         <description>
           This parameter reports the signal-to-noise ratio margin (as defined
           in clause 9.8.3.2/{{bibref|G.9701}} and 11.4.1.3/{{bibref|G.9701}})
-          in the upstream direction. A special value indicates that the
+          in the downstream direction. A special value indicates that the
           signal-to-noise ratio margin is out of the range to be represented.
           The parameter is expressed in {{units}}.
 
@@ -393,7 +393,7 @@
 
       <parameter name="UpstreamPower" access="readOnly" activeNotify="canDeny">
         <description>
-          The current output power at the CPE's FAST line (expressed in
+          The current output power at the device's FAST line (expressed in
           {{units}}).
         </description>
         <syntax>
@@ -406,7 +406,7 @@
       <parameter name="DownstreamPower" access="readOnly"
           activeNotify="canDeny">
         <description>
-          The current received power at the CPE's FAST line (expressed in
+          The current received power at the device's FAST line (expressed in
           {{units}}).
         </description>
         <syntax>
@@ -578,7 +578,7 @@
           FAST-specific statistic. The Number of {{units}} since the beginning
           of the period used for collection of {{object|Total}} statistics.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -618,7 +618,7 @@
           most recent DSL Showtime, i.e. the beginning of the period used for
           collection of {{object|LastShowtime}} statistics.
 
-          If the CPE has not retained information about the second most recent
+          If the device has not retained information about the second most recent
           Showtime (e.g., on reboot), the start of ''LastShowtime'' statistics
           MAY temporarily coincide with the start of ''Showtime'' statistics.
 
@@ -639,10 +639,10 @@
           of the period used for collection of {{object|CurrentDay}}
           statistics.
 
-          The CPE MAY align the beginning of each ''CurrentDay'' interval with
+          The device MAY align the beginning of each ''CurrentDay'' interval with
           days in the UTC time zone, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -662,10 +662,10 @@
           of the period used for collection of {{object|QuarterHour}}
           statistics.
 
-          The CPE MAY align the beginning of each ''QuarterHour'' interval with
+          The device MAY align the beginning of each ''QuarterHour'' interval with
           real-time quarter-hour intervals, but is not required to do so.
 
-          Statistics SHOULD continue to be accumulated across CPE reboots,
+          Statistics SHOULD continue to be accumulated across device reboots,
           though this might not always be possible.
 
           Note: {{param}} SHOULD NOT be reset when the interface statistics are
@@ -1686,7 +1686,7 @@
     </profile>
   </component>
 
-  <model name="FAST:2.21">
+  <model name="FAST:2.22">
     <component ref="Root"/>
     <component ref="FAST"/>
   </model>

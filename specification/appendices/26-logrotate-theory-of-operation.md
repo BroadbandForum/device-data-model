@@ -1,4 +1,4 @@
-# LogRotate Theory of Operation
+# LogRotate Theory of Operation {.appendix .same-file}
 
 ## Introduction
 

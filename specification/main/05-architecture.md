@@ -9,7 +9,7 @@ The interface object and interface stack are concepts inspired by RFC 2863 [@RFC
 Within the Device:2 data model, interface objects are arbitrarily restricted to definitions that operate at or below the IP network layer (i.e., layers 1 through 3 of the OSI model [@X.200]). However, vendor-specific interface objects MAY be defined which fall outside this restricted scope.
 
 @fig:osi-layers-and-interface-objects lists the interface objects defined in the Device:2 data model.
-The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a CPE need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one CPE stack might exclude DSL Bonding, while another CPE stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP. It is highly recommended that the interface stack models the PHY and MAC of the optical Ethernet port, which suggests that an Ethernet Interface not be replaced by an Optical Interface for an optical Ethernet port.
+The indicated OSI layer is non-normative; it serves as a guide only, illustrating at what level in the stack an interface object is expected to appear. However, a device need not support or use all interfaces, which means that the figure does not reflect all possible stacking combinations and restrictions. For example, one device stack might exclude DSL Bonding, while another device stack might include DSL Bonding but exclude Bridging, while still another might include VLANTermination under PPP, or VLANTermination under IP with no PPP, or even Ethernet Link under IP with no VLANTermination and no PPP. It is highly recommended that the interface stack models the PHY and MAC of the optical Ethernet port, which suggests that an Ethernet Interface not be replaced by an Optical Interface for an optical Ethernet port.
 
 ::: note
 Throughout this %bbfType%, object names are often abbreviated in order to improve readability. For example, Device.Ethernet.VLANTermination.{i}. is the full name of a Device:2 object, but might casually be referred to as Ethernet.VLANTermination.{i} or VLANTermination.{i} or VLANTermination, just so long as the abbreviation is unambiguous (with respect to similarly named objects defined elsewhere within the data model).
@@ -34,8 +34,8 @@ The core set of parameters consists of:
 |-----------------------------|--------------------------------------------------------------------------
 | Enable                      | The administrative state of the interface (i.e., boolean indicating enabled or disabled)
 | Status                      | The operational state of the interface (i.e., Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, Error)
-| Alias                       | An alternate name used to identify the interface, which is assigned an initial value by the CPE but can later be chosen by the Controller
-| Name                        | The textual name used to identify the interface, which is chosen by the CPE
+| Alias                       | An alternate name used to identify the interface, which is assigned an initial value by the device but can later be chosen by the Controller
+| Name                        | The textual name used to identify the interface, which is chosen by the device
 | Description                 | A user-friendly description of the interface.
 | LastChange                  | The accumulated time in seconds since the interface entered its current operational state
 | LowerLayers                 | A list of path references to interface objects that are stacked immediately below the interface
@@ -64,22 +64,22 @@ Also, a core set of statistics parameters is contained within a Stats sub-object
 :::
 
 ::: note
-The CPE MUST reset an interface's Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface's Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface's Enable parameter transitions from false to true). Administrative and operational status are discussed in *[Administrative and Operational Status]*.
+The device MUST reset an interface's Stats parameters (unless otherwise stated in individual object or parameter descriptions) either when the interface becomes operationally down due to a previous administrative down (i.e., the interface's Status parameter transitions to a down state after the interface is disabled) or when the interface becomes administratively up (i.e., the interface's Enable parameter transitions from false to true). Administrative and operational status are discussed in *[Administrative and Operational Status]*.
 :::
 
 ### Lower Layers
 
 Each interface object can be stacked on top of zero or more other interface objects, which MUST be specified using its LowerLayers parameter. By having each interface object, in turn, reference the interface objects in its lower layer; a logical hierarchy of all interface relationships is built up.
 
-The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the CPE MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).
+The LowerLayers parameter is a comma-separated list of path references to interface objects. Each item in the list represents an interface object that is stacked immediately below the referencing interface. If a referenced interface is deleted, the device MUST remove the corresponding item from this list (i.e., items in the LowerLayers parameter are strong references).
 
-These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the CPE.
+These relationships between interface objects can either be set by management action, in order to specify new interface configurations, or be pre-configured within the device.
 
-A CPE MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the CPE MUST indicate this, using the appropriate protocol response.
+A device MUST reject any attempt to set LowerLayers values that would result in an invalid or unsupported configuration. The corresponding fault response from the device MUST indicate this, using the appropriate protocol response.
 
-The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the CPE.
+The lowest layer in a fully configured and operational stack is generally the physical interface (e.g., DSL Line instance representing a DSL physical link). Within these physical interface objects the LowerLayers parameter will be an empty list, unless some lower layer vendor-specific interface objects are defined and present. Higher layer interface objects MAY operate without a physical layer being modeled, however this is a local matter to the device.
 
-@fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the CPE would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
+@fig:interface-lowerlayers illustrates the use of the LowerLayers parameter. A, B, C, and D represent interface objects. Interface A's LowerLayers parameter references interfaces B and C. Interface B's LowerLayers parameter references interface D. Interfaces C and D have no interface references specified in their LowerLayers parameters. In this way, a multi-layered interface stack is configured. If the Controller were to delete interface B, then the device would update interface A's LowerLayers parameter to no longer reference interface B (and interface D would be stranded, no longer referenced by the now deleted interface B).
 
 ![Interface LowerLayers](/images/interface-lowerlayers.png){typst-scale=0.5}
 
@@ -91,9 +91,9 @@ Many of the requirements outlined in this section were derived from Section 3.1.
 
 An interface object's Enable and Status parameters specify the current administrative and operational status of the interface, respectively. Valid values for the Status parameter are: Up, Down, Unknown, Dormant, NotPresent, LowerLayerDown, and Error.
 
-The CPE MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior -- it is simply the timing of how long these state transitions take that is implementation specific.
+The device MUST do everything possible in order to follow the operational state transitions as described below. In some cases, these requirements are defined as SHOULD; this is not an indication that they are optional. These transitions, and the relationship between the Enable parameter and the Status parameter, are required behavior -- it is simply the timing of how long these state transitions take that is implementation specific.
 
-When the Enable parameter is *false* the Status parameter SHOULD normally be *Down* (or *NotPresent* or *Error* if there is a fault condition on the interface). Note that when the Enable parameter transitions to *false*, it is possible that the Status parameter's transition to *Down* might occur after a small time lag if the CPE needs to first complete certain operations (e.g., finish transmitting a packet).
+When the Enable parameter is *false* the Status parameter SHOULD normally be *Down* (or *NotPresent* or *Error* if there is a fault condition on the interface). Note that when the Enable parameter transitions to *false*, it is possible that the Status parameter's transition to *Down* might occur after a small time lag if the device needs to first complete certain operations (e.g., finish transmitting a packet).
 
 When the Enable parameter is changed to *true*, the Status SHOULD do one of the following:
 
@@ -126,7 +126,7 @@ When an interface object is stacked on top of lower-layer interfaces (i.e., is n
 
 Vendor-specific interface objects MAY be defined and used. If such objects are specified by vendors, they MUST be preceded by *X_<VENDOR>_* and follow the syntax for vendor extensions used for parameter names (as defined in Section 3.3/TR-106 [@TR-106]).
 
-If the Controller encounters an unknown vendor-specific interface object within a CPE's interface stack, rather than responding with a fault, the Controller MUST proceed as if this object's upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the [InterfaceStack table] or via an interface object's LowerLayers parameter.
+If the Controller encounters an unknown vendor-specific interface object within a device's interface stack, rather than responding with a fault, the Controller MUST proceed as if this object's upper-layer interfaces were directly linked to its lower-layer interfaces. This applies whether the Controller encounters such an object via the [InterfaceStack table] or via an interface object's LowerLayers parameter.
 
 @fig:ignoring-a-vendor-specific-interface-object-in-the-stack illustrates a stacked vendor-specific interface object being bypassed by the Controller, where there is just one object below the vendor-specific object.
 
@@ -140,7 +140,7 @@ If the Controller encounters an unknown vendor-specific interface object within 
 
 Although the interface stack can be traversed via [LowerLayers parameters][Lower Layers], an alternate mechanism is provided to aid in visualizing the overall stacking relationships and to quickly access objects within the stack.
 
-The InterfaceStack table is a Device:2 data model object, namely *Device.InterfaceStack.{i}*. This is a read-only table whose rows are auto-generated by the CPE based on the current relationships that are configured between interface objects (via each interface instance's LowerLayers parameter). Each table row represents a "link" between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row's HigherLayer and LowerLayer parameters will always both be non-null.
+The InterfaceStack table is a Device:2 data model object, namely *Device.InterfaceStack.{i}*. This is a read-only table whose rows are auto-generated by the device based on the current relationships that are configured between interface objects (via each interface instance's LowerLayers parameter). Each table row represents a "link" between a higher-layer interface object (referenced by its HigherLayer parameter) and a lower-layer interface object (referenced by its LowerLayer parameter). This means that an InterfaceStack table row's HigherLayer and LowerLayer parameters will always both be non-null.
 
 ::: note
 As a consequence, interface instances that have been stranded will not be represented within the InterfaceStack table. It is also likely that multiple, disjoint groups of stacked interface objects will coexist within the table (for example, each IP interface will be the root of a disjoint group; unused "fragments", e.g., a secondary DSL channel with a configured ATM PVC that isn't attached to anything above, will linger if they remain interconnected; and finally, partially configured "fragments" can be present when an interface stack is being set up).
@@ -150,14 +150,14 @@ As a consequence, interface instances that have been stranded will not be repres
 An interface instance is considered stranded when it has no lower layer references to or from other interface instances. Stranded interface instances will be omitted from the InterfaceStack table until such time as they are stacked, above or below another interface instance, via a LowerLayers parameter reference.
 :::
 
-A CPE MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:
+A device MUST autonomously add or remove rows in the InterfaceStack table in response to the following circumstances:
 
 * An interface's LowerLayers parameter was updated to remove a reference to another interface (i.e., a "link" is being removed from the stack).
 * An interface's LowerLayers parameter was updated to add a reference to another interface (i.e., a "link" is being added to the stack).
 * An interface was deleted that had referenced, or been referenced by, one other interface (i.e., a "link" is being removed from the stack).
 * An interface was deleted that had referenced, or been referenced by, multiple interfaces (i.e., multiple "links" are being removed from the stack).
 
-Once the CPE issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the CPE.
+Once the device issues the response to the Controller request, all autonomous InterfaceStack table changes associated with the corresponding request (as described in the preceding paragraph) MUST be available for subsequent commands to operate on, regardless of whether or not these changes have been applied by the device.
 
 As an example, @tbl:simple-router-example-interfacestack-table lists an InterfaceStack table configuration imagined for a fictitious, simple router. Each row in this table corresponds to a row in the InterfaceStack table. The specified objects and instance numbers are manufactured for the sake of this example; real world configurations will likely differ.
 

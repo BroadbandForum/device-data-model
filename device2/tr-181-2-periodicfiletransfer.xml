@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-periodicfiletransfer"
-  file="tr-181-2-21-0-periodicfiletransfer.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-periodicfiletransfer"
+  file="tr-181-2-22-0-periodicfiletransfer.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,18 +66,23 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="ClientCerts"/>
   </import>
   <import file="tr-181-2-ip.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-ip">
+    spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
-  
+
+  <import file="tr-181-2-usp-base.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-usp-base">
+    <component name="ParamOriginReadOnly"/>
+  </import>
+
   <component name="PeriodicFileTransfer">
     <object name="Device.PeriodicFileTransfer." access="readOnly" version="2.20">
       <description>
@@ -421,7 +426,7 @@ directed to <info@broadband-forum.org>.
       <description>
         This object represents an instance of a parameter to be used in the
         report header used as part of the HTTP Request-URI transmitted by the
-        CPE to the collection server using the Request-URI in addition to the
+        device to the collection server using the Request-URI in addition to the
         parameters required by {{template|BULK-DATA-HTTP-QUERY-REF}}.
       </description>
 
@@ -581,33 +586,11 @@ directed to <info@broadband-forum.org>.
         </syntax>
       </parameter>
       
-      <parameter name="Origin" access="readOnly">
-        <description>
+      <component ref="ParamOriginReadOnly" version="2.20"/>
+      <parameter base="Origin">
+        <description action="replace">
           Indicates the Origin of the {{object}} instance.
         </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the transfer task was created by the
-                end-user. For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the transfer task was created by the
-                system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the transfer task was created by a
-                Controller.
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="Controller"/>
-        </syntax>
       </parameter>
 
       <parameter name="Type" access="readWrite">
@@ -885,7 +868,7 @@ directed to <info@broadband-forum.org>.
     </object>
   </component>
 
-  <model name="PeriodicFileTransfer:2.21">
+  <model name="PeriodicFileTransfer:2.22">
     <component ref="Root"/>
     <component ref="PeriodicFileTransfer"/>
   </model>

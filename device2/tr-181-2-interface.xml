@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-interface"
-    file="tr-181-2-21-0-interface.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-interface"
+    file="tr-181-2-22-0-interface.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -127,7 +127,7 @@
 
     <parameter name="Name" version="2.0">
       <description>
-        The textual name of the interface as assigned by the CPE.
+        The textual name of the interface as assigned by the device.
       </description>
       <syntax>
         <string>
@@ -236,7 +236,7 @@
         Independent from the value of {{param|Enable}}, {{param}} SHOULD change
         to {{enum|NotAllowed}} if the interface is not allowed to transmit
         network traffic, e.g. because of a certain policy. If {{param}} is
-        {{enum|NotAllowed}}, the CPE should block the interface from sending
+        {{enum|NotAllowed}}, the device should block the interface from sending
         network traffic.
 
         An example use case for {{enum|NotAllowed}} is the following: if
@@ -368,7 +368,7 @@
       <description>
         Throughput statistics for this interface.
 
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
+        The device MUST reset the interface's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when the
         interface becomes operationally down due to a previous administrative
         down (i.e. the interface's {{param|#.Status}} parameter transitions to
@@ -892,7 +892,7 @@
     <component ref="LinkReadOnly"/>
   </component>
 
-  <model name="Interface:2.21">
+  <model name="Interface:2.22">
     <component ref="Root"/>
     <object name="Device.Layer1A." version="2.19">
       <description>

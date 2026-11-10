@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-l2tpv3"
-    file="tr-181-2-21-0-l2tpv3.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-l2tpv3"
+    file="tr-181-2-22-0-l2tpv3.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer2InterfaceReadWrite"/>
   </import>
 
@@ -434,7 +434,7 @@
         <description>
           The unique Session ID to be used in the L2TPv3 header of the tunnel.
 
-          A Session ID with a value of -1 indicates that the CPE is to generate
+          A Session ID with a value of -1 indicates that the device is to generate
           the session ids for this {{object}} instance.
         </description>
         <syntax>
@@ -558,7 +558,7 @@
 
         For enabled table entries, if {{param|Interface}} is not a valid
         reference and {{param|AllInterfaces}} is {{false}}, then the table
-        entry is inoperable and the CPE MUST set {{param|Status}} to
+        entry is inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -582,7 +582,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -771,7 +771,7 @@
     </profile>
   </component>
 
-  <model name="L2TPv3:2.21">
+  <model name="L2TPv3:2.22">
     <component ref="Root"/>
     <component ref="L2TPv3"/>
   </model>

@@ -57,8 +57,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="urn:broadband-forum-org:cwmp:datamodel-1-14 https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
                       urn:broadband-forum-org:cwmp:datamodel-report-1-0 https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-templates"
-  file="tr-181-2-21-0-wifi-templates.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-wifi-templates"
+  file="tr-181-2-22-0-wifi-templates.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-wifi-base">
+    spec="urn:broadband-forum-org:tr-181-2-22-wifi-base">
     <component name="WiFiRoot"/>
   </import>
 
@@ -1343,7 +1343,7 @@
 
   </component>
 
-  <model name="Templates:2.21">
+  <model name="Templates:2.22">
     <component ref="Root"/>
     <component ref="Templates"/>
   </model>

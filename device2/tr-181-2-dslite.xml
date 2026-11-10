@@ -48,15 +48,15 @@
 
 <dm:document
     xmlns:dm="urn:broadband-forum-org:cwmp:datamodel-1-10"
-    xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
+  xmlns:dmr="urn:broadband-forum-org:cwmp:datamodel-report-1-0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
       urn:broadband-forum-org:cwmp:datamodel-1-10
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-dslite"
-    file="tr-181-2-21-0-dslite.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-dslite"
+    file="tr-181-2-22-0-dslite.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -75,7 +75,7 @@
     <object name="Device.DSLite." access="readOnly" minEntries="1"
         maxEntries="1" version="2.2">
       <description>
-        Settings allowing a CPE to configure and route IPv6 Dual-Stack Lite
+        Settings allowing a device to configure and route IPv6 Dual-Stack Lite
         (DSLite) as specified in {{bibref|DSLite}}. The DS-Lite mechanism is
         intended to be implemented only on gateway devices that support IPv4 on
         the LAN side and only have IPv6 connectivity on the WAN side.
@@ -126,7 +126,7 @@
         <description>
           The status of this entry. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -241,7 +241,7 @@
         <syntax>
           <string>
             <enumeration value="DHCPv6">
-              <description>Assigned by DHCPv6 {{bibref|RFC8415}}.</description>
+              <description>Assigned by DHCPv6 {{bibref|RFC9915}}.</description>
             </enumeration>
             <enumeration value="Static">
               <description>
@@ -342,7 +342,7 @@
     </profile>
   </component>
 
-  <model name="DSLite:2.21">
+  <model name="DSLite:2.22">
     <component ref="Root"/>
     <component ref="DSLite"/>
   </model>

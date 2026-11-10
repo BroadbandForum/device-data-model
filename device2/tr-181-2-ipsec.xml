@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ipsec"
-    file="tr-181-2-21-0-ipsec.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ipsec"
+    file="tr-181-2-22-0-ipsec.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,7 +69,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -104,7 +104,7 @@
         <description>
           IPsec status. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -291,16 +291,20 @@
             <enumeration value="AES-192-GMAC"/>
             <enumeration value="AES-256-GMAC"/>
             <enumeration value="HMAC-SHA2-256-128"/>
-            <enumeration value="HMAC-SHA2-256-192" status="deprecated">
+            <enumeration value="HMAC-SHA2-256-192" status="obsoleted">
               <description>
                 {{deprecated|2.20|because the correct value is
-                {{enum|HMAC-SHA2-384-192}}
+                {{enum|HMAC-SHA2-384-192}}}}
+
+                {{obsoleted|2.22}}
               </description>
             </enumeration>
-            <enumeration value="HMAC-SHA2-256-256" status="deprecated">
+            <enumeration value="HMAC-SHA2-256-256" status="obsoleted">
               <description>
                 {{deprecated|2.20|because the correct value is
-                {{enum|HMAC-SHA2-512-256}}
+                {{enum|HMAC-SHA2-512-256}}}}
+
+                {{obsoleted|2.22}}
               </description>
             </enumeration>
             <enumeration value="HMAC-SHA2-384-192" version="2.20"/>
@@ -375,6 +379,7 @@
       <parameter name="MaxFilterEntries" access="readOnly">
         <description>
           The maximum number of entries in the {{object|Filter}} table.
+          When this limit is reached, creating a new entry fails.
 
           A value of 0 means no specific limit.
         </description>
@@ -386,6 +391,7 @@
       <parameter name="MaxProfileEntries" access="readOnly">
         <description>
           The maximum number of entries in the {{object|Profile}} table.
+          When this limit is reached, creating a new entry fails.
 
           A value of 0 means no specific limit.
         </description>
@@ -446,7 +452,7 @@
         Global IPsec statistics. These statistics include all IPsec traffic,
         i.e. all IKEv2 negotiation, IKEv2 SAs and child SAs.
 
-        The CPE MUST reset global IPsec Stats parameters (unless otherwise
+        The device MUST reset global IPsec Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when
         IPsec is disabled ({{param|#.Enable}} is set to {{false}}) or when
         IPsec is enabled ({{param|#.Enable}} is set to {{true}}).
@@ -608,7 +614,7 @@
 
         For enabled table entries, if {{param|Interface}} is not a valid
         reference and {{param|AllInterfaces}} is {{false}}, then the table
-        entry is inoperable and the CPE MUST set {{param|Status}} to
+        entry is inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -632,7 +638,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -666,7 +672,7 @@
 
           This specifies the ingress interface associated with the entry. It
           MAY be a layer 1, 2 or 3 interface. However, the types of interfaces
-          for which filters can be instantiated is a local matter to the CPE.
+          for which filters can be instantiated is a local matter to the device.
         </description>
         <syntax>
           <string>
@@ -1060,11 +1066,11 @@
 
       <parameter name="IKEv2AuthenticationMethod" access="readWrite">
         <description>
-          IKEv2 CPE authentication method {{bibref|RFC5996|Section 2.15}}.
+          IKEv2 device authentication method {{bibref|RFC5996|Section 2.15}}.
           {{reference|an enabled row in the {{object|##.Security.Certificate}}
-          table or in another table that contains appropriate CPE credentials}}
+          table or in another table that contains appropriate device credentials}}
 
-          If {{empty}}, or the referenced row is disabled or deleted, the CPE
+          If {{empty}}, or the referenced row is disabled or deleted, the device
           chooses the authentication method based on local policy.
         </description>
         <syntax>
@@ -1173,6 +1179,27 @@
             <enumerationRef
                 targetParam=".IPsec.ESPSupportedEncryptionAlgorithms"/>
           </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="AllowedEncryptionKeyLengths" access="readWrite" version="2.22">
+        <description>
+          These limits apply to ciphers with support for multiple key lengths, such as
+          AES, Camellia, and Blowfish.
+
+          For example, if {{param|ESPAllowedEncryptionAlgorithms}} includes
+          {{enum|AES-CBC|#.ESPSupportedEncryptionAlgorithms}} and {{param}} is [256,192], then the
+          device neither proposes nor accepts AES-CBC with a 128-bit key length.
+
+          If multiple key sizes are permitted, the implementation uses the largest supported key
+          size.
+
+          {{empty}} means that no restriction is imposed on key lengths.
+        </description>
+        <syntax>
+          <list/>
+          <unsignedInt/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -1310,7 +1337,7 @@
 
           De-tunneled packets are never re-marked.
 
-          Automatic DSCP marking behavior is a local matter to the CPE,
+          Automatic DSCP marking behavior is a local matter to the device,
           possibly influenced by other Broadband Forum standards that it
           supports.
         </description>
@@ -1572,7 +1599,7 @@
         {{object|#.Filter}} instances that require the {{object}} instance to
         exist. If this list ever becomes {{empty}}, e.g. because all the
         referenced {{object|#.Filter}} instances have been disabled or deleted,
-        the CPE MAY choose not to delete the {{object}} instance (and its
+        the device MAY choose not to delete the {{object}} instance (and its
         associated
         ({{enum|Tunnel|##.IP.Interface.{i}.Type}},{{enum|Tunneled|##.IP.Interface.{i}.Type}})
         {{object|##.IP.Interface}} pair). This can be desirable, because
@@ -1641,7 +1668,7 @@
         through the tunnel, including IKEv2 negotiation, IKEv2 SA and ChildSA
         traffic.
 
-        The CPE MUST reset the tunnel's Stats parameters (unless otherwise
+        The device MUST reset the tunnel's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when the
         tunnel becomes operationally down due to a previous administrative down
         (i.e. its associated {{param|###.IP.Interface.{i}.Status}} parameter
@@ -1916,7 +1943,7 @@
       <description>
         Statistics for this IKEv2 Security Association (SA).
 
-        The CPE MUST reset the IKEv2 SA's Stats parameters (unless otherwise
+        The device MUST reset the IKEv2 SA's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) whenever the
         associated {{param|#.Tunnel}} instance's Stats parameters are reset.
       </description>
@@ -2041,9 +2068,9 @@
         Payload (CP) {{bibref|RFC5996|Section 3.15}} Attributes that have been
         received via CFG_REPLY messages. Table entries are automatically
         created to correspond with received Attributes. However, it is a local
-        matter to the CPE when to delete old table entries.
+        matter to the device when to delete old table entries.
 
-        If the same Attribute is received multiple times, it is up to the CPE
+        If the same Attribute is received multiple times, it is up to the device
         to decide which entries to include (i.e. whether the same Attribute
         will be present multiple times). In order to allow for the same
         Attribute to be present multiple times within the table, this table has
@@ -2144,7 +2171,7 @@
       <description>
         Statistics for this child Security Association (SA).
 
-        The CPE MUST reset the child SA's Stats parameters (unless otherwise
+        The device MUST reset the child SA's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) whenever the
         parent {{object|#}} instance's Stats parameters are reset.
       </description>
@@ -2392,7 +2419,7 @@
     </profile>
   </component>
 
-  <model name="IPsec:2.21">
+  <model name="IPsec:2.22">
     <component ref="Root"/>
     <component ref="IPsec"/>
   </model>

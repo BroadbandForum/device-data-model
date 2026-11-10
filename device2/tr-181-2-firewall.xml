@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-firewall"
-    file="tr-181-2-21-0-firewall.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-firewall"
+    file="tr-181-2-22-0-firewall.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,22 +67,28 @@
     <dataType name="IPv4Address"/>
     <dataType name="IPPrefix"/>
     <dataType name="IPv4Prefix"/>
+    <dataType name="IPv6Prefix"/>
     <dataType name="Order"/>
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-schedules.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-schedules">
+      spec="urn:broadband-forum-org:tr-181-2-22-schedules">
     <component name="ScheduleRef"/>
   </import>
 
   <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
+  </import>
+
+  <import file="tr-181-2-usp-base.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-usp-base">
+    <component name="ParamOriginReadOnly"/>
   </import>
 
   <component name="FirewallLog">
@@ -114,8 +120,8 @@
     </parameter>
   </component>
 
-  <component name="Firewall">
 
+  <component name="Firewall">
     <object name="Device.Firewall." access="readOnly" minEntries="1"
         maxEntries="1" version="2.0">
       <description>
@@ -196,7 +202,7 @@
             </enumeration>
             <enumeration value="Off" status="deleted">
               <description>
-                All Inbound and Outbound traffic is allowed, and the CPE is
+                All Inbound and Outbound traffic is allowed, and the device is
                 only protected by NAT settings (if supported and enabled). If
                 DoS and vulnerability protections are implemented
                 {{bibref|ICSA-Baseline}}, these are disabled.
@@ -299,7 +305,7 @@
       <parameter name="Version" access="readOnly">
         <description>
           A string identifying the firewall settings version currently used in
-          the CPE, or {{empty}} if the firewall settings are not associated
+          the device, or {{empty}} if the firewall settings are not associated
           with a version.
         </description>
         <syntax>
@@ -359,6 +365,19 @@
           version="2.16">
         <description>
           {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MaxNumberOfPinholes" access="readOnly" version="2.22">
+        <description>
+          The maximum number of pinholes that can exist at any given time.
+          When this limit is reached, creating a new pinhole fails.
+
+          If the value of this parameter is 0, then it means that the device
+          doesn't have a limit to the number of pinholes that can exist.
         </description>
         <syntax>
           <unsignedInt/>
@@ -671,7 +690,7 @@
         {{enum|Other|#.Creator}} are referred to as ''Static'' {{object}}s.
         Whether or not a {{object}} in a {{object|#}} with {{param|#.Creator}}
         {{enum|Other|#.Creator}} is regarded as ''Static'' is a local matter to
-        the CPE. Some of this object's parameter descriptions refer to whether
+        the device. Some of this object's parameter descriptions refer to whether
         a {{object}} is ''Static'' when specifying whether or not the parameter
         value can be modified.
 
@@ -679,7 +698,7 @@
         reference and {{param|SourceAllInterfaces}} is {{false}}, or if
         {{param|DestInterface}} is not a valid reference and
         {{param|DestAllInterfaces}} is {{false}}, then the table entry is
-        inoperable and the CPE MUST set {{param|Status}} to
+        inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
       </description>
       <uniqueKey functional="false">
@@ -703,7 +722,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -813,7 +832,7 @@
 
           If the {{object}} is not ''Static'' (as explained in the object
           description), whether changes to this parameter persist across
-          re-boot is a local matter to the CPE.
+          re-boot is a local matter to the device.
         </description>
         <syntax>
           <boolean/>
@@ -854,7 +873,7 @@
           The only value that MUST be supported is 9999-12-31T23:59:59Z (i.e.
           support for rules that expire is OPTIONAL).
 
-          When a rule expires, the CPE MUST automatically terminate that rule
+          When a rule expires, the device MUST automatically terminate that rule
           and MUST automatically delete the corresponding {{object}} table
           entry.
 
@@ -873,7 +892,7 @@
 
           This specifies the ingress interface associated with the entry. It
           MAY be a layer 1, 2 or 3 interface, however, the types of interfaces
-          for which Rules can be instantiated is a local matter to the CPE.
+          for which Rules can be instantiated is a local matter to the device.
 
           This parameter can only be modified if the {{object}} is ''Static''
           (as explained in the object description).
@@ -926,7 +945,7 @@
 
           This specifies the egress interface associated with the entry. It MAY
           be a layer 1, 2 or 3 interface, however, the types of interfaces for
-          which Rules can be instantiated is a local matter to the CPE.
+          which Rules can be instantiated is a local matter to the device.
 
           This parameter can only be modified if the {{object}} is ''Static''
           (as explained in the object description).
@@ -1491,39 +1510,20 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
-        <description>
-          Indicates the Origin of the {{object}} instance.
-
-          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
-        </description>
+      <component ref="ParamOriginReadOnly"/>
+      <parameter base="Origin">
         <syntax>
           <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the pinhole rule was created by the
-                end-user. For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the pinhole rule was created by the
-                system itself.
-              </description>
-            </enumeration>
+            <enumeration value="System"/>
+            <enumeration value="User"/>
             <enumeration value="UPnP" version="2.17">
               <description>
-                Used for indicating that the pinhole rule was created by a device using UPnP-IGD.
+                Used for indicating that the {{object}} entry was created by
+                a device using UPnP-IGD.
               </description>
             </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the pinhole rule was created by a
-                Controller.
-              </description>
-            </enumeration>
+            <enumeration value="Controller"/>
           </string>
-          <default type="object" value="Controller"/>
         </syntax>
       </parameter>
 
@@ -1733,11 +1733,6 @@
         <parameter ref="Alias"/>
       </uniqueKey>
 
-      <uniqueKey functional="true">
-        <parameter ref="DestIP"/>
-        <parameter ref="SourcePrefix"/>
-      </uniqueKey>
-
       <component ref="Alias"/>
 
       <parameter name="Enable" access="readWrite">
@@ -1781,36 +1776,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
-        <description>
-          Indicates who configured the {{object}} instance.
-
-          Note: This parameter was changed to writeOnceReadOnly in the Device:2.18 version.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the DMZ rule was created by the
-                end-user. For example through the web user interface.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the DMZ rule was created by the system
-                itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the DMZ rule was created by a
-                Controller,
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="Controller"/>
-        </syntax>
-      </parameter>
+      <component ref="ParamOriginReadOnly"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -1916,12 +1882,6 @@
       <uniqueKey functional="false">
         <parameter ref="Alias"/>
       </uniqueKey>
-      <uniqueKey functional="true">
-        <parameter ref="Interface"/>
-        <parameter ref="DestPort"/>
-        <parameter ref="Protocol"/>
-        <parameter ref="SourcePrefixes"/>
-      </uniqueKey>
 
       <component ref="Alias"/>
 
@@ -1965,6 +1925,8 @@
           <default type="object" value="Disabled"/>
         </syntax>
       </parameter>
+
+      <component ref="ParamOriginReadOnly" version="2.22"/>
 
       <parameter name="Interface" access="readWrite">
         <description>
@@ -2107,7 +2069,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -2120,6 +2082,8 @@
           <default type="object" value="Disabled"/>
         </syntax>
       </parameter>
+
+      <component ref="ParamOriginReadOnly" version="2.22"/>
 
       <parameter name="Chain" access="readWrite">
         <description>
@@ -2343,6 +2307,22 @@
         </syntax>
       </parameter>
 
+      <parameter name="IPv4SpoofingExceptions" access="readWrite" version="2.22">
+        <description>
+          Each item in the list is an IPv4 address or CIDR prefix that is exempt from spoofing protection checks.
+
+          Packets originating from these addresses are accepted even when
+          {{param|IPv4SpoofingProtection}} is enabled.
+
+          {{empty}} means no exceptions are configured.
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="IPv4Prefix"/>
+          <default type="object" value="[]"/>
+        </syntax>
+      </parameter>
+
       <parameter name="IPv6SpoofingProtection" access="readWrite">
         <description>
           Enables or disables the IPv6 spoofing protection.
@@ -2355,6 +2335,22 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6SpoofingExceptions" access="readWrite" version="2.22">
+        <description>
+          Each item in the list is an IPv6 address or CIDR prefix that is exempt from spoofing protection checks.
+
+          Packets originating from these addresses are accepted even when
+          {{param|IPv6SpoofingProtection}} is enabled.
+
+          {{empty}} means no exceptions are configured.
+        </description>
+        <syntax>
+          <list/>
+          <dataType ref="IPv6Prefix"/>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
 
@@ -2407,6 +2403,60 @@
         </description>
         <syntax>
           <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv4AcceptUDPTraceroute" access="readWrite"
+          version="2.22">
+        <description>
+          Enables or disables the acceptance of UDP-based traceroute
+          packets for IPv4. 
+
+          E.g., port numbers in the range 33434 to 33534.
+
+          When {{true}}, UDP packets with destination ports in this
+          range are accepted.
+          When {{false}}, such packets are dropped.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IPv6AcceptUDPTraceroute" access="readWrite"
+          version="2.22">
+        <description>
+          Enables or disables the acceptance of UDP-based traceroute
+          packets for IPv6. 
+          
+          E.g., port numbers in the range 33434 to 33534.
+
+          When {{true}}, UDP packets with destination ports in this
+          range are accepted.
+          When {{false}}, such packets are dropped.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
+      <parameter name="IsolateInterfaces" access="readWrite" version="2.22">
+        <description>
+          Each item is a reference to an IP or Logical interface from
+          which the interface referenced by {{param|Interface}} is isolated.
+
+          When one or more interfaces are listed, the firewall blocks
+          traffic between {{param|Interface}} and each listed interface,
+          preventing direct communication between them.
+
+          {{empty}} means no interface isolation is configured.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <pathRef refType="strong" targetParent=".IP.Interface." targetType="row"/>
+          </string>
+          <default type="object" value="[]"/>
         </syntax>
       </parameter>
     </object>
@@ -2681,34 +2731,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="Origin" access="readOnly">
-        <description>
-          Indicates the Origin of the {{object}} instance.
-        </description>
-        <syntax>
-          <string>
-            <enumeration value="User">
-              <description>
-                Used for indicating that the set rule was created by the
-                end-user. For example through the web-ui.
-              </description>
-            </enumeration>
-            <enumeration value="System">
-              <description>
-                Used for indicating that the set rule was created by the
-                system itself.
-              </description>
-            </enumeration>
-            <enumeration value="Controller">
-              <description>
-                Used for indicating that the set rule was created by a
-                Controller.
-              </description>
-            </enumeration>
-          </string>
-          <default type="object" value="Controller"/>
-        </syntax>
-      </parameter>
+      <component ref="ParamOriginReadOnly"/>
 
       <parameter name="Name" access="readWrite">
         <description>
@@ -2853,6 +2876,8 @@
           <boolean/>
         </syntax>
       </parameter>
+
+      <component ref="ParamOriginReadOnly" version="2.22"/>
 
       <parameter name="Description" access="readWrite">
         <description>
@@ -3064,7 +3089,8 @@
     </profile>
   </component>
 
-  <model name="Firewall:2.21">
+
+  <model name="Firewall:2.22">
     <component ref="Root"/>
     <component ref="Firewall"/>
   </model>

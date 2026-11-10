@@ -32,7 +32,7 @@ A Tunnel is not a stackable interface object, because it breaks the layering ord
 Even though a Tunnel is not an interface, it can be referenced by QoS classification rules. Traffic arriving on a Tunnel instance, i.e., packets that have just been encapsulated, is conceptually similar to locally-generated traffic.
 :::
 
-In summary, the decision to en-tunnel a packet is a forwarding decision to send a packet to an IP interface that is stacked above a *Tunnel* *interface* instance, and the decision to de-tunnel a packet is a consequence of the fact that it is addressed to the CPE and is therefore passed to a *Tunnel* instance. @fig:tunneling-overview-showing-forwarding-decisions extends @fig:tunneling-overview by expanding the tunnel into a *Tunnel IP interface*, a *Tunnel interface*, and the *Tunnel* instance, thereby showing where these two decisions are made.
+In summary, the decision to en-tunnel a packet is a forwarding decision to send a packet to an IP interface that is stacked above a *Tunnel* *interface* instance, and the decision to de-tunnel a packet is a consequence of the fact that it is addressed to the device and is therefore passed to a *Tunnel* instance. @fig:tunneling-overview-showing-forwarding-decisions extends @fig:tunneling-overview by expanding the tunnel into a *Tunnel IP interface*, a *Tunnel interface*, and the *Tunnel* instance, thereby showing where these two decisions are made.
 
 ![Tunneling Overview (Showing Forwarding Decisions)](/images/tunneling-overview-showing-forwarding-decisions.png)
 

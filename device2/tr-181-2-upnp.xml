@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-upnp"
-    file="tr-181-2-21-0-upnp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-upnp"
+    file="tr-181-2-22-0-upnp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,7 +66,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -84,7 +84,7 @@
         maxEntries="1" version="2.0">
       <description>
         This object defines the UPnP devices and UPnP services that are
-        implemented by the CPE.
+        implemented by the device.
       </description>
 
       <parameter name="Enable" access="readWrite">
@@ -340,7 +340,7 @@
         UPnP {{bibref|UPnP-DAv1}} SSDP discovered root devices, embedded
         devices and embedded services.
 
-        The CPE MAY, but need not, retain some or all of the information in
+        The device MAY, but need not, retain some or all of the information in
         this object across reboots.
       </description>
 
@@ -389,7 +389,7 @@
 
           The ability to list inactive UPnP root devices is OPTIONAL. The
           length of time an inactive device remains listed in this table is a
-          local matter to the CPE.
+          local matter to the device.
         </description>
         <syntax>
           <string>
@@ -538,7 +538,7 @@
 
           The ability to list inactive UPnP embedded devices is OPTIONAL. The
           length of time an inactive device remains listed in this table is a
-          local matter to the CPE.
+          local matter to the device.
         </description>
         <syntax>
           <string>
@@ -686,7 +686,7 @@
 
           The ability to list inactive UPnP embedded services is OPTIONAL. The
           length of time an inactive service remains listed in this table is a
-          local matter to the CPE.
+          local matter to the device.
         </description>
         <syntax>
           <string>
@@ -852,11 +852,11 @@
         This table contains information read from the Device Description
         Document of discovered root devices.
 
-        The CPE MAY, but need not, retain some or all of the information in
+        The device MAY, but need not, retain some or all of the information in
         this table after the associated SSDP advertisement (objects in the
         UPnP.Discovery. object tables) expires.
 
-        In case the SSDP advertisement expires and the CPE deletes the related
+        In case the SSDP advertisement expires and the device deletes the related
         instances from the tables in UPnP.Discovery., the reference to such
         instances MUST be set to the empty string.
       </description>
@@ -959,7 +959,7 @@
           this is an embedded device)}}
 
           This {{param}} value can be {{empty}} because the referenced object
-          has been deleted or the CPE was unable to retrieve the Description
+          has been deleted or the device was unable to retrieve the Description
           Document due to some out-of-band error. The determination to delete
           this {{object}} or use {{empty}} is implementation specific.
         </description>
@@ -1211,7 +1211,7 @@
           {{reference|a {{object|##.Discovery.Service}} table entry}}
 
           This {{param}} value can be {{empty}} because the referenced object
-          has been deleted or the CPE was unable to retrieve the Description
+          has been deleted or the device was unable to retrieve the Description
           Document due to some out-of-band error. The determination to delete
           this {{object}} or use {{empty}} is implementation specific.
         </description>
@@ -1435,7 +1435,7 @@
     </profile>
   </component>
 
-  <model name="UPnP:2.21">
+  <model name="UPnP:2.22">
     <component ref="Root"/>
     <component ref="UPnP"/>
   </model>

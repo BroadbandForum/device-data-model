@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-etsim2m"
-    file="tr-181-2-21-0-etsim2m.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-etsim2m"
+    file="tr-181-2-22-0-etsim2m.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -96,7 +96,7 @@
         This object represents an instance of a Service Capability Layer (SCL)
         for a M2M device or gateway.
 
-        The {{object}} MAY be maintained by the ACS or by the CPE.
+        The {{object}} MAY be maintained by the ACS or by the device.
 
         When the {{object}} provides the administration of an SCL that is
         represented as a {{object|##.SoftwareModules.ExecutionUnit}} the
@@ -952,7 +952,7 @@
 
           The list represents the M2M Devices (D', d) that are attached to this
           {{object|##.SCL}} instance that are within this {{object}} instance.
-          The list does not contain an instance for this CPE.
+          The list does not contain an instance for this device.
         </description>
         <syntax>
           <list/>
@@ -1020,10 +1020,10 @@
         attached to this {{object|##.SCL}} instance.
 
         While discovery and identification of devices by the M2M Gateway or
-        Device (CPE) is implementation specific, each device is represented by
+        Device (device) is implementation specific, each device is represented by
         an instance of the {{object|###.Hosts.Host}} table.
 
-        When the M2M Device is managed by the CWMP endpoint of the CPE, the
+        When the M2M Device is managed by the CWMP endpoint of the device, the
         {{object}} is expected to be referenced by an instance of one of the
         following tables:
 
@@ -1044,7 +1044,7 @@
         This table contains parameters and information of the M2M Device
         related to each {{object|#.AreaNwkInstance}} instance.
 
-        Instances of this table are created and deleted by the CPE. The ACS MAY
+        Instances of this table are created and deleted by the device. The ACS MAY
         modify the writeable parameters of this object instance but it is
         possible that the value set by the ACS is not retained between reboots
         of the M2M Device.
@@ -1114,7 +1114,7 @@
 
           A value of 0 represents a device that does not sleep.
 
-          Note: When this value is modified, the CPE could modify the {{param}}
+          Note: When this value is modified, the device could modify the {{param}}
           for this M2M Device in other Area Networks.
         </description>
         <syntax>
@@ -1130,7 +1130,7 @@
 
           The value 0 represents an unknown value.
 
-          Note: When this value is modified, the CPE could modify the {{param}}
+          Note: When this value is modified, the device could modify the {{param}}
           for this M2M Device in other Area Networks.
         </description>
         <syntax>
@@ -1161,11 +1161,11 @@
           Whether or not this M2M Device is currently attached to this
           {{object|##.SCL}} instance.
 
-          The ability to list inactive M2M Devices is OPTIONAL. If the CPE
+          The ability to list inactive M2M Devices is OPTIONAL. If the device
           includes inactive M2MDevices in this table, {{param}} is set to
           {{false}} for each inactive M2M Device. The length of time an
           inactive M2M Device remains listed in this table is a local matter to
-          the CPE.
+          the device.
         </description>
         <syntax>
           <boolean/>
@@ -1317,7 +1317,7 @@
     </profile>
   </component>
 
-  <model name="ETSIM2M:2.21">
+  <model name="ETSIM2M:2.22">
     <component ref="Root"/>
     <component ref="ETSIM2M"/>
   </model>

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-zigbee"
-    file="tr-181-2-21-0-zigbee.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-zigbee"
+    file="tr-181-2-22-0-zigbee.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -162,7 +162,7 @@
     </object>
 
     <object base="Device.ZigBee.Interface.{i}.Stats.">
-      <parameter name="UnknownPacketsReceived" access="readOnly" status="obsoleted"
+      <parameter name="UnknownPacketsReceived" access="readOnly" status="deleted"
         activeNotify="canDeny">
         <description>
           The total number of {{units}} received which were discarded because
@@ -172,6 +172,8 @@
           {{param|UnknownProtoPacketsReceived}}}}
 
           {{obsoleted|2.21}}
+
+          {{deleted|2.22}}
         </description>
         <syntax>
           <dataType ref="StatsCounter32">
@@ -231,10 +233,10 @@
           Whether or not this device is currently present in the ZigBee network
           as defined in {{bibref|ZigBee2007|section 2.4.4.1}}.
 
-          The ability to list inactive devices is OPTIONAL. If the CPE includes
+          The ability to list inactive devices is OPTIONAL. If the device includes
           inactive devices in this table, {{param}} MUST be set to {{false}}
           for each inactive device. The length of time an inactive device
-          remains listed in this table is a local matter to the CPE.
+          remains listed in this table is a local matter to the device.
         </description>
         <syntax>
           <boolean/>
@@ -1372,8 +1374,8 @@
       <parameter name="Coordinator" access="readWrite">
         <description>
           The Fully Qualified Domain Name (FQDN) or IP address of the ZigBee
-          Coordinator. The coordinator MAY be located within the CPE. In this
-          scenario the Controller or CPE MAY use the value of "localhost".
+          Coordinator. The coordinator MAY be located within the device. In this
+          scenario the Controller or device MAY use the value of "localhost".
         </description>
         <syntax>
           <string>
@@ -1578,7 +1580,7 @@
     </profile>
 
     <profile name="ZigBeeStats:1" extends="ZigBeeInterface:1"
-        status="obsoleted" version="2.10">
+        status="deleted" version="2.10">
       <object ref="Device.ZigBee.Interface.{i}.Stats." requirement="present">
         <parameter ref="BytesSent" requirement="readOnly"/>
         <parameter ref="BytesReceived" requirement="readOnly"/>
@@ -1619,7 +1621,7 @@
     </profile>
   </component>
 
-  <model name="ZigBee:2.21">
+  <model name="ZigBee:2.22">
     <component ref="Root"/>
     <component ref="ZigBee"/>
   </model>

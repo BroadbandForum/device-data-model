@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-users"
-    file="tr-181-2-21-0-users.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-users"
+    file="tr-181-2-22-0-users.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -621,7 +621,7 @@
   </component>
 
 
-  <model name="Users:2.21">
+  <model name="Users:2.22">
     <component ref="Root"/>
     <component ref="Users"/>
   </model>

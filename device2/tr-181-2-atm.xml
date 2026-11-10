@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-atm"
-    file="tr-181-2-21-0-atm.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-atm"
+    file="tr-181-2-22-0-atm.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,12 +65,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="LinkReadWrite"/>
   </import>
 
@@ -240,7 +240,7 @@
 
       <parameter name="AutoConfig" access="readOnly">
         <description>
-          Indicates if the CPE is currently using some auto configuration
+          Indicates if the device is currently using some auto configuration
           mechanisms for this connection. If this variable is {{true}}, all
           writable variables in this connection instance become read-only. Any
           attempt to change one of these variables SHOULD fail and an error
@@ -476,7 +476,7 @@
     </profile>
   </component>
 
-  <model name="ATM:2.21">
+  <model name="ATM:2.22">
     <component ref="Root"/>
     <component ref="ATM"/>
   </model>

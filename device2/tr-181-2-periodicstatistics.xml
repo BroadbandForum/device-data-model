@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-periodicstatistics"
-    file="tr-181-2-21-0-periodicstatistics.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-periodicstatistics"
+  file="tr-181-2-22-0-periodicstatistics.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -87,7 +87,7 @@
 
       <parameter name="MinSampleInterval" access="readOnly">
         <description>
-          Minimum sample interval in {{units}} that the CPE is able to support.
+          Minimum sample interval in {{units}} that the device is able to support.
 
           A value of 0 indicates no specific minimum sample interval.
         </description>
@@ -100,7 +100,7 @@
 
       <parameter name="MaxReportSamples" access="readOnly">
         <description>
-          Maximum number of samples of each statistic that the CPE is able to
+          Maximum number of samples of each statistic that the device is able to
           store and report.
 
           A value of 0 indicates no specific maximum number of samples.
@@ -168,12 +168,12 @@
           The sample interval in {{units}}. Each statistic is measured over
           this sample interval.
 
-          The CPE MAY also support an internal sampling rate (implementation
-          dependent) that is faster than the {{param}} and allows the CPE to
+          The device MAY also support an internal sampling rate (implementation
+          dependent) that is faster than the {{param}} and allows the device to
           support the various options available in
           {{param|Parameter.{i}.CalculationMode}}.
 
-          The CPE MAY reject a request to set {{param}} to less than
+          The device MAY reject a request to set {{param}} to less than
           {{param|#.MinSampleInterval}}.
 
           Sample intervals MUST begin every {{param}} {{units}}, with no delay
@@ -184,7 +184,7 @@
           interval begins immediately.
 
           For example, if {{param|ReportSamples}} is 24 and {{param}} is 3600
-          (an hour), the CPE can store up to a day's worth of samples for each
+          (an hour), the device can store up to a day's worth of samples for each
           statistic.
         </description>
         <syntax>
@@ -198,19 +198,19 @@
 
       <parameter name="ReportSamples" access="readWrite">
         <description>
-          The number of samples that the CPE will store and report for each
+          The number of samples that the device will store and report for each
           statistic.
 
-          The CPE MUST permit {{param}} to be set to at least
+          The device MUST permit {{param}} to be set to at least
           {{param|#.MaxReportSamples}}.
 
           If {{param}} is changed while collection of periodic statistics is
-          enabled, the CPE will truncate or extend its statistics buffers as
+          enabled, the device will truncate or extend its statistics buffers as
           appropriate, but statistics collection MUST NOT otherwise be
           affected.
 
           For example, if {{param}} is 24 and {{param|SampleInterval}} is 3600
-          (an hour), the CPE can store up to a day's worth of samples for each
+          (an hour), the device can store up to a day's worth of samples for each
           statistic.
         </description>
         <syntax>
@@ -556,7 +556,7 @@
 
           This parameter can be incremented at any time during a sample
           interval, and might be incremented more than once during a single
-          sample interval. For this reason, the CPE SHOULD place a locally
+          sample interval. For this reason, the device SHOULD place a locally
           specified limit on the frequency at which it will notify the
           Controller of such changes.
 
@@ -618,7 +618,7 @@
     </profile>
   </component>
 
-  <model name="PeriodicStatistics:2.21">
+  <model name="PeriodicStatistics:2.22">
     <component ref="Root"/>
     <component ref="PeriodicStatistics"/>
   </model>

@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-localagent"
-    file="tr-181-2-21-0-localagent.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-localagent"
+    file="tr-181-2-22-0-localagent.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -111,6 +111,18 @@
         <unsignedInt>
           <units value="seconds"/>
         </unsignedInt>
+      </syntax>
+    </parameter>
+
+    <parameter name="AllowToSendRequestorIDList" access="readWrite" version="2.22">
+      <description>
+        {{list|each entry is the EndpointID of a USP Controller that is authorized to use the requestor_id field in a USP request record.
+        Controllers included in this list are permitted to act using the roles and permissions associated with another EndpointID, as specified by the requestor_id field.
+        If a Controller is not included in this list, any attempt to use the requestor_id field in a USP record MUST result in the Agent returning an Error response.}}
+      </description>
+      <syntax>
+        <list/>
+        <string/>
       </syntax>
     </parameter>
 
@@ -273,12 +285,26 @@
             <enumeration value="Down">
               <description>
                 Value when this {{object}} instance cannot establish
-                communication.
+                communication. This includes the situation where this {{object}}
+                instance is disabled through {{param|Enable}} or when it can not
+                reach the configured server when it is acting as a client.
               </description>
             </enumeration>
             <enumeration value="Error" optional="true">
               <description>
-                Value when this {{object}} instance is misconfigured.
+                Value when this {{object}} instance is misconfigured. This
+                should only be used when the error is caused by one of the
+                available configuration parameters, including object instances
+                and parameters referenced by this {{object}} configuration
+                parameters.
+
+                When acting as a client, this includes the situation where
+                the server is reachable, but the connection is rejected based on
+                configured parameters, e.g. wrong credentials.
+
+                When acting as a server, this includes the situation where
+                the server could not be started due to conflicting or wrong
+                configurations.
               </description>
             </enumeration>
           </string>
@@ -1449,10 +1475,7 @@
         <description>
           {{list|each entry is a Role that is associated with Controllers to
           indicate their access to the content of secured parameters (e.g.
-          {{param|.WiFi.AccessPoint.{i}.Security.WEPKey}}). The value of the
-          {{param}} parameter is appended to the
-          {{param|#.Controller.{i}.AssignedRole}} parameter of the Controller instance
-          that requires access to the content of secured parameters.}}
+          {{param|.WiFi.AccessPoint.{i}.Security.WEPKey}})}}
 
           A Controller that requires access to the content of secured parameters
           must possess at least one Role from this list via
@@ -2096,7 +2119,7 @@
     </object>
   </component>
 
-  <model name="LocalAgent:2.21">
+  <model name="LocalAgent:2.22">
     <component ref="Root"/>
     <component ref="USPLocalAgent"/>
   </model>

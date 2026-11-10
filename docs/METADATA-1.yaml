@@ -44,3 +44,6 @@ website: https://device-data-model.broadband-forum.org
   one on top of the other, into whatever configuration a device might support.
 bbfWorkArea: ''
 bbfProjectStream: ''
+dependsOn:
+  WT-106: v1.14.0
+  WT-157: v1.10.0

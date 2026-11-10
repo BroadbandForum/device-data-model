@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-map"
-    file="tr-181-2-21-0-map.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-map"
+    file="tr-181-2-22-0-map.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -69,12 +69,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
     <component name="Layer3InterfaceParams"/>
@@ -152,10 +152,10 @@
         have its own ''End-user IPv6 prefix'' and ''MAP IPv6 address'').
 
         Note: The {{object}} table includes unique key parameters that are
-        strong references. If a strongly referenced object is deleted, the CPE
+        strong references. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -242,8 +242,8 @@
           The MAP domain's ''End-user IPv6 prefix''. This MUST reference one of
           {{param|WANInterface}}'s prefixes.
 
-          If the Controller configures this prefix directly, the CPE MUST use
-          the Controller-configured prefix. Otherwise, the CPE MUST select one
+          If the Controller configures this prefix directly, the device MUST use
+          the Controller-configured prefix. Otherwise, the device MUST select one
           of {{param|WANInterface}}'s prefixes; the selected prefix will
           typically have {{param|##.IP.Interface.{i}.IPv6Prefix.{i}.Origin}} =
           {{enum|PrefixDelegation|##.IP.Interface.{i}.IPv6Prefix.{i}.Origin}}.
@@ -451,7 +451,7 @@
         <description>
           The status of this {{object}} instance. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -470,7 +470,7 @@
         <description>
           The mechanism via which the {{object}} was created.
 
-          If the CPE supports MAP configuration via both DHCPv6 and CWMP, it is
+          If the device supports MAP configuration via both DHCPv6 and CWMP, it is
           up to the implementation to determine how the two mechanisms will
           interact.
         </description>
@@ -703,7 +703,7 @@
     </profile>
   </component>
 
-  <model name="MAP:2.21">
+  <model name="MAP:2.22">
     <component ref="Root"/>
     <component ref="MAP"/>
   </model>

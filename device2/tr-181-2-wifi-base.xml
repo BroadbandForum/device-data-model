@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-base"
-    file="tr-181-2-21-0-wifi-base.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-wifi-base"
+    file="tr-181-2-22-0-wifi-base.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -73,12 +73,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsMaxBitRateReadOnly"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
@@ -90,19 +90,33 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
   <import file="tr-181-2-wifi-de-base.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-wifi-de-base">
+    spec="urn:broadband-forum-org:tr-181-2-22-wifi-de-base">
     <component name="WiFi7Capabilities"/>
     <component name="MLOFreqSeparation"/>
+    <component name="MLDCapabilities"/>
+    <component name="TIDLinkMapCapabilities"/>
+    <component name="AffiliatedAPStats"/>
+    <component name="SupportedWiFiGenerations"/>
+    <component name="WFACapabilities"/>
+    <component name="MLDConfig"/>
+    <component name="TIDLinkMap"/>
+    <component name="APMLDTable"/>
+    <component name="bSTAMLDTable"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="ClientCertsNoDefault"/>
+  </import>
+
+  <import file="tr-181-2-wifi-sensing.xml"
+     spec="urn:broadband-forum-org:tr-181-2-22-wifi-sensing">
+     <component name="SensingCapabilities"/>
   </import>
 
   <component name="AFC">
@@ -128,9 +142,9 @@
 
       <parameter name="ServerURL" access="readWrite">
         <description>
-          The URL for the CPE to connect to the AFC server.
+          The URL for the device to connect to the AFC server.
           This parameter MUST be in the form of a valid HTTP or HTTPS URL.
-          The host portion of this URL is used by the CPE for validating the
+          The host portion of this URL is used by the device for validating the
           AFC certificate when using TLS.
         </description>
         <syntax>
@@ -681,18 +695,54 @@
         <description>
           The type of encryption the neighboring WiFi SSID advertises.
 
-          When {{param|SecurityModeEnabled}} is one of
-          {{enum|WPA3-SAE|SecurityModeEnabled}},
-          {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}}, or
-          {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}}, or
-          {{enum|WPA3-Enterprise|SecurityModeEnabled}}, {{enum|TKIP}} is not
-          valid, and should not be in the list.
+          The reported values depend on {{param|SecurityModeEnabled}}:
+
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|None|SecurityModeEnabled}} or
+            {{enum|WEP|SecurityModeEnabled}}, {{param}} is not applicable.
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|WPA|SecurityModeEnabled}} or
+            {{enum|WPA-Enterprise|SecurityModeEnabled}}, only {{enum|TKIP}}
+            is in the list.
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|WPA-WPA2|SecurityModeEnabled}} or
+            {{enum|WPA-WPA2-Enterprise|SecurityModeEnabled}}, all values may
+            be in the list.
+          * When {{param|SecurityModeEnabled}} is one of
+            {{enum|WPA2|SecurityModeEnabled}},
+            {{enum|WPA2-Enterprise|SecurityModeEnabled}},
+            {{enum|WPA3-SAE|SecurityModeEnabled}},
+            {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}},
+            {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}},
+            {{enum|WPA3-Enterprise|SecurityModeEnabled}}, or
+            {{enum|OWE|SecurityModeEnabled}}, {{enum|TKIP}} is not in the
+            list.
         </description>
         <syntax>
           <list/>
           <string>
-            <enumeration value="TKIP"/>
-            <enumeration value="AES"/>
+            <enumeration value="TKIP">
+              <description>{{bibref|802.11-2024|Section 12.3.4}}</description>
+            </enumeration>
+            <enumeration value="AES" status="deprecated">
+              <description>
+                {{deprecated|2.22|because it has been replaced by the more
+                specific {{enum|CCMP-128}}, {{enum|CCMP-256}}, {{enum|GCMP-128}},
+                and {{enum|GCMP-256}} values}}
+              </description>
+            </enumeration>
+            <enumeration value="CCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="CCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="GCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
+            <enumeration value="GCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -866,7 +916,7 @@
           The number of beacon intervals (measured in {{units}}) that elapse
           between transmission of Beacon frames containing a TIM element whose
           DTIM count field is 0. This value is transmitted in the DTIM Period
-          field of beacon frames. {{bibref|802.11-2020}}
+          field of beacon frames. {{bibref|802.11-2024}}
         </description>
         <syntax>
           <unsignedInt>
@@ -882,7 +932,7 @@
         maxEntries="1" version="2.0">
       <description>
         The WiFi object is based on the IEEE 802.11 specifications
-        ({{bibref|802.11-2020}}). It defines interface objects
+        ({{bibref|802.11-2024}}). It defines interface objects
         ({{object|Radio}} and {{object|SSID}}), and application objects
         ({{object|AccessPoint}} and {{object|EndPoint}}).
       </description>
@@ -894,10 +944,11 @@
         maxEntries="1">
 
       <component ref="AFC"/>
-
       <component ref="Radio"/>
-
       <component ref="SSID"/>
+      <component ref="MLDCapabilities" version="2.22"/>
+      <component ref="APMLDTable" version="2.22"/>
+      <component ref="bSTAMLDTable" version="2.22"/>
 
       <parameter name="AccessPointNumberOfEntries" access="readOnly">
         <description>
@@ -1021,7 +1072,7 @@
           If the radio supports multiple bands, and {{param}} is changed, then
           all parameters whose value is not valid for the new frequency band
           (e.g. {{param|Channel}}) MUST be set to a valid value (according to
-          some CPE vendor-specific behavior).
+          some device vendor-specific behavior).
         </description>
         <syntax>
           <string>
@@ -1566,11 +1617,11 @@
           {{list}} List items represent supported transmit power levels as
           {{units}} of full power. For example, "0,25,50,75,100".
 
-          A -1 item indicates auto mode (automatic decision by CPE). Auto mode
+          A -1 item indicates auto mode (automatic decision by device). Auto mode
           allows the ''Radio'' to adjust transmit power accordingly. For
           example, this can be useful for power-save modes such as EU-CoC,
           where the ''Radio'' can adjust power according to activity in the
-          CPE.
+          device.
         </description>
         <syntax>
           <list>
@@ -1588,7 +1639,7 @@
           Indicates the current transmit power level as a {{units}} of full
           power. The value MUST be one of the values reported by the
           {{param|TransmitPowerSupported}} parameter. A value of -1 indicates
-          auto mode (automatic decision by CPE).
+          auto mode (automatic decision by device).
 
           If the instance of this {{object}} is the same as
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.}},
@@ -1736,7 +1787,7 @@
 
           When read, the value of this parameter MUST correspond to
           {{param|CCARequest}}. How this is achieved is a local matter to the
-          CPE.
+          device.
 
           If this parameter is read before a CCARequest has been issued, then
           its value is {{empty}}.
@@ -1830,7 +1881,7 @@
           This specifies the number of beacon intervals (measured in {{units}})
           that elapse between transmission of Beacon frames containing a TIM
           element whose DTIM Count field is 0. This parameter is based on
-          ''dot11DTIMPeriod'' from {{bibref|802.11-2020}}.
+          ''dot11DTIMPeriod'' from {{bibref|802.11-2024}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -2104,6 +2155,53 @@
           </int>
         </syntax>
       </parameter>
+
+      <parameter name="SupportedSensingDataTypes" access="readOnly"
+           version="2.22">
+      <description>
+        Each item is a 4-byte hexadecimal number that identifies a sensing
+        data type. A sensing data type identifies the formatting of the
+        sensing data, e.g. reporting frame CSI
+        {{bibref|802.11bf}}, CFO {{bibref|802.11-2024}}, or vendor-specific.
+        The first three bytes are either zeros, representing standard types,
+        or the CID (Company identifier) or OUI (Organizationally Unique Identifier).
+        The last byte identifies the format. {{empty}} value indicates that the
+        radio does not support sensing of any type.
+      </description>
+      <syntax>
+         <list/>
+         <hexBinary>
+            <size minLength="4" maxLength="4"/>
+         </hexBinary>
+      </syntax>
+      </parameter>
+
+      <parameter name="SupportedAccessPointSensingExchangeTypes" access="readOnly"
+          version="2.22">
+        <description>
+          Each item is a BSS supported sensing exchange type, includes legacy exchange
+          types such as qosnull, opportunistic, probe and {{bibref|802.11bf}} types like
+          trigger-based, non-trigger-based and sensing by proxy.
+        </description>
+        <syntax>
+         <list/>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="SupportedEndPointSensingExchangeTypes" access="readOnly"
+          version="2.22">
+        <description>
+         Each item is a STA supported sensing exchange type,includes legacy exchange
+         types such as qosnull, opportunistic, probe and {{bibref|802.11bf}} types like
+         non-trigger-based and sensing by proxy. Endpoints (station) cannot initiate 
+         trigger-based sensing exchanges.
+        </description>
+        <syntax>
+          <list/>
+          <string/>
+        </syntax>
+      </parameter>
     </object>
 
     <object base="Device.WiFi.Radio.{i}.Stats." >
@@ -2365,6 +2463,36 @@
         This object represents the capabilities of the radio which may be
         different from the current operational configuration.
       </description>
+
+      <component ref="TIDLinkMapCapabilities" version="2.22"/>
+    </object>
+
+    <object name="Device.WiFi.Radio.{i}.StaticPuncturing."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        Static puncturing configuration for this radio. Static puncturing
+        allows specific sub-channels to be permanently disabled for EHT
+        (IEEE 802.11be) operation.
+      </description>
+
+      <parameter name="DisabledSubChannels" access="readWrite"
+          version="2.22">
+        <description>
+          Disabled Subchannel Bitmap specifying which 20 MHz sub-channels
+          within the operating channel are statically punctured. The bitmap
+          follows the Punctured Channel Information field as defined in
+          {{bibref|802.11be}}.
+
+          The disabled channels list can be rejected when it does not match
+          any reference puncturing bitmap or when it includes a channel not
+          supported by the radio.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="65535"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.WiFi.Radio.{i}.Capabilities.WiFi7APRole."
@@ -2663,6 +2791,123 @@
         </syntax>
       </parameter>
 
+      <parameter name="MLDLinkID" access="readOnly" version="2.22">
+        <description>
+          The link ID of this SSID in active MLO connections. When {{param}}
+          is -1, this SSID is not actively part of an MLD.
+
+          For endpoints where {{param|MLDRole}} is not
+          {{enum|None|MLDRole}}, and the endpoint is actively connected
+          to an upstream AP, it may still occur that {{param}} is -1. In
+          that case the SSID is associated as a single link even though
+          configured as MLO capable, and is thus not part of an active
+          bSTAMLD.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="15"/>
+          </int>
+          <default type="object" value="-1"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDLinkLocalMACAddress" access="readOnly"
+          version="2.22">
+        <description>
+          The remote link MAC address of this SSID in active
+          MLO connections. When this SSID is not actively part of an MLD,
+          {{param}} is set to the null MAC address.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDRole" access="readOnly" version="2.22">
+        <description>
+          The role this SSID is fulfilling in the MLO operation.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="None">
+              <description>
+                The SSID does not have a role in the MLD, i.e. the SSID
+                does not support MLO, or is not actively trying to connect
+                or connecting.
+              </description>
+            </enumeration>
+            <enumeration value="Primary">
+              <description>
+                The SSID represents the primary MLO interface. This is the
+                interface used for connection management and traffic.
+              </description>
+            </enumeration>
+            <enumeration value="Auxiliary">
+              <description>
+                The SSID is an auxiliary MLO interface. This interface is
+                not used for connection management. On active MLO
+                connections, traffic flows through the primary interface
+                only.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="None"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDStatus" access="readOnly" version="2.22">
+        <description>
+          The MLD status of this SSID.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>
+                MLD status is not known.
+              </description>
+            </enumeration>
+            <enumeration value="Unsupported">
+              <description>
+                MLO is not supported by the driver.
+              </description>
+            </enumeration>
+            <enumeration value="Unconfigured">
+              <description>
+                No MLDUnit is set on this SSID.
+              </description>
+            </enumeration>
+            <enumeration value="StandardDisabled">
+              <description>
+                MLO supporting standards are disabled.
+              </description>
+            </enumeration>
+            <enumeration value="InvalidMLDConfig">
+              <description>
+                The configuration across this MLD is not consistent with
+                operating MLO (e.g. SSID mismatch).
+              </description>
+            </enumeration>
+            <enumeration value="InvalidOtherConfig">
+              <description>
+                Some other configuration issue prevents MLO operation.
+              </description>
+            </enumeration>
+            <enumeration value="BSSDisabled">
+              <description>
+                Configuration is ready for MLO but a BSS in the MLD is
+                disabled, preventing global enable.
+              </description>
+            </enumeration>
+            <enumeration value="Ready">
+              <description>
+                The MLD is ready to operate and this SSID is able to
+                support MLO connections.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
       <parameter name="ATFEnable" access="readWrite" version="2.14">
         <description>
           Enables or disables Air Time Fairness (ATF).
@@ -2868,14 +3113,14 @@
         {{param|SSIDReference}} parameter.
 
         For enabled table entries, if {{param|SSIDReference}} is not a valid
-        reference then the table entry is inoperable and the CPE MUST set
+        reference then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -2903,7 +3148,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -3093,7 +3338,7 @@
 
       <parameter name="CpeOperationMode" access="readWrite" version="2.14">
         <description>
-          Reports information about the CPE operation mode (router or
+          Reports information about the device operation mode (router or
           bridge/range extender).
         </description>
         <syntax>
@@ -3118,7 +3363,7 @@
     <object name="Device.WiFi.AccessPoint.{i}.Security." access="readOnly"
         minEntries="1" maxEntries="1" version="2.0">
       <description>
-        This object contains security related parameters that apply to a CPE
+        This object contains security related parameters that apply to a device
         acting as an Access Point {{bibref|802.11-2007}}.
       </description>
 
@@ -3171,17 +3416,51 @@
         <description>
           The type of encryption in use.
 
-          When {{param|ModeEnabled}} is one of
-          {{enum|WPA3-Personal|ModesSupported}},
-          {{enum|WPA3-Personal-Transition|ModesSupported}}, or
-          {{enum|WPA3-Enterprise|ModesSupported}}, {{enum|TKIP}} is not valid,
-          and should not be in the list.
+          The valid values depend on {{param|ModeEnabled}}:
+
+          * When {{param|ModeEnabled}} is {{enum|None|ModesSupported}},
+            {{enum|WEP-64|ModesSupported}}, or {{enum|WEP-128|ModesSupported}},
+            {{param}} is not applicable.
+          * When {{param|ModeEnabled}} is {{enum|WPA-Personal|ModesSupported}}
+            or {{enum|WPA-Enterprise|ModesSupported}}, only {{enum|TKIP}} is
+            valid.
+          * When {{param|ModeEnabled}} is
+            {{enum|WPA-WPA2-Personal|ModesSupported}} or
+            {{enum|WPA-WPA2-Enterprise|ModesSupported}}, all values are valid.
+          * When {{param|ModeEnabled}} is one of
+            {{enum|WPA2-Personal|ModesSupported}},
+            {{enum|WPA2-Enterprise|ModesSupported}},
+            {{enum|WPA3-Personal|ModesSupported}},
+            {{enum|WPA3-Personal-Transition|ModesSupported}},
+            {{enum|WPA3-Personal-Compatibility|ModesSupported}},
+            {{enum|WPA3-Enterprise|ModesSupported}}, or
+            {{enum|OWE|ModesSupported}}, {{enum|TKIP}} is not valid.
         </description>
         <syntax>
           <list/>
           <string>
-            <enumeration value="TKIP"/>
-            <enumeration value="AES"/>
+            <enumeration value="TKIP">
+              <description>{{bibref|802.11-2024|Section 12.3.4}}</description>
+            </enumeration>
+            <enumeration value="AES" status="deprecated">
+              <description>
+                {{deprecated|2.22|because it has been replaced by the more
+                specific {{enum|CCMP-128}}, {{enum|CCMP-256}}, {{enum|GCMP-128}},
+                and {{enum|GCMP-256}} values}}
+              </description>
+            </enumeration>
+            <enumeration value="CCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="CCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="GCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
+            <enumeration value="GCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -4058,6 +4337,92 @@
         </syntax>
       </parameter>
     </object>
+    
+    <object name="Device.WiFi.AccessPoint.{i}.Sensing." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.22">
+     <description>
+         This object contains parameters related to Wi-Fi Sensing configuration.
+     </description>
+     
+     <parameter name="UnassociatedSTAComebackEnabled" access="readWrite" version="2.22">
+        <description>
+          Enables Unassociated STA Comeback behavior as per {{bibref|802.11bf}}.
+
+          When {{param}} is {{true}}:
+            * If no measurement exchange request exists for the sender's STA MAC address,
+              respond to the unassociated STA's measurement query with a comeback interval
+              derived from {{param|UnassociatedSTAComebackAfterExponent}} and {{param|UnassociatedSTAComebackBeforeExponent}}.
+            * If a measurement exchange request already exists for that STA MAC address,
+              start the measurement exchange.
+
+          When {{param}} is {{false}}, Unassociated STA Comeback handling is disabled.
+        </description>
+        <syntax>
+           <boolean/>
+        </syntax>
+     </parameter>
+    
+     <parameter name="UnassociatedSTAComebackAfterExponent" access="readWrite" version="2.22">
+        <description>
+           Specifies the Comeback After Exponent as specified in {{bibref|802.11bf}}.
+           {{param}} is the exponent n ({{range}}) used to calculate the minimum
+           Unassociated STA Comeback After interval. The interval is measured
+           in milliseconds and computed as 2^n+4^.
+         </description>
+         <syntax>
+          <unsignedInt>
+             <range minInclusive="0" maxInclusive="7"/>
+          </unsignedInt>
+          <default type="object" value="6"/>
+        </syntax>
+     </parameter>
+     
+     <parameter name="UnassociatedSTAComebackBeforeExponent" access="readWrite" version="2.22">
+       <description>
+         Specifies the Comeback Before Exponent as specified in {{bibref|802.11bf}}.
+         {{param}} is the exponent n ({{range}}) used to calculate the maximum
+         Unassociated STA Comeback Before interval. The interval is measured
+         in milliseconds and computed as 2^n+12^.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="0" maxInclusive="3"/>
+          </unsignedInt>
+          <default type="object" value="0"/>
+        </syntax>
+     </parameter>
+
+     <parameter name="ExternalRequestPolicy" access="readWrite" version="2.22">
+        <description>
+           Willingness to participate in externally requested sensing as a Responder.
+        </description>
+       <syntax>
+        <string>
+            <enumeration value="Deny">
+              <description>
+                Refuse all; only perform sensing as requested 
+                by Sensing Application, never by an external station.
+              </description>
+            </enumeration>
+            <enumeration value="AllowDirectlyAssociated">
+              <description>
+                Only allow STAs directly associated to this AccessPoint.
+              </description>
+            </enumeration>
+            <enumeration value="AllowAllAssociated">
+             <description>
+                Allow all STAs associated anywhere in the network.
+             </description> 
+            </enumeration>
+            <enumeration value="AllowAll">
+              <description>
+                 Allow all, including unassociated stations.
+              </description>
+            </enumeration>
+       </string>
+       </syntax>
+    </parameter>
+   </object>
 
     <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}."
         access="readOnly" numEntriesParameter="AssociatedDeviceNumberOfEntries"
@@ -4077,6 +4442,10 @@
           {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.}},
           then this parameter is the same as
           {{param|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.BSS.{i}.STA.{i}.MACAddress}}.
+
+          For a STA MLD, {{param}} is the MLD MAC Address, not an Affiliated
+          STA MAC Address. The Affiliated STA MAC Addresses are reported in
+          {{object|AffiliatedSTA}}.
         </description>
         <syntax>
           <dataType ref="MACAddress"/>
@@ -4303,10 +4672,10 @@
           Whether or not this node is currently present in the WiFi AccessPoint
           network.
 
-          The ability to list inactive nodes is OPTIONAL. If the CPE includes
+          The ability to list inactive nodes is OPTIONAL. If the device includes
           inactive nodes in this table, {{param}} MUST be set to {{false}} for
           each inactive node. The length of time an inactive node remains
-          listed in this table is a local matter to the CPE.
+          listed in this table is a local matter to the device.
         </description>
         <syntax>
           <boolean/>
@@ -4329,6 +4698,148 @@
           </string>
         </syntax>
       </parameter>
+
+      <parameter name="APMLDMACAddress" access="readOnly" version="2.22">
+        <description>
+          The AP MLD MAC address to which the MLO station is connected.
+          When {{param}} is set to the null MAC address, the station is not
+          connected via MLO.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+     <parameter name="AffiliatedSTANumberOfEntries" access="readOnly" version="2.22">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+     </parameter>
+
+      <parameter name="MLOMode" access="readOnly" version="2.22">
+        <description>
+          The current Multi-Link Operation (MLO) mode of the associated
+          device.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Unknown">
+              <description>
+                No MLO available, or {{param}} is unknown.
+              </description>
+            </enumeration>
+            <enumeration value="NotApplicable">
+              <description>
+                {{param|MLOMode}} is not applicable, i.e. the associated
+                device is not doing MLO.
+              </description>
+            </enumeration>
+            <enumeration value="ActiveUnknown">
+              <description>
+                MLO is active, but the specific mode is currently unknown.
+              </description>
+            </enumeration>
+            <enumeration value="SingleLink">
+              <description>
+                Single link MLO, i.e. the associated device supports
+                {{bibref|802.11be}}, but only sets up one link.
+              </description>
+            </enumeration>
+            <enumeration value="EMLSR">
+              <description>
+                Enhanced Multi-Link Single Radio.
+              </description>
+            </enumeration>
+            <enumeration value="NSTR">
+              <description>
+                Non-Simultaneous Transmit and Receive.
+              </description>
+            </enumeration>
+            <enumeration value="STR">
+              <description>
+                Simultaneous Transmit and Receive.
+              </description>
+            </enumeration>
+            <enumeration value="EMLMR">
+              <description>
+                Enhanced Multi-Link Multi-Radio.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="ActiveNumberOfAffiliatedSTA" access="readOnly" version="2.22">
+        <description>
+          The number of affiliated STA links, as reported in
+          {{object|AffiliatedSTA}}, that are currently active.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="FrequencyCapabilities" access="readOnly" version="2.22">
+        <description>
+          The frequency bands on which the associated device is capable of
+          operating.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="2.4GHz"/>
+            <enumeration value="5GHz"/>
+            <enumeration value="6GHz"/>
+          </string>
+        </syntax>
+      </parameter>
+
+      <parameter name="UNIIBandsCapabilities" access="readOnly" version="2.22">
+        <description>
+          The U-NII bands on which the associated device is capable of
+          operating.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="5_UNII_1">
+              <description>5 GHz UNII-1 band, 5.15 to 5.25 GHz</description>
+            </enumeration>
+            <enumeration value="5_UNII_2">
+              <description>5 GHz UNII-2 band, 5.25 to 5.725 GHz</description>
+            </enumeration>
+            <enumeration value="5_UNII_3">
+              <description>5 GHz UNII-3 band, 5.725 to 5.85 GHz</description>
+            </enumeration>
+            <enumeration value="5_UNII_4">
+              <description>5 GHz UNII-4 band, 5.85 to 5.925 GHz</description>
+            </enumeration>
+            <enumeration value="6_UNII_5">
+              <description>
+                6 GHz UNII-5 band, 5.925 to 6.425 GHz
+              </description>
+            </enumeration>
+            <enumeration value="6_UNII_6">
+              <description>
+                6 GHz UNII-6 band, 6.425 to 6.525 GHz
+              </description>
+            </enumeration>
+            <enumeration value="6_UNII_7">
+              <description>
+                6 GHz UNII-7 band, 6.525 to 6.875 GHz
+              </description>
+            </enumeration>
+            <enumeration value="6_UNII_8">
+              <description>
+                6 GHz UNII-8 band, 6.875 to 7.125 GHz
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
     </object>
 
     <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.Stats."
@@ -4338,7 +4849,7 @@
         Device, which is a WiFi station associated to this access point. Packet
         counters here count 802.11 WiFi frames.
 
-        The CPE MUST reset these {{object}} parameters (unless otherwise stated
+        The device MUST reset these {{object}} parameters (unless otherwise stated
         in individual object or parameter descriptions) either when the
         {{param|##.Status}} of the parent {{object|##}} object transitions from
         {{enum|Disabled|##.Status}} to {{enum|Enabled|##.Status}}, or when it
@@ -4484,6 +4995,254 @@
           <dataType ref="StatsCounter32"/>
         </syntax>
       </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSTA.{i}."
+        numEntriesParameter="AffiliatedSTANumberOfEntries"
+        access="readOnly" minEntries="1" maxEntries="unbounded" version="2.22">
+        <description>
+          This object describes stations (STAs, also called associated devices)
+          that are affiliated to this Multi-Link Device (MLD) STA.
+        </description>
+        <uniqueKey functional="true">
+          <parameter ref="MACAddress"/>
+        </uniqueKey>
+
+        <parameter name="MACAddress" access="readOnly">
+          <description>
+             The MAC address of the affiliated STA.
+          </description>
+          <syntax>
+            <dataType ref="MACAddress"/>
+          </syntax>
+         </parameter>
+
+        <parameter name="AccessPointReference" access="readOnly" version="2.22">
+          <description>
+            The {{object|Device.WiFi.AccessPoint}} entry representing the
+            access point via which the Multi-Link Device (MLD)
+            access point provides the link represented by this {{object}}
+            instance.
+          </description>
+          <syntax>
+            <string>
+              <pathRef refType="strong" targetParent="Device.WiFi.AccessPoint."
+                  targetType="row"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="LinkID" access="readOnly" version="2.22">
+          <description>
+            The Link ID of the affiliated AP that provides the connection
+            for this {{object}} instance.
+          </description>
+          <syntax>
+            <unsignedInt>
+              <range minInclusive="0" maxInclusive="15"/>
+            </unsignedInt>
+          </syntax>
+        </parameter>
+
+        <parameter name="BSSID" access="readOnly" version="2.22">
+          <description>
+            The BSSID of the access point interface via which the
+            Multi-Link Device (MLD) access point provides the link
+            represented by this {{object}} instance.
+          </description>
+          <syntax>
+            <dataType ref="MACAddress"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="FrequencyBand" access="readOnly" version="2.22">
+          <description>
+            The frequency band on which this affiliated STA is connected.
+            This is the same as the operating frequency band of the Radio
+            of the access point to which this {{object}} instance is
+            connected.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="2.4GHz"/>
+              <enumeration value="5GHz"/>
+              <enumeration value="6GHz"/>
+            </string>
+          </syntax>
+        </parameter>
+
+        <parameter name="Active" access="readOnly" version="2.22">
+          <description>
+            Whether this affiliated STA link is currently active. If
+            {{false}}, the {{object|Stats.}} parameters show the state at
+            the time of disconnection.
+          </description>
+          <syntax>
+            <boolean/>
+          </syntax>
+        </parameter>
+
+        <parameter name="MaxSupportedBandwidth" access="readOnly">
+          <description>
+            Specifies the maximum supported bandwidth for the Affiliated STA.
+          </description>
+          <syntax>
+           <string>
+             <enumeration value="20MHz"></enumeration>
+             <enumeration value="40MHz"></enumeration>
+             <enumeration value="80MHz"></enumeration>
+             <enumeration value="160MHz"></enumeration>
+             <enumeration value="320MHz"></enumeration>
+            <enumeration value="Unknown"></enumeration>
+           </string>
+          </syntax>
+        </parameter>
+
+      <parameter name="SignalStrength" access="readOnly">
+        <description>
+          An indicator of radio signal strength of the uplink from the
+          affiliated STA to the access point on this link, measured in
+          {{units}}, as an average of the last 100 packets received from the
+          affiliated STA.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-200" maxInclusive="0"/>
+            <units value="dBm"/>
+          </int>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastDataDownlinkRate" access="readOnly">
+        <description>
+          The data transmit rate in {{units}} that was most recently used
+          for transmission of data from the access point to the affiliated
+          STA on this link.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1000"/>
+            <units value="kbps"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="LastDataUplinkRate" access="readOnly">
+        <description>
+          The data transmit rate in {{units}} that was most recently used
+          for transmission of data from the affiliated STA to the access
+          point on this link.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <range minInclusive="1000"/>
+            <units value="kbps"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="DownlinkRateSpec" access="readOnly">
+        <description>
+          A string representation of the full rate specification that was
+          most recently used for transmission of data from the access point
+          to the affiliated STA on this link, e.g. the channel bandwidth,
+          Modulation and Coding Scheme (MCS) index, and number of spatial
+          streams.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+
+      <parameter name="UplinkRateSpec" access="readOnly">
+        <description>
+          A string representation of the full rate specification that was
+          most recently used for transmission of data from the affiliated
+          STA to the access point on this link, e.g. the channel bandwidth,
+          Modulation and Coding Scheme (MCS) index, and number of spatial
+          streams.
+        </description>
+        <syntax>
+          <string/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSTA.{i}.Stats."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        These count bytes or packets sent to, or received from, this
+        affiliated STA, which is one of the Multi-Link Operation (MLO) links
+        of the associated device.
+      </description>
+
+      <parameter name="BytesSent" access="readOnly">
+        <description>
+          The total number of bytes transmitted to the affiliated STA on
+          this link.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="BytesReceived" access="readOnly">
+        <description>
+          The total number of bytes received from the affiliated STA on
+          this link.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PacketsSent" access="readOnly">
+        <description>
+          The total number of packets transmitted to the affiliated STA on
+          this link.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PacketsReceived" access="readOnly">
+        <description>
+          The total number of packets received from the affiliated STA on
+          this link.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ErrorsSent" access="readOnly">
+        <description>
+          The number of packets that could not be transmitted to the
+          affiliated STA on this link due to errors.
+        </description>
+        <syntax>
+          <dataType ref="StatsCounter64"/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.AffiliatedSTA.{i}.SensingCapabilities."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+       <description>
+          This object is a copy of the sensing capabilities of the Affiliated STA as transmitted in the 
+          Sensing Capabilities IE defined in {{bibref|802.11bf|9.4.2.332}}.
+       </description>
+      <component ref="SensingCapabilities"/>
+    </object>
+
+    <object name="Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SensingCapabilities."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+       <description>
+         This object is a copy of the sensing capabilities of the Associated Devices
+         as transmitted in the Sensing Capabilities IE defined in {{bibref|802.11bf|9.4.2.332}}.
+       </description>
+       <component ref="SensingCapabilities"/>
     </object>
 
     <object name="Device.WiFi.AccessPoint.{i}.AC.{i}." access="readOnly"
@@ -4661,7 +5420,7 @@
         category 0 = BE applies (e.g., the statistics for the single queue are
         in access category 0 = BE).
 
-        The CPE MUST reset the Access Point's Stats parameters (unless
+        The device MUST reset the Access Point's Stats parameters (unless
         otherwise stated in individual object or parameter descriptions) either
         when the Access Point becomes operationally down due to a previous
         administrative down (i.e. the Access Point's Status parameter
@@ -4924,14 +5683,14 @@
 
         For enabled table entries, if {{param|SSIDReference}} or
         {{param|ProfileReference}} is not a valid reference then the table
-        entry is inoperable and the CPE MUST set {{param|Status}} to
+        entry is inoperable and the device MUST set {{param|Status}} to
         {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -4959,7 +5718,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -5008,6 +5767,80 @@
       </parameter>
 
       <parameter name="ProfileNumberOfEntries" access="readOnly">
+        <description>
+          {{numentries}}
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+
+      <parameter name="PeerAffiliatedMACAddress" access="readOnly"
+          version="2.22">
+        <description>
+          The peer link MAC address (i.e. AP side) of the established
+          bSTAMLD link. Only relevant when this endpoint is part of a
+          connected Wi-Fi 7 bSTA MLO connection. Set to the null MAC
+          address otherwise.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="ConnectionStatus" access="readOnly" version="2.22">
+        <description>
+          The current connection status of this endpoint.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                The endpoint is disabled.
+              </description>
+            </enumeration>
+            <enumeration value="Idle">
+              <description>
+                The endpoint is enabled but not attempting to connect.
+              </description>
+            </enumeration>
+            <enumeration value="Discovering">
+              <description>
+                The endpoint is scanning for the configured AP.
+              </description>
+            </enumeration>
+            <enumeration value="Connecting">
+              <description>
+                The endpoint is in the process of associating and
+                authenticating.
+              </description>
+            </enumeration>
+            <enumeration value="Connected">
+              <description>
+                The endpoint is associated and authenticated to an AP.
+              </description>
+            </enumeration>
+            <enumeration value="Disconnected">
+              <description>
+                The endpoint was connected but has lost its association.
+              </description>
+            </enumeration>
+            <enumeration value="Error">
+              <description>
+                A locally defined error condition occurred.
+              </description>
+            </enumeration>
+            <enumeration value="Error_Misconfigured" optional="true">
+              <description>
+                A necessary configuration value is undefined or invalid.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+      
+      <parameter name="PASNNumberOfEntries" access="readOnly" version="2.22">
         <description>
           {{numentries}}
         </description>
@@ -5152,7 +5985,7 @@
           The {{enum|Active}} value is reserved for the instance that is
           actively connected. The {{enum|Available}} value represents an
           instance that is not currently active, but is also not disabled or in
-          error. The {{enum|Error}} value MAY be used by the CPE to indicate a
+          error. The {{enum|Error}} value MAY be used by the device to indicate a
           locally defined error condition.
         </description>
         <syntax>
@@ -5460,6 +6293,74 @@
       </parameter>
     </object>
 
+    <object name="Device.WiFi.EndPoint.{i}.Sensing." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.22">
+      <description>
+          This object contains parameters related to Wi-Fi Sensing configuration. 
+      </description>
+      
+      <parameter name="ExternalRequestPolicy" access="readWrite" version="2.22">
+        <description>
+           Willingness to participate in externally requested sensing as a Responder.
+        </description>
+         <syntax>
+           <string>
+             <enumeration value="Deny">
+                <description>
+                 Refuse all; only perform sensing as requested
+                 by Sensing Application, never by an external station.
+                </description>
+             </enumeration>
+             <enumeration value="AllowDirectlyAssociated">
+               <description>
+                 Only allow STAs directly associated to this AccessPoint. 
+               </description>
+             </enumeration>
+             <enumeration value="AllowAllAssociated">
+              <description>
+                 Allow all STAs associated anywhere in the network.
+              </description>
+             </enumeration>
+             <enumeration value="AllowAll">
+               <description>
+                   Allow all, including unassociated stations.
+               </description>
+             </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.EndPoint.{i}.PASN.{i}." access="readOnly"
+	    numEntriesParameter="PASNNumberOfEntries"
+	    minEntries="1" maxEntries="unbounded" version="2.22">
+     <description>
+        Each table entry represents a Wi-Fi Sensing
+        PASN (Pre-Association Security Negotiation) Associations.
+     </description>
+     <uniqueKey functional="true">
+        <parameter ref="BSSID"/>
+      </uniqueKey>
+     <parameter name="BSSID" access="readOnly" version="2.22">
+       <description>
+           This parameter indicates the BSSID to which the EndPoint has a PASN
+           (Pre-Association Security Negotiation) association.
+       </description>
+       <syntax>
+         <dataType ref="MACAddress"/>
+       </syntax>
+     </parameter>
+    </object>
+
+    <object name="Device.WiFi.EndPoint.{i}.PASN.{i}.SensingCapabilities." access="readOnly"
+	    minEntries="1" maxEntries="1" version="2.22">
+      <description>
+         This object contains the Wi-Fi Sensing capabilities of the BSS, as defined in
+         {{object|Device.WiFi.AccessPoint.{i}.AssociatedDevice.{i}.SensingCapabilities.}}.
+      </description>
+      <component ref="SensingCapabilities"/>
+    </object>
+
     <object name="Device.WiFi.EndPoint.{i}.AC.{i}." access="readOnly"
         minEntries="4" maxEntries="4" version="2.8">
       <description>
@@ -5635,7 +6536,7 @@
         category 0 = BE applies (e.g., the statistics for the single queue are
         in access category 0 = BE).
 
-        The CPE MUST reset the EndPoint's Stats parameters (unless otherwise
+        The device MUST reset the EndPoint's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when the
         EndPoint becomes operationally down due to a previous administrative
         down (i.e. the EndPoint's Status parameter transitions to a Disabled
@@ -5774,6 +6675,210 @@
       </parameter>
     </object>
 
+    <object base="Device.WiFi.APMLD.{i}.AffiliatedAP.{i}.">
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias" version="2.22"/>
+
+      <parameter base="BSSID">
+        <description action="replace">
+          The BSSID of the affiliated AP.
+        </description>
+      </parameter>
+
+      <parameter name="AccessPointReference" access="readOnly" version="2.22">
+        <description>
+          Specifies the physical Wi-Fi access point entry representing the same
+          physical network interface as this affiliated AP.
+        </description>
+        <syntax>
+          <string>
+            <pathRef refType="strong" targetParent="Device.WiFi.AccessPoint."
+                targetType="row"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object base="Device.WiFi.APMLD.{i}." access="readWrite"
+        enableParameter="Enable">
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias" version="2.22"/>
+
+      <parameter name="Enable" access="readWrite" version="2.22">
+        <description>
+          Enables or disables this AP MLD instance.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDID" access="writeOnceReadOnly" version="2.22">
+        <description>
+          MLD unit identifier. Matches the MLDUnit value configured on the
+          affiliated AP SSIDs. Set only during instance creation and cannot
+          be modified thereafter.
+        </description>
+        <syntax>
+          <int/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object name="Device.WiFi.APMLD.{i}.TIDLinkMapConfig."
+        access="readOnly" minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        TID-to-Link Mapping configuration for this AP MLD. This object
+        configures how Traffic Identifiers (TIDs) are mapped to specific
+        links within the MLD.
+      </description>
+
+      <parameter name="Mode" access="readWrite" version="2.22">
+        <description>
+          TID-to-Link Mapping operational mode.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Disabled">
+              <description>
+                TID-to-Link Mapping is not used.
+              </description>
+            </enumeration>
+            <enumeration value="Advertised">
+              <description>
+                The AP MLD advertises its preferred TID-to-Link Mapping to
+                associated STAs.
+              </description>
+            </enumeration>
+            <enumeration value="Negotiated">
+              <description>
+                The AP MLD negotiates TID-to-Link Mapping with associated
+                STAs.
+              </description>
+            </enumeration>
+          </string>
+          <default type="object" value="Disabled"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="AdvertisedMapSwitchTime" access="readWrite"
+          version="2.22">
+        <description>
+          Expected duration for switching to the advertised TID-to-Link
+          Mapping, in {{units}}, where 1 TU = 1024 microseconds.
+          Advertised to STAs when {{param|Mode}} is
+          {{enum|Advertised|Mode}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="TU"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="AdvertisedExpectedDuration" access="readWrite"
+          version="2.22">
+        <description>
+          Expected duration for which the advertised TID-to-Link Mapping
+          will remain valid, in {{units}}, where 1 TU = 1024 microseconds.
+          Advertised to STAs when {{param|Mode}} is
+          {{enum|Advertised|Mode}}.
+        </description>
+        <syntax>
+          <unsignedInt>
+            <units value="TU"/>
+          </unsignedInt>
+        </syntax>
+      </parameter>
+
+      <parameter name="AdvertisedLinkMapFrequencyBands" access="readWrite"
+          version="2.22">
+        <description>
+          Each item represents a frequency band whose link is included in the TID-to-Link
+          Mapping advertised by this AP MLD. {{empty}} indicates
+          that all available links are usable.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="2.4GHz"/>
+            <enumeration value="5GHz"/>
+            <enumeration value="6GHz"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object base="Device.WiFi.APMLD.{i}.TIDLinkMap.{i}." access="readWrite">
+      <parameter name="LinkMapFrequencyBands" access="readWrite"
+          version="2.22">
+        <description>
+          Each item represent a frequency band whose link is part of the specific link
+          mapping for this TID. {{empty}} indicates that all
+          available links are usable.
+        </description>
+        <syntax>
+          <list/>
+          <string>
+            <enumeration value="2.4GHz"/>
+            <enumeration value="5GHz"/>
+            <enumeration value="6GHz"/>
+          </string>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object base="Device.WiFi.bSTAMLD.{i}." access="readWrite"
+        enableParameter="Enable">
+      <uniqueKey functional="false">
+        <parameter ref="Alias"/>
+      </uniqueKey>
+
+      <component ref="Alias" version="2.22"/>
+
+      <parameter name="Enable" access="readWrite" version="2.22">
+        <description>
+          Enables or disables this bSTA MLD instance.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="false"/>
+        </syntax>
+      </parameter>
+
+      <parameter name="MLDID" access="writeOnceReadOnly" version="2.22">
+        <description>
+          MLD unit identifier. Matches the MLDUnit value configured on the
+          affiliated endpoint SSIDs. Set only during instance creation and
+          cannot be modified thereafter.
+        </description>
+        <syntax>
+          <int/>
+        </syntax>
+      </parameter>
+    </object>
+
+    <object base="Device.WiFi.bSTAMLD.{i}.bSTAMLDConfig.">
+      <parameter name="UseNeighborProfile" access="readWrite"
+          version="2.22">
+        <description>
+          When {{true}}, use the neighbor MLO profile if the own endpoint
+          profile is disabled. When {{false}}, all bSTAMLD link endpoints
+          must have provisioned and matching profiles in order to connect.
+        </description>
+        <syntax>
+          <boolean/>
+          <default type="object" value="true"/>
+        </syntax>
+      </parameter>
+    </object>
 
     <profile name="WiFiRadio:1" version="2.0">
       <object ref="Device.WiFi." requirement="present">
@@ -5934,7 +7039,7 @@
     </profile>
   </component>
 
-  <model name="WiFiBase:2.21">
+  <model name="WiFiBase:2.22">
     <component ref="Root"/>
     <component ref="WiFiBase"/>
   </model>

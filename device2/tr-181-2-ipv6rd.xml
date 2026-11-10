@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ipv6rd"
-    file="tr-181-2-21-0-ipv6rd.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ipv6rd"
+    file="tr-181-2-22-0-ipv6rd.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,7 +67,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -76,7 +76,7 @@
     <object name="Device.IPv6rd." access="readOnly" minEntries="1"
         maxEntries="1" version="2.2">
       <description>
-        Settings allowing a CPE to derive and route IPv6 Rapid Deployment (6rd)
+        Settings allowing a device to derive and route IPv6 Rapid Deployment (6rd)
         delegated prefixes as specified in {{bibref|RFC5969}}. The 6rd
         mechanism is intended to be implemented only on what {{bibref|RFC5969}}
         refers to as ''Customer Edge Routers'', i.e. on gateway devices, that
@@ -141,7 +141,7 @@
         <description>
           The status of this entry. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -319,7 +319,7 @@
     </profile>
   </component>
 
-  <model name="IPv6rd:2.21">
+  <model name="IPv6rd:2.22">
     <component ref="Root"/>
     <component ref="IPv6rd"/>
   </model>

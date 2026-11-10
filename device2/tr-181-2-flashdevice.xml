@@ -52,8 +52,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-flashdevice.xml"
-    file="tr-181-2-21-0-flashdevice.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-flashdevice.xml"
+    file="tr-181-2-22-0-flashdevice.xml">
 
  <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -62,7 +62,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -445,7 +445,7 @@
     </object>
   </component>
 
-  <model name="FlashDevice:2.21">
+  <model name="FlashDevice:2.22">
     <component ref="Root"/>
     <component ref="FlashDevice"/>
     <component ref="FlashDeviceUSP"/>

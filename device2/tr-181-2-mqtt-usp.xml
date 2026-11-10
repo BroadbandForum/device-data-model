@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-mqtt-usp"
-    file="tr-181-2-21-0-mqtt-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-mqtt-usp"
+    file="tr-181-2-22-0-mqtt-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,18 +67,18 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
    <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="TLSClient"/>
     <component name="TLSServer"/>
   </import>
 
    <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
 

@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-leds"
-    file="tr-181-2-21-0-leds.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-leds"
+    file="tr-181-2-22-0-leds.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -84,6 +84,10 @@
           This value is relative to the maximum allowed brightness value of each LED, which is specified in {{param|LED.{i}.MaxBrightness}}.
 
           Valid values are: {{range}}.
+
+          This value serves as the default brightness limit for all LEDs
+          and is overridden on a per-LED basis by
+          {{param|LED.{i}.BrightnessLimiter}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -169,7 +173,7 @@
             </enumeration>
             <enumeration value="InUse">
               <description>
-                The LED is currently being used by the CPE.
+                The LED is currently being used by the device.
               </description>
             </enumeration>
             <enumeration value="Controlled">
@@ -179,7 +183,7 @@
             </enumeration>
             <enumeration value="Error">
               <description>
-                The LED status cannot be determined by the CPE.
+                The LED status cannot be determined by the device.
               </description>
             </enumeration>
           </string>
@@ -274,6 +278,39 @@
         </syntax>
       </parameter>
 
+      <parameter name="BrightnessLimiter" access="readWrite" version="2.22">
+        <description>
+          The maximum allowed brightness level for this LED, expressed as a
+          {{units}}.
+
+          This value is relative to the maximum allowed brightness value of
+          this LED, which is specified in {{param|MaxBrightness}}.
+
+          When {{param}} is different from -1, it takes precedence for this
+          LED instance over the general LEDs default {{param|#.BrightnessLimiter}}.
+
+          Valid values are: {{range}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1" maxInclusive="-1">
+              <description>
+                The value -1 indicates that the brightness limit for this
+                LED is the same as the default brightness limit specified
+                in {{param|#.BrightnessLimiter}}.
+              </description>
+            </range>
+            <range minInclusive="0" maxInclusive="100">
+              <description>
+                The value 0 indicates that this LED is turned off, while
+                the value 100 indicates the maximum brightness.
+              </description>
+            </range>
+            <units value="percentage"/>
+          </int>
+        </syntax>
+      </parameter>
+
       <parameter name="CycleElementNumberOfEntries" access="readOnly">
         <description>
           {{numentries}}
@@ -340,7 +377,7 @@
           The color being displayed by the LED RGB hexadecimal notation (e.g.,
           FF0088).
 
-          Note: If the parameter is set to an unsupported color the CPE MUST
+          Note: If the parameter is set to an unsupported color the device MUST
           NOT infer a different color.
         </description>
         <syntax>
@@ -384,8 +421,8 @@
           The desired brightness level for this element of the cycle period, expressed as a {{units}},
           relative to the maximum allowed brightness value specified in {{param|#.MaxBrightness}}.
 
-          The value should not exceed the maximum brightness level
-          specified in {{param|##.BrightnessLimiter}}.
+          The value should respect the brightness limits that are specified in
+          {{param|.LEDs.BrightnessLimiter}} and {{param|.LEDs.LED.{i}.BrightnessLimiter}}.
         </description>
         <syntax>
           <unsignedInt>
@@ -506,7 +543,7 @@
     </profile>
   </component>
 
-  <model name="LEDs:2.21">
+  <model name="LEDs:2.22">
     <component ref="Root"/>
     <component ref="LEDs"/>
   </model>

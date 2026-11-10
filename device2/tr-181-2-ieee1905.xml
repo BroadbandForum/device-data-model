@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ieee1905"
-    file="tr-181-2-21-0-ieee1905.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ieee1905"
+    file="tr-181-2-22-0-ieee1905.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
   
@@ -165,7 +165,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -3384,7 +3384,7 @@
     </profile>
   </component>
 
-  <model name="IEEE1905:2.21">
+  <model name="IEEE1905:2.22">
     <component ref="Root"/>
     <component ref="IEEE1905"/>
   </model>

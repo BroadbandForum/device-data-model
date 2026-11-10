@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-16.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-mqtt"
-    file="tr-181-2-21-0-mqtt.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-mqtt"
+    file="tr-181-2-22-0-mqtt.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,18 +68,18 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
    <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="TLSClient"/>
     <component name="TLSServer"/>
   </import>
 
    <import file="tr-181-2-ip.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-ip">
+      spec="urn:broadband-forum-org:tr-181-2-22-ip">
     <component name="IPVersion"/>
   </import>
 
@@ -207,8 +207,9 @@
       <parameter name="MaxNumberOfClientSubscriptions" access="readOnly">
         <description>
           Indicates the maximum number of subscriptions per MQTT client, which
-          can be stored in the {{object|#.Client.{i}.Subscription}} table. A
-          value of 0 means no limit.
+          can be stored in the {{object|#.Client.{i}.Subscription}} table.
+          When this limit is reached, creating a new subscription fails.
+          A value of 0 means no limit.
         </description>
         <syntax>
           <unsignedInt/>
@@ -218,8 +219,8 @@
       <parameter name="MaxNumberOfBrokerBridges" access="readOnly">
         <description>
           Indicates the maximum number of bridges, which can be configured in
-          the {{object|#.Broker.{i}.Bridge}} table. A value of 0 means no
-          limit.
+          the {{object|#.Broker.{i}.Bridge}} table. When this limit is
+          reached, creating a new bridge fails. A value of 0 means no limit.
         </description>
         <syntax>
           <unsignedInt/>
@@ -230,7 +231,8 @@
         <description>
           Indicates the maximum number of subscriptions, which can be stored
           per bridge instance in the
-          {{object|#.Broker.{i}.Bridge.{i}.Subscription}} table. A value of 0
+          {{object|#.Broker.{i}.Bridge.{i}.Subscription}} table. When this
+          limit is reached, creating a new subscription fails. A value of 0
           means no limit.
         </description>
         <syntax>
@@ -310,7 +312,7 @@
           The {{enum|Error_BrokerUnreachable}} value indicates that the
           connection to the MQTT broker could not be established.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -460,7 +462,7 @@
 
           If the connection gets enabled and this parameter is set to {{true}}
           and either the parameter {{param|WillTopic}} or {{param|WillValue}}
-          are {{empty}}, the CPE MUST set the {{param|Status}} to
+          are {{empty}}, the device MUST set the {{param|Status}} to
           {{enum|Error_Misconfigured|Status}}.
 
           {{template|MQTTReconnect}}.
@@ -1007,15 +1009,15 @@
           successfully subscribed with the MQTT broker, the MQTT client
           received the SUBACK message for this topic from the server.
 
-          The {{enum|Subscribing}} value MAY be used by the CPE to indicate
-          that the a SUBSCRIBE message for this topic was sent, and the CPE is
+          The {{enum|Subscribing}} value MAY be used by the device to indicate
+          that a SUBSCRIBE message for this topic was sent, and the device is
           waiting for a SUBACK message.
 
           The {{enum|Unsubscribed}} value indicates that the topic is not
           registered with the MQTT broker.
 
-          The {{enum|Unsubscribing}} value MAY be used by the CPE to indicate
-          that an UNSUBSCRIBE message for this topic was sent, and the CPE is
+          The {{enum|Unsubscribing}} value MAY be used by the device to indicate
+          that an UNSUBSCRIBE message for this topic was sent, and the device is
           waiting for an UNSUBACK message.
 
           If the {{param|Enable}} is set to {{false}} the status MUST be either
@@ -1450,9 +1452,9 @@
       <description>
         Contains the MQTT client statistics and usage information.
 
-        The CPE MUST reset the Stats parameters after the MQTT client gets
+        The device MUST reset the Stats parameters after the MQTT client gets
         (re-)enabled or if the MQTT client connects with a new MQTT broker
-        (e.g. {{param|#.BrokerAddress}} has changed). The CPE MAY retain the
+        (e.g. {{param|#.BrokerAddress}} has changed). The device MAY retain the
         values across a reboot if it reconnects with the same MQTT broker.
       </description>
 
@@ -1610,7 +1612,7 @@
           The "{{enum|Error_Misconfigured}}" value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The "{{enum|Error}}" value MAY be used by the CPE to indicate a
+          The "{{enum|Error}}" value MAY be used by the device to indicate a
           locally defined error condition.
         </description>
         <syntax>
@@ -1709,7 +1711,7 @@
 
       <parameter name="Interface" access="readWrite">
         <description>
-          If {{empty}} is specified, the CPE MUST bind the MQTT broker to all
+          If {{empty}} is specified, the device MUST bind the MQTT broker to all
           available interfaces, which depends on the value of the {{param|IPVersion}} 
           parameter.  Meaning that the broker will bind to an IPv4 address, an IPv6 address, or both.          
         </description>
@@ -2787,7 +2789,7 @@
     </profile>
   </component>
 
-  <model name="MQTT:2.21">
+  <model name="MQTT:2.22">
     <component ref="Root"/>
     <component ref="MQTT"/>
   </model>

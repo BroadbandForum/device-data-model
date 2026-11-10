@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-stomp"
-    file="tr-181-2-21-0-stomp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-stomp"
+    file="tr-181-2-22-0-stomp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -129,7 +129,7 @@
 
           When {{param|Enable}} is {{false}} then {{param}} SHOULD normally be
           {{enum|Disabled}} or {{enum|Error}} if there is a fault condition on
-          the interface).
+          the interface.
 
           When {{param|Enable}} is changed to {{true}} then {{param}} SHOULD
           change to {{enum|Enabled}} if and only if the interface is able to
@@ -378,7 +378,7 @@
     </object>
   </component>
 
-  <model name="STOMP:2.21">
+  <model name="STOMP:2.22">
     <component ref="Root"/>
     <component ref="STOMP"/>
   </model>

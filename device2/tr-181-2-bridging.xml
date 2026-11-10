@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-bridging"
-    file="tr-181-2-21-0-bridging.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-bridging"
+    file="tr-181-2-22-0-bridging.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="BaseInterfaceParams"/>
     <component name="BaseInterfaceParamsAddDefaults"/>
     <component name="Layer2InterfaceParams"/>
@@ -133,7 +133,9 @@
       <parameter name="MaxBridgeEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Bridge}}
-          table.
+          table. When this limit is reached, creating a new entry fails.
+
+          A value of 0 means no limit.
         </description>
         <syntax>
           <unsignedInt/>
@@ -147,7 +149,7 @@
           implies support for 802.1D.
 
           There is no guarantee that this many 802.1D Bridges can be
-          configured. For example, the CPE might not be able simultaneously to
+          configured. For example, the device might not be able simultaneously to
           support both 802.1D and 802.1Q Bridges.
         </description>
         <syntax>
@@ -162,7 +164,7 @@
           implies support for 802.1Q.
 
           There is no guarantee that this many 802.1Q Bridges can be
-          configured. For example, the CPE might not be able simultaneously to
+          configured. For example, the device might not be able simultaneously to
           support both 802.1D and 802.1Q Bridges.
         </description>
         <syntax>
@@ -185,7 +187,10 @@
         <description>
           The maximum number of entries available in the
           {{object|ProviderBridge}} table. A non-zero value for this parameter
-          implies support for 802.1Q Provider Bridges.
+          implies support for 802.1Q Provider Bridges. When this limit is
+          reached, creating a new entry fails.
+
+          A value of 0 means no limit.
         </description>
         <syntax>
           <unsignedInt/>
@@ -205,7 +210,9 @@
       <parameter name="MaxFilterEntries" access="readOnly">
         <description>
           The maximum number of entries available in the {{object|Filter}}
-          table.
+          table. When this limit is reached, creating a new entry fails.
+
+          A value of 0 means no limit.
         </description>
         <syntax>
           <unsignedInt/>
@@ -255,7 +262,7 @@
         <description>
           The status of this {{object}}. {{enum}}
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -368,7 +375,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -462,7 +469,7 @@
 
         There are two types of bridge ports: management (upward facing) and
         non-management (downward facing). This is determined by configuring the
-        Boolean {{param|ManagementPort}} parameter. The CPE will automatically
+        Boolean {{param|ManagementPort}} parameter. The device will automatically
         configure each management bridge port to appear in the interface stack
         above all non-management bridge ports that share the same
         {{object|##.Bridge}} instance.
@@ -470,7 +477,7 @@
 
       <parameter base="LowerLayers">
         <description action="append">
-          When {{param|ManagementPort}} is set to {{true}} the CPE MUST set
+          When {{param|ManagementPort}} is set to {{true}} the device MUST set
           {{param}} to reference all non-management bridge ports that are
           within the same {{object|##.Bridge}} instance (and update {{param}}
           when subsequent non-management bridge ports are added or deleted on
@@ -881,9 +888,7 @@
           Point Encoding}} and {{bibref|802.1Q-2011|Table 6-3}}.
 
           The list is an ordered list that contains entries for the following 4
-          PCP Values: "8P0D","7P1D", "6P2D" "5P3D". Each list entry matches the
-          following pattern:
-
+          PCP Values: "8P0D","7P1D", "6P2D" "5P3D".
           {{pattern}}
 
           The value of this parameter MUST use square brackets to protect comma
@@ -917,8 +922,7 @@
           Point Encoding}} and {{bibref|802.1Q-2011|Table 6-4}}.
 
           The list is an ordered list that contains entries for the following 4
-          PCP Values: "8P0D","7P1D", "6P2D" "5P3D". Each list entry matches the
-          following pattern:
+          PCP Values: "8P0D","7P1D", "6P2D" "5P3D".
 
           {{pattern}}
 
@@ -934,7 +938,7 @@
             <size/>
           </list>
           <string>
-            <size minLength="15" maxLength="15"/>
+            <size minLength="31" maxLength="31"/>
             <pattern value="([0-7],[0-1],){7}[0-7],[0-1]">
               <description>
                 Priority (0-7) and drop_eligible field (0-1) for each PCP value
@@ -950,7 +954,7 @@
         numEntriesParameter="VLANNumberOfEntries" enableParameter="Enable"
         minEntries="0" maxEntries="unbounded" version="2.0">
       <description>
-        Bridge VLAN table. If this table is supported, if MUST contain an entry
+        Bridge VLAN table. If this table is supported, it MUST contain an entry
         for each VLAN known to the Bridge.
 
         This table only applies to an 802.1Q {{bibref|802.1Q-2011}} Bridge.
@@ -1007,10 +1011,10 @@
         This table only applies to an 802.1Q {{bibref|802.1Q-2011}} Bridge.
 
         Note: The {{object}} table includes unique key parameters that are
-        strong references. If a strongly referenced object is deleted, the CPE
+        strong references. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST disable the offending {{object}} row.
       </description>
       <uniqueKey functional="false">
@@ -1085,7 +1089,7 @@
         {{bibref|802.1Q-2011}} Bridges.
 
         For enabled table entries, if {{param|Bridge}} or {{param|Interface}}
-        is {{empty}} then the table entry is inoperable and the CPE MUST set
+        is {{empty}} then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Several of this object's parameters specify DHCP option values. Some
@@ -1120,7 +1124,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
 
           If the bridge port table is supported, but none of its entries
@@ -1410,7 +1414,7 @@
           A hexbinary string used to identify one or more devices via DHCP for
           which MAC address filtering would subsequently apply. A device is
           considered matching if the most recent DHCPv6 Vendor Class Identifier
-          (Option 16 as defined in {{bibref|RFC8415}}) was equal to the
+          (Option 16 as defined in {{bibref|RFC9915}}) was equal to the
           specified value. The option value is binary, so an exact match is
           REQUIRED.
 
@@ -1520,7 +1524,7 @@
           A hexbinary string used to identify one or more devices via DHCP for
           which MAC address filtering would subsequently apply. A device is
           considered matching if the most recent DHCPv6 Vendor Class Identifier
-          (Option 16 as defined in {{bibref|RFC8415}}) was equal to the
+          (Option 16 as defined in {{bibref|RFC9915}}) was equal to the
           specified value. The option value is binary, so an exact match is
           REQUIRED.
 
@@ -1593,7 +1597,7 @@
           DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP Client Identifier is Option 61 (as defined
           in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or is Option 1
-          (as defined in {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The
+          (as defined in {{bibref|RFC9915}}) for {{enum|DHCPv6|DHCPType}}. The
           option value is binary, so an exact match is REQUIRED.
 
           Note that neither 802.1D {{bibref|802.1D-2004}} nor 802.1Q
@@ -1654,7 +1658,7 @@
           DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP Client Identifier is Option 61 (as defined
           in {{bibref|RFC2132}}) for {{enum|DHCPv4|DHCPType}}, or is Option 1
-          (as defined in {{bibref|RFC8415}}) for {{enum|DHCPv6|DHCPType}}. The
+          (as defined in {{bibref|RFC9915}}) for {{enum|DHCPv6|DHCPType}}. The
           option value is binary, so an exact match is REQUIRED.
 
           Note: DHCPv4 Option values are limited to a length of 255, while
@@ -1707,7 +1711,7 @@
           (via DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP User Class Identifier is Option 77 (as
           defined in {{bibref|RFC3004}}) for {{enum|DHCPv4|DHCPType}}, or is
-          Option 15 (as defined in {{bibref|RFC8415}}) for
+          Option 15 (as defined in {{bibref|RFC9915}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -1767,7 +1771,7 @@
           (via DHCP lease acquisition or renewal for DHCPv4) was equal to the
           specified value. The DHCP User Class Identifier is Option 77 (as
           defined in {{bibref|RFC3004}}) for {{enum|DHCPv4|DHCPType}}, or is
-          Option 15 (as defined in {{bibref|RFC8415}}) for
+          Option 15 (as defined in {{bibref|RFC9915}}) for
           {{enum|DHCPv6|DHCPType}}. The option value is binary, so an exact
           match is REQUIRED.
 
@@ -2054,7 +2058,7 @@
           {{param|Type}} is configured with value of {{enum|PE|Type}} but
           {{param|CVLANcomponents}} is {{empty}}.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -2362,7 +2366,7 @@
     </profile>
   </component>
 
-  <model name="Bridging:2.21">
+  <model name="Bridging:2.22">
     <component ref="Root"/>
     <component ref="Bridging"/>
   </model>

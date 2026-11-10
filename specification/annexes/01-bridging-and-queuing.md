@@ -36,13 +36,13 @@ The following rules apply to the use and setting of the Order parameter:
 
 * Order goes in order from 1 to n, where n is equal to the number of entries in the Classification table. 1 is the highest precedence, and n the lowest. For example, if entries with Order of 4 and 7 both have rules that match some particular traffic, the traffic will be classified according to the entry with the 4.
 
-* The CPE is responsible for ensuring that all Order values are unique and sequential.
+* The device is responsible for ensuring that all Order values are unique and sequential.
 
-    * If an entry is added (number of entries becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.
+    * If an entry is added (number of entries becomes n+1), and the value specified for Order is greater than n+1, then the device will set Order to n+1.
 
-    * If an entry is added (number of entries becomes n+1), and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing entries with Order equal to or greater than the specified value.
+    * If an entry is added (number of entries becomes n+1), and the value specified for Order is less than n+1, then the device will create the entry with that specified value, and increment the Order value of all existing entries with Order equal to or greater than the specified value.
 
-    * If an entry is deleted, the CPE will decrement the Order value of all remaining entries with Order greater than the value of the deleted entry.
+    * If an entry is deleted, the device will decrement the Order value of all remaining entries with Order greater than the value of the deleted entry.
 
     * If the Order value of an entry is changed, then the value will also be changed for other entries greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of <new value>-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new entry with the new value, followed by a Delete of the entry with the old value.
 
@@ -50,11 +50,11 @@ The following rules apply to the use and setting of the Order parameter:
 
 In some situations, traffic to be classified cannot be identified by a static set of classification criteria. Instead, identification of traffic flows might require explicit application awareness. The model accommodates such situations via the App and Flow tables in the QoS object.
 
-Each entry in the App table is associated with an application-specific protocol handler, identified by the ProtocolIdentifier, which contains a URN. For a particular CPE, the AvailableAppList parameter indicates which protocol handlers that CPE is capable of supporting, if any. A list of standard protocol handlers and their associated URNs is specified in *[URN Definitions for App and Flow Tables]*, though a CPE can also support vendor-specific protocol handlers as well. Multiple App table entries can refer to the same ProtocolIdentifier.
+Each entry in the App table is associated with an application-specific protocol handler, identified by the ProtocolIdentifier, which contains a URN. For a particular device, the AvailableAppList parameter indicates which protocol handlers that device is capable of supporting, if any. A list of standard protocol handlers and their associated URNs is specified in *[URN Definitions for App and Flow Tables]*, though a device can also support vendor-specific protocol handlers as well. Multiple App table entries can refer to the same ProtocolIdentifier.
 
 The role of the protocol handler is to identify and classify flows based on application awareness. For example, a SIP protocol handler might identify a call-control flow, an audio flow, and a video flow. The App and Flow tables are used to specify the classification outcome associated with each such flow.
 
-For each App table entry there can be one or more associated Flow table entries. Each flow table entry identifies a type of flow associated with the protocol handler. The Type parameter is used to identify the specific type of flow associated with each entry. For example, a Flow table entry for a SIP protocol handler might refer only to the audio flows associated with that protocol handler. A list of standard flow type values is given in *[URN Definitions for App and Flow Tables]*, though a CPE can also support vendor-specific flow types.
+For each App table entry there can be one or more associated Flow table entries. Each flow table entry identifies a type of flow associated with the protocol handler. The Type parameter is used to identify the specific type of flow associated with each entry. For example, a Flow table entry for a SIP protocol handler might refer only to the audio flows associated with that protocol handler. A list of standard flow type values is given in *[URN Definitions for App and Flow Tables]*, though a device can also support vendor-specific flow types.
 
 A protocol handler can be defined as being fed from the output of a Classification table entry. That is, a Classification entry can be used to single out control traffic to be passed to the protocol handler, which then subsequently identifies associated flows. Doing so allows more than one instance of a protocol handler associated with distinct traffic. For example, one could define two App table entries associated with SIP protocol handlers. If the classifier distinguished control traffic to feed into each handler based on the destination IP address of the SIP server, this could be used to separately classify traffic for different SIP service providers. In this case, each instance of the protocol handler would identify only those flows associated with a given service. Note that the Classification table entry that feeds each protocol handler wouldn't encompass all of the flows; only the traffic needed by the protocol handler to determine the flows---typically only the control traffic.
 
@@ -87,7 +87,7 @@ Each Policer table entry specifies the packet handling characteristics, includin
 The Queue table specifies the number and types of queues, queue parameters, shaping behavior, and scheduling algorithm to use. Each Queue table entry specifies the TrafficClasses with which it is associated, and a set of egress interfaces for which a queue with the corresponding characteristics needs to exist.
 
 ::: note
-If the CPE can determine that among the interfaces specified for a queue to exist, packets classified into that queue cannot egress to a subset of those interfaces (from knowledge of the current routing and bridging configuration), the CPE can choose not to instantiate the queue on those interfaces.
+If the device can determine that among the interfaces specified for a queue to exist, packets classified into that queue cannot egress to a subset of those interfaces (from knowledge of the current routing and bridging configuration), the device can choose not to instantiate the queue on those interfaces.
 :::
 
 ::: note
@@ -144,13 +144,13 @@ The following rules apply to the use and setting of the Order parameter:
 
 * The Order goes in order from 1 to n, where n is equal to the number of filters. 1 is the highest precedence, and n the lowest.
 
-* The CPE is responsible for ensuring that all Order values among filters are unique and sequential.
+* The device is responsible for ensuring that all Order values among filters are unique and sequential.
 
-* If a filter is added (number of filters becomes n+1), and the value specified for Order is greater than n+1, then the CPE will set Order to n+1.
+* If a filter is added (number of filters becomes n+1), and the value specified for Order is greater than n+1, then the device will set Order to n+1.
 
-* If a filter is added (number of entries becomes n+1, and the value specified for Order is less than n+1, then the CPE will create the entry with that specified value, and increment the Order value of all existing filters with Order equal to or greater than the specified value.
+* If a filter is added (number of entries becomes n+1, and the value specified for Order is less than n+1, then the device will create the entry with that specified value, and increment the Order value of all existing filters with Order equal to or greater than the specified value.
 
-* If a filter is deleted, the CPE will decrement the Order value of all remaining filters with Order greater than the value of the deleted entry.
+* If a filter is deleted, the device will decrement the Order value of all remaining filters with Order greater than the value of the deleted entry.
 
 * If the Order value of a filter is changed, then the value will also be changed for other filters greater than or equal to the lower of the old and new values, and less than the larger of the old and new values. If the new value is less than the old, then these other entries will all have Order incremented. If the new value is greater than the old, then the other entries will have Order decremented and the changed entry will be given a value of <new value>-1. For example, an entry is changed from 8 to 5. The existing 5 goes to 6, 6 to 7, and 7 to 8. If the entry goes from 5 to 8, then 6 goes to 5, 7 to 6, and the changed entry is 7. This is consistent with the behavior that would occur if the change were considered to be an Add of a new filter with the new value, followed by a Delete of the filter with the old value.
 
@@ -210,9 +210,9 @@ In the table, grayed and bolded items are added to allow two-way mapping between
 
 ### App ProtocolIdentifier
 
-@tbl:protocolidentifer-urns lists the URNs defined for the QoS App table's ProtocolIdentifier parameter. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.
+@tbl:protocolidentifier-urns lists the URNs defined for the QoS App table's ProtocolIdentifier parameter. Additional standard or vendor-specific URNs can be defined following the standard syntax for forming URNs.
 
-:ProtocolIdentifer URNs
+:ProtocolIdentifier URNs
 
 | URN                    | Description
 |------------------------|-------------------------------------------------------------------

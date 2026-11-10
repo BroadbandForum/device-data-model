@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-deviceinfo"
-    file="tr-181-2-21-0-deviceinfo.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-deviceinfo"
+    file="tr-181-2-22-0-deviceinfo.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,13 +65,13 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
-    <component name="ClientCerts"/>
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
+    <component name="UploadCommandArgs"/>
   </import>
 
   <component name="BootStage">
@@ -221,7 +221,7 @@
 
       <parameter name="Manufacturer" access="readOnly">
         <description>
-          The manufacturer of the CPE (human readable string).
+          The manufacturer of the device (human readable string).
         </description>
         <syntax>
           <string>
@@ -251,7 +251,7 @@
 
       <parameter name="ModelName" access="readOnly">
         <description>
-          Model name of the CPE (human readable string).
+          Model name of the device (human readable string).
         </description>
         <syntax>
           <string>
@@ -279,7 +279,7 @@
 
       <parameter name="Description" access="readOnly">
         <description>
-          A full description of the CPE device (human readable string).
+          A full description of the device (human readable string).
         </description>
         <syntax>
           <string>
@@ -322,7 +322,7 @@
 
       <parameter name="HardwareVersion" access="readOnly" forcedInform="true">
         <description>
-          A string identifying the particular CPE model and version.
+          A string identifying the particular device model and version.
         </description>
         <syntax>
           <string>
@@ -335,7 +335,7 @@
           activeNotify="forceEnabled" forcedInform="true">
         <description>
           A string identifying the software version currently installed in the
-          CPE (i.e. version of the overall CPE firmware).
+          device (i.e. version of the overall device firmware).
 
           To allow version comparisons, this element SHOULD be in the form of
           dot-delimited integers, where each successive integer represents a
@@ -373,16 +373,16 @@
           enabled {{object|FirmwareImage}} object where the
           ({{param|FirmwareImage.{i}.Available}} parameter is set to 'true').
           Out of the factory, this parameter should be set to point to the
-          firmware image the CPE will attempt to boot when first powered on.
+          firmware image the device will attempt to boot when first powered on.
 
           The firmware image instance referenced by this parameter must also
           have an Available parameter value of 'true'. Attempting to set this
           parameter to point to a non-enabled firmware image MUST result in the
-          CPE responding with a CWMP fault (9007).
+          device responding with a CWMP fault (9007).
 
-          In situations where the CPE cannot boot the firmware image specified
+          In situations where the device cannot boot the firmware image specified
           by this parameter and manages to boot a different firmware image, the
-          CPE MUST NOT modify this value to point to the alternate firmware
+          device MUST NOT modify this value to point to the alternate firmware
           image that is currently active.
         </description>
         <syntax>
@@ -437,7 +437,7 @@
 
       <parameter name="UpTime" access="readOnly" activeNotify="canDeny">
         <description>
-          Time in {{units}} since the CPE was last restarted.
+          Time in {{units}} since the device was last restarted.
         </description>
         <syntax>
           <unsignedInt>
@@ -450,10 +450,10 @@
 
       <parameter name="FirstUseDate" access="readOnly">
         <description>
-          Date and time in UTC that the CPE first both successfully established
+          Date and time in UTC that the device first both successfully established
           an IP-layer network connection and acquired an absolute time
           reference using NTP or equivalent over that network connection. The
-          CPE MAY reset this date after a factory reset.
+          device MAY reset this date after a factory reset.
 
           If NTP or equivalent is not available, this parameter, if present,
           SHOULD be set to the Unknown Time value.
@@ -596,11 +596,11 @@
         <description>
           Name of the vendor configuration file.
 
-          If the CPE is able to obtain the name of the configuration file from
+          If the device is able to obtain the name of the configuration file from
           the file itself, then the value of this parameter MUST be set to that
           name.
 
-          Otherwise, if the CPE can extract the file name from the URL used to
+          Otherwise, if the device can extract the file name from the URL used to
           download the configuration file, then the value of this parameter
           MUST be set to that name.
 
@@ -616,9 +616,9 @@
       <parameter name="Version" access="readOnly">
         <description>
           A string identifying the configuration file version currently used in
-          the CPE.
+          the device.
 
-          If the CPE is able to obtain the version of the configuration file
+          If the device is able to obtain the version of the configuration file
           from the file itself, then the value of this parameter MUST be set to
           the obtained value.
 
@@ -634,7 +634,7 @@
       <parameter name="Date" access="readOnly">
         <description>
           Date and time when the content of the current version of this vendor
-          configuration file was first applied by the CPE.
+          configuration file was first applied by the device.
         </description>
         <syntax>
           <dateTime/>
@@ -1080,7 +1080,7 @@
 
       <parameter name="NumSamples" access="readWrite" version="2.18">
         <description>
-          This parameter indicates the number of CPU usage samples that is needed to
+          This parameter indicates the number of CPU usage samples required to
           calculate the average CPU utilization and populate the {{param|CPUUtilization}}
         </description>
         <syntax>
@@ -1799,7 +1799,7 @@
       enableParameter="Enable" numEntriesParameter="LogRotateNumberOfEntries"
       minEntries="0" maxEntries="unbounded" version="2.17">
       <description>
-        This Object details the available rotation settings for vendor log file rotation.
+        This object details the available rotation settings for vendor log file rotation.
 
         Based on {{bibref|YANGSYSLOG|A YANG Data Model for Syslog Configuration}}.
       </description>
@@ -1825,8 +1825,8 @@
 
       <parameter name="Name" access="readWrite">
         <description>
-          Specifies the full path and filename of the log file that must be rotated.
-          Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+          Specifies the full path and filename of the log file that must be rotated,
+          using the file URI scheme {{bibref|RFC8089|The file URI Scheme}}.
         </description>
         <syntax>
           <dataType ref="FileURI"/>
@@ -1934,8 +1934,8 @@
 
       <parameter name="Name" access="readOnly">
         <description>
-          Name of the rotated log file stored within the same directory that {{param|#.Name}} is specified.
-          Which MUST use the uri scheme file {{bibref|RFC8089|The file URI Scheme}}.
+          Name of the rotated log file stored within the same directory as {{param|#.Name}},
+          using the file URI scheme {{bibref|RFC8089|The file URI Scheme}}.
         </description>
         <syntax>
           <dataType ref="FileURI"/>
@@ -3430,65 +3430,12 @@
         {{event|.LocalAgent.TransferComplete!}} event.
       </description>
       <input>
-        <parameter name="URL" mandatory="true">
-          <description>
-            The {{datatype}} specifying the destination file location. The
-            HTTPS transport MUST be supported, and the HTTP transport MAY be
-            supported.
-
-            This argument specifies only the destination file location, and
-            does not indicate in any way the name or location of the local
-            file to be uploaded.
-
-            If the Agent receives multiple upload requests with the same URL,
-            the Agent MUST perform each upload as requested, and MUST NOT
-            assume that the content of the file to be uploaded is the same
-            each time.
-
-            This URL MUST NOT include the "userinfo" component, as defined in
-            {{bibref|RFC3986}}.
-          </description>
-          <syntax>
-           <dataType ref="URL"/>
-          </syntax>
-        </parameter>
-
-        <parameter name="Username" mandatory="false">
-          <description>
-            Username to be used by the Agent to authenticate with the file
-            server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-            authentication (e.g., certificate-based authentication) is required.
-
-            Note: The mandatory requirement for this parameter was removed in Device:2.20.
-          </description>
-          <syntax>
-            <string>
-               <size maxLength="256"/>
-            </string>
-          </syntax>
-        </parameter>
-
-        <parameter name="Password" mandatory="false">
-          <description>
-            Password to be used by the Agent to authenticate with the file
-            server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-            authentication (e.g., certificate-based authentication) is required.
-
-            Note: The mandatory requirement for this parameter was removed in Device:2.20.
-          </description>
-          <syntax>
-            <string>
-              <size maxLength="256"/>
-            </string>
-          </syntax>
-        </parameter>
-
-        <component ref="ClientCerts" version="2.20"/>
+        <component ref="UploadCommandArgs" version="2.20"/>
       </input>
     </command>
   </component>
 
-  <model name="DeviceInfo:2.21">
+  <model name="DeviceInfo:2.22">
     <component ref="Root"/>
     <component ref="DeviceInfo"/>
   </model>

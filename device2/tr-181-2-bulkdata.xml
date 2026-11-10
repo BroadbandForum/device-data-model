@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-bulkdata"
-    file="tr-181-2-21-0-bulkdata.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-bulkdata"
+    file="tr-181-2-22-0-bulkdata.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,7 +70,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -135,7 +135,7 @@
 
       <parameter name="MinReportingInterval" access="readOnly">
         <description>
-          Minimum reporting interval in {{units}} that the CPE is capable of
+          Minimum reporting interval in {{units}} that the device is capable of
           supporting.
 
           A value of 0 indicates no minimum reporting interval.
@@ -209,9 +209,10 @@
         <description>
           The maximum number of profiles that can exist at any given time.
           Specifically, the maximum number of {{object|Profile.{i}.}} instances
-          that the Controller can create.
+          that the Controller can create. When this limit is reached, creating
+          a new profile fails.
 
-          If the value of this parameter is -1, then it means that the CPE
+          If the value of this parameter is -1, then it means that the device
           doesn't have a limit to the number of profiles that can exist.
         </description>
         <syntax>
@@ -228,10 +229,11 @@
           parameters that can be referenced via
           {{param|Profile.{i}.Parameter.{i}.Reference}} across all Profile and
           Parameter instances (including the expansion of partial paths within
-          the Reference parameter).
+          the Reference parameter). When this limit is reached, creating a new
+          parameter reference fails.
 
-          If the value of this parameter is -1, then it means that the CPE
-          doesn't have a limit to the number of parameter that can be
+          If the value of this parameter is -1, then it means that the device
+          doesn't have a limit to the number of parameters that can be
           referenced via the bulk data collection mechanism.
         </description>
         <syntax>
@@ -301,16 +303,16 @@
           If the value of the {{param|EncodingType}} parameter is modified any
           outstanding failed reports are deleted.
 
-          If the CPE cannot retain the number of failed reports from previous
+          If the device cannot retain the number of failed reports from previous
           reporting intervals while transmitting the report of the current
           reporting interval, then the oldest failed reports are deleted until
-          the CPE is able to transmit the report from the current reporting
+          the device is able to transmit the report from the current reporting
           interval.
 
           A value of 0 indicates that failed reports are not to be retained for
           transmission in the next reporting interval.
 
-          A value of -1 indicates that the CPE will retain as many failed
+          A value of -1 indicates that the device will retain as many failed
           reports as possible.
         </description>
         <syntax>
@@ -348,7 +350,7 @@
           The reporting interval in {{units}}. Each report is generated based
           on this interval and {{param|TimeReference}}.
 
-          The CPE MAY reject a request to set {{param}} to less than
+          The device MAY reject a request to set {{param}} to less than
           {{param|#.MinReportingInterval}}.
 
           Reporting intervals MUST begin every {{param}} {{units}}.
@@ -358,7 +360,7 @@
 
           For example, if {{param}} is 86400 (a day) and if
           {{param|TimeReference}} is set to UTC midnight on some day (in the
-          past, present, or future) then the CPE will generate (and transmit)
+          past, present, or future) then the device will generate (and transmit)
           its report at midnight every 24 hours.
         </description>
         <syntax>
@@ -386,17 +388,17 @@
           first reporting interval begins immediately.
 
           The Unknown Time value as defined in {{bibref|TR-106}} indicates that
-          no particular time reference is specified. That is, the CPE MAY
+          no particular time reference is specified. That is, the device MAY
           locally choose the time reference, and is required only to adhere to
           the specified reporting intervals.
 
-          If absolute time is not available to the CPE, its reporting interval
+          If absolute time is not available to the device, its reporting interval
           behavior MUST be the same as if the {{param}} parameter was set to
           the Unknown Time value.
 
           For example, if {{param|ReportingInterval}} is 86400 (a day) and if
           {{param}} is set to UTC midnight on some day (in the past, present,
-          or future) then the CPE will generate (and transmit, if in a "ITPush"
+          or future) then the device will generate (and transmit, if in a "ITPush"
           mode) its report at midnight every 24 hours.
 
           Note that, if {{param}} is set to a time other than the Unknown Time,
@@ -460,7 +462,7 @@
           When the {{param|##.ParameterWildCardSupported}} parameter has a
           value of {{true}}, patterns for instance identifiers are permitted
           with wildcards (an "*" character) in place of instance identifiers;
-          any attempt to set the value otherwise MUST be rejected by the CPE.
+          any attempt to set the value otherwise MUST be rejected by the device.
 
           In the case where an Object Path is specified, the sub-objects of the
           resolved pattern and contained parameters will be part of the bulk
@@ -560,7 +562,7 @@
             <enumeration value="Unix-Epoch">
               <description>
                 Timestamp is inserted using the UNIX epoch time (milliseconds
-                since Jan 1, 1970 UTC) timestamp format. If the CPE is unable
+                since Jan 1, 1970 UTC) timestamp format. If the device is unable
                 to acquire a time, then the time that has elapsed since the
                 last reboot of the device is used.
               </description>
@@ -629,7 +631,7 @@
             <enumeration value="Unix-Epoch">
               <description>
                 Timestamp is inserted using the UNIX epoch time (milliseconds
-                since Jan 1, 1970 UTC) timestamp format. If the CPE is unable
+                since Jan 1, 1970 UTC) timestamp format. If the device is unable
                 to acquire a time, then the time that has elapsed since the
                 last reboot of the device is used.
               </description>
@@ -655,7 +657,7 @@
         This object defines the properties to be used when transporting bulk
         data using the HTTP/HTTPS protocol. This object is used when the
         {{param|#.Protocol}} parameter has a value of
-        {{enum|HTTP|##.Protocols}}. For authentication purposes the CPE MUST
+        {{enum|HTTP|##.Protocols}}. For authentication purposes the device MUST
         support HTTP Basic and Digest Access Authentication as defined in
         {{bibref|RFC7617}} and {{bibref|RFC7616}}.
       </description>
@@ -663,7 +665,7 @@
       <parameter name="URL" access="readWrite">
         <description>
           The {{datatype}} for the collection server to receive the Bulk Data
-          transmitted by the CPE.
+          transmitted by the device.
         </description>
         <syntax>
           <dataType ref="URL"/>
@@ -672,7 +674,7 @@
 
       <parameter name="Username" access="readWrite">
         <description>
-          Username used to authenticate the CPE when making a connection to the
+          Username used to authenticate the device when making a connection to the
           collection server.
         </description>
         <syntax>
@@ -684,7 +686,7 @@
 
       <parameter name="Password" access="readWrite">
         <description>
-          Password used to authenticate the CPE when making a connection to the
+          Password used to authenticate the device when making a connection to the
           collection server.
         </description>
         <syntax secured="true">
@@ -696,7 +698,7 @@
 
       <parameter name="CompressionsSupported" access="readOnly">
         <description>
-          Indicates the HTTP Compression mechanism(s) supported by this CPE for
+          Indicates the HTTP Compression mechanism(s) supported by this device for
           the purposes of transferring bulk data.
         </description>
         <syntax>
@@ -724,7 +726,7 @@
       <parameter name="Compression" access="readWrite">
         <description>
           The value of this parameter represents the HTTP Compression mechanism
-          to be used by the CPE when transferring data to the collection
+          to be used by the device when transferring data to the collection
           server.
         </description>
         <syntax>
@@ -738,7 +740,7 @@
 
       <parameter name="MethodsSupported" access="readOnly">
         <description>
-          Indicates the HTTP method(s) supported by this CPE for the purposes
+          Indicates the HTTP method(s) supported by this device for the purposes
           of transferring bulk data.
         </description>
         <syntax>
@@ -761,7 +763,7 @@
       <parameter name="Method" access="readWrite">
         <description>
           The value of this parameter represents the HTTP method to be used by
-          the CPE when transferring data to the collection server.
+          the device when transferring data to the collection server.
         </description>
         <syntax>
           <string>
@@ -773,7 +775,7 @@
 
       <parameter name="UseDateHeader" access="readWrite">
         <description>
-          When {{true}}, the CPE encodes the HTTP Date Header
+          When {{true}}, the device encodes the HTTP Date Header
           {{bibref|RFC2616|Section 14.18}} in the HTTP client request.
         </description>
         <syntax>
@@ -784,7 +786,7 @@
 
       <parameter name="RetryEnable" access="readWrite">
         <description>
-          When {{true}}, the CPE retries unsuccessful attempts to transfer
+          When {{true}}, the device retries unsuccessful attempts to transfer
           data.
         </description>
         <syntax>
@@ -867,7 +869,7 @@
       <description>
         This object represents an instance of a parameter to be used in the
         report header used as part of the HTTP Request-URI transmitted by the
-        CPE to the collection server using the Request-URI in addition to the
+        device to the collection server using the Request-URI in addition to the
         parameters required by {{template|BULK-DATA-HTTP-QUERY-REF}}.
       </description>
 
@@ -1049,7 +1051,7 @@
     </profile>
   </component>
 
-  <model name="BulkData:2.21">
+  <model name="BulkData:2.22">
     <component ref="Root"/>
     <component ref="BulkData"/>
   </model>

@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-15.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-usp"
-    file="tr-181-2-21-0-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-usp"
+    file="tr-181-2-22-0-usp.xml">
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
   <import file="tr-106-types.xml" spec="urn:broadband-forum-org:tr-106">
@@ -75,21 +75,20 @@
     <dataType name="UUID"/>
   </import>
 
-
   <import file="tr-181-2-iot.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-iot">
+      spec="urn:broadband-forum-org:tr-181-2-22-iot">
     <component name="IoT_NodeComponent"/>
     <component name="IoT_ProxiedDeviceExtensionComponent"/>
     <component name="IoT_ObjectComponent"/>
   </import>
 
   <import file="tr-181-2-gatewayinfo.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-gatewayinfo">
+      spec="urn:broadband-forum-org:tr-181-2-22-gatewayinfo">
     <component name="GatewayInfo"/>
   </import>
 
   <import file="tr-181-2-common.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-common">
+      spec="urn:broadband-forum-org:tr-181-2-22-common">
     <component name="ADSLLineDiagnosticsInput"/>
     <component name="ADSLLineDiagnosticsOutput"/>
     <component name="SELTUERDiagnosticsInput"/>
@@ -146,103 +145,114 @@
     <component name="USPLocalAgent"/>
     <component name="STOMP"/>
     <component name="ManagementServerCommon"/>
-    <model name="_Device:2.21" ref="Device:2.21"/>
+    <model name="_Device:2.22" ref="Device:2.22"/>
   </import>
 
   <import file="tr-181-2-deviceinfo.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-deviceinfo">
+    spec="urn:broadband-forum-org:tr-181-2-22-deviceinfo">
     <component name="DeviceInfoUSP"/>
     <component name="CauseOfBoot"/>
     <component name="UploadCommand"/>
   </import>
 
   <import file="tr-181-2-dhcpv4.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv4">
+    spec="urn:broadband-forum-org:tr-181-2-22-dhcpv4">
     <component name="DHCPv4USP"/>
   </import>
 
   <import file="tr-181-2-dhcpv6.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-dhcpv6">
+    spec="urn:broadband-forum-org:tr-181-2-22-dhcpv6">
     <component name="DHCPv6USP"/>
   </import>
 
+  <import file="tr-181-2-firewall-usp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-firewall-usp">
+    <component name="FirewallUSP"/>
+  </import>
+
   <import file="tr-181-2-hosts.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-hosts">
+    spec="urn:broadband-forum-org:tr-181-2-22-hosts">
     <component name="HostsUSP"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="InterfaceStatsReset" ref="InterfaceStatsResetUSP"/>
   </import>
 
   <import file="tr-181-2-logical.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-logical">
+    spec="urn:broadband-forum-org:tr-181-2-22-logical">
     <component name="LogicalUSP"/>
   </import>
 
   <import file="tr-181-2-wifi-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi-usp">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-usp">
     <component name="WiFiUSP"/>
   </import>
 
   <import file="tr-181-2-moca-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-moca-usp">
+      spec="urn:broadband-forum-org:tr-181-2-22-moca-usp">
     <component name="MoCAUSP"/>
   </import>
 
+  <import file="tr-181-2-nat-usp.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-nat-usp">
+    <component name="NATUSP"/>
+  </import>
+
   <import file="tr-181-2-softwaremodules-usp.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-softwaremodules-usp">
+    spec="urn:broadband-forum-org:tr-181-2-22-softwaremodules-usp">
     <component name="SoftwareModulesUSP"/>
   </import>
 
   <import file="tr-181-2-syslog.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-syslog">
+      spec="urn:broadband-forum-org:tr-181-2-22-syslog">
     <component name="SyslogUSP"/>
   </import>
 
   <import file="tr-181-2-collectiondevice.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-collectiondevice">
+      spec="urn:broadband-forum-org:tr-181-2-22-collectiondevice">
     <component name="CollectionDeviceUSP"/>
   </import>
 
   <import file="tr-181-2-periodicfiletransfer.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-periodicfiletransfer">
+    spec="urn:broadband-forum-org:tr-181-2-22-periodicfiletransfer">
     <component name="PeriodicFileTransferUSP"/>
   </import>
 
   <import file="tr-181-2-thread.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-thread">
+      spec="urn:broadband-forum-org:tr-181-2-22-thread">
     <component name="ThreadUSP"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="SecurityUSP"/>
-    <component name="ClientCerts"/>
+    <component name="DownloadCommandArgs"/>
+    <component name="UploadCommandArgs"/>
   </import>
 
   <import file="tr-181-2-hardware.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-hardware">
+      spec="urn:broadband-forum-org:tr-181-2-22-hardware">
     <component name="HardwareUSP"/>
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="PowerManagementUSP"/>
   </import>
 
   <import file="tr-181-2-users.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-users">
+      spec="urn:broadband-forum-org:tr-181-2-22-users">
     <component name="UsersUSP"/>
   </import>
 
   <import file="tr-181-2-mqtt.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-mqtt">
+      spec="urn:broadband-forum-org:tr-181-2-22-mqtt">
   </import>
 
   <import file="tr-181-2-mqtt-usp.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-mqtt-usp">
+      spec="urn:broadband-forum-org:tr-181-2-22-mqtt-usp">
     <component name="MQTTUSP"/>
   </import>
 
@@ -322,7 +332,7 @@
     {{command|Device.IP.Diagnostics.IPLayerCapacity()}}
   </template>
 
-  <model name="Device:2.21" base="_Device:2.21">
+  <model name="Device:2.22" base="_Device:2.22">
     <object base="Device." access="readOnly" minEntries="1" maxEntries="1">
 
       <parameter name="ProxiedDeviceNumberOfEntries" access="readOnly"
@@ -803,7 +813,7 @@
       <parameter name="StreamingHost" access="readWrite" status="deleted">
         <description>
           This is the host name or IP Address of the IPDR Collector to be used
-          by the CPE to stream bulk data records if this collection profile is
+          by the device to stream bulk data records if this collection profile is
           configured for the IPDR Streaming Protocol {{bibref|IPDR-SP}} (the
           {{param|Protocol}} parameter has a value of
           {{enum|Streaming|#.Protocols}}).
@@ -824,7 +834,7 @@
 
       <parameter name="StreamingPort" access="readWrite" status="deleted">
         <description>
-          This is the port number of the IPDR Collector to be used by the CPE
+          This is the port number of the IPDR Collector to be used by the device
           to stream bulk data records if this collection profile is configured
           for the IPDR Streaming Protocol {{bibref|IPDR-SP}} (the
           {{param|Protocol}} parameter has a value of
@@ -855,7 +865,7 @@
 
           A Controller MUST NOT configure multiple IPDR Streaming Protocol
           collection profiles with the same {{param}}. Doing so MUST cause the
-          CPE to fail the SetParameterValues.
+          device to fail the SetParameterValues.
 
           Within the IPDR Streaming Protocol specification the Session ID has a
           type of a single 'char', but we are restricting the range even
@@ -878,7 +888,7 @@
 
       <parameter name="FileTransferURL" access="readWrite" status="deleted">
         <description>
-          This is the {{datatype}} within the CPE that is used by an IPDR
+          This is the {{datatype}} within the device that is used by an IPDR
           Collector to retrieve the IPDRDocs when this collection profile is
           configured for the IPDR File Transfer Protocol {{bibref|IPDR-FTP}}
           (the {{param|Protocol}} parameter has a value of
@@ -901,7 +911,7 @@
         <description>
           Username used for authentication of the {{param|FileTransferURL}}.
 
-          This is the {{param}} that the IPDR Collector uses to access the CPE
+          This is the {{param}} that the IPDR Collector uses to access the device
           when this collection profile is configured for the IPDR File Transfer
           Protocol {{bibref|IPDR-FTP}} (the {{param|Protocol}} parameter has a
           value of {{enum|File|#.Protocols}}).
@@ -925,7 +935,7 @@
         <description>
           Password used for authentication of the {{param|FileTransferURL}}.
 
-          This is the {{param}} that the IPDR Collector uses to access the CPE
+          This is the {{param}} that the IPDR Collector uses to access the device
           when this collection profile is configured for the IPDR File Transfer
           Protocol {{bibref|IPDR-FTP}} (the {{param|Protocol}} parameter has a
           value of {{enum|File|#.Protocols}}).
@@ -2636,7 +2646,7 @@
         </syntax>
       </parameter>
 
-      <parameter name="ReferenceList" access="readWrite" version="2.13">
+      <parameter name="ReferenceList" access="writeOnceReadOnly" version="2.13">
         <description>
           Each entry in the list is a Path Name, Search Path, Command
           reference, or Event reference that determines the element(s) of the
@@ -2653,6 +2663,9 @@
           the value of a non-empty {{param}} parameter needs to change, the
           {{object}} instance MUST be deleted and a new {{object}} instance
           created.
+
+          Note: This parameter was changed to writeOnceReadOnly in the
+          Device:2.22 version to align with existing functionality defined within the description.
 
           The following bullet points describe what is allowed as a value of
           {{param}} based on the different values of the {{param|NotifType}}
@@ -3136,11 +3149,13 @@
     </object>
 
     <object name="Device.Standby." access="readOnly" minEntries="1"
-        maxEntries="1" version="2.12" status="deprecated">
+        maxEntries="1" version="2.12" status="obsoleted">
       <description>
         Capabilities of a Device as it pertains to entering a standby state.
 
         {{deprecated|2.20|because it has been moved to {{object|Device.Hardware.PowerManagement.Standby.}}}}
+
+        {{obsoleted|2.22}}
       </description>
 
       <parameter name="NetworkAware" access="readOnly">
@@ -3200,25 +3215,6 @@
         </description>
         <input>
 
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the source file location. The HTTPS
-              transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              If the Agent receives multiple download requests with the same
-              source URL, the Agent MUST perform each download as requested,
-              and MUST NOT assume that the content of the file to be downloaded
-              is the same each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
-          </parameter>
-
           <parameter name="AutoActivate" mandatory="true">
             <description>
               If {{true}} the Agent MUST automatically activate the firmware
@@ -3234,32 +3230,17 @@
             </syntax>
           </parameter>
 
-          <parameter name="Username">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. This argument is omitted if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
+          <component ref="DownloadCommandArgs" version="2.22"/>
+          <parameter base="Username">
+           <description action="append">
+             Note: The mandatory requirement for this parameter was removed in Device:2.22.
+           </description>
           </parameter>
-
-          <parameter name="Password">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. This argument is omitted if no authentication is
-              required.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
+          <parameter base="Password">
+           <description action="append">
+             Note: The mandatory requirement for this parameter was removed in Device:2.22.
+           </description>
           </parameter>
-
           <parameter name="FileSize">
             <description>
               The size of the file to be downloaded in bytes.
@@ -3518,61 +3499,7 @@
           {{event|##.LocalAgent.TransferComplete!}} event.
         </description>
         <input>
-
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the destination file location. The
-              HTTPS transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              This argument specifies only the destination file location, and
-              does not indicate in any way the name or location of the local
-              file to be uploaded.
-
-              If the Agent receives multiple upload requests with the same URL,
-              the Agent MUST perform each upload as requested, and MUST NOT
-              assume that the content of the file to be uploaded is the same
-              each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
-          </parameter>
-
-          <parameter name="Username" mandatory="false">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-              authentication (e.g., certificate-based authentication) is required.
-              
-              Note: The mandatory requirement for this parameter was removed in Device:2.20.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <parameter name="Password" mandatory="false">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-              authentication (e.g., certificate-based authentication) is required.
-              
-              Note: The mandatory requirement for this parameter was removed in Device:2.20.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <component ref="ClientCerts" version="2.20"/>
+          <component ref="UploadCommandArgs" version="2.20"/>
         </input>
       </command>
 
@@ -3585,57 +3512,17 @@
           {{event|##.LocalAgent.TransferComplete!}} event.
         </description>
         <input>
-
-          <parameter name="URL" mandatory="true">
-            <description>
-              The {{datatype}} specifying the source file location. The HTTPS
-              transport MUST be supported, and the HTTP transport MAY be
-              supported.
-
-              If the Agent receives multiple download requests with the same
-              source URL, the Agent MUST perform each download as requested,
-              and MUST NOT assume that the content of the file to be downloaded
-              is the same each time.
-
-              This URL MUST NOT include the "userinfo" component, as defined in
-              {{bibref|RFC3986}}.
-            </description>
-            <syntax>
-              <dataType ref="URL"/>
-            </syntax>
+          <component ref="DownloadCommandArgs" version="2.20"/>
+          <parameter base="Username">
+           <description action="append">
+             Note: The mandatory requirement for this parameter was removed in Device:2.20.
+           </description>
           </parameter>
-
-          <parameter name="Username" mandatory="false">
-            <description>
-              Username to be used by the Agent to authenticate with the file
-              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-              authentication (e.g., certificate-based authentication) is required.
-              
-              Note: The mandatory requirement for this parameter was removed in Device:2.20.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
+          <parameter base="Password">
+           <description action="append">
+             Note: The mandatory requirement for this parameter was removed in Device:2.20.
+           </description>
           </parameter>
-
-          <parameter name="Password" mandatory="false">
-            <description>
-              Password to be used by the Agent to authenticate with the file
-              server. If {{param}} is not provided or is set to {{empty}}, an alternative form of
-              authentication (e.g., certificate-based authentication) is required.
-              
-              Note: The mandatory requirement for this parameter was removed in Device:2.20.
-            </description>
-            <syntax>
-              <string>
-                <size maxLength="256"/>
-              </string>
-            </syntax>
-          </parameter>
-
-          <component ref="ClientCerts" version="2.20"/>
 
           <parameter name="FileSize">
             <description>
@@ -3768,7 +3655,7 @@
 
       <command name="ADSLLineTest()" async="true" version="2.12">
         <description>
-          This command is to provide diagnostic information for a CPE with an
+          This command is to provide diagnostic information for a device with an
           ADSL2 or ADSL2+ modem WAN interface, but MAY also be used for ADSL.
         </description>
         <input>
@@ -3805,7 +3692,7 @@
           This command performs a DSL Single Ended Line Test - Physical Medium
           Dependent (SELT-PMD) Uncalibrated Echo Response (UER).
 
-          This command is for the CPE, aka the Transmission Unit - Remote end
+          This command is for the device, aka the Transmission Unit - Remote end
           (TU-R).
 
           Reference: ITU-T Recommendation {{bibref|G.996.2|Clause A.2, SELT-PMD
@@ -3841,7 +3728,7 @@
           This command performs a DSL Single Ended Line Test - Physical Medium
           Dependent (SELT-PMD) Quiet Line Noise (QLN).
 
-          This command is for the CPE, aka the Transmission Unit - Remote end
+          This command is for the device, aka the Transmission Unit - Remote end
           (TU-R).
 
           Reference: ITU-T Recommendation {{bibref|G.996.2|Clause A.2, SELT-PMD
@@ -3877,7 +3764,7 @@
           This command performs a DSL Single-Ended Line Test - Processed
           (SELT-P).
 
-          This command is for the CPE, aka the Transmission Unit - Remote end
+          This command is for the device, aka the Transmission Unit - Remote end
           (TU-R).
 
           Reference: ITU-T Recommendation {{bibref|G.996.2}}.
@@ -4177,7 +4064,7 @@
                 <enumeration value="Error_CannotResolveHostName"/>
                 <enumeration value="Error_NoRouteToHost">
                   <description>
-                    The CPE can not reach the requested Ping host address
+                    The device can not reach the requested Ping host address
                   </description>
                 </enumeration>
                 <enumeration value="Error_Internal"/>
@@ -4221,7 +4108,7 @@
                 <enumeration value="Error_CannotResolveHostName"/>
                 <enumeration value="Error_NoRouteToHost">
                   <description>
-                    The CPE can not reach the requested TraceRoute host address
+                    The device can not reach the requested TraceRoute host address
                   </description>
                 </enumeration>
                 <enumeration value="Error_MaxHopCountExceeded"/>
@@ -4256,7 +4143,7 @@
           DownloadDiagnostics Test.
 
           Files received in the DownloadDiagnostics do not require file storage
-          on the CPE device.
+          on the device.
         </description>
         <input>
           <component ref="IPDownloadDiagnosticsInput" version="2.12"/>
@@ -4266,7 +4153,7 @@
             <description action="replace">
               The number of connections to be used in the test. The default
               value SHOULD be 1. {{param}} MUST NOT be set to a value greater
-              than {{param|#.DownloadDiagnosticMaxConnections}}.
+              than {{param|#.DownloadDiagnosticsMaxConnections}}.
             </description>
             <syntax>
               <unsignedInt>
@@ -4348,7 +4235,7 @@
           UploadDiagnostics test.
 
           Files sent by the UploadDiagnostics do not require file storage on
-          the CPE device, and MAY be an arbitrary stream of bytes.
+          the device, and MAY be an arbitrary stream of bytes.
         </description>
         <input>
           <component ref="IPUploadDiagnosticsInput" version="2.12"/>
@@ -4424,7 +4311,7 @@
       <parameter base="UDPEchoDiagnosticsMaxResults" access="readOnly">
         <description action="replace">
           The maximum number of rows in
-          {{object|UDPEchoDiagnostics().IndividualPacketResult}} that the CPE
+          {{object|UDPEchoDiagnostics().IndividualPacketResult}} that the device
           will store. If a test would create more rows than {{param}} only the
           first {{param}} rows are present in
           {{object|UDPEchoDiagnostics().IndividualPacketResult}}.
@@ -4964,11 +4851,11 @@
           interval begins immediately.
 
           The Unknown Time value defined in {{bibref|TR-106}} indicates that no
-          particular time reference is specified. That is, the CPE MAY locally
+          particular time reference is specified. That is, the device MAY locally
           choose the time reference, and is required only to adhere to the
           specified sample and fetch intervals.
 
-          If absolute time is not available to the CPE, its sample and fetch
+          If absolute time is not available to the device, its sample and fetch
           interval behavior MUST be the same as if the {{param}} parameter was
           set to the Unknown Time value.
 
@@ -5003,8 +4890,8 @@
           on completion of every {{param}} sample intervals.
 
           For example, if {{param|ReportSamples}} is 25 and {{param}} is 24,
-          then the CPE will store 25 values for each monitored parameter and
-          the {{event|Push!}} event will occur as the CPE stores each 24th of
+          then the device will store 25 values for each monitored parameter and
+          the {{event|Push!}} event will occur as the device stores each 24th of
           25 sample intervals.
         </description>
         <syntax>
@@ -5136,7 +5023,7 @@
 
               This parameter can be incremented at any time during a sample
               interval, and might be incremented more than once during a single
-              sample interval. For this reason, the CPE SHOULD place a locally
+              sample interval. For this reason, the device SHOULD place a locally
               specified limit on the frequency at which it will notify the
               Controller of such changes.
 
@@ -5201,7 +5088,7 @@
 
       <command name="SendMagicPacket()" async="false">
         <description>
-          This command sends a magic packet over the CPE active Ethernet
+          This command sends a magic packet over the device active Ethernet
           interfaces.
         </description>
         <input>
@@ -5305,21 +5192,6 @@
       <parameter base="Origin" access="writeOnceReadOnly"/>
     </object>
     <object base="Device.DNS.Zone.{i}.Host.{i}.">
-      <parameter base="Origin" access="writeOnceReadOnly"/>
-    </object>
-    <object base="Device.Firewall.Pinhole.{i}.">
-      <parameter base="Origin" access="writeOnceReadOnly"/>
-    </object>
-    <object base="Device.Firewall.DMZ.{i}.">
-      <parameter base="Origin" access="writeOnceReadOnly"/>
-    </object>
-    <object base="Device.Firewall.Set.{i}.">
-      <parameter base="Origin" access="writeOnceReadOnly"/>
-    </object>
-    <object base="Device.NAT.PortMapping.{i}.">
-      <parameter base="Origin" access="writeOnceReadOnly"/>
-    </object>
-    <object base="Device.NAT.PortTrigger.{i}.">
       <parameter base="Origin" access="writeOnceReadOnly"/>
     </object>
     <object base="Device.Routing.Babel.MACKeySet.{i}.MACKey.{i}.">
@@ -5461,6 +5333,8 @@
     <component ref="HardwareUSP"/>
     <component ref="UsersUSP"/>
     <component ref="MQTTUSP"/>
+    <component ref="FirewallUSP"/>
+    <component ref="NATUSP"/>
 
     <!-- General Commands from common model -->
 
@@ -6593,7 +6467,14 @@
       </object>
     </profile>
 
-    <profile name="Subscriptions:1" version="2.13">
+    <profile name="Subscriptions:1" version="2.13" status="deprecated">
+      <description>
+        {{deprecated|2.22|This profile is deprecated in favor of
+        Subscriptions:2. Note that the requirement on
+        {{param|Device.LocalAgent.Subscription.{i}.ReferenceList}} below was
+        reduced from readWrite to writeOnceReadOnly in the Device:2.22
+        version to match the parameter's current access type.}}
+      </description>
       <object ref="Device.LocalAgent." requirement="present">
         <parameter ref="SubscriptionNumberOfEntries" requirement="readOnly"/>
       </object>
@@ -6605,7 +6486,24 @@
         <parameter ref="Recipient" requirement="readOnly"/>
         <parameter ref="CreationDate" requirement="readOnly"/>
         <parameter ref="NotifType" requirement="readWrite"/>
-        <parameter ref="ReferenceList" requirement="readWrite"/>
+        <parameter ref="ReferenceList" requirement="writeOnceReadOnly"/>
+        <parameter ref="Persistent" requirement="readWrite"/>
+      </object>
+    </profile>
+
+    <profile name="Subscriptions:2" version="2.22">
+      <object ref="Device.LocalAgent." requirement="present">
+        <parameter ref="SubscriptionNumberOfEntries" requirement="readOnly"/>
+      </object>
+      <object ref="Device.LocalAgent.Subscription.{i}."
+          requirement="createDelete">
+        <parameter ref="Enable" requirement="readWrite"/>
+        <parameter ref="Alias" requirement="writeOnceReadOnly"/>
+        <parameter ref="ID" requirement="readWrite"/>
+        <parameter ref="Recipient" requirement="readOnly"/>
+        <parameter ref="CreationDate" requirement="readOnly"/>
+        <parameter ref="NotifType" requirement="readWrite"/>
+        <parameter ref="ReferenceList" requirement="writeOnceReadOnly"/>
         <parameter ref="Persistent" requirement="readWrite"/>
       </object>
     </profile>
@@ -6700,6 +6598,24 @@
           Controllers:1
           Subscriptions:1
           Challenge:1"
-        version="2.12"/>
+        version="2.12" status="deprecated">
+      <description>
+        {{deprecated|2.22|This profile is deprecated in favor of
+        USPAgent:2, which extends Subscriptions:2 instead of
+        Subscriptions:1.}}
+      </description>
+    </profile>
+
+    <profile
+        name="USPAgent:2"
+        extends="
+          DeviceInfo:1
+          Reboot:1
+          Firmware:1
+          LocalAgent:1
+          Controllers:1
+          Subscriptions:2
+          Challenge:1"
+        version="2.22"/>
   </model>
 </dm:document>

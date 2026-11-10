@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-xpon"
-    file="tr-181-2-21-0-xpon.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-xpon"
+    file="tr-181-2-22-0-xpon.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="BaseInterfaceParams"/>
     <component name="Layer1InterfaceParams"/>
     <component name="BaseInterfaceStats"/>
@@ -81,7 +81,7 @@
   </import>
 
   <import file="tr-181-2-powermanagement.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-powermanagement">
+      spec="urn:broadband-forum-org:tr-181-2-22-powermanagement">
     <component name="PowerManagement"/>
   </import>
 
@@ -164,7 +164,7 @@
 
       <parameter name="Name" access="readOnly">
         <description>
-          The textual name of the ONU as assigned by the CPE.
+          The textual name of the ONU as assigned by the device.
         </description>
         <syntax>
           <string>
@@ -241,7 +241,7 @@
 
       <parameter name="ID" access="readOnly">
         <description>
-          The ID as assigned by the CPE to this {{object}} entry.
+          The ID as assigned by the device to this {{object}} entry.
         </description>
         <syntax>
           <unsignedInt>
@@ -346,10 +346,12 @@
         </description>
       </parameter>
 
-      <parameter base="LowerLayers">
+      <parameter base="LowerLayers" access="readOnly">
         <description action="append">
           If {{object}} models a physical UNI, it represents a layer 1 interface;
           if {{object}} models a virtual UNI, it virtualizes a layer 1 interface.
+
+          Note: access type was made `readOnly` in Device:2.22.
         </description>
       </parameter>
 
@@ -504,7 +506,7 @@
           Independent from the value of {{param|Enable}}, {{param}} SHOULD
           change to {{enum|NotAllowed}} if the interface is not allowed to
           transmit network traffic, e.g. because of a certain policy. If
-          {{param}} is {{enum|NotAllowed}}, the CPE should force the ONU state
+          {{param}} is {{enum|NotAllowed}}, the device should force the ONU state
           to O1 (Initial state).
 
           An example use case for {{enum|NotAllowed}} is the following: if
@@ -535,7 +537,7 @@
 
       <parameter name="Name" access="readOnly">
         <description>
-          The textual name of the ANI entry as assigned by the CPE.
+          The textual name of the ANI entry as assigned by the device.
         </description>
         <syntax>
           <string>
@@ -620,7 +622,7 @@
 
           This parameter is based on {{bibref|G.988|Section 9.1.14 ONU dynamic power management control}}.
 
-          An {{empty}} string indicates that no capabilities are supported.
+          {{empty}} string indicates that no capabilities are supported.
         </description>
         <syntax>
           <list/>
@@ -784,12 +786,85 @@
       </parameter>
     </object>
 
+    <object name="Device.XPON.ONU.{i}.PowerManagement.PM." access="readOnly"
+        minEntries="1" maxEntries="1" version="2.22">
+      <description>
+        Performance monitoring (PM) data associated with the ONU's energy consumption.
+        All time-based counters are expressed in microseconds to provide high granularity
+        for rapid power-state transitions.
+
+        The device MUST reset all parameters in this object to 0 (unless otherwise stated in
+        individual object or parameter descriptions) either when the ONU instance
+        is powered off (i.e. {{param|##.PowerStatus}} indicates a powered-off state),
+        or when the ONU instance's {{param|##.Enable}} parameter changes value.
+      </description>
+
+      <parameter name="TotalMeasurementTime" access="readOnly" activeNotify="canDeny">
+        <description>
+          The total elapsed time in {{units}} since the ONU instance was last initialized
+          or restarted.
+          This parameter provides the precise baseline context for {{param|DozeTime}},
+          {{param|CyclicSleepTime}}, and {{param|WatchfulSleepTime}}.
+
+          Note: For a dedicated PON device, where ONU instance is always enabled, this value
+          will typically align with the overall device uptime (presented in {{units}}).
+          For a multi-WAN device, this value specifically tracks the uptime of the ONU instance.
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="microseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+
+      <parameter name="DozeTime" access="readOnly">
+        <description>
+          The time in {{units}} during which the ONU was in doze energy conservation mode.
+          If watchful sleep is enabled in the ONU dynamic power management control ME, the ONU
+          returns 0 for this parameter. Reference {{bibref|G.988|Section 9.2.14 Energy
+          consumption performance monitoring history data}}.
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="microseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+
+      <parameter name="CyclicSleepTime" access="readOnly">
+        <description>
+          The time in {{units}} during which the ONU was in cyclic sleep energy conservation
+          mode. If watchful sleep is enabled in the ONU dynamic power management control ME, the
+          ONU returns 0 for this parameter. Reference {{bibref|G.988|Section 9.2.14 Energy
+          consumption performance monitoring history data}}.
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="microseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+
+      <parameter name="WatchfulSleepTime" access="readOnly">
+        <description>
+          The time in {{units}} during which the ONU was in watchful sleep energy conservation
+          mode. Reference {{bibref|G.988|Section 9.2.14 Energy consumption performance monitoring
+          history data}}.
+        </description>
+        <syntax>
+          <unsignedLong>
+            <units value="microseconds"/>
+          </unsignedLong>
+        </syntax>
+      </parameter>
+    </object>
+
     <object name="Device.XPON.ONU.{i}.ANI.{i}.Stats." access="readOnly"
         minEntries="1" maxEntries="1" version="2.16">
       <description>
         Throughput statistics for this interface.
 
-        The CPE MUST reset the interface's Stats parameters (unless otherwise
+        The device MUST reset the interface's Stats parameters (unless otherwise
         stated in individual object or parameter descriptions) either when the
         interface becomes operationally down due to a previous administrative
         down (i.e. the interface's {{param|#.Status}} parameter transitions to
@@ -1830,7 +1905,7 @@
 
       <parameter name="ID" access="readOnly">
         <description>
-          The ID as assigned by the CPE to this Transceiver entry.
+          The ID as assigned by the device to this Transceiver entry.
         </description>
         <syntax>
           <unsignedInt>
@@ -2013,7 +2088,7 @@
 
   </component>
 
-  <model name="XPON:2.21">
+  <model name="XPON:2.22">
     <component ref="Root"/>
     <component ref="XPON"/>
   </model>

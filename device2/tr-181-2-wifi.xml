@@ -59,8 +59,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi"
-    file="tr-181-2-21-0-wifi.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-wifi"
+    file="tr-181-2-22-0-wifi.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -70,12 +70,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi-base.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi-base">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-base">
     <component name="WiFiRoot"/>
     <component name="WiFiBase"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutputNumberOfEntries"/>
@@ -83,7 +83,7 @@
   </import>
 
   <import file="tr-181-2-wifi-de.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi-de">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-de">
     <component name="WiFiAllianceDataElements"/>
     <component name="SpatialReuse"/>
     <component name="DEScanResultNumberOfEntries"/>
@@ -95,8 +95,13 @@
     <component name="FailedConnectionEventData"/>
   </import>
 
+  <import file="tr-181-2-wifi-sensing.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-sensing">
+    <component name="WiFiAllianceSensing"/>
+  </import>
+
   <import file="tr-181-2-wifi-templates.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi-templates">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-templates">
     <component name="Templates"/>
   </import>
 
@@ -227,7 +232,7 @@
         {{bibref|802.11-2020|Section 9.4.2.21.3}}.
 
         When read, the value of this parameter MUST correspond to
-        {{param|Channel}}. How this is achieved is a local matter to the CPE.
+        {{param|Channel}}. How this is achieved is a local matter to the device.
       </description>
       <syntax>
         <hexBinary>
@@ -1163,7 +1168,7 @@
           The ability to list inactive nodes is OPTIONAL. If the Access Point
           devices includes inactive nodes in this table, {{param}} MUST be set
           to {{false}} for each inactive node. The length of time an inactive
-          node remains listed in this table is a local matter to the CPE.
+          node remains listed in this table is a local matter to the device.
 
           {{deprecated|2.15|because this information cannot be obtained by
           EasyMesh}}
@@ -1608,18 +1613,54 @@
         <description>
           The type of encryption the neighboring WiFi SSID advertises.
 
-          When {{param|SecurityModeEnabled}} is one of
-          {{enum|WPA3-SAE|SecurityModeEnabled}},
-          {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}}, or
-          {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}}, or
-          {{enum|WPA3-Enterprise|SecurityModeEnabled}}, {{enum|TKIP}} is not
-          valid, and should not be in the list.
+          The reported values depend on {{param|SecurityModeEnabled}}:
+
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|None|SecurityModeEnabled}} or
+            {{enum|WEP|SecurityModeEnabled}}, {{param}} is not applicable.
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|WPA|SecurityModeEnabled}} or
+            {{enum|WPA-Enterprise|SecurityModeEnabled}}, only {{enum|TKIP}}
+            is in the list.
+          * When {{param|SecurityModeEnabled}} is
+            {{enum|WPA-WPA2|SecurityModeEnabled}} or
+            {{enum|WPA-WPA2-Enterprise|SecurityModeEnabled}}, all values may
+            be in the list.
+          * When {{param|SecurityModeEnabled}} is one of
+            {{enum|WPA2|SecurityModeEnabled}},
+            {{enum|WPA2-Enterprise|SecurityModeEnabled}},
+            {{enum|WPA3-SAE|SecurityModeEnabled}},
+            {{enum|WPA2-PSK-WPA3-SAE|SecurityModeEnabled}},
+            {{enum|WPA2-PSK-WPA3-SAE-RSNO|SecurityModeEnabled}},
+            {{enum|WPA3-Enterprise|SecurityModeEnabled}}, or
+            {{enum|OWE|SecurityModeEnabled}}, {{enum|TKIP}} is not in the
+            list.
         </description>
         <syntax>
           <list/>
           <string>
-            <enumeration value="TKIP"/>
-            <enumeration value="AES"/>
+            <enumeration value="TKIP">
+              <description>{{bibref|802.11-2024|Section 12.3.4}}</description>
+            </enumeration>
+            <enumeration value="AES" status="deprecated">
+              <description>
+                {{deprecated|2.22|because it has been replaced by the more
+                specific {{enum|CCMP-128}}, {{enum|CCMP-256}}, {{enum|GCMP-128}},
+                and {{enum|GCMP-256}} values}}
+              </description>
+            </enumeration>
+            <enumeration value="CCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="CCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.2}}</description>
+            </enumeration>
+            <enumeration value="GCMP-128" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
+            <enumeration value="GCMP-256" version="2.22">
+              <description>{{bibref|802.11-2024|Section 12.5.4}}</description>
+            </enumeration>
           </string>
         </syntax>
       </parameter>
@@ -1723,7 +1764,7 @@
           The number of beacon intervals (measured in {{units}}) that elapse
           between transmission of Beacon frames containing a TIM element whose
           DTIM count field is 0. This value is transmitted in the DTIM Period
-          field of beacon frames. {{bibref|802.11-2020}}
+          field of beacon frames. {{bibref|802.11-2024}}
         </description>
         <syntax>
           <unsignedInt>
@@ -1749,12 +1790,13 @@
     <component ref="WiFiRoot"/>
     <component ref="BBFEasyMesh"/>
     <component ref="WiFiAllianceDataElements"/>
+    <component ref="WiFiAllianceSensing"/>
     <component ref="Templates"/>
     <component ref="WiFiBase"/>
   </component>
 
 
-  <model name="WiFi:2.21">
+  <model name="WiFi:2.22">
     <component ref="Root"/>
     <component ref="WiFi"/>
   </model>

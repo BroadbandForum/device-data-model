@@ -10,7 +10,7 @@ EndpointAddress is a 128 bit field, containing one IPv6 address. The tunnel Endp
 
 When EndpointName is assigned, the name is looked up (resolved) and the corresponding IPv6 address is set in EndpointAddress.
 
-When DS-Lite is running in the CPE, the NAT function is disabled between the LAN and DSLite interface.
+When DS-Lite is running in the device, the NAT function is disabled between the LAN and DSLite interface.
 
 ## Internal Treatment of IPv4 Packets
 

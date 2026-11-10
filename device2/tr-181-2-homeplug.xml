@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-homeplug"
-    file="tr-181-2-21-0-homeplug.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-homeplug"
+    file="tr-181-2-22-0-homeplug.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-interface.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-interface">
+    spec="urn:broadband-forum-org:tr-181-2-22-interface">
     <component name="Layer12Interface"/>
   </import>
 
@@ -408,10 +408,10 @@
           Whether or not this device is currently present in the HomePlug
           network.
 
-          The ability to list inactive nodes is OPTIONAL. If the CPE includes
+          The ability to list inactive nodes is OPTIONAL. If the device includes
           inactive nodes in this table, {{param}} MUST be set to {{false}} for
           each inactive node. The length of time an inactive node remains
-          listed in this table is a local matter to the CPE.
+          listed in this table is a local matter to the device.
         </description>
         <syntax>
           <boolean/>
@@ -465,7 +465,7 @@
     </profile>
   </component>
 
-  <model name="HomePlug:2.21">
+  <model name="HomePlug:2.22">
     <component ref="Root"/>
     <component ref="HomePlug"/>
   </model>

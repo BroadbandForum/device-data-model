@@ -1,0 +1,21 @@
+INFO:project-parser:created WT-181 project (valid)
+INFO:project-parser:find_file WT-106 /opt/atlassian/pipelines/agent/build/WT-181/PROJECT.yaml
+INFO:project-parser:  (1/7) not found in /opt/atlassian/pipelines/agent/build/WT-106/PROJECT.yaml
+INFO:project-parser:  (2/7) not found in /opt/atlassian/pipelines/agent/WT-106/WT-181/PROJECT.yaml
+INFO:project-parser:  (3/7) found in /opt/atlassian/pipelines/agent/build/install/projectyaml/WT-106/PROJECT.yaml
+INFO:project-parser:created WT-106 project (depth 1)
+INFO:project-parser:find_file WT-157 /opt/atlassian/pipelines/agent/build/WT-181/PROJECT.yaml
+INFO:project-parser:  (1/8) found in /opt/atlassian/pipelines/agent/build/WT-181/components/PROJECT.yaml
+INFO:project-parser:created WT-157 project (depth 1)
+INFO:project-parser:validated projects
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/README.md
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/CHANGELOG.md
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-1.yaml
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-2.yaml
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA.yaml
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-1.md
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-2.md
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA.md
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-1.mk
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA-2.mk
+INFO:project-parser:wrote /opt/atlassian/pipelines/agent/build/specification/METADATA.mk

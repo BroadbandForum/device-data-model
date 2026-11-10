@@ -178,6 +178,13 @@
     * Added MQTT ToO
     * Added certificate management ToO
 
+* - [Issue 2 Amendment 22][TR-181 Issue 2 Amendment 22]
+  - November 2026
+  - * Markdown Table reformatting
+    * Additional and improvements of Advance Firewall Example Configuration (PriorityMap, DMZ, Pinhole, Service, PortMapping, PortTrigger)
+    * Extension of the Device certificates ToO with Certificate signing Request (CSR) and Advanced Certificate Management
+    * Added Wi-Fi Sensing ToO chapter
+
 :::
 
 Comments or questions about this Broadband Forum Technical Report should be directed to <info@broadband-forum.org>.
@@ -246,6 +253,7 @@ Comments or questions about this Broadband Forum Technical Report should be dire
 [TR-181 Issue 2 Amendment 20]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20.pdf
 [TR-181 Issue 2 Amendment 20 Corrigendum 1]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-20_Corrigendum-1.pdf
 [TR-181 Issue 2 Amendment 21]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-21.pdf
+[TR-181 Issue 2 Amendment 22]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-22.pdf
 [TR-181 Issue 2 Amendment 5]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-5.pdf
 [TR-181 Issue 2 Amendment 6]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-6.pdf
 [TR-181 Issue 2 Amendment 7]: https://www.broadband-forum.org/download/TR-181_Issue-2_Amendment-7.pdf

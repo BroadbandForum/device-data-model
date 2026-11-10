@@ -58,8 +58,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-14.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-wifi-usp"
-    file="tr-181-2-21-0-wifi-usp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-wifi-usp"
+    file="tr-181-2-22-0-wifi-usp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -68,12 +68,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-wifi.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-wifi">
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi">
     <component name="WiFi"/>
     <component name="WiFiNeighboringWiFiDiagnosticsOutput"/>
     <component name="SpatialReuse"/>
@@ -88,7 +88,17 @@
     <component name="CCAMeasurementOutput"/>
     <component name="WiFi6"/>
   </import>
- 
+
+  <import file="tr-181-2-wifi-de.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-de">
+    <component name="MaxSupportedBandwidth"/>
+  </import>
+
+  <import file="tr-181-2-wifi-sensing.xml"
+      spec="urn:broadband-forum-org:tr-181-2-22-wifi-sensing">
+    <component name="SensingExchangeParameters"/>
+  </import>
+
   <component name="WiFiChannelScanInput">
 
     <object name="OpClass.{i}." access="readWrite" minEntries="0"
@@ -2316,6 +2326,179 @@
     </command>
   </component>
 
+  <component name="SetupLayer3Path">
+    <command name="SetupLayer3Path()" async="true" version="2.22">
+      <description>
+        This command triggers an EasyMesh controller to send a
+        Layer3PathSetup Request Message to an EasyMesh Agent, which triggers
+        the EasyMesh Agent to setup a Layer3Path
+        {{bibref|EasyMesh|Section 16.2, Layer3Path}}.
+
+        This command will populate 
+        {{object|Device.WiFi.DataElements.Network.Device.{i}.Layer3Path.{i}.}}.
+      </description>
+      <input>
+        <parameter name="Layer3ServiceType" mandatory="true">
+          <description>
+            Service type for which the Layer3Path will transport data.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Sensing">
+                <description>
+                  Indicates sensing data.
+                </description>
+              </enumeration>
+              <enumeration value="DAR">
+                <description>
+                  Indicates DAR data.
+                </description>
+              </enumeration>
+            </string>
+          </syntax>
+        </parameter>
+        <parameter name="TransportProtocol" mandatory="true">
+          <description>
+            The transport protocol used for transmission and reception of
+            Layer3Path data, provided in the Layer3PathSetup Request TLV.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="UDP">
+                <description>
+                  Indicates UDP over IPv4 or IPv6.
+                </description>
+              </enumeration>
+              <enumeration value="TCP">
+                <description>
+                  Indicates TCP over IPv4 or IPv6.
+                </description>
+              </enumeration>
+            </string>
+          </syntax>
+        </parameter>
+        <parameter name="DestinationAddress" mandatory="true">
+          <description>
+            The destination IPv4 or IPv6 address of the device used for
+            reception of Layer3Path data.
+          </description>
+          <syntax>
+            <dataType ref="IPAddress" />
+          </syntax>
+        </parameter>
+        <parameter name="DestinationPort" mandatory="true">
+          <description>
+            The destination UDP or TCP port number used for reception of
+            Layer3Path data.
+          </description>
+          <syntax>
+            <unsignedInt />
+          </syntax>
+        </parameter>
+      </input>
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of the Layer3Path setup request.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_InvalidInput"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+
+  <component name="RemoveLayer3Path">
+    <command name="RemoveLayer3Path()" async="true" version="2.22">
+      <description>
+        This command triggers an EasyMesh controller to send a
+        Layer3PathSetup Request Message to an EasyMesh Agent, which triggers
+        the EasyMesh Agent to remove the Layer3Path 
+        {{bibref|EasyMesh|Section 16.3, Layer3Path}}.
+      </description>
+      <input>
+        <parameter name="Layer3ServiceType" mandatory="true">
+          <description>
+            Service type for which the Layer3Path will transport data.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Sensing">
+                <description>
+                  Indicates sensing data.
+                </description>
+              </enumeration>
+              <enumeration value="DAR">
+                <description>
+                  Indicates DAR data.
+                </description>
+              </enumeration>
+            </string>
+          </syntax>
+        </parameter>
+        <parameter name="TransportProtocol" mandatory="true">
+          <description>
+            The transport protocol used for transmission and reception of
+            Layer3Path data, provided in the Layer3PathSetup Request TLV.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="UDP">
+                <description>
+                  Indicates UDP over IPv4 or IPv6.
+                </description>
+              </enumeration>
+              <enumeration value="TCP">
+                <description>
+                  Indicates TCP over IPv4 or IPv6.
+                </description>
+              </enumeration>
+            </string>
+          </syntax>
+        </parameter>
+        <parameter name="DestinationAddress" mandatory="true">
+          <description>
+            The destination IPv4 or IPv6 address of the device used for
+            reception of Layer3Path data.
+          </description>
+          <syntax>
+            <dataType ref="IPAddress" />
+          </syntax>
+        </parameter>
+        <parameter name="DestinationPort" mandatory="true">
+          <description>
+            The destination UDP or TCP port number used for reception of
+            Layer3Path data.
+          </description>
+          <syntax>
+            <unsignedInt />
+          </syntax>
+        </parameter>
+      </input>
+      <output>
+        <parameter name="Status">
+          <description>
+            Indicates the type of outcome of the remove Layer3Path request.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_InvalidInput"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+  
   <component name="SetQoSManagement">
     <command name="SetQoSManagement()" async="true" version="2.19">
       <description>
@@ -2393,6 +2576,228 @@
       </output>
     </command>
 
+  </component>
+
+
+
+  <component name="AddExchange">
+    <command name="AddExchange()" async="true" version="2.22">
+      <description>
+        This command triggers the Sensing Service to create a new sensing
+        exchange belonging to the session identified by this object.
+
+        In case of success, this command will populate
+        {{object|#.Session.{i}.Exchange.{i}.}}.
+      </description>
+      <input>
+        <component ref="SensingExchangeParameters"/>
+      </input>
+      <output>
+        <parameter name="SensingExchangeID">
+          <description>
+            Sensing Exchange ID corresponding to the newly created exchange.
+
+            This parameter is set to 0 if the exchange creation failed.
+          </description>
+          <syntax>
+            <unsignedInt/>
+          </syntax>
+        </parameter>
+        <parameter name="ResultCode">
+          <description>
+            Indicates the outcome of the exchange creation request.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success"/>
+              <enumeration value="Error_Layer3PathDoesNotExist"/>
+              <enumeration value="Error_DeviceNotAvailable"/>
+              <enumeration value="Error_RequestDeclined"/>
+              <enumeration value="Error_Timeout"/>
+              <enumeration value="Error_AgentSTANotPresent"/>
+              <enumeration value="Error_AgentSTANotAvailable"/>
+              <enumeration value="Error_NoResponse"/>
+              <enumeration value="Error_Other" optional="true"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+
+  
+  <component name="RemoveExchange">
+    <command name="RemoveExchange()" async="true" version="2.22">
+      <description>
+        This command triggers the Sensing Service to remove an existing sensing
+        exchange belonging to the session identified by this object with
+        corresponding {{param|SensingExchangeID}}.
+      </description>
+      <input>
+        <parameter name="SensingExchangeID">
+          <description>
+            Sensing Exchange ID of the exchange to terminate.
+          </description>
+          <syntax>
+            <unsignedInt/>
+          </syntax>
+        </parameter>
+      </input>
+    </command>
+  </component>
+  
+  <component name="ExchangeTerminated">
+    <event name="ExchangeTerminated!" version="2.22">
+      <description>
+        The event is generated by the Sensing Service when the creation of a new
+        exchange has failed or a previously established sensing exchange has
+        been implicitly or explicitly terminated.
+      </description>
+      <parameter name="SensingExchangeID">
+        <description>
+          Sensing Exchange ID corresponding to the terminated exchange.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+      <parameter name="Cause">
+        <description>
+          Reason for termination.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="ExplicitTermination">
+              <description>
+                Explicit termination.
+              </description>
+            </enumeration>            
+            <enumeration value="STAUnavailable">
+              <description>
+                STA not available or has disassociated.
+              </description>
+            </enumeration>
+            <enumeration value="RadioUnavailable">
+              <description>
+                Radio not available.
+              </description>
+            </enumeration>
+            <enumeration value="Completed">
+              <description>
+                Single-shot measurement complete.
+              </description>
+            </enumeration>
+            <enumeration value="STARejected">
+              <description>
+                STA rejected exchange creation.
+              </description>
+            </enumeration>
+            <enumeration value="ResourceUnavailable">
+              <description>
+                Resources unavailable for exchange creation.
+              </description>
+            </enumeration>
+            <enumeration value="AgentUnavailable">
+              <description>
+                The EasyMesh Agent is not available or has left the mesh
+                network.
+              </description>
+            </enumeration>
+          </string>
+        </syntax>
+      </parameter>
+    </event>
+  </component>
+
+
+  <component name="SensingExchangeRequest">
+    <command name="SensingExchangeRequest()" async="false" version="2.22">
+      <description>
+        This command triggers an EasyMesh controller to send a
+        Sensing Exchange Request Message to an EasyMesh Agent.
+
+        See {{bibref|EasyMesh|Section 21.4, Sensing Exchange}}.
+      </description>
+      <input>
+        <parameter name="AddRemove" mandatory="true">
+          <description>
+            Indicates the desired operation to perform in the Sensing Exchange
+            Request Message.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="AddExchange"/>
+              <enumeration value="RemoveExchange"/>
+            </string>
+          </syntax>
+        </parameter>
+        <parameter name="SensingExchangeID" mandatory="true">
+          <description>
+            Indicates the Sensing Exchange ID to be sent in the Sensing Exchange
+            Request Message.
+          </description>
+          <syntax>
+            <unsignedInt/>
+          </syntax>
+        </parameter>
+        <component ref="SensingExchangeParameters"/>
+      </input>
+      <output>
+        <parameter name="ResultCode">
+          <description>
+          Indicates the ResultCode from the Sensing Exchange Response TLV
+          {{bibref|EasyMesh|Section 17.2.117, Sensing Exchange Response TLV}}.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="ExchangeCreated"/>
+              <enumeration value="Error_ExchangeTerminated"/>
+              <enumeration value="Error_Layer3PathDoesNotExist"/>
+              <enumeration value="Error_DeviceNotAvailable"/>
+              <enumeration value="Error_RequestDeclined"/>
+              <enumeration value="Error_Timeout"/>
+            </string>
+          </syntax>
+        </parameter>
+      </output>
+    </command>
+  </component>
+
+<component name="SensingExchangeResponse">
+    <event name="SensingExchangeResponse!" version="2.22">
+      <description>
+        The event is generated when an unsolicited Sensing Exchange Response
+        message is received from an EasyMesh Agent.
+
+        See
+        {{bibref|EasyMesh|Section 17.1.76, Sensing Exchange Response message}}.
+      </description>
+      <parameter name="SensingExchangeID">
+        <description>
+          Sensing Exchange ID from the Sensing Exchange Response TLV
+          {{bibref|EasyMesh|Section 17.2.117, Sensing Exchange Response TLV}}.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
+        <parameter name="ResultCode">
+          <description>
+          Indicates the ResultCode from the Sensing Exchange Response TLV 
+          {{bibref|EasyMesh|Section 17.2.117, Sensing Exchange Response TLV}}.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="ExchangeCreated"/>
+              <enumeration value="Error_ExchangeTerminated"/>
+              <enumeration value="Error_Layer3PathDoesNotExist"/>
+              <enumeration value="Error_DeviceNotAvailable"/>
+              <enumeration value="Error_RequestDeclined"/>
+              <enumeration value="Error_Timeout"/>
+            </string>
+          </syntax>
+        </parameter>
+    </event>
   </component>
 
   <component name="AgentOnboard">
@@ -2633,6 +3038,10 @@
       <component ref="SetAnticipatedChannelPreference"/>
       <component ref="InitiateWPSPBC"/>
       <component ref="RefreshAPMetrics"/>
+      <component ref="SetupLayer3Path"/>
+      <component ref="RemoveLayer3Path"/>
+      <component ref="SensingExchangeRequest"/>
+      <component ref="SensingExchangeResponse"/>
       <component ref="BackhaulChange"/>
     </object>
 
@@ -3080,9 +3489,351 @@
 
     </object>
 
+    <object
+        base="Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.AgentSTA.{i}."
+        access="readOnly" minEntries="0" maxEntries="unbounded">
+
+      <command name="SensingMQ()" async="true" version="2.22">
+        <description>
+          This command triggers an EasyMesh controller to send a
+          SensingMQ Request Message to the EasyMesh Agent operating the Agent
+          STA identified by this object, which triggers
+          the EasyMesh Agent to initiate the Sensing Measurement
+          Query frame transmission process described in {{bibref|EasyMesh|
+          Section 21.6.1.1, Agent STA in a TB Exchange (Informative)}}
+          with BSS {{param|BSSID}}.
+
+          Note: An event {{event|#.SensingMQ!}} will be generated with
+          the resulting output when the EasyMesh Controller receives the
+          corresponding SensingMQ Response message.
+        </description>
+        <input>
+          <parameter name="BSSID" mandatory="true">
+            <description>
+              The BSSID of the BSS which the Sensing Measurement Query frame
+              is to be transmitted to.
+
+              See {{bibref|EasyMesh|Section 17.2.121, SensingMQ Request TLV}}.
+            </description>
+            <syntax>
+              <dataType ref="MACAddress"/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="Status">
+            <description>
+              Indicates the type of outcome of the request to trigger
+              a Sensing Measurement Query frame transmission.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="Success"/>
+                <enumeration value="Error_InvalidInput"/>
+                <enumeration value="Error_Timeout"/>
+                <enumeration value="Error_Other" optional="true"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="TriggerProbe()" async="true" version="2.22">
+        <description>
+          This command triggers an EasyMesh controller to send a
+          Trigger Probe Request Message to the EasyMesh Agent operating the
+          Agent STA interface identified by this object, which triggers
+          the EasyMesh Agent to initiate the transmission of a Probe Request
+          frame as described in
+          {{bibref|EasyMesh|Section 21.3, Trigger Probe Request}}.
+
+          This command can result in updating
+          {{object|Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.AgentSTA.{i}.ProbeResponse.{i}.}}.
+
+          Note: An event {{event|#.TriggerProbe!}} may be generated in the
+          case where the EasyMesh Agent is busy or unable to send a Probe
+          Request frame.
+        </description>
+        <input>
+          <parameter name="TargetBSSIDList" mandatory="true">
+            <description>
+              List of BSSID(s) which the Probe Request frame is
+              addressed to.
+
+              See
+              {{bibref|EasyMesh|Section 17.2.123, Trigger Probe Request TLV}}.
+            </description>
+            <syntax>
+              <list/>
+              <dataType ref="MACAddress"/>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="Status">
+            <description>
+              Indicates the type of outcome of the request to trigger
+              a Probe Request frame transmission.
+            </description>
+            <syntax>
+              <string>
+                <enumeration value="Success"/>
+                <enumeration value="Error_InvalidInput"/>
+                <enumeration value="Error_Timeout"/>
+                <enumeration value="Error_Other" optional="true"/>
+              </string>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <event name="SensingMQ!" version="2.22">
+        <description>
+        Event generated when a SensingMQ Response message is received from the
+        EasyMesh Agent operating the Agent STA identified by this object.
+
+        See {{bibref|EasyMesh|Section 17.1.82, SensingMQ Response message}}.
+        </description>
+        <parameter name="BSSID">
+          <description>
+            The BSSID of the BSS which the Sensing Measurement Query frame
+            was transmitted to.
+
+            See {{bibref|EasyMesh|Section 17.2.122, SensingMQ Response TLV}}.
+          </description>
+          <syntax>
+            <dataType ref="MACAddress"/>
+          </syntax>
+        </parameter>
+        <parameter name="ResultCode">
+          <description>
+            Indicates the value of the ResultCode field of the SensingMQ
+            Response TLV.
+
+            See {{bibref|EasyMesh|Section 17.2.122, SensingMQ Response TLV}}.
+          </description>
+          <syntax>
+            <string>
+              <enumeration value="Success">
+                <description>
+                  The Sensing Measurement Query resulted in the successful
+                  creation of an unassociated TB exchange.
+                </description>
+              </enumeration>
+              <enumeration value="Error_AgentSTANotPresent">
+                <description>
+                  The Agent STA identified by this object is not present.
+                </description>
+              </enumeration>
+              <enumeration value="Error_AgentSTANotAvailable">
+                <description>
+                  The Agent STA identified by this object is not available to
+                  complete the request.
+                </description>
+              </enumeration>
+              <enumeration value="Error_NoResponse">
+                <description>
+                  No response to Sensing Measurement Query frame received from
+                  BSS {{param|BSSID}}.
+                </description>
+              </enumeration>
+              <enumeration value="Error_Timeout">
+                <description>
+                  A timeout occurred while attempting to create an unassociated
+                  TB exchange.
+                </description>
+              </enumeration>
+            </string>
+          </syntax>
+        </parameter>
+      </event>
+
+      <event name="TriggerProbe!" version="2.22">
+        <description>
+        Event generated when an unsolicited Trigger Probe Response message is
+        received from the EasyMesh Agent operating the Agent STA identified
+        by this object.
+
+        See {{bibref|EasyMesh|Section 17.1.84, Trigger Probe Response message}}.
+        </description>
+        <parameter name="StatusCode">
+          <description>
+            The Status code resulting from attempting to send the Probe Request frame as
+            defined in {{bibref|802.11-2024|Table 9-80}}.
+          </description>
+          <syntax>
+          <unsignedInt>
+            <range maxInclusive="65535"/>
+          </unsignedInt>
+          </syntax>
+        </parameter>
+        <parameter name="TargetBSSIDList">
+          <description>
+            List of BSSID(s) which the Probe Request frame was
+            addressed to.
+
+            See {{bibref|EasyMesh|Section 17.2.123, Trigger Probe Request TLV}}.
+          </description>
+          <syntax>
+            <list/>
+            <dataType ref="MACAddress"/>
+          </syntax>
+        </parameter>
+      </event>
+    </object>
+
+    <object base="Device.WiFi.Sensing."
+        access="readOnly" minEntries="1" maxEntries="1">
+
+      <command name="CreateSession()" async="false" version="2.22">
+        <description>
+          This command triggers the Sensing Service to create a new sensing
+          session and populate {{object|Device.WiFi.Sensing.Session.{i}.}}.
+        </description>
+        <input>
+          <parameter name="ApplicationName">
+            <description>
+              An optional application identifier. If not specified or empty, the
+              {{param|#.Session.{i}.SessionID}} will be used to represent the application.
+            </description>
+            <syntax>
+              <string>
+                <size maxLength="64"/>
+              </string>
+            </syntax>
+          </parameter>
+        </input>
+        <output>
+          <parameter name="SessionID">
+            <description>
+              Indicates the session identifier of the newly created sensing
+               session.
+            </description>
+            <syntax>
+              <unsignedInt/>
+            </syntax>
+          </parameter>
+          <parameter name="DataSocketPath">
+            <description>
+              The destination path and filename for a UNIX domain socket of type
+              SOCK_SEQPACKET, which an application can use to obtain sensing
+              measurement data for all exchanges belonging to this session.
+              The format is the URI scheme file
+              {{bibref|RFC8089|The file URI Scheme}}.
+
+              Note: Any sensing measurement data obtained while no application
+              is connected to the socket may be discarded.
+            </description>
+            <syntax>
+              <dataType ref="URI"/>
+            </syntax>
+          </parameter>
+        </output>
+      </command>
+
+      <command name="RemoveSession()" async="true" version="2.22">
+        <description>
+          This command triggers the Sensing Service to remove the sensing
+          session identified by {{param|SessionID}}. This will also perform any
+          cleanup which includes closing the data socket identified by
+          {{param|Device.WiFi.Sensing.Session.{i}.DataSocketPath}} and
+          removing the corresponding exchanges in
+          {{object|Device.WiFi.Sensing.Session.{i}.Exchange.{i}.}}.
+        </description>
+        <input>
+          <parameter name="SessionID">
+            <description>
+              The session identifier of the session to remove.
+            </description>
+            <syntax>
+              <unsignedInt/>
+            </syntax>
+          </parameter>
+        </input>
+      </command>
+    </object>
+
+    <object base="Device.WiFi.Sensing.Session.{i}."
+        access="readOnly" minEntries="1" maxEntries="unbounded">
+      <component ref="AddExchange"/>
+      <component ref="RemoveExchange"/>
+      <component ref="ExchangeTerminated"/>
+   </object>
+
+    <object base="Device.WiFi.EndPoint.{i}." access="readWrite"
+	    minEntries="1" maxEntries="unbounded">
+
+      <command name="Probe()" version="2.22" async="true">
+       <description>
+           This command initiates a probe request using the specified {{param|BSSIDs}}.
+       </description>
+       <input>
+          <parameter name="BSSIDs">
+            <description>
+               If the {{param}} is "FF:FF:FF:FF:FF:FF", a broadcast probe is performed on each channel.
+               If a specific list of MAC addresses, send a unicast probe to each BSSID.
+            </description>
+             <syntax>
+               <list/>
+               <dataType ref="MACAddress"/>
+            </syntax>
+         </parameter>
+       </input>
+       <output>
+        <parameter name="StatusCode">
+          <description>
+            The Status code resulting from attempting to send the Probe Request frame as
+            defined in {{bibref|802.11-2024|Table 9-80}}.
+          </description>
+          <syntax>
+          <unsignedInt>
+            <range maxInclusive="65535"/>
+          </unsignedInt>
+          </syntax>
+        </parameter>
+        </output>
+       </command>
+
+      <command name="SensingMQ()" version="2.22" async="true">
+      <description>
+          Send an {{bibref|802.11bf}} Measurement Query from the STA MAC to the BSSID.
+      </description>
+      <input>
+        <parameter name="STAMAC">
+          <description>
+             The MAC address of the originating STA.
+          </description>
+          <syntax>
+               <dataType ref="MACAddress"/>
+          </syntax>
+        </parameter>
+
+        <parameter name="BSSID">
+          <description>
+            The BSSID of the BSS to which the Sensing Measurement Query frame is transmitted.
+          </description>
+          <syntax>
+               <dataType ref="MACAddress"/>
+          </syntax>
+        </parameter>
+      </input>
+      <output>
+        <parameter name="StatusCode">
+          <description>
+            The Status code resulting from attempting to send the Sensing Measurement Query
+            frame as defined in {{bibref|802.11-2024|Table 9-80}}.
+          </description>
+           <syntax>
+             <unsignedInt/>
+           </syntax>
+       </parameter>
+      </output>
+    </command>
+    </object>
+
   </component>
 
-  <model name="WiFiUSP:2.21">
+  <model name="WiFiUSP:2.22">
     <component ref="Root"/>
     <component ref="WiFi"/>
     <component ref="WiFiUSP"/>

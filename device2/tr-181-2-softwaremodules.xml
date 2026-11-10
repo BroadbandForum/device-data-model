@@ -54,8 +54,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-softwaremodules"
-    file="tr-181-2-21-0-softwaremodules.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-softwaremodules"
+    file="tr-181-2-22-0-softwaremodules.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-0-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-0-security">
     <component name="ClientCerts"/>
     <component name="ClientCertsNoDefault"/>
   </import>
@@ -1327,6 +1327,21 @@
         </syntax>
       </parameter>
 
+      <parameter name="EnableHostNSCapabilities" access="readOnly" version="2.22">
+        <description>
+          Indicates whether this {{object}} has been granted additional
+          capabilities that apply to the host namespaces.
+
+          This parameter is only applicable when {{param|Privileged}} is {{false}}.
+
+          * {{false}} - Standard unprivileged container with no host namespace capabilities.
+          * {{true}}  - Unprivileged container with extra capabilities applying to host namespaces.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+
       <parameter name="AllocatedDiskSpace" access="readOnly" version="2.16">
         <description>
           The amount of persistent physical storage measured in {{units}} allocated
@@ -2166,7 +2181,7 @@
 
   </component>
 
-  <model name="SoftwareModules:2.21">
+  <model name="SoftwareModules:2.22">
     <component ref="Root"/>
     <component ref="SoftwareModules"/>
   </model>

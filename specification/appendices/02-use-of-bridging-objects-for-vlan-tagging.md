@@ -22,60 +22,52 @@ The Bridging model is depicted in @fig:bridge-1-model, while the configuration r
 
 ![Bridge 1 model](/images/bridge-1-model.png){typst-scale=0.5}
 
----
-bridge1ModelTableSpec:
-  caption: Tagged LAN to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge1ModelTable:
-  - descr: |
-      Bridge between WAN and LAN 1 interfaces with VLANID=*x*
+Tagged LAN to tagged WAN configuration
 
-    config: |
-      [Define VLANx]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.VLAN.1     |
-      |-------------------------------------|-----------------------------------
-      | Name                                | *VLANx*
-      | VLANID                              | *X*
+- - Bridge between WAN and LAN 1 interfaces with VLANID=*x*
 
-      [Define Ingress Port2-3 -- Create an entry for the upstream and
-      downstream port]
+  - [Define VLANx]
 
-      | Device.Bridging.Bridge.1.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.1.VLAN.1     |
+    |-------------------------------------|-----------------------------------
+    | Name                                | *VLANx*
+    | VLANID                              | *X*
 
-      | Device.Bridging.Bridge.1.Port.3     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    [Define Ingress Port2-3 -- Create an entry for the upstream and
+    downstream port]
 
-      [Associate Egress Port2-3 to VLANx -- Create an entry for the upstream
-      and downstream port]
+    | Device.Bridging.Bridge.1.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.1.Port.3     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port3*
-      | Untagged                            | *false*
-...
+    [Associate Egress Port2-3 to VLANx -- Create an entry for the upstream
+    and downstream port]
 
-::: {bbfTable=bridge1ModelTable}
+    | Device.Bridging.Bridge.1.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
+
+    | Device.Bridging.Bridge.1.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port3*
+    | Untagged                            | *false*
+
 :::
 
 ## Tagged LAN to Tagged WAN Traffic (Special Case with VLAN ID Translation)
@@ -88,85 +80,77 @@ The Bridging model is depicted in @fig:bridge-2-model, while the configuration r
 
 ![Bridge 2 model](/images/bridge-2-model.png){typst-scale=0.5}
 
----
-bridge2ModelTableSpec:
-  caption: Tagged LAN to tagged WAN configuration (VLAN ID translation)
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge2ModelTable:
-  - descr: |
-      Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)
+Tagged LAN to tagged WAN configuration (VLAN ID translation)
 
-      upstream VLAN-ID=z
+- - Description
+  - Bridging Configuration
 
-      downstream VLAN-ID=y
+- - Tagged LAN 2 to tagged WAN traffic (and vice versa) (special case with VLAN ID translation)
 
-    config: |
-      [Define VLANy and VLANz]
+    upstream VLAN-ID=z
 
-      | Device.Bridging.Bridge.2.VLAN.1     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANy*
-      | VLANID                              | *y*
+    downstream VLAN-ID=y
 
-      | Device.Bridging.Bridge.2.VLAN.2     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANz*
-      | VLANID                              | *z*
+  - [Define VLANy and VLANz]
 
-      [Define Ingress Port2 -- Create an entry for upstream port]
+    | Device.Bridging.Bridge.2.VLAN.1     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANy*
+    | VLANID                              | *y*
 
-      | Device.Bridging.Bridge.2.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *Z*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.2.VLAN.2     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANz*
+    | VLANID                              | *z*
 
-      [Define Ingress Port3 -- Create an entry for the downstream port]
+    [Define Ingress Port2 -- Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.2.Port.3     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *y*
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.2.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *Z*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port2 to VLANz - Create an entry for upstream port]
+    [Define Ingress Port3 -- Create an entry for the downstream port]
 
-      | Device.Bridging.Bridge.2.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANz*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.2.Port.3     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *y*
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port3 to VLANy - Create an entry for each downstream port]
+    [Associate Egress Port2 to VLANz - Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.2.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANy*
-      | Port                                | *Port3*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.2.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANz*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
 
-      [Define filter on upstream: ingress from Port 2 is associated with VLANy]
+    [Associate Egress Port3 to VLANy - Create an entry for each downstream port]
 
-      | Device.Bridging.Filter.1.           |
-      |-------------------------------------|------------------------------------
-      | Bridge                              | *VLANy*
-      | Interface                           | *Port2*
+    | Device.Bridging.Bridge.2.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANy*
+    | Port                                | *Port3*
+    | Untagged                            | *false*
 
-      [Define filter on downstream: ingress from Port 3 is associated with VLANz]
+    [Define filter on upstream: ingress from Port 2 is associated with VLANy]
 
-      | Device.Bridging.Filter.2.           |
-      |-------------------------------------|------------------------------------
-      | Bridge                              | *VLANz*
-      | Interface                           | *Port3*
-...
+    | Device.Bridging.Filter.1.           |
+    |-------------------------------------|------------------------------------
+    | Bridge                              | *VLANy*
+    | Interface                           | *Port2*
 
-::: {bbfTable=bridge2ModelTable}
+    [Define filter on downstream: ingress from Port 3 is associated with VLANz]
+
+    | Device.Bridging.Filter.2.           |
+    |-------------------------------------|------------------------------------
+    | Bridge                              | *VLANz*
+    | Interface                           | *Port3*
+
 :::
 
 ## Untagged LAN to Tagged WAN Traffic
@@ -179,95 +163,79 @@ The Bridging model is depicted in @fig:bridge-3-model, while the configuration r
 
 ![Bridge 3 model](/images/bridge-3-model.png){typst-scale=0.5}
 
----
-bridge3ModelTableSpec:
-  caption: Untagged LAN to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge3ModelTable:
-  - descr: |
-      Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic
+Untagged LAN to tagged WAN configuration
 
-    config: |
-      [Define VLANk]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.3.VLAN.1     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *VLANk*
-      | VLANID                              | *k*
+- - Untagged LAN 3 to tagged WAN (VLAN-ID=k) traffic
 
-      [Define Ingress Port2 -- Create an entry for upstream port]
+  - [Define VLANk]
 
-      | Device.Bridging.Bridge.3.Port.2     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *k*
-      | Name                                | *Port2*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+    | Device.Bridging.Bridge.3.VLAN.1     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *VLANk*
+    | VLANID                              | *k*
 
-      [Define Ingress Port3 -- Create an entry for the downstream port]
+    [Define Ingress Port2 -- Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.3.Port.3     |
-      |-------------------------------------|------------------------------------
-      | Name                                | *Port3*
-      | AcceptableFrameTypes                | AdmitAll
+    | Device.Bridging.Bridge.3.Port.2     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *k*
+    | Name                                | *Port2*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      [Associate Egress Port2 to VLANk - Create an entry for upstream port]
+    [Define Ingress Port3 -- Create an entry for the downstream port]
 
-      | Device.Bridging.Bridge.3.VLANPort.1 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANk*
-      | Port                                | *Port2*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.3.Port.3     |
+    |-------------------------------------|------------------------------------
+    | Name                                | *Port3*
+    | AcceptableFrameTypes                | AdmitAll
 
-      [Associate Egress Port3 to VLANk - Create an entry for each downstream port]
+    [Associate Egress Port2 to VLANk - Create an entry for upstream port]
 
-      | Device.Bridging.Bridge.3.VLANPort.2 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANk*
-      | Port                                | *Port3*
-      | Untagged                            | *true*
-...
+    | Device.Bridging.Bridge.3.VLANPort.1 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANk*
+    | Port                                | *Port2*
+    | Untagged                            | *false*
 
-::: {bbfTable=bridge3ModelTable}
+    [Associate Egress Port3 to VLANk - Create an entry for each downstream port]
+
+    | Device.Bridging.Bridge.3.VLANPort.2 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANk*
+    | Port                                | *Port3*
+    | Untagged                            | *true*
+
 :::
 
 ## Internally Generated to Tagged WAN Traffic
 
-A CPE PPPoE internal session (instance Device.PPP.Interface.1) might be dedicated to Management service and this logical interface would encapsulate/de-encapsulate its outgoing or incoming traffic in the VLAN ID j, dedicated to Management service.
+A device PPPoE internal session (instance Device.PPP.Interface.1) might be dedicated to Management service and this logical interface would encapsulate/de-encapsulate its outgoing or incoming traffic in the VLAN ID j, dedicated to Management service.
 
 To achieve this, instead of using a bridging object, a VLAN Termination interface would be created (Device.Ethernet.VLANTermination.1). The Bridging model is depicted in @fig:vlan-termination-model, while the configuration rules for this situation are summarized in @tbl:internally-generated-to-tagged-wan-configuration.
 
 ![VLAN Termination model](/images/vlan-termination-model.png){typst-scale=0.5}
 
----
-vlanTerminationModelTableSpec:
-  caption: Internally generated to tagged WAN configuration
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-vlanTerminationModelTable:
-  - descr: |
-      Internal to tagged WAN (VLAN-ID=j) traffic
+Internally generated to tagged WAN configuration
 
-    config: |
-      [DefineVLAN Termination on top of Ethernet Link]
+- - Description
+  - Bridging Configuration
 
-      | Device.Ethernet.VLANTermination.1  |
-      |------------------------------------|-------------------------------------
-      | VLANID                             | *j*
-      | LowerLayers                        | Ethernet.Link.1
-...
+- - Internal to tagged WAN (VLAN-ID=j) traffic
 
-::: {bbfTable=vlanTerminationModelTable}
+  - [Define VLAN Termination on top of Ethernet Link]
+
+    | Device.Ethernet.VLANTermination.1  |
+    |------------------------------------|-------------------------------------
+    | VLANID                             | *j*
+    | LowerLayers                        | Ethernet.Link.1
+
 :::
 
 ## Other Issues
@@ -288,101 +256,85 @@ To achieve this, new entries need to be added for interface Eth-3 and Eth-4. The
 
 ![Bridge 1 model (additional Ethernet interfaces)](/images/bridge-1-model-additional-ethernet-interfaces.png){typst-scale=0.5}
 
----
-bridge1ModelPlusTableSpec:
-  caption: Configuration to be added to "Tagged LAN to tagged WAN configuration" table
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge1ModelPlusTable:
-  - descr: |
-      Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=*x*
-      *(Configuration to be added to @tbl:tagged-lan-to-tagged-wan-configuration)*
+Configuration to be added to "Tagged LAN to tagged WAN configuration" table
 
-    config: |
-      [Define Ingress Port4-5 -- Create an entry for the other downstream ports]
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.Port.4     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port4*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+- - Bridge between WAN and LAN 2/LAN 3 interfaces with VLANID=*x*
+    *(Configuration to be added to @tbl:tagged-lan-to-tagged-wan-configuration)*
 
-      | Device.Bridging.Bridge.1.Port.5     |
-      |-------------------------------------|------------------------------------
-      | PVID                                | *x*
-      | Name                                | *Port5*
-      | AcceptableFrameTypes                | AdmitOnlyVLANTagged
+  - [Define Ingress Port4-5 -- Create an entry for the other downstream ports]
 
-      [Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]
+    | Device.Bridging.Bridge.1.Port.4     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port4*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.3 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port4*
-      | Untagged                            | *false*
+    | Device.Bridging.Bridge.1.Port.5     |
+    |-------------------------------------|------------------------------------
+    | PVID                                | *x*
+    | Name                                | *Port5*
+    | AcceptableFrameTypes                | AdmitOnlyVLANTagged
 
-      | Device.Bridging.Bridge.1.VLANPort.4 |
-      |-------------------------------------|------------------------------------
-      | VLAN                                | *VLANx*
-      | Port                                | *Port5*
-      | Untagged                            | *false*
-...
+    [Associate Egress Port4-5 to VLANx - Create an entry for the downstream ports]
 
-::: {bbfTable=bridge1ModelPlusTable}
+    | Device.Bridging.Bridge.1.VLANPort.3 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port4*
+    | Untagged                            | *false*
+
+    | Device.Bridging.Bridge.1.VLANPort.4 |
+    |-------------------------------------|------------------------------------
+    | VLAN                                | *VLANx*
+    | Port                                | *Port5*
+    | Untagged                            | *false*
+
 :::
 
 ### 802.1D (Re)-marking {#sec:802.1d-re-marking}
 
 The 802.1Q Tag includes the 802.1D user priority bits field. All the previous cases can also be extended to mark (or re-mark) this 802.1D field. To achieve this, there are different configuration options; one of them is to use the DefaultUserPriority or PriorityRegeneration fields in the Bridge Port object. For untagged frames, more complex rules can be defined referring to the QoS Classification, using the PriorityTagging value. The Bridging configuration rules for marking egress traffic on the upstream interface are summarized in @tbl:802.1d-re-marking]. Compare it with @tbl:tagged-lan-to-tagged-wan-configuration.
 
----
-bridgeRemarkingTableSpec:
-  caption: 802.1D (re-)marking
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridgeRemarkingTable:
-  - descr: |
-      802.1D (re-)marking
+802.1D (re-)marking
 
-      Remark all WAN egress traffic
+- - Description
+  - Bridging Configuration
 
-    config: |
-      [Mark the ingress frames with Default user Priority, in this case *0*]
+- - 802.1D (re-)marking
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | DefaultUserPriority                | *0*
+    Remark all WAN egress traffic
 
-      [Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority
-      regeneration string, in this case *(0,0,0,0,4,4,4,4)*]
+  - [Mark the ingress frames with Default user Priority, in this case *0*]
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | PriorityRegeneration               | *0,0,0,0,4,4,4,4*
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | DefaultUserPriority                | *0*
 
-      [In case of ingress untagged frames, for more complex classification, QoS
-      object are referred. In this case remark with *0*]
+    [Remark each ingress priority value (0,1,2,3,4,5,6,7) with the priority
+    regeneration string, in this case *(0,0,0,0,4,4,4,4)*]
 
-      | Device.Bridging.Bridge.1.Port.2.   |
-      |------------------------------------|-------------------------------------
-      | PriorityTagging                    | *true*
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | PriorityRegeneration               | *0,0,0,0,4,4,4,4*
 
-      | Device.QoS.Classification.{i}.     |
-      |------------------------------------|-------------------------------------
-      | EthernetPriorityMark               | *0*
-...
+    [In case of ingress untagged frames, for more complex classification, QoS
+    object are referred. In this case remark with *0*]
 
-::: {bbfTable=bridgeRemarkingTable}
+    | Device.Bridging.Bridge.1.Port.2.   |
+    |------------------------------------|-------------------------------------
+    | PriorityTagging                    | *true*
+
+    | Device.QoS.Classification.{i}.     |
+    |------------------------------------|-------------------------------------
+    | EthernetPriorityMark               | *0*
+
 :::
 
 ### More than one VLAN ID Tag Admitted on the Same Downstream Interface
@@ -399,39 +351,31 @@ On the Residential Gateway, this can be achieved using a combination of the Brid
 
 ![Bridge 1,2,3 model](/images/bridge-123-model.png){typst-scale=0.5}
 
----
-bridge123ModelTableSpec:
-  caption: More than one VLAN ID tag admitted on the same Downstream interface
-  headers:
-    - Description
-    - Bridging Configuration!!!!!!!!
-  labels:
-    - descr
-    - config
+::: {.list-table widths=33,67} :::
 
-bridge123ModelTable:
-  - descr: |
-      More than one VLAN ID tag admitted on the same downstream interface
+More than one VLAN ID tag admitted on the same Downstream interface
 
-    config: |
-      The configuration is the sum of *[Tagged LAN to Tagged
-      WAN Traffic VLAN Bridging]* and *[Tagged LAN to Tagged WAN Traffic
-      Special Case with VLAN ID Translation]*, but on the downstream side the
-      lower layer to be configured for each Bridge Port is always:
-      Ethernet.Interface.2
+- - Description
+  - Bridging Configuration
 
-      | Device.Bridging.Bridge.1.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
+- - More than one VLAN ID tag admitted on the same downstream interface
 
-      | Device.Bridging.Bridge.2.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
+  - The configuration is the sum of *[Tagged LAN to Tagged
+    WAN Traffic VLAN Bridging]* and *[Tagged LAN to Tagged WAN Traffic
+    Special Case with VLAN ID Translation]*, but on the downstream side the
+    lower layer to be configured for each Bridge Port is always:
+    Ethernet.Interface.2
 
-      | Device.Bridging.Bridge.3.Port.3.   |
-      |------------------------------------|-------------------------------------
-      | LowerLayers                        | *Ethernet.Interface.2*
-...
+    | Device.Bridging.Bridge.1.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
 
-::: {bbfTable=bridge123ModelTable}
+    | Device.Bridging.Bridge.2.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
+
+    | Device.Bridging.Bridge.3.Port.3.   |
+    |------------------------------------|-------------------------------------
+    | LowerLayers                        | *Ethernet.Interface.2*
+
 :::

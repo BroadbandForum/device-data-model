@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-ieee8021x"
-    file="tr-181-2-21-0-ieee8021x.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-ieee8021x"
+    file="tr-181-2-22-0-ieee8021x.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -67,12 +67,12 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="ClientCerts"/>
   </import>
 
@@ -105,14 +105,14 @@
         {{object|##.Ethernet.Link}} instance).
 
         For enabled table entries, if {{param|Interface}} is not a valid
-        reference then the table entry is inoperable and the CPE MUST set
+        reference then the table entry is inoperable and the device MUST set
         {{param|Status}} to {{enum|Error_Misconfigured|Status}}.
 
         Note: The {{object}} table includes a unique key parameter that is a
-        strong reference. If a strongly referenced object is deleted, the CPE
+        strong reference. If a strongly referenced object is deleted, the device
         will set the referencing parameter to {{empty}}. However, doing so
         under these circumstances might cause the updated {{object}} row to
-        then violate the table's unique key constraint; if this occurs, the CPE
+        then violate the table's unique key constraint; if this occurs, the device
         MUST set {{param|Status}} to {{enum|Error_Misconfigured|Status}} and
         disable the offending {{object}} row.
       </description>
@@ -141,7 +141,7 @@
           The {{enum|Error_Misconfigured}} value indicates that a necessary
           configuration value is undefined or invalid.
 
-          The {{enum|Error}} value MAY be used by the CPE to indicate a locally
+          The {{enum|Error}} value MAY be used by the device to indicate a locally
           defined error condition.
         </description>
         <syntax>
@@ -593,7 +593,7 @@
     </profile>
   </component>
 
-  <model name="IEEE8021x:2.21">
+  <model name="IEEE8021x:2.22">
     <component ref="Root"/>
     <component ref="IEEE8021x"/>
   </model>

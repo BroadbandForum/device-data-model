@@ -436,3 +436,182 @@ Wi-Fi Data Elements objects and parameters will be added according to the follow
     * additional mappings for data types not listed may be defined by WFA or BBF
 
 * YANG "leaf-list" nodes are mapped like "leaf" elements for name and description with syntax of "<list/>". The data type is mapped as described above for leaf nodes.
+
+## Wi-Fi Sensing Service {.appendix .same-file}
+
+Wi-Fi Sensing is a feature that allows sensing of environmental characteristics
+such as presence and motion from changes in RF propagation measured using Wi-Fi
+waveforms. Implementing the functionality spans all layers from the application
+layer down to the MAC and PHY layers. Because of the scope required, a Wi-Fi
+Sensing Service component has been introduced, along with an application
+focused data model (`Device.WiFi.Sensing.`).
+
+The Wi-Fi Sensing Service is a functional component that provides support for
+one or more sensing applications to configure and obtain measurements. When
+present, it acts as a broker between a sensing application and the underlying
+Wi-Fi Sensing functionality.
+
+A sensing measurement contains a representation of RF propagation between two
+Wi-Fi devices, which is processed by a sensing application to estimate changes
+of physical objects within the corresponding environment. Sensing measurements
+are obtained through coordinated "exchanges" that are performed between two
+Wi-Fi devices. An exchange is configured and controlled using Wi-Fi
+EasyMesh [@EasyMesh] features. The Wi-Fi Sensing Service enables grouping
+of one or more exchanges requested by the same sensing application into a
+"session".
+
+A sensing application interacts with the Wi-Fi Sensing Service using the
+objects under the `Device.WiFi.Sensing.` tree. A sensing application may
+first identify itself to the Wi-Fi Sensing Service by invoking the
+`Device.WiFi.Sensing.CreateSession()` (USP) command, which triggers the
+creation of a new session. When triggered, the Wi-Fi Sensing Service will
+assign a unique session identifier (`SessionID`), and create a data socket
+(`DataSocketPath`) that is used to deliver all sensing measurements
+requested by the sensing application. The details of each session are stored
+in `Device.WiFi.Sensing.Session.{i}.`. The interaction between a sensing
+application and the Wi-Fi Sensing Service is shown in @fig:createsession-usage.
+
+![CreateSession usage](/images/sensing_CreateSession.svg){typst-scale=0.5}
+
+Once the sensing application has created a session with the Wi-Fi Sensing
+Service, it may begin requesting specific sensing measurements be made by adding
+an exchange to the session by invoking the
+`Device.WiFi.Sensing.Session.{i}.AddExchange()` (USP) command. When called, the
+Wi-Fi Sensing Service will leverage the underlying Wi-Fi sensing features to add
+the exchange (see [Add Exchange](#add-exchange)). Further, where applicable, the
+Wi-Fi Sensing Service will obtain the sensing measurements and deliver them to
+the data socket (`DataSocketPath`) corresponding to the session to which the
+exchange belongs (see
+[Sensing Measurement Delivery](#sensing-measurement-delivery)). The details of
+each exchange are stored in `Device.WiFi.Sensing.Session.{i}.Exchange.{i}.`.
+
+An exchange may be removed explicitly by the sensing application, or
+implicitly through uncontrollable events. A sensing application may inform
+the Wi-Fi Sensing Service that it wishes to explicitly remove an exchange
+by invoking the `Device.WiFi.Sensing.Session.{i}.RemoveExchange()` (USP)
+command (see [Explicit exchange removal](#explicit-exchange-removal)). In the
+case where a previously created exchange no longer has the resources available
+to continue performing measurements (e.g., a device has left the network), then
+the sensing application will need to be informed by the Wi-Fi Sensing Service
+(see [Implicit exchange removal](#implicit-exchange-removal)).
+
+Finally, when the sensing application terminates or no longer needs sensing
+resources allocated, it may communicate this to the Wi-Fi Sensing Service by
+invoking the `Device.WiFi.Sensing.RemoveSession()` USP command. When called, the
+Wi-Fi Sensing Service will remove all corresponding exchanges, and close the
+data socket as illustrated in @fig:removesession-usage.
+
+![RemoveSession usage](/images/sensing_RemoveSession.svg){typst-scale=0.5}
+
+### Exchange Management
+
+There are multiple exchange types defined and enabled by Wi-Fi EasyMesh
+[@EasyMesh]. Wi-Fi Data Elements objects and USP commands under the
+`Device.WiFi.DataElements.` tree provide the Wi-Fi Sensing Service access to
+those features to handle requests such as adding a new exchange
+([Add Exchange](#add-exchange)), removing an existing exchange
+([Explicit exchange removal](#explicit-exchange-removal)), and informing the
+Wi-Fi Sensing Service that an exchange has been implicitly removed
+([Implicit exchange removal](#implicit-exchange-removal)).
+
+#### Add Exchange
+
+The Wi-Fi Sensing Service is triggered to add the exchange through
+the `Device.WiFi.Sensing.Session.{i}.AddExchange()` (USP) command. An example
+illustrating how this command may be handled is shown in
+@fig:add-exchange-example. In this figure, the Wi-Fi Sensing Service will first
+generate a new unique exchange identifier (`SensingExchangeID`), and then
+attempt to map the `TransmitterMACAddress` and `ReceiverMACAddress` values to the
+corresponding Wi-Fi Data Elements objects, and invoke the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` (USP)
+command. This command will trigger the EasyMesh Controller to generate and send
+an EasyMesh message to the required EasyMesh Agent to request adding the
+exchange, and ultimately output a result code (`ResultCode`). The result code
+is then provided to the sensing application by the Wi-Fi Sensing Service
+through the asynchronous output of the 
+`Device.WiFi.Sensing.Session.{i}.AddExchange()` USP command.
+
+![Add exchange example](/images/sensing_AddExchangeAssociated.svg){typst-scale=0.5}
+
+There is a special case that involves adding a `TriggerBased` exchange where
+either the `TransmitterMACAddress` or `ReceiverMACAddress` is that of an unassociated
+AgentSTA. In this case, the Wi-Fi Sensing Service will need to coordinate
+between two EasyMesh Agents in order to add the exchange. An example
+illustrating how this case may be handled is shown in
+@fig:add-triggerbased-exchange-with-agentsta. In this figure, the Wi-Fi Sensing
+Service will first invoke the appropriate 
+`Device.WiFi.DataElements.Network.Device.{i}.Radio.{i}.AgentSTA.{i}.SensingMQ()`
+USP command, which instructs the AgentSTA to begin transmitting a Sensing
+Measurement Query frame to the BSS. Next, the Wi-Fi Sensing Service will invoke
+the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` USP
+command, which instructs the BSS to respond to the Sensing Measurement Query
+frame and create an exchange. The results from both the `SensingMQ()` and
+`SensingExchangeRequest()` (USP) commands are received by the Wi-Fi Sensing
+Service, and used to inform the sensing application of the status through the
+asynchronous output of the `Device.WiFi.Sensing.Session.{i}.AddExchange()`
+(USP) command.
+
+![Add TriggerBased exchange with AgentSTA](/images/sensing_AddExchangeTBAgentSTA.svg){typst-scale=0.5}
+
+#### Explicit exchange removal
+
+A sensing application may decide to explicitly remove an exchange from a
+session if the measurements are no longer needed by triggering the Wi-Fi Sensing
+Service using the `Device.WiFi.Sensing.Session.{i}.RemoveExchange()` USP
+command. An example illustrating how this command may be handled is shown in
+@fig:explicit-exchange-removal-example. In this example, the Wi-Fi Sensing
+Service will map the exchange identified by the `SensingExchangeID` parameter
+to the corresponding Wi-Fi Data Elements objects, and invoke the appropriate
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeRequest()` (USP)
+command. This command will then trigger the EasyMesh Controller to generate and
+send an EasyMesh message to the appropriate EasyMesh Agent to request removing
+the exchange, and ultimately output a result code (`ResultCode`).  The result
+code is finally provided to the sensing application by the Wi-Fi Sensing Service
+through the notification event
+`Device.WiFi.Sensing.Session.{i}.ExchangeTerminated!` as an indication that the
+exchange was successfully removed.
+
+![Explicit exchange removal example](/images/sensing_RemoveExchange.svg){typst-scale=0.5}
+
+#### Implicit exchange removal
+
+In the case where a previously created exchange no longer has the resources
+available to continue performing measurements (e.g., a device has left the
+network), then the Wi-Fi Sensing Service will be notified by receiving a
+`Device.WiFi.DataElements.Network.Device.{i}.SensingExchangeResponse!` event,
+which was generated in response to the EasyMesh Controller receiving an
+unsolicited Sensing Exchange Response TLV. The Wi-Fi Sensing Service will then
+inform the sensing application by generating a 
+`Device.WiFi.Sensing.Session.{i}.ExchangeTerminated!` notification event as
+shown in @fig:implicit-exchange-removal-example.
+
+![Implicit exchange removal example](/images/sensing_ImplicitExplicitTermination.svg){typst-scale=0.5}
+
+### Sensing Measurement Delivery
+
+The Wi-Fi Sensing Service is also responsible for delivering the sensing
+measurements to the appropriate sensing application that is listening to the 
+`Device.WiFi.Sensing.Session.{i}.DataSocketPath`. On a system where multiple
+sensing applications may be operating concurrently, it is important that each
+application only receive the sensing measurements from exchanges added to its
+session.
+
+Typically, sensing measurements are received by the EasyMesh Agent, and
+optionally sent in a defined containerized format to a Layer3Path (see
+[@EasyMesh] for more information). The container format includes an
+`SensingExchangeID` field, which matches the unique `SensingExchangeID`
+belonging to each configured exchange. 
+
+Depending on the configured exchanges, the Wi-Fi Sensing Service may need to
+create a new Layer3Path connection with an EasyMesh Agent by invoking the
+`Device.WiFi.DataElements.Network.Device.{i}.SetupLayer3Path()` USP command.
+Once established, the Wi-Fi Sensing Service may connect to the Layer3Path output
+to receive the resulting sensing measurements. Since a single Layer3Path may
+be used to transfer sensing measurements belonging to multiple sessions,
+it is the job of the Wi-Fi Sensing Service to identify the sensing measurements
+from the container's `SensingExchangeID` field, and match that with the
+corresponding session. If there are no longer any exchanges corresponding to a
+specific Layer3Path, the Wi-Fi Sensing Service may remove the unused Layer3Path
+through the `Device.WiFi.DataElements.Network.Device.{i}.RemoveLayer3Path()`
+USP command.

@@ -1294,28 +1294,131 @@ Firewall.Chain.5.
 
 as they might conflict with the Policy Interface configuration.
 
+## PriorityMap {.new-page}
+
+The `PriorityMap` table defines which `Priority` value the device assigns to a new
+rule entry at creation time, based on the USP Controller that issued the create request.
+
+When a Controller creates a new entry (for example, a `NAT.PortMapping` instance), the
+device looks up the applicable `PriorityMap` table by `Controller` reference. If a
+matching row is found, the `Priority` value from that row is written into the new entry
+as a read-only, auto-populated value. The `TargetPaths` parameter (a list) restricts
+which object types a row applies to.
+
+There are two separate tables:
+
+* `Firewall.PriorityMap.{i}.` — applies to `Firewall.DMZ`, `Firewall.Pinhole`,
+  `Firewall.Policy`, and `Firewall.Service` entries.
+* `NAT.PriorityMap.{i}.` — applies to `NAT.PortMapping` and
+  `NAT.PortTrigger` entries.
+
+The following example shows a `NAT.PriorityMap` configuration for two Controllers,
+applied to PortMapping entries only:
+
+~~~~~~~
+    NAT.PriorityMap.1.
+        Controller  = "Device.LocalAgent.Controller.1."  # VPN App
+        Priority    = 1000
+        TargetPaths = "NAT.PortMapping"
+    NAT.PriorityMap.2.
+        Controller  = "Device.LocalAgent.Controller.2."  # Gaming App
+        Priority    = 2000
+        TargetPaths = "NAT.PortMapping"
+~~~~~~~
+
+When the VPN App creates a `NAT.PortMapping` entry, the device matches row 1 and
+auto-populates `Priority = 1000`. When the Gaming App creates one, the device matches
+row 2 and sets `Priority = 2000`.
+
+Because `Priority` is evaluated in ascending order (lowest value first), the VPN App's
+mappings are always evaluated before the Gaming App's, regardless of which entry was
+created first.
+
 ## DMZ example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to creating a DMZ rule for a DMZ host in the LAN.
+
+A DMZ (De-Militarized Zone) entry forwards all unsolicited inbound traffic arriving on a WAN
+interface to a single designated host on the LAN, providing that host with unrestricted
+external reachability.
+
+`Firewall.DMZ.{i}.` forwards all inbound traffic on an interface to a designated
+internal host (`DestIP`), optionally restricted to a source IPv4 prefix
+(`SourcePrefix`). An empty `SourcePrefix` acts as a wildcard that matches any
+source address. The DMZ engine evaluates entries in ascending `Priority` order
+and applies the first matching entry.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![DMZ example](/images/firewall-dmz-example.svg)
 
-Example:
+The following example forwards all inbound traffic from subnet `8.2.1.0/24`
+to a DMZ host:
 
 ~~~~~~~
-    Firewall.DMZ.1
-        Alias = "cpe-dmz-1"
-        DestIP = "192.168.1.50"
-        Interface = "Device.Logical.Interface.2."
+    Firewall.DMZ.1.
+        Alias        = "cpe-dmz-1"
+        DestIP       = "192.168.1.50"
+        Interface    = "Device.Logical.Interface.2."
         SourcePrefix = "8.2.1.0/24"
-        Enable = 1
+        Enable       = true
 ~~~~~~~
+
+### Priority and Firewall.DMZ
+
+A wildcard DMZ entry (empty `SourcePrefix`) at a low `Priority` value will
+absorb all inbound traffic before any source-specific DMZ entry from another
+Controller can be reached. The following example shows two DMZ entries created
+by different Controllers, with `Priority` values auto-populated by the device:
+
+~~~~~~~
+    Firewall.DMZ.1.
+        Description  = "Hosting App: catch-all to public server"
+        Origin       = "Controller"
+        Controller   = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority     = 1000                               # read-only, auto-set
+        Interface    = "Device.IP.Interface.1."
+        SourcePrefix = ""
+        DestIP       = "192.168.1.100"
+        Enable       = true
+    Firewall.DMZ.2.
+        Description  = "CDN App: traffic from CDN origin to cache server"
+        Origin       = "Controller"
+        Controller   = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority     = 2000                               # read-only, auto-set
+        Interface    = "Device.IP.Interface.1."
+        SourcePrefix = "203.0.113.0/24"
+        DestIP       = "192.168.1.200"
+        Enable       = true
+~~~~~~~
+
+Because `DMZ.1` has an empty `SourcePrefix` (wildcard) and the lower `Priority`
+value, it is evaluated first. All inbound traffic — including traffic from the
+CDN origin subnet `203.0.113.0/24` — is forwarded to `192.168.1.100`. `DMZ.2`
+is never reached. To give the CDN App control over its traffic, its
+`PriorityMap` entry must assign it a lower `Priority` value than the
+Hosting App's entry.
 
 ## Pinhole example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to creating a pinhole for an IP camera in the LAN.
+
+A firewall pinhole opens a controlled inbound path through the firewall for a specific
+internal host, identified by destination IP and optionally restricted by port and protocol,
+without requiring NAT.
+
+`Firewall.Pinhole.{i}.` allows inbound traffic to reach a specific internal host
+without NAT. Pinhole entries are evaluated in ascending `Priority` order and the
+first matching entry is applied. A value of `-1` for `DestPort`, `SourcePort`,
+or `Protocol` acts as a wildcard that matches any value.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![Pinhole example](/images/firewall-pinhole-example.svg)
 
-Example:
+The following example creates a pinhole for an IP camera in the LAN:
 
 ~~~~~~~
     Firewall.Pinhole.1
@@ -1331,12 +1434,69 @@ Example:
       Enable = 1
 ~~~~~~~
 
+### Priority and Firewall.Pinhole
+
+A broad Pinhole with wildcard criteria at a low `Priority` value will intercept
+traffic before any narrower Pinhole entry from another Controller, even if that
+other entry would have been a more precise match.
+
+Consider two Controllers that each open a Pinhole on the same interface, with
+`Priority` values auto-populated by the device:
+
+~~~~~~~
+    Firewall.Pinhole.1.
+        Description = "Security App: allow all traffic to monitoring host"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority    = 1000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestIP      = "192.168.1.10"
+        DestPort    = -1
+        Protocol    = [-1]
+        Enable      = true
+    Firewall.Pinhole.2.
+        Description = "VoIP App: allow SIP signalling to VoIP adapter"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority    = 2000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestIP      = "192.168.1.20"
+        DestPort    = 5060
+        Protocol    = [17]
+        Enable      = true
+~~~~~~~
+
+`Pinhole.1` opens all traffic to `192.168.1.10` and has the lower `Priority`
+value, so it is evaluated first. Any inbound packet arriving on
+`Device.IP.Interface.1.` destined for `192.168.1.10` matches `Pinhole.1` and
+is allowed through. `Pinhole.2` restricts traffic to UDP port 5060 destined for
+`192.168.1.20` and is only reached if the packet did not match `Pinhole.1`.
+
+If the Security App's Controller should not take precedence over VoIP signalling
+traffic, its `PriorityMap` entry must assign it a higher `Priority` value
+than the VoIP App's entry.
+
 ## Service example {.new-page}
-This section presents a firewall example that illustrates settings corresponding to opening a local port for the DNS service provided by the device.
+
+A firewall service rule controls access to services running on the device itself — for
+example, restricting which interfaces or source addresses may reach the device's management
+plane, DNS resolver, or other locally hosted services.
+
+`Firewall.Service.{i}.` controls access to services running on the device itself
+(as opposed to traffic forwarded to internal hosts). Each entry specifies an
+`Interface`, a list of destination ports (`DestPort`), a list of protocols
+(`Protocol`), and an `Action` (`Accept`, `Drop`, or `Reject`). The Service
+engine evaluates entries in ascending `Priority` order and applies the `Action`
+of the first matching entry.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`Firewall.PriorityMap.{i}.` table; `Controller` identifies the USP
+Controller that created the entry.
 
 ![Local service example](/images/firewall-service-example.svg)
 
-Example:
+The following example opens a local port for the DNS service provided by the device:
 
 ~~~~~~~
     Firewall.Service.1
@@ -1350,6 +1510,342 @@ Example:
       SourcePrefix = ""
       Enable = 1
 ~~~~~~~
+
+### Priority and Firewall.Service
+
+Because Service entries carry an explicit `Action`, the evaluation order
+directly determines whether traffic is accepted or blocked. A blocking rule at a
+low `Priority` value will suppress all matching traffic before any accepting rule
+from another Controller is reached, and vice versa.
+
+The following example shows two Controllers each creating a Service rule for
+the same management interface and port, with `Priority` values auto-populated
+by the device:
+
+~~~~~~~
+    Firewall.Service.1.
+        Description = "Mgmt App: block management from untrusted segment"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.1."  # read-only, auto-set
+        Priority    = 1000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestPort    = [830]
+        Protocol    = [6]
+        Action      = "Drop"
+        Enable      = true
+    Firewall.Service.2.
+        Description = "Ops App: allow NETCONF from operations team"
+        Origin      = "Controller"
+        Controller  = "Device.LocalAgent.Controller.2."  # read-only, auto-set
+        Priority    = 2000                               # read-only, auto-set
+        Interface   = "Device.IP.Interface.1."
+        DestPort    = [830]
+        Protocol    = [6]
+        Action      = "Accept"
+        Enable      = true
+~~~~~~~
+
+`Service.1` has the lower `Priority` value and drops all TCP traffic to port 830
+(NETCONF). It is evaluated before `Service.2`, so the Ops App's Accept rule is
+never reached — all NETCONF traffic on this interface is dropped regardless of
+source. To allow the Ops App to accept NETCONF traffic, its `PriorityMap`
+entry must assign it a lower `Priority` value than the management blocking rule.
+
+## PortMapping example {.new-page}
+
+Static port forwarding maps an external port (or port range) on the WAN interface to a
+specific internal host and port on the LAN, making a LAN-side service reachable from the
+internet.
+
+`NAT.PortMapping.{i}.` models static port forwarding rules. Each entry maps an
+external port (or range of ports) on the WAN interface to an internal host and
+port on the LAN. When an inbound packet arrives on the WAN interface, the NAT
+engine walks the `PortMapping` table in ascending `Priority` order and applies
+the first entry whose criteria match the packet.
+
+The key match criteria are:
+
+- `Protocol` — `TCP` or `UDP`.
+- `ExternalPort` / `ExternalPortEndRange` — the WAN-side port or port range. A
+  value of zero is a wildcard that matches any port not claimed by a more
+  specific entry (within the same `Priority` level).
+- `RemoteHost` — the source IP address on the WAN side. An empty string is a
+  wildcard that matches any remote host (within the same `Priority` level).
+
+The following example forwards inbound TCP traffic on WAN port 8443 from any
+remote host to an internal HTTPS server:
+
+~~~~~~~
+    NAT.PortMapping.1.
+        Alias          = "cpe-pm-https"
+        Description    = "HTTPS server"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 8443
+        RemoteHost     = ""
+        InternalClient = "192.168.1.100"
+        InternalPort   = 443
+~~~~~~~
+
+A second entry forwards all other inbound TCP traffic from a specific remote
+management host to a jump server, using a wildcard external port:
+
+~~~~~~~
+    NAT.PortMapping.2.
+        Alias          = "cpe-pm-mgmt"
+        Description    = "Remote management jump server"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 0
+        RemoteHost     = "203.0.113.1"
+        InternalClient = "192.168.1.200"
+        InternalPort   = 22
+~~~~~~~
+
+Because `PortMapping.1` has an explicit `ExternalPort` and `PortMapping.2` has a
+wildcard (`ExternalPort = 0`), a TCP packet from `203.0.113.1` on port 8443
+matches both entries. Within the same `Priority` level the explicit-port entry
+takes precedence, so the packet is forwarded to the HTTPS server at
+`192.168.1.100:443`. All other TCP traffic from `203.0.113.1` on any port is
+forwarded to the jump server at `192.168.1.200:22`.
+
+Because `Protocol` accepts only a single value per entry, forwarding both TCP
+and UDP on the same external port requires two separate `PortMapping` entries.
+The following example forwards a game server that uses both TCP and UDP on the
+same port:
+
+~~~~~~~
+    NAT.PortMapping.3.
+        Alias          = "cpe-pm-game-tcp"
+        Description    = "Game server (TCP)"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "TCP"
+        ExternalPort   = 27015
+        RemoteHost     = ""
+        InternalClient = "192.168.1.50"
+        InternalPort   = 27015
+    NAT.PortMapping.4.
+        Alias          = "cpe-pm-game-udp"
+        Description    = "Game server (UDP)"
+        Origin         = "User"
+        Enable         = 1
+        Protocol       = "UDP"
+        ExternalPort   = 27015
+        RemoteHost     = ""
+        InternalClient = "192.168.1.50"
+        InternalPort   = 27015
+~~~~~~~
+
+### Controller priority example
+
+When multiple independent Controllers create firewall rules, the
+`Priority` and `Controller` parameters determine evaluation precedence.
+
+The `Firewall.PriorityMap.{i}.` table is configured by the device
+to define the `Priority` value each new firewall entry receives. When a
+Controller creates a new firewall entry, the USP device looks up this
+table by `Controller` reference and auto-populates the `Priority`
+parameter accordingly.
+
+**PriorityMap configuration (set by the device)**
+
+~~~~~~~
+    Firewall.PriorityMap.1.
+        Controller  = "Device.LocalAgent.Controller.1."  # Security App
+        Priority    = 1000
+        TargetPaths = "Firewall.Policy,Firewall.Pinhole"
+    Firewall.PriorityMap.2.
+        Controller  = "Device.LocalAgent.Controller.2."  # Gaming App
+        Priority    = 2000
+        TargetPaths = "Firewall.Policy,Firewall.Pinhole"
+~~~~~~~
+
+**Resulting firewall entries**
+
+~~~~~~~
+    Firewall.Pinhole.1.
+        Description = "Security App: remote monitoring"
+        Origin      = "Controller"
+        Priority    = 1000
+        Controller  = "Device.LocalAgent.Controller.1."
+        DestPort    = "443"
+        Protocol    = "6"
+        Enable      = 1
+    Firewall.Pinhole.2.
+        Description = "Gaming App: game server"
+        Origin      = "Controller"
+        Priority    = 2000
+        Controller  = "Device.LocalAgent.Controller.2."
+        DestPort    = "27015"
+        Protocol    = "17"
+        Enable      = 1
+    Firewall.Pinhole.3.
+        Description = "User: IP camera"
+        Origin      = "User"
+        Priority    = 10000
+        Controller  = ""
+        DestPort    = "3343"
+        Protocol    = "6,17"
+        Enable      = 1
+~~~~~~~
+
+Rules are evaluated in ascending `Priority` value: `Pinhole.1`
+(Priority 1000) is evaluated first, `Pinhole.3` (Priority 10000) last.
+The `Controller` parameter enforces access control: only
+`Device.LocalAgent.Controller.1.` can modify or delete `Pinhole.1`;
+`Device.LocalAgent.Controller.2.` can modify or delete `Pinhole.2`.
+
+### Priority and NAT.PortMapping wildcard precedence
+
+`NAT.PortMapping.{i}.` has built-in precedence rules that apply whenever
+wildcard values are used for `RemoteHost` and/or `ExternalPort`. When multiple
+entries match the same incoming packet, these rules determine which mapping is
+applied (from highest to lowest precedence):
+
+1. Explicit `RemoteHost`, explicit `ExternalPort`
+2. Explicit `RemoteHost`, zero `ExternalPort`
+3. Empty `RemoteHost`, explicit `ExternalPort`
+4. Empty `RemoteHost`, zero `ExternalPort`
+
+When `Priority` is also present, it takes effect before the wildcard-specificity
+rules. The NAT engine evaluates entries in ascending `Priority` order and applies
+the **first matching entry**, regardless of how specific its `RemoteHost` and
+`ExternalPort` values are. The wildcard-specificity rules only apply as a
+tiebreaker between entries that share the same `Priority` value.
+
+This means that a Controller assigning a low `Priority` value to a broad
+(wildcard) mapping will cause that mapping to take effect before any
+higher-`Priority` entry, even if the higher-`Priority` entry would have been a
+more specific match. It is therefore the responsibility of the system — through
+the `NAT.PriorityMap.{i}.` table — to assign `Priority` values that reflect
+the intended evaluation order, taking specificity into account.
+
+Consider the following scenario where two Controllers have each created a
+`PortMapping` entry:
+
+~~~~~~~
+    NAT.PortMapping.1.
+        Description    = "VPN App: catch-all redirect"
+        Origin         = "Controller"
+        Priority       = 1000
+        Controller     = "Device.LocalAgent.Controller.1."
+        RemoteHost     = ""        # wildcard
+        ExternalPort   = 0         # wildcard
+        Protocol       = "TCP"
+        InternalClient = "192.168.1.10"
+        InternalPort   = 1194
+        Enable         = 1
+    NAT.PortMapping.2.
+        Description    = "Gaming App: specific host and port"
+        Origin         = "Controller"
+        Priority       = 2000
+        Controller     = "Device.LocalAgent.Controller.2."
+        RemoteHost     = "203.0.113.5"
+        ExternalPort   = 27015
+        Protocol       = "TCP"
+        InternalClient = "192.168.1.20"
+        InternalPort   = 27015
+        Enable         = 1
+~~~~~~~
+
+For an incoming TCP packet from `203.0.113.5` on port `27015`, both entries
+match. Because `PortMapping.1` has the lower `Priority` value (1000 < 2000), it
+is evaluated first and its mapping is applied — the packet is forwarded to
+`192.168.1.10:1194`. `PortMapping.2` is never reached, even though its
+`RemoteHost` and `ExternalPort` would have been an exact match.
+
+The VPN App's Controller therefore holds effective priority over all TCP traffic,
+regardless of which other Controllers have created more specific rules. To give
+the Gaming App control over traffic from `203.0.113.5:27015`, its `PriorityMap`
+entry would need to assign it a lower `Priority` value than the VPN App's entry.
+
+## PortTrigger example {.new-page}
+
+Port triggering opens inbound ports automatically and temporarily whenever a LAN host
+initiates outbound traffic on a designated trigger port, without requiring a static
+mapping to a fixed internal host.
+
+`NAT.PortTrigger.{i}.` implements dynamic port forwarding. When the device
+detects outbound traffic from a LAN host on the trigger `Port` (or port range),
+it automatically opens the inbound ports defined in the entry's `Rule` table for
+that host for the duration of `AutoDisableDuration`. The `Protocol` parameter
+(single value: `TCP` or `UDP`) specifies the protocol of the trigger traffic.
+
+`Priority` and `Controller` are read-only parameters automatically populated by
+the device when the entry is created: `Priority` is derived from the
+`NAT.PriorityMap.{i}.` table; `Controller` identifies the USP Controller
+that created the entry.
+
+The following example opens inbound UDP ports 3074–3075 when a LAN host sends
+outbound UDP traffic on port 3074 (a common pattern for game consoles):
+
+~~~~~~~
+    NAT.PortTrigger.1.
+        Alias               = "cpe-pt-game"
+        Description         = "Game console: open lobby ports"
+        Origin              = "User"
+        Enable              = true
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        AutoDisableDuration = 300
+        Rule.1.Port         = 3074
+        Rule.1.PortEndRange = 3075
+        Rule.1.Protocol     = "UDP"
+~~~~~~~
+
+### Priority and NAT.PortTrigger
+
+The PortTrigger engine evaluates entries in ascending `Priority` order. When
+outbound traffic matches the trigger criteria of the first matching entry, that
+entry's inbound rules are activated. Entries with higher `Priority` values
+(lower precedence) are only reached if no lower-`Priority` entry matched.
+
+When multiple Controllers each create a PortTrigger entry that watches the same
+trigger port, the entry with the lower `Priority` value determines which set of
+inbound ports is opened for the triggering host:
+
+~~~~~~~
+    NAT.PortTrigger.1.
+        Description         = "Gaming App: open game lobby ports on UDP trigger"
+        Origin              = "Controller"
+        Controller          = "Device.LocalAgent.Controller.1."  # read-only
+        Priority            = 1000                               # read-only
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        Enable              = true
+        Rule.1.Port         = 3074
+        Rule.1.PortEndRange = 3075
+        Rule.1.Protocol     = "UDP"
+    NAT.PortTrigger.2.
+        Description         = "VPN App: open IPsec ports on UDP trigger"
+        Origin              = "Controller"
+        Controller          = "Device.LocalAgent.Controller.2."  # read-only
+        Priority            = 2000                               # read-only
+        Interface           = "Device.IP.Interface.2."
+        Port                = 3074
+        PortEndRange        = 0
+        Protocol            = "UDP"
+        Enable              = true
+        Rule.1.Port         = 500
+        Rule.1.PortEndRange = 0
+        Rule.1.Protocol     = "UDP"
+~~~~~~~
+
+Both entries watch for outbound UDP traffic on port 3074. Because `PortTrigger.1`
+has the lower `Priority` value, it is evaluated first: when a LAN host sends UDP
+traffic on port 3074, the Gaming App's rule fires and opens inbound UDP ports
+3074–3075. `PortTrigger.2` is never evaluated for this trigger event, so the
+VPN App's IPsec ports (UDP 500) are not opened.
+
+If the VPN App's port trigger must take precedence, its `PriorityMap` entry
+must assign it a lower `Priority` value than the Gaming App's entry.
 
 ## Firewall logging {.new-page}
 Firewalls monitor network traffic and enforce security policies. To aid in debugging and troubleshooting potential issues, it's possible to capture specific information when certain rules are triggered. These captured details, known as traces, are then written to the kernel log for further analysis.

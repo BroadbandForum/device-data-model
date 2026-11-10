@@ -55,8 +55,8 @@
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
       urn:broadband-forum-org:cwmp:datamodel-report-1-0
         https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-    spec="urn:broadband-forum-org:tr-181-2-21-0-xmpp"
-    file="tr-181-2-21-0-xmpp.xml">
+    spec="urn:broadband-forum-org:tr-181-2-22-0-xmpp"
+    file="tr-181-2-22-0-xmpp.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -65,7 +65,7 @@
   </import>
 
   <import file="tr-181-2-root.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-root">
+      spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
@@ -90,7 +90,7 @@
       <parameter name="SupportedServerConnectAlgorithms" access="readOnly"
           version="2.11">
         <description>
-          The algorithms supported by the CPE for resolving XMPP server
+          The algorithms supported by the device for resolving XMPP server
           addresses and ports. {{enum}}
         </description>
         <syntax>
@@ -190,7 +190,7 @@
           connection to the {{object|Server}} using the procedure outlined in
           {{bibref|RFC6120|Section 6}}.
 
-          Note that on a factory reset of the CPE, the value of this parameter
+          Note that on a factory reset of the device, the value of this parameter
           might be reset to its factory value. If a Controller modifies the
           value of this parameter, it SHOULD be prepared to accommodate the
           situation that the original value is restored as the result of a
@@ -419,10 +419,10 @@
           the XMPP Server that is being connected to is configured for TLS
           "mandatory-to-negotiate".
 
-          If the value of {{param}} is {{true}} then the CPE will initiate TLS
+          If the value of {{param}} is {{true}} then the device will initiate TLS
           negotiation if not required to by the XMPP Server.
 
-          If the value of {{param}} is {{false}} then the CPE will not initiate
+          If the value of {{param}} is {{false}} then the device will not initiate
           TLS negotiation if not required to by the XMPP Server.
         </description>
         <syntax>
@@ -658,7 +658,7 @@
     </profile>
   </component>
 
-  <model name="XMPP:2.21">
+  <model name="XMPP:2.22">
     <component ref="Root"/>
     <component ref="XMPP"/>
   </model>

@@ -55,8 +55,8 @@ directed to <info@broadband-forum.org>.
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-1-10.xsd
   urn:broadband-forum-org:cwmp:datamodel-report-1-0
   https://www.broadband-forum.org/cwmp/cwmp-datamodel-report-1-0.xsd"
-  spec="urn:broadband-forum-org:tr-181-2-21-0-syslog"
-  file="tr-181-2-21-0-syslog.xml">
+  spec="urn:broadband-forum-org:tr-181-2-22-0-syslog"
+  file="tr-181-2-22-0-syslog.xml">
 
   <import file="tr-069-biblio.xml" spec="urn:broadband-forum-org:tr-069"/>
 
@@ -66,12 +66,12 @@ directed to <info@broadband-forum.org>.
   </import>
 
   <import file="tr-181-2-root.xml"
-    spec="urn:broadband-forum-org:tr-181-2-21-root">
+    spec="urn:broadband-forum-org:tr-181-2-22-root">
     <component name="Root"/>
   </import>
 
   <import file="tr-181-2-security.xml"
-      spec="urn:broadband-forum-org:tr-181-2-21-security">
+      spec="urn:broadband-forum-org:tr-181-2-22-security">
     <component name="ClientCerts"/>
     <component name="ServerCerts"/>
   </import>
@@ -80,7 +80,7 @@ directed to <info@broadband-forum.org>.
     <object name="Device.Syslog." access="readOnly" version="2.17">
       <description>
         This object contains global parameters relating to the syslog
-        implementations that is active in the Device.
+        implementations that are active in the Device.
         Based on {{bibref|YANGSYSLOG|A YANG Data Model for Syslog Configuration}}.
       </description>
 
@@ -163,7 +163,7 @@ directed to <info@broadband-forum.org>.
         This table defines the processing used to select
         log messages by comparing syslog message with the provided rules.
 
-        A rule can consist either of {{param|FacilityLevel}} - {{param|Severity}} and or {{param|PatternMatch}}.
+        A rule can consist of any combination of {{param|FacilityLevel}}, {{param|Severity}}, and {{param|PatternMatch}}.
 
       </description>
       <uniqueKey functional="false">
@@ -393,7 +393,7 @@ directed to <info@broadband-forum.org>.
             </enumeration>
             <enumeration value="EqualOrHigher">
               <description>
-                Specifies that the severity comparison operation will be equals or higher."
+                Specifies that the severity comparison operation will be equals or higher.
               </description>
             </enumeration>
           </string>
@@ -421,7 +421,7 @@ directed to <info@broadband-forum.org>.
             </enumeration>
             <enumeration value="Stop">
               <description>
-                When the select comparison is true the syslog message will not be logged and no further processing will occur."
+                When the selected comparison is true the syslog message will not be logged and no further processing will occur.
               </description>
             </enumeration>
           </string>
@@ -762,6 +762,20 @@ directed to <info@broadband-forum.org>.
             <default type="object" value="false"/>
           </syntax>
         </parameter>
+
+        <parameter name="StructuredData" access="readWrite" version="2.22">
+          <description>
+            When {{true}}, the syslog source expects to receive log messages in the
+            structured-data format as defined in {{bibref|RFC5424|Section 6.3 STRUCTURED-DATA}}.
+
+            When {{false}}, log messages are expected in the traditional
+            (non-structured) syslog format.
+          </description>
+          <syntax>
+            <boolean/>
+            <default type="object" value="false"/>
+          </syntax>
+        </parameter>
       </object>
 
     <object name="Device.Syslog.Source.{i}.UnixDomainSocket." access="readOnly" version="2.21">
@@ -892,8 +906,11 @@ directed to <info@broadband-forum.org>.
 
         <parameter name="StructuredData" access="readWrite">
           <description>
-            This feature represents the ability to log messages in structured-data format.
-            Reference {{bibref|RFC5424|The Syslog Protocol}}.
+            When {{true}}, log messages are written in the structured-data
+            format as defined in {{bibref|RFC5424|Section 6.3 STRUCTURED-DATA}}.
+
+            When {{false}}, log messages are written in the traditional
+            (non-structured) syslog format.
           </description>
           <syntax>
             <boolean/>
@@ -1078,7 +1095,7 @@ directed to <info@broadband-forum.org>.
         </object>
       </component>
 
-      <model name="Syslog:2.21">
+      <model name="Syslog:2.22">
         <component ref="Root"/>
         <component ref="Syslog"/>
       </model>
